@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: assert
+# uuid: assert
+# key: assert
+# condition: t
+# --
+assert false report "text" & integer'image(number) severity note;
