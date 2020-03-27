@@ -1,0 +1,27 @@
+# -*- mode: snippet -*-
+# name: module
+# uuid: vhdl-module-insert
+# key: module
+# condition: t
+# --
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_misc.all;
+use ieee.numeric_std.all;
+
+entity name is
+  generic(
+  )
+  port(
+
+    clock          : in std_logic
+
+    );
+end name;
+
+architecture behavioral of name is
+
+begin
+
+
+end behavioral;
