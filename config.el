@@ -1,5 +1,7 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+(setq tramp-default-method "ssh")
+
 (remove-hook 'text-mode-hook #'auto-fill-mode)
 
 ;; Drag-and-drop to `dired`
@@ -166,7 +168,7 @@
                                         ;(setq doom-theme 'base16-summerfruit-light-theme)
 (add-to-list 'load-path "~/.doom.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
-(setq doom-theme 'leuven)
+(setq doom-theme 'leuven-summerfruit)
 
 (after! solarized-emacs
   (custom-theme-set-faces
