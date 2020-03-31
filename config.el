@@ -1,13 +1,229 @@
+;; (use-package! centaur-tabs
+;;   :config
+;;   (centaur-tabs-mode t)
+;;   ;("C-S-tab" . centaur-tabs-backward)
+;;   ;("C-tab" . centaur-tabs-forward)
+;;  )
+
+(setq doom-font                (font-spec :family "Source Code Pro" :size 13 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "sans"            :size 13
+))
+
+; enable syntax highlighting for vimrc files
+    (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq tramp-default-method "ssh")
 
+(modify-syntax-entry ?_ "w")
+
 (remove-hook 'text-mode-hook #'auto-fill-mode)
+  (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
+  (add-hook 'text-mode-hook #'visual-line-mode)
+(setq-default fill-column 120)
+
+  ;; Make evil-mode up/down operate in screen lines instead of logical lines
+  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
+  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+  ;; Also in visual mode
+  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
+  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+
+(setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+
+(add-to-list 'auto-mode-alist '("\\.xdc\\'" . tcl-mode))
+
+(setq projectile-sort-order 'recently-active)
+
+(menu-bar-mode 1)
+
+(after! company
+  (setq company-idle-delay 0.2 company-minimum-prefix-length 3)
+  (set-company-backend! '(company-yasnippet  company-files company-dabbrev company-keywords company-capf company-tabnine ))
+  (set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
+  ;;(set-company-backend! '(tcl-mode) '(company-tabnine company-yasnippet))
+  ;;(set-company-backend! '(vhdl-mode) '(company-tabnine company-yasnippet))
+  )
+
+(map! :leader "t t" 'doom/ivy-tasks)
+
+(defun peck-dashboard-widget-banner ()
+  (let ((point (point)))
+    (mapc (lambda (line)
+            (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
+                                'face 'doom-dashboard-banner) " ")
+            (insert "\n"))
+          '(" E M A C S "))
+    (when (and (display-graphic-p)
+               (stringp fancy-splash-image)
+               (file-readable-p fancy-splash-image))
+      (let ((image (create-image (fancy-splash-image-file))))
+        (add-text-properties
+         point (point) `(display ,image rear-nonsticky (display)))
+        (save-excursion
+          (goto-char point)
+          (insert (make-string
+                   (truncate
+                    (max 0 (+ 1 (/ (- +doom-dashboard--width
+                                      (car (image-size image nil)))
+                                   2))))
+                   ? ))))
+      (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0)
+                           ?\n)))))
+
+(setq +doom-dashboard-functions
+      '(peck-dashboard-widget-banner
+        doom-dashboard-widget-shortmenu
+        doom-dashboard-widget-loaded
+        doom-dashboard-widget-footer))
+
+(add-to-list 'load-path "~/.doom.d/themes/")
+(add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
+(setq doom-theme 'leuven-summerfruit)
+
+; (after! solarized-emacs
+;   (custom-theme-set-faces
+;    'solarized-light
+;    '(font-lock-comment-face ((t (:background "#FFFFFF"))))
+;    '(default ((t (:background "#FFFFFF"))))
+;    )
+;   )
+
+(setq hl-line-mode nil)
+(setq global-hl-line-mode nil)
+(setq doom-buffer-hl-line-mode nil)
+
+(defun align-to-colon (begin end)
+  "Align region to colon (:) signs"
+  (interactive "r")
+  (align-regexp begin end
+                (rx (group (zero-or-more (syntax whitespace))) ":") 1 1 ))
+
+(defun align-to-comma (begin end)
+  "Align region to comma  signs"
+  (interactive "r")
+  (align-regexp begin end
+                (rx "," (group (zero-or-more (syntax whitespace))) ) 1 1 ))
+
+
+(defun align-to-equals (begin end)
+  "Align region to equal signs"
+  (interactive "r")
+  (align-regexp begin end
+                (rx (group (zero-or-more (syntax whitespace))) "=") 1 1 ))
+
+(defun align-to-hash (begin end)
+  "Align region to hash ( => ) signs"
+  (interactive "r")
+  (align-regexp begin end
+                (rx (group (zero-or-more (syntax whitespace))) "=>") 1 1 ))
+
+;; work with this
+(defun align-to-comma-before (begin end)
+  "Align region to equal signs"
+  (interactive "r")
+  (align-regexp begin end
+                (rx (group (zero-or-more (syntax whitespace))) ",") 1 1 ))
+
+(global-evil-leader-mode)
+
+;; counsel fzf search
+(defun searchdirs ()
+  (interactive)
+  (counsel-fzf "" "~/")
+)
+
+(define-key evil-normal-state-map (kbd "C-o") 'searchdirs)
+
+(evil-leader/set-key "f" 'searchdirs)
+;; leader x for helm execute
+(evil-leader/set-key "x" 'counsel-M-x)
+
+(evil-leader/set-key "pp" '+ivy/project-search)
+
+;; (defun fzf-recentf ()
+;;   (interactive)
+;;   (fzf-with-entries recentf-list
+;;     (lambda (f) (when (file-exists-p f) (find-file f))))
+;; )
+
+;; (evil-leader/set-key "rr" 'fzf-recentf)
+ (evil-leader/set-key "rr" 'projectile-recentf)
+
+;; delete trailing whitespace
+(evil-leader/set-key "rtw" 'delete-trailing-whitespace)
+
+;; ;;  helm-projectile
+;; (evil-leader/set-key "c" 'helm-projectile-ag)
+;;
+;; ;;  helm-locate
+;; (setq helm-locate-fuzzy-match nil
+;;       helm-locate-command "mdfind -interpret -name %s %s")
+;; (evil-leader/set-key "f" 'helm-locate)
+
+(evil-leader/set-key "g" 'magit-status)
+
+;; map helm mini to leader
+;;(evil-leader/set-key "b" 'helm-mini)
+
+;; map dired to leader
+(evil-leader/set-key "e" 'dired)
+
+(evil-leader/set-key "pp" 'org-publish-current-project)
+
+;; (evil-leader/set-key "tag" 'projectile-regenerate-tags)
+
+(after! evil-maps
+    ;; Ctrl-P
+    (define-key evil-normal-state-map "\C-p" nil)
+    (bind-key* "C-p" 'projectile-find-file)
+
+    ;; let enter open org mode links
+    (define-key evil-motion-state-map (kbd "SPC") nil)
+    (define-key evil-motion-state-map (kbd "RET") 'org-open-at-point)
+    (define-key evil-motion-state-map (kbd "TAB") nil)
+    (setq org-return-follows-links t)
+
+    ;; Backspace to switch to last buffer
+    (defun er-switch-to-previous-buffer ()
+        "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
+        (interactive)
+        (switch-to-buffer (other-buffer (current-buffer) 1)))
+    (define-key evil-normal-state-map (kbd "DEL") 'er-switch-to-previous-buffer)
+
+
+    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+    (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
+    (define-key evil-visual-state-map (kbd "C-a") 'evil-numbers/inc-at-pt-incremental)
+    (define-key evil-visual-state-map (kbd "C-x") 'evil-numbers/dec-at-pt-incremental)
+)
+
+;; vhdl mode will wrap comments after some # of characters
+(setq vhdl-end-comment-column 200)
+(setq vhdl-prompt-for-comments nil)
+;;(add-hook 'vhdl-mode-hook
+;;(setq auto-fill-mode nil)
+;;)
+
+(setq org-directory "~/Dropbox/notes")
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+
+; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
+(after! org
+  (add-to-list 'org-capture-templates
+               '("s" "Shopping" item (file+headline +org-capture-todo-file "Shopping")
+               "- [ ] %?" :prepend t))
+  (setq org-startup-folded 'f)
+  (setq org-startup-with-inline-images t)
+  (org-display-inline-images t t)
+  )
+
+; Allow M-Ret to split list items
+(setq org-M-RET-may-split-line t)
 
 ;; Drag-and-drop to `dired`
 (add-hook 'dired-mode-hook 'org-download-enable)
-
-(setq org-M-RET-may-split-line t)
 
 (use-package! org-download
   :config
@@ -25,6 +241,7 @@
 (after! org-attach-screenshot
   (setq org-attach-screenshot-command-line "gnome-screenshot -a -c -f %f")
   )
+
 (after! org
   (setq org-list-allow-alphabetical t)
   (setq org-publish-project-alist
@@ -53,7 +270,6 @@
           )
         )
   )
-
 
 (use-package! org-roam
 
@@ -100,239 +316,3 @@
            :unnarrowed t))
         )
   )
-
-
-(after! org
-  (setq org-startup-folded 'f)
-  (setq org-startup-with-inline-images t)
-  (org-display-inline-images t t)
-  )
-
-;; vhdl mode will wrap comments after some # of characters
-(setq vhdl-end-comment-column 200)
-(setq vhdl-prompt-for-comments nil)
-;;(add-hook 'vhdl-mode-hook
-;;(setq auto-fill-mode nil)
-;;)
-(require 'fzf)
-;; ivy fuzzy search enable
-(setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-
-(map! :leader "t t" 'doom/ivy-tasks)
-
-;; tcl mode for xdc files
-;;(add-to-list 'auto-mode-alist '("\\.xdc\\'" . tcl-mode))
-;;(use-package! summerfruit-theme
-;;  :load-path "~/.doom.d/lisp"
-;;)
-                                        ;(setq doom-theme 'summerfruit)
-
-(defun peck-dashboard-widget-banner ()
-  (let ((point (point)))
-    (mapc (lambda (line)
-            (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-                                'face 'doom-dashboard-banner) " ")
-            (insert "\n"))
-          '(" E M A C S "))
-    (when (and (display-graphic-p)
-               (stringp fancy-splash-image)
-               (file-readable-p fancy-splash-image))
-      (let ((image (create-image (fancy-splash-image-file))))
-        (add-text-properties
-         point (point) `(display ,image rear-nonsticky (display)))
-        (save-excursion
-          (goto-char point)
-          (insert (make-string
-                   (truncate
-                    (max 0 (+ 1 (/ (- +doom-dashboard--width
-                                      (car (image-size image nil)))
-                                   2))))
-                   ? ))))
-      (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0)
-                           ?\n)))))
-
-(setq +doom-dashboard-functions
-      '(peck-dashboard-widget-banner
-        doom-dashboard-widget-shortmenu
-        doom-dashboard-widget-loaded
-        doom-dashboard-widget-footer))
-
-
-
-(setq projectile-sort-order 'recently-active)
-
-;;(setq doom-theme 'doom-summerfruit-theme)
-
-(menu-bar-mode 1)
-;;(setq doom-theme 'doom-tomorrow-day)
-                                        ;(setq doom-theme 'base16-summerfruit-light-theme)
-(add-to-list 'load-path "~/.doom.d/themes/")
-(add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
-(setq doom-theme 'leuven-summerfruit)
-
-(after! solarized-emacs
-  (custom-theme-set-faces
-   'solarized-light
-   '(font-lock-comment-face ((t (:background "#FFFFFF"))))
-   '(default ((t (:background "#FFFFFF"))))
-   )
-  )
-
-(setq hl-line-mode nil)
-(setq global-hl-line-mode nil)
-(setq doom-buffer-hl-line-mode nil)
-
-(after! company
-  (setq company-idle-delay 0.2 company-minimum-prefix-length 3)
-  (set-company-backend! '(company-yasnippet  company-files company-dabbrev company-keywords company-capf company-tabnine ))
-  (set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
-  ;;(set-company-backend! '(tcl-mode) '(company-tabnine company-yasnippet))
-  ;;(set-company-backend! '(vhdl-mode) '(company-tabnine company-yasnippet))
-  )
-
-(defun align-to-colon (begin end)
-  "Align region to colon (:) signs"
-  (interactive "r")
-  (align-regexp begin end
-                (rx (group (zero-or-more (syntax whitespace))) ":") 1 1 ))
-
-(defun align-to-comma (begin end)
-  "Align region to comma  signs"
-  (interactive "r")
-  (align-regexp begin end
-                (rx "," (group (zero-or-more (syntax whitespace))) ) 1 1 ))
-
-
-(defun align-to-equals (begin end)
-  "Align region to equal signs"
-  (interactive "r")
-  (align-regexp begin end
-                (rx (group (zero-or-more (syntax whitespace))) "=") 1 1 ))
-
-(defun align-to-hash (begin end)
-  "Align region to hash ( => ) signs"
-  (interactive "r")
-  (align-regexp begin end
-                (rx (group (zero-or-more (syntax whitespace))) "=>") 1 1 ))
-
-;; work with this
-(defun align-to-comma-before (begin end)
-  "Align region to equal signs"
-  (interactive "r")
-  (align-regexp begin end
-                (rx (group (zero-or-more (syntax whitespace))) ",") 1 1 ))
-
-(modify-syntax-entry ?_ "w")
-
-(global-evil-leader-mode)
-
-(setenv "FZF_DEFAULT_COMMAND"
-(string-trim (shell-command-to-string ". ~/.bashrc; echo -n $FZF_DEFAULT_COMMAND")))
-
-;; counsel fzf search
-(defun searchdirs ()
-  (interactive)
-  (counsel-fzf "" "~/")
-)
-(define-key evil-normal-state-map (kbd "C-o") 'searchdirs)
-
-(evil-leader/set-key "f" 'searchdirs)
-;; leader x for helm execute
-(evil-leader/set-key "x" 'counsel-M-x)
-
-(evil-leader/set-key "pp" '+ivy/project-search)
-
-;; (defun fzf-recentf ()
-;;   (interactive)
-;;   (fzf-with-entries recentf-list
-;;     (lambda (f) (when (file-exists-p f) (find-file f))))
-;; )
-
-;; (evil-leader/set-key "rr" 'fzf-recentf)
- (evil-leader/set-key "rr" 'projectile-recentf)
-
-;; delete trailing whitespace
-(evil-leader/set-key "rtw" 'delete-trailing-whitespace)
-
-;; ;;  helm-projectile
-;; (evil-leader/set-key "c" 'helm-projectile-ag)
-;;
-;; ;;  helm-locate
-;; (setq helm-locate-fuzzy-match nil
-;;       helm-locate-command "mdfind -interpret -name %s %s")
-;; (evil-leader/set-key "f" 'helm-locate)
-
-(evil-leader/set-key "g" 'magit-status)
-
-;; map helm mini to leader
-;;(evil-leader/set-key "b" 'helm-mini)
-
-;; map dired to leader
-(evil-leader/set-key "e" 'dired)
-
-(evil-leader/set-key "pp" 'org-publish-current-project)
-
-;; (evil-leader/set-key "tag" 'projectile-regenerate-tags)
-
-; enable syntax highlighting for vimrc files
-    (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
-
-(after! evil-maps
-    ;; Ctrl-P
-    (define-key evil-normal-state-map "\C-p" nil)
-    (bind-key* "C-p" 'projectile-find-file)
-
-    ;; let enter open org mode links
-    (define-key evil-motion-state-map (kbd "SPC") nil)
-    (define-key evil-motion-state-map (kbd "RET") 'org-open-at-point)
-    (define-key evil-motion-state-map (kbd "TAB") nil)
-    (setq org-return-follows-links t)
-
-    ;; Backspace to switch to last buffer
-    (defun er-switch-to-previous-buffer ()
-        "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
-        (interactive)
-        (switch-to-buffer (other-buffer (current-buffer) 1)))
-    (define-key evil-normal-state-map (kbd "DEL") 'er-switch-to-previous-buffer)
-
-
-    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-    (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
-    (define-key evil-visual-state-map (kbd "C-a") 'evil-numbers/inc-at-pt-incremental)
-    (define-key evil-visual-state-map (kbd "C-x") 'evil-numbers/dec-at-pt-incremental)
-)
-
-;; (use-package poet-theme :ensure t)
-
-;(require 'org)
-;;   (setq org-agenda-inhibit-startup nil)
-;;   (setq org-src-fontify-natively t)
-;;   (setq org-src-tab-acts-natively t)
-;;   (setq org-edit-src-content-indentation 0)
-;;   (setq org-fontify-quote-and-verse-blocks t)
-;;   (setq org-src-window-setup 'other-window)
-;;   (setq org-image-actual-width nil)
-;;
-;;
-;;   ;; hide markup in org-mode
-;;   (setq org-hide-emphasis-markers t)
-;;
-;;   ;; display inline images at startup
-;;
-;;   ;; turn on flyspell mode by default
-;;   (add-hook 'text-mode-hook 'flyspell-mode)
-;;   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-
-;; (add-hook 'org-mode-hook (lambda () (
-;;                                      variable-pitch-mode t
-;;                 (custom-theme-set-faces
-;;                 'user
-;;                     '(variable-pitch ((t (:family "Liberation Serif" :height 1.1 :weight light))))
-;;                     '(fixed-pitch    ((t (:family "Inconsolata"      :height 0.9 :slant normal :weight normal :width normal)))))
-;;                                                          )))
-;; (add-hook 'latex-mode-hook (lambda () (variable-pitch-mode t)))
-
-
-;; (font-lock-add-keywords 'org-mode
-;;                         '(("^ *\\([-]\\) "
-;; 						                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
