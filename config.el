@@ -5,9 +5,9 @@
 ;;   ;("C-tab" . centaur-tabs-forward)
 ;;  )
 
-(setq doom-font                (font-spec :family "Source Code Pro" :size 13 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "sans"            :size 13
-))
+;;(setq doom-font                (font-spec :family "Source Code Pro" :size 13 :weight 'regular)
+;;      doom-variable-pitch-font (font-spec :family "sans"            :size 13
+;;))
 
 ; enable syntax highlighting for vimrc files
     (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
@@ -39,11 +39,12 @@
 (menu-bar-mode 1)
 
 (after! company
+  (add-hook 'after-init-hook 'global-company-mode)
   (setq company-idle-delay 0.2 company-minimum-prefix-length 3)
-  (set-company-backend! '(company-yasnippet  company-files company-dabbrev company-keywords company-capf company-tabnine ))
-  (set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
+  (set-company-backend! '(company-tabnine company-yasnippet  company-files))
+  ;(set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
   ;;(set-company-backend! '(tcl-mode) '(company-tabnine company-yasnippet))
-  ;;(set-company-backend! '(vhdl-mode) '(company-tabnine company-yasnippet))
+  (set-company-backend! '(vhdl-mode) '(company-tabnine company-yasnippet))
   )
 
 (map! :leader "t t" 'doom/ivy-tasks)
