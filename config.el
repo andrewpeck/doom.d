@@ -48,6 +48,12 @@
   )
 
 (map! :leader "t t" 'doom/ivy-tasks)
+(after! doom-todo-ivy
+  (setq doom/ivy-task-tags '(
+                             ("TODO"  . warning)
+                             ("FIXME" . error)
+                             ("NOTE"  . note)
+                             )))
 
 (defun peck-dashboard-widget-banner ()
   (let ((point (point)))
@@ -229,7 +235,7 @@
 (use-package! org-download
   :config
   (setq-default org-download-method            'directory
-                org-download-screenshot-method "gnome-screenshot -a -f %s"
+                org-download-screenshot-method "xfce4-screenshooter -r -s %s"
                 org-download-image-dir         "./images/downloads"
                 org-download-heading-lvl       0
                 ;;org-download-link-format       "[[file:%s]]"
@@ -240,7 +246,7 @@
 )
 
 (after! org-attach-screenshot
-  (setq org-attach-screenshot-command-line "gnome-screenshot -a -c -f %f")
+  (setq org-attach-screenshot-command-line "xfce4-screenshooter -r -s %f")
   )
 
 (after! org
