@@ -87,10 +87,11 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
         (sf-white          '"#ffffff")
         (sf-offwhite       '"#e9e9e9")
         (sf-lightyellow    '"#eeffdd")
-        (sf-lightgreen     '"#ddffee")
+        (sf-lightgreen     '"#ddffdd")
         (sf-lightlightgray '"#dddddd")
         (sf-lightred       '"#ffdddd")
         (sf-lightblue      '"#bad6ff")
+        (sf-purple         '"#a535ae")
         (sf-red            '"#ff0000")
         (sf-red2           '"#e5786d")
         (sf-orange         '"#fb660a")
@@ -106,7 +107,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
         )
 
     ;; create classes
-    (let ((class '((class color) (min-colors 89)))
+    (let (
+          (class '((class color) (min-colors 89)))
 
           ;; Leuven-Summerfruit generic colors.
           (cancel                        `(:foreground ,sf-gray :slant italic :strike-through t))
@@ -125,7 +127,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           (completion-other-candidates   `(:foreground ,sf-blue1 :weight bold   :background ,sf-lightblue))
 
           ;; diff
-          (diff-added                    `(:background "#ddffdd"))
+          (diff-added                    `(:background ,sf-lightgreen))
           (diff-changed                  `(:foreground "#0000ff" :background "#ddddff"))
           (diff-header                   `(:weight bold :foreground "#800000" :background "#ffffaf"))
           (diff-hunk-header              `(:foreground "#990099" :background "#ffeeff"))
@@ -138,7 +140,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           (file                          `(:foreground ,sf-black))
           (function-param                `(:foreground "#247284"))
           (grep-file-name                `(:weight bold :foreground "#2a489e")) ; Used for grep hits.
-          (grep-line-number              `(:weight bold :foreground "#a535ae"))
+          (grep-line-number              `(:weight bold :foreground ,sf-purple))
 
           ;;
           (highlight-blue                `(:background "#e6ecff" :extend t))
@@ -376,23 +378,15 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(smerge-refined-change ((,class (:background "#aaaaff"))))
 
        ;; Ediff.
-       `(ediff-current-diff-A ((,class (:background "#ffdddd" :extend t))))
-       `(ediff-current-diff-B ((,class (:background "#ddffdd" :extend t))))
-       `(ediff-current-diff-C ((,class (:background "cyan" :extend t))))
-       `(ediff-even-diff-A    ((,class (:background "light grey" :extend t))))
-       `(ediff-even-diff-B    ((,class (:background "light grey" :extend t))))
-       `(ediff-fine-diff-A    ((,class (:background "#ffaaaa" :extend t))))
-       `(ediff-fine-diff-B    ((,class (:background "#55ff55" :extend t))))
-       `(ediff-odd-diff-A     ((,class (:background "light grey" :extend t))))
-       `(ediff-odd-diff-B     ((,class (:background "light grey" :extend t))))
-
-       ;; Flyspell.
-       (if (version< emacs-version "24.4")
-           `(flyspell-duplicate ((,class (:underline "#f4eb80" :inherit nil))))
-         `(flyspell-duplicate ((,class (:underline (:style wave :color "#f4eb80") :background "#faf7cc" :inherit nil)))))
-       (if (version< emacs-version "24.4")
-           `(flyspell-incorrect ((,class (:underline "#faa7a5" :inherit nil))))
-         `(flyspell-incorrect ((,class (:underline (:style wave :color "#faa7a5") :background "#f4d7da":inherit nil)))))
+       `(ediff-current-diff-A ((,class (:background ,sf-lightred   :extend t))))
+       `(ediff-current-diff-B ((,class (:background ,sf-lightgreen :extend t))))
+       `(ediff-current-diff-C ((,class (:background ,sf-lightblue  :extend t))))
+       `(ediff-even-diff-A    ((,class (:background ,sf-lightgray  :extend t))))
+       `(ediff-even-diff-B    ((,class (:background ,sf-lightgray  :extend t))))
+       `(ediff-fine-diff-A    ((,class (:background ,sf-lightgray  :extend t))))
+       `(ediff-fine-diff-B    ((,class (:background ,sf-green      :extend t))))
+       `(ediff-odd-diff-A     ((,class (:background ,sf-lightgray  :extend t))))
+       `(ediff-odd-diff-B     ((,class (:background ,sf-lightgray  :extend t))))
 
        ;; ;; Semantic faces.
        ;; `(semantic-decoration-on-includes ((,class (:underline ,cham-4))))
@@ -567,19 +561,25 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(dired-mark                    ((,class ,marked-line)))
        `(dired-marked                  ((,class ,marked-line)))
        `(dired-symlink                 ((,class ,symlink)))
-       `(diredp-compressed-file-suffix ((,class (:foreground ,sf-red))))
-       `(diredp-date-time              ((,class (:foreground "purple"))))
-       `(diredp-dir-heading            ((,class ,directory)))
-       `(diredp-dir-name               ((,class ,directory)))
-       `(diredp-dir-priv               ((,class ,directory)))
-       `(diredp-exec-priv              ((,class (:background "#03c03c"))))
-       `(diredp-executable-tag         ((,class (:foreground "ForestGreen" :background ,sf-white))))
-       `(diredp-file-name              ((,class ,file)))
-       `(diredp-file-suffix            ((,class (:foreground "#c0c0c0"))))
-       `(diredp-flag-mark-line         ((,class ,marked-line)))
-       `(diredp-ignored-file-name      ((,class ,shadow)))
-       `(diredp-read-priv              ((,class (:background "#0a99ff"))))
-       `(diredp-write-priv             ((,class (:foreground ,sf-white :background ,sf-red))))
+
+       ;; DIREDP
+       `(diredfl-file-name              ((,class ,file)))
+       `(diredfl-dir-name               ((,class ,directory)))
+       `(diredfl-ignored-file-name      ((,class ,shadow)))
+       `(diredfl-compressed-file-suffix ((,class (:foreground ,sf-red))))
+       `(diredfl-symlink                ((,class (:foreground ,sf-green))))
+       `(diredfl-dir-heading            ((,class ,directory)))
+       `(diredfl-file-suffix            ((,class (:foreground ,sf-gray))))
+       `(diredfl-read-priv              ((,class (:backgrount ,sf-lightblue))))
+       `(diredfl-exec-priv              ((,class (:background ,sf-lightred))))
+       `(diredfl-write-priv             ((,class (:background ,sf-lightgreen))))
+       `(diredfl-rare-priv              ((,class (:background ,sf-red2))))
+       `(diredfl-dir-priv               ((,class (:fireground ,sf-black))))
+       `(diredfl-no-priv                ((,class (:background ,sf-white))))
+       `(diredfl-number                 ((,class (:foreground ,sf-pink))))
+       `(diredfl-date-time              ((,class (:foreground ,sf-gray))))
+       `(diredfl-executable-tag         ((,class (:foreground "ForestGreen" :background ,sf-white))))
+       `(diredfl-flag-mark-line         ((,class ,marked-line)))
 
        ;;
        `(eldoc-highlight-function-argument ((,class (:weight bold :foreground "red" :background "#ffe4ff"))))
@@ -591,22 +591,34 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
      ;;`(eww-form-textarea                 ((,class ())))
        `(file-name-shadow                  ((,class ,shadow)))
 
+
+       ;; Flyspell.
+       `(flyspell-duplicate ((,class (:underline (:style wave :color ,sf-red) :inherit nil))))
+       `(flyspell-incorrect ((,class (:underline (:style wave :color ,sf-red) :inherit nil))))
+
        ;; Flycheck
-       `(flycheck-error                        ((,class (:underline (:color "#fe251e" :style wave) :weight bold :background "#ffe1e1"))))
-       `(flycheck-error-list-line-number       ((,class (:foreground "#a535ae"))))
-       `(flycheck-fringe-error                 ((,class (:foreground "#fe251e"))))
-       `(flycheck-fringe-info                  ((,class (:foreground "#158a15"))))
+       `(flycheck-error                        ((,class (:underline (:color ,sf-red   :style wave) :weight bold :background ,sf-lightred))))
+       `(flycheck-info                         ((,class (:underline (:color ,sf-green :style wave) :weight bold))))
+       `(flycheck-warning                      ((,class (:underline (:color ,sf-green :style wave)))))
+       `(flycheck-error-list-line-number       ((,class (:foreground ,sf-purple))))
+       `(flycheck-fringe-error                 ((,class (:foreground ,sf-red))))
+       `(flycheck-fringe-info                  ((,class (:foreground ,sf-green))))
        `(flycheck-fringe-warning               ((,class (:foreground "#f4a939"))))
-       `(flycheck-info                         ((,class (:underline (:color "#158a15" :style wave) :weight bold))))
-       `(flycheck-warning                      ((,class (:underline (:color "#f4a939" :style wave) :weight bold :background "#ffffbe"))))
-       `(fancy-narrow-blocked-face             ((,class (:foreground "#9998a4"))))
-       `(flycheck-color-mode-line-error-face   ((,class (:background "#cf5b56"))))
+       `(flycheck-color-mode-line-error-face   ((,class (:background ,sf-lightred))))
        `(flycheck-color-mode-line-warning-face ((,class (:background "#ebc700"))))
        `(flycheck-color-mode-line-info-face    ((,class (:background "yellow"))))
 
+       ;; writegood
+       `(writegood-passive-voice-face       ((,class (:underline (:color ,sf-green    :style wave) :background ,sf-white))))
+       `(writegood-duplicates-face          ((,class (:underline (:color ,sf-lightred :style wave) :background ,sf-white))))
+       `(writegood-weasels-face             ((,class (:underline (:color ,sf-green    :style wave) :background ,sf-white))))
+
        ;;
-       `(font-latex-bold-face         ((,class (:weight bold :foreground ,sf-black))))
-       `(font-latex-italic-face       ((,class (:slant italic :foreground ,sf-black))))
+       `(fancy-narrow-blocked-face             ((,class (:foreground "#9998a4"))))
+
+       ;;
+       `(font-latex-bold-face         ((,class (:foreground ,sf-black :weight bold))))
+       `(font-latex-italic-face       ((,class (:foreground ,sf-black :slant italic))))
        `(font-latex-math-face         ((,class (:foreground ,sf-blue1))))
        `(font-latex-sectioning-1-face ((,class ,ol1)))
        `(font-latex-sectioning-2-face ((,class ,ol2)))
@@ -631,7 +643,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(helm-buffer-directory                ((,class ,directory)))
      ;;`(helm-non-file-buffer                 ((,class (:slant italic :foreground "blue"))))
      ;;`(helm-buffer-file                     ((,class (:foreground ,sf-black))))
-       `(helm-buffer-modified                 ((,class (:slant italic :foreground "#ba36a5"))))
+       `(helm-buffer-modified                 ((,class (:slant italic :foreground ,sf-purple))))
        `(helm-buffer-process                  ((,class (:foreground "#008200"))))
        `(helm-candidate-number                ((,class (:foreground ,sf-black :background "#ffff66"))))
        `(helm-dir-heading                     ((,class (:foreground "blue" :background "pink"))))
@@ -743,24 +755,29 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(lui-time-stamp-face ((,class (:foreground "purple"))))
 
        ;; Magit
-       `(magit-blame-header     ((,class (:inherit magit-diff-file-header))))
-       `(magit-blame-heading    ((,class (:overline "#a7a7a7" :foreground ,sf-red :background "#e6e6e6"))))
-       `(magit-blame-hash       ((,class (:overline "#a7a7a7" :foreground ,sf-red :background "#e6e6e6"))))
-       `(magit-blame-name       ((,class (:overline "#a7a7a7" :foreground "#036a07" :background "#e6e6e6"))))
-       `(magit-blame-date       ((,class (:overline "#a7a7a7" :foreground "blue" :background "#e6e6e6"))))
-       `(magit-blame-summary    ((,class (:overline "#a7a7a7" :weight bold :foreground "#707070" :background "#e6e6e6"))))
-       `(magit-branch           ((,class ,vc-branch)))
-       `(magit-diff-add         ((,class ,diff-added)))
-       `(magit-diff-del         ((,class ,diff-removed)))
-       `(magit-diff-file-header ((,class (:height 1.1 :weight bold :foreground "#4183c4"))))
-       `(magit-diff-hunk-header ((,class ,diff-hunk-header)))
-       `(magit-diff-none        ((,class ,diff-none)))
-       `(magit-header           ((,class (:foreground ,sf-white :background "#ff4040"))))
-       `(magit-item-highlight   ((,class (:background "#eaf2f5"))))
-       `(magit-item-mark        ((,class ,marked-line)))
-       `(magit-log-head-label   ((,class (:box (:line-width 1 :color "blue" :style nil)))))
-       `(magit-log-tag-label    ((,class (:box (:line-width 1 :color "#00cc00" :style nil)))))
-       `(magit-section-title    ((,class (:family "Sans Serif" :height 1.8 :weight bold :foreground "cornflower blue" :inherit nil))))
+       `(magit-blame-header      ((,class (:inherit magit-diff-file-header))))
+       `(magit-blame-heading     ((,class (:overline "#a7a7a7" :foreground ,sf-red :background "#e6e6e6"))))
+       `(magit-blame-hash        ((,class (:overline "#a7a7a7" :foreground ,sf-red :background "#e6e6e6"))))
+       `(magit-blame-name        ((,class (:overline "#a7a7a7" :foreground "#036a07" :background "#e6e6e6"))))
+       `(magit-blame-date        ((,class (:overline "#a7a7a7" :foreground "blue" :background "#e6e6e6"))))
+       `(magit-blame-summary     ((,class (:overline "#a7a7a7" :weight bold :foreground "#707070" :background "#e6e6e6"))))
+       `(magit-branch            ((,class ,vc-branch)))
+       `(magit-diff-add          ((,class ,diff-added)))
+       `(magit-diff-del          ((,class ,diff-removed)))
+       `(magit-diff-file-header  ((,class (:height 1.1 :weight bold :foreground "#4183c4"))))
+       `(magit-diff-hunk-header  ((,class ,diff-hunk-header)))
+       `(magit-diff-none         ((,class ,diff-none)))
+       `(magit-header            ((,class (:foreground ,sf-white :background "#ff4040"))))
+       `(magit-item-highlight    ((,class (:background "#eaf2f5"))))
+       `(magit-item-mark         ((,class ,marked-line)))
+       `(magit-log-head-label    ((,class (:box (:line-width 1 :color "blue" :style nil)))))
+       `(magit-log-tag-label     ((,class (:box (:line-width 1 :color "#00cc00" :style nil)))))
+       `(magit-section-title     ((,class (:family "Sans Serif" :height 1.8 :weight bold :foreground "cornflower blue" :inherit nil))))
+      ;`(magit-header-line   ((,class (:foreground ,sf-red :background "#e6e6e6"))))
+      ;`(magit-section-highlight ((,class (:weight bold :foreground ,sf-blue ))))
+       `(magit-section-heading ((,class (:weight bold :foreground ,sf-orange))))
+     ;;`(magit-section-highlight ((,class (:box (:line-width 1 :color "#00cc00" :style nil)))))
+       `(magit-section-highlight ((,class (:foreground ,sf-black :underline ,sf-blue1))))
 
        `(makefile-space-face ((,class (:background "hot pink"))))
        `(makefile-targets ((,class (:weight bold :foreground "blue"))))
