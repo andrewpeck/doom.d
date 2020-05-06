@@ -1,7 +1,19 @@
 #+SETUPFILE: theme-readtheorg.setup
+
+* To-do
+*** TODO tabular-like alignment
+*** DONE vim-like buffer while scrolling
+*** TODO completion
+*** TODO IOSEVKA font?
+*** TODO magit.sh like functionality
+
 * Emacs Configuration
 ** Centaur Tabs
  #+BEGIN_SRC emacs-lisp
+
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-auto-enabled nil)
+  )
 ;; (use-package! centaur-tabs
 ;;   :config
 ;;   (centaur-tabs-mode t)
@@ -9,19 +21,136 @@
 ;;   ;("C-tab" . centaur-tabs-forward)
 ;;  )
  #+END_SRC
+** mu4e
+#+BEGIN_SRC emacs-lisp
+(after! mu4e
+  (setq mail-user-agent 'mu4e-user-agent)
+  (setq mu4e-drafts-folder "/[Gmail].Drafts")
+  (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
+  (setq mu4e-trash-folder  "/[Gmail].Trash")
+  (setq mu4e-sent-messages-behavior 'delete)
+  (setq mu4e-maildir-shortcuts
+        '( ("/INBOX"               . ?i)
+           ("/[Gmail].Sent Mail"   . ?s)
+           ("/[Gmail].Trash"       . ?t)
+           ("/[Gmail].All Mail"    . ?a)))
+  (setq mu4e-get-mail-command "offlineimap")
+  (setq mu4e-use-fancy-chars t)
+  (setq mu4e-view-show-addresses t)
+  (setq mu4e-view-show-images t)
+  (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
+  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
+)
+#+END_SRC
+** Appearance
+#+BEGIN_SRC emacs-lisp
+;;; Scrolling.
+;; Good speed and allow scrolling through large images (pixel-scroll).
+;; Note: Scroll lags when point must be moved but increasing the number
+;;       of lines that point moves in pixel-scroll.el ruins large image
+;;       scrolling. So unfortunately I think we'll just have to live with
+;;       this.
+;; (pixel-scroll-mode)
+;; (setq pixel-dead-time 0) ; Never go back to the old scrolling behaviour.
+;; (setq pixel-resolution-fine-flag t) ; Scroll by number of pixels instead of lines (t = frame-char-height pixels).
+;; (setq mouse-wheel-scroll-amount '(2)) ; Distance in pixel-resolution to scroll each mouse wheel event.
+;; (setq mouse-wheel-progressive-speed nil) ; Progressive speed is too fast for me.
 
+(after! dired
+  (setq dired-listing-switches "-a1vBhl  --group-directories-first")
+)
+
+
+(after! git-gutter-fringe
+  (fringe-mode 6)
+  (fringe-helper-define 'git-gutter-fr:added nil
+    "...X...."
+    "...X...."
+    "...X...."
+    "...X...."
+    "XXXXXXXX"
+    "...X...."
+    "...X...."
+    "...X....")
+
+  (fringe-helper-define 'git-gutter-fr:deleted nil
+    "........"
+    "........"
+    "........"
+    "XXXXXXXX"
+    "........"
+    "........"
+    "........"
+    "........")
+
+  (fringe-helper-define 'git-gutter-fr:modified nil
+    "X......."
+    "XXX....."
+    "XXXXX..."
+    "XXXXXXXX"
+    "XXXXXXXX"
+    "XXXXX..."
+    "XXX....."
+    "X.......")
+  )
+
+                                        ; add a margin while scrolling
+(setq scroll-margin 5)
+
+
+;; FONT
+;;(setq doom-font                (font-spec :family "Source Code Pro" :size 13 :weight 'regular)
+;;      doom-variable-pitch-font (font-spec :family "sans"            :size 13
+;;))
+
+                                        ; enable syntax highlighting for vimrc files
+(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+
+;; persistent undo
+(setq undo-tree-auto-save-history t)
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+;; Disable auto fill mode in doom text modes
+(remove-hook 'text-mode-hook #'auto-fill-mode)
+(add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
+(add-hook 'text-mode-hook #'visual-line-mode)
+(setq-default fill-column 120)
+
+;; Make evil-mode up/down operate in screen lines instead of logical lines
+(define-key evil-motion-state-map "j" 'evil-next-visual-line)
+(define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+;; Also in visual mode
+(define-key evil-visual-state-map "j" 'evil-next-visual-line)
+(define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+
+;; Turn on menu bar
+(menu-bar-mode 1)
+
+;; tcl mode for xdc files
+(add-to-list 'auto-mode-alist '("\\.xdc\\'" . tcl-mode))
+
+;;------------------------------------------------------------------------------
+;; themes
+;;------------------------------------------------------------------------------
+
+(add-to-list 'load-path "~/.doom.d/themes/")
+(add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
+(setq doom-light-theme 'leuven-summerfruit)
+(setq doom-night-theme 'doom-one)
+(setq doom-theme 'leuven-summerfruit)
+
+(defun ap/toggle-theme ()
+  "Reload the current color theme."
+  (interactive)
+  (let ((theme (or (car-safe custom-enabled-themes) doom-theme)))
+    (when theme
+      (mapc #'disable-theme custom-enabled-themes))
+    (load-theme doom-theme 'noconfirm)
+    (doom/reload-font)))
+
+#+END_SRC
 ** General
-- Font
-  #+BEGIN_SRC emacs-lisp
-  ;;(setq doom-font                (font-spec :family "Source Code Pro" :size 13 :weight 'regular)
-  ;;      doom-variable-pitch-font (font-spec :family "sans"            :size 13
-  ;;))
-  #+END_SRC
-- Vimrc highlighting
-  #+BEGIN_SRC emacs-lisp
-  ; enable syntax highlighting for vimrc files
-      (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
-  #+END_SRC
 - Start emacs in full screen by default
   #+BEGIN_SRC emacs-lisp
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -34,52 +163,34 @@
   #+BEGIN_SRC emacs-lisp
   (modify-syntax-entry ?_ "w")
   #+END_SRC
-- Disable auto fill mode in doom text modes
-  #+BEGIN_SRC emacs-lisp
-  (remove-hook 'text-mode-hook #'auto-fill-mode)
-  (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
-  (add-hook 'text-mode-hook #'visual-line-mode)
-(setq-default fill-column 120)
-
-  ;; Make evil-mode up/down operate in screen lines instead of logical lines
-  (define-key evil-motion-state-map "j" 'evil-next-visual-line)
-  (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-  ;; Also in visual mode
-  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
-
-  #+END_SRC
 - Ivy fuzzy search enable
   #+BEGIN_SRC emacs-lisp
   (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-  #+END_SRC
-- tcl mode for xdc files
-  #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.xdc\\'" . tcl-mode))
   #+END_SRC
 - Projectile
   #+BEGIN_SRC emacs-lisp
   (setq projectile-sort-order 'recently-active)
   #+END_SRC
-- Turn on menu bar
-  #+BEGIN_SRC emacs-lisp
-  (menu-bar-mode 1)
-  #+END_SRC
 ** Company
 #+BEGIN_SRC emacs-lisp
+
+(after! yasnippet
+  (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
+  )
+;(setq require-final-newline nil) ;; final newline does not play well with yasnippet
+
 (after! company
   (add-hook 'after-init-hook 'global-company-mode)
   (setq company-idle-delay 0.2 company-minimum-prefix-length 3)
   (set-company-backend! '(company-tabnine company-yasnippet  company-files))
-  ;(set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
+                                        ;(set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
   ;;(set-company-backend! '(tcl-mode) '(company-tabnine company-yasnippet))
-  (set-company-backend! '(vhdl-mode) '(company-tabnine company-yasnippet))
+  (set-company-backend! '(prog-mode) '(company-tabnine company-yasnippet))
   )
 #+END_SRC
 ** Doom
 *** Keymappings
 #+BEGIN_SRC emacs-lisp
-(map! :leader "t t" 'doom/ivy-tasks)
 (after! doom-todo-ivy
   (setq doom/ivy-task-tags '(
                              ("TODO"  . warning)
@@ -95,7 +206,7 @@
             (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
                                 'face 'doom-dashboard-banner) " ")
             (insert "\n"))
-          '(" E M A C S "))
+          '(" emacs "))
     (when (and (display-graphic-p)
                (stringp fancy-splash-image)
                (file-readable-p fancy-splash-image))
@@ -121,56 +232,104 @@
 #+END_SRC
 *** Appearance
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.doom.d/themes/")
-(add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
-(setq doom-theme 'leuven-summerfruit)
-
-; (after! solarized-emacs
-;   (custom-theme-set-faces
-;    'solarized-light
-;    '(font-lock-comment-face ((t (:background "#FFFFFF"))))
-;    '(default ((t (:background "#FFFFFF"))))
-;    )
-;   )
-
-(setq hl-line-mode nil)
-(setq global-hl-line-mode nil)
-(setq doom-buffer-hl-line-mode nil)
 
 #+END_SRC
 *** Alignment functions
 #+BEGIN_SRC emacs-lisp
-(defun align-to-colon (begin end)
-  "Align region to colon (:) signs"
-  (interactive "r")
-  (align-regexp begin end
-                (rx (group (zero-or-more (syntax whitespace))) ":") 1 1 ))
+;; (defun align-to-colon (begin end)
+;;   "Align region to colon (:) signs"
+;;   (interactive "r")
+;;   (align-regexp begin end
+;;                 (rx (group (zero-or-more (syntax whitespace))) ":") 1 1 ))
+;;
+;; (defun align-to-comma (begin end)
+;;   "Align region to comma  signs"
+;;   (interactive "r")
+;;   (align-regexp begin end
+;;                 (rx "," (group (zero-or-more (syntax whitespace))) ) 1 1 t ))
+;;
+;; (defun bjm/align-& (start end)
+;;   "Align columns by ampersand"
+;;   (interactive "r")
+;;   (align-regexp start end
+;;                 "\\(\\s-*\\)&" 1 1 t))
+;;
+;; ;; http://pragmaticemacs.com/emacs/aligning-text/
+;; (defun bjm/align-comma (start end)
+;;   "Align columns by ampersand"
+;;   (interactive "r")
+;;   (align-regexp start end
+;;                 "\\(\\s-*\\),\\(\\s-*\\)" 1 1 t))
+;;
+;; (defun align-to-equals (begin end)
+;;   "Align region to equal signs"
+;;   (interactive "r")
+;;   (align-regexp begin end
+;;                 (rx (group (zero-or-more (syntax whitespace))) "=") 1 1 ))
+;;
+;; (defun align-to-hash (begin end)
+;;   "Align region to hash ( => ) signs"
+;;   (interactive "r")
+;;   (align-regexp begin end
+;;                 (rx (group (zero-or-more (syntax whitespace))) "=>") 1 1 ))
+;;
+;; ; (defun align-regexp (beg end regexp &optional group spacing repeat)
+;; ;; work with this
+;; (defun align-to-comma-before (begin end)
+;;   "Align region to equal signs"
+;;   (interactive "r")
+;;   (align-regexp begin end
+;;                 (rx (group (zero-or-more (syntax whitespace))) ",") 1 1 t))
+;;
+;; ;; https://www.reddit.com/r/emacs/comments/6pak1o/configuration_for_alignment_commands/
+;; (defun align-whitespace (start end)
+;;   "Align columns by whitespace"
+;;   (interactive "r")
+;;   (align-regexp start end
+;;                 "\\(\\s-*\\)\\s-" 1 0 t))
 
-(defun align-to-comma (begin end)
-  "Align region to comma  signs"
+;;;###autoload
+(defun align-whitespace (start end)
+  "Align columns by whitespace"
   (interactive "r")
-  (align-regexp begin end
-                (rx "," (group (zero-or-more (syntax whitespace))) ) 1 1 ))
+  (align-regexp start end
+                "\\(\\s-*\\)\\s-" 1 0 t))
 
-
-(defun align-to-equals (begin end)
-  "Align region to equal signs"
+;;;###autoload
+(defun align-ampersand (start end)
+  "Align columns by ampersand"
   (interactive "r")
-  (align-regexp begin end
-                (rx (group (zero-or-more (syntax whitespace))) "=") 1 1 ))
+  (align-regexp start end
+                "\\(\\s-*\\)&" 1 1 t))
 
-(defun align-to-hash (begin end)
-  "Align region to hash ( => ) signs"
+;;;###autoload
+(defun align-quote-space (start end)
+  "Align columns by quote and space"
   (interactive "r")
-  (align-regexp begin end
-                (rx (group (zero-or-more (syntax whitespace))) "=>") 1 1 ))
+  (align-regexp start end
+                "\\(\\s-*\\).*\\s-\"" 1 0 t))
 
-;; work with this
-(defun align-to-comma-before (begin end)
-  "Align region to equal signs"
+;;;###autoload
+(defun align-equals (start end)
+  "Align columns by equals sign"
   (interactive "r")
-  (align-regexp begin end
-                (rx (group (zero-or-more (syntax whitespace))) ",") 1 1 ))
+  (align-regexp start end
+                "\\(\\s-*\\)=" 1 0 t))
+
+;;;###autoload
+(defun align-comma (start end)
+  "Align columns by comma"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\)," 1 1 t))
+
+;;;###autoload
+(defun align-dot (start end)
+  "Align columns by dot"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\)\\\." 1 1 t))
+
 #+END_SRC
 
 *** Evil
@@ -184,10 +343,22 @@
   (interactive)
   (counsel-fzf "" "~/")
 )
+
+(defun projsearchdirs ()
+  (interactive)
+  (counsel-fzf "" (projectile-project-root))
+)
 #+END_SRC
 *** Evil Bindings
 #+BEGIN_SRC emacs-lisp
 (define-key evil-normal-state-map (kbd "C-o") 'searchdirs)
+(define-key evil-normal-state-map "\C-p" nil)
+(define-key evil-normal-state-map (kbd "C-p") 'projsearchdirs)
+
+;;(define-key evil-visual-state-map (kbd "\\er")   'eval-region)
+;(evil-leader/set-key "S" 'magit-stage-file)
+;;(evil-leader/set-key "er" 'eval-region)
+(evil-leader/set-key "tt" 'doom/ivy-tasks)
 
 (evil-leader/set-key "f" 'searchdirs)
 ;; leader x for helm execute
@@ -221,7 +392,7 @@
 ;;(evil-leader/set-key "b" 'helm-mini)
 
 ;; map dired to leader
-(evil-leader/set-key "e" 'dired)
+(evil-leader/set-key "E" 'dired)
 
 (evil-leader/set-key "pp" 'org-publish-current-project)
 
@@ -229,8 +400,7 @@
 
 (after! evil-maps
     ;; Ctrl-P
-    (define-key evil-normal-state-map "\C-p" nil)
-    (bind-key* "C-p" 'projectile-find-file)
+    ;(bind-key* "C-p" 'projectile-find-file)
 
     ;; let enter open org mode links
     (define-key evil-motion-state-map (kbd "SPC") nil)
@@ -244,12 +414,14 @@
         (interactive)
         (switch-to-buffer (other-buffer (current-buffer) 1)))
     (define-key evil-normal-state-map (kbd "DEL") 'er-switch-to-previous-buffer)
+    (add-hook 'verilog-mode-hook (lambda() (local-unset-key [backspace])))
 
+    (define-key evil-normal-state-map (kbd "C-a")   'evil-numbers/inc-at-pt)
+    (define-key evil-normal-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt)
+    (define-key evil-visual-state-map (kbd "C-a")   'evil-numbers/inc-at-pt-incremental)
+    (define-key evil-visual-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt-incremental)
 
-    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-    (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
-    (define-key evil-visual-state-map (kbd "C-a") 'evil-numbers/inc-at-pt-incremental)
-    (define-key evil-visual-state-map (kbd "C-x") 'evil-numbers/dec-at-pt-incremental)
+    (define-key evil-normal-state-map (kbd "C-t") 'evil-jump-backward)
 )
 #+END_SRC
 ** VHDL Mode
