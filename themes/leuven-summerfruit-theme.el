@@ -241,22 +241,22 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(mode-line-emphasis  ((t (:weight bold :foreground ,sf-white))))
        `(mode-line-highlight ((t (:weight bold :foreground ,sf-white))))
 
-       `(doom-modeline-bar                ((t (:weight bold :foreground ,sf-lightgray :background ,sf-blue6)))) ;;
-       `(doom-modeline-buffer-file        ((t (:weight bold :foreground ,sf-white     :background ,sf-blue6)))) ;;
-       `(doom-modeline-buffer-major-mode  ((t (             :foreground ,sf-white     :background ,sf-blue6)))) ;;
-       `(doom-modeline-buffer-minor-mode  ((t (             :foreground ,sf-white     :background ,sf-blue6)))) ;;
-       `(doom-modeline-buffer-modified    ((t (:weight bold :foreground ,sf-red                            )))) ;;
-       `(doom-modeline-buffer-path        ((t (:weight bold :foreground ,sf-white     :background ,sf-blue6)))) ;;
-       `(doom-modeline-debug              ((t (:weight bold :foreground ,sf-white     :background ,sf-blue6)))) ;; flycheck debug symbol
-       `(doom-modeline-evil-emacs-state   ((t (:weight bold :foreground ,sf-orange    :background ,sf-blue6)))) ;;
-       `(doom-modeline-evil-insert-state  ((t (:weight bold :foreground ,sf-orange    :background ,sf-blue6)))) ;;
-       `(doom-modeline-evil-motion-state  ((t (:weight bold :foreground ,sf-green     :background ,sf-blue6)))) ;;
-       `(doom-modeline-evil-normal-state  ((t (:weight bold :foreground ,sf-green     :background ,sf-blue6)))) ;;
-       `(doom-modeline-evil-replace-state ((t (:weight bold :foreground ,sf-red       :background ,sf-blue6)))) ;;
-       `(doom-modeline-evil-visual-state  ((t (:weight bold :foreground ,sf-orange    :background ,sf-blue6)))) ;;
-       `(doom-modeline-highlight          ((t (:weight bold :foreground ,sf-green     :background ,sf-blue6)))) ;;
-       `(doom-modeline-info               ((t (             :foreground ,sf-white     :background ,sf-blue6)))) ;; branch "master"
-       `(doom-modeline-project-dir        ((t (:weight bold :foreground ,sf-white     :background ,sf-blue6)))) ;;
+       `(doom-modeline-bar                ((t (:weight bold :foreground ,sf-lightgray)))) ;;
+       `(doom-modeline-buffer-file        ((t (:weight bold :foreground ,sf-white    )))) ;;
+       `(doom-modeline-buffer-major-mode  ((t (             :foreground ,sf-white    )))) ;;
+       `(doom-modeline-buffer-minor-mode  ((t (             :foreground ,sf-white    )))) ;;
+       `(doom-modeline-buffer-modified    ((t (:weight bold :foreground ,sf-red      )))) ;;
+       `(doom-modeline-buffer-path        ((t (:weight bold :foreground ,sf-white    )))) ;;
+       `(doom-modeline-debug              ((t (:weight bold :foreground ,sf-white    )))) ;; flycheck debug symbol
+       `(doom-modeline-evil-emacs-state   ((t (:weight bold :foreground ,sf-orange   )))) ;;
+       `(doom-modeline-evil-insert-state  ((t (:weight bold :foreground ,sf-orange   )))) ;;
+       `(doom-modeline-evil-motion-state  ((t (:weight bold :foreground ,sf-green    )))) ;;
+       `(doom-modeline-evil-normal-state  ((t (:weight bold :foreground ,sf-green    )))) ;;
+       `(doom-modeline-evil-replace-state ((t (:weight bold :foreground ,sf-red      )))) ;;
+       `(doom-modeline-evil-visual-state  ((t (:weight bold :foreground ,sf-orange   )))) ;;
+       `(doom-modeline-highlight          ((t (:weight bold :foreground ,sf-green    )))) ;;
+       `(doom-modeline-info               ((t (             :foreground ,sf-white    )))) ;; branch "master"
+       `(doom-modeline-project-dir        ((t (:weight bold :foreground ,sf-white    )))) ;;
 
        ;; Escape and prompt faces.
        `(minibuffer-prompt            ((t (:weight bold :foreground ,sf-black :background "gold"))))
@@ -290,6 +290,24 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(link-visited ((t (:underline t :foreground ,sf-red2))))
        `(button       ((t (:underline t :foreground ,sf-blue2))))
        `(header-line  ((t (:box (:line-width 1 :color ,sf-black) :foreground ,sf-black :background "#f0f0f0"))))
+
+       ;; indent
+
+       `(indent-guide-face ((t (:foreground "black" :background "black"))))
+
+       `(highlight-indent-guides-top-character-face   ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-character-face       ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-even-face            ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-odd-face             ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-odd-face             ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-even-face            ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-character-face       ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-top-odd-face         ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-top-even-face        ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-top-character-face   ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-stack-odd-face       ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-stack-even-face      ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-stack-character-face ((t (:background "white" :foreground "lightgray"))))
 
        ;; Gnus faces.
        `(gnus-button                   ((t (:weight normal))))
@@ -719,8 +737,6 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(ilog-echo-face       ((t (:height 2.0 :foreground "#006fe0"))))
        `(ilog-load-face       ((t (:foreground "#ba36a5"))))
        `(ilog-message-face    ((t (:foreground "#808080"))))
-
-       `(indent-guide-face ((t (:foreground "#d3d3d3"))))
 
        `(info-file         ((t (:family "Sans Serif" :height 1.8 :weight bold :box (:line-width 1 :color "#0000cc") :foreground "cornflower blue" :background "LightSteelBlue1"))))
        `(info-header-node  ((t (:underline t :foreground "orange")))) ; nodes in header
