@@ -44,6 +44,11 @@
 #+END_SRC
 ** Appearance
 #+BEGIN_SRC emacs-lisp
+
+;; FONT
+(setq doom-font                (font-spec :family "Source Code Pro Medium" :size 13 :weight 'regular))
+(setq doom-variable-pitch-font (font-spec :family "Arial" :weight 'regular   :size 13))
+
 ;;; Scrolling.
 ;; Good speed and allow scrolling through large images (pixel-scroll).
 ;; Note: Scroll lags when point must be moved but increasing the number
