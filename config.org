@@ -11,6 +11,10 @@
 ** Centaur Tabs
  #+BEGIN_SRC emacs-lisp
 
+;; Window title
+;; https://www.emacswiki.org/emacs/FrameTitle
+(setq frame-title-format "%b – Emacs")
+
 (after! highlight-indent-guides
   (setq highlight-indent-guides-auto-enabled nil)
   )
