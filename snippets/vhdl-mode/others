@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: others
+# uuid: vhdl-others-0
+# key: others
+# condition: t
+# --
+(others => '0')
