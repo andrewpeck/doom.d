@@ -50,8 +50,8 @@
 #+BEGIN_SRC emacs-lisp
 
 ;; FONT
-(setq doom-font                (font-spec :family "Source Code Pro Medium" :size 13 :weight 'regular))
-(setq doom-variable-pitch-font (font-spec :family "Arial" :weight 'regular   :size 13))
+(setq doom-font                (font-spec :family "Deja Vu Sans Mono" :size 13 :weight 'regular))
+(setq doom-variable-pitch-font (font-spec :family "Arial" :weight 'regular   :size 15))
 
 ;;; Scrolling.
 ;; Good speed and allow scrolling through large images (pixel-scroll).
@@ -106,11 +106,6 @@
                                         ; add a margin while scrolling
 (setq scroll-margin 5)
 
-
-;; FONT
-;;(setq doom-font                (font-spec :family "Source Code Pro" :size 13 :weight 'regular)
-;;      doom-variable-pitch-font (font-spec :family "sans"            :size 13
-;;))
 
                                         ; enable syntax highlighting for vimrc files
 (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
