@@ -49,6 +49,13 @@
 ** Appearance
 #+BEGIN_SRC emacs-lisp
 
+(defun browse-file-directory ()
+  "Open the current file's directory however the OS would."
+  (interactive)
+  (if default-directory
+      (browse-url-of-file (expand-file-name default-directory))
+    (error "No `default-directory' to open")))
+
 ;; FONT
 (setq doom-font                (font-spec :family "Deja Vu Sans Mono" :size 13 :weight 'regular))
 (setq doom-variable-pitch-font (font-spec :family "Arial" :weight 'regular   :size 15))
