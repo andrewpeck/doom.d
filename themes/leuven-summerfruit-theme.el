@@ -81,11 +81,11 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
 
   ;; define colors
   (let (
-        (sf-black          '"#333")
+        (sf-black          '"#444")
         (sf-gray           '"#666")
         (sf-lightgray      '"#bbb")
         (sf-white          '"#dddddd")
-        (sf-offwhite       '"#eee")
+        (sf-offwhite       '"#efefef")
         (sf-lightyellow    '"#efd")
         (sf-lightgreen     '"#dfd")
         (sf-lightlightgray '"#ddd")
@@ -94,7 +94,10 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
         (sf-purple         '"#a3b")
         (sf-red            '"#f22")
         (sf-red2           '"#e87")
+        (sf-red3           '"#800")
         (sf-orange         '"#f61")
+        (sf-orange2        '"#f90")
+        (sf-orange3        '"#fb0")
         (sf-pink           '"#f08")
         (sf-green          '"#2a2")
         (sf-darkgreen      '"#080")
@@ -115,8 +118,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           (clock-line                    `(:box (:line-width 1 :color ,sf-blue3) :foreground ,sf-black :background "#eec900"))
 
           ;; code block
-          (code-block                    `(:foreground ,sf-black :background ,sf-offwhite :extend t))
-          (code-inline                   `(:foreground ,sf-green :background ,sf-offwhite :extend t))
+          (code-block                    `(:family "Courier New" :weight medium :foreground ,sf-black :background "#fCfCfC" :extend t))
+          (code-inline                   `(:family "Courier New" :weight medium :foreground ,sf-black :background "#fCfCfC" :extend t))
 
           ;;
           (column                        `(:height 1.0 :weight normal :slant normal :underline nil :strike-through nil :foreground "#e6ad4f" :background "#fff2de"))
@@ -151,8 +154,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           (highlight-yellow              `(:background "#f6fecd" :extend t))
 
           ;; hyperlinks
-          (link                          `(:weight normal :underline t :foreground ,sf-blue2))
-          (link-no-underline             `(:weight normal              :foreground ,sf-blue2))
+          (link                          `(:family "Courier New" :weight bold   :underline t :foreground ,sf-blue2))
+          (link-no-underline             `(:family "Courier New" :weight bold                :foreground ,sf-blue2))
 
           ;; mail
           (mail-header-name              `(:family "Sans Serif" :weight normal :foreground "#a3a3a2"))
@@ -169,8 +172,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
 
           ;; Org mode levels
           (ol1 `(:height 1.3 :weight bold :slant normal :foreground ,sf-orange :extend t))
-          (ol2 `(:height 1.2 :weight bold :slant normal :foreground ,sf-blue3  :extend t))
-          (ol3 `(:height 1.1 :weight bold :slant normal :foreground ,sf-green  :extend t))
+          (ol2 `(:height 1.2 :weight bold :slant normal :foreground ,sf-green  :extend t))
+          (ol3 `(:height 1.1 :weight bold :slant normal :foreground ,sf-blue3  :extend t))
           (ol4 `(:height 1.0 :weight bold :slant normal :foreground ,sf-orange :extend t))
           (ol5 `(:height 1.0 :weight bold :slant normal :foreground ,sf-pink   :extend t))
           (ol6 `(:height 1.0 :weight bold :slant italic :foreground ,sf-blue1  :extend t))
@@ -220,7 +223,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(secondary-selection      ((t ,match))) ; Used by Org-mode for highlighting matched entries and keywords.
 
        ; search
-       `(isearch                  ((t (:foreground ,sf-black :background ,sf-yellow :underline ,sf-black))))
+       `(isearch                  ((t (:foreground ,sf-red3 :background ,sf-orange3 :underline ,sf-black))))
        `(isearch-fail             ((t (:foreground ,sf-black :background "#ffcccc" :weight bold))))
        `(lazy-highlight           ((t (:foreground ,sf-black :background ,sf-yellow)))) ; Isearch others (see `match').
 
@@ -247,7 +250,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(doom-modeline-buffer-minor-mode  ((t (             :foreground ,sf-white    )))) ;;
        `(doom-modeline-buffer-modified    ((t (:weight bold :foreground ,sf-red      )))) ;;
        `(doom-modeline-buffer-path        ((t (:weight bold :foreground ,sf-white    )))) ;;
-       `(doom-modeline-debug              ((t (:weight bold :foreground ,sf-white    )))) ;; flycheck debug symbol
+       `(doom-modeline-debug              ((t (:weight bold :foreground ,sf-white    )))) ;;
        `(doom-modeline-evil-emacs-state   ((t (:weight bold :foreground ,sf-orange   )))) ;;
        `(doom-modeline-evil-insert-state  ((t (:weight bold :foreground ,sf-orange   )))) ;;
        `(doom-modeline-evil-motion-state  ((t (:weight bold :foreground ,sf-green    )))) ;;
@@ -255,8 +258,14 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(doom-modeline-evil-replace-state ((t (:weight bold :foreground ,sf-red      )))) ;;
        `(doom-modeline-evil-visual-state  ((t (:weight bold :foreground ,sf-orange   )))) ;;
        `(doom-modeline-highlight          ((t (:weight bold :foreground ,sf-green    )))) ;;
-       `(doom-modeline-info               ((t (             :foreground ,sf-white    )))) ;; branch "master"
+       `(doom-modeline-info               ((t (             :foreground ,sf-white    )))) ;;
        `(doom-modeline-project-dir        ((t (:weight bold :foreground ,sf-white    )))) ;;
+       `(doom-modeline-lsp-error          ((t (:weight bold :foreground ,sf-red2     :background ,sf-blue6)))) ;;
+       `(doom-modeline-lsp-running        ((t (:weight bold :foreground ,sf-orange   :background ,sf-blue6)))) ;;
+       `(doom-modeline-lsp-warning        ((t (:weight bold :foreground ,sf-orange   :background ,sf-blue6)))) ;;
+       `(doom-modeline-lsp-success        ((t (:weight bold :foreground ,sf-green    :background ,sf-blue6)))) ;;
+       `(doom-modeline-urgent             ((t (:weight bold :foreground ,sf-red2     :background ,sf-blue6)))) ;;
+       `(doom-modeline-warning            ((t (:weight bold :foreground ,sf-orange   :background ,sf-blue6)))) ;;
 
        ;; Escape and prompt faces.
        `(minibuffer-prompt            ((t (:weight bold :foreground ,sf-black :background "gold"))))
@@ -295,19 +304,15 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
 
        `(indent-guide-face ((t (:foreground "black" :background "black"))))
 
-       `(highlight-indent-guides-top-character-face   ((t (:background "white" :foreground "lightgray"))))
-       `(highlight-indent-guides-character-face       ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-character-face       ((t (:background "white" :foreground ,sf-offwhite))))
        `(highlight-indent-guides-even-face            ((t (:background "white" :foreground "lightgray"))))
        `(highlight-indent-guides-odd-face             ((t (:background "white" :foreground "lightgray"))))
-       `(highlight-indent-guides-odd-face             ((t (:background "white" :foreground "lightgray"))))
-       `(highlight-indent-guides-even-face            ((t (:background "white" :foreground "lightgray"))))
-       `(highlight-indent-guides-character-face       ((t (:background "white" :foreground "lightgray"))))
-       `(highlight-indent-guides-top-odd-face         ((t (:background "white" :foreground "lightgray"))))
-       `(highlight-indent-guides-top-even-face        ((t (:background "white" :foreground "lightgray"))))
-       `(highlight-indent-guides-top-character-face   ((t (:background "white" :foreground "lightgray"))))
-       `(highlight-indent-guides-stack-odd-face       ((t (:background "white" :foreground "lightgray"))))
-       `(highlight-indent-guides-stack-even-face      ((t (:background "white" :foreground "lightgray"))))
        `(highlight-indent-guides-stack-character-face ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-stack-even-face      ((t (:background "white" :foreground ,sf-green))))
+       `(highlight-indent-guides-stack-odd-face       ((t (:background "white" :foreground ,sf-green))))
+       `(highlight-indent-guides-top-character-face   ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-top-even-face        ((t (:background "white" :foreground "lightgray"))))
+       `(highlight-indent-guides-top-odd-face         ((t (:background "white" :foreground "lightgray"))))
 
        ;; Gnus faces.
        `(gnus-button                   ((t (:weight normal))))
@@ -661,7 +666,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(font-latex-sedate-face       ((t (:foreground ,sf-orange))))
        `(font-latex-string-face       ((t (:weight bold :foreground ,sf-blue1))))
        `(font-latex-script-char-face  ((t (:foreground ,sf-orange))))
-       `(font-latex-verbatim-face     ((t ,link)))
+       `(font-latex-verbatim-face     ((t ,code-block)))
 
        ;;
        `(git-commit-summary-face                ((t (:foreground ,sf-black))))
@@ -893,10 +898,11 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(org-archived                ((t (:foreground "gray70"))))
        `(org-beamer-tag              ((t (:box (:line-width 1 :color "#fabc18") :foreground "#2c2c2c" :background "#fff8d0"))))
        `(org-block                   ((t ,code-block)))
-       `(org-block-background        ((t (:background "#eeeeee" :extend t)))) ;; :inherit fixed-pitch))))
-       `(org-block-begin-line        ((t (:underline "#a7a6aa" :foreground "#555555" :background "#e2e1d5" :extend t))))
-       `(org-block-end-line          ((t (:overline "#a7a6aa" :foreground "#555555" :background "#e2e1d5" :extend t))))
-       `(org-checkbox                ((t (:weight bold :box (:line-width 1 :style pressed-button) :foreground "#123555" :background "#a3a3a3"))))
+       `(org-block-background        ((t (:background "#fafafa" :extend t)))) ;; :inherit fixed-pitch))))
+       `(org-block-begin-line        ((t (:height 0.7 :foreground "#555555" :background "#e5e5e5" :extend t))))
+       `(org-block-end-line          ((t (:height 0.7 :foreground "#555555" :background "#e5e5e5" :extend t))))
+       `(org-checkbox                ((t (:weight bold :box (:line-width 1 :style pressed-button) :foreground "#123555" :background ,sf-white))))
+       `(org-headline-done           ((t (:height 1.0 :weight normal :strike-through t :foreground ,sf-green))))
        `(org-clock-overlay           ((t (:foreground ,sf-white :background "SkyBlue4"))))
        `(org-code                    ((t ,code-inline)))
        `(org-column                  ((t ,column)))
@@ -904,16 +910,15 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(org-date                    ((t (:underline t :foreground "#00459e"))))
        `(org-default                 ((t (:foreground ,sf-black :background "#ffffff"))))
        `(org-dim                     ((t (:foreground "#aaaaaa"))))
-       `(org-document-info           ((t (:foreground "#484848"))))
-       `(org-document-info-keyword   ((t (:foreground ,sf-blue4 :background "#eaeaff"))))
-       `(org-document-title          ((t (:height 1.8 :weight bold :foreground ,sf-black))))
+       `(org-document-info           ((t (:foreground ,sf-gray))))
+       `(org-document-info-keyword   ((t (:foreground ,sf-gray))))
+       `(org-document-title          ((t (:foreground ,sf-gray))))
        `(org-done                    ((t (:weight bold :box (:line-width 1 :color "#bbbbbb") :foreground "#bbbbbb" :background "#f0f0f0"))))
        `(org-drawer                  ((t (:foreground "light sky blue"))))
        `(org-ellipsis                ((t (:underline nil :foreground "#999999")))) ; #FFEE62
        `(org-example                 ((t (:foreground "blue" :background "#eaffea"))))
        `(org-footnote                ((t (:underline t :foreground ,sf-blue4))))
        `(org-formula                 ((t (:foreground "chocolate1"))))
-       `(org-headline-done           ((t (:height 1.0 :weight normal :strike-through t :foreground "#adadad"))))
        `(org-hide                    ((t (:foreground "#e2e2e2"))))
        `(org-inlinetask              ((t (:box (:line-width 1 :color "#ebebeb") :foreground "#777777" :background "#ffffd6"))))
        `(org-latex-and-related       ((t (:foreground ,sf-blue3 :background ,sf-white))))
@@ -945,7 +950,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(org-time-grid               ((t (:foreground "#cfcfcf"))))
        `(org-todo                    ((t (:weight bold :box (:line-width 1 :color "#d8aba7") :foreground "#d8aba7" :background "#ffe6e4"))))
        `(org-upcoming-deadline       ((t (:foreground "#ff5555"))))
-       `(org-verbatim                ((t (:foreground "#0066cc" :background "#f7fdff"))))
+       `(org-verbatim                ((t ,code-inline)))
        `(org-verse                   ((t (:slant italic :foreground "dim gray" :background "#eeeeee"))))
        `(org-warning                 ((t (:weight bold :foreground ,sf-black :background "#cce7ff"))))
 
@@ -976,11 +981,11 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(powerline-inactive2 ((t (:foreground "#f0f0ef" :background "#a9a9a9" :inherit mode-line-inactive))))
 
        ;; Rainbow delimiters
-       `(rainbow-delimiters-depth-1-face    ((t (:foreground "#383838"       ))))
+       `(rainbow-delimiters-depth-1-face    ((t (:foreground ,sf-orange2    :weight bold   ))))
        `(rainbow-delimiters-depth-2-face    ((t (:foreground "deep pink"     ))))
        `(rainbow-delimiters-depth-3-face    ((t (:foreground "#036a07"       ))))
        `(rainbow-delimiters-depth-4-face    ((t (:foreground "deep sky blue" ))))
-       `(rainbow-delimiters-depth-4-face    ((t (:foreground "dark red"      ))))
+       `(rainbow-delimiters-depth-4-face    ((t (:foreground ,sf-red3        ))))
        `(rainbow-delimiters-depth-5-face    ((t (:foreground "orchid"        ))))
        `(rainbow-delimiters-depth-6-face    ((t (:foreground "steel blue"    ))))
        `(rainbow-delimiters-depth-7-face    ((t (:foreground ,sf-orange       ))))
