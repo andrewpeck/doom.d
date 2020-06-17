@@ -355,6 +355,11 @@
   (counsel-fzf "" "~/")
 )
 
+(defun searchnotes ()
+  (interactive)
+  (counsel-fzf "" "~/Dropbox/notes")
+)
+
 (defun projsearchdirs ()
   (interactive)
   (counsel-fzf "" (projectile-project-root))
@@ -365,6 +370,7 @@
 (define-key evil-normal-state-map (kbd "C-o") 'searchdirs)
 (define-key evil-normal-state-map "\C-p" nil)
 (define-key evil-normal-state-map (kbd "C-p") 'projsearchdirs)
+(define-key evil-normal-state-map (kbd "C-n") 'searchnotes)
 
 ;;(define-key evil-visual-state-map (kbd "\\er")   'eval-region)
 ;(evil-leader/set-key "S" 'magit-stage-file)
