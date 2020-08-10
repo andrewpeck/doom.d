@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: if
+# uuid: vhdl-if
+# key: if
+# condition: t
+# --
+if (${1:signal}='1') then
+
+else
+
+end if;

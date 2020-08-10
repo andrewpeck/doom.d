@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: vhdl reverse
+# uuid: vhdl-reverse
+# key: reverse
+# condition: t              
+# --
+function reverse_vector (a: std_logic_vector)
+return std_logic_vector is
+variable result: std_logic_vector(a'RANGE);
+alias aa: std_logic_vector(a'REVERSE_RANGE) is a;
+begin
+for i in aa'RANGE loop
+    result(i) := aa(i);
+end loop;
+return result;
+end; -- function reverse_vector

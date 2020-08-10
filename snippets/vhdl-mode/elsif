@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: elsif
+# uuid: vhdl-if
+# key: elsif
+# condition: t
+# --
+if (${1:signal}='1') then
+
+elsif (${2:signal}='1') then
+
+else
+
+end if;

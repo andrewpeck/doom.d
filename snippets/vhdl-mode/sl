@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: std_logic
+# uuid: vhdl-sl
+# key: sl
+# condition: t
+# --
+signal $1 : std_logic := '0';

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: vhdl generate
+# uuid: vhdl-generate
+# key: generate
+# condition: t              
+# --
+${1:label} : for I in 0 to ${2:max} generate
+begin
+
+end generate;

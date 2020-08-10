@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: case
+# uuid: vhdl-case
+# key: case
+# condition: t
+# --
+case state is
+
+    when IDLE =>
+
+    when others =>
+
+end case;

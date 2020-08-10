@@ -4,4 +4,4 @@
 # key: others1
 # condition: t
 # --
-(others => '1')
+(others => '1');

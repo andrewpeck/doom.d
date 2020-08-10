@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: vhdl debug
+# uuid: vhdl-debug
+# key: debug
+# condition: t                                    
+# --
+attribute MARK_DEBUG : string;
+attribute MARK_DEBUG of ${1:signal}: signal is "TRUE";

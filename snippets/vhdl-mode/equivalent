@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: vhdl equivalent
+# uuid: vhdl-equivalent
+# key: equivalent
+# condition: t              
+# --
+attribute EQUIVALENT_REGISTER_REMOVAL : string;
+attribute EQUIVALENT_REGISTER_REMOVAL of ${1:signal} : signal is "NO";

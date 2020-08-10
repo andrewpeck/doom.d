@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: vhdl function
+# uuid: vhdl-function
+# key: function
+# condition: t              
+# --
+function ${1:name} (a: std_logic) return std_logic_vector is
+    variable result: std_logic_vector(a'RANGE);
+begin
+end;

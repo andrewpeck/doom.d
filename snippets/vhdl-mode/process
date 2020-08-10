@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: process
+# uuid: vhdl-clocked-process
+# key: process
+# condition: t
+# --
+process (clock) is
+begin
+if (rising_edge(clock)) then
+
+end if;
+end process;
