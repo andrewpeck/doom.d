@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ipbus-register-entry
+# key: reg
+# --
+<node id="${1:name}" address="0x${2:address}" mask="0x${3:mask}" permission="${4:rw}" description="${5}"/>

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: vhdl-array
+# key: array
+# --
+type ${1:name}_array_t is array (integer range <>) of std_logic_vector(${2:size} downto 0);

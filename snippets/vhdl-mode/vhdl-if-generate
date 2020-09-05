@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: vhdl-if-generate
+# key: ifgen
+# --
+${1:label} : if (${2:condition}) generate
+    ${3}
+end generate;
