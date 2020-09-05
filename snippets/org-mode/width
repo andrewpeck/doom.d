@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: org-width
+# key: /width
+# --
++ATTR_HTML: :width 600px
