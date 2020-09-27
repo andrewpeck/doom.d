@@ -326,6 +326,17 @@
 
 (add-hook 'after-init-hook 'global-company-mode)
 
+;;(defvar +company-backend-alist
+;;  '((text-mode company-yasnippet company-dabbrev  company-ispell)
+;;    (prog-mode company-yasnippet company-capf )
+;;    (conf-mode company-yasnippet company-capf company-dabbrev-code )))
+
+(set-company-backend! 'LaTeX-mode-hook '(company-yasnippet company-reftex company-auctex
+                                      company-math company-files
+                                      company-keywords company-capf company-dabbrev-code
+                                      company-etags company-dabbrev
+                                                           ))
+
 (after! company
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
@@ -334,12 +345,16 @@
   (setq company-auto-complete nil)
   (setq company-idle-delay 0.2)
   (setq company-require-match 'never)
+  (setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
+  (setq-default company-box-show-single-candidate 'always)
+  ;;(setq company-frontends '(company-preview-if-just-one-frontend company-box-frontend company-echo-metadata-frontend))
+  ;;(setq company-frontends '(company-preview-if-just-one-frontend  company-echo-metadata-frontend))
+  ;;(setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
   ;;(add-to-list 'company-backends 'company-irony)
 
   ;;(define-key company-active-map (kbd "<return>") nil)
   ;;(define-key company-active-map (kbd "<tab>") #'company-complete-selection )
   ;;(set-company-backend! 'org-mode '(company-yasnippet company-files company-keywords company-capf))
-  ;;(set-company-backend! '(text-mode org-mode) '(company-yasnippet company-files company-keywords company-capf  company-dabbrev-code company-etags  company-dabbrev ))
   ;;(set-company-backend! '(prog-mode python-mode vhdl-mode) '(company-yasnippet company-keywords company-capf company-files company-dabbrev-code company-etags company-dabbrev ))
 
   (add-hook 'company-mode-hook 'company-box-mode)
