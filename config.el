@@ -296,13 +296,14 @@
 ;;;;;  )
 
 ;; Mixed Pitch Mode
-(add-hook 'org-mode-hook #'mixed-pitch-mode)
+(add-hook 'org-mode-hook      #'mixed-pitch-mode)
 (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+(add-hook 'latex-mode-hook    #'mixed-pitch-mode)
 
 ;; FONT
 (setq
  doom-font                (font-spec :family "Fira Code" :size 13 :weight 'regular)
- doom-variable-pitch-font (font-spec :family "Iosevka" :weight 'bold :size 15)
+ doom-variable-pitch-font (font-spec :family "Iosevka"   :size 15 :weight 'bold )
  )
 
 ;;(setq doom-font                (font-spec :family "Deja Vu Sans Mono" :size 13 :weight 'regular))
