@@ -77,9 +77,9 @@
   ;;vterm           ; another terminals in Emacs
 
   :checkers
-  syntax            ; tasing you for every semicolon you forget
-  spell             ; tasing you for misspelling mispelling
-  grammar           ; tasing grammar mistake every you make
+  syntax             ; tasing you for every semicolon you forget
+  (spell +flyspell)  ; tasing you for misspelling mispelling
+  grammar            ; tasing grammar mistake every you make
 
   :tools
   ;;ansible
@@ -92,7 +92,7 @@
   ;;gist              ; interacting with github gists
   (lookup           ; helps you navigate your code and documentation
   +docsets)        ; ...or in Dash docsets locally
-  ;;lsp
+  lsp
   ;;macos             ; MacOS-specific commands
   magit             ; a git porcelain for Emacs
   ;;make              ; run make tasks from Emacs
@@ -130,7 +130,7 @@
   ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
   julia             ; a better, faster MATLAB
   ;;kotlin            ; a better, slicker Java(Script)
-  latex             ; writing papers in Emacs has never been so fun
+  (latex +fold)      ; writing papers in Emacs has never been so fun
   ;;lean
   ;;factor
   ;;ledger            ; an accounting system in Emacs
@@ -151,7 +151,7 @@
   ;;php               ; perl's insecure younger brother
   ;;plantuml          ; diagrams for confusing people more
   ;;purescript        ; javascript, but functional
-  python            ; beautiful is better than ugly
+  (python +lsp)       ; beautiful is better than ugly
   ;;qt                ; the 'cutest' gui framework ever
   ;;racket            ; a DSL for DSLs
   ;;rest              ; Emacs as a REST client
