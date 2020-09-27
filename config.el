@@ -8,6 +8,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;(magit-todos-mode)
+;;
+(setq frame-title-format
+      `((buffer-file-name "%f" "%b")
+        ,(format " - emacs %s" emacs-version)))
 
 (after! browse-at-remote
   (add-to-list 'browse-at-remote-remote-type-domains '("gitlab.cern.ch" . "gitlab"))
