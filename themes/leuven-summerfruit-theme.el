@@ -2,11 +2,6 @@
 
 ;; Copyright (C) 2003-2020 Free Software Foundation, Inc.
 
-;; Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
-;; URL: https://github.com/fniessen/emacs-leuven-theme
-;; Version: 20200102.2050
-;; Keywords: color theme
-
 ;; This file is part of GNU Emacs.
 
 ;; GNU Emacs is free software: you can redistribute it and/or modify
@@ -118,8 +113,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           (clock-line                    `(:box (:line-width 1 :color ,sf-blue3) :foreground ,sf-black :background "#eec900"))
 
           ;; code block
-          (code-block                    `(:family "Courier New" :weight medium :foreground ,sf-black :background "#fCfCfC" :extend t))
-          (code-inline                   `(:family "Courier New" :weight medium :foreground ,sf-black :background "#fCfCfC" :extend t))
+          (code-block                    `(:foreground ,sf-black :background "#fCfCfC" :extend t))
+          (code-inline                   `(:foreground ,sf-black :background "#fCfCfC" :extend t))
 
           ;;
           (column                        `(:height 1.0 :weight normal :slant normal :underline nil :strike-through nil :foreground "#e6ad4f" :background "#fff2de"))
@@ -154,8 +149,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           (highlight-yellow              `(:background "#f6fecd" :extend t))
 
           ;; hyperlinks
-          (link                          `(:family "Courier New" :weight bold   :underline t :foreground ,sf-blue2))
-          (link-no-underline             `(:family "Courier New" :weight bold                :foreground ,sf-blue2))
+          (link                          `(:family "Numbus Mono Ps" :weight bold   :underline t :foreground ,sf-blue2))
+          (link-no-underline             `(:family "Numbus Mono Ps" :weight bold                :foreground ,sf-blue2))
 
           ;; mail
           (mail-header-name              `(:family "Sans Serif" :weight normal :foreground "#a3a3a2"))
@@ -272,6 +267,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(minibuffer-noticeable-prompt ((t (:weight bold :foreground ,sf-black :background "gold"))))
        `(escape-glyph                 ((t (             :foreground ,sf-blue4))))
        `(error                        ((t (:weight bold :foreground ,sf-red))))
+       `(note                         ((t (:weight bold :foreground ,sf-green))))
        `(warning                      ((t (:weight bold :foreground ,sf-orange))))
        `(success                      ((t (             :foreground ,sf-green))))
 
