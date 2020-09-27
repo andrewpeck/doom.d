@@ -369,6 +369,7 @@
 
   )
 
+(setq magit-repository-directories '(("~/" . 1)))
 ;; Doom
 ;; Keymappings
 (after! doom-todo-ivy
