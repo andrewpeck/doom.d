@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: table
+# key: table
+# --
+\begin{table}
+  \centering
+  \caption{${1:caption}}
+  \label{table:${2:label}}
+  \begin{tabular}{ c c }
+    x & y  \\
+    \midrule
+    0  & 1 \\
+  \end{tabular}
+\end{table}
