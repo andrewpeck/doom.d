@@ -898,11 +898,12 @@
 
 (after! org
   (setq org-link-file-path-type 'relative)
-  (setq org-agenda-files (list "~/Dropbox/notes/*.org"))
-  (setq org-hide-emphasis-markers nil)
+  (setq org-agenda-files (list "~/Dropbox/org"))
+  (setq org-id-locations-file "~/Dropbox/org/.org-id-locations")
+  (setq org-hide-emphasis-markers t)
   (setq org-export-with-sub-superscripts nil)
-  (setq org-directory "~/Dropbox/notes")
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-directory "~/Dropbox/org")
+  (setq org-default-notes-file (concat org-directory "/todo.org"))
   ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
   (add-to-list 'org-capture-templates
                '("s" "Shopping" item (file+headline +org-capture-todo-file "Shopping")
