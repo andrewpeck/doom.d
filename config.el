@@ -397,11 +397,17 @@
 ;;    (prog-mode company-yasnippet company-capf )
 ;;    (conf-mode company-yasnippet company-capf company-dabbrev-code )))
 
-(set-company-backend! 'LaTeX-mode-hook '(company-yasnippet company-reftex company-auctex
+;;(set-company-backend! 'python-mode-hook '(company-yasnippet company-jedi
+;;                                       company-files
+;;                                      company-keywords company-capf company-dabbrev-code
+;;                                      company-etags company-dabbrev))
+(add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
+
+(add-hook 'Latex-mode-hook (lambda () (set-company-backend! 'LaTeX-mode-hook '(company-yasnippet company-reftex company-auctex
                                       company-math company-files
                                       company-keywords company-capf company-dabbrev-code
-                                      company-etags company-dabbrev
-                                                           ))
+                                      company-etags company-dabbrev))
+))
 
 (after! company
   (add-hook 'c++-mode-hook 'irony-mode)
