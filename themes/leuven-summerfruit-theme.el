@@ -114,7 +114,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
 
           ;; code block
           (code-block                    `(:foreground ,sf-black :background "#fCfCfC" :extend t))
-          (code-inline                   `(:foreground ,sf-black :background "#fCfCfC" :extend t))
+          (code-inline                   `(:foreground ,sf-black :background "#e5e5e5" :extend t))
 
           ;;
           (column                        `(:height 1.0 :weight normal :slant normal :underline nil :strike-through nil :foreground "#e6ad4f" :background "#fff2de"))
