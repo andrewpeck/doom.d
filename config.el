@@ -391,7 +391,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'after-init-hook 'global-company-mode)
-
+(setq-default yas-also-auto-indent-first-line t)
 ;;(defvar +company-backend-alist
 ;;  '((text-mode company-yasnippet company-dabbrev  company-ispell)
 ;;    (prog-mode company-yasnippet company-capf )
