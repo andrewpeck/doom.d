@@ -42,7 +42,7 @@
   +defaults)       ; default popup rules
   ;;pretty-code       ; replace bits of code with pretty symbols
   ;;tabs              ; an tab bar for Emacs
-  ;;treemacs          ; a project drawer, like neotree but cooler
+  treemacs          ; a project drawer, like neotree but cooler
   ;;unicode           ; extended unicode support for various languages
   vc-gutter         ; vcs diff in the fringe
   vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -140,10 +140,13 @@
   ;;nix               ; I hereby declare "nix geht mehr!"
   ;;ocaml             ; an objective camel
   (org                ; organize your plain life in plain text
-  ;;+dragndrop       ; drag & drop files/images into org buffers
+   +roam
+   +gnuplot
+   +pretty
+   +dragndrop        ; drag & drop files/images into org buffers
+   +pandoc           ; export-with-pandoc support
   ;;+hugo            ; use Emacs for hugo blogging
   ;;+jupyter         ; ipython/jupyter support for babel
-  ;;+pandoc          ; export-with-pandoc support
   ;;+pomodoro        ; be fruitful with the tomato technique
   ;;+present         ; using org-mode for presentations
   )
