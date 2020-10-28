@@ -360,8 +360,15 @@
 
 ;; FONT
 (setq
- doom-font                (font-spec :family "Fira Code" :size 13 :weight 'regular)
- doom-variable-pitch-font (font-spec :family "Iosevka"   :size 15 :weight 'bold )
+ ;;doom-font                (font-spec :family "Fira Code" :size 14 :weight 'regular)
+ doom-font                (font-spec :family "DejaVu Sans Mono"   :size 14 :weight 'regular )
+ doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17 :weight 'regular )
+
+ ;;doom-serif-font (font-spec :family "Comic Sans MS"   :size 17 :weight 'regular )
+
+ ;;doom-variable-pitch-font (font-spec :family "DejaVu Sans"   :size 15 :weight 'bold )
+ ;;doom-font                (font-spec :family "JuliaMono" :otf '(zero ss05 ss08) :size 13 :height 9 :weight 'regular)
+ ;;doom-variable-pitch-font (font-spec :family "JuliaMono" :otf '(zero ss05 ss08) :size 13 :height 9 :weight 'regular)
  )
 
 ;;(setq doom-font                (font-spec :family "Deja Vu Sans Mono" :size 13 :weight 'regular))
