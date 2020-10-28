@@ -905,9 +905,15 @@
   (setq org-directory "~/Dropbox/org")
   (setq org-default-notes-file (concat org-directory "/todo.org"))
   ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
-  (add-to-list 'org-capture-templates
-               '("s" "Shopping" item (file+headline +org-capture-todo-file "Shopping")
-                 "- [ ] %?" :prepend t))
+  ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
+  (setq org-capture-templates '(
+          ("t" "TODO" entry (file+headline +org-capture-todo-file "To do")
+           "** TODO %?" :prepend t)
+          ("a" "Appointment" entry (file  "~/Dropbox/org/gcal-peck.org" )
+           "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+          ("s" "Shopping" item (file+headline +org-capture-todo-file "Shopping")
+           "- [ ] %?" :prepend t)
+          ))
 
   ;;
   (add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
