@@ -77,7 +77,7 @@
 (package! mixed-pitch)
 (package! org-attach-screenshot)
 (package! org-bullets)
-(package! org-download)
+(package! org-download :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-gcal :recipe (:host github :repo "kidd/org-gcal.el"))
 (package! org-table-comment)
 (package! ox-clip :recipe (:host github :repo "jkitchin/ox-clip"))
