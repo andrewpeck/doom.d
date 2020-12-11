@@ -113,8 +113,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           (clock-line                    `(:box (:line-width 1 :color ,sf-blue3) :foreground ,sf-black :background "#eec900"))
 
           ;; code block
-          (code-block                    `(:foreground ,sf-black :background "#fCfCfC" :extend t))
-          (code-inline                   `(:foreground ,sf-black :background "#e5e5e5" :extend t))
+          (code-block                    `(:foreground ,sf-black :background "#efefef" :extend t))
+          (code-inline                   `(:foreground ,sf-black :background "#efefef" :extend t))
 
           ;;
           (column                        `(:height 1.0 :weight normal :slant normal :underline nil :strike-through nil :foreground "#e6ad4f" :background "#fff2de"))
@@ -895,8 +895,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(org-beamer-tag              ((t (:box (:line-width 1 :color "#fabc18") :foreground "#2c2c2c" :background "#fff8d0"))))
        `(org-block                   ((t ,code-block)))
        `(org-block-background        ((t (:background "#fafafa" :extend t)))) ;; :inherit fixed-pitch))))
-       `(org-block-begin-line        ((t (:height 0.7 :foreground "#555555" :background "#e5e5e5" :extend t))))
-       `(org-block-end-line          ((t (:height 0.7 :foreground "#555555" :background "#e5e5e5" :extend t))))
+       `(org-block-begin-line        ((t (:height 0.7 :foreground "#555555" :background "#efefef" :extend t))))
+       `(org-block-end-line          ((t (:height 0.7 :foreground "#555555" :background "#efefef" :extend t))))
        `(org-checkbox                ((t (:weight bold :box (:line-width 1 :style pressed-button) :foreground "#123555" :background ,sf-white))))
        `(org-headline-done           ((t (:height 1.0 :weight normal :strike-through t :foreground ,sf-green))))
        `(org-clock-overlay           ((t (:foreground ,sf-white :background "SkyBlue4"))))
