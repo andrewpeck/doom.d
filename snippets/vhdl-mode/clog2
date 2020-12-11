@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: clog2
+# key: clog2
+# --
+integer(ceil(log2(real(${1:name}))))

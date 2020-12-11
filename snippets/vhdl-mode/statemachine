@@ -7,20 +7,17 @@
 process (clock)
 begin
   if (rising_edge(clock)) then
+    case state is
+
+      when IDLE =>
+
+      when others =>
+
+    end case;
+
     if (reset = '1') then
-
       state <= IDLE;
-
-    else
-
-      case state is
-
-          when IDLE =>
-
-          when others =>
-
-      end case;
-
     end if;
+
   end if;
 end process;

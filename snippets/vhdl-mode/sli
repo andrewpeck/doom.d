@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: sli
+# key: sli
+# --
+${1:name} : in std_logic;

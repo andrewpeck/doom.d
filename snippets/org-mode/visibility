@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: visibility
+# key: visibility
+# --
+:PROPERTIES:
+:VISIBILITY: children
+:END:

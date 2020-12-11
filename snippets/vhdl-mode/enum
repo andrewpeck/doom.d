@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: enum
+# key: enum
+# --
+
+type state_t is (${1:name}_state);

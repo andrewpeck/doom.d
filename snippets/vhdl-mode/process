@@ -4,9 +4,9 @@
 # key: process
 # condition: t
 # --
-process (clock) is
+process (${1:clock}) is
 begin
-if (rising_edge(clock)) then
+if (rising_edge($1)) then
 
 end if;
 end process;
