@@ -717,6 +717,23 @@
 ;; LSP
 ;;------------------------------------------------------------------------------
 
+(after! lsp-ui-mode
+  ;;(lsp-ui-sideline-mode t)
+  ;;(setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-show-with-mouse t)
+  (setq lsp-ui-doc-show-with-cursor nil)
+  (setq lsp-ui-doc-max-width 150)
+  (setq lsp-ui-sideline-show-hover t)
+  )
+(add-hook 'python-mode-hook #'lsp-mode)
+(add-hook 'python-mode-hook #'lsp-ui-mode)
+(after! lsp-mode
+    (add-to-list 'lsp-disabled-clients 'pyls)
+    (add-to-list 'lsp-enabled-clients 'jedi)
+    ;;(add-to-list 'lsp-enabled-clients 'vhdl-lsp)
+    (add-to-list 'lsp-enabled-clients 'lsp-vhdl)
+)
 ;;;;;;; (flycheck-define-checker vhdl-tool
 ;;;;;;;   "A VHDL syntax checker, type checker and linter using VHDL-Tool.
 ;;;;;;;
@@ -764,18 +781,41 @@
 ;;;;;;;                  :priority -1
 ;;;;;;;                  :server-id 'lsp-vhdl-mode))
 ;;;;;
-;;;;;;;   ;;(setq lsp-vhdl-server-path "~/bin/target/release/vhdl_ls")
+;(setq lsp-vhdl-server-path "~/rust_hdl/target/release/vhdl_ls")
+
+;(setq lsp-vhdl-server 'vhdl-ls)
+
+;;(use-package lsp-mode
+;;         :config
+;;         (add-hook 'vhdl-mode-hook 'lsp))
+(require 'use-package)
+(setq lsp-vhdl-server-path "vhdl-tool")
+
+(use-package lsp-mode
+         :config
+         (add-hook 'vhdl-mode-hook 'lsp))
+
+;; xpr to toml converter
+;; https://github.com/abyszuk/XPR-converter
+
+;;(after! lsp
+  ;;  (make-lsp-client :new-connection (lsp-stdio-connection "~/rust_hdl/target/release/vhdl_ls")
+  ;;                   :major-modes '(vhdl-mode)
+  ;;                   :server-id 'vhdl-lsp)
+  ;;  )
+
 ;;;;;;;   ;;(after! lsp
 ;;;;;;;   ;;  (add-hook 'vhdl-mode-hook 'lsp)
 ;;;;;;;   ;;  )
 ;;;;;;;
-;;;;;;;   (require 'lsp-mode)
-;;;;;;;     (lsp-register-client
-;;;;;;;      (make-lsp-client :new-connection (lsp-stdio-connection "vhdl-tool server")
-;;;;;;;                       :major-modes '(vhdl-mode)
-;;;;;;;                       :server-id 'vhdl-lsp))
-;;;;;;;     (add-to-list 'lsp-language-id-configuration '(vhdl-mode . "vhdl-mode"))
-;;;;;;;     (add-hook 'vhdl-mode-hook #'lsp)
+;;  (require 'lsp-mode)
+;;  (lsp-register-client
+;;   (make-lsp-client :new-connection (lsp-stdio-connection "vhdl-tool server")
+;;                    :major-modes '(vhdl-mode)
+;;                    :server-id 'vhdl-lsp))
+;;  (add-to-list 'lsp-language-id-configuration '(vhdl-mode . "vhdl-mode"))
+;;  (add-hook 'vhdl-mode-hook #'lsp)
+;;  )
 ;;;;;
 ;;;;;;;(require 'lsp-mode)
 ;;;;;;;  (lsp-register-client

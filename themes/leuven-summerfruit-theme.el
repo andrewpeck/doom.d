@@ -787,6 +787,9 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(lui-highlight-face ((t (:box '(:line-width 1 :color "#cc0000") :foreground "#cc0000" :background "#ffff88")))) ; my nickname
        `(lui-time-stamp-face ((t (:foreground "purple"))))
 
+       `(lsp-ui-doc-header ((t (:background ,sf-blue1 :foreground ,sf-white))))
+       `(lsp-ui-doc-background ((t (:background ,sf-lightlightgray :foreground "black"))))
+
        ;; Magit
       ;`(magit-blame-header      ((t (:inherit magit-diff-file-header))))
       ;`(magit-blame-heading     ((t (:overline ,sf-lightgray :foreground ,sf-red   :background ,sf-offwhite))))
