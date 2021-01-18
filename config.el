@@ -731,120 +731,55 @@
 ;; LSP
 ;;------------------------------------------------------------------------------
 
-(after! lsp-ui-mode
-  ;;(lsp-ui-sideline-mode t)
-  ;;(setq lsp-ui-sideline-enable t)
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-show-with-mouse t)
-  (setq lsp-ui-doc-show-with-cursor nil)
-  (setq lsp-ui-doc-max-width 150)
-  (setq lsp-ui-sideline-show-hover t)
+(after! lsp-ui
+  (setq-default lsp-headerline-breadcrumb-enable t)
+  (setq-default lsp-ui-doc-enable t)
+  (setq-default lsp-ui-doc-show-with-mouse t)
+  (setq-default lsp-ui-doc-show-with-cursor nil)
+  (setq-default lsp-ui-doc-max-width 150)
+  (setq-default lsp-ui-sideline-show-hover nil)
+  (setq-default lsp-ui-sideline-enable nil)
+  (setq-default lsp-ui-doc-delay 0.1)
   )
+
+(setq lsp-completion-provider :capf)
+
 (add-hook 'python-mode-hook #'lsp-mode)
 (add-hook 'python-mode-hook #'lsp-ui-mode)
-(after! lsp-mode
-    (add-to-list 'lsp-disabled-clients 'pyls)
-    (add-to-list 'lsp-enabled-clients 'jedi)
-    ;;(add-to-list 'lsp-enabled-clients 'vhdl-lsp)
-    (add-to-list 'lsp-enabled-clients 'lsp-vhdl)
-)
-;;;;;;; (flycheck-define-checker vhdl-tool
-;;;;;;;   "A VHDL syntax checker, type checker and linter using VHDL-Tool.
-;;;;;;;
-;;;;;;; See URL `http://vhdltool.com'."
-;;;;;;;   :command ("vhdl-tool" "client" "lint" "--compact" "--stdin" "-f" source
-;;;;;;;             )
-;;;;;;;   :standard-input t
-;;;;;;;   :error-patterns
-;;;;;;;   ((warning line-start (file-name) ":" line ":" column ":w:" (message) line-end)
-;;;;;;;    (error line-start (file-name) ":" line ":" column ":e:" (message) line-end))
-;;;;;;;   :modes (vhdl-mode))
-;;;;;;;
-;;;;;;; (add-to-list 'flycheck-checkers 'vhdl-tool)
-;;;;;
-;;;;;;;   (setq lsp-log-io t)
-;;;;;;;(setq lsp-vhdl-server-path "~/.local/bin/hdl_checker") ; only needed if hdl_checker is not already on the PATH
-;;;;;(setq +lsp-company-backends nil)
-;;;;;(setq lsp-vhdl-server 'vhdl-tool)
-;;;;;(add-hook! 'vhdl-mode-hook #'lsp)
-;;;;;(add-to-list 'lsp-language-id-configuration '(vhdl-mode . "vhdl"))
-;;;;;
-;;;;;(lsp-register-client
-;;;;; (make-lsp-client :new-connection (lsp-stdio-connection '("vhdl-tool" "lsp"))
-;;;;;                  :major-modes '(vhdl-mode)
-;;;;;                  :language-id "VHDL"
-;;;;;                  :server-id 'lsp-vhdl-tool))
-;;;;;
-;;;;;;;(lsp-register-client
-;;;;;;; (make-lsp-client :new-connection (lsp-stdio-connection '("hdl_checker" "--lsp"))
-;;;;;;;                  :major-modes '(vhdl-mode)
-;;;;;;;                  :language-id "VHDL"
-;;;;;;;                  :server-id 'lsp-hdl_checker))
-;;;;;
-;;;;;;;(after! lsp
-;;;;;;;  (lsp-register-client
-;;;;;;;   (make-lsp-client :new-connection (lsp-vhdl--create-connection)
-;;;;;;;                    :major-modes '(vhdl-mode)
-;;;;;;;                    :language-id "VHDL"
-;;;;;;;                    :priority -1
-;;;;;;;                    :server-id 'lsp-vhdl))
-;;;;;;;  )
-;;;;;;;(lsp-register-client
-;;;;;;; (make-lsp-client :new-connection (lsp-stdio-connection '("~/tmp/vhdl-tool" "server" "--config" "./filelist.yaml"))
-;;;;;;;                  :major-modes '(vhdl-mode)
-;;;;;;;                  :priority -1
-;;;;;;;                  :server-id 'lsp-vhdl-mode))
-;;;;;
-;(setq lsp-vhdl-server-path "~/rust_hdl/target/release/vhdl_ls")
+(add-hook 'vhdl-mode-hook #'lsp)
+(add-hook 'vhdl-mode-hook #'lsp-ui-mode)
 
-;(setq lsp-vhdl-server 'vhdl-ls)
+(after! lsp-mode
+    (setq lsp-enabled-clients nil)
+)
+
+;; VHDL Tool
+(setq lsp-vhdl-server 'vhdl-tool)
+
+;; HDL Checker
+;;(setq lsp-vhdl-server 'hdl-checker)
+
+;; VHDL Ls (Rust HDL)
+;;(setq lsp-vhdl-server 'vhdl-ls)
+;;(setq lsp-vhdl-server-path "~/rust_hdl/target/release/vhdl_ls")
 
 ;;(use-package lsp-mode
 ;;         :config
 ;;         (add-hook 'vhdl-mode-hook 'lsp))
-(require 'use-package)
-(setq lsp-vhdl-server-path "vhdl-tool")
 
-(use-package lsp-mode
-         :config
-         (add-hook 'vhdl-mode-hook 'lsp))
+(flycheck-define-checker vhdl-tool
+  "A VHDL syntax checker, type checker and linter using VHDL-Tool.
 
-;; xpr to toml converter
-;; https://github.com/abyszuk/XPR-converter
+See URL `http://vhdltool.com'."
+  :command ("vhdl-tool" "client" "lint" "--compact" "--stdin" "-f" source
+            )
+  :standard-input t
+  :error-patterns
+  ((warning line-start (file-name) ":" line ":" column ":w:" (message) line-end)
+   (error line-start (file-name) ":" line ":" column ":e:" (message) line-end))
+  :modes (vhdl-mode))
 
-;;(after! lsp
-  ;;  (make-lsp-client :new-connection (lsp-stdio-connection "~/rust_hdl/target/release/vhdl_ls")
-  ;;                   :major-modes '(vhdl-mode)
-  ;;                   :server-id 'vhdl-lsp)
-  ;;  )
-
-;;;;;;;   ;;(after! lsp
-;;;;;;;   ;;  (add-hook 'vhdl-mode-hook 'lsp)
-;;;;;;;   ;;  )
-;;;;;;;
-;;  (require 'lsp-mode)
-;;  (lsp-register-client
-;;   (make-lsp-client :new-connection (lsp-stdio-connection "vhdl-tool server")
-;;                    :major-modes '(vhdl-mode)
-;;                    :server-id 'vhdl-lsp))
-;;  (add-to-list 'lsp-language-id-configuration '(vhdl-mode . "vhdl-mode"))
-;;  (add-hook 'vhdl-mode-hook #'lsp)
-;;  )
-;;;;;
-;;;;;;;(require 'lsp-mode)
-;;;;;;;  (lsp-register-client
-;;;;;;;   (make-lsp-client :new-connection (lsp-stdio-connection "hdl_checker --lsp")
-;;;;;;;                    :major-modes '(vhdl-mode)
-;;;;;;;                    :server-id 'vhdl-lsp))
-;;;;;;;  (add-to-list 'lsp-language-id-configuration '(vhdl-mode . "vhdl-mode"))
-;;;;;;;  (add-hook 'vhdl-mode-hook #'lsp)
-;;;;;;;(require 'lsp-mode)
-;;;;;;;  (lsp-register-client
-;;;;;;;   (make-lsp-client :new-connection (lsp-stdio-connection "~/bin/vhdl_ls")
-;;;;;;;                    :major-modes '(vhdl-mode)
-;;;;;;;                    :server-id 'vhdl-lsp))
-;;;;;;;  (add-to-list 'lsp-language-id-configuration '(vhdl-mode . "vhdl-mode"))
-;;;;;;;  (add-hook 'vhdl-mode-hook #'lsp)
+(add-to-list 'flycheck-checkers 'vhdl-tool)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org Mode
