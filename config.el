@@ -915,6 +915,9 @@ See URL `http://vhdltool.com'."
 ;;------------------------------------------------------------------------------
 
 (after! org
+
+  (setq org-log-done 'time)
+
   (setq org-link-file-path-type 'relative)
   (setq org-agenda-files (list "~/Dropbox/org"))
   (setq org-id-locations-file "~/Dropbox/org/.org-id-locations")
