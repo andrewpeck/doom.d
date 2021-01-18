@@ -850,6 +850,14 @@ See URL `http://vhdltool.com'."
   ;(mapc 'load
   ;      '("org-sync" "org-sync-bb" "org-sync-github" "org-sync-gitlab"))
 
+  (defun sort-all-org-entries ()
+    (interactive)
+    (let ((fun #'(lambda nil
+                   (condition-case nil
+                       (org-sort-entries nil ?o)
+                     (user-error t)))))
+      (org-map-entries fun)))
+
   ;;------------------------------------------------------------------------------
   ;; Toggle Displays
   ;;------------------------------------------------------------------------------
