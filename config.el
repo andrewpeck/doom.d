@@ -264,7 +264,9 @@
 (add-to-list 'load-path "~/.doom.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
-(setq doom-theme 'leuven-summerfruit)
+(if (eq (system-name) "larry")
+    (setq doom-theme 'doom-one)
+  (setq doom-theme 'leuven-summerfruit))
 
 (defun ap/toggle-theme ()
   (interactive)
