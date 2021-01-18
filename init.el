@@ -244,7 +244,7 @@ CURRENT-NAME, if it does not already have them:
    +roam
    +gnuplot
    +pretty
-   +dragndrop        ; drag & drop files/images into org buffers
+  ;;+dragndrop        ; drag & drop files/images into org buffers
    +pandoc           ; export-with-pandoc support
   ;;+hugo            ; use Emacs for hugo blogging
   ;;+jupyter         ; ipython/jupyter support for babel
