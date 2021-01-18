@@ -436,11 +436,12 @@
   (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
   (setq company-minimum-prefix-length 1)
-  (setq company-auto-complete nil)
+  (setq company-auto-commit nil)
   (setq company-idle-delay 0.2)
   (setq company-require-match 'never)
   (setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
   (setq-default company-box-show-single-candidate 'always)
+
   ;;(setq company-frontends '(company-preview-if-just-one-frontend company-box-frontend company-echo-metadata-frontend))
   ;;(setq company-frontends '(company-preview-if-just-one-frontend  company-echo-metadata-frontend))
   ;;(setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
