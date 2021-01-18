@@ -1028,15 +1028,44 @@ See URL `http://vhdltool.com'."
 ;; Org mode download images
 ;;(use-package! org-download
 ;;  :config
+(setq org-attach-id-dir "./images/screenshots")
+;;(add-hook! 'org-mode-hook (lambda () ))
+
+(after! org
+  (map! :leader
+        :prefix "ma"
+        :desc "Download Screenshot" "c" #'org-download-screenshot
+        :desc "Download Clipboard" "p" #'org-download-clipboard
+        :desc "Download Yank" "P" #'org-download-yank
+        )
+  )
+
 (after! org-download
+
+  (setq org-download-image-dir "./images/screenshots")
+
+  (defun org-download-named-screenshot (fname)
+    (interactive "FEnter Filename:")
+    (make-directory (file-name-directory fname) t)
+    (if (functionp org-download-screenshot-method)
+        (funcall org-download-screenshot-method fname)
+      (shell-command-to-string
+       (format org-download-screenshot-method fname)))
+    (org-download-image fname))
+
+  (setq org-directory "~/projects/org"
+        org-attach-id-dir "./images/"
+        org-download-dir "download/")
+
   (setq-default org-download-method            'directory
+                ;;org-download-screenshot-method 'nil
                 org-download-screenshot-method "xfce4-screenshooter -r -s %s"
                 org-download-image-dir         "./images/screenshots"
                 org-download-heading-lvl       0
-                ;;org-download-link-format       "[[file:%s]]"
+                org-download-link-format       "[[file:%s]]\n"
                 ;;org-download-image-attr-list   ("#+attr_org: :width 800px")
                 org-download-annotate-function (lambda (link) "")
-                org-download-image-org-width   800
+                org-download-image-org-width   1000
                 )
   )
 
