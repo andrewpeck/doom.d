@@ -378,9 +378,20 @@
 ;; Disable auto fill mode in doom text modes
 (remove-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
-(add-hook 'text-mode-hook #'visual-line-mode)
-(add-hook 'prog-mode-hook (lambda () (progn (visual-line-mode 0) (toggle-truncate-lines 1) (visual-fill-column-mode 0) )))
-(add-hook 'nxml-mode-hook (lambda () (progn (visual-line-mode 0) (toggle-truncate-lines 1) (visual-fill-column-mode 0) )))
+;;(add-hook 'text-mode-hook #'visual-line-mode)
+
+(defun ap/no-wrap ()
+  (interactive)
+  (visual-line-mode 0)
+  (toggle-truncate-lines 1)
+  (visual-fill-column-mode 0)
+  )
+
+(add-hook 'text-mode-hook 'ap/no-wrap)
+(add-hook 'prog-mode-hook 'ap/no-wrap)
+(add-hook 'org-mode-hook  'ap/no-wrap)
+(add-hook 'nxml-mode-hook 'ap/no-wrap)
+;;(ap/no-wrap)
 
 (setq-default fill-column 100)
 
