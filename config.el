@@ -846,6 +846,10 @@ See URL `http://vhdltool.com'."
 
 (after! org
 
+  (add-to-list 'load-path "~/Dropbox/org")
+  ;(mapc 'load
+  ;      '("org-sync" "org-sync-bb" "org-sync-github" "org-sync-gitlab"))
+
   ;;------------------------------------------------------------------------------
   ;; Toggle Displays
   ;;------------------------------------------------------------------------------
