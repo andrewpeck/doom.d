@@ -914,6 +914,10 @@ See URL `http://vhdltool.com'."
 ;; Notes
 ;;------------------------------------------------------------------------------
 
+(add-hook 'evil-org-agenda-mode-hook
+  'evil-org-agenda-set-keys
+  )
+
 (after! org
 
   (setq org-log-done 'time)
