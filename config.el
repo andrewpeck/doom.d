@@ -100,7 +100,6 @@
 ;;;;; (setq speedbar-use-images nil) ; use text for buttons
 ;;;;;                                         ;(setq sr-speedbar-right-side nil) ; put on left side
 ;;;;;
-;;;;; (lsp-ui-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SLIME
