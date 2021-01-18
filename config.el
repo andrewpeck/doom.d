@@ -453,7 +453,8 @@
 
   )
 
-(setq magit-repository-directories '(("~/" . 1)))
+(setq-default magit-diff-refine-hunk 'all)
+;;(setq magit-repository-directories '(("~/" . 1)))
 ;; Doom
 ;; Keymappings
 (after! doom-todo-ivy
