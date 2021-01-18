@@ -264,7 +264,7 @@
 (add-to-list 'load-path "~/.doom.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
-(if (eq (system-name) "larry")
+(if (string= (system-name) "larry")
     (setq doom-theme 'doom-one)
   (setq doom-theme 'leuven-summerfruit))
 
