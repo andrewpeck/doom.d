@@ -63,11 +63,12 @@
     ;; otherwise do ordinary fill paragraph
     (fill-paragraph P)))
 
-;;(add-hook 'LaTex-mode-hook
+(add-hook 'LaTex-mode-hook
   ;(lambda () (evil-local-set-key 'normal (kbd "M-q") 'line-fill-paragraph))
-  ;(lambda () (define-key evil-normal-state-local-map (kbd "M-q") 'line-fill-paragraph))
-  ;)
+  (lambda () (define-key evil-normal-state-local-map (kbd "M-q") 'line-fill-paragraph))
+  )
 (evil-define-minor-mode-key 'normal 'latex-mode-map (kbd "M-q") #'line-fill-paragraph)
+(evil-define-minor-mode-key 'normal 'markdown-mode-map (kbd "M-q") #'line-fill-paragraph)
 
 (defun electric-space () ; Trying to get Emacs to do semantic linefeeds
   (interactive)
