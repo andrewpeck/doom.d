@@ -1108,47 +1108,39 @@ See URL `http://vhdltool.com'."
 ;; Org roam
 ;;------------------------------------------------------------------------------
 
-;;(use-package! org-roam
-;;
-;;  :commands
-;;  (org-roam-insert org-roam-find-file org-roam-switch-to-buffer org-roam)
-;;
-;;  :hook
-;;  (after-init . org-roam-mode)
-;;
-;;  :init
-;;
-;;  (setq org-roam-directory "~/Dropbox/notes/")
-;;  (map! :leader
-;;        :prefix "n"
-;;        :desc "Org-Roam-Insert" "i" #'org-roam-insert
-;;        :desc "Org-Roam-Find"   "/" #'org-roam-find-file
-;;        :desc "Org-Roam-Buffer" "r" #'org-roam
-;;        :desc "Org-Roam-Show-Graph" "g" #'org-roam-show-graph
-;;        )
-;;
-;;                                        ;(setq org-roam-link-title-format "Org:%s")
-;;  (setq org-roam-db-location "~/Dropbox/notes/org-roam.db")
-;;  (setq org-roam-backlinks-mode-hook
-;;        '(
-;;          (flyspell-mode)
-;;          (define-key evil-motion-state-map (kbd "RET") 'org-roam-open-at-point)
-;;          )
-;;        )
-;;
-;;  (setq org-roam-completion-system 'ivy)
-;;  :config
-;;
-;;  (require 'org-roam-protocol)
-;;
-;;  (setq org-roam-capture-templates
-;;        '(("d" "default" plain (function org-roam--capture-get-point)
-;;           "%?"
-;;           :file-name "${title}"
-;;           :head "#+SETUPFILE: \"org.setup\"\n#+TITLE: ${title}\n#"
-;;           :unnarrowed t))
-;;        )
-;;  )
+(after! org
+        (require 'org-download)
+              (setq org-roam-directory "~/Dropbox/notes/")
+              (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
+              (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
+              (map! :leader
+                    :prefix "n"
+                    :desc "Org-Roam-Insert" "i" #'org-roam-insert
+                    :desc "Org-Roam-Find"   "/" #'org-roam-find-file
+                    :desc "Org-Roam-Buffer" "r" #'org-roam
+                    :desc "Org-Roam-Show-Graph" "g" #'org-roam-show-graph
+                    )
+
+                                        ;(setq org-roam-link-title-format "Org:%s")
+              (setq org-roam-db-location "~/Dropbox/notes/org-roam.db")
+              (setq org-roam-backlinks-mode-hook
+                    '(
+                      (flyspell-mode)
+                      (define-key evil-motion-state-map (kbd "RET") 'org-roam-open-at-point)
+                      )
+                    )
+
+              (setq org-roam-completion-system 'ivy)
+
+              (setq org-roam-capture-templates
+                    '(("d" "default" plain (function org-roam--capture-get-point)
+                       "%?"
+                       :file-name "${title}"
+                       :head "#+SETUPFILE: \"org.setup\"\n#+TITLE: ${title}\n#"
+
+                       :unnarrowed t))
+                    )
+              )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mu4e
