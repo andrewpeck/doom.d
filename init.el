@@ -208,16 +208,16 @@ CURRENT-NAME, if it does not already have them:
   :lang
   ;;agda              ; types of types of types of types...
   ;;assembly          ; assembly for fun or debugging
-  ;;cc                ; C/C++/Obj-C madness
+  (cc +lsp)                ; C/C++/Obj-C madness
   ;;clojure           ; java with a lisp
-  ;;common-lisp       ; if you've seen one lisp, you've seen them all
+  common-lisp       ; if you've seen one lisp, you've seen them all
   ;;coq               ; proofs-as-programs
   ;;crystal           ; ruby at the speed of c
   ;;csharp            ; unity, .NET, and mono shenanigans
   data              ; config/data formats
   ;;elixir            ; erlang done right
   ;;elm               ; care for a cup of TEA?
-  emacs-lisp        ; drown in parentheses
+  (emacs-lisp  +lsp)       ; drown in parentheses
   ;;erlang            ; an elegant language for a more civilized age
   ;;ess               ; emacs speaks statistics
   ;;faust             ; dsp, but you get to keep your soul
@@ -229,7 +229,7 @@ CURRENT-NAME, if it does not already have them:
   ;;idris             ;
   ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
   ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
-  julia             ; a better, faster MATLAB
+  (julia +lsp)             ; a better, faster MATLAB
   ;;kotlin            ; a better, slicker Java(Script)
   (latex +fold)      ; writing papers in Emacs has never been so fun
   ;;lean
@@ -264,7 +264,7 @@ CURRENT-NAME, if it does not already have them:
   ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
   ;;scala             ; java, but good
   ;;scheme            ; a fully conniving family of lisps
-  sh                  ; she sells {ba,z,fi}sh shells on the C xor
+  (sh +lsp)                  ; she sells {ba,z,fi}sh shells on the C xor
   ;;solidity          ; do you need a blockchain? No.
   ;;swift             ; who asked for emoji variables?
   ;;terra             ; Earth and Moon in alignment for performance.
