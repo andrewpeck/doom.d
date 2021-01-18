@@ -7,6 +7,9 @@
 ;; Random
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Etags search depth
+(setq etags-table-search-up-depth 10)
+
 ;;(magit-todos-mode)
 ;;
 (setq frame-title-format
