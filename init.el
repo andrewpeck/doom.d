@@ -229,7 +229,7 @@ CURRENT-NAME, if it does not already have them:
   ;;idris             ;
   ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
   ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
-  (julia +lsp)             ; a better, faster MATLAB
+  ;;(julia +lsp)             ; a better, faster MATLAB
   ;;kotlin            ; a better, slicker Java(Script)
   (latex +fold)      ; writing papers in Emacs has never been so fun
   ;;lean
