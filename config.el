@@ -261,6 +261,7 @@
 ;; Theme
 ;;------------------------------------------------------------------------------
 
+(add-to-list 'load-path "~/.doom.d/lisp/")
 (add-to-list 'load-path "~/.doom.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
