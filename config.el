@@ -261,6 +261,7 @@
 ;; Theme
 ;;------------------------------------------------------------------------------
 
+(add-to-list 'load-path "~/.doom.d/lisp/")
 (add-to-list 'load-path "~/.doom.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
@@ -450,8 +451,11 @@
 
   ;;(define-key company-active-map (kbd "<return>") nil)
   ;;(define-key company-active-map (kbd "<tab>") #'company-complete-selection )
-  ;;(set-company-backend! 'org-mode '(company-yasnippet company-files company-keywords company-capf))
-  ;;(set-company-backend! '(prog-mode python-mode vhdl-mode) '(company-yasnippet company-keywords company-capf company-files company-dabbrev-code company-etags company-dabbrev ))
+  (set-company-backend! 'org-mode '(company-yasnippet company-tabnine
+                                    company-files company-keywords company-capf))
+  (set-company-backend! '(prog-mode tcl-mode python-mode vhdl-mode)
+    '(company-yasnippet company-keywords company-capf company-files
+                        company-dabbrev-code company-etags company-dabbrev ))
 
   (add-hook 'company-mode-hook 'company-box-mode)
 
@@ -761,12 +765,13 @@
 (add-hook 'vhdl-mode-hook #'lsp)
 (add-hook 'vhdl-mode-hook #'lsp-ui-mode)
 
-(after! lsp-mode
+(after! lsp
     (setq lsp-enabled-clients nil)
 )
 
 ;; VHDL Tool
 (setq lsp-vhdl-server 'vhdl-tool)
+(setq lsp-vhdl-server-path "~/bin/vhdl-tool")
 
 ;; HDL Checker
 ;;(setq lsp-vhdl-server 'hdl-checker)
@@ -779,19 +784,18 @@
 ;;         :config
 ;;         (add-hook 'vhdl-mode-hook 'lsp))
 
-(flycheck-define-checker vhdl-tool
-  "A VHDL syntax checker, type checker and linter using VHDL-Tool.
-
-See URL `http://vhdltool.com'."
-  :command ("vhdl-tool" "client" "lint" "--compact" "--stdin" "-f" source
-            )
-  :standard-input t
-  :error-patterns
-  ((warning line-start (file-name) ":" line ":" column ":w:" (message) line-end)
-   (error line-start (file-name) ":" line ":" column ":e:" (message) line-end))
-  :modes (vhdl-mode))
-
-(add-to-list 'flycheck-checkers 'vhdl-tool)
+;; (flycheck-define-checker vhdl-tool
+;;   "A VHDL syntax checker, type checker and linter using VHDL-Tool.
+;;         See URL `http://vhdltool.com'."
+;;   :command ("vhdl-tool" "client" "lint" "--compact" "--stdin" "-f" source
+;;             )
+;;   :standard-input t
+;;   :error-patterns
+;;   ((warning line-start (file-name) ":" line ":" column ":w:" (message) line-end)
+;;    (error line-start (file-name) ":" line ":" column ":e:" (message) line-end))
+;;   :modes (vhdl-mode))
+;;
+;; (add-to-list 'flycheck-checkers 'vhdl-tool)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org Mode
@@ -1165,3 +1169,27 @@ See URL `http://vhdltool.com'."
 ;;;;;  (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
 ;;;;;  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
 ;;;;;)
+
+
+;; IELM
+;;
+;; remember ielm history
+;; global copy of the buffer-local variable
+(defvar ielm-comint-input-ring nil)
+
+(defun set-ielm-comint-input-ring ()
+  ;; create a buffer-local binding of kill-buffer-hook
+  (make-local-variable 'kill-buffer-hook)
+  ;; save the value of comint-input-ring when this buffer is killed
+  (add-hook 'kill-buffer-hook #'save-ielm-comint-input-ring)
+  ;; restore saved value (if available)
+  (when ielm-comint-input-ring
+    (message "Restoring comint-input-ring...")
+    (setq comint-input-ring ielm-comint-input-ring)))
+
+(defun save-ielm-comint-input-ring ()
+  (message "Saving comint-input-ring...")
+  (setq ielm-comint-input-ring comint-input-ring))
+
+(require 'ielm)
+(add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring)
