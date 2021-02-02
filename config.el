@@ -451,8 +451,11 @@
 
   ;;(define-key company-active-map (kbd "<return>") nil)
   ;;(define-key company-active-map (kbd "<tab>") #'company-complete-selection )
-  ;;(set-company-backend! 'org-mode '(company-yasnippet company-files company-keywords company-capf))
-  ;;(set-company-backend! '(prog-mode python-mode vhdl-mode) '(company-yasnippet company-keywords company-capf company-files company-dabbrev-code company-etags company-dabbrev ))
+  (set-company-backend! 'org-mode '(company-yasnippet company-tabnine
+                                    company-files company-keywords company-capf))
+  (set-company-backend! '(prog-mode tcl-mode python-mode vhdl-mode)
+    '(company-yasnippet company-keywords company-capf company-files
+                        company-dabbrev-code company-etags company-dabbrev ))
 
   (add-hook 'company-mode-hook 'company-box-mode)
 
