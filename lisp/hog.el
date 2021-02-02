@@ -1,7 +1,7 @@
 ;; ../.dotfiles/doom.d/lisp/hog.el -*- lexical-binding: t; -*-
 
-(defvar hog-vivado-path
-  "~/Xilinx/Vivado/2019.2/settings64.sh")
+(defvar hog-vivado-path "~/Xilinx/Vivado/2019.2/settings64.sh")
+(defvar hog-number-of-jobs 4)
 
 (defun hog-get-projects ()
   "Get a list of available Hog projects"
@@ -15,13 +15,14 @@
                                       (hog-get-projects)
                                       nil
                                       t)))
-  (let ((command (format "source %s && vivado %sProjects/%s/%s.xpr &"
-                 hog-vivado-path
-                 (projectile-project-root)
-                 project
-                 project
-                 )))
-    (message command)
+  (let ((command (format "cd %s && source %s && vivado %sProjects/%s/%s.xpr &"
+                         (projectile-project-root)
+                         hog-vivado-path
+                         (projectile-project-root)
+                         project
+                         project
+                         )))
+    (message (format "Opening Hog Project %s" project))
     (async-shell-command command)))
 
 ;;;###autoload
@@ -40,7 +41,9 @@
                                       (hog-get-projects)
                                       nil
                                       t)))
-  (hog-run-command "Hog/LaunchWorkflow.sh -synth_only" project))
+  (hog-run-command
+   (format "Hog/LaunchWorkflow.sh -synth_only -j%d" hog-number-of-jobs)
+   project))
 
 ;;;###autoload
 (defun hog-launch-workflow (project)
@@ -49,7 +52,9 @@
                                       (hog-get-projects)
                                       nil
                                       t)))
-  (hog-run-command "Hog/LaunchWorkflow.sh" project))
+  (hog-run-command
+   (format "Hog/LaunchWorkflow.sh -j%d" hog-number-of-jobs)
+   project))
 
 ;;;###autoload
 (defun hog-launch-impl (project)
@@ -58,13 +63,16 @@
                                       (hog-get-projects)
                                       nil
                                       t)))
-  (hog-run-command "Hog/LaunchWorkflow.sh -impl_only" project))
+  (hog-run-command
+   (format "Hog/LaunchWorkflow.sh -impl_only -j%d" hog-number-of-jobs)
+   project))
 
 (defun hog-run-command (subcmd project &rest args)
-  "Run a Hog command and colorize it"
+  "Run a Hog command (and colorize it)"
   (let* ((name (format "%s" subcmd))
          (buf (format "*%s*" name)))
-    (async-shell-command (format "source %s && %s%s %s %s%s | tee hog.log | ccze -A"
+    (async-shell-command (format "cd %s && source %s && %s%s %s %s%s | tee hog.log | ccze -A"
+                                 (projectile-project-root)
                                  hog-vivado-path
                                  (projectile-project-root)
                                  subcmd
@@ -77,7 +85,12 @@
       (view-mode)
       )))
 
-(defun read-lines (file-path)
+;;--------------------------------------------------------------------------------
+;; Intelligence for reading source files...
+;; I have plans for this... but it does nothing right now
+;;--------------------------------------------------------------------------------
+
+(defun hog-read-lines-from-file (file-path)
   "Return a list of lines of a file at filePath."
   (with-temp-buffer
     (insert-file-contents file-path)
@@ -105,6 +118,7 @@
 (defun hog-src-is-comment (line)
   "Check if Hog src line is a comment"
   (string-match "^#.*" line)
+  ;; FIXME: should check also for whitespace then comment
   )
 
 (defun hog-src-strip-props (line)
@@ -121,7 +135,7 @@
                   ;;(mapcar #'hog-src-strip-props
                   ;; remove comment lines and read the others from the .src file
                   (remove-if #'hog-src-is-comment
-                             (read-lines file)
+                             (hog-read-lines-from-file file)
                              ))))
 
 (defun hog-read-src-files (project)
