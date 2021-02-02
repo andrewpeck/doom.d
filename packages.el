@@ -62,6 +62,8 @@
 (package! company-jedi)
 (package! company-tabnine)
 (package! counsel-etags)
+(package! clang-format)
+(package! clang-format+)
 (package! doom-todo-ivy :recipe (:host github :repo "jsmestad/doom-todo-ivy"))
 (package! dumb-jump)
 (package! elfeed)
