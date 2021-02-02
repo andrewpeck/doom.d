@@ -1169,3 +1169,27 @@
 ;;;;;  (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
 ;;;;;  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
 ;;;;;)
+
+
+;; IELM
+;;
+;; remember ielm history
+;; global copy of the buffer-local variable
+(defvar ielm-comint-input-ring nil)
+
+(defun set-ielm-comint-input-ring ()
+  ;; create a buffer-local binding of kill-buffer-hook
+  (make-local-variable 'kill-buffer-hook)
+  ;; save the value of comint-input-ring when this buffer is killed
+  (add-hook 'kill-buffer-hook #'save-ielm-comint-input-ring)
+  ;; restore saved value (if available)
+  (when ielm-comint-input-ring
+    (message "Restoring comint-input-ring...")
+    (setq comint-input-ring ielm-comint-input-ring)))
+
+(defun save-ielm-comint-input-ring ()
+  (message "Saving comint-input-ring...")
+  (setq ielm-comint-input-ring comint-input-ring))
+
+(require 'ielm)
+(add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring)
