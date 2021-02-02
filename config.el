@@ -765,12 +765,13 @@
 (add-hook 'vhdl-mode-hook #'lsp)
 (add-hook 'vhdl-mode-hook #'lsp-ui-mode)
 
-(after! lsp-mode
+(after! lsp
     (setq lsp-enabled-clients nil)
 )
 
 ;; VHDL Tool
 (setq lsp-vhdl-server 'vhdl-tool)
+(setq lsp-vhdl-server-path "~/bin/vhdl-tool")
 
 ;; HDL Checker
 ;;(setq lsp-vhdl-server 'hdl-checker)
@@ -783,19 +784,18 @@
 ;;         :config
 ;;         (add-hook 'vhdl-mode-hook 'lsp))
 
-(flycheck-define-checker vhdl-tool
-  "A VHDL syntax checker, type checker and linter using VHDL-Tool.
-
-See URL `http://vhdltool.com'."
-  :command ("vhdl-tool" "client" "lint" "--compact" "--stdin" "-f" source
-            )
-  :standard-input t
-  :error-patterns
-  ((warning line-start (file-name) ":" line ":" column ":w:" (message) line-end)
-   (error line-start (file-name) ":" line ":" column ":e:" (message) line-end))
-  :modes (vhdl-mode))
-
-(add-to-list 'flycheck-checkers 'vhdl-tool)
+;; (flycheck-define-checker vhdl-tool
+;;   "A VHDL syntax checker, type checker and linter using VHDL-Tool.
+;;         See URL `http://vhdltool.com'."
+;;   :command ("vhdl-tool" "client" "lint" "--compact" "--stdin" "-f" source
+;;             )
+;;   :standard-input t
+;;   :error-patterns
+;;   ((warning line-start (file-name) ":" line ":" column ":w:" (message) line-end)
+;;    (error line-start (file-name) ":" line ":" column ":e:" (message) line-end))
+;;   :modes (vhdl-mode))
+;;
+;; (add-to-list 'flycheck-checkers 'vhdl-tool)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org Mode
