@@ -9,18 +9,21 @@
                  (format "ls -d %sTop/* | sed 's#.*/##'"
                          (projectile-project-root)))))
 
+(defun hog-get-project-xml (project)
+  "Return the XML (XPR) file for a given Hog project"
+  (format "%sProjects/%s/%s.xpr" (projectile-project-root) project project)
+  )
+
 ;;;###autoload
 (defun hog-open-project (project)
   (interactive (list (completing-read "Project: "
                                       (hog-get-projects)
                                       nil
                                       t)))
-  (let ((command (format "cd %s && source %s && vivado %sProjects/%s/%s.xpr &"
+  (let ((command (format "cd %s && source %s && vivado %s &"
                          (projectile-project-root)
                          hog-vivado-path
-                         (projectile-project-root)
-                         project
-                         project
+                         (hog-get-project-xml)
                          )))
     (message (format "Opening Hog Project %s" project))
     (async-shell-command command)))
@@ -96,55 +99,49 @@
     (insert-file-contents file-path)
     (split-string (buffer-string) "\n" t)))
 
-;; TODO: add lib= etc filtering to this
-(defun hog-read-line (line)
-  (file-expand-wildcards line))
+;;(defun hog-get-src-files (project)
+;;  "Return a list of src files for a given project"
+;;  (split-string (shell-command-to-string
+;;                 (format "ls -d %sTop/%s/list/*"
+;;                         (projectile-project-root) project))))
 
-(defun hog-get-src-files (project)
-  "Return a list of src files for a given project"
-  (split-string (shell-command-to-string
-                 (format "ls -d %sTop/%s/list/*"
-                         (projectile-project-root) project))))
+(defun hog-parse-vivado-xml (project-file)
+  ;; https://stackoverflow.com/questions/43806637/parsing-xml-file-with-elisp
+  (require 'xml)
+  (setq lib-list (list))
+  (dolist (file-node
+        ;; get a list of all the Project -> FileSets -> FileSet --> File nodes
+        (xml-get-children (assq 'FileSet (assq 'FileSets (assq 'Project (xml-parse-file project-file)))) 'File))
 
-;; (defvar structure-example
-;;   '(
-;;     ("lib" .
-;;      (("a file" "another file" "another file"))
-;;      )))
-;; (find 5 '( (5 . ((0 1 9)) ) (4 . ((2 3)) )))
-;; (print structure-example)
-;; (print (find "lib" structure-example))
+        ;; for each node, extract the path to the .src file
+        (setq src-file
+          ;; strip off the vivado relative path; make it relative to the repo root instead
+          (replace-regexp-in-string "$PPRDIR\/\.\.\/\.\.\/" "" (xml-get-attribute file-node 'Path )))
 
-(defun hog-src-is-comment (line)
-  "Check if Hog src line is a comment"
-  (string-match "^#.*" line)
-  ;; FIXME: should check also for whitespace then comment
+        ;; for each node, extract the library property (only applies to vhdl sources)
+        (dolist (attr (xml-get-children (assq 'FileInfo (cdr file-node)) 'Attr))
+
+          (when (equal (xml-get-attribute attr 'Name) "Library")
+
+                (setq lib  (xml-get-attribute attr 'Val))
+
+                (setf lib-list (hog-append-to-library lib-list lib src-file))
+                )))
+  lib-list
   )
 
-(defun hog-src-strip-props (line)
-  line
-  ;;(replace-regexp-in-string "\s+.*" "" line)
+(defun hog-vhdl-tool-lib-declaration (lib-list)
+  (message (car lib-list))
   )
 
-(defun hog-read-src-file (file)
-  "Read a Hog source file"
-  ;; expand glob patterns into a list of files
-  (mapcar #'file-expand-wildcards
-          ;; tack the project root onto the Hog (relative) path
-          (mapcar (lambda (x) (format "%s" (projectile-project-root) x))
-                  ;;(mapcar #'hog-src-strip-props
-                  ;; remove comment lines and read the others from the .src file
-                  (remove-if #'hog-src-is-comment
-                             (hog-read-lines-from-file file)
-                             ))))
-
-(defun hog-read-src-files (project)
-  "Reads all source files into a nested list"
-  (let ((files (hog-get-src-files project)))
-    (loop for file in files do
-          ;; read only .src files... we don't care about .prop, .xdc, etc
-          (if (equal "src" (file-name-extension file))
-              (print (list
-                      (file-name-base file)
-                      (hog-read-src-file file)
-                      ))))))
+(defun hog-append-to-library (src-list lib-name file-name)
+  (let ((lib (assoc lib-name src-list)))
+    (when (eq lib nil)
+      (setf src-list (append src-list (list (list lib-name (list)))))
+      ;;(print src-list)
+      (setq lib (assoc lib-name src-list))
+      )
+    (setf (cadr lib) (append (cadr lib) (list file-name) ))
+    )
+  src-list
+  )
