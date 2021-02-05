@@ -1,11 +1,40 @@
+;; config.el -*- lexical-binding: t; -*-
+;;
 ;; TODO tabular-like alignment
 ;; TODO fix completion
 ;; TODO magit.sh like functionality
-;; DONE vim-like buffer while scrolling
+;;
+;; Tecosaur: https://github.com/tecosaur/emacs-config/blob/master/config.org
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; to sort
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(map! :n [mouse-8] #'better-jumper-jump-backward
+      :n [mouse-9] #'better-jumper-jump-forward)
+
+(setq-default
+ delete-by-moving-to-trash t                      ; Delete files to trash
+ window-combination-resize t                      ; take new window space from all other windows (not just current)
+ x-stretch-cursor t)                              ; Stretch cursor to the glyph width
+
+(setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
+      evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
+      auto-save-default t                         ; Nobody likes to loose work, I certainly don't
+      truncate-string-ellipsis "…")               ; Unicode ellispis are nicer than "...", and also save /precious/ space
+
+(display-time-mode 1)                             ; Enable time in the mode-line
+
+(global-subword-mode 1)                           ; Iterate through CamelCase words
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Random
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; WINDOW TITLE :: https://www.emacswiki.org/emacs/FrameTitle
+(setq frame-title-format
+      `((buffer-file-name "%f" "%b")
+        ,(format " - emacs %s" emacs-version)
+        ))
 
 ;; Start emacs in full screen by default
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -15,9 +44,6 @@
 
 ;; Turn on menu bar
 (menu-bar-mode 1)
-
-;; WINDOW TITLE :: https://www.emacswiki.org/emacs/FrameTitle
-(setq frame-title-format "%b – Emacs")
 
 ;; Increase the amount of data which Emacs reads from the process.
 ;; Again the emacs default is too low 4k considering that the some
@@ -129,8 +155,9 @@
 (setq scroll-margin 10)
 
 ;; persistent undo
-(setq undo-tree-auto-save-history t)
-
+(after! undo
+  (setq undo-tree-auto-save-history t)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Appearance
@@ -139,15 +166,18 @@
 
 ;; All the icons
 
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-(all-the-icons-ibuffer-mode 1)
-(all-the-icons-ivy-setup)
-(setq frame-title-format
-      `((buffer-file-name "%f" "%b")
-        ,(format " - emacs %s" emacs-version)))
+(use-package! all-the-icons
+  :defer-incrementally t
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (all-the-icons-ibuffer-mode 1)
+  )
+
+(after! ivy
+  (all-the-icons-ivy-setup)
+  )
 
 ;; Theme
-
 (add-to-list 'load-path "~/.doom.d/lisp/")
 (add-to-list 'load-path "~/.doom.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
@@ -228,6 +258,7 @@
                         "X.......")
   )
 
+
 ;;------------------------------------------------------------------------------
 ;; Rainbow Delimeters
 ;;------------------------------------------------------------------------------
@@ -264,13 +295,24 @@
 ;; Mixed Pitch Mode
 ;;------------------------------------------------------------------------------
 
-(add-hook 'org-mode-hook      #'mixed-pitch-mode)
-(add-hook 'markdown-mode-hook #'mixed-pitch-mode)
-(add-hook 'latex-mode-hook    #'mixed-pitch-mode)
+(after! org
+  (add-hook 'org-mode-hook      #'mixed-pitch-mode)
+  )
+(after! markdown
+  (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+  )
+(after! latex
+  (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
+  )
 
 ;;------------------------------------------------------------------------------
 ;; FONT
 ;;------------------------------------------------------------------------------
+
+;;(setq doom-font (font-spec :family "JetBrains Mono" :size 24)
+;;      doom-big-font (font-spec :family "JetBrains Mono" :size 36)
+;;      doom-variable-pitch-font (font-spec :family "Overpass" :size 24)
+;;      doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
 
 ;;(setq
 ;; ;;doom-font                (font-spec :family "Fira Code" :size 14 :weight 'regular)
@@ -292,6 +334,7 @@
 (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 ;;(add-hook 'text-mode-hook #'visual-line-mode)
 
+
 ;;------------------------------------------------------------------------------
 ;; Line wrapping
 ;;------------------------------------------------------------------------------
@@ -309,28 +352,32 @@
 (add-hook 'markdown-mode-hook  'ap/no-wrap)
 (add-hook 'nxml-mode-hook      'ap/no-wrap)
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Company Completion
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'after-init-hook 'global-company-mode)
-(setq-default yas-also-auto-indent-first-line t)
-;;(defvar +company-backend-alist
-;;  '((text-mode company-yasnippet company-dabbrev  company-ispell)
-;;    (prog-mode company-yasnippet company-capf )
-;;    (conf-mode company-yasnippet company-capf company-dabbrev-code )))
+(after! company
+  (add-hook 'after-init-hook 'global-company-mode)
+  (setq-default yas-also-auto-indent-first-line t)
+  ;;(defvar +company-backend-alist
+  ;;  '((text-mode company-yasnippet company-dabbrev  company-ispell)
+  ;;    (prog-mode company-yasnippet company-capf )
+  ;;    (conf-mode company-yasnippet company-capf company-dabbrev-code )))
 
-;;(set-company-backend! 'python-mode-hook '(company-yasnippet company-jedi
-;;                                       company-files
-;;                                      company-keywords company-capf company-dabbrev-code
-;;                                      company-etags company-dabbrev))
-(add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
+  ;;(set-company-backend! 'python-mode-hook '(company-yasnippet company-jedi
+  ;;                                       company-files
+  ;;                                      company-keywords company-capf company-dabbrev-code
+  ;;                                      company-etags company-dabbrev))
+  (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
 
-(add-hook 'Latex-mode-hook (lambda () (set-company-backend! 'LaTeX-mode-hook '(company-yasnippet company-reftex company-auctex
-                                      company-math company-files
-                                      company-keywords company-capf company-dabbrev-code
-                                      company-etags company-dabbrev))
-))
+  (add-hook 'Latex-mode-hook (lambda () (set-company-backend! 'LaTeX-mode-hook '(company-yasnippet company-reftex company-auctex
+                                                                                                   company-math company-files
+                                                                                                   company-keywords company-capf company-dabbrev-code
+                                                                                                   company-etags company-dabbrev))
+                               ))
+)
+
 
 (after! company
   (add-hook 'c++-mode-hook 'irony-mode)
@@ -405,6 +452,7 @@
       (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0)
                            ?\n)))))
 
+
 (setq +doom-dashboard-functions
       '(peck-dashboard-widget-banner
         doom-dashboard-widget-shortmenu
@@ -415,74 +463,76 @@
 ;; Alignment
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Alignment functions
-;; (defun align-to-colon (begin end)
-;;   "Align region to colon (:) signs"
-;;   (interactive "r")
-;;   (align-regexp begin end
-;;                 (rx (group (zero-or-more (syntax whitespace))) ":") 1 1 ))
-;;
-;; (defun align-to-comma (begin end)
-;;   "Align region to comma  signs"
-;;   (interactive "r")
-;;   (align-regexp begin end
-;;                 (rx "," (group (zero-or-more (syntax whitespace))) ) 1 1 t ))
-;;
-;; (defun bjm/align-& (start end)
-;;   "Align columns by ampersand"
-;;   (interactive "r")
-;;   (align-regexp start end
-;;                 "\\(\\s-*\\)&" 1 1 t))
-;;
-;; ;; http://pragmaticemacs.com/emacs/aligning-text/
-;; (defun bjm/align-comma (start end)
-;;   "Align columns by ampersand"
-;;   (interactive "r")
-;;   (align-regexp start end
-;;                 "\\(\\s-*\\),\\(\\s-*\\)" 1 1 t))
-;;
-;; (defun align-to-equals (begin end)
-;;   "Align region to equal signs"
-;;   (interactive "r")
-;;   (align-regexp begin end
-;;                 (rx (group (zero-or-more (syntax whitespace))) "=") 1 1 ))
-;;
-;; (defun align-to-hash (begin end)
-;;   "Align region to hash ( => ) signs"
-;;   (interactive "r")
-;;   (align-regexp begin end
-;;                 (rx (group (zero-or-more (syntax whitespace))) "=>") 1 1 ))
-;;
-;; ; (defun align-regexp (beg end regexp &optional group spacing repeat)
-;; ;; work with this
-;; (defun align-to-comma-before (begin end)
-;;   "Align region to equal signs"
-;;   (interactive "r")
-;;   (align-regexp begin end
-;;                 (rx (group (zero-or-more (syntax whitespace))) ",") 1 1 t))
-;;
-;; ;; https://www.reddit.com/r/emacs/comments/6pak1o/configuration_for_alignment_commands/
-;; (defun align-whitespace (start end)
-;;   "Align columns by whitespace"
-;;   (interactive "r")
-;;   (align-regexp start end
-;;                 "\\(\\s-*\\)\\s-" 1 0 t))
 
-(defun align-whitespace (start end)
-  "Align columns by whitespace"
-  (interactive "r")
-  (align-regexp start end
-                "\\(\\s-*\\)\\s-" 1 0 t))
+(after! align
+  ;; Alignment functions
+  ;; (defun align-to-colon (begin end)
+  ;;   "Align region to colon (:) signs"
+  ;;   (interactive "r")
+  ;;   (align-regexp begin end
+  ;;                 (rx (group (zero-or-more (syntax whitespace))) ":") 1 1 ))
+  ;;
+  ;; (defun align-to-comma (begin end)
+  ;;   "Align region to comma  signs"
+  ;;   (interactive "r")
+  ;;   (align-regexp begin end
+  ;;                 (rx "," (group (zero-or-more (syntax whitespace))) ) 1 1 t ))
+  ;;
+  ;; (defun bjm/align-& (start end)
+  ;;   "Align columns by ampersand"
+  ;;   (interactive "r")
+  ;;   (align-regexp start end
+  ;;                 "\\(\\s-*\\)&" 1 1 t))
+  ;;
+  ;; ;; http://pragmaticemacs.com/emacs/aligning-text/
+  ;; (defun bjm/align-comma (start end)
+  ;;   "Align columns by ampersand"
+  ;;   (interactive "r")
+  ;;   (align-regexp start end
+  ;;                 "\\(\\s-*\\),\\(\\s-*\\)" 1 1 t))
+  ;;
+  ;; (defun align-to-equals (begin end)
+  ;;   "Align region to equal signs"
+  ;;   (interactive "r")
+  ;;   (align-regexp begin end
+  ;;                 (rx (group (zero-or-more (syntax whitespace))) "=") 1 1 ))
+  ;;
+  ;; (defun align-to-hash (begin end)
+  ;;   "Align region to hash ( => ) signs"
+  ;;   (interactive "r")
+  ;;   (align-regexp begin end
+  ;;                 (rx (group (zero-or-more (syntax whitespace))) "=>") 1 1 ))
+  ;;
+  ;; ; (defun align-regexp (beg end regexp &optional group spacing repeat)
+  ;; ;; work with this
+  ;; (defun align-to-comma-before (begin end)
+  ;;   "Align region to equal signs"
+  ;;   (interactive "r")
+  ;;   (align-regexp begin end
+  ;;                 (rx (group (zero-or-more (syntax whitespace))) ",") 1 1 t))
+  ;;
+  ;; ;; https://www.reddit.com/r/emacs/comments/6pak1o/configuration_for_alignment_commands/
+  ;; (defun align-whitespace (start end)
+  ;;   "Align columns by whitespace"
+  ;;   (interactive "r")
+  ;;   (align-regexp start end
+  ;;                 "\\(\\s-*\\)\\s-" 1 0 t))
+
+  (defun align-whitespace (start end)
+    "Align columns by whitespace"
+    (interactive "r")
+    (align-regexp start end
+                  "\\(\\s-*\\)\\s-" 1 0 t))
 
 ;;;###autoload
-;;(defun ap/align (start end x)
-;;  "Align"
-;;  (interactive
-;;   (let ((string (read-string "Foo: " nil 'my-history)))
-;;     ;;(list (region-beginning) (region-end) string)
-;;     (align-regexp (region-beginning) (region-end) "\\(\\s-*\\) &" 1 1 t)
-;;
-;;     ))
+  ;;(defun ap/align (start end x)
+  ;;  "Align"
+  ;;  (interactive
+  ;;   (let ((string (read-string "Foo: " nil 'my-history)))
+  ;;     ;;(list (region-beginning) (region-end) string)
+  ;;     (align-regexp (region-beginning) (region-end) "\\(\\s-*\\) &" 1 1 t)
+  ;;
+  ;;     ))
 
   ;;(interactive
   ;; (let ((string (read-string "Align regexp: ")))
@@ -492,39 +542,40 @@
   ;;   ;;(align-regexp start end "\\(\\s-*\\)                   &") 1 1 t))
   ;;   )
   ;; )
- ;; )
+  ;; )
 
-;;(evil-ex-define-cmd "Tab[ular]" 'ap/align)
+  ;;(evil-ex-define-cmd "Tab[ular]" 'ap/align)
 
-(defun align-ampersand (start end)
-  "Align columns by ampersand"
-  (interactive "r")
-  (align-regexp start end
-                "\\(\\s-*\\)&" 1 1 t))
+  (defun align-ampersand (start end)
+    "Align columns by ampersand"
+    (interactive "r")
+    (align-regexp start end
+                  "\\(\\s-*\\)&" 1 1 t))
 
-(defun align-quote-space (start end)
-  "Align columns by quote and space"
-  (interactive "r")
-  (align-regexp start end
-                "\\(\\s-*\\).*\\s-\"" 1 0 t))
+  (defun align-quote-space (start end)
+    "Align columns by quote and space"
+    (interactive "r")
+    (align-regexp start end
+                  "\\(\\s-*\\).*\\s-\"" 1 0 t))
 
-(defun align-equals (start end)
-  "Align columns by equals sign"
-  (interactive "r")
-  (align-regexp start end
-                "\\(\\s-*\\)=" 1 0 t))
+  (defun align-equals (start end)
+    "Align columns by equals sign"
+    (interactive "r")
+    (align-regexp start end
+                  "\\(\\s-*\\)=" 1 0 t))
 
-(defun align-comma (start end)
-  "Align columns by comma"
-  (interactive "r")
-  (align-regexp start end
-                "\\(\\s-*\\)," 1 1 t))
+  (defun align-comma (start end)
+    "Align columns by comma"
+    (interactive "r")
+    (align-regexp start end
+                  "\\(\\s-*\\)," 1 1 t))
 
-(defun align-dot (start end)
-  "Align columns by dot"
-  (interactive "r")
-  (align-regexp start end
-                "\\(\\s-*\\)\\\." 1 1 t))
+  (defun align-dot (start end)
+    "Align columns by dot"
+    (interactive "r")
+    (align-regexp start end
+                  "\\(\\s-*\\)\\\." 1 1 t))
+)
 
 ;;------------------------------------------------------------------------------
 ;; Evil
@@ -651,9 +702,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; vhdl mode will wrap comments after some # of characters
-(setq vhdl-end-comment-column 200)
-(setq vhdl-prompt-for-comments nil)
-(setq auto-fill-mode nil)
+(after! vhdl
+  (setq vhdl-end-comment-column 200)
+  (setq vhdl-prompt-for-comments nil)
+  (setq auto-fill-mode nil)
+)
 
 ;;------------------------------------------------------------------------------
 ;; VHDL Flycheck
@@ -838,11 +891,11 @@
 
 ;(set-time-zone-rule "GMT-4")
 
-(add-hook 'evil-org-agenda-mode-hook
-  'evil-org-agenda-set-keys
-  )
-
 (after! org
+
+  (add-hook 'evil-org-agenda-mode-hook
+            'evil-org-agenda-set-keys
+            )
 
   (setq org-log-done 'time)
 
@@ -963,16 +1016,10 @@
 ;; Org Image Attach
 ;;------------------------------------------------------------------------------
 
-;; Drag-and-drop to `dired`
-(add-hook 'dired-mode-hook 'org-download-enable)
-
-;; Org mode download images
-;;(use-package! org-download
-;;  :config
-(setq org-attach-id-dir "./images/screenshots")
-;;(add-hook! 'org-mode-hook (lambda () ))
-
 (after! org
+
+  (setq org-attach-id-dir "./images/screenshots")
+
   (map! :leader
         :prefix "ma"
         :desc "Download Screenshot" "c" #'org-download-screenshot
@@ -982,6 +1029,9 @@
   )
 
 (after! org-download
+
+;; Drag-and-drop to `dired`
+  (add-hook 'dired-mode-hook 'org-download-enable)
 
   (setq org-download-image-dir "./images/screenshots")
 
@@ -1049,45 +1099,47 @@
 ;; Elfeed
 ;;------------------------------------------------------------------------------
 
-(setq elfeed-feeds '(
-                     "https://hackaday.com/blog/feed/"))
+(after! elfeed
+  (setq elfeed-feeds '(
+                       "https://hackaday.com/blog/feed/"))
+)
 
 ;;------------------------------------------------------------------------------
 ;; Org roam
 ;;------------------------------------------------------------------------------
 
 (after! org
-        (require 'org-download)
-              (setq org-roam-directory "~/Dropbox/notes/")
-              (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
-              (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
-              (map! :leader
-                    :prefix "n"
-                    :desc "Org-Roam-Insert" "i" #'org-roam-insert
-                    :desc "Org-Roam-Find"   "/" #'org-roam-find-file
-                    :desc "Org-Roam-Buffer" "r" #'org-roam
-                    :desc "Org-Roam-Show-Graph" "g" #'org-roam-show-graph
-                    )
+  (require 'org-download)
+  (setq org-roam-directory "~/Dropbox/notes/")
+  (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
+  (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
+  (map! :leader
+        :prefix "n"
+        :desc "Org-Roam-Insert" "i" #'org-roam-insert
+        :desc "Org-Roam-Find"   "/" #'org-roam-find-file
+        :desc "Org-Roam-Buffer" "r" #'org-roam
+        :desc "Org-Roam-Show-Graph" "g" #'org-roam-show-graph
+        )
 
                                         ;(setq org-roam-link-title-format "Org:%s")
-              (setq org-roam-db-location "~/Dropbox/notes/org-roam.db")
-              (setq org-roam-backlinks-mode-hook
-                    '(
-                      (flyspell-mode)
-                      (define-key evil-motion-state-map (kbd "RET") 'org-roam-open-at-point)
-                      )
-                    )
+  (setq org-roam-db-location "~/Dropbox/notes/org-roam.db")
+  (setq org-roam-backlinks-mode-hook
+        '(
+          (flyspell-mode)
+          (define-key evil-motion-state-map (kbd "RET") 'org-roam-open-at-point)
+          )
+        )
 
-              (setq org-roam-completion-system 'ivy)
+  (setq org-roam-completion-system 'ivy)
 
-              (setq org-roam-capture-templates
-                    '(("d" "default" plain (function org-roam--capture-get-point)
-                       "%?"
-                       :file-name "${title}"
-                       :head "#+SETUPFILE: \"org.setup\"\n#+TITLE: ${title}\n#"
+  (setq org-roam-capture-templates
+        '(("d" "default" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "${title}"
+           :head "#+SETUPFILE: \"org.setup\"\n#+TITLE: ${title}\n#"
 
-                       :unnarrowed t))
-                    )
+           :unnarrowed t))
+        )
               )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1096,24 +1148,26 @@
 
 ;; remember ielm history
 ;; global copy of the buffer-local variable
-(defvar ielm-comint-input-ring nil)
+(after! ielm
+  (defvar ielm-comint-input-ring nil)
 
-(defun set-ielm-comint-input-ring ()
-  ;; create a buffer-local binding of kill-buffer-hook
-  (make-local-variable 'kill-buffer-hook)
-  ;; save the value of comint-input-ring when this buffer is killed
-  (add-hook 'kill-buffer-hook #'save-ielm-comint-input-ring)
-  ;; restore saved value (if available)
-  (when ielm-comint-input-ring
-    (message "Restoring comint-input-ring...")
-    (setq comint-input-ring ielm-comint-input-ring)))
+  (defun set-ielm-comint-input-ring ()
+    ;; create a buffer-local binding of kill-buffer-hook
+    (make-local-variable 'kill-buffer-hook)
+    ;; save the value of comint-input-ring when this buffer is killed
+    (add-hook 'kill-buffer-hook #'save-ielm-comint-input-ring)
+    ;; restore saved value (if available)
+    (when ielm-comint-input-ring
+      (message "Restoring comint-input-ring...")
+      (setq comint-input-ring ielm-comint-input-ring)))
 
-(defun save-ielm-comint-input-ring ()
-  (message "Saving comint-input-ring...")
-  (setq ielm-comint-input-ring comint-input-ring))
+  (defun save-ielm-comint-input-ring ()
+    (message "Saving comint-input-ring...")
+    (setq ielm-comint-input-ring comint-input-ring))
 
-(require 'ielm)
-(add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring)
+  (require 'ielm)
+  (add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; TeX
@@ -1132,9 +1186,11 @@
 ;; XML
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'nxml-mode-hook
-          (setq nxml-child-indent 2 nxml-attribute-indent 2)
-          )
+(after! nxml
+  (add-hook 'nxml-mode-hook
+            (setq nxml-child-indent 2 nxml-attribute-indent 2)
+            )
+)
 
 ;;;;; (add-hook 'nxml-mode-hook (lambda () (visual-fill-column-mode -1)))
 ;;;;; (defun nxml-pretty-format ()
@@ -1206,7 +1262,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (add-hook 'markdown-mode-hook (lambda () (visual-fill-column-mode -1)))
-
 
 ;; Make Fundamental Mode GFM by default
 (after! gfm
