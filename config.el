@@ -25,6 +25,23 @@
 (display-time-mode 1)                             ; Enable time in the mode-line
 
 (global-subword-mode 1)                           ; Iterate through CamelCase words
+;; (modify-syntax-entry ?_ "w")                    ; Treat underscore as part of a word to match vim behavior
+
+;;;;; ;; Ivy fuzzy search enable
+;;;;; (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+
+;; better dired soring
+(after! dired
+  (setq dired-listing-switches "-a1vBhl  --group-directories-first")
+  )
+
+;; add a margin while scrolling
+(setq scroll-margin 10)
+
+;; persistent undo
+(after! undo
+  (setq undo-tree-auto-save-history t)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Random
@@ -121,48 +138,31 @@
 
 ;; Don't add newlines to snippet endings
 (after! yasnippet
+
+  (setq-default yas-also-auto-indent-first-line t)
+
   (add-hook 'snippet-mode-hook
             (lambda () (setq require-final-newline nil))
             )
   )
 
-; (after! highlight-indent-guides
-;   (setq highlight-indent-guides-auto-enabled nil)
-;   (setq highlight-indent-guides-responsive "stack")
-;   )
-
-;;;;;
-;;;;; ;; TRAMP
-;;;;; (setq tramp-default-method "ssh")
-;;;;;
-;;;;; ;; Treat underscore as part of a word to match vim behavior
-;;;;; (modify-syntax-entry ?_ "w")
-;;;;;
-;;;;; ;; Ivy fuzzy search enable
-;;;;; (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (after! projectile
   (setq projectile-sort-order 'recently-active)
   )
-
-;; better dired soring
-(after! dired
-  (setq dired-listing-switches "-a1vBhl  --group-directories-first")
-  )
-
-;; add a margin while scrolling
-(setq scroll-margin 10)
-
-;; persistent undo
-(after! undo
-  (setq undo-tree-auto-save-history t)
-)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Appearance
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-auto-enabled nil)
+  (setq highlight-indent-guides-responsive "stack")
+  )
 
 ;; All the icons
 
@@ -210,7 +210,7 @@
 (map! :leader :desc "Toggle Themes" "t t" #'ap/toggle-theme)
 
 ;; Syntax Highlighting
-;;
+
 ;; enable syntax highlighting for vimrc files
 (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
 
@@ -226,36 +226,36 @@
 ;;------------------------------------------------------------------------------
 
 (after! git-gutter-fringe
-  (fringe-mode 6)
+  (fringe-mode 9)
   (fringe-helper-define 'git-gutter-fr:added nil
-                        "...X...."
-                        "...X...."
-                        "...X...."
-                        "...X...."
-                        "XXXXXXXX"
-                        "...X...."
-                        "...X...."
-                        "...X....")
+                        "....X...."
+                        "....X...."
+                        "....X...."
+                        "....X...."
+                        "XXXXXXXXX"
+                        "....X...."
+                        "....X...."
+                        "....X....")
 
   (fringe-helper-define 'git-gutter-fr:deleted nil
-                        "........"
-                        "........"
-                        "........"
-                        "XXXXXXXX"
-                        "........"
-                        "........"
-                        "........"
-                        "........")
+                        "........."
+                        "........."
+                        "........."
+                        "..XXXXXX."
+                        "........."
+                        "........."
+                        "........."
+                        ".........")
 
   (fringe-helper-define 'git-gutter-fr:modified nil
-                        "X......."
-                        "XXX....."
-                        "XXXXX..."
-                        "XXXXXXXX"
-                        "XXXXXXXX"
-                        "XXXXX..."
-                        "XXX....."
-                        "X.......")
+                        "........."
+                        "...X....."
+                        "...XXX..."
+                        "...XXXX.."
+                        "...XXXXX."
+                        "...XXXX.."
+                        "...XXX..."
+                        "...X.....")
   )
 
 
@@ -309,31 +309,15 @@
 ;; FONT
 ;;------------------------------------------------------------------------------
 
-;;(setq doom-font (font-spec :family "JetBrains Mono" :size 24)
-;;      doom-big-font (font-spec :family "JetBrains Mono" :size 36)
-;;      doom-variable-pitch-font (font-spec :family "Overpass" :size 24)
-;;      doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
-
-;;(setq
-;; ;;doom-font                (font-spec :family "Fira Code" :size 14 :weight 'regular)
-;; doom-font                (font-spec :family "DejaVu Sans Mono"   :size 14 :weight 'regular )
-;; doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17 :weight 'regular )
-;;
-;; ;;doom-serif-font (font-spec :family "Comic Sans MS"   :size 17 :weight 'regular )
-;;
-;; ;;doom-variable-pitch-font (font-spec :family "DejaVu Sans"   :size 15 :weight 'bold )
-;; ;;doom-font                (font-spec :family "JuliaMono" :otf '(zero ss05 ss08) :size 13 :height 9 :weight 'regular)
-;; ;;doom-variable-pitch-font (font-spec :family "JuliaMono" :otf '(zero ss05 ss08) :size 13 :height 9 :weight 'regular)
-;; )
-
-;;(setq doom-font                (font-spec :family "Deja Vu Sans Mono" :size 13 :weight 'regular))
-;;(setq doom-variable-pitch-font (font-spec :family "Arial" :weight 'regular   :size 15))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 14)
+      doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17)
+      doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
 
 ;; Disable auto fill mode in doom text modes
 (remove-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 ;;(add-hook 'text-mode-hook #'visual-line-mode)
-
 
 ;;------------------------------------------------------------------------------
 ;; Line wrapping
@@ -352,72 +336,46 @@
 (add-hook 'markdown-mode-hook  'ap/no-wrap)
 (add-hook 'nxml-mode-hook      'ap/no-wrap)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Company Completion
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 (after! company
+
+  ;; turn on company
   (add-hook 'after-init-hook 'global-company-mode)
-  (setq-default yas-also-auto-indent-first-line t)
-  ;;(defvar +company-backend-alist
-  ;;  '((text-mode company-yasnippet company-dabbrev  company-ispell)
-  ;;    (prog-mode company-yasnippet company-capf )
-  ;;    (conf-mode company-yasnippet company-capf company-dabbrev-code )))
 
-  ;;(set-company-backend! 'python-mode-hook '(company-yasnippet company-jedi
-  ;;                                       company-files
-  ;;                                      company-keywords company-capf company-dabbrev-code
-  ;;                                      company-etags company-dabbrev))
-  (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
-
-  (add-hook 'Latex-mode-hook (lambda () (set-company-backend! 'LaTeX-mode-hook '(company-yasnippet company-reftex company-auctex
-                                                                                                   company-math company-files
-                                                                                                   company-keywords company-capf company-dabbrev-code
-                                                                                                   company-etags company-dabbrev))
-                               ))
-)
-
-
-(after! company
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  ;; company settings
   (setq company-minimum-prefix-length 1)
   (setq company-auto-commit nil)
   (setq company-idle-delay 0.2)
   (setq company-require-match 'never)
   (setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
   (setq-default company-box-show-single-candidate 'always)
+  (add-hook 'company-mode-hook 'company-box-mode)
+  (setq-default company-box-backends-colors 'nil)
 
-  ;;(setq company-frontends '(company-preview-if-just-one-frontend company-box-frontend company-echo-metadata-frontend))
-  ;;(setq company-frontends '(company-preview-if-just-one-frontend  company-echo-metadata-frontend))
-  ;;(setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
-  ;;(add-to-list 'company-backends 'company-irony)
+  (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
 
-  ;;(define-key company-active-map (kbd "<return>") nil)
-  ;;(define-key company-active-map (kbd "<tab>") #'company-complete-selection )
+  (add-hook 'Latex-mode-hook
+            (lambda () (set-company-backend! 'LaTeX-mode-hook
+                         '(company-yasnippet company-reftex company-auctex
+                                             company-math company-files
+                                             company-keywords company-capf company-dabbrev-code
+                                             company-etags company-dabbrev))))
+
   (set-company-backend! 'org-mode '(company-yasnippet company-tabnine
                                     company-files company-keywords company-capf))
+
   (set-company-backend! '(prog-mode tcl-mode python-mode vhdl-mode)
     '(company-yasnippet company-keywords company-capf company-files
                         company-dabbrev-code company-etags company-dabbrev ))
 
-  (add-hook 'company-mode-hook 'company-box-mode)
-
-  (setq-default company-box-backends-colors 'nil)
-
-  ;;   (set-company-backend! '(company-tabnine company-yasnippet  company-files))
-  ;;                                         ;(set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
-  ;;   ;;(set-company-backend! '(tcl-mode) '(company-tabnine company-yasnippet))
-  ;;   (set-company-backend! '(prog-mode) '(company-tabnine company-yasnippet))
-  ;;   )
-
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Doom
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;; Doom
 (after! doom-todo-ivy
@@ -459,10 +417,9 @@
         doom-dashboard-widget-loaded
         doom-dashboard-widget-footer))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Alignment
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;------------------------------------------------------------------------------
 
 (after! align
   ;; Alignment functions
@@ -741,7 +698,14 @@
   (setq-default lsp-ui-doc-delay 0.1)
   )
 
+(after! irony
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  )
+
 (after! lsp
+
   (setq lsp-enabled-clients nil)
   (setq lsp-completion-provider :capf)
 
@@ -1236,9 +1200,10 @@
           (lambda () (define-key evil-normal-state-local-map (kbd "M-q") 'ap/line-fill-paragraph))
           )
 
-(evil-define-minor-mode-key 'normal 'latex-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
-(evil-define-minor-mode-key 'normal 'markdown-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
-(evil-define-minor-mode-key 'normal 'org-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
+(evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
+;; (evil-define-minor-mode-key 'normal 'latex-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
+;; (evil-define-minor-mode-key 'normal 'markdown-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
+;; (evil-define-minor-mode-key 'normal 'org-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
 
 (defun electric-space () ; Trying to get Emacs to do semantic linefeeds
   (interactive)
@@ -1360,3 +1325,28 @@
 ;;;;;  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
 ;;;;;)
 ;;;;;
+
+
+  ;;(defvar +company-backend-alist
+  ;;  '((text-mode company-yasnippet company-dabbrev  company-ispell)
+  ;;    (prog-mode company-yasnippet company-capf )
+  ;;    (conf-mode company-yasnippet company-capf company-dabbrev-code )))
+
+  ;;(set-company-backend! 'python-mode-hook '(company-yasnippet company-jedi
+  ;;                                       company-files
+  ;;                                      company-keywords company-capf company-dabbrev-code
+  ;;                                      company-etags company-dabbrev))
+
+  ;;(setq company-frontends '(company-preview-if-just-one-frontend company-box-frontend company-echo-metadata-frontend))
+  ;;(setq company-frontends '(company-preview-if-just-one-frontend  company-echo-metadata-frontend))
+  ;;(setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
+  ;;(add-to-list 'company-backends 'company-irony)
+
+  ;;(define-key company-active-map (kbd "<return>") nil)
+  ;;(define-key company-active-map (kbd "<tab>") #'company-complete-selection )
+
+  ;;   (set-company-backend! '(company-tabnine company-yasnippet  company-files))
+  ;;                                         ;(set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
+  ;;   ;;(set-company-backend! '(tcl-mode) '(company-tabnine company-yasnippet))
+  ;;   (set-company-backend! '(prog-mode) '(company-tabnine company-yasnippet))
+  ;;   )
