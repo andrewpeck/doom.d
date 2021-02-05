@@ -645,6 +645,7 @@
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") 'org-open-at-point)
   (define-key evil-motion-state-map (kbd "TAB") nil)
+  (define-key evil-motion-state-map (kbd "<tab>") nil)
   (setq org-return-follows-links t)
 
   ;; Backspace to switch to last buffer
