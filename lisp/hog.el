@@ -31,47 +31,19 @@
     (message (format "Opening Hog Project %s" project))
     (async-shell-command command)))
 
-;;;###autoload
-(defun hog-create-project (project)
-  "Create project in Hog"
+(defmacro hog-create-command! (name command)
+  `(defun ,name (project)
+  "Project interactive command function"
   (interactive (list (completing-read "Project: "
                                       (hog-get-projects)
                                       nil
                                       t)))
-  (hog-run-command "Hog/CreateProject.sh" project))
+  (hog-run-command ,command project)))
 
-;;;###autoload
-(defun hog-launch-synthesis (project)
-  "Launch Hog Sythesis Only"
-  (interactive (list (completing-read "Project: "
-                                      (hog-get-projects)
-                                      nil
-                                      t)))
-  (hog-run-command
-   (format "Hog/LaunchWorkflow.sh -synth_only -j%d" hog-number-of-jobs)
-   project))
-
-;;;###autoload
-(defun hog-launch-workflow (project)
-  "Launch Hog Full Workflow"
-  (interactive (list (completing-read "Project: "
-                                      (hog-get-projects)
-                                      nil
-                                      t)))
-  (hog-run-command
-   (format "Hog/LaunchWorkflow.sh -j%d" hog-number-of-jobs)
-   project))
-
-;;;###autoload
-(defun hog-launch-impl (project)
-  "Launch Hog Implementation Only"
-  (interactive (list (completing-read "Project: "
-                                      (hog-get-projects)
-                                      nil
-                                      t)))
-  (hog-run-command
-   (format "Hog/LaunchWorkflow.sh -impl_only -j%d" hog-number-of-jobs)
-   project))
+(hog-create-command! hog-create-project "Hog/CreateProject.sh")
+(hog-create-command! hog-launch-synthesis (format "Hog/LaunchWorkflow.sh -synth_only -j%d" hog-number-of-jobs))
+(hog-create-command! hog-launch-workflow (format "Hog/LaunchWorkflow.sh -j%d" hog-number-of-jobs))
+(hog-create-command! hog-launch-impl (format "Hog/LaunchWorkflow.sh -impl_only -j%d" hog-number-of-jobs))
 
 (defun hog-run-command (subcmd project &rest args)
   "Run a Hog command (and colorize it)"
@@ -94,7 +66,6 @@
 
 ;;--------------------------------------------------------------------------------
 ;; Intelligence for reading source files...
-;; I have plans for this... but it does nothing right now
 ;;--------------------------------------------------------------------------------
 
 (defun hog-read-lines-from-file (file-path)
@@ -103,12 +74,6 @@
     (insert-file-contents file-path)
     (split-string (buffer-string) "\n" t)))
 
-;;(defun hog-get-src-files (project)
-;;  "Return a list of src files for a given project"
-;;  (split-string (shell-command-to-string
-;;                 (format "ls -d %sTop/%s/list/*"
-;;                         (projectile-project-root) project))))
-
 (defun hog-parse-vivado-xml (project-file)
   ;; https://stackoverflow.com/questions/43806637/parsing-xml-file-with-elisp
   (require 'xml)
@@ -116,27 +81,29 @@
   (dolist (file-node
         ;; get a list of all the Project -> FileSets -> FileSet --> File nodes
         (xml-get-children (assq 'FileSet (assq 'FileSets (assq 'Project (xml-parse-file project-file)))) 'File))
-
         ;; for each node, extract the path to the .src file
         (setq src-file
           ;; strip off the vivado relative path; make it relative to the repo root instead
           (replace-regexp-in-string "$PPRDIR\/\.\.\/\.\.\/" "" (xml-get-attribute file-node 'Path )))
-
         ;; for each node, extract the library property (only applies to vhdl sources)
         (dolist (attr (xml-get-children (assq 'FileInfo (cdr file-node)) 'Attr))
-
           (when (equal (xml-get-attribute attr 'Name) "Library")
-
                 (setq lib  (xml-get-attribute attr 'Val))
-
                 (setf lib-list (hog-append-to-library lib-list lib src-file))
                 )))
-  lib-list
-  )
+  lib-list)
 
-(defun hog-vhdl-tool-lib-declaration (lib-list)
-  (message (car lib-list))
-  )
+(defun hog-parse-project-xml (project)
+  (hog-parse-vivado-xml (hog-get-project-xml project)))
+
+(setq hog-ieee-library '("ieee" (
+                              "/usr/local/lib/ghdl/src/synopsys/*.vhdl"
+                              "/usr/local/lib/ghdl/src/std/v08/*.vhdl"
+                              "/usr/local/lib/ghdl/src/ieee2008/*.vhdl"
+                              "/usr/lib/ghdl/src/synopsys/*.vhdl"
+                              "/usr/lib/ghdl/src/std/v08/*.vhdl"
+                              "/usr/lib/ghdl/src/ieee2008/*.vhdl"
+                              )))
 
 (defun hog-append-to-library (src-list lib-name file-name)
   (let ((lib (assoc lib-name src-list)))
@@ -149,3 +116,88 @@
     )
   src-list
   )
+
+;;------------------------------------------------------------------------------
+;; VHDL Tool Config Generation
+;;------------------------------------------------------------------------------
+
+(setq hog-vhdl-tool-preferences
+      '(
+        ("Preferences" .
+         (("TypeCheck"            . "True")
+          ("MultiLineErrors"      . "True")
+          ("CheckOnChange"        . "True")
+          ("Lint"                 . "True")
+          ("FirstSyntaxErrorOnly" . "True")))
+
+        ("Lint" .
+         (("Threshold" ."Warning")
+          ("DeclaredNotAssigned" . (
+                                    ("enabled"  . "True")
+                                    ("severity" . "Warning")))
+          ("DeclaredNotRead"           . "True")
+          ("ReadNotAssigned"           . "True")
+          ("SensitivityListCheck"      . "True")
+          ("ExtraSensitivityListCheck" . "True")
+          ("DuplicateSensitivity"      . "True")
+          ("LatchCheck"                . "True")
+          ("VariableNotRead"           . "True")
+          ("PortNotRead"               . "True")
+          ("PortNotWritten"            . "True")
+          ("NoPrimaryUnit"             . "True")
+          ("DuplicateLibraryImport"    . "True")
+          ("DuplicatePackageUsage"     . "True")
+          ("DeprecatedPackages"        . "True")
+          ("ImplicitLibraries"         . "True")
+          ("DisconnectedPorts"         . "True")
+          ("IntNoRange"                . "True")
+          ))))
+
+(defun hog-vhdl-tool-walk-preferences (prefs)
+  (let ((text "")
+        (pad "    ")
+        )
+    (dolist (category prefs)
+      (setq text (concat text (format "%s:\n" (car category))))
+      (dolist (pref (cdr category))
+        (if (listp (cdr pref))
+            (progn
+              (setq text (concat text (format "%s%s:\n" pad (car pref))))
+              (dolist (subitem (cdr pref))
+                (setq text (concat text (format "%s%s%s: %s\n" pad pad (car subitem) (cdr subitem))))))
+          (setq text (concat text (format "%s%s: %s\n" pad (car pref) (cdr pref)))))))
+    text))
+
+(defun hog-vhdl-tool-lib-to-string (library)
+  (let ((lib-name (car library))
+        (lib-files (car (cdr library)))
+        (pad "    ")
+        (str "")
+        )
+    (setq str (concat str (format "%s - name: %s\n" pad lib-name)))
+    (setq str (concat str (format "%s   paths:\n" pad)))
+    (dolist (file lib-files)
+      (setq str (concat str (format "%s%s - %s\n" pad pad file))))
+    str))
+
+(defun hog-vhdl-tool-parse-libs (libraries)
+  (let ((text "Libraries:\n"))
+    (setq libraries (append libraries (list hog-ieee-library)))
+    (dolist (library libraries)
+      ;;(concat text (hog-vhdl-tool-lib-to-string library))
+      ;;(print (concat text (hog-vhdl-tool-lib-to-string library)))
+      (setq text (concat text (hog-vhdl-tool-lib-to-string library)))
+      )
+    text
+    ))
+
+(defun hog-vhdl-tool-create-project-yaml (project)
+  (interactive (list (completing-read "Project: "
+                                      (hog-get-projects)
+                                      nil
+                                      t)))
+  (let ((yaml ""))
+    (setq yaml (concat yaml (hog-vhdl-tool-parse-libs (hog-parse-project-xml project))))
+    (setq yaml (concat yaml (hog-vhdl-tool-walk-preferences hog-vhdl-tool-preferences)))
+    (shell-command (format "echo '%s' > %svhdltool-config.yaml" yaml (projectile-project-root)))
+  ))
