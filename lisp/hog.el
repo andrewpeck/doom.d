@@ -5,9 +5,12 @@
 
 (defun hog-get-projects ()
   "Get a list of available Hog projects"
-  (split-string (shell-command-to-string
-                 (format "ls -d %sTop/* | sed 's#.*/##'"
-                         (projectile-project-root)))))
+  ;; convert the full directory into the path, e.g.
+  ;; /home/topham/project/Top/myproject --> myproject
+  (mapcar (lambda (file) (file-name-nondirectory (directory-file-name file)))
+          ;; list all directories in the Top/ folder
+          (split-string (shell-command-to-string (format "ls -d %sTop/*" (projectile-project-root))))
+          ))
 
 (defun hog-get-project-xml (project)
   "Return the XML (XPR) file for a given Hog project"
@@ -23,7 +26,7 @@
   (let ((command (format "cd %s && source %s && vivado %s &"
                          (projectile-project-root)
                          hog-vivado-path
-                         (hog-get-project-xml)
+                         (hog-get-project-xml project)
                          )))
     (message (format "Opening Hog Project %s" project))
     (async-shell-command command)))
