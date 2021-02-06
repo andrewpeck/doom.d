@@ -77,15 +77,16 @@
   "Run a Hog command (and colorize it)"
   (let* ((name (format "%s" subcmd))
          (buf (format "*%s*" name)))
-    (async-shell-command (format "cd %s && source %s && %s%s %s %s%s | tee hog.log | ccze -A"
-                                 (projectile-project-root)
-                                 hog-vivado-path
-                                 (projectile-project-root)
-                                 subcmd
-                                 project
-                                 (if args " " "")
-                                 (string-join args " "))
-                         buf)
+    (let ((cmd (format "cd %s && source %s && %s%s %s %s%s | tee hog.log | ccze -A"
+                      (projectile-project-root)
+                      hog-vivado-path
+                      (projectile-project-root)
+                      subcmd
+                      project
+                      (if args " " "")
+                      (string-join args " "))))
+      (async-shell-command cmd buf)
+      )
     (with-current-buffer buf
       (evil-normal-state)
       (view-mode)
