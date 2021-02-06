@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: slvi
+# name: std_logic_vector input
 # key: slvi
 # --
 ${1:name} : in  std_logic_vector (${2:hi} downto ${3:lo});

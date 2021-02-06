@@ -1,6 +1,5 @@
 # -*- mode: snippet -*-
-# name: std_logic
-# uuid: vhdl-sl
+# name: std_logic signal
 # key: sl
 # condition: t
 # --

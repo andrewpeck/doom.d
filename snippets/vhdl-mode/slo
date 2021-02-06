@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: slo
+# name: std_logic output
 # key: slo
 # --
 ${1:name} : out std_logic;
