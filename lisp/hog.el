@@ -9,13 +9,12 @@
   ;; /home/topham/project/Top/myproject --> myproject
   (mapcar (lambda (file) (file-name-nondirectory (directory-file-name file)))
           ;; list all directories in the Top/ folder
-          (split-string (shell-command-to-string (format "ls -d %sTop/*" (projectile-project-root))))
-          ))
+          (split-string (shell-command-to-string (format "ls -d %sTop/*" (projectile-project-root))))))
 
 (defun hog-get-project-xml (project)
   "Return the XML (XPR) file for a given Hog project"
-  (format "%sProjects/%s/%s.xpr" (projectile-project-root) project project)
-  )
+  ;; TODO: add ppr handling
+  (format "%sProjects/%s/%s.xpr" (projectile-project-root) project project))
 
 ;;;###autoload
 (defun hog-open-project (project)
@@ -33,12 +32,12 @@
 
 (defmacro hog-create-command! (name command)
   `(defun ,name (project)
-  "Project interactive command function"
-  (interactive (list (completing-read "Project: "
-                                      (hog-get-projects)
-                                      nil
-                                      t)))
-  (hog-run-command ,command project)))
+     "Project interactive command function"
+     (interactive (list (completing-read "Project: "
+                                         (hog-get-projects)
+                                         nil
+                                         t)))
+     (hog-run-command ,command project)))
 
 (hog-create-command! hog-create-project "Hog/CreateProject.sh")
 (hog-create-command! hog-launch-synthesis (format "Hog/LaunchWorkflow.sh -synth_only -j%d" hog-number-of-jobs))
@@ -47,22 +46,24 @@
 
 (defun hog-run-command (subcmd project &rest args)
   "Run a Hog command (and colorize it)"
+
   (let* ((name (format "%s" subcmd))
          (buf (format "*%s*" name)))
+
+    ;; construct the output command
     (let ((cmd (format "cd %s && source %s && %s%s %s %s%s | tee hog.log | ccze -A"
-                      (projectile-project-root)
-                      hog-vivado-path
-                      (projectile-project-root)
-                      subcmd
-                      project
-                      (if args " " "")
-                      (string-join args " "))))
-      (async-shell-command cmd buf)
-      )
-    (with-current-buffer buf
-      (evil-normal-state)
-      (view-mode)
-      )))
+                       (projectile-project-root)
+                       hog-vivado-path
+                       (projectile-project-root)
+                       subcmd
+                       project
+                       (if args " " "")
+                       (string-join args " "))))
+      ;; ... and run it
+      (async-shell-command cmd buf))
+
+    ;; change the output buffer to a read-only, evil normal state buffer
+    (with-current-buffer buf (evil-normal-state) (view-mode))))
 
 ;;--------------------------------------------------------------------------------
 ;; Intelligence for reading source files...
@@ -79,18 +80,17 @@
   (require 'xml)
   (setq lib-list (list))
   (dolist (file-node
-        ;; get a list of all the Project -> FileSets -> FileSet --> File nodes
-        (xml-get-children (assq 'FileSet (assq 'FileSets (assq 'Project (xml-parse-file project-file)))) 'File))
-        ;; for each node, extract the path to the .src file
-        (setq src-file
+           ;; get a list of all the Project -> FileSets -> FileSet --> File nodes
+           (xml-get-children (assq 'FileSet (assq 'FileSets (assq 'Project (xml-parse-file project-file)))) 'File))
+    ;; for each node, extract the path to the .src file
+    (setq src-file
           ;; strip off the vivado relative path; make it relative to the repo root instead
           (replace-regexp-in-string "$PPRDIR\/\.\.\/\.\.\/" "" (xml-get-attribute file-node 'Path )))
-        ;; for each node, extract the library property (only applies to vhdl sources)
-        (dolist (attr (xml-get-children (assq 'FileInfo (cdr file-node)) 'Attr))
-          (when (equal (xml-get-attribute attr 'Name) "Library")
-                (setq lib  (xml-get-attribute attr 'Val))
-                (setf lib-list (hog-append-to-library lib-list lib src-file))
-                )))
+    ;; for each node, extract the library property (only applies to vhdl sources)
+    (dolist (attr (xml-get-children (assq 'FileInfo (cdr file-node)) 'Attr))
+      (when (equal (xml-get-attribute attr 'Name) "Library")
+        (setq lib  (xml-get-attribute attr 'Val))
+        (setf lib-list (hog-append-to-library lib-list lib src-file)))))
   lib-list)
 
 (defun hog-parse-project-xml (project)
@@ -110,12 +110,9 @@
     (when (eq lib nil)
       (setf src-list (append src-list (list (list lib-name (list)))))
       ;;(print src-list)
-      (setq lib (assoc lib-name src-list))
-      )
-    (setf (cadr lib) (append (cadr lib) (list file-name) ))
-    )
-  src-list
-  )
+      (setq lib (assoc lib-name src-list)))
+    (setf (cadr lib) (append (cadr lib) (list file-name) )))
+  src-list)
 
 ;;------------------------------------------------------------------------------
 ;; VHDL Tool Config Generation
@@ -154,9 +151,7 @@
           ))))
 
 (defun hog-vhdl-tool-walk-preferences (prefs)
-  (let ((text "")
-        (pad "    ")
-        )
+  (let ((text "") (pad "    "))
     (dolist (category prefs)
       (setq text (concat text (format "%s:\n" (car category))))
       (dolist (pref (cdr category))
@@ -200,4 +195,4 @@
     (setq yaml (concat yaml (hog-vhdl-tool-parse-libs (hog-parse-project-xml project))))
     (setq yaml (concat yaml (hog-vhdl-tool-walk-preferences hog-vhdl-tool-preferences)))
     (shell-command (format "echo '%s' > %svhdltool-config.yaml" yaml (projectile-project-root)))
-  ))
+    ))
