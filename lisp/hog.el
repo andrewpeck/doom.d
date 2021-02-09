@@ -96,14 +96,19 @@
 (defun hog-parse-project-xml (project)
   (hog-parse-vivado-xml (hog-get-project-xml project)))
 
-(setq hog-ieee-library '("ieee" (
-                              "/usr/local/lib/ghdl/src/synopsys/*.vhdl"
-                              "/usr/local/lib/ghdl/src/std/v08/*.vhdl"
-                              "/usr/local/lib/ghdl/src/ieee2008/*.vhdl"
-                              "/usr/lib/ghdl/src/synopsys/*.vhdl"
-                              "/usr/lib/ghdl/src/std/v08/*.vhdl"
-                              "/usr/lib/ghdl/src/ieee2008/*.vhdl"
-                              )))
+(setq hog-ieee-library
+      '("ieee" (
+                "/usr/local/lib/ghdl/src/synopsys/*.vhdl"
+                "/usr/local/lib/ghdl/src/std/v08/*.vhdl"
+                "/usr/local/lib/ghdl/src/ieee2008/*.vhdl"
+                "/usr/lib/ghdl/src/synopsys/*.vhdl"
+                "/usr/lib/ghdl/src/std/v08/*.vhdl"
+                "/usr/lib/ghdl/src/ieee2008/*.vhdl")))
+
+(setq hog-unisim-library
+      `("unisim" (
+                  ,(format "%sdata/vhdl/src/unisims/unisim_VCOMP.vhd"
+                           (file-name-directory hog-vivado-path)))))
 
 (defun hog-append-to-library (src-list lib-name file-name)
   (let ((lib (assoc lib-name src-list)))
@@ -178,6 +183,7 @@
 (defun hog-vhdl-tool-parse-libs (libraries)
   (let ((text "Libraries:\n"))
     (setq libraries (append libraries (list hog-ieee-library)))
+    (setq libraries (append libraries (list hog-unisim-library)))
     (dolist (library libraries)
       ;;(concat text (hog-vhdl-tool-lib-to-string library))
       ;;(print (concat text (hog-vhdl-tool-lib-to-string library)))
