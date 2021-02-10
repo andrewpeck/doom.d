@@ -231,85 +231,79 @@
 ;; Git Gutter
 ;;------------------------------------------------------------------------------
 
-(after! git-gutter-fringe
+(after! fringe-helper
   (fringe-mode 9)
   (fringe-helper-define 'git-gutter-fr:added nil
-                        "....X...."
-                        "....X...."
-                        "....X...."
-                        "....X...."
-                        "XXXXXXXXX"
-                        "....X...."
-                        "....X...."
-                        "....X....")
+    "....X...."
+    "....X...."
+    "....X...."
+    "....X...."
+    "XXXXXXXXX"
+    "....X...."
+    "....X...."
+    "....X....")
 
   (fringe-helper-define 'git-gutter-fr:deleted nil
-                        "........."
-                        "........."
-                        "........."
-                        "..XXXXXX."
-                        "........."
-                        "........."
-                        "........."
-                        ".........")
+    "........."
+    "........."
+    "........."
+    "..XXXXXX."
+    "........."
+    "........."
+    "........."
+    ".........")
 
   (fringe-helper-define 'git-gutter-fr:modified nil
-                        "........."
-                        "...X....."
-                        "...XXX..."
-                        "...XXXX.."
-                        "...XXXXX."
-                        "...XXXX.."
-                        "...XXX..."
-                        "...X.....")
+    "........."
+    "...X....."
+    "...XXX..."
+    "...XXXX.."
+    "...XXXXX."
+    "...XXXX.."
+    "...XXX..."
+    "...X.....")
   )
 
 
 ;;------------------------------------------------------------------------------
-;; Rainbow Delimeters
+;;;;; Rainbow Delimeters
 ;;------------------------------------------------------------------------------
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;;------------------------------------------------------------------------------
-;; Outline Moode
+;;;;; Outline Moode
 ;;------------------------------------------------------------------------------
 
-;;;;;;; Clean code folding via Outline minor mode.
-;;;;;(add-hook 'latex-mode-hook 'outline-minor-mode)
+;;;; Clean code folding via Outline minor mode.
+;;(add-hook 'latex-mode-hook 'outline-minor-mode)
 
-;;;;;;; Show all headings but no content in Outline mode.
-;;;;;(add-hook 'outline-minor-mode-hook
-;;;;;          (defun baba/outline-overview ()
-;;;;;            "Show only outline headings."
-;;;;;            (outline-show-all)
-;;;;;            (outline-hide-body)))
-;;;;;
-;;;;;;; TODO: useful things here
-;;;;;;; https://www.reddit.com/r/emacs/comments/e2u5n9/code_folding_with_outlineminormode/
-;;;;;
-;;;;;;; Customize the distracting folding markers.
-;;;;;(after! outline-mode
-;;;;;  (set-display-table-slot
-;;;;;   standard-display-table
-;;;;;   'selective-display
-;;;;;   (let ((face-offset (* (face-id 'shadow) (lsh 1 22))))
-;;;;;     (vconcat (mapcar (lambda (c) (+ face-offset c)) " +"))))
-;;;;;  )
+;; Show all headings but no content in Outline mode.
+;;(add-hook 'outline-minor-mode-hook
+;;          (defun baba/outline-overview ()
+;;            "Show only outline headings."
+;;            (outline-show-all)
+;;            (outline-hide-body)))
+;;
+;; TODO: useful things here
+;; https://www.reddit.com/r/emacs/comments/e2u5n9/code_folding_with_outlineminormode/
+;;
+;; Customize the distracting folding markers.
+;;(after! outline-mode
+;;  (set-display-table-slot
+;;   standard-display-table
+;;   'selective-display
+;;   (let ((face-offset (* (face-id 'shadow) (lsh 1 22))))
+;;     (vconcat (mapcar (lambda (c) (+ face-offset c)) " +"))))
+;;  )
 
 ;;------------------------------------------------------------------------------
 ;; Mixed Pitch Mode
 ;;------------------------------------------------------------------------------
 
-(after! org
-  (add-hook 'org-mode-hook      #'mixed-pitch-mode)
-  )
-(after! markdown
-  (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
-  )
-(after! latex
-  (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
-  )
+(add-hook 'org-mode-hook      #'mixed-pitch-mode)
+(add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+(add-hook 'latex-mode-hook    #'mixed-pitch-mode)
 
 ;;------------------------------------------------------------------------------
 ;; FONT
