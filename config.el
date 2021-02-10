@@ -352,7 +352,7 @@
   (add-hook 'after-init-hook 'global-company-mode)
 
   ;; company settings
-  (setq company-minimum-prefix-length 1)
+  (setq company-minimum-prefix-length 2)
   (setq company-auto-commit nil)
   (setq company-idle-delay 0.2)
   (setq company-require-match 'never)
@@ -370,8 +370,11 @@
                                              company-keywords company-capf company-dabbrev-code
                                              company-etags company-dabbrev))))
 
-  (set-company-backend! 'org-mode '(company-yasnippet company-tabnine
-                                    company-files company-keywords company-capf))
+  (set-company-backend! 'org-mode '(company-yasnippet
+                                    company-capf
+                                    company-files
+                                    company-keywords
+                                    ))
 
   (set-company-backend! '(prog-mode tcl-mode python-mode vhdl-mode)
     '(company-yasnippet company-keywords company-capf company-files
