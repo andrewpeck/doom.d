@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: slvo
+# name: std_logic_vector output
 # key: slvo
 # --
 ${1:name} : out std_logic_vector (${2:hi} downto ${3:lo});

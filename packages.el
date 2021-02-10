@@ -97,6 +97,7 @@
 (package! rainbow-mode)
 (package! slime)
 (package! solarized-theme)
+(package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
 (package! toc-org)
 (package! vimrc-mode)
 (package! visual-fill-column)

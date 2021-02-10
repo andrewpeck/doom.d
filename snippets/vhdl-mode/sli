@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: sli
+# name: std_logic input
 # key: sli
 # --
 ${1:name} : in std_logic;

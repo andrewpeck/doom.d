@@ -6,11 +6,16 @@
 ;;
 ;; Tecosaur: https://github.com/tecosaur/emacs-config/blob/master/config.org
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; to sort
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(map! :n [mouse-8] #'better-jumper-jump-backward
-      :n [mouse-9] #'better-jumper-jump-forward)
+;;------------------------------------------------------------------------------
+;;;;; to sort
+;;------------------------------------------------------------------------------
+
+(load  "~/.doom.d/lisp/hog.el")
+(load  "~/.doom.d/lisp/system-install.el")
+
+(map! :n [mouse-8] #'previous-buffer
+      :n [mouse-9] #'next-buffer
+      )
 
 (setq-default
  delete-by-moving-to-trash t                      ; Delete files to trash
@@ -27,8 +32,8 @@
 (global-subword-mode 1)                           ; Iterate through CamelCase words
 ;; (modify-syntax-entry ?_ "w")                    ; Treat underscore as part of a word to match vim behavior
 
-;;;;; ;; Ivy fuzzy search enable
-;;;;; (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+;; Ivy fuzzy search enable
+;; (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
 
 ;; better dired soring
 (after! dired
@@ -41,11 +46,11 @@
 ;; persistent undo
 (after! undo
   (setq undo-tree-auto-save-history t)
-)
+  )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Random
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;; WINDOW TITLE :: https://www.emacswiki.org/emacs/FrameTitle
 (setq frame-title-format
@@ -84,9 +89,9 @@
 (setq smartparens-mode nil)
 (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Magit
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
+;;;;; Magit
+;;------------------------------------------------------------------------------
 
 (after! browse-at-remote
   (add-to-list 'browse-at-remote-remote-type-domains '("gitlab.cern.ch" . "gitlab"))
@@ -98,18 +103,18 @@
   ;;(setq magit-repository-directories '(("~/" . 1)))
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; SLIME
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;; slime
 ;;(after! slime
 ;;  (setq inferior-lisp-program "sbcl")
 ;;  (setq org-babel-lisp-eval-fn 'slime-eval))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Spell-Checking
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 (after! writegood
   (writegood-passive-voice-turn-off)
@@ -132,9 +137,9 @@
   (define-key evil-normal-state-map "z=" 'ispell-word)
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Snippets
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;; Don't add newlines to snippet endings
 (after! yasnippet
@@ -146,17 +151,17 @@
             )
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Projectile
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 (after! projectile
   (setq projectile-sort-order 'recently-active)
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Appearance
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 
 (after! highlight-indent-guides
@@ -183,8 +188,9 @@
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
 (cond
- ((string= (system-name) "larry")  (setq doom-theme 'doom-one))
+ ((string= (system-name) "larry")  (setq doom-theme 'doom-vibrant))
  ((string= (system-name) "pepper") (setq doom-theme 'doom-gruvbox))
+ ;;((string= (system-name) "pepper") (setq doom-theme 'leuven-summerfruit))
  (t (setq doom-theme 'leuven-summerfruit)))
 
 (defun ap/toggle-theme ()
@@ -225,85 +231,79 @@
 ;; Git Gutter
 ;;------------------------------------------------------------------------------
 
-(after! git-gutter-fringe
+(after! fringe-helper
   (fringe-mode 9)
   (fringe-helper-define 'git-gutter-fr:added nil
-                        "....X...."
-                        "....X...."
-                        "....X...."
-                        "....X...."
-                        "XXXXXXXXX"
-                        "....X...."
-                        "....X...."
-                        "....X....")
+    "....X...."
+    "....X...."
+    "....X...."
+    "....X...."
+    "XXXXXXXXX"
+    "....X...."
+    "....X...."
+    "....X....")
 
   (fringe-helper-define 'git-gutter-fr:deleted nil
-                        "........."
-                        "........."
-                        "........."
-                        "..XXXXXX."
-                        "........."
-                        "........."
-                        "........."
-                        ".........")
+    "........."
+    "........."
+    "........."
+    "..XXXXXX."
+    "........."
+    "........."
+    "........."
+    ".........")
 
   (fringe-helper-define 'git-gutter-fr:modified nil
-                        "........."
-                        "...X....."
-                        "...XXX..."
-                        "...XXXX.."
-                        "...XXXXX."
-                        "...XXXX.."
-                        "...XXX..."
-                        "...X.....")
+    "........."
+    "...X....."
+    "...XXX..."
+    "...XXXX.."
+    "...XXXXX."
+    "...XXXX.."
+    "...XXX..."
+    "...X.....")
   )
 
 
 ;;------------------------------------------------------------------------------
-;; Rainbow Delimeters
+;;;;; Rainbow Delimeters
 ;;------------------------------------------------------------------------------
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;;------------------------------------------------------------------------------
-;; Outline Moode
+;;;;; Outline Moode
 ;;------------------------------------------------------------------------------
 
-;;;;;;; Clean code folding via Outline minor mode.
-;;;;;(add-hook 'latex-mode-hook 'outline-minor-mode)
+;;;; Clean code folding via Outline minor mode.
+;;(add-hook 'latex-mode-hook 'outline-minor-mode)
 
-;;;;;;; Show all headings but no content in Outline mode.
-;;;;;(add-hook 'outline-minor-mode-hook
-;;;;;          (defun baba/outline-overview ()
-;;;;;            "Show only outline headings."
-;;;;;            (outline-show-all)
-;;;;;            (outline-hide-body)))
-;;;;;
-;;;;;;; TODO: useful things here
-;;;;;;; https://www.reddit.com/r/emacs/comments/e2u5n9/code_folding_with_outlineminormode/
-;;;;;
-;;;;;;; Customize the distracting folding markers.
-;;;;;(after! outline-mode
-;;;;;  (set-display-table-slot
-;;;;;   standard-display-table
-;;;;;   'selective-display
-;;;;;   (let ((face-offset (* (face-id 'shadow) (lsh 1 22))))
-;;;;;     (vconcat (mapcar (lambda (c) (+ face-offset c)) " +"))))
-;;;;;  )
+;; Show all headings but no content in Outline mode.
+;;(add-hook 'outline-minor-mode-hook
+;;          (defun baba/outline-overview ()
+;;            "Show only outline headings."
+;;            (outline-show-all)
+;;            (outline-hide-body)))
+;;
+;; TODO: useful things here
+;; https://www.reddit.com/r/emacs/comments/e2u5n9/code_folding_with_outlineminormode/
+;;
+;; Customize the distracting folding markers.
+;;(after! outline-mode
+;;  (set-display-table-slot
+;;   standard-display-table
+;;   'selective-display
+;;   (let ((face-offset (* (face-id 'shadow) (lsh 1 22))))
+;;     (vconcat (mapcar (lambda (c) (+ face-offset c)) " +"))))
+;;  )
 
 ;;------------------------------------------------------------------------------
 ;; Mixed Pitch Mode
 ;;------------------------------------------------------------------------------
 
-(after! org
-  (add-hook 'org-mode-hook      #'mixed-pitch-mode)
-  )
-(after! markdown
-  (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
-  )
-(after! latex
-  (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
-  )
+(add-hook 'org-mode-hook      #'mixed-pitch-mode)
+(add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+(add-hook 'latex-mode-hook    #'mixed-pitch-mode)
 
 ;;------------------------------------------------------------------------------
 ;; FONT
@@ -346,7 +346,7 @@
   (add-hook 'after-init-hook 'global-company-mode)
 
   ;; company settings
-  (setq company-minimum-prefix-length 1)
+  (setq company-minimum-prefix-length 2)
   (setq company-auto-commit nil)
   (setq company-idle-delay 0.2)
   (setq company-require-match 'never)
@@ -364,8 +364,11 @@
                                              company-keywords company-capf company-dabbrev-code
                                              company-etags company-dabbrev))))
 
-  (set-company-backend! 'org-mode '(company-yasnippet company-tabnine
-                                    company-files company-keywords company-capf))
+  (set-company-backend! 'org-mode '(company-yasnippet
+                                    company-capf
+                                    company-files
+                                    company-keywords
+                                    ))
 
   (set-company-backend! '(prog-mode tcl-mode python-mode vhdl-mode)
     '(company-yasnippet company-keywords company-capf company-files
@@ -655,9 +658,9 @@
 (add-hook 'python-mode-hook #'my/highlight-false)
 (add-hook 'python-mode-hook #'my/highlight-true)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; VHDL Mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;; vhdl mode will wrap comments after some # of characters
 (after! vhdl
@@ -698,11 +701,9 @@
   (setq-default lsp-ui-doc-delay 0.1)
   )
 
-(after! irony
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-  )
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
 (after! lsp
 
@@ -743,12 +744,14 @@
 ;;
 ;; (add-to-list 'flycheck-checkers 'vhdl-tool)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Org Mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;; Latex Export
 (after! org
+  (setq org-return-follows-links t)
+
   (setq user-full-name "A.P.")
   (with-eval-after-load 'ox-latex
     (add-to-list 'org-latex-classes
@@ -1107,9 +1110,9 @@
         )
               )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; IELM
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;; remember ielm history
 ;; global copy of the buffer-local variable
@@ -1134,9 +1137,9 @@
   (add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring)
 )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; TeX
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 (after! tex
   (setq reftex-toc-split-windows-horizontally t)
@@ -1147,9 +1150,9 @@
                                     (define-key reftex-toc-mode-map (kbd "<return>") 'reftex-toc-goto-line)))
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; XML
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 (after! nxml
   (add-hook 'nxml-mode-hook
@@ -1157,17 +1160,17 @@
             )
 )
 
-;;;;; (add-hook 'nxml-mode-hook (lambda () (visual-fill-column-mode -1)))
-;;;;; (defun nxml-pretty-format ()
-;;;;;   (interactive)
-;;;;;   (save-excursion
-;;;;;     (shell-command-on-region (point-min) (point-max) "xmllint --format -" (buffer-name) t)
-;;;;;     (nxml-mode)
-;;;;;     (indent-region begin end)))
+;; (add-hook 'nxml-mode-hook (lambda () (visual-fill-column-mode -1)))
+;; (defun nxml-pretty-format ()
+;;   (interactive)
+;;   (save-excursion
+;;     (shell-command-on-region (point-min) (point-max) "xmllint --format -" (buffer-name) t)
+;;     (nxml-mode)
+;;     (indent-region begin end)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Semantic Linefeeds
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;; https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
 (defun ap/line-fill-paragraph (&optional P)
@@ -1223,9 +1226,9 @@
        'electric-space
      'self-insert-command)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; Markdown
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;; (add-hook 'markdown-mode-hook (lambda () (visual-fill-column-mode -1)))
 
@@ -1235,11 +1238,11 @@
   (setq initial-major-mode 'gfm-mode)
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; "Recycle Bin"
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
-;;; Scrolling.
+;; Scrolling.
 ;; Good speed and allow scrolling through large images (pixel-scroll).
 ;; Note: Scroll lags when point must be moved but increasing the number
 ;;       of lines that point moves in pixel-scroll.el ruins large image
@@ -1263,16 +1266,16 @@
 
 
 
-;;;;; (setq speedbar-show-unknown-files t) ; show all files
-;;;;; (setq speedbar-use-images nil) ; use text for buttons
-;;;;;                                         ;(setq sr-speedbar-right-side nil) ; put on left side
+;; (setq speedbar-show-unknown-files t) ; show all files
+;; (setq speedbar-use-images nil) ; use text for buttons
+;;                                         ;(setq sr-speedbar-right-side nil) ; put on left side
 
 
-;;;;; ;; active Babel languages
-;;;;; (org-babel-do-load-languages
-;;;;;  'org-babel-load-languages
-;;;;;  '((gnuplot . t)))
-;;;;; ;; add additional languages with '((language . t)))
+;; ;; active Babel languages
+;; (org-babel-do-load-languages
+;;  'org-babel-load-languages
+;;  '((gnuplot . t)))
+;; ;; add additional languages with '((language . t)))
 
 ;; port this to xclip....
 ;; (defun formatted-copy ()
@@ -1302,9 +1305,9 @@
 ;;                            ;;(push '("<=" . "⇐") prettify-symbols-alist)
 ;;                            (prettify-symbols-mode)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 ;; mu4e
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;------------------------------------------------------------------------------
 
 ;;;;;(after! mu4e
 ;;;;;  (setq mail-user-agent 'mu4e-user-agent)
