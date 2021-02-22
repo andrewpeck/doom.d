@@ -150,7 +150,7 @@
            (when (consp word)
              (flyspell-do-correct 'save nil
                                   (car word) current-location (cadr word) (caddr word) current-location))))
-)
+  )
 
 (after! evil
   ;;(define-key evil-normal-state-map "zg" 'spell-fu-word-add)
@@ -184,7 +184,6 @@
 ;;------------------------------------------------------------------------------
 ;; Appearance
 ;;------------------------------------------------------------------------------
-
 
 (after! highlight-indent-guides
   ;;(setq highlight-indent-guides-auto-enabled nil)
