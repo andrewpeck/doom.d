@@ -16,6 +16,13 @@
 
 (load  "~/.doom.d/lisp/hog.el")
 (load  "~/.doom.d/lisp/system-install.el")
+;; save macros and other registers peristently
+(after! savehist
+  (add-to-list 'savehist-additional-variables 'register-alist)
+  (add-hook! 'savehist-save-hook
+    (defun doom-clean-up-registers-h ()
+      (setq-local register-alist (cl-remove-if-not #'savehist-printable register-alist)))))
+
 
 (map! :n [mouse-8] #'previous-buffer
       :n [mouse-9] #'next-buffer
