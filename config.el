@@ -593,6 +593,8 @@
   ;; unbind annoying emacs bindings
   (define-key evil-normal-state-map "\C-p" nil)
   (define-key evil-normal-state-map "\C-d" nil)
+  (global-set-key (kbd "M-<left>") nil)
+  (global-set-key (kbd "M-<right>") nil)
   (global-set-key (kbd "M-`") nil)
 
 
