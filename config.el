@@ -14,8 +14,6 @@
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
 
-(load  "~/.doom.d/lisp/hog.el")
-(load  "~/.doom.d/lisp/system-install.el")
 ;; save macros and other registers peristently
 (after! savehist
   (add-to-list 'savehist-additional-variables 'register-alist)
@@ -35,6 +33,8 @@
 ;;      tramp-encoding-shell  "/bin/bash"
 ;;      tramp-default-remote-shell  "/bin/bash")
 
+;;(load  "~/.doom.d/lisp/system-install.el")
+;;(load  "~/.doom.d/lisp/tracking.el")
 
 (map! :n [mouse-8] #'previous-buffer
       :n [mouse-9] #'next-buffer
