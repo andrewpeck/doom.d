@@ -833,9 +833,9 @@
 
   ;; Latex Previews
   (after! org
-        (setq org-preview-latex-default-process 'dvisvgm)
-        (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
-  )
+    (setq org-preview-latex-default-process 'dvisvgm)
+    (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+    )
 
   ;; Toggle Displays
   (setq org-startup-folded 'f)
