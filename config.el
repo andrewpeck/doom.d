@@ -221,8 +221,8 @@
       ( progn
         (setq highlight-indent-guides-auto-enabled nil)
         (setq highlight-indent-guides-responsive "stack")
-        (setq doom-theme 'doom-one)
-        (load-theme 'doom-one t)
+        (setq doom-theme 'doom-gruvbox)
+        (load-theme 'doom-gruvbox t)
         (set-face-foreground 'highlight-indent-guides-character-face "#375c3c644822")
         )
     ( progn
