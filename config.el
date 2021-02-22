@@ -943,7 +943,7 @@
 
 (after! org-download
 
-;; Drag-and-drop to `dired`
+  ;; Drag-and-drop to `dired`
   (add-hook 'dired-mode-hook 'org-download-enable)
 
   (setq org-download-image-dir "./images/screenshots")
@@ -1015,7 +1015,7 @@
 (after! elfeed
   (setq elfeed-feeds '(
                        "https://hackaday.com/blog/feed/"))
-)
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Org roam
@@ -1053,7 +1053,7 @@
 
            :unnarrowed t))
         )
-              )
+  )
 
 ;;------------------------------------------------------------------------------
 ;; IELM
@@ -1080,7 +1080,7 @@
 
   (require 'ielm)
   (add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring)
-)
+  )
 
 ;;------------------------------------------------------------------------------
 ;; TeX
@@ -1103,7 +1103,7 @@
   (add-hook 'nxml-mode-hook
             (setq nxml-child-indent 2 nxml-attribute-indent 2)
             )
-)
+  )
 
 ;; (add-hook 'nxml-mode-hook (lambda () (visual-fill-column-mode -1)))
 ;; (defun nxml-pretty-format ()
