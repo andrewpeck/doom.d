@@ -1158,7 +1158,7 @@
               (just-one-space) ;; leaves only one space, point is after it
               (delete-char -1) ;; delete the space
               (newline)        ;; and insert a newline
-              (LaTeX-indent-line) ;; I only use this in combination with late, so this makes sense
+              (evil-indent-line (line-beginning-position) (line-end-position))
               ))))
 
     ;; otherwise do ordinary fill paragraph
@@ -1175,10 +1175,10 @@
 
 (defun electric-space () ; Trying to get Emacs to do semantic linefeeds
   (interactive)
-  (if (looking-back (sentence-end))
+  (if (looking-back (sentence-end) nil)
       (insert "\n")
-       (self-insert-command 1))
-       )
+    (self-insert-command 1))
+  )
 
 (defvar electric-space-on-p nil)
 
