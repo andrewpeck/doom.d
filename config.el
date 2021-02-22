@@ -972,7 +972,7 @@
                 org-download-heading-lvl       0
                 org-download-link-format       "[[file:%s]]\n"
                 ;;org-download-image-attr-list   ("#+attr_org: :width 800px")
-                org-download-annotate-function (lambda (link) "")
+                org-download-annotate-function (lambda () "")
                 org-download-image-org-width   1000
                 )
   )
