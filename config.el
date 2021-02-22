@@ -250,6 +250,10 @@
 (add-to-list 'auto-mode-alist '("\\.src\\'" . tcl-mode))
 (add-to-list 'auto-mode-alist '("\\.con\\'" . tcl-mode))
 
+;; cpp mode for arduino files
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
+
+
 ;;------------------------------------------------------------------------------
 ;; Git Gutter
 ;;------------------------------------------------------------------------------
