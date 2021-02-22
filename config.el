@@ -1296,15 +1296,30 @@
 ;;;;;
 
 
-  ;;(defvar +company-backend-alist
-  ;;  '((text-mode company-yasnippet company-dabbrev  company-ispell)
-  ;;    (prog-mode company-yasnippet company-capf )
-  ;;    (conf-mode company-yasnippet company-capf company-dabbrev-code )))
+;;(defvar +company-backend-alist
+;;  '((text-mode company-yasnippet company-dabbrev  company-ispell)
+;;    (prog-mode company-yasnippet company-capf )
+;;    (conf-mode company-yasnippet company-capf company-dabbrev-code )))
 
-  ;;(set-company-backend! 'python-mode-hook '(company-yasnippet company-jedi
-  ;;                                       company-files
-  ;;                                      company-keywords company-capf company-dabbrev-code
-  ;;                                      company-etags company-dabbrev))
+;;(set-company-backend! 'python-mode-hook '(company-yasnippet company-jedi
+;;                                       company-files
+;;                                      company-keywords company-capf company-dabbrev-code
+;;                                      company-etags company-dabbrev))
+
+;;(setq company-frontends '(company-preview-if-just-one-frontend company-box-frontend company-echo-metadata-frontend))
+;;(setq company-frontends '(company-preview-if-just-one-frontend  company-echo-metadata-frontend))
+;;(setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
+;;(add-to-list 'company-backends 'company-irony)
+
+;;(define-key company-active-map (kbd "<return>") nil)
+;;(define-key company-active-map (kbd "<tab>") #'company-complete-selection )
+
+;;   (set-company-backend! '(company-tabnine company-yasnippet  company-files))
+;;                                         ;(set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
+;;   ;;(set-company-backend! '(tcl-mode) '(company-tabnine company-yasnippet))
+;;   (set-company-backend! '(prog-mode) '(company-tabnine company-yasnippet))
+;;   )
+
 ;;   ;; SciMax Org Return
 ;;   ;; http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/
 ;;   ;;(require 'org-inlinetask)
@@ -1373,18 +1388,7 @@
 ;;        (t
 ;;         (org-return)))))
 
-  ;;(setq company-frontends '(company-preview-if-just-one-frontend company-box-frontend company-echo-metadata-frontend))
-  ;;(setq company-frontends '(company-preview-if-just-one-frontend  company-echo-metadata-frontend))
-  ;;(setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
-  ;;(add-to-list 'company-backends 'company-irony)
 
-  ;;(define-key company-active-map (kbd "<return>") nil)
-  ;;(define-key company-active-map (kbd "<tab>") #'company-complete-selection )
 ;;(define-key org-mode-map (kbd "RET")
 ;;  'scimax/org-return)
 
-  ;;   (set-company-backend! '(company-tabnine company-yasnippet  company-files))
-  ;;                                         ;(set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
-  ;;   ;;(set-company-backend! '(tcl-mode) '(company-tabnine company-yasnippet))
-  ;;   (set-company-backend! '(prog-mode) '(company-tabnine company-yasnippet))
-  ;;   )
