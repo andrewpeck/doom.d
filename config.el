@@ -1196,6 +1196,11 @@
 ;;------------------------------------------------------------------------------
 
 ;; (add-hook 'markdown-mode-hook (lambda () (visual-fill-column-mode -1)))
+;;
+;;(use-package markdown-mode
+;;  :defer t
+;;  :init
+;;  (setq-default markdown-hide-markup t))
 
 ;; Make Fundamental Mode GFM by default
 (after! gfm
