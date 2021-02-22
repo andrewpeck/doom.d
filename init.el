@@ -113,6 +113,7 @@ CURRENT-NAME, if it does not already have them:
      (make-obsolete-variable ,obsolete-name ,current-name ,when)))
 
 (setq comp-deferred-compilation t)
+(setq evil-want-C-i-jump t)
 
 (doom! :input
   ;;chinese
