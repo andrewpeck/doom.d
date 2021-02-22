@@ -569,7 +569,7 @@
     (interactive "r")
     (align-regexp start end
                   "\\(\\s-*\\)\\\." 1 1 t))
-)
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Evil
@@ -1031,7 +1031,7 @@
         :desc "Org-Roam-Insert" "i" #'org-roam-insert
         :desc "Org-Roam-Find"   "/" #'org-roam-find-file
         :desc "Org-Roam-Buffer" "r" #'org-roam
-        :desc "Org-Roam-Show-Graph" "g" #'org-roam-show-graph
+        :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph
         )
 
                                         ;(setq org-roam-link-title-format "Org:%s")
