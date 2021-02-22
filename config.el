@@ -344,7 +344,8 @@
 
 (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
       doom-big-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17)
+      doom-variable-pitch-font (font-spec :family "IBM Plex Sans"   :size 17)
+      ;;doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17)
       doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
 
 ;; Disable auto fill mode in doom text modes
