@@ -699,28 +699,9 @@
 ;;------------------------------------------------------------------------------
 
 ;; vhdl mode will wrap comments after some # of characters
-(after! vhdl
-  (setq vhdl-end-comment-column 200)
-  (setq vhdl-prompt-for-comments nil)
-  (setq auto-fill-mode nil)
-)
-
-;;------------------------------------------------------------------------------
-;; VHDL Flycheck
-;;------------------------------------------------------------------------------
-
-;;;;;(after! flycheck
-;;;;;  (setq-default flycheck-ghdl-language-standard "08")
-;;;;;  (setq-default flycheck-ghdl-workdir           "~/ghdl")
-;;;;;  (setq-default flycheck-ghdl-ieee-library      "synopsys")
-;;;;;)
-
-;;------------------------------------------------------------------------------
-;; Xilinx
-;;------------------------------------------------------------------------------
-
-;; xpr to toml converter
-;; https://github.com/abyszuk/XPR-converter
+(setq vhdl-end-comment-column 200)
+(setq vhdl-prompt-for-comments nil)
+(setq auto-fill-mode nil)
 
 ;;------------------------------------------------------------------------------
 ;; LSP
