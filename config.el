@@ -644,6 +644,10 @@
   (define-key evil-motion-state-map (kbd "<tab>") nil)
   (setq org-return-follows-links t)
 
+  ;; Tab in normal mode shouldn't indent
+  (global-set-key (kbd "TAB") nil)
+  (define-key evil-insert-state-map (kbd "TAB") 'indent-for-tab-command)
+
   ;; Backspace to switch to last buffer
   (defun er-switch-to-previous-buffer ()
     "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
