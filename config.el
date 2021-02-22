@@ -187,8 +187,9 @@
 
 
 (after! highlight-indent-guides
-  (setq highlight-indent-guides-auto-enabled nil)
-  (setq highlight-indent-guides-responsive "stack")
+  ;;(setq highlight-indent-guides-auto-enabled nil)
+  (setq highlight-indent-guides-responsive nil)
+  (setq highlight-indent-guides-method 'bitmap)
   )
 
 ;; All the icons
