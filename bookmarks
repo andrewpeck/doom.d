@@ -1,0 +1,15 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("debian"
+ (filename . "/sshx:gapsrb23:/home/debian/")
+ (front-context-string)
+ (rear-context-string . "0:35 .wget-hsts\n")
+ (position . 1714))
+("etl_test_fw"
+ (filename . "/sshx:larry:/home/andrew/etl_test_fw/")
+ (front-context-string . "Projects\n  -rw-r")
+ (rear-context-string . "0K Feb  5 10:48 ")
+ (position . 1735))
+)
