@@ -23,6 +23,18 @@
     (defun doom-clean-up-registers-h ()
       (setq-local register-alist (cl-remove-if-not #'savehist-printable register-alist)))))
 
+(after! tramp
+  ;;(add-to-list 'tramp-remote-process-environment "ENV=/bin/bash")
+  ;;(add-to-list 'tramp-remote-process-environment "PATH=~/.dotfiles/vim/vim/pack/minpac/start/fzf/bin:$PATH")
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  )
+
+;;(setq explicit-shell-file-name "/bin/bash"
+;;      shell-file-name  "/bin/bash"
+;;      remote-shell-program  "/bin/bash"
+;;      tramp-encoding-shell  "/bin/bash"
+;;      tramp-default-remote-shell  "/bin/bash")
+
 
 (map! :n [mouse-8] #'previous-buffer
       :n [mouse-9] #'next-buffer
