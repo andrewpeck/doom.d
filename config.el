@@ -582,8 +582,6 @@
   ;; Make evil-mode up/down operate in screen lines instead of logical lines
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
   (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-
-  ;; Also in visual mode
   (define-key evil-visual-state-map "j" 'evil-next-visual-line)
   (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
@@ -640,9 +638,6 @@
   ;; let enter open org mode links
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") 'org-open-at-point)
-  (define-key evil-motion-state-map (kbd "TAB") nil)
-  (define-key evil-motion-state-map (kbd "<tab>") nil)
-  (setq org-return-follows-links t)
 
   ;; Tab in normal mode shouldn't indent
   (global-set-key (kbd "TAB") nil)
