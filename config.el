@@ -734,7 +734,7 @@
   ;; VHDL Tool
   (setq lsp-vhdl-server 'vhdl-tool)
   (setq lsp-vhdl-server-path "~/bin/vhdl-tool")
-)
+  )
 
 
 ;; HDL Checker
@@ -806,7 +806,7 @@
                    ("\\subparagraph{%s}"  . "\\subparagraph*{%s}"))
                  )
     )
-)
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Appearance
@@ -820,8 +820,8 @@
 
   (add-to-list 'load-path "~/Dropbox/org")
 
-  ;(mapc 'load
-  ;      '("org-sync" "org-sync-bb" "org-sync-github" "org-sync-gitlab"))
+  ;;(mapc 'load
+  ;;      '("org-sync" "org-sync-bb" "org-sync-github" "org-sync-gitlab"))
 
   (defun sort-all-org-entries ()
     (interactive)
@@ -874,7 +874,7 @@
 ;; Notes
 ;;------------------------------------------------------------------------------
 
-;(set-time-zone-rule "GMT-4")
+;;(set-time-zone-rule "GMT-4")
 
 (after! org
 
@@ -911,13 +911,13 @@
   ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
   ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
   (setq org-capture-templates '(
-          ("t" "TODO" entry (file+headline +org-capture-todo-file "To do")
-           "** TODO %?" :prepend t)
-          ("a" "Appointment" entry (file  "~/Dropbox/org/gcal-peck.org" )
-           "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-          ("s" "Shopping" item (file+headline +org-capture-todo-file "Shopping")
-           "- [ ] %?" :prepend t)
-          ))
+                                ("t" "TODO" entry (file+headline +org-capture-todo-file "To do")
+                                 "** TODO %?" :prepend t)
+                                ("a" "Appointment" entry (file  "~/Dropbox/org/gcal-peck.org" )
+                                 "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+                                ("s" "Shopping" item (file+headline +org-capture-todo-file "Shopping")
+                                 "- [ ] %?" :prepend t)
+                                ))
 
   ;;
   (add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
