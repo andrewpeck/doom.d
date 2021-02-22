@@ -6,6 +6,10 @@
 ;;
 ;; Tecosaur: https://github.com/tecosaur/emacs-config/blob/master/config.org
 
+;; Bookmarks
+
+(setq bookmark-default-file "~/.doom.d/bookmarks")
+
 ;;------------------------------------------------------------------------------
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
