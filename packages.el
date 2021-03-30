@@ -72,7 +72,6 @@
 (package! esup)
 (package! etags-table)
 (package! evil-leader)
-(package! evil-magit)
 (package! evil-numbers)
 (package! flycheck-clang-tidy)
 (package! flymake-json)
@@ -99,8 +98,6 @@
 (package! scad-mode)
 (package! pcre2el)
 (package! pdf-tools)
-(package! rainbow-mode)
-(package! slime)
 (package! solarized-theme)
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
 (package! toc-org)
@@ -109,8 +106,11 @@
 (package! vivado-mode :recipe (:host github :repo "ashtonchase/vivado_mode"))
 (package! yaml-mode)
 (package! zaiste-theme :recipe (:host github :repo "zaiste/zaiste-emacs-theme"))
+
 ;;(package! vterm)
 ;(package! fzf :recipe (:host github :repo "seenaburns/fzf.el"))
 ;(package! leuven-theme)
 ;;(package! fira-code-mode)
 ;;(package! theme-changer :recipe (:host github :repo "hadronzoo/theme-changer"))
+
+;;(package! rainbow-mode) ;; included in rgb package
