@@ -2,7 +2,27 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("debian"
+(("drs-firmware-master"
+ (filename . "/sshx:larry:/home/andrew/drs-firmware-master/")
+ (front-context-string)
+ (rear-context-string . "0K Jan 16 20:13 ")
+ (position . 1770))
+("0xbefe"
+ (filename . "/sshx:larry:/home/andrew/0xbefe/")
+ (front-context-string . "Top\n  -rw-r--r--")
+ (rear-context-string . "0K Feb  5 13:52 ")
+ (position . 1365))
+("drs-readout-firmware"
+ (filename . "/sshx:larry:/home/andrew/drs-readout-firmware/")
+ (front-context-string . "drs\n  -rw-r--r--")
+ (rear-context-string . "0K Nov 25 14:45 ")
+ (position . 306))
+("l0mdt-hdl-design"
+ (filename . "/sshx:larry:/home/andrew/l0mdt-hdl-design/")
+ (front-context-string . "Top\n  drwxr-xr-x")
+ (rear-context-string . "0K Feb 19 10:30 ")
+ (position . 3195))
+("debian"
  (filename . "/sshx:gapsrb23:/home/debian/")
  (front-context-string)
  (rear-context-string . "0:35 .wget-hsts\n")
