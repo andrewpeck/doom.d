@@ -114,7 +114,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
 
           ;; code block
           (code-block                    `(:foreground ,sf-black :background "#efefef" :extend t))
-          (code-inline                   `(:foreground ,sf-black :background "#efefef" :extend t))
+          ;;(code-inline                   `(:foreground ,sf-black :background "#efefef" :extend t))
+          (code-inline                   `(:foreground ,sf-orange :background "#ffffff" :extend t))
 
           ;;
           (column                        `(:height 1.0 :weight normal :slant normal :underline nil :strike-through nil :foreground "#e6ad4f" :background "#fff2de"))
@@ -496,7 +497,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(cfw:face-saturday               ((t (:foreground "#4e4e4e" :background ,sf-white :weight bold))))
        `(cfw:face-select                 ((t (:foreground "#4a95eb" :background "#edf1fa"))))
        `(cfw:face-sunday                 ((t (:foreground "#4e4e4e" :background ,sf-white :weight bold))))
-       `(cfw:face-title                  ((t (:height 2.0 :foreground "#676767" :weight bold :inherit variable-pitch))))
+       `(cfw:face-title                  ((t (:height 1.0 :foreground "#676767" :weight bold :inherit variable-pitch))))
        `(cfw:face-today                  ((t (:foreground "#4f4a3d" :background "#ffffcc"))))
        `(cfw:face-today-title            ((t (:foreground ,sf-white :background "#1766b1"))))
        `(cfw:face-toolbar                ((t (:background ,sf-white))))
@@ -570,7 +571,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(custom-state ((t (:foreground "green4"))))
        `(custom-themed ((t (:foreground ,sf-white :background "blue1"))))
        `(custom-variable-button ((t (:weight bold :underline t))))
-       `(custom-variable-tag ((t (:family "Sans Serif" :height 1.2 :weight bold :foreground "blue1"))))
+       `(custom-variable-tag ((t (:family "Sans Serif" :height 1.0 :weight bold :foreground "blue1"))))
        `(custom-visibility ((t ,link)))
 
        ;; diff
@@ -957,7 +958,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(org-mode-line-clock-overrun ((t (:weight bold :box (:line-width 1 :color "#335ea8") :foreground ,sf-white :background "#ff4040"))))
        `(org-number-of-items         ((t (:weight bold :foreground ,sf-white :background "#79ba79"))))
        `(org-property-value          ((t (:foreground "#00a000"))))
-       `(org-quote                   ((t (:slant italic :foreground "dim gray" :background "#ffffe0"))))
+       `(org-quote                   ((t (:slant italic :extend t :foreground ,sf-black :background "#fefefe"))))
        `(org-scheduled               ((t (:foreground ,sf-black))))
        `(org-scheduled-previously    ((t (:foreground "#1466c6"))))
        `(org-scheduled-today         ((t (:weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
