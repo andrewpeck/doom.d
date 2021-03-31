@@ -388,6 +388,9 @@
   ;; turn on company
   (add-hook 'after-init-hook 'global-company-mode)
 
+  (define-key company-active-map (kbd "<tab>") nil)
+  (define-key company-active-map (kbd "<return>") #'company-complete-selection)
+
   ;; company settings
   (setq company-minimum-prefix-length 2)
   (setq company-auto-commit nil)
@@ -407,11 +410,22 @@
                                              company-keywords company-capf company-dabbrev-code
                                              company-etags company-dabbrev))))
 
-  (set-company-backend! 'org-mode '(company-yasnippet
-                                    company-capf
-                                    company-files
-                                    company-keywords
-                                    ))
+  ;; (set-company-backend! 'org-mode '(company-yasnippet
+  ;;                                   company-capf
+  ;;                                   company-files
+  ;;                                   company-keywords
+  ;;                                   ))
+
+  (set-company-backend!
+    '(text-mode
+      markdown-mode
+      org-mode
+      gfm-mode)
+    '(:seperate
+      company-files
+      company-yasnippet
+      company-ispell
+      ))
 
   (set-company-backend! '(prog-mode tcl-mode python-mode vhdl-mode)
     '(company-yasnippet company-keywords company-capf company-files
