@@ -231,6 +231,26 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(whitespace-tab           ((t ,tab)))
        `(whitespace-trailing      ((t ,trailing)))
 
+       ;;
+       ;; centaur-tabs
+       `(centaur-tabs-default ((t (:foreground ,sf-blue4 :background ,sf-white))))
+       `(centaur-tabs-unselected ((t (:foreground ,sf-blue4 :background ,sf-white))))
+       `(centaur-tabs-selected ((t (:foreground ,sf-blue4 :background ,sf-white))))
+       `(centaur-active-bar-face ((t (:foreground ,sf-blue4 :background ,sf-white))))
+       `(centaur-modified-marker-selected ((t (:foreground ,sf-blue4 :background ,sf-white))))
+       `(centaur-modified-marker-unselected ((t (:foreground ,sf-blue4 :background ,sf-white))))
+
+       ;; ((centaur-tabs-unselected &inherit tab-bar-tab-inactive))
+       ;; (centaur-tabs-selected-modified   :background bg :foreground teal)
+       ;; (centaur-tabs-unselected-modified :background bg-alt :foreground teal)
+       ;; (centaur-tabs-active-bar-face :background (if (bound-and-true-p -modeline-bright) modeline-bg highlight))
+       ;; (centaur-tabs-modified-marker-selected
+       ;;  :foreground (if (bound-and-true-p -modeline-bright) modeline-bg highlight)
+       ;;  :inherit 'centaur-tabs-selected)
+       ;; (centaur-tabs-modified-marker-unselected
+       ;;  :foreground (if (bound-and-true-p -modeline-bright) modeline-bg highlight)
+       ;;  :inherit 'centaur-tabs-unselected)
+
        ;; Mode line faces.
        `(mode-line           ((t (:box (:line-width 1 :color "#1a2f54") :foreground ,sf-white :background ,sf-blue6))))
        `(mode-line-inactive  ((t (:box (:line-width 1 :color "#4e4e4c") :foreground ,sf-white :background ,sf-lightgray))))
