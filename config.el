@@ -22,6 +22,9 @@
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
 
+(defvar hog-vivado-path "~/Xilinx/Vivado/2019.2/settings64.sh")
+(defvar hog-number-of-jobs 4)
+
 ;; save macros and other registers peristently
 (after! savehist
   (add-to-list 'savehist-additional-variables 'register-alist)
