@@ -218,8 +218,9 @@
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
 (cond
- ((string= (system-name) "larry")  (setq doom-theme 'doom-vibrant))
- ((string= (system-name) "pepper") (setq doom-theme 'doom-gruvbox))
+ ((string= (system-name) "strange") (setq doom-theme 'doom-material))
+ ((string= (system-name) "pepper")  (setq doom-theme 'doom-gruvbox))
+ ((string= (system-name) "larry")   (setq doom-theme 'doom-tomorrow-night))
  ;;((string= (system-name) "pepper") (setq doom-theme 'leuven-summerfruit))
  (t (setq doom-theme 'leuven-summerfruit)))
 
