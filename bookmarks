@@ -22,6 +22,11 @@
  (front-context-string . "Top\n  drwxr-xr-x")
  (rear-context-string . "0K Feb 19 10:30 ")
  (position . 3195))
+(("hog-emacs.el"
+ (filename . "~/.emacs.d/.local/straight/repos/hog-emacs/hog-emacs.el")
+ (front-context-string . ";;; hog-emacs.el")
+ (rear-context-string)
+ (position . 1))
 ("debian"
  (filename . "/sshx:gapsrb23:/home/debian/")
  (front-context-string)
