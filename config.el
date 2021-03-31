@@ -234,7 +234,7 @@
         (load-theme 'doom-gruvbox t)
         (set-face-foreground 'highlight-indent-guides-character-face "#375c3c644822")
         )
-    ( progn
+    (progn
       (setq highlight-indent-guides-auto-enabled nil)
       (setq highlight-indent-guides-responsive "stack")
       (setq doom-theme 'leuven-summerfruit)
