@@ -18,6 +18,13 @@
   (shell-command "chmod 600 ~/.ssh/authorized_keys")
 )
 
+;; For example, if you prefer double slashes // instead of slash-stars /* ... */
+;; in c-mode, insert below code into your ~/.emacs:
+(add-hook 'c-mode-common-hook
+  (lambda ()
+    ;; Preferred comment style
+    (setq comment-start "// " comment-end "")))
+
 ;;------------------------------------------------------------------------------
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
