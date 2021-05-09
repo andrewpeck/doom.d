@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: constant
+# key: const
+# --
+constant $1 : natural := $2;
