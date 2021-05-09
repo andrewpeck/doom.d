@@ -1201,7 +1201,8 @@
           (lambda () (define-key evil-normal-state-local-map (kbd "M-q") 'ap/line-fill-paragraph))
           )
 
-(evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
+(evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'fill-paragraph)
+;;(evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
 ;; (evil-define-minor-mode-key 'normal 'latex-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
 ;; (evil-define-minor-mode-key 'normal 'markdown-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
 ;; (evil-define-minor-mode-key 'normal 'org-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
