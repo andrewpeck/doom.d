@@ -754,6 +754,9 @@
 (add-hook 'c-mode-hook 'irony-mode)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
+(add-hook 'vhdl-mode-hook #'lsp)
+(add-hook 'vhdl-mode-hook #'lsp-ui-mode)
+
 (after! lsp
 
   (setq lsp-enabled-clients nil)
@@ -761,11 +764,12 @@
 
   (add-hook 'python-mode-hook #'lsp-mode)
   (add-hook 'python-mode-hook #'lsp-ui-mode)
-  (add-hook 'vhdl-mode-hook #'lsp)
-  (add-hook 'vhdl-mode-hook #'lsp-ui-mode)
+
   ;; VHDL Tool
-  (setq lsp-vhdl-server 'vhdl-tool)
-  (setq lsp-vhdl-server-path "~/bin/vhdl-tool")
+  ;;(setq lsp-vhdl-server 'vhdl-tool)
+  ;;(setq lsp-vhdl-server-path "~/bin/vhdl-tool")
+  (setq lsp-vhdl-server 'vhdl-ls)
+  (setq lsp-vhdl-server-path "~/bin/vhdl-lsp")
   )
 
 
