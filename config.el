@@ -102,7 +102,7 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Fill column width
-(setq-default fill-column 100)
+(setq-default fill-column 80)
 
 ;; Turn on menu bar
 (menu-bar-mode 1)
