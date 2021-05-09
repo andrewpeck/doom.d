@@ -18,6 +18,13 @@
   (shell-command "chmod 600 ~/.ssh/authorized_keys")
 )
 
+;; For example, if you prefer double slashes // instead of slash-stars /* ... */
+;; in c-mode, insert below code into your ~/.emacs:
+(add-hook 'c-mode-common-hook
+  (lambda ()
+    ;; Preferred comment style
+    (setq comment-start "// " comment-end "")))
+
 ;;------------------------------------------------------------------------------
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
@@ -95,7 +102,7 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Fill column width
-(setq-default fill-column 100)
+(setq-default fill-column 80)
 
 ;; Turn on menu bar
 (menu-bar-mode 1)
@@ -747,6 +754,9 @@
 (add-hook 'c-mode-hook 'irony-mode)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
+(add-hook 'vhdl-mode-hook #'lsp)
+(add-hook 'vhdl-mode-hook #'lsp-ui-mode)
+
 (after! lsp
 
   (setq lsp-enabled-clients nil)
@@ -754,11 +764,12 @@
 
   (add-hook 'python-mode-hook #'lsp-mode)
   (add-hook 'python-mode-hook #'lsp-ui-mode)
-  (add-hook 'vhdl-mode-hook #'lsp)
-  (add-hook 'vhdl-mode-hook #'lsp-ui-mode)
+
   ;; VHDL Tool
-  (setq lsp-vhdl-server 'vhdl-tool)
-  (setq lsp-vhdl-server-path "~/bin/vhdl-tool")
+  ;;(setq lsp-vhdl-server 'vhdl-tool)
+  ;;(setq lsp-vhdl-server-path "~/bin/vhdl-tool")
+  (setq lsp-vhdl-server 'vhdl-ls)
+  (setq lsp-vhdl-server-path "~/bin/vhdl-lsp")
   )
 
 
@@ -1190,7 +1201,8 @@
           (lambda () (define-key evil-normal-state-local-map (kbd "M-q") 'ap/line-fill-paragraph))
           )
 
-(evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
+(evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'fill-paragraph)
+;;(evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
 ;; (evil-define-minor-mode-key 'normal 'latex-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
 ;; (evil-define-minor-mode-key 'normal 'markdown-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
 ;; (evil-define-minor-mode-key 'normal 'org-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
