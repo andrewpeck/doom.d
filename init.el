@@ -14,9 +14,6 @@
 ;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
-
-
-
 ;; https://www.reddit.com/r/emacs/comments/kqb9s9/cannot_recompile_packagess_error_wrong_number_of/
 ;;
 (defun make-obsolete (obsolete-name current-name &optional when)
@@ -153,8 +150,6 @@
         ;;file-templates    ; auto-snippets for empty files
         fold                ; (nigh) universal code folding
         format              ; automated prettiness
-        ;;god               ; run Emacs commands without modifier keys
-        ;;lispy             ; vim for lisp, for people who don't like vim
         ;;multiple-cursors  ; editing in many places at once
         ;;objed             ; text object editing for the innocent
         ;;parinfer          ; turn lisp into python, sort of
@@ -190,14 +185,14 @@
         (eval +overlay)     ; run code, run (also, repls)
         ;;gist              ; interacting with github gists
         (lookup             ; helps you navigate your code and documentation
-        +docsets)          ; ...or in Dash docsets locally
+        +docsets)           ; ...or in Dash docsets locally
         lsp
         (magit +forge)      ; a git porcelain for Emacs
         make                ; run make tasks from Emacs
         ;;pass              ; password manager for nerds
         pdf                 ; pdf enhancements
         ;;prodigy           ; FIXME managing external services & code builders
-        rgb               ; creating color strings
+        rgb                 ; creating color strings
         ;;terraform         ; infrastructure as code
         ;;tmux              ; an API for interacting with tmux
         ;;upload            ; map local to remote projects via ssh/ftp
