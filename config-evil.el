@@ -1,18 +1,16 @@
 ;; -*- lexical-binding: t; -*-
 
-;;; Evil
+;; Evil
 ;;------------------------------------------------------------------------------
 
 (after! evil
+
   ;;(define-key evil-normal-state-map "zg" 'spell-fu-word-add)
   ;;(define-key evil-normal-state-map "zg" 'spell-fu-word-add)
   (define-key evil-normal-state-map "zg" #'my-save-word )
   (define-key evil-normal-state-map "z=" 'ispell-word)
-  )
 
-(after! evil
-
-  ;;;; Evil Bindings
+  ;; Evil Bindings
 
   (global-evil-leader-mode)
 
@@ -55,8 +53,8 @@
 
   ;; Ctrl + Alt + equal to re-indent buffer
   (after! evil
-    (define-key evil-normal-state-map (kbd "C-M-=") (kbd "mmgg=G`m")))
-
+    (define-key evil-normal-state-map (kbd "C-M-=")
+      (lambda () (interactive) (evil-indent  (point-min) (point-max)))))
 
   (defun ap/tab-fallthrough ()
     (interactive)
@@ -67,7 +65,7 @@
      (condition-case nil (evil-jump-item) (user-error nil))
      (progn
        (print "Outline Cycle")
-        (outline-cycle))
+       (outline-cycle))
      ))
 
   (define-key evil-normal-state-map (kbd "<C-tab>")
@@ -78,7 +76,7 @@
     (lambda () (interactive)
       (outline-hide-body)))
 
-  ;;;; Evil leader keys
+  ;; Evil leader keys
 
   (evil-leader/set-key "tt" 'doom/ivy-tasks)
   (evil-leader/set-key "x"  'counsel-M-x)
@@ -112,6 +110,8 @@
   (define-key evil-normal-state-map (kbd "DEL") 'er-switch-to-previous-buffer)
   (add-hook 'verilog-mode-hook (lambda() (local-unset-key [backspace])))
 
+  ;; Evil numbers
+
   (define-key evil-normal-state-map (kbd "C-a")   'evil-numbers/inc-at-pt)
   (define-key evil-normal-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt)
   (define-key evil-visual-state-map (kbd "C-a")   'evil-numbers/inc-at-pt-incremental)
@@ -133,7 +133,7 @@
   (evil-leader/set-key "bf" 'browse-file-directory)
   )
 
-;;; Evil Surround
+;; Evil Surround
 ;;------------------------------------------------------------------------------
 
 ;;(after! evil

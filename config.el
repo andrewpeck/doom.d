@@ -39,21 +39,11 @@
   (add-to-list 'savehist-additional-variables 'register-alist)
   (add-hook! 'savehist-save-hook
     (defun doom-clean-up-registers-h ()
-      (setq-local register-alist (cl-remove-if-not #'savehist-printable register-alist)))))
+      (setq-local register-alist
+                  (cl-remove-if-not #'savehist-printable register-alist)))))
 
 (after! tramp
-  ;;(add-to-list 'tramp-remote-process-environment
-  ;;    "ENV=/bin/bash")
-  ;;(add-to-list 'tramp-remote-process-environment
-  ;;    "PATH=~/.dotfiles/vim/vim/pack/minpac/start/fzf/bin:$PATH")
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
-
-;;(setq explicit-shell-file-name "/bin/bash"
-;;      shell-file-name  "/bin/bash"
-;;      remote-shell-program  "/bin/bash"
-;;      tramp-encoding-shell  "/bin/bash"
-;;      tramp-default-remote-shell  "/bin/bash")
-
 
 (map! :n [mouse-8] #'previous-buffer
       :n [mouse-9] #'next-buffer)
@@ -63,7 +53,6 @@
               x-stretch-cursor t)                 ; Stretch cursor to the glyph width
 
 (setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
-      ;;evil-want-fine-undo t                     ; By default while in insert all changes are one big blob. Be more granular
       auto-save-default t                         ; Nobody likes to loose work, I certainly don't
       truncate-string-ellipsis "…")               ; Unicode ellispis are nicer than "...", and also save /precious/ space
 
@@ -72,21 +61,16 @@
 (global-subword-mode 1)                           ; Iterate through CamelCase words
 ;; (modify-syntax-entry ?_ "w")                   ; Treat underscore as part of a word to match vim behavior
 
-;; Ivy fuzzy search enable
-;; (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-
 ;; better dired soring
 (after! dired
-  (setq dired-listing-switches "-a1vBhl  --group-directories-first")
-  )
+  (setq dired-listing-switches "-a1vBhl  --group-directories-first"))
 
 ;; add a margin while scrolling
-(setq scroll-margin 10)
+(setq scroll-margin 30)
 
 ;; persistent undo
 (after! undo
-  (setq undo-tree-auto-save-history t)
-  )
+  (setq undo-tree-auto-save-history t))
 
 ;; Bookmarks
 (setq bookmark-default-file "~/.doom.d/bookmarks")
@@ -158,7 +142,8 @@
          (let ((current-location (point)) (word (flyspell-get-word)))
            (when (consp word)
              (flyspell-do-correct 'save nil
-                                  (car word) current-location (cadr word) (caddr word) current-location)))))
+                                  (car word) current-location (cadr word)
+                                  (caddr word) current-location)))))
 
 ;;; Snippets
 ;;------------------------------------------------------------------------------
@@ -215,7 +200,9 @@
 ;; Syntax Highlighting
 ;;------------------------------------------------------------------------------
 
-(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode)) ;; enable syntax highlighting for vimrc files
+;; enable syntax highlighting for vimrc files
+(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+
 (add-to-list 'auto-mode-alist '("\\.xdc\\'" . tcl-mode)) ;; tcl mode for xdc files
 (add-to-list 'auto-mode-alist '("\\.src\\'" . tcl-mode)) ;; tcl mode for hog files
 (add-to-list 'auto-mode-alist '("\\.con\\'" . tcl-mode)) ;; tcl mode for hog files
@@ -246,12 +233,6 @@
 ;; Disable auto fill mode in text modes
 (remove-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
-
-;; (add-hook 'text-mode-hook      'ap/no-wrap)
-;; (add-hook 'prog-mode-hook      'ap/no-wrap)
-;; (add-hook 'org-mode-hook       'ap/no-wrap)
-;; (add-hook 'markdown-mode-hook  'ap/no-wrap)
-;; (add-hook 'nxml-mode-hook      'ap/no-wrap)
 
 ;;; True/False Faces
 ;;------------------------------------------------------------------------------
@@ -302,9 +283,8 @@
 
 (after! elfeed
   (setq
-   elfeed-feeds '(
-                  "https://hackaday.com/blog/feed/")))
-
+   elfeed-feeds
+   '("https://hackaday.com/blog/feed/")))
 
 ;;; IELM
 ;;------------------------------------------------------------------------------
@@ -345,7 +325,8 @@
 ;; (defun nxml-pretty-format ()
 ;;   (interactive)
 ;;   (save-excursion
-;;     (shell-command-on-region (point-min) (point-max) "xmllint --format -" (buffer-name) t)
+;;     (shell-command-on-region (point-min) (point-max)
+;;     "xmllint --format -" (buffer-name) t)
 ;;     (nxml-mode)
 ;;     (indent-region begin end)))
 

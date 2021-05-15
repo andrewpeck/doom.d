@@ -1,6 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-
 (org-crypt-use-before-save-magic)
 (setq org-tags-exclude-from-inheritance '("crypt"))
 (setq org-crypt-key nil)
@@ -9,6 +8,9 @@
 ;;------------------------------------------------------------------------------
 
 (after! org
+
+  (load "~/.doom.d/lisp/scimax-org-return.el")
+
   (defun org-rename-file-at-point ()
     (interactive)
     (save-buffer)
@@ -41,9 +43,6 @@
               (shell-command (format "sed -i 's|%s|%s|g' %s" old new file))
               ))
         )))
-)
-
-(after! org
 
   ;; html export
   ;; (setq org-html-htmlize-output-type 'inline-css) ;; default
@@ -91,12 +90,9 @@
                    ("\\subparagraph{%s}"  . "\\subparagraph*{%s}"))
                  )
     )
-  )
 
-;;; Appearance
-;;------------------------------------------------------------------------------
-
-(after! org
+  ;; Appearance
+  ;;------------------------------------------------------------------------------
 
   (add-hook 'org-mode-hook
             (lambda () (define-key evil-normal-state-map "zs" #'org-toggle-link-display))
@@ -116,10 +112,8 @@
       (org-map-entries fun)))
 
   ;; Latex Previews
-  (after! org
-    (setq org-preview-latex-default-process 'dvisvgm)
-    (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
-    )
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
 
   ;; Toggle Displays
   (setq org-startup-folded 'f)
@@ -139,9 +133,6 @@
    'org-mode
    '(("^[[:space:]]*\\(-\\) "
       0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
-  )
-
-(after! org
 
   (add-hook 'evil-org-agenda-mode-hook
             'evil-org-agenda-set-keys
@@ -188,12 +179,9 @@
   (add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
   (add-to-list 'org-file-apps '("\\.odt\\'" . "xdg-open %s"))
 
-  )
 
-;;; Org Image Attach
-;;------------------------------------------------------------------------------
-
-(after! org
+  ;; Org Image Attach
+  ;;------------------------------------------------------------------------------
 
   (setq org-attach-id-dir "./images/screenshots")
 
@@ -293,110 +281,35 @@
 ;;          org-roam-server-network-label-wrap-length 20))
 ;;  )
 
-(after! org
 
-  ;;(require 'org-download)
-  ;; (setq org-roam-directory "~/Dropbox/notes/")
-  ;; (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
-  ;; (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
-  ;; (map! :leader
-  ;;       :prefix "n"
-  ;;       :desc "Org-Roam-Insert" "i" #'org-roam-insert
-  ;;       :desc "Org-Roam-Find"   "/" #'org-roam-find-file
-  ;;       :desc "Org-Roam-Buffer" "r" #'org-roam
-  ;;       :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph
-  ;;       )
+;;(require 'org-download)
+;; (setq org-roam-directory "~/Dropbox/notes/")
+;; (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
+;; (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
+;; (map! :leader
+;;       :prefix "n"
+;;       :desc "Org-Roam-Insert" "i" #'org-roam-insert
+;;       :desc "Org-Roam-Find"   "/" #'org-roam-find-file
+;;       :desc "Org-Roam-Buffer" "r" #'org-roam
+;;       :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph
+;;       )
 
-  ;;                                       ;(setq org-roam-link-title-format "Org:%s")
-  ;; (setq org-roam-db-location "~/Dropbox/notes/org-roam.db")
-  ;; (setq org-roam-backlinks-mode-hook
-  ;;       '(
-  ;;         (flyspell-mode)
-  ;;         (define-key evil-motion-state-map (kbd "RET") 'org-roam-open-at-point)
-  ;;         )
-  ;;       )
+;;                                       ;(setq org-roam-link-title-format "Org:%s")
+;; (setq org-roam-db-location "~/Dropbox/notes/org-roam.db")
+;; (setq org-roam-backlinks-mode-hook
+;;       '(
+;;         (flyspell-mode)
+;;         (define-key evil-motion-state-map (kbd "RET") 'org-roam-open-at-point)
+;;         )
+;;       )
 
-  ;; (setq org-roam-completion-system 'ivy)
+;; (setq org-roam-completion-system 'ivy)
 
-  ;; (setq org-roam-capture-templates
-  ;;       '(("d" "default" plain (function org-roam--capture-get-point)
-  ;;          "%?"
-  ;;          :file-name "${title}"
-  ;;          :head "#+SETUPFILE: \"org.setup\"\n#+TITLE: ${title}\n#"
+;; (setq org-roam-capture-templates
+;;       '(("d" "default" plain (function org-roam--capture-get-point)
+;;          "%?"
+;;          :file-name "${title}"
+;;          :head "#+SETUPFILE: \"org.setup\"\n#+TITLE: ${title}\n#"
 
-  ;;          :unnarrowed t))
-  ;;       )
-  )
-
-;;; SciMax Org Return
-;;------------------------------------------------------------------------------
-;; http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/
-(require 'org-inlinetask)
-(defun scimax/org-return (&optional ignore)
-  "Add new list item, heading or table row with RET.
-   A double return on an empty element deletes it.
-   Use a prefix arg to get regular RET. "
-  (interactive "P")
-  (if ignore
-      (org-return)
-    (cond
-
-     ((eq 'line-break (car (org-element-context)))
-      (org-return t))
-
-     ;; Open links like usual, unless point is at the end of a line.
-     ;; and if at beginning of line, just press enter.
-     ((or (and (eq 'link (car (org-element-context))) (not (eolp)))
-          (bolp))
-      (org-return))
-
-     ;; It doesn't make sense to add headings in inline tasks. Thanks Anders
-     ;; Johansson!
-     ((org-inlinetask-in-task-p)
-      (org-return))
-
-     ;; checkboxes too
-     ((org-at-item-checkbox-p)
-      (org-insert-todo-heading nil))
-
-     ;; lists end with two blank lines, so we need to make sure we are also not
-     ;; at the beginning of a line to avoid a loop where a new entry gets
-     ;; created with only one blank line.
-     ((org-in-item-p)
-      (if (save-excursion (beginning-of-line) (org-element-property :contents-begin (org-element-context)))
-          (org-insert-heading)
-        (beginning-of-line)
-        (delete-region (line-beginning-position) (line-end-position))
-        (org-return)))
-
-     ;; org-heading
-     ((org-at-heading-p)
-      (if (not (string= "" (org-element-property :title (org-element-context))))
-          (progn (org-end-of-meta-data)
-                 (org-insert-heading-respect-content)
-                 (outline-show-entry))
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")))
-
-     ;; tables
-     ((org-at-table-p)
-      (if (-any?
-           (lambda (x) (not (string= "" x)))
-           (nth
-            (- (org-table-current-dline) 1)
-            (org-table-to-lisp)))
-          (org-return)
-        ;; empty row
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")
-        (org-return)))
-
-     ;; fall-through case
-     (t
-      (org-return)))))
-
-
-(define-key org-mode-map (kbd "RET")
-  'scimax/org-return)
+;;          :unnarrowed t))
+;;       )

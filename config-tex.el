@@ -1,9 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-
-
-
-;;; Semantic Linefeeds
+;; Semantic Linefeeds
 ;;------------------------------------------------------------------------------
 ;; https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
 (defun ap/line-fill-paragraph (&optional P)
@@ -38,7 +35,7 @@
 ;;          (lambda () (define-key evil-normal-state-local-map (kbd "M-q") 'ap/line-fill-paragraph))
 ;;          )
 
-;;; TeX
+;; TeX
 ;;------------------------------------------------------------------------------
 
 (after! tex
@@ -50,7 +47,7 @@
                                     (define-key reftex-toc-mode-map (kbd "<return>") 'reftex-toc-goto-line)))
   )
 
-;;; Electric Space
+;; Electric Space
 ;;------------------------------------------------------------------------------
 
 (defun electric-space () ; Trying to get Emacs to do semantic linefeeds
