@@ -1,64 +1,36 @@
-;;; leuven-theme.el --- Awesome Emacs color theme on white background
-
-;; Copyright (C) 2003-2020 Free Software Foundation, Inc.
-
-;; This file is part of GNU Emacs.
-
-;; GNU Emacs is free software: you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; GNU Emacs is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-
-;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;;; summerfruit-theme.el --- Awesome Emacs color theme on white background
 
 ;;; Commentary:
 
-;; This elegant Org-enhancing color theme "leuven" ROCKS!
-;; ... and not just for Org mode.
-;;
-;; To use it, put the following in your Emacs configuration file:
-;;
-;;   (load-theme 'leuven t)
-;;
-;; Requirements: Emacs 24+.
-;;
-;; NOTE -- Would you like implement a version of this for dark backgrounds,
-;; please do so!  I'm willing to integrate it...
 
 ;;; Code:
 
 ;;; Options.
 
-(defgroup leuven-summerfruit nil
-  "Leuven theme options.
+(defgroup summerfruit nil
+  "Summerfruit theme options.
 The theme has to be reloaded after changing anything in this group."
   :group 'faces)
 
-(defcustom leuven-summerfruit-scale-outline-headlines t
+(defcustom summerfruit-scale-outline-headlines t
   "Scale `outline' (and `org') level-1 headlines.
 This can be nil for unscaled, t for using the theme default, or a scaling number."
   :type '(choice
           (const :tag "Unscaled" nil)
           (const :tag "Default provided by theme" t)
           (number :tag "Set scaling"))
-  :group 'leuven-summerfruit)
+  :group 'summerfruit)
 
-(defcustom leuven-summerfruit-scale-org-agenda-structure t
+(defcustom summerfruit-scale-org-agenda-structure t
   "Scale Org agenda structure lines, like dates.
 This can be nil for unscaled, t for using the theme default, or a scaling number."
   :type '(choice
           (const :tag "Unscaled" nil)
           (const :tag "Default provided by theme" t)
           (number :tag "Set scaling"))
-  :group 'leuven-summerfruit)
+  :group 'summerfruit)
 
-(defun leuven-summerfruit-scale-font (control default-height)
+(defun summerfruit-scale-font (control default-height)
   "Function for splicing optional font heights into face descriptions.
 CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
   (cond
@@ -68,7 +40,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
 
 ;;; Theme Faces.
 
-(deftheme leuven-summerfruit
+(deftheme summerfruit
   "Face colors with a light background.
    Basic, Font Lock, Isearch, Gnus, Message, Org mode, Diff, Ediff,
    Flyspell, Semantic, and Ansi-Color faces are included -- and much
@@ -108,7 +80,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
 
     ;; create classes
     (let (
-          ;; Leuven-Summerfruit generic colors.
+          ;; Summerfruit generic colors.
           (cancel                        `(:foreground ,sf-gray :slant italic :strike-through t))
           (clock-line                    `(:box (:line-width 1 :color ,sf-blue3) :foreground ,sf-black :background "#eec900"))
 
@@ -194,7 +166,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           )
 
       (custom-theme-set-faces
-       'leuven-summerfruit
+       'summerfruit
 
        ;(set-background-color "white")
 
@@ -788,14 +760,14 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(js2-warning                  ((t (:underline "orange"))))
 
        ;; Org non-standard faces.
-       `(leuven-summerfruit-org-deadline-overdue ((t (:foreground "#f22659"))))
-       `(leuven-summerfruit-org-deadline-today ((t (:weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
-       `(leuven-summerfruit-org-deadline-tomorrow ((t (:foreground "#40a80b"))))
-       `(leuven-summerfruit-org-deadline-future ((t (:foreground "#40a80b"))))
-       `(leuven-summerfruit-gnus-unseen ((t (:weight bold :foreground "#fc7202"))))
-       `(leuven-summerfruit-gnus-date ((t (:foreground "#ff80bf"))))
-       `(leuven-summerfruit-gnus-size ((t (:foreground "#8fbf60"))))
-       `(leuven-summerfruit-todo-items-face ((t (:weight bold :foreground "#ff3125" :background "#ffff88"))))
+       `(summerfruit-org-deadline-overdue ((t (:foreground "#f22659"))))
+       `(summerfruit-org-deadline-today ((t (:weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
+       `(summerfruit-org-deadline-tomorrow ((t (:foreground "#40a80b"))))
+       `(summerfruit-org-deadline-future ((t (:foreground "#40a80b"))))
+       `(summerfruit-gnus-unseen ((t (:weight bold :foreground "#fc7202"))))
+       `(summerfruit-gnus-date ((t (:foreground "#ff80bf"))))
+       `(summerfruit-gnus-size ((t (:foreground "#8fbf60"))))
+       `(summerfruit-todo-items-face ((t (:weight bold :foreground "#ff3125" :background "#ffff88"))))
 
        `(light-symbol-face ((t (:background "#ffffa0"))))
 
@@ -903,9 +875,9 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(org-agenda-clocking         ((t (:foreground ,sf-black :background "#eec900"))))
        `(org-agenda-column-dateline  ((t ,column)))
        `(org-agenda-current-time     ((t (:underline t :foreground "#1662af"))))
-       `(org-agenda-date             ((t (,@(leuven-summerfruit-scale-font leuven-summerfruit-scale-org-agenda-structure 1.6) :weight bold :foreground "#1662af"))))
-       `(org-agenda-date-today       ((t (,@(leuven-summerfruit-scale-font leuven-summerfruit-scale-org-agenda-structure 1.6) :weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
-       `(org-agenda-date-weekend     ((t (,@(leuven-summerfruit-scale-font leuven-summerfruit-scale-org-agenda-structure 1.6) :weight bold :foreground "#4e4e4e"))))
+       `(org-agenda-date             ((t (,@(summerfruit-scale-font summerfruit-scale-org-agenda-structure 1.6) :weight bold :foreground "#1662af"))))
+       `(org-agenda-date-today       ((t (,@(summerfruit-scale-font summerfruit-scale-org-agenda-structure 1.6) :weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
+       `(org-agenda-date-weekend     ((t (,@(summerfruit-scale-font summerfruit-scale-org-agenda-structure 1.6) :weight bold :foreground "#4e4e4e"))))
        `(org-agenda-diary            ((t (:weight bold :foreground "green4" :background "light blue"))))
        `(org-agenda-dimmed-todo-face ((t (:foreground "gold2"))))
        `(org-agenda-done             ((t (:foreground "#555555"))))
@@ -914,7 +886,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(org-agenda-filter-regexp    ((t (:weight bold :foreground "orange"))))
        `(org-agenda-filter-tags      ((t (:weight bold :foreground "orange"))))
        `(org-agenda-restriction-lock ((t (:background "#e77d63"))))
-       `(org-agenda-structure        ((t (,@(leuven-summerfruit-scale-font leuven-summerfruit-scale-org-agenda-structure 1.6) :weight bold :foreground ,sf-blue4))))
+       `(org-agenda-structure        ((t (,@(summerfruit-scale-font summerfruit-scale-org-agenda-structure 1.6) :weight bold :foreground ,sf-blue4))))
        `(org-archived                ((t (:foreground "gray70"))))
        `(org-beamer-tag              ((t (:box (:line-width 1 :color "#fabc18") :foreground "#2c2c2c" :background "#fff8d0"))))
        `(org-block                   ((t ,code-block)))
@@ -1217,7 +1189,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
 
        )))
 
-(custom-theme-set-variables 'leuven-summerfruit
+(custom-theme-set-variables 'summerfruit
 
                             ;; highlight-sexp-mode.
                             '(hl-sexp-background-color "#efebe9")
@@ -1237,13 +1209,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-;;;###autoload
-(when (string-match "/etc/themes/$"
-                    (file-name-directory (or load-file-name (buffer-file-name))))
-  (message "To stay up-to-date, you should better install and use leuven-summerfruit-theme from MELPA.")
-  (sit-for 2))
-
-(provide-theme 'leuven-summerfruit)
+(provide-theme 'summerfruit)
 
 ;; This is for the sake of Emacs.
 ;; Local Variables:

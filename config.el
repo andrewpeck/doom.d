@@ -201,7 +201,7 @@
  ((string= (system-name) "strange") (setq doom-theme 'doom-material))
  ((string= (system-name) "pepper")  (setq doom-theme 'doom-gruvbox))
  ((string= (system-name) "larry")   (setq doom-theme 'doom-tomorrow-night))
- (t (setq doom-theme 'leuven-summerfruit)))
+ (t (setq doom-theme 'summerfruit)))
 
 ;;; FONT
 ;;------------------------------------------------------------------------------
