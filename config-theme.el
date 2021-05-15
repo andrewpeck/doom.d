@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (custom-theme-set-faces! 'doom-gruvbox
   '(org-todo :weight bold :foreground "orange red")
   '(org-table :weight normal :foreground "lightblue")

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; mu4e
 ;;------------------------------------------------------------------------------
 
@@ -110,3 +112,27 @@
 ;;                            ;;(push '("=>" . "⇒") prettify-symbols-alist)
 ;;                            ;;(push '("<=" . "⇐") prettify-symbols-alist)
 ;;                            (prettify-symbols-mode)))
+
+
+;;; Outline Mode
+;;; Clean code folding via Outline minor mode.
+;;(add-hook 'latex-mode-hook 'outline-minor-mode)
+
+;; Show all headings but no content in Outline mode.
+;;(add-hook 'outline-minor-mode-hook
+;;          (defun baba/outline-overview ()
+;;            "Show only outline headings."
+;;            (outline-show-all)
+;;            (outline-hide-body)))
+;;
+;; TODO: useful things here
+;; https://www.reddit.com/r/emacs/comments/e2u5n9/code_folding_with_outlineminormode/
+;;
+;; Customize the distracting folding markers.
+;;(after! outline-mode
+;;  (set-display-table-slot
+;;   standard-display-table
+;;   'selective-display
+;;   (let ((face-offset (* (face-id 'shadow) (lsh 1 22))))
+;;     (vconcat (mapcar (lambda (c) (+ face-offset c)) " +"))))
+;;  )

@@ -1,5 +1,10 @@
+;; -*- lexical-binding: t; -*-
 
 
+
+
+;;; Semantic Linefeeds
+;;------------------------------------------------------------------------------
 ;; https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
 (defun ap/line-fill-paragraph (&optional P)
   "When called with prefix argument call `fill-paragraph'.
@@ -27,6 +32,8 @@
     ;; otherwise do ordinary fill paragraph
     (fill-paragraph P)))
 
+(evil-define-minor-mode-key 'normal 'latex-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
+
 ;;(add-hook 'LaTex-mode-hook
 ;;          (lambda () (define-key evil-normal-state-local-map (kbd "M-q") 'ap/line-fill-paragraph))
 ;;          )
@@ -42,3 +49,24 @@
   (add-hook 'reftex-toc-mode-hook (lambda ()
                                     (define-key reftex-toc-mode-map (kbd "<return>") 'reftex-toc-goto-line)))
   )
+
+;;; Electric Space
+;;------------------------------------------------------------------------------
+
+(defun electric-space () ; Trying to get Emacs to do semantic linefeeds
+  (interactive)
+  (if (looking-back (sentence-end) nil)
+      (insert "\n")
+    (self-insert-command 1))
+  )
+
+(defvar electric-space-on-p nil)
+
+(defun toggle-electric-space ()
+  (interactive)
+  (global-set-key
+   " "
+   (if (setq electric-space-on-p
+             (not electric-space-on-p))
+       'electric-space
+     'self-insert-command)))

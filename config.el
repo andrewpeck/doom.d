@@ -17,13 +17,14 @@
             ;; Preferred comment style
             (setq comment-start "// " comment-end "")))
 
+(load  "~/.doom.d/config-evil.el")
+(load  "~/.doom.d/config-theme.el")
+(load  "~/.doom.d/config-lsp.el")
+(load  "~/.doom.d/config-doom.el")
 ;;(load  "~/.doom.d/config-tex.el")
 ;;(load  "~/.doom.d/config-align.el")
 ;;(load  "~/.doom.d/config-org.el")
-;;(load  "~/.doom.d/config-evil.el")
-;;(load  "~/.doom.d/config-theme.el")
 ;;(load  "~/.doom.d/config-company.el")
-;;(load  "~/.doom.d/config-lsp.el")
 ;;(load  "~/.doom.d/lisp/system-install.el")
 ;;(load  "~/.doom.d/lisp/tracking.el")
 
@@ -136,19 +137,6 @@
 (setq smartparens-mode nil)
 (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
 
-;;; Magit
-;;------------------------------------------------------------------------------
-
-(after! browse-at-remote
-  (add-to-list 'browse-at-remote-remote-type-domains '("gitlab.cern.ch" . "gitlab"))
-  )
-
-(after! magit
-  ;;(magit-todos-mode)
-  (setq-default magit-diff-refine-hunk 'all)
-  ;;(setq magit-repository-directories '(("~/" . 1)))
-  )
-
 ;;; SLIME
 ;;------------------------------------------------------------------------------
 
@@ -224,106 +212,27 @@
       ;;doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17)
       doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
 
-;; Disable auto fill mode in doom text modes
-(remove-hook 'text-mode-hook #'auto-fill-mode)
-(add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
-;;(add-hook 'text-mode-hook #'visual-line-mode)
-
 ;; Syntax Highlighting
 ;;------------------------------------------------------------------------------
 
-;; enable syntax highlighting for vimrc files
-(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
-
-;; tcl mode for xdc files
-(add-to-list 'auto-mode-alist '("\\.xdc\\'" . tcl-mode))
-
-;; tcl mode for hog files
-(add-to-list 'auto-mode-alist '("\\.src\\'" . tcl-mode))
-(add-to-list 'auto-mode-alist '("\\.con\\'" . tcl-mode))
-
-;; cpp mode for arduino files
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))
-
-
-;;; Git Gutter
-;;------------------------------------------------------------------------------
-
-;; for some reason this is slow to load :(
-;;
-;;(use-package! git-gutter
-;;  :defer t
-;;  :init
-;;  (use-package! git-gutter-fringe
-;;    :defer t
-;;    :config
-;;    (fringe-mode 9)
-;;    (fringe-helper-define 'git-gutter-fr:added nil
-;;      "....X...."
-;;      "....X...."
-;;      "....X...."
-;;      "....X...."
-;;      "XXXXXXXXX"
-;;      "....X...."
-;;      "....X...."
-;;      "....X....")
-;;
-;;    (fringe-helper-define 'git-gutter-fr:deleted nil
-;;      "........."
-;;      "........."
-;;      "........."
-;;      "..XXXXXX."
-;;      "........."
-;;      "........."
-;;      "........."
-;;      ".........")
-;;
-;;    (fringe-helper-define 'git-gutter-fr:modified nil
-;;      "........."
-;;      "...X....."
-;;      "...XXX..."
-;;      "...XXXX.."
-;;      "...XXXXX."
-;;      "...XXXX.."
-;;      "...XXX..."
-;;      "...X.....")
-;;    )
-;;)
+(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode)) ;; enable syntax highlighting for vimrc files
+(add-to-list 'auto-mode-alist '("\\.xdc\\'" . tcl-mode)) ;; tcl mode for xdc files
+(add-to-list 'auto-mode-alist '("\\.src\\'" . tcl-mode)) ;; tcl mode for hog files
+(add-to-list 'auto-mode-alist '("\\.con\\'" . tcl-mode)) ;; tcl mode for hog files
+(add-to-list 'auto-mode-alist '("\\.lst\\'" . tcl-mode)) ;; tcl mode for hog files
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode)) ;; cpp mode for arduino files
 
 ;;; Rainbow Delimeters
 ;;------------------------------------------------------------------------------
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
-;;; Outline Mode
-;;; Clean code folding via Outline minor mode.
-;;(add-hook 'latex-mode-hook 'outline-minor-mode)
-
-;; Show all headings but no content in Outline mode.
-;;(add-hook 'outline-minor-mode-hook
-;;          (defun baba/outline-overview ()
-;;            "Show only outline headings."
-;;            (outline-show-all)
-;;            (outline-hide-body)))
-;;
-;; TODO: useful things here
-;; https://www.reddit.com/r/emacs/comments/e2u5n9/code_folding_with_outlineminormode/
-;;
-;; Customize the distracting folding markers.
-;;(after! outline-mode
-;;  (set-display-table-slot
-;;   standard-display-table
-;;   'selective-display
-;;   (let ((face-offset (* (face-id 'shadow) (lsh 1 22))))
-;;     (vconcat (mapcar (lambda (c) (+ face-offset c)) " +"))))
-;;  )
-
 ;;; Mixed Pitch Mode
 ;;------------------------------------------------------------------------------
 
-(add-hook 'org-mode-hook      #'mixed-pitch-mode)
-(add-hook 'markdown-mode-hook #'mixed-pitch-mode)
-(add-hook 'latex-mode-hook    #'mixed-pitch-mode)
+;; (add-hook 'org-mode-hook      #'mixed-pitch-mode)
+;; (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+;; (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
 
 ;;; Line wrapping
 ;;------------------------------------------------------------------------------
@@ -334,54 +243,15 @@
   (toggle-truncate-lines 1)
   (visual-fill-column-mode 0))
 
-(add-hook 'text-mode-hook      'ap/no-wrap)
-(add-hook 'prog-mode-hook      'ap/no-wrap)
-(add-hook 'org-mode-hook       'ap/no-wrap)
-(add-hook 'markdown-mode-hook  'ap/no-wrap)
-(add-hook 'nxml-mode-hook      'ap/no-wrap)
+;; Disable auto fill mode in text modes
+(remove-hook 'text-mode-hook #'auto-fill-mode)
+(add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 
-;;; Doom
-;;------------------------------------------------------------------------------
-
-;; Doom
-(after! doom-todo-ivy
-  (setq doom/ivy-task-tags '(
-                             ("TODO"  . warning)
-                             ("FIXME" . error)
-                             ;;("NOTE"  . note)
-                             )))
-
-;; Dashboard
-(defun ap/dashboard-widget-banner ()
-  (let ((point (point)))
-    (mapc (lambda (line)
-            (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
-                                'face 'doom-dashboard-banner) " ")
-            (insert "\n"))
-          '(" emacs "))
-    (when (and (display-graphic-p)
-               (stringp fancy-splash-image)
-               (file-readable-p fancy-splash-image))
-      (let ((image (create-image (fancy-splash-image-file))))
-        (add-text-properties
-         point (point) `(display ,image rear-nonsticky (display)))
-        (save-excursion
-          (goto-char point)
-          (insert (make-string
-                   (truncate
-                    (max 0 (+ 1 (/ (- +doom-dashboard--width
-                                      (car (image-size image nil)))
-                                   2))))
-                   ? ))))
-      (insert (make-string (or (cdr +doom-dashboard-banner-padding) 0)
-                           ?\n)))))
-
-
-(setq +doom-dashboard-functions
-      '(ap/dashboard-widget-banner
-        doom-dashboard-widget-shortmenu
-        doom-dashboard-widget-loaded
-        doom-dashboard-widget-footer))
+;; (add-hook 'text-mode-hook      'ap/no-wrap)
+;; (add-hook 'prog-mode-hook      'ap/no-wrap)
+;; (add-hook 'org-mode-hook       'ap/no-wrap)
+;; (add-hook 'markdown-mode-hook  'ap/no-wrap)
+;; (add-hook 'nxml-mode-hook      'ap/no-wrap)
 
 ;;; True/False Faces
 ;;------------------------------------------------------------------------------
@@ -431,9 +301,9 @@
 ;;------------------------------------------------------------------------------
 
 (after! elfeed
-  (setq elfeed-feeds '(
-                       "https://hackaday.com/blog/feed/"))
-  )
+  (setq
+   elfeed-feeds '(
+                  "https://hackaday.com/blog/feed/")))
 
 
 ;;; IELM
@@ -479,46 +349,9 @@
 ;;     (nxml-mode)
 ;;     (indent-region begin end)))
 
-;;; Semantic Linefeeds
-;;------------------------------------------------------------------------------
-
-(evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'fill-paragraph)
-;;(evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
-;; (evil-define-minor-mode-key 'normal 'latex-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
-;; (evil-define-minor-mode-key 'normal 'markdown-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
-;; (evil-define-minor-mode-key 'normal 'org-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
-
-(defun electric-space () ; Trying to get Emacs to do semantic linefeeds
-  (interactive)
-  (if (looking-back (sentence-end) nil)
-      (insert "\n")
-    (self-insert-command 1))
-  )
-
-(defvar electric-space-on-p nil)
-
-(defun toggle-electric-space ()
-  (interactive)
-  (global-set-key
-   " "
-   (if (setq electric-space-on-p
-             (not electric-space-on-p))
-       'electric-space
-     'self-insert-command)))
-
 ;;; Markdown
 ;;------------------------------------------------------------------------------
 
-;; (add-hook 'markdown-mode-hook (lambda () (visual-fill-column-mode -1)))
-;;
-;;(use-package markdown-mode
-;;  :defer t
-;;  :init
-;;  (setq-default markdown-hide-markup t))
-
 ;; Make Fundamental Mode GFM by default
 (after! gfm
-  ;; MAKE SURE to lazy load this... otherwise it adds 1 second to startup time
-  (setq initial-major-mode 'gfm-mode)
-  )
-
+  (setq initial-major-mode 'gfm-mode))

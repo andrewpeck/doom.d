@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 
 (org-crypt-use-before-save-magic)
 (setq org-tags-exclude-from-inheritance '("crypt"))
