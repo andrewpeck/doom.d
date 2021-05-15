@@ -2,27 +2,23 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("drs-firmware-master"
- (filename . "/sshx:larry:/home/andrew/drs-firmware-master/")
- (front-context-string)
- (rear-context-string . "0K Jan 16 20:13 ")
- (position . 1770))
+(
 ("0xbefe"
- (filename . "/sshx:larry:/home/andrew/0xbefe/")
+ (filename . "/sshx:larry:/home/andrew/work/0xbefe/")
  (front-context-string . "Top\n  -rw-r--r--")
  (rear-context-string . "0K Feb  5 13:52 ")
  (position . 1365))
-("drs-readout-firmware"
- (filename . "/sshx:larry:/home/andrew/drs-readout-firmware/")
+("drs-firmware-devel"
+ (filename . "/sshx:larry:/home/andrew/work/drs-firmware-devel/")
  (front-context-string . "drs\n  -rw-r--r--")
  (rear-context-string . "0K Nov 25 14:45 ")
  (position . 306))
 ("l0mdt-hdl-design"
- (filename . "/sshx:larry:/home/andrew/l0mdt-hdl-design/")
+ (filename . "/sshx:larry:/home/andrew/work/l0mdt-hdl-design/")
  (front-context-string . "Top\n  drwxr-xr-x")
  (rear-context-string . "0K Feb 19 10:30 ")
  (position . 3195))
-(("hog-emacs.el"
+("hog-emacs.el"
  (filename . "~/.emacs.d/.local/straight/repos/hog-emacs/hog-emacs.el")
  (front-context-string . ";;; hog-emacs.el")
  (rear-context-string)
@@ -33,7 +29,12 @@
  (rear-context-string . "0:35 .wget-hsts\n")
  (position . 1714))
 ("etl_test_fw"
- (filename . "/sshx:larry:/home/andrew/etl_test_fw/")
+ (filename . "/sshx:larry:/home/andrew/work/etl_test_fw/")
+ (front-context-string . "Projects\n  -rw-r")
+ (rear-context-string . "0K Feb  5 10:48 ")
+ (position . 1735))
+("work"
+ (filename . "/sshx:larry:/home/andrew/work/etl_test_fw/")
  (front-context-string . "Projects\n  -rw-r")
  (rear-context-string . "0K Feb  5 10:48 ")
  (position . 1735))
