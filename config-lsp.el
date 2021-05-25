@@ -22,6 +22,8 @@
 
 (after! lsp
 
+  (setq  ccls-sem-highlight-method nil)
+
   (add-hook 'python-mode-hook #'lsp-mode)
   (add-hook 'python-mode-hook #'lsp-ui-mode)
 
