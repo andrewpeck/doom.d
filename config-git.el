@@ -3,9 +3,17 @@
 ;; Magit
 ;;------------------------------------------------------------------------------
 
+(setq forge-owned-accounts
+      '(("andrewpeck")
+        ("BU-EDF")
+        ("ucla-gaps-tof")
+        ("emu")
+        ("andrewpeck1")
+        ("apeck")))
+
 (after! browse-at-remote
-  (add-to-list 'browse-at-remote-remote-type-domains '("gitlab.cern.ch" . "gitlab"))
-  )
+  (add-to-list 'browse-at-remote-remote-type-domains
+               '("gitlab.cern.ch" . "gitlab")))
 
 (after! magit
   ;;(magit-todos-mode)
