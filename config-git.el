@@ -3,6 +3,10 @@
 ;; Magit
 ;;------------------------------------------------------------------------------
 
+(add-to-list 'forge-alist
+             '("gitlab.cern.ch" "gitlab.cern.ch/api/v4" "gitlab.cern.ch"
+               forge-gitlab-repository))
+
 (setq forge-owned-accounts
       '(("andrewpeck")
         ("BU-EDF")
