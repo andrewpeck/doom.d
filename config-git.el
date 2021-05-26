@@ -3,17 +3,6 @@
 ;; Magit
 ;;------------------------------------------------------------------------------
 
-(add-to-list 'forge-alist
-             '("gitlab.cern.ch" "gitlab.cern.ch/api/v4" "gitlab.cern.ch"
-               forge-gitlab-repository))
-
-(setq forge-owned-accounts
-      '(("andrewpeck")
-        ("BU-EDF")
-        ("ucla-gaps-tof")
-        ("emu")
-        ("andrewpeck1")
-        ("apeck")))
 
 (after! browse-at-remote
   (add-to-list 'browse-at-remote-remote-type-domains
@@ -25,6 +14,23 @@
   ;;(setq magit-repository-directories '(("~/" . 1)))
   )
 
+(after! forge
+
+  (add-to-list 'forge-alist
+               '("gitlab.cern.ch" "gitlab.cern.ch/api/v4" "gitlab.cern.ch"
+                 forge-gitlab-repository))
+
+  (setq forge-owned-accounts
+        '(("andrewpeck")
+          ("BU-EDF")
+          ("atlas-tdaq-phase2-l0mdt-electronics")
+          ("ucla-gaps-tof")
+          ("emu")
+          ("andrewpeck1")
+          ("apeck")))
+
+
+  )
 
 ;; Git Gutter
 ;;------------------------------------------------------------------------------
