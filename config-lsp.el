@@ -23,6 +23,7 @@
 (after! lsp
 
   (setq  ccls-sem-highlight-method nil)
+  (setq lsp-enable-on-type-formatting nil)
 
   (add-hook 'python-mode-hook #'lsp-mode)
   (add-hook 'python-mode-hook #'lsp-ui-mode)
@@ -31,7 +32,7 @@
   ;;(setq lsp-vhdl-server 'vhdl-tool)
   ;;(setq lsp-vhdl-server-path "~/bin/vhdl-tool")
   (setq lsp-vhdl-server 'vhdl-ls)
-  (setq lsp-vhdl-server-path "~/bin/vhdl-lsp")
+  (setq lsp-vhdl-server-path "~/bin/vhdl_ls")
   )
 
 
