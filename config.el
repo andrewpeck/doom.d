@@ -5,17 +5,11 @@
 ;; TODO outline folding
 ;;
 ;; Tecosaur: https://github.com/tecosaur/emacs-config/blob/master/config.org
+;; Steve Purcell: https://github.com/purcell/emacs.d/
 
 ;; Bookmarks
 
 (setq bookmark-default-file "~/.doom.d/bookmarks")
-
-;; For example, if you prefer double slashes // instead of slash-stars /* ... */
-;; in c-mode, insert below code into your ~/.emacs:
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            ;; Preferred comment style
-            (setq comment-start "// " comment-end "")))
 
 (load  "~/.doom.d/config-git.el")
 (load  "~/.doom.d/config-evil.el")
@@ -348,3 +342,14 @@
 ;; Make Fundamental Mode GFM by default
 (after! gfm
   (setq initial-major-mode 'gfm-mode))
+
+;; C mode
+;;-----------------------------------------------------------------------------------------
+
+;; For example, if you prefer double slashes // instead of slash-stars /* ... */
+;; in c-mode, insert below code into your ~/.emacs:
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            ;; Preferred comment style
+            (setq comment-start "// " comment-end "")))
+
