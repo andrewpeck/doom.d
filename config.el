@@ -353,3 +353,7 @@
             ;; Preferred comment style
             (setq comment-start "// " comment-end "")))
 
+;; Clojure
+;;-----------------------------------------------------------------------------------------
+
+(setq org-babel-clojure-backend "cider")
