@@ -233,6 +233,17 @@
 
 ;; Disable auto fill mode in text modes
 (remove-hook 'text-mode-hook #'auto-fill-mode)
+
+;; Don't wrap text modes unless we really want it
+(remove-hook 'text-mode-hook #'+word-wrap-mode)
+
+(defun fix-visual-fill-column-mode (&optional ARG)
+  (setq visual-fill-column-mode visual-line-mode))
+;;
+(advice-add '+word-wrap-mode
+            :after 'fix-visual-fill-column-mode)
+
+;;
 (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 
 ;;; True/False Faces
