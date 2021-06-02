@@ -17,16 +17,17 @@
             ;; Preferred comment style
             (setq comment-start "// " comment-end "")))
 
+(load  "~/.doom.d/config-git.el")
 (load  "~/.doom.d/config-evil.el")
 (load  "~/.doom.d/config-theme.el")
 (load  "~/.doom.d/config-lsp.el")
 (load  "~/.doom.d/config-doom.el")
-;;(load  "~/.doom.d/config-tex.el")
-;;(load  "~/.doom.d/config-align.el")
-;;(load  "~/.doom.d/config-org.el")
-;;(load  "~/.doom.d/config-company.el")
-;;(load  "~/.doom.d/lisp/system-install.el")
-;;(load  "~/.doom.d/lisp/tracking.el")
+(load  "~/.doom.d/config-tex.el")
+(load  "~/.doom.d/config-align.el")
+(load  "~/.doom.d/config-org.el")
+(load  "~/.doom.d/config-company.el")
+(load  "~/.doom.d/lisp/system-install.el")
+(load  "~/.doom.d/lisp/tracking.el")
 
 ;;------------------------------------------------------------------------------
 ;;;;; to sort
