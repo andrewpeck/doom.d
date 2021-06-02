@@ -126,7 +126,7 @@
   (setq org-M-RET-may-split-line t)
 
   ;;  Turn on Bullets Mode
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
   ;; Org mode plain list bullets
   (font-lock-add-keywords
@@ -224,6 +224,7 @@
                 org-download-annotate-function (lambda (text) "")
                 org-download-image-org-width   1000
                 )
+
   )
 
 (after! org-attach-screenshot
