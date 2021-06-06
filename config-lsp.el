@@ -24,15 +24,16 @@
 
   (setq  ccls-sem-highlight-method nil)
   (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-enable-indentation nil)
 
   (add-hook 'python-mode-hook #'lsp-mode)
   (add-hook 'python-mode-hook #'lsp-ui-mode)
 
   ;; VHDL Tool
-  ;;(setq lsp-vhdl-server 'vhdl-tool)
-  ;;(setq lsp-vhdl-server-path "~/bin/vhdl-tool")
-  (setq lsp-vhdl-server 'vhdl-ls)
-  (setq lsp-vhdl-server-path "~/bin/vhdl_ls")
+  (setq lsp-vhdl-server 'vhdl-tool)
+  (setq lsp-vhdl-server-path "~/bin/vhdl-tool")
+  ;; (setq lsp-vhdl-server 'vhdl-ls)
+  ;; (setq lsp-vhdl-server-path "~/bin/vhdl_ls")
   )
 
 
