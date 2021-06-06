@@ -129,10 +129,10 @@
   ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
   ;; Org mode plain list bullets
-  (font-lock-add-keywords
-   'org-mode
-   '(("^[[:space:]]*\\(-\\) "
-      0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
+  ;; (font-lock-add-keywords
+  ;;  'org-mode
+  ;;  '(("^[[:space:]]*\\(-\\) "
+  ;;     0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
 
   (add-hook 'evil-org-agenda-mode-hook
             'evil-org-agenda-set-keys
