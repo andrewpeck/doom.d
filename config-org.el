@@ -94,9 +94,14 @@
   ;; Appearance
   ;;------------------------------------------------------------------------------
 
+  ;; normal evil-org-end-of-line is broken
+  ;; https://github.com/Somelauw/evil-org-mode/issues/50
+  ;; just use the regular evil mode.. there doesn't seem to be any downside
   (add-hook 'org-mode-hook
-            (lambda () (define-key evil-normal-state-map "zs" #'org-toggle-link-display))
-            )
+            (lambda () (define-key evil-visual-state-map "$" #'evil-end-of-line)))
+
+  (add-hook 'org-mode-hook
+            (lambda () (define-key evil-normal-state-map "zs" #'org-toggle-link-display)))
 
   (add-to-list 'load-path "~/Dropbox/org")
 
