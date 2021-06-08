@@ -142,9 +142,9 @@
   (setq org-log-done 'time)
 
   ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/#.WIqBud9vGAk
-  ;;(setq org-gcal-client-id     "1045682864126-d5b10jqlnpa4gu8mkfe9ma23ns041n34.apps.googleusercontent.com"
-  ;;      org-gcal-client-secret "tSfHyqIrMHbl1jE-bPCoounH"
-  ;;      org-gcal-file-alist '(
+  ;; https://console.cloud.google.com/apis/dashboard?pli=1
+  ;;(setq
+  ;; org-gcal-file-alist '(
   ;;              ("7rlvcq7qs49tb3ed0rpe97f2us@group.calendar.google.com" . "~/Dropbox/org/gcal-medical.org")
   ;;              ("ericshazen@gmail.com"                                 . "~/Dropbox/org/gcal-hazen.org")
   ;;              ("peckandrew@gmail.com"                                 . "~/Dropbox/org/gcal-peck.org")
