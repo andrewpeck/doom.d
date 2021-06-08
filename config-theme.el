@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
+;; override some annoying defaults of doom-gruvbox
 (custom-theme-set-faces! 'doom-gruvbox
   '(org-todo :weight bold :foreground "orange red")
   '(org-table :weight normal :foreground "lightblue")
@@ -7,8 +8,7 @@
   '(org-level-1 :height 1.5 :weight bold   :foreground "#b8bb26")
   '(org-level-2 :height 1.2 :weight bold   :foreground "lightblue")
   '(org-level-3 :height 1.1 :weight normal :foreground "#d3869b")
-  '(org-level-4 :height 1.1 :weight normal :foreground "#83a598")
-  )
+  '(org-level-4 :height 1.1 :weight normal :foreground "#83a598"))
 
 
 (defun ap/toggle-theme ()
