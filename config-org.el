@@ -22,8 +22,7 @@
               ;;(print (format "mv %s %s" old (read-string "New name:" old)))
               (org-move-linked-file (file-name-directory (buffer-file-name))
                                     old (read-string "New name:" old))
-              (revert-buffer)
-              )))))
+              (revert-buffer))))))
 
   (defun org-move-linked-file (rootpath old new)
     (if (file-exists-p new)
@@ -40,9 +39,7 @@
         (if (not (string= "" (shell-command-to-string (format "rg -l %s %s" old file))))
             (progn
               (princ (format "Renaming in %s\n" file))
-              (shell-command (format "sed -i 's|%s|%s|g' %s" old new file))
-              ))
-        )))
+              (shell-command (format "sed -i 's|%s|%s|g' %s" old new file)))))))
 
   ;; html export
   ;; (setq org-html-htmlize-output-type 'inline-css) ;; default
@@ -140,8 +137,7 @@
   ;;     0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
 
   (add-hook 'evil-org-agenda-mode-hook
-            'evil-org-agenda-set-keys
-            )
+            'evil-org-agenda-set-keys)
 
   (setq org-log-done 'time)
 
