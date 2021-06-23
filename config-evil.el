@@ -81,6 +81,11 @@
 
   ;; Evil leader keys
 
+  (defun open-buffer-in-vim ()
+    (interactive)
+    (start-process "gvim" (format "*gvim-%s" (buffer-file-name)) "gvim" (buffer-file-name)))
+
+  (evil-leader/set-key "vv" 'open-buffer-in-vim)
   (evil-leader/set-key "tt" 'doom/ivy-tasks)
   (evil-leader/set-key "x"  'counsel-M-x)
   (evil-leader/set-key "pp" '+ivy/project-search)
