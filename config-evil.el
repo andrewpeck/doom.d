@@ -52,9 +52,12 @@
       (counsel-fzf "" "~/Dropbox/notes")))
 
   ;; Ctrl + Alt + equal to re-indent buffer
+  (defun re-indent-buffer ()
+    (interactive)
+    (evil-indent (point-min) (point-max)))
   (after! evil
     (define-key evil-normal-state-map (kbd "C-M-=")
-      (lambda () (interactive) (evil-indent  (point-min) (point-max)))))
+      #'re-indent-buffer))
 
   (defun ap/tab-fallthrough ()
     (interactive)
