@@ -198,11 +198,12 @@
 ;; enable syntax highlighting for vimrc files
 (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
 
-(add-to-list 'auto-mode-alist '("\\.xdc\\'" . tcl-mode)) ;; tcl mode for xdc files
-(add-to-list 'auto-mode-alist '("\\.src\\'" . tcl-mode)) ;; tcl mode for hog files
-(add-to-list 'auto-mode-alist '("\\.con\\'" . tcl-mode)) ;; tcl mode for hog files
-(add-to-list 'auto-mode-alist '("\\.lst\\'" . tcl-mode)) ;; tcl mode for hog files
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode)) ;; cpp mode for arduino files
+(add-to-list 'auto-mode-alist '("\\.xdc\\'" . tcl-mode))  ;; tcl mode for xdc files
+(add-to-list 'auto-mode-alist '("\\.ltx\\'" . json-mode)) ;; json mode for ltx files
+(add-to-list 'auto-mode-alist '("\\.src\\'" . tcl-mode))  ;; tcl mode for hog files
+(add-to-list 'auto-mode-alist '("\\.con\\'" . tcl-mode))  ;; tcl mode for hog files
+(add-to-list 'auto-mode-alist '("\\.lst\\'" . tcl-mode))  ;; tcl mode for hog files
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . cpp-mode))  ;; cpp mode for arduino files
 
 ;;; Rainbow Delimeters
 ;;------------------------------------------------------------------------------
@@ -269,7 +270,7 @@
 ;;; VHDL Mode
 ;;------------------------------------------------------------------------------
 
-(defvar hog-vivado-path "~/Xilinx/Vivado/2019.2/settings64.sh")
+(defvar hog-vivado-path "~/Xilinx/Vivado/2020.2/settings64.sh")
 (defvar hog-number-of-jobs 4)
 
 ;; vhdl mode will wrap comments after some # of characters
