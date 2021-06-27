@@ -93,6 +93,13 @@
   ;; Appearance
   ;;------------------------------------------------------------------------------
 
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (progn
+                (make-variable-buffer-local 'scroll-margin)
+                (setq scroll-margin 1))))
+
   ;; normal evil-org-end-of-line is broken
   ;; https://github.com/Somelauw/evil-org-mode/issues/50
   ;; just use the regular evil mode.. there doesn't seem to be any downside
