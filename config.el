@@ -234,10 +234,10 @@
 
 (defun fix-visual-fill-column-mode (&optional ARG)
   (setq visual-fill-column-mode visual-line-mode))
-;;
+
+;; toggle visual-fill column mode when chaing word wrap settings
 (advice-add '+word-wrap-mode
             :after 'fix-visual-fill-column-mode)
-
 ;;
 (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 
@@ -323,10 +323,9 @@
 ;;------------------------------------------------------------------------------
 
 (after! nxml
-  (add-hook 'nxml-mode-hook
-            (setq nxml-child-indent 2 nxml-attribute-indent 2)
-            )
-  )
+  (add-hook
+   'nxml-mode-hook
+   (setq nxml-child-indent 2 nxml-attribute-indent 2)))
 
 ;; (add-hook 'nxml-mode-hook (lambda () (visual-fill-column-mode -1)))
 ;; (defun nxml-pretty-format ()
