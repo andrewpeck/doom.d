@@ -142,13 +142,14 @@
   (define-key evil-normal-state-map (kbd "<C-M-left>")   'better-jumper-jump-backward)
   (define-key evil-normal-state-map (kbd "<C-M-right>")   'better-jumper-jump-forward)
 
-  ;; FIXME: this opens dired now...
+  ;; shortcut to open the directory of the current file with xdg-open
+
   (defun browse-file-directory ()
     "Open the current file's directory however the OS would."
     (interactive)
-    (if default-directory
-        (browse-url-of-file (expand-file-name default-directory))
-      (error "No `default-directory' to open")))
+    (async-shell-command
+     (format "xdg-open %s" (file-name-directory (buffer-file-name)))))
+
   (evil-leader/set-key "bf" 'browse-file-directory)
 
   )
