@@ -127,12 +127,15 @@
   (define-key evil-normal-state-map (kbd "DEL") 'er-switch-to-previous-buffer)
   (add-hook 'verilog-mode-hook (lambda() (local-unset-key [backspace])))
 
-  ;; Evil numbers
+  ;; Evil numbers increment/decrement
 
+  (global-set-key (kbd "C-x") nil)
   (define-key evil-normal-state-map (kbd "C-a")   'evil-numbers/inc-at-pt)
-  (define-key evil-normal-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt)
+  (define-key evil-normal-state-map (kbd "C-x")   'evil-numbers/dec-at-pt)
   (define-key evil-visual-state-map (kbd "C-a")   'evil-numbers/inc-at-pt-incremental)
-  (define-key evil-visual-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt-incremental)
+  (define-key evil-visual-state-map (kbd "C-x")   'evil-numbers/dec-at-pt-incremental)
+  ;; (define-key evil-normal-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt)
+  ;; (define-key evil-visual-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt-incremental)
 
   ;; Jump back and forth through files, time, and space with arrow keys
 
