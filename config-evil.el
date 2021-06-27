@@ -42,14 +42,23 @@
   (define-key evil-normal-state-map (kbd "C-o")
     (lambda () (interactive)
       (counsel-fzf "" "~/")))
+
   ;; Ctrl-p to search the project root with fzf
   (define-key evil-normal-state-map (kbd "C-p")
     (lambda () (interactive)
       (counsel-fzf "" (projectile-project-root))))
+
   ;; Ctrl-n to search Dropbox notes
   (define-key evil-normal-state-map (kbd "C-n")
     (lambda () (interactive)
       (counsel-fzf "" "~/Dropbox/notes")))
+
+  ;; C-t to open TODO file
+  ;;  • Needed to unbind some conflicts first
+  (define-key evil-motion-state-map (kbd "C-t")   'nil)
+  (define-key evil-normal-state-map (kbd "C-t")   'nil)
+  (define-key evil-normal-state-map (kbd "C-t")
+    (lambda () (interactive) (find-file "~/Dropbox/org/todo.org")))
 
   ;; Ctrl + Alt + equal to re-indent buffer
   (defun re-indent-buffer ()
@@ -87,11 +96,9 @@
 
   (evil-leader/set-key "vv" 'open-buffer-in-vim)
   (evil-leader/set-key "tt" 'doom/ivy-tasks)
-  (evil-leader/set-key "x"  'counsel-M-x)
   (evil-leader/set-key "pp" '+ivy/project-search)
   (evil-leader/set-key "rr" 'projectile-recentf)
   (evil-leader/set-key "rtw" 'delete-trailing-whitespace) ;; delete trailing whitespace
-  (evil-leader/set-key "g" 'magit-status)
   (evil-leader/set-key "E" 'dired-jump)
   (evil-leader/set-key "pp" 'org-publish-current-project)
   ;;(evil-leader/set-key "rr" 'fzf-recentf)
@@ -101,11 +108,13 @@
   ;;(evil-leader/set-key "b" 'helm-mini) ;; map helm mini to leader
   ;;(evil-leader/set-key "tag" 'projectile-regenerate-tags)
 
-  ;; let enter open org mode links
+  ;; Let enter open org mode links
+
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") 'org-open-at-point)
 
   ;; Tab in normal mode shouldn't indent
+
   (global-set-key (kbd "TAB") nil)
   (define-key evil-insert-state-map (kbd "TAB") 'indent-for-tab-command)
 
@@ -125,9 +134,8 @@
   (define-key evil-visual-state-map (kbd "C-a")   'evil-numbers/inc-at-pt-incremental)
   (define-key evil-visual-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt-incremental)
 
-  (define-key evil-motion-state-map (kbd "C-t")   'nil)
-  (define-key evil-normal-state-map (kbd "C-t")   'nil)
-  (define-key evil-normal-state-map (kbd "C-t")   (lambda () (interactive) (find-file "~/Dropbox/org/todo.org")))
+  ;; Jump back and forth through files, time, and space with arrow keys
+
   (define-key evil-normal-state-map (kbd "<C-M-left>")   'better-jumper-jump-backward)
   (define-key evil-normal-state-map (kbd "<C-M-right>")   'better-jumper-jump-forward)
 
@@ -139,6 +147,7 @@
         (browse-url-of-file (expand-file-name default-directory))
       (error "No `default-directory' to open")))
   (evil-leader/set-key "bf" 'browse-file-directory)
+
   )
 
 ;; Evil Surround
