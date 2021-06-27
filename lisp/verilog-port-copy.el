@@ -1,23 +1,118 @@
 (require 'vhdl-mode)
 
+(setq example
+      '("optohybrid_fw"
+
+        ((("GEN_TRIG_PHY")
+          "boolean" "true" nil "\n-- turn off to disable the MGTs (for simulation and such)\n")
+         (("GLOBAL_DATE")
+          "std_logic_vector (31 downto 0)" "x\"00000000\"" nil "\n-- "))
+
+        ((("clock_p")
+          nil "in" "std_logic" nil "\n---")
+         (("clock_n")
+          nil "in" "std_logic" nil "")
+         (("elink_i_p")))
+
+        (("unisim" . "vcomponents"))))
+
+(defun verilog-flatten-buffer ()
+  "Flatten a Verilog buffer.
+removes all comments and newlines for
+easier processing as a stream."
+  (goto-char (point-min))
+  ;; remove all comments
+  (while (re-search-forward "\/\/.*\n" nil t)
+    (replace-match ""))
+  (goto-char (point-min))
+
+  ;; with comments removed, safe to remove all newlines
+  (while (re-search-forward "\n" nil t)
+    (replace-match " "))
+  (goto-char (point-min)))
+
 (defun verilog-get-module-name ()
-  ""
-  (let ((old-buffer (current-buffer)))
+  "Get the name of the Verilog module in the currently opened
+buffer. if you have multiple modules in one file it will just
+choose the first one, sorry."
+  (let ((parent-buffer (current-buffer)))
     (with-temp-buffer
-      (insert-buffer-substring-no-properties old-buffer)
+      (insert-buffer-substring-no-properties parent-buffer)
       (verilog-flatten-buffer)
       (while (re-search-forward
-              (concat
-               "module" ;; instance name
-               "\s+"
-               "\\([A-z,0-9]+\\)" ;; library
-               "\s*("
-               ) nil t 1))
+              (concat "module\s+"        ; instance name
+                      "\\([A-z,0-9]+\\)" ; library
+                      "\s*("
+                      ) nil t 1))
       (let ((name (match-string 1)))
         ;; if there is a match, intern it, otherwise return nil
         (if name name nil)))))
 
+(defun verilog-parse-ansi-parameters ()
+  ""
+  ;; parse names (accept extended identifiers)
+  nil
+  )
+
+(defun verilog-parse-nonansi-parameters ()
+  ""
+  (interactive)
+  (let ((old-buffer (current-buffer)))
+    (with-temp-buffer
+
+      (insert-buffer-substring-no-properties old-buffer)
+      (verilog-flatten-buffer)
+
+      ;; get uninitialized params, e.g. "parameter MXCNT;"
+      (goto-char (point-min))
+      (let ((parameters nil))
+
+        (cl-flet ((push-to-params
+                   (name val)
+                   (when name (push (cons name val) parameters))))
+
+          (while (re-search-forward
+                  (concat
+                   "parameter\s+" ;;
+                   "\\([A-z,0-9]+\\)" ;; name
+                   "\s*;"
+                   ) nil t)
+            (let ((name (match-string 1))
+                  (val nil))
+              (push-to-params name val)))
+
+          ;; get initialized params, e.g. "parameter MXCNT = 12;"
+          (goto-char (point-min))
+          (while (re-search-forward
+                  (concat
+                   "parameter\s+" ;;
+                   "\\([A-z,0-9]+\\)" ;; name
+                   "\s*=\s*"
+                   "\\([0-9]+\\)" ;; val
+                   "\s*;"
+                   ) nil t)
+            (let ((name (match-string 1))
+                  (val  (match-string 2)))
+              (push-to-params name val)))
+
+          ) (print parameters) parameters))))
+
+(defun verilog-parse-generics ()
+
+  ;; save everything in list
+
+  ;; (setq names (verilog-parse-ansi-parameters))
+  ;; (setq generic-list
+  ;;       (append generic-list
+  ;;               (list (list names "integer" "" "" ""))))
+
+  (setq names (verilog-parse-nonansi-parameters))
+  (setq generic-list
+        (append generic-list
+                (list (list names "integer" "" "" "")))))
+
 (defun verilog-parse-ports ()
+  ""
   (when (vhdl-parse-string "port[ \t\n\r\f]*(" t)
     ;; parse group comment and spacing
     (setq group-comment (vhdl-parse-group-comment))
@@ -70,97 +165,6 @@
                                           comment group-comment))))
       ;; parse group comment and spacing
       (setq group-comment (vhdl-parse-group-comment)))))
-
-(defun verilog-parse-ansi-parameters ()
-  ;; parse names (accept extended identifiers)
-  (vhdl-parse-string "\\(\\\\[^\\]+\\\\\\|\\w+\\)[ \t\n\r\f]*")
-  (setq names (list (match-string-no-properties 1)))
-  (while (vhdl-parse-string ",[ \t\n\r\f]*\\(\\\\[^\\]+\\\\\\|\\w+\\)[ \t\n\r\f]*" t)
-    (setq names
-          (append names (list (match-string-no-properties 1))))))
-
-(defun verilog-flatten-buffer ()
-  "Flatten a Verilog buffer.
-removes all comments and newlines for
-easier processing as a stream."
-  (beginning-of-buffer)
-  ;; remove all comments
-  (while (re-search-forward "\/\/.*\n" nil t)
-    (replace-match ""))
-  (goto-char (point-min))
-
-  ;; with comments removed, safe to remove all newlines
-  (while (re-search-forward "\n" nil t)
-    (replace-match " "))
-  (goto-char (point-min)))
-
-;; parse type
-;;
-;; "there is no default parameter type in Verilog. The type
-;; of a parameter (or a local parameter) is the type of whatever value is
-;; eventually assigned to it during elaboration."
-;;
-;; I don't use anything but integer parameters... just assume integers for now :/
-
-;;(setq type "integer")
-
-
-;; parse initialization expression
-
-(defun verilog-parse-nonansi-parameters ()
-  (interactive)
-  (let ((old-buffer (current-buffer)))
-    (with-temp-buffer
-      (insert-buffer-substring-no-properties old-buffer)
-      (verilog-flatten-buffer)
-
-      ;; get uninitialized params, e.g. "parameter MXCNT;"
-      (goto-char (point-min))
-      (let ((parameters nil))
-        (while (re-search-forward
-                (concat
-                 "parameter\s+" ;;
-                 "\\([A-z,0-9]+\\)" ;; name
-                 "\s*;"
-                 ) nil t)
-          (let ((name (match-string 1))
-                (val nil))
-            (when name
-              (print name)
-              (push (cons name val) parameters))))
-
-        ;; get initialized params, e.g. "parameter MXCNT = 12;"
-        (goto-char (point-min))
-        (while (re-search-forward
-                (concat
-                 "parameter\s+" ;;
-                 "\\([A-z,0-9]+\\)" ;; name
-                 "\s*=\s*"
-                 "\\([0-9]+\\)" ;; val
-                 "\s*;"
-                 ) nil t)
-          (let ((name (match-string 1))
-                (val  (match-string 2)))
-            (when (and name val)
-              (push (cons name val) parameters))))
-
-        (print parameters)
-
-        parameters))))
-
-(defun verilog-parse-generics ()
-
-  ;; save everything in list
-
-  ;; (setq names (verilog-parse-ansi-parameters))
-  ;; (setq generic-list
-  ;;       (append generic-list
-  ;;               (list (list names "integer" "" "" ""))))
-
-  (setq names (verilog-parse-nonansi-parameters))
-  (setq generic-list
-        (append generic-list
-                (list (list names "integer" "" "" "")))))
 
 (defun verilog-port-copy ()
   ""
