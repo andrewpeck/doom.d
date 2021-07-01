@@ -90,10 +90,20 @@
 
   ;; Evil leader keys
 
-  (defun open-buffer-in-vim ()
+  (defun open-pwd-in-terminator ()
+    "Opens the present working directory in Terminator"
     (interactive)
-    (start-process "gvim" (format "*gvim-%s" (buffer-file-name)) "gvim" (buffer-file-name)))
+    (let ((pwd (file-name-directory (buffer-file-name))))
+      (start-process "terminator"
+                     (format "*terminator-%s" pwd)
+                     "terminator" "--working-directory" pwd )))
 
+  (defun open-buffer-in-vim ()
+    "Opens the current buffer in gvim :)"
+    (interactive)
+    (start-process "gvim" (format "*gvim-%s*" (buffer-file-name)) "gvim" (buffer-file-name)))
+
+  (evil-leader/set-key "ot" 'open-pwd-in-terminator)
   (evil-leader/set-key "vv" 'open-buffer-in-vim)
   (evil-leader/set-key "tt" 'doom/ivy-tasks)
   (evil-leader/set-key "pp" '+ivy/project-search)
