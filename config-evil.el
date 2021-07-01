@@ -103,6 +103,12 @@
     (interactive)
     (start-process "gvim" (format "*gvim-%s*" (buffer-file-name)) "gvim" (buffer-file-name)))
 
+  (defun org-make-tables-pretty ()
+    "Makes org mode tables pretty in the current buffer"
+    (interactive)
+    (org-table-map-tables 'org-table-align))
+
+  (evil-leader/set-key "bt" 'org-make-tables-pretty)
   (evil-leader/set-key "ot" 'open-pwd-in-terminator)
   (evil-leader/set-key "vv" 'open-buffer-in-vim)
   (evil-leader/set-key "tt" 'doom/ivy-tasks)
