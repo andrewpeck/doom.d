@@ -108,7 +108,14 @@
     (interactive)
     (org-table-map-tables 'org-table-align))
 
+  (defun browse-file-directory ()
+    "Open the current file's directory however the OS would."
+    (interactive)
+    (async-shell-command
+     (format "xdg-open %s" (file-name-directory (buffer-file-name)))))
+
   (evil-leader/set-key "bt" 'org-make-tables-pretty)
+  (evil-leader/set-key "bf" 'browse-file-directory)
   (evil-leader/set-key "ot" 'open-pwd-in-terminator)
   (evil-leader/set-key "vv" 'open-buffer-in-vim)
   (evil-leader/set-key "tt" 'doom/ivy-tasks)
@@ -157,16 +164,6 @@
 
   (define-key evil-normal-state-map (kbd "<C-M-left>")   'better-jumper-jump-backward)
   (define-key evil-normal-state-map (kbd "<C-M-right>")   'better-jumper-jump-forward)
-
-  ;; shortcut to open the directory of the current file with xdg-open
-
-  (defun browse-file-directory ()
-    "Open the current file's directory however the OS would."
-    (interactive)
-    (async-shell-command
-     (format "xdg-open %s" (file-name-directory (buffer-file-name)))))
-
-  (evil-leader/set-key "bf" 'browse-file-directory)
 
   )
 
