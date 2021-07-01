@@ -23,6 +23,7 @@
 (load  "~/.doom.d/lisp/system-install.el")
 (load  "~/.doom.d/lisp/tracking.el")
 (load  "~/.doom.d/lisp/verilog-port-copy.el")
+(load  "~/.doom.d/lisp/doctor.el")
 
 ;;------------------------------------------------------------------------------
 ;;;;; to sort
