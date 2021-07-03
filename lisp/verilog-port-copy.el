@@ -1,40 +1,107 @@
 (require 'vhdl-mode)
 
 (setq example
-      '("optohybrid_fw"
-
-        ((("GEN_TRIG_PHY")
-          "boolean" "true" nil "\n-- turn off to disable the MGTs (for simulation and such)\n")
-         (("GLOBAL_DATE")
-          "std_logic_vector (31 downto 0)" "x\"00000000\"" nil "\n-- "))
-
-        ((("clock_p")
-          nil "in" "std_logic" nil "\n---")
-         (("clock_n")
+      '("distrip"
+        ((("A_GENERIC")
+          "integer" "0" nil ""))
+        ((("qn_m2")
+          nil "in" "std_logic_vector (9 downto 0)" nil "\n")
+         (("qn_m1")
+          nil "in" "std_logic_vector (9 downto 0)" nil "")
+         (("qn")
+          nil "in" "std_logic_vector (9 downto 0)" nil "")
+         (("qn_p1")
+          nil "in" "std_logic_vector (9 downto 0)" nil "")
+         (("qn_p2")
+          nil "in" "std_logic_vector (9 downto 0)" nil "")
+         (("qn_p3")
+          nil "in" "std_logic_vector (9 downto 0)" nil "")
+         (("vth")
+          nil "in" "std_logic_vector (9 downto 0)" nil "")
+         (("bypass_t5")
+          nil "in" "std_logic" nil "\n")
+         (("bypass_t4")
           nil "in" "std_logic" nil "")
-         (("elink_i_p")))
-
-        (("unisim" . "vcomponents"))))
+         (("bypass_t3")
+          nil "in" "std_logic" nil "")
+         (("distrip_out")
+          nil "out" "std_logic" nil "\n")
+         (("t0")
+          nil "out" "std_logic" nil "")
+         (("t1")
+          nil "out" "std_logic" nil "")
+         (("t2")
+          nil "out" "std_logic" nil ""))
+        (("ieee" . "std_logic_1164")
+         ("ieee" . "std_logic_misc")
+         ("ieee" . "numeric_std")))
+      )
 
 (defun verilog-flatten-buffer ()
   "Flatten a Verilog buffer.
-removes all comments and newlines for
-easier processing as a stream."
-  (goto-char (point-min))
+removes all comments and newlines for easier processing as a
+stream."
+  (goto-char (point-min)) ; move to beginning of buffer
+
   ;; remove all comments
   (while (re-search-forward "\/\/.*\n" nil t)
     (replace-match ""))
-  (goto-char (point-min))
+
+  (goto-char (point-min)) ; move to beginning of buffer
 
   ;; with comments removed, safe to remove all newlines
   (while (re-search-forward "\n" nil t)
     (replace-match " "))
-  (goto-char (point-min)))
+
+  (goto-char (point-min)) ; move to beginning of buffer
+  )
+
+;;;-----------------------------------------------------------------------------
+;;; Top Level Port Copy Function
+;;;-----------------------------------------------------------------------------
+
+(defun verilog-port-copy ()
+  ""
+  (interactive)
+  (save-excursion) ; Save point, and current buffer; execute BODY; restore those things.
+
+  (let (parse-error name generic-list port-list context-clause)
+
+    ;; Enable case insensitive search, switch to syntax table that includes _,
+    ;; arrange to ignore intangible overlays, then execute BODY, and finally restore
+    ;; the old environment.  Used for consistent searching.
+    (setq parse-error
+
+          (catch 'parse
+
+            (setq name (verilog-get-module-name))
+            (setq generic-list (verilog-parse-generics)) ; parse parameters clause
+            (setq port-list (verilog-parse-ports))       ; parse port clause
+            (setq context-clause nil)                    ; not useful for now
+
+            ;; printouts
+            (message "Reading port of \"%s\"..."  name)
+            (print generic-list)
+            (print port-list)
+
+            nil))
+
+    (if parse-error
+        (error parse-error)
+      (setq vhdl-port-list (list name generic-list port-list context-clause)
+            vhdl-port-reversed-direction nil
+            vhdl-port-flattened nil))))
+
+;;;------------------------------------------------------------------------------
+;;; Module name
+;;;------------------------------------------------------------------------------
 
 (defun verilog-get-module-name ()
   "Get the name of the Verilog module in the currently opened
 buffer. if you have multiple modules in one file it will just
-choose the first one, sorry."
+choose the first one, sorry. Eventually it should choose the
+module at-point but for now that is not supported"
+
   (let ((parent-buffer (current-buffer)))
     (with-temp-buffer
       (insert-buffer-substring-no-properties parent-buffer)
@@ -48,22 +115,29 @@ choose the first one, sorry."
         ;; if there is a match, intern it, otherwise return nil
         (if name name nil)))))
 
+;;;-----------------------------------------------------------------------------
+;;; Parameters
+;;;-----------------------------------------------------------------------------
+
 (defun verilog-parse-ansi-parameters ()
-  ""
+  "Placeholder for ANSI style parameter parsing"
   ;; parse names (accept extended identifiers)
   nil
   )
 
 (defun verilog-parse-nonansi-parameters ()
-  ""
+  "Gathers up the non-ansi parameters in a Verilog module."
+
   (interactive)
+
   (let ((old-buffer (current-buffer)))
+
+    ;; create a temp buffer as a copy of the current one
     (with-temp-buffer
-
       (insert-buffer-substring-no-properties old-buffer)
-      (verilog-flatten-buffer)
 
-      ;; get uninitialized params, e.g. "parameter MXCNT;"
+      (verilog-flatten-buffer) ; flatten the current buffer into a easy to parse stream
+
       (goto-char (point-min))
       (let ((parameters nil))
 
@@ -71,6 +145,7 @@ choose the first one, sorry."
                    (name val)
                    (when name (push (cons name val) parameters))))
 
+          ;; get uninitialized params, e.g. "parameter MXCNT;"
           (while (re-search-forward
                   (concat
                    "parameter\s+" ;;
@@ -84,6 +159,9 @@ choose the first one, sorry."
           ;; get initialized params, e.g. "parameter MXCNT = 12;"
           (goto-char (point-min))
           (while (re-search-forward
+                  ;; FIXME: need to account for different radixes, 'h3 / 7'h3 /
+                  ;; 3'b10001 etc... right now this only works with integer
+                  ;; parameters
                   (concat
                    "parameter\s+" ;;
                    "\\([A-z,0-9]+\\)" ;; name
@@ -93,11 +171,13 @@ choose the first one, sorry."
                    ) nil t)
             (let ((name (match-string 1))
                   (val  (match-string 2)))
-              (push-to-params name val)))
+              (push-to-params name val))))
 
-          ) (print parameters) parameters))))
+        (print parameters) ; print the found parameters
+        parameters)))) ; return the found parameters
 
 (defun verilog-parse-generics ()
+  "Wrapper to gather up both ANSI and non-ANSI parameters into a list"
 
   ;; save everything in list
 
@@ -111,87 +191,63 @@ choose the first one, sorry."
         (append generic-list
                 (list (list names "integer" "" "" "")))))
 
-(defun verilog-parse-ports ()
-  ""
-  (when (vhdl-parse-string "port[ \t\n\r\f]*(" t)
-    ;; parse group comment and spacing
-    (setq group-comment (vhdl-parse-group-comment))
-    (setq end-of-list (vhdl-parse-string ")[ \t\n\r\f]*;[ \t\n\r\f]*" t))
-    (while (not end-of-list)
-      ;; parse object
-      (setq object
-            (and (vhdl-parse-string "\\<\\(signal\\|quantity\\|terminal\\)\\>[ \t\n\r\f]*" t)
-                 (match-string-no-properties 1)))
-      ;; parse names (accept extended identifiers)
-      (vhdl-parse-string "\\(\\\\[^\\]+\\\\\\|\\w+\\)[ \t\n\r\f]*")
-      (setq names (list (match-string-no-properties 1)))
-      (while (vhdl-parse-string ",[ \t\n\r\f]*\\(\\\\[^\\]+\\\\\\|\\w+\\)[ \t\n\r\f]*" t)
-        (setq names (append names (list (match-string-no-properties 1)))))
-      ;; parse direction
-      (vhdl-parse-string ":[ \t\n\r\f]*")
-      (setq direct
-            (and (vhdl-parse-string "\\<\\(in\\|out\\|inout\\|buffer\\|linkage\\)\\>[ \t\n\r\f]+" t)
-                 (match-string-no-properties 1)))
-      ;; parse type
-      (vhdl-parse-string "\\([^();\n]+\\)")
-      (setq type (match-string-no-properties 1))
-      (when (vhdl-in-comment-p) ; if stuck in comment
-        (setq type (concat type (and (vhdl-parse-string ".*")
-                                     (match-string-no-properties 0)))))
-      (setq comment nil)
-      (while (looking-at "(")
-        (setq type (concat type
-                           (buffer-substring-no-properties
-                            (point) (progn (forward-sexp) (point)))
-                           (and (vhdl-parse-string "\\([^();\n]*\\)" t)
-                                (match-string-no-properties 1)))))
-      ;; special case: closing parenthesis is on separate line
-      (when (and type (string-match "\\(\\s-*--\\s-*\\)\\(.*\\)" type))
-        (setq comment (substring type (match-beginning 2)))
-        (setq type (substring type 0 (match-beginning 1))))
-      ;; strip of trailing group-comment
-      (string-match "\\(\\(\\s-*\\S-+\\)+\\)\\s-*" type)
-      (setq type (substring type 0 (match-end 1)))
-      (vhdl-forward-syntactic-ws)
-      (setq end-of-list (vhdl-parse-string ")" t))
-      (vhdl-parse-string "\\s-*;\\s-*")
-      ;; parse inline comment
-      (unless comment
-        (setq comment (and (vhdl-parse-string "--\\s-*\\([^\n]*\\)" t)
-                           (match-string-no-properties 1))))
-      ;; save everything in list
-      (setq port-list (append port-list
-                              (list (list names object direct type
-                                          comment group-comment))))
-      ;; parse group comment and spacing
-      (setq group-comment (vhdl-parse-group-comment)))))
 
-(defun verilog-port-copy ()
+;;;-----------------------------------------------------------------------------
+;;; Ports
+;;;-----------------------------------------------------------------------------
+
+(defun verilog-parse-ansi-ports ()
   ""
   (interactive)
-  (save-excursion)
+  (let ((old-buffer (current-buffer)))
+    (with-temp-buffer
 
-  (let (parse-error name generic-list port-list context-clause)
-    ;; Enable case insensitive search, switch to syntax table that includes _,
-    ;; arrange to ignore intangible overlays, then execute BODY, and finally restore
-    ;; the old environment.  Used for consistent searching.
-    (setq parse-error
-          (catch 'parse
+      (insert-buffer-substring-no-properties old-buffer)
+      (verilog-flatten-buffer)
 
-            (setq name verilog-get-module-name)
-            (message "Reading port of \"%s\"..."  name)
+      (let ((ports nil))
 
-            ;; parse parameters clause
-            (setq generic-list (verilog-parse-generics))
+        (cl-flet ((push-to-ports
+                   (name dir type)
 
-            ;; parse port clause
-            (setq port-list (verilog-parse-ports))
+                   ;; match to specified format, e.g.
+                   ;; ((("qn_m2") nil "in" "std_logic_vector (9 downto 0)" nil "\n")
+                   (when name (push (list (list name) nil dir type nil "") ports))))
 
-            (setq context-clause nil)
+          ;; get std_logics
+          (goto-char (point-min))
+          (while (re-search-forward
+                  (concat
+                   "\\(input\\|output\\)\s+" ; direction
+                   "\\([0-9,A-z]+\\)"        ; name
+                   "\s*\\(,\\|)\\)"          ; trailing comma or paren
+                   ) nil t 1)
+            (let ((dir (match-string 1))
+                  (name (match-string 2)))
+              (push-to-ports name dir "std_logic")
+              (message (format "%s : %s" name dir)))
+            )
 
-            nil))
+          ;; get buses
+          (goto-char (point-min))
+          (while (re-search-forward
+                  (concat
+                   "\\(input\\|output\\)\s+" ; direction
+                   "\\[\\([0-9]*\\)\s*:"     ; bit high
+                   "\\([0-9]*\\)]\s*"        ; bit low
+                   "\\([0-9,A-z]+\\)"        ; name
+                   "\s*\\(,\\|)\\)"          ; trailing comma or paren
+                   ) nil t 1)
+            (let ((dir (match-string 1))
+                  (bithi (match-string 2))
+                  (bitlo (match-string 3))
+                  (name (match-string 4)))
+              ;;(push-to-ports name dir (format "std_logic_vector (%s downto %s)" bithi bitlo))
+              (message (format "%s : %s [%s:%s]" name dir bithi bitlo))
 
-    (if parse-error (error parse-error)
-      (setq vhdl-port-list (list name generic-list port-list context-clause)
-            vhdl-port-reversed-direction nil
-            vhdl-port-flattened nil))))
+              ))) ports))))
+
+(defun verilog-parse-ports ()
+  ""
+  (verilog-parse-ansi-ports))
+
