@@ -13,7 +13,7 @@
 
 (defun ap/toggle-theme ()
   (interactive)
-  (if (eq doom-theme 'leuven-summerfruit)
+  (if (eq doom-theme 'summerfruit)
       (progn
         (setq highlight-indent-guides-auto-enabled nil)
         (setq highlight-indent-guides-responsive "stack")
@@ -24,8 +24,8 @@
     (progn
       (setq highlight-indent-guides-auto-enabled nil)
       (setq highlight-indent-guides-responsive "stack")
-      (setq doom-theme 'leuven-summerfruit)
-      (load-theme 'leuven-summerfruit t)
+      (setq doom-theme 'summerfruit)
+      (load-theme 'summerfruit t)
       (set-face-foreground 'highlight-indent-guides-character-face "#efefef"))))
 
 (map! :leader :desc "Toggle Themes" "t t" #'ap/toggle-theme)
