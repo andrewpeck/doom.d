@@ -52,14 +52,18 @@
         (vref (string-to-number (read-string "vref: " "0.5")))
         (v-goal (string-to-number (read-string "voltage: " "3.33")))
         (divider "|-----+------+---------+----------|\n"))
-    ;; function to calculate the output voltage of a regulator
+
     (with-output-to-temp-buffer "regulator"
       (princ divider)
       (princ (format "| r1 | r2 | voltage | %% error |\n"))
       (princ divider)
-      (cl-flet
-          ((output-voltage (r1 r2 vref) (* vref (+ 1 (/ r2 r1))))
-           (percent-error (truth measured) (* 100 (/ (abs (- truth measured)) truth))))
+
+      (cl-flet (
+                ;; function to calculate the output voltage of a regulator
+                (output-voltage (r1 r2 vref) (* vref (+ 1.0 (/ r2 r1))))
+                ;; function to return percent error
+                (percent-error (truth measured) (* 100.0 (/ (abs (- truth measured)) truth))))
+
         ;; create multiples of the E* series
         (let ((r (append (mapcar (lambda (x) (* x 1000.0)) series)
                          (mapcar (lambda (x) (* x 10000.0)) series)))
@@ -78,10 +82,9 @@
                                    (regulator-format-resistor r2)
                                    v-out
                                    err)))))))))
-    (princ divider))
+      (princ divider))
 
-  (with-current-buffer "regulator"
-    (read-only-mode -1)
-    (org-mode)
-    (org-table-align)))
-t)
+    (with-current-buffer "regulator"
+      (read-only-mode -1)
+      (org-mode)
+      (org-table-align))) t)
