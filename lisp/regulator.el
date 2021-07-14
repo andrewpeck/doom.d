@@ -61,8 +61,8 @@
           ((output-voltage (r1 r2 vref) (* vref (+ 1 (/ r2 r1))))
            (percent-error (truth measured) (* 100 (/ (abs (- truth measured)) truth))))
         ;; create multiples of the E* series
-        (let ((r (append (mapcar (lambda (x) (* x 1000)) series)
-                         (mapcar (lambda (x) (* x 10000)) series)))
+        (let ((r (append (mapcar (lambda (x) (* x 1000.0)) series)
+                         (mapcar (lambda (x) (* x 10000.0)) series)))
               (min-err 100.0))
           ;; loop over all values of the resistors and minimize
           (dolist (r1 r)
