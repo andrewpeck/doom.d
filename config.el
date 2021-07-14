@@ -81,7 +81,7 @@
 (defun fix-ssh-permissions ()
   "Fix the ssh permissions on host computer"
   (interactive)
-  (shell-command "chmod g-w ~/")
+  (shell-command "chmod o-w ~/")
   (shell-command "chmod 700 ~/.ssh")
   (shell-command "chmod 600 ~/.ssh/authorized_keys"))
 
