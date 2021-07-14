@@ -9,6 +9,20 @@
 
 (after! org
 
+  (defun org-table-export-all ()
+    "Export to CSV all named tables in current org mode file"
+    (interactive)
+    (save-excursion
+    (goto-char (point-min))
+    (outline-show-all)
+    (let ((case-fold-search t))
+      (while (search-forward-regexp "#\\(\\+TBLNAME: \\|\\+TBLNAME: \\)\\(.*\\)" nil t)
+        (let ((name (match-string-no-properties 2)))
+          (progn
+            (next-line)
+            (princ (format "Exporting table to %s.csv\n" name))
+            (org-table-export (format "%s.csv" name) "orgtbl-to-csv")))))))
+
   (setq org-display-remote-inline-images 'download)
 
   (load "~/.doom.d/lisp/scimax-org-return.el")
