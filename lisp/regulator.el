@@ -48,7 +48,7 @@
 (defun find-regulator-divider ()
   "Find resistors for a voltage regulator"
   (interactive)
-  (let ((series (symbol-value (intern (completing-read "series: " '("e24" "e48" "e96" "e192")))))
+  (let ((series (symbol-value (intern (completing-read "series: " '("e48" "e24" "e96" "e192")))))
         (vref (string-to-number (read-string "vref: " "0.5")))
         (v-goal (string-to-number (read-string "voltage: " "3.33")))
         (divider "|-----+------+---------+----------|\n"))
