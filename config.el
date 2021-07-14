@@ -86,6 +86,8 @@
   (shell-command "chmod 700 ~/.ssh")
   (shell-command "chmod 600 ~/.ssh/authorized_keys"))
 
+(setq enable-local-variables t)
+
 ;;; Random
 ;;;------------------------------------------------------------------------------
 
