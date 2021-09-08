@@ -21,7 +21,7 @@
 (add-hook 'vhdl-mode-hook #'lsp-ui-mode)
 
 (after! lsp
-
+  (setq lsp-progress-via-spinner nil)
   (setq  ccls-sem-highlight-method nil)
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-enable-indentation nil)
