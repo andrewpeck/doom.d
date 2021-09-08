@@ -41,6 +41,7 @@
 (package! visual-fill-column)
 (package! vivado-mode :recipe (:host github :repo "ashtonchase/vivado_mode"))
 (package! yaml-mode)
+(package! crontab-mode)
 
 ;;(package! elfeed)
 ;;(package! org-bullets)
