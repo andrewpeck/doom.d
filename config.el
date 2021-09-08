@@ -199,8 +199,8 @@
 (cond
  ((string= (system-name) "strange") (setq doom-theme 'doom-material))
  ((string= (system-name) "pepper")  (setq doom-theme 'doom-gruvbox))
- ((string= (system-name) "larry")   (setq doom-theme 'summerfruit))
- (t (setq doom-theme 'summerfruit)))
+ ((string= (system-name) "larry")   (setq doom-theme 'doom-gruvbox))
+ (t (setq doom-theme 'doom-one)))
 
 ;;; FONT
 ;;------------------------------------------------------------------------------
