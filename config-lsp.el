@@ -25,6 +25,7 @@
   (setq  ccls-sem-highlight-method nil)
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-enable-indentation nil)
+  (setq +format-with-lsp nil)
 
   (add-hook 'python-mode-hook #'lsp-mode)
   (add-hook 'python-mode-hook #'lsp-ui-mode)
