@@ -36,6 +36,10 @@
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
 
+
+(setq flycheck-markdown-markdownlint-cli-config
+      (concat doom-private-dir "markdownlint-config.yml"))
+
 ;;(ad-remove-advice 'replace-highlight 'before 'anzu-replace-highlight)
 
 ;; save macros and other registers peristently
