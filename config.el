@@ -6,16 +6,22 @@
 ;;
 ;; Tecosaur: https://github.com/tecosaur/emacs-config/blob/master/config.org
 ;; Steve Purcell: https://github.com/purcell/emacs.d/
+;;
+;; Local Variables:
+;; eval: (make-variable-buffer-local 'after-save-hook)
+;; eval: (add-hook 'write-contents-hooks 'sort-elisp-block nil t)
+;; End:
 
 ;; Bookmarks
 
 (setq bookmark-default-file "~/.doom.d/bookmarks")
 
-(load  "~/.doom.d/config-git.el")
+;; start:sort
 (load  "~/.doom.d/config-evil.el")
 (load  "~/.doom.d/config-theme.el")
 (load  "~/.doom.d/config-lsp.el")
 (load  "~/.doom.d/config-doom.el")
+(load  "~/.doom.d/config-git.el")
 (load  "~/.doom.d/config-tex.el")
 (load  "~/.doom.d/config-align.el")
 (load  "~/.doom.d/config-org.el")
@@ -25,6 +31,7 @@
 (load  "~/.doom.d/lisp/tracking.el")
 (load  "~/.doom.d/lisp/verilog-port-copy.el")
 (load  "~/.doom.d/lisp/doctor.el")
+;; end:sort
 
 (defun +vc--remote-homepage ()
   (require 'browse-at-remote)
@@ -40,6 +47,21 @@
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
 
+(defun sort-code-block (comment-char)
+"Sorts a "
+  (let ((home (point)))
+    (progn
+      (goto-char (point-min))
+      (sort-lines 'nil
+                  (re-search-forward (concat "^\s*" comment-char " start:sort") nil t)
+                  (re-search-forward (concat "^\s*" comment-char " end:sort") nil t))
+      (goto-char home)))
+  nil ;; make sure to return nil here for write-contents-hooks
+  )
+
+(defun sort-elisp-block ()
+  (interactive)
+  (sort-code-block ";;"))
 
 (setq flycheck-markdown-markdownlint-cli-config
       (concat doom-private-dir "markdownlint-config.yml"))

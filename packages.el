@@ -1,6 +1,14 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+
+;; Local Variables:
+;; eval: (make-variable-buffer-local 'after-save-hook)
+;; https://www.emacswiki.org/emacs/UntabifyUponSave
+;; eval: (add-hook 'write-contents-hooks 'sort-elisp-block nil t)
+;; End:
+
+;; start:sort
 (package! all-the-icons)
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)
@@ -9,6 +17,7 @@
 (package! browse-at-remote)
 (package! company-jedi)
 (package! counsel-etags)
+(package! crontab-mode)
 (package! doom-todo-ivy :recipe (:host github :repo "jsmestad/doom-todo-ivy"))
 (package! dumb-jump)
 (package! eaf :recipe (:host github :repo "manateelazycat/emacs-application-framework"))
@@ -25,6 +34,7 @@
 (package! logview)
 (package! lorem-ipsum)
 (package! lsp-mode :recipe (:host github :repo "emacs-lsp/lsp-mode"))
+(package! lsp-pyright)
 (package! magit-todos)
 (package! mixed-pitch)
 (package! org-attach-screenshot)
@@ -41,23 +51,21 @@
 (package! visual-fill-column)
 (package! vivado-mode :recipe (:host github :repo "ashtonchase/vivado_mode"))
 (package! yaml-mode)
-(package! lsp-pyright)
-(package! crontab-mode)
-
-;;(package! elfeed)
-;;(package! org-bullets)
-;(package! fzf :recipe (:host github :repo "seenaburns/fzf.el"))
-;(package! leuven-theme)
+;; end:sort
 ;;(package! auctex)
 ;;(package! clang-format)
 ;;(package! clang-format+)
 ;;(package! company)
 ;;(package! company-box)
 ;;(package! company-tabnine)
+;;(package! elfeed)
 ;;(package! elpy)
 ;;(package! esup)
 ;;(package! fira-code-mode)
+;;(package! fzf :recipe (:host github :repo "seenaburns/fzf.el"))
 ;;(package! good-scroll :recipe (:host github :repo "io12/good-scroll.el"))
+;;(package! leuven-theme)
+;;(package! org-bullets)
 ;;(package! org-gcal :recipe (:host github :repo "kidd/org-gcal.el"))
 ;;(package! org-roam-server)
 ;;(package! org-sync)
