@@ -32,6 +32,10 @@
         (cdr (browse-at-remote--get-url-from-remote (car url))))
       (user-error "Can't find homepage for current project")))
 
+
+(setq ws-butler-global-exempt-modes
+      '(special-mode comint-mode term-mode eshell-mode markdown-mode))
+
 ;;------------------------------------------------------------------------------
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
