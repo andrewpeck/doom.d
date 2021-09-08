@@ -21,6 +21,8 @@
   ;; vhdl
   (check-for-exe "vhdl-tool" "")
   (check-for-exe "ghdl" "")
+  ;; python
+  (check-for-exe "pyright" "https://github.com/microsoft/pyright")
   ;; bash
   (check-for-exe "shellcheck" "")
   ;; utilities
