@@ -31,7 +31,7 @@
 
   ;; VHDL Tool
   (setq lsp-vhdl-server 'vhdl-tool)
-  (setq lsp-vhdl-server-path "~/bin/vhdl-tool")
+  (setq lsp-vhdl-server-path "vhdl-tool")
   ;; (setq lsp-vhdl-server 'vhdl-ls)
   ;; (setq lsp-vhdl-server-path "~/bin/vhdl_ls")
   )
