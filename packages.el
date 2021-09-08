@@ -41,6 +41,7 @@
 (package! visual-fill-column)
 (package! vivado-mode :recipe (:host github :repo "ashtonchase/vivado_mode"))
 (package! yaml-mode)
+(package! lsp-pyright)
 (package! crontab-mode)
 
 ;;(package! elfeed)
