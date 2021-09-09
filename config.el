@@ -227,11 +227,15 @@
 ;;; FONT
 ;;------------------------------------------------------------------------------
 
-(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-variable-pitch-font (font-spec :family "IBM Plex Mono"   :size 17)
+;; (setq my-font "Inconsolata")
+(setq my-font "JetBrains Mono")
+;; (setq my-font "IBM Plex Mono")
+
+(setq doom-font (font-spec :family my-font :size 14)
+      doom-big-font (font-spec :family my-font :size 14)
+      doom-variable-pitch-font (font-spec :family my-font  :size 17)
       ;;doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17)
-      doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
+      doom-serif-font (font-spec :family my-font :weight 'light))
 
 ;; Syntax Highlighting
 ;;------------------------------------------------------------------------------
