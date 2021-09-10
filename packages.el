@@ -39,7 +39,7 @@
 (package! mixed-pitch)
 (package! org-attach-screenshot)
 (package! org-download :recipe (:host github :repo "abo-abo/org-download"))
-(package! org-roam :recipe (:host github :repo "org-roam/org-roam" :branch "v2"))
+(package! org-roam :recipe (:host github :repo "org-roam/org-roam"))
 (package! ox-clip :recipe (:host github :repo "jkitchin/ox-clip"))
 (package! ox-gfm)
 (package! pcre2el)
