@@ -52,6 +52,8 @@
 (package! vivado-mode :recipe (:host github :repo "ashtonchase/vivado_mode"))
 (package! yaml-mode)
 ;; end:sort
+
+;; start:sort
 ;;(package! auctex)
 ;;(package! clang-format)
 ;;(package! clang-format+)
@@ -73,3 +75,4 @@
 ;;(package! rainbow-mode) ;; included in rgb package
 ;;(package! theme-changer :recipe (:host github :repo "hadronzoo/theme-changer"))
 ;;(package! vterm)
+;; end:sort

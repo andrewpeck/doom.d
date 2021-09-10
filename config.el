@@ -48,16 +48,23 @@
 ;;------------------------------------------------------------------------------
 
 (defun sort-code-block (comment-char)
-"Sorts a "
-  (let ((home (point)))
-    (progn
-      (goto-char (point-min))
-      (sort-lines 'nil
-                  (re-search-forward (concat "^\s*" comment-char " start:sort") nil t)
-                  (re-search-forward (concat "^\s*" comment-char " end:sort") nil t))
-      (goto-char home)))
-  nil ;; make sure to return nil here for write-contents-hooks
-  )
+  "Sorts a "
+  (let ((home (point))
+        (start-search (concat "^\s*" comment-char " start:sort"))
+        (end-search (concat "^\s*" comment-char " end:sort")))
+    (goto-char (point-min))
+    (while (re-search-forward start-search nil t)
+
+      (previous-line)
+      (let ((start (re-search-forward start-search nil t))
+            (end
+             ;; want to get the match *before* end:sort
+             (- (progn (re-search-forward end-search nil t)
+                       (match-beginning 0)) 1)))
+        (sort-lines 'nil start end)))
+    (goto-char home))
+  ;; make sure to return nil here for write-contents-hooks
+  nil)
 
 (defun sort-elisp-block ()
   (interactive)
