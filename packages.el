@@ -28,7 +28,6 @@
 (package! flymake-json)
 (package! graphviz-dot-mode)
 (package! hl-line :disable t)
-(package! hog-emacs :recipe (:host github :repo "andrewpeck/hog-emacs"))
 (package! htmlize :recipe (:host github :repo "hniksic/emacs-htmlize"))
 (package! irony)
 (package! logview)

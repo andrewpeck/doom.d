@@ -27,6 +27,7 @@
 (load  "~/.doom.d/config-org.el")
 (load  "~/.doom.d/config-company.el")
 (load  "~/.doom.d/lisp/system-install.el")
+(load  "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
 (load  "~/.doom.d/lisp/regulator.el")
 (load  "~/.doom.d/lisp/tracking.el")
 (load  "~/.doom.d/lisp/verilog-port-copy.el")

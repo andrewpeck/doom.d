@@ -1,0 +1,3 @@
+[submodule "lisp/hog-emacs"]
+	path = lisp/hog-emacs
+	url = https://github.com/andrewpeck/hog-emacs
