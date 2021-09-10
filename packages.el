@@ -1,6 +1,4 @@
 ;; -*- no-byte-compile: t; -*-
-;;; $DOOMDIR/packages.el
-
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'after-save-hook)
@@ -8,7 +6,7 @@
 ;; eval: (add-hook 'write-contents-hooks 'sort-elisp-block nil t)
 ;; End:
 
-;; start:sort
+;; start:sort -- keep the stuff below sorted alphabetically
 (package! all-the-icons)
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)
@@ -52,7 +50,7 @@
 (package! yaml-mode)
 ;; end:sort
 
-;; start:sort
+;; start:sort -- keep the stuff below sorted alphabetically
 ;;(package! auctex)
 ;;(package! clang-format)
 ;;(package! clang-format+)
