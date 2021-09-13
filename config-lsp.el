@@ -20,7 +20,7 @@
 (add-hook 'vhdl-mode-hook #'lsp)
 (add-hook 'vhdl-mode-hook #'lsp-ui-mode)
 
-(after! lsp
+(after! lsp-mode
   (setq lsp-progress-via-spinner nil)
   (setq  ccls-sem-highlight-method nil)
   (setq lsp-enable-on-type-formatting nil)
