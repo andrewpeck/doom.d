@@ -136,6 +136,7 @@
   t
   )
 
+(setq python-shell--interpreter  "python3")
 (setq enable-local-variables t)
 
 ;;; Random
