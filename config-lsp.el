@@ -11,7 +11,7 @@
                 lsp-ui-doc-max-width 150
                 lsp-ui-sideline-show-hover nil
                 lsp-ui-sideline-enable nil
-                lsp-ui-doc-delay 0.1))
+                lsp-ui-doc-delay 0.2))
 
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'c-mode-hook 'irony-mode)
