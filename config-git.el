@@ -16,6 +16,8 @@
 
 (after! forge
 
+  (setq forge-topic-list-limit '(60 . 0))
+
   (add-to-list 'forge-alist
                '("gitlab.cern.ch"
                  "gitlab.cern.ch/api/v4"
