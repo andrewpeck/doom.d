@@ -9,6 +9,14 @@
 
 (after! org
 
+  (defun org-latex-preview-all ()
+      (interactive)
+      (org-latex-preview '(16)))
+
+  (defun org-latex-preview-clear ()
+      (interactive)
+      (org-latex-preview '(64)))
+
   (defun org-table-export-all ()
     "Export to CSV all named tables in current org mode file"
     (interactive)
