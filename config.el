@@ -132,7 +132,9 @@
   (interactive)
   (shell-command "chmod o-w ~/")
   (shell-command "chmod 700 ~/.ssh")
-  (shell-command "chmod 600 ~/.ssh/authorized_keys"))
+  (shell-command "chmod 600 ~/.ssh/authorized_keys")
+  t
+  )
 
 (setq enable-local-variables t)
 
