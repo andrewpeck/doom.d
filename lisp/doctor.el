@@ -46,6 +46,7 @@
         ;; vhdl
         (check-for-exe "vhdl-tool" "https://www.vhdltool.com/")
         (check-for-exe "ghdl" )
+        (check-for-exe "ghdl-ls" )
         ;; python
         (check-for-exe "pyright" "https://github.com/microsoft/pyright")
         ;; bash
