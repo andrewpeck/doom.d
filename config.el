@@ -34,6 +34,14 @@
 (load  "~/.doom.d/lisp/verilog-port-copy.el")
 ;; end:sort
 
+(defun copy-html-to-ohm ()
+  (start-process
+   "copy-to-ohm"
+   nil "scp"
+   (format "%s.html" (file-name-base))
+   "ohm:~/public_html/notes/")
+  )
+
 (defun +vc--remote-homepage ()
   (require 'browse-at-remote)
   (or (let ((url (browse-at-remote--remote-ref)))
