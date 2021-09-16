@@ -50,7 +50,11 @@
         ;; python
         (check-for-exe "pyright" "https://github.com/microsoft/pyright")
         ;; bash
-        (check-for-exe "shellcheck" "sudo dnf install ShellCheck")
+        (check-for-exe "shellcheck" "" "sudo dnf install ShellCheck")
+        ;; graph-easy
+        (check-for-exe "graph-easy" "" "cpan install Graph::Easy")
+        (check-for-exe "ditaa" "" "sudo apt install ditaa")
+
         ;; utilities
         (check-for-exe "aspell" "sudo dnf install aspell")
         (check-for-exe "rg" "sudo dnf install rg")
