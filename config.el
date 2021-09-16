@@ -52,6 +52,8 @@
 (setq ws-butler-global-exempt-modes
       '(special-mode comint-mode term-mode eshell-mode markdown-mode))
 
+(setq org-ditaa-jar-path (executable-find "ditaa"))
+
 ;;------------------------------------------------------------------------------
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
