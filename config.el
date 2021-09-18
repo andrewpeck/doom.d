@@ -37,10 +37,9 @@
 (defun copy-html-to-ohm ()
   (start-process
    "copy-to-ohm"
-   nil "scp"
+   nil "rsync" "-av"
    (format "%s.html" (file-name-base))
-   "ohm:~/public_html/notes/")
-  )
+   "ohm:~/public_html/notes/"))
 
 (defun +vc--remote-homepage ()
   (require 'browse-at-remote)
