@@ -50,8 +50,18 @@
 
   ;; Ctrl-n to search Dropbox notes
   (define-key evil-normal-state-map (kbd "C-n")
-    (lambda () (interactive)
-      (counsel-fzf "" "~/Dropbox/notes")))
+    (lambda ()
+      (interactive)
+      (let ((default-directory "~/Dropbox/notes"))
+        (ivy-read "Find file: " (counsel-git-cands default-directory)
+                  :initial-input ""
+                  :action #'counsel-git-action
+                  :caller 'counsel-git))))
+
+  ;; (define-key evil-normal-state-map (kbd "C-n")
+  ;;   (lambda () (interactive)
+  ;;     (fzf-find-file-in-dir "~/Dropbox/notes")))
+  ;;     ;;(counsel-fzf "" "~/Dropbox/notes")))
 
   ;; C-t to open TODO file
   ;;  • Needed to unbind some conflicts first
