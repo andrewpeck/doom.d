@@ -1,3 +1,6 @@
 [submodule "lisp/hog-emacs"]
 	path = lisp/hog-emacs
 	url = https://github.com/andrewpeck/hog-emacs
+[submodule "lisp/hdl_deps"]
+	path = lisp/hdl_deps
+	url = https://github.com/andrewpeck/hdl_deps
