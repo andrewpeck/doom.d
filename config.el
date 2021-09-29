@@ -84,6 +84,12 @@
 (setq flycheck-markdown-markdownlint-cli-config
       (concat doom-private-dir "markdownlint-config.yml"))
 
+(setq flycheck-flake8rc
+      (concat doom-private-dir "flake8.rc"))
+
+(setq flycheck-pylintrc
+      (concat doom-private-dir "pylint.rc"))
+
 ;;(ad-remove-advice 'replace-highlight 'before 'anzu-replace-highlight)
 
 ;; save macros and other registers peristently
