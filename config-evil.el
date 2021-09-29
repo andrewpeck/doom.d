@@ -104,28 +104,30 @@
     "Opens the present working directory in Terminator"
     (interactive)
     (let ((pwd (file-name-directory (buffer-file-name))))
-      (start-process "terminator"
-                     (format "*terminator-%s" pwd)
-                     "terminator" "--working-directory" pwd )))
+      (call-process (executable-find "terminator") nil nil nil "--working-directory" pwd)))
 
   (defun open-buffer-in-vim ()
     "Opens the current buffer in gvim :)"
     (interactive)
-    (start-process "gvim" (format "*gvim-%s*" (buffer-file-name)) "gvim" (buffer-file-name)))
+    (call-process (executable-find "gvim") nil nil nil (buffer-file-name)))
 
   (defun org-make-tables-pretty ()
     "Makes org mode tables pretty in the current buffer"
     (interactive)
     (org-table-map-tables 'org-table-align))
 
-  (defun browse-file-directory ()
+  (defun xdg-browse-directory ()
     "Open the current file's directory however the OS would."
     (interactive)
-    (async-shell-command
-     (format "xdg-open %s" (file-name-directory (buffer-file-name)))))
+    (call-process (executable-find "xdg-open") nil nil nil (file-name-directory (buffer-file-name))))
+
+  (defun xdg-open-file ()
+    "Open the current file however the OS would."
+    (interactive)
+    (call-process (executable-find "xdg-open") nil nil nil (buffer-file-name)))
 
   (evil-leader/set-key "bt" 'org-make-tables-pretty)
-  (evil-leader/set-key "bf" 'browse-file-directory)
+  (evil-leader/set-key "bf" 'xdg-browse-directory)
   (evil-leader/set-key "ot" 'open-pwd-in-terminator)
   (evil-leader/set-key "vv" 'open-buffer-in-vim)
   (evil-leader/set-key "tt" 'doom/ivy-tasks)
