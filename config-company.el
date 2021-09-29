@@ -12,9 +12,9 @@
   (define-key company-active-map (kbd "<return>") #'company-complete-selection)
 
   ;; company settings
-  (setq company-minimum-prefix-length 2)
+  (setq company-minimum-prefix-length 4)
   (setq company-auto-commit nil)
-  (setq company-idle-delay 0.2)
+  (setq company-idle-delay 0.4)
   (setq company-require-match 'never)
   (setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
   (setq-default company-box-show-single-candidate 'always)
