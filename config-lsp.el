@@ -27,7 +27,7 @@
 (after! lsp-mode
 
   ;; vhdl-tool, hdl-checker vhdl-ls ghdl-ls
-  (setq lsp-vhdl-server 'vhdl-tool)
+  (setq lsp-vhdl-server 'ghdl-ls)
   (cl-case lsp-vhdl-server
     ('vhdl-tool (setq lsp-vhdl-server-path (executable-find "vhdl-tool")))
     ('ghdl-ls (setq lsp-vhdl-server-path (executable-find "ghdl-ls")))
