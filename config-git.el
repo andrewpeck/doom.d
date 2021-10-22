@@ -3,11 +3,6 @@
 ;; Magit
 ;;------------------------------------------------------------------------------
 
-
-(after! browse-at-remote
-  (add-to-list 'browse-at-remote-remote-type-domains
-               '("gitlab.cern.ch" . "gitlab")))
-
 (after! magit
   ;;(magit-todos-mode)
   (setq-default magit-diff-refine-hunk 'all)
