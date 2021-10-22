@@ -1,6 +1,6 @@
 ;;; ../.dotfiles/doom.d/lisp/doctor.el -*- lexical-binding: t; -*-
 
-(defun check-for-exe (exe &optional url cmd)
+(cl-defun check-for-exe (exe &key url cmd)
   (if (executable-find exe)
       (progn (princ (format "- [X] Found %s\n" exe)))
     (progn
@@ -37,31 +37,47 @@
 
         (princ "* Doctor\n")
         (princ "** Checking for required programs\n")
-        ;; external programs wanted by emacs
+        ;; external programs wanted by my emacs
+        (check-for-exe "terminator")
+        (check-for-exe "bat")
+        (check-for-exe "rg")
+        (check-for-exe "ag" :cmd "sudo apt install silversearcher-ag")
+
         ;; markdown
-        (check-for-exe "markdownlint" "https://github.com/igorshubovych/markdownlint-cli" "sudo npm install -g markdownlint-cli")
+        (check-for-exe "markdownlint"
+                       :url "https://github.com/igorshubovych/markdownlint-cli"
+                       :cmd "sudo npm install -g markdownlint-cli")
         ;; c/c++
-        (check-for-exe "bear" "https://github.com/rizsotto/Bear" "sudo dnf install bear")
+        (check-for-exe "bear"
+                       :url "https://github.com/rizsotto/Bear"
+                       :cmd "sudo dnf install bear")
         (check-for-exe "ccls" )
+
         ;; vhdl
-        (check-for-exe "vhdl-tool" "https://www.vhdltool.com/")
-        (check-for-exe "ghdl" )
-        (check-for-exe "ghdl-ls" )
+        (check-for-exe "vhdl-tool" :url "https://www.vhdltool.com/")
+        (check-for-exe "ghdl")
+        (check-for-exe "ghdl-ls")
+        (check-for-exe "vhdl_ls")
+
         ;; python
-        (check-for-exe "pyright" "https://github.com/microsoft/pyright")
+        (check-for-exe "pyright"
+                       :url "https://github.com/microsoft/pyright"
+                       :cmd "npm install -g pyright")
+
         ;; bash
-        (check-for-exe "shellcheck" "" "sudo dnf install ShellCheck")
+        (check-for-exe "shellcheck" :cmd "sudo dnf install ShellCheck")
+
         ;; graph-easy
-        (check-for-exe "graph-easy" "" "cpan install Graph::Easy")
-        (check-for-exe "ditaa" "" "sudo apt install ditaa")
+        (check-for-exe "graph-easy" :cmd "cpan install Graph::Easy")
+        (check-for-exe "dot")
+        (check-for-exe "ditaa" :cmd "sudo apt install ditaa")
 
         ;; utilities
-        (check-for-exe "aspell" "sudo dnf install aspell")
-        (check-for-exe "rg" "sudo dnf install rg")
-        (check-for-exe "fzf" "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install")
+        (check-for-exe "aspell" :cmd "sudo dnf install aspell")
+        (check-for-exe "rg" :cmd "sudo dnf install rg")
+        (check-for-exe "fzf" :cmd "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install")
         (check-for-exe "gvim")
         (check-for-exe "xfce4-screenshooter")
-        ;;(check-for-exe "some-exe" nil "sudo dnf install some-exe")
 
         ;; make sure ssh permissions are right
         ;; TODO: should just check here and prompt if its wrong?
