@@ -9,6 +9,10 @@
   ;;(setq magit-repository-directories '(("~/" . 1)))
   )
 
+(after! browse-at-remote
+  (add-to-list 'browse-at-remote-remote-type-regexps
+               '("^gitlab\\.cern.ch$" . "gitlab")))
+
 (after! forge
 
   (setq forge-topic-list-limit '(60 . 0))
