@@ -146,7 +146,7 @@
   ;; Let enter open org mode links
 
   (define-key evil-motion-state-map (kbd "SPC") nil)
-  (define-key evil-motion-state-map (kbd "RET") 'org-open-at-point)
+  (define-key evil-motion-state-map (kbd "RET") 'link-hint-open-link-at-point)
 
   ;; Tab in normal mode shouldn't indent
 
