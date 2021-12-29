@@ -254,7 +254,7 @@
                 org-download-link-format       "[[file:%s]]\n"
                 ;;org-download-image-attr-list   ("#+attr_org: :width 800px")
                 org-download-annotate-function (lambda (text) "")
-                org-download-image-org-width   1000))
+                org-download-image-org-width   800))
 
 (after! org-attach-screenshot
   (setq org-attach-screenshot-command-line "xfce4-screenshooter -r -s %f"))
