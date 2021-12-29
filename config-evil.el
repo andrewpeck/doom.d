@@ -48,6 +48,10 @@
     (lambda () (interactive)
       (counsel-fzf "" (projectile-project-root))))
 
+  (define-key evil-normal-state-map (kbd "C-S-p")
+    (lambda () (interactive)
+      (counsel-fzf "" "~/Dropbox")))
+
   ;; Ctrl-n to search Dropbox notes
   (define-key evil-normal-state-map (kbd "C-n")
     (lambda ()
