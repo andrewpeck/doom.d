@@ -25,14 +25,14 @@
 ;; exhaustive!  I'm also including other "joining" keywords that say
 ;; what the constraint means, like FROM-THRU-TO, and PERIOD.
 (setq ucf-constraint-attributes-etc
-      '("TNM_NET" "TPTHRU" "PERIOD" "OFFSET" "VALID" "BEFORE" "AFTER" "LOC"
+      '("TNM_NET" "TPTHRU" "PERIOD" "OFFSET" "OUT" "VALID" "BEFORE" "AFTER" "LOC"
         "IOSTANDARD" "FROM" "THRU" "TO" "TNM" "LOC" "RLOC" "BEL"
         "BUFG" "CLOCK_DEDICATED_ROUTE" "DIFF_TERM" "FAST" "FLOAT"
         "IODELAY_GROUP" "PART" "IDELAY_VALUE" "SIGNAL_PATTERN"
         "CONFIG_MODE" "DCI_CASCADE" "ENABLE_SUSPEND" "PROHIBIT"
         "MCB_PERFORMANCE" "POST_CRC" "POST_CRC_ACTION" "POST_CRC_FREQ"
         "POST_CRC_INIT_FLAG" "POST_CRC_SIGNAL" "POST_CRC_SOURCE"
-        "STEPPING" "VCCAUX" "VREF"))
+        "STEPPING" "VCCAUX" "VREF" "RANGE" "GROUP" "PLACE"))
 
 ;; "Constants" are pre-defined values (the "BAR" in "FOO=BAR") as well
 ;; as "tags" like TIG, and defined units like "MHz".
@@ -42,9 +42,9 @@
         "TRUE" "YES" "NO" "PULLUP" "UPPER" "LOWER" "CLK" "OE" "SR"
         "DATA_GATE" "N/A" "FILTERED" "UNFILTERED" "STANDARD"
         "EXTENDED" "ENABLE" "DISABLE" "ONESHOT" "HALT" "CONTINUE"
-        "OFF" "ALWAYSACTIVE" "FREEZE"
+        "OFF" "ALWAYSACTIVE" "FREEZE" "CLOSED"
         ;; Units
-        "MHz" "GHz" "kHz" "ps" "ns" "micro" "ms"
+        "MHz" "GHz" "kHz" "ps" "ns" "micro" "ms" "\%"
         ;; IOSTANDARDs -- believed to be exhaustive for 6-series parts
         ;; LVCMOS
         "LVCMOS12" "LVCMOS15" "LVCMOS18" "LVCMOS25"
@@ -99,17 +99,35 @@
               "[0-9]+"
               "\\>"))
 
+(setq ucf-numbers-re
+      (concat "\\<"
+              "[0-9]+\.?[0-9]+"
+              "\\>"))
+
+(setq ucf-string-re
+      (rx "\"" (group (0+ (or (1+ (not (any "\"" "\\"))) (seq "\\" anything)))) "\""))
+
 
 ;; "name-introducers" imply that the next symbol is a new name in the
 ;; constraint file. That is in a like "FOO BAR BAZ ...", if "FOO" is a
 ;; name-introducer, then "BAR" is a name.
 (setq ucf-name-introducers
-      '("NET" "INST" "TIMESPEC" "TIMEGRP"))
+      '("NET" "INST" "TIMESPEC" "TIMEGRP" "AREA_GROUP" "AFTER"))
 
 (define-generic-mode 'ucf-mode
+  ;; comment list
   '("#")
+
+  ;; keyword list
   nil
+
+  ;; font lock list:
+  ;;    a list of additional expressions to highlight.  Each
+  ;;    element of this list should have the same form as an element of
+  ;;    font-lock-keywords.
+
   `((,(regexp-opt ucf-constraint-keywords 'symbols) . 'font-lock-keyword-face)
+    (,ucf-numbers-re . 'highlight-numbers-number)
     (,(regexp-opt ucf-constraint-attributes-etc 'symbols) .  'font-lock-type-face)
     (,numbered-things-re . 'font-lock-type-face)
     (,(regexp-opt ucf-constraint-constants 'symbols) .  'font-lock-constant-face)
@@ -117,10 +135,31 @@
     ;; Anchored regexp should highlight the BAR in FOO BAR or FOO "BAR".
     (,(regexp-opt ucf-name-introducers 'symbols) "\\_<\"?\\(.*?\\)\"?\\_>\\(.+\\)"
      nil nil
-     (1 'font-lock-variable-name-face)))
+     (1 'font-lock-string-face))
+    (,ucf-string-re . 'font-lock-string-face)
+    )
+
+  ;; auto-mode-list
   '(".ucf\\'")
+
+  ;; function list
   (list
    (lambda ()
+
+     ;; The syntax is changed only for table SYNTAX-TABLE, which defaults to
+     ;; the current buffer's syntax table.
+     ;; CHAR may be a cons (MIN . MAX), in which case, syntaxes of all characters
+     ;; in the range MIN to MAX are changed.
+     ;;
+     ;;  Space or -  whitespace syntax.    w   word constituent.
+     ;;  _           symbol constituent.   .   punctuation.
+     ;;  (           open-parenthesis.     )   close-parenthesis.
+     ;;  "           string quote.         \   escape.
+     ;;  $           paired delimiter.     '   expression quote or prefix operator.
+     ;;  <           comment starter.      >   comment ender.
+     ;;  /           character-quote.      @   inherit from parent table.
+     ;;  |           generic string fence. !   generic comment fence.
+
      ;; Treat these characters as punctuation, meaning that
      ;; e.g. "|KEYWORD" is treated similarly to "KEYWORD".
      (modify-syntax-entry ?| ".")
@@ -132,5 +171,9 @@
      ;; Also, allow ? to be part of a symbol so that heierarchical
      ;; names are OK.
      (modify-syntax-entry ?\? "_")
+     (modify-syntax-entry ?\] "_")
+     (modify-syntax-entry ?\[ "_")
+     (modify-syntax-entry ?\. "_")
      ))
+  ;; docstring
   "Major mode for editing Xilinx User Constraints Files")

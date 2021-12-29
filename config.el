@@ -33,6 +33,7 @@
 (load  "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
 (load  "~/.doom.d/lisp/regulator.el")
 (load  "~/.doom.d/lisp/hdl_deps/hdl_deps.el")
+(load  "~/.doom.d/lisp/ucf-mode.el")
 (load  "~/.doom.d/lisp/system-install.el")
 (load  "~/.doom.d/lisp/tracking.el")
 (load  "~/.doom.d/lisp/verilog-port-copy.el")
