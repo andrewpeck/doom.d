@@ -27,6 +27,7 @@
 (package! graphviz-dot-mode)
 (package! hl-line :disable t)
 (package! htmlize :recipe (:host github :repo "hniksic/emacs-htmlize"))
+(package! infix.el :recipe (:host github :repo "rspeele/infix.el"))
 (package! irony)
 (package! logview)
 (package! lorem-ipsum)
