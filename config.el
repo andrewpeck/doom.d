@@ -16,6 +16,8 @@
 
 (setq bookmark-default-file "~/.doom.d/bookmarks")
 
+(setq so-long-threshold 800)
+
 ;; start:sort
 (load  "~/.doom.d/config-align.el")
 (load  "~/.doom.d/config-company.el")
