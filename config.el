@@ -73,7 +73,9 @@
 (map! :leader :desc "Reload buffer" "b r" #'reload-this-buffer)
 
 (defun sort-code-block (comment-char)
-  "Sorts a "
+  "Alphabetically sorts code blocks in a file, starting with #
+start:sort and ending with # end:sort, where # is the comment
+char of the language you are editing"
   (let ((home (point))
         (start-search (concat "^\s*" comment-char " start:sort"))
         (end-search (concat "^\s*" comment-char " end:sort")))
