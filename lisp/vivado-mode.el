@@ -33,7 +33,7 @@
 ;; (add-hook 'vivado-mode-hook '(lambda () (font-lock-mode 1)))
 ;; (autoload 'vivado-mode "vivado-mode")
 
-(setq vivado_keywords
+(setq vivado-keywords
  '(("\\<\\(get_files\\|get_clocks\\|get_cells\\|get_pins\\|get_ports\\|get_nets\\)\\>" . font-lock-keyword-face)
    ("\\<\\(create_generated_clock\\|create_clock\\|set_input_jitter\\|set_input_delay\\|set_output_delay\\)\\>" . font-lock-keyword-face)
    ("\\<\\(set_property\\|set_clock_groups\\|set_multicycle_path\\|set_false_path\\|set_max_delay\\)\\>" . font-lock-keyword-face)
@@ -59,8 +59,8 @@
   "Major mode for Xilinx Vivado" ; docstring
 
   ;; body
-  (setq font-lock-defaults (list (append vivado_keywords tcl-font-lock-keywords)))
-  (setq mode-name "vivado mode")
+  (setq font-lock-defaults (list (append vivado-keywords tcl-font-lock-keywords)))
+  (setq mode-name "Vivado")
 )
 
 
