@@ -62,6 +62,16 @@
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
 
+(defun reload-this-buffer ()
+  "Kill and re-open the current buffer"
+  (interactive)
+  (revert-buffer)
+  (let ((tmp-buffer-file (buffer-file-name)))
+    (kill-buffer (buffer-name))
+    (find-file tmp-buffer-file)))
+
+(map! :leader :desc "Reload buffer" "b r" #'reload-this-buffer)
+
 (defun sort-code-block (comment-char)
   "Sorts a "
   (let ((home (point))
