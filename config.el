@@ -29,6 +29,7 @@
 (load  "~/.doom.d/config-tex.el")
 (load  "~/.doom.d/config-theme.el")
 (load  "~/.doom.d/lisp/doctor.el")
+(load  "~/.doom.d/lisp/vivado-mode.el")
 (load  "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
 (load  "~/.doom.d/lisp/regulator.el")
 (load  "~/.doom.d/lisp/hdl_deps/hdl_deps.el")

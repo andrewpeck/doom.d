@@ -46,7 +46,6 @@
 (package! toc-org)
 (package! vimrc-mode)
 (package! visual-fill-column)
-(package! vivado-mode :recipe (:host github :repo "ashtonchase/vivado_mode"))
 (package! yaml-mode)
 ;; end:sort
 
