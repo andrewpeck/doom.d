@@ -346,3 +346,40 @@
 ;;          :head "#+SETUPFILE: \"org.setup\"\n#+TITLE: ${title}\n#"
 
 ;;          :unnarrowed t))
+
+;; taken from:
+;; https://github.com/agzam/.doom.d/blob/main/modules/custom/org/autoload/custom.el#L181-L214
+(defun org-link-parse (link)
+  ;; borrowed and adopted from:
+  ;; github.com/xuchunyang/emacs.d/blob/5f4f873cf7a671a36f686f3d1346fd7c5a5462bc/lisp/chunyang-misc.el#L488-L526
+  (if (string-match
+       (rx "[[" (group (0+ anything)) "][" (group (0+ anything)) "]]")
+       link)
+      (list (match-string 1 link)
+            (match-string 2 link))
+    (error "Cannot parse %s as Org link" link)))
+
+(defun org-link->markdown ()
+  (interactive)
+  (let* ((ctx (org-in-regexp org-any-link-re))
+         (beg (car ctx)) (end (cdr ctx))
+         (link-txt (buffer-substring beg end))
+         (parsed (unless (string-blank-p link-txt)
+                   (seq-map
+                    ;; escape square brackets and parens, see:
+                    ;; https://emacs.stackexchange.com/questions/68814/escape-all-square-brackets-with-replace-regexp-in-string
+                    (lambda (m)
+                      (replace-regexp-in-string "\\[\\|\\]\\|(\\|)" "\\\\\\&" m))
+                    (org-link-parse link-txt)))))
+    (when parsed
+      (delete-region beg end)
+      (insert (apply 'format "[%s](%s)" (reverse parsed))))))
+
+(defun markdown-link->org ()
+  (interactive)
+  (when (markdown-link-p)
+    (let* ((l (markdown-link-at-pos (point)))
+           (desc (nth 2 l))
+           (url (nth 3 l)))
+      (markdown-kill-thing-at-point)
+      (org-insert-link nil url desc))))
