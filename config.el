@@ -58,6 +58,20 @@
 
 (setq org-ditaa-jar-path (executable-find "ditaa"))
 
+(flycheck-define-checker openscad
+  "A linter for prose."
+  :command ("openscad"
+            "-o"
+            (eval (concat (flycheck-temp-dir-system) ".png"))
+            source-inplace
+            )
+  :error-patterns
+  ((error line-start "ERROR:" (message) " " (file-name)  ", line " line line-end))
+  :modes (scad-mode))
+
+
+(add-to-list 'flycheck-checkers 'openscad)
+
 ;;------------------------------------------------------------------------------
 ;;;;; to sort
 ;;------------------------------------------------------------------------------
