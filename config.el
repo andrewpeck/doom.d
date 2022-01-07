@@ -58,18 +58,21 @@
 
 (setq org-ditaa-jar-path (executable-find "ditaa"))
 
+;;------------------------------------------------------------------------------
+;; OpenSCAD Checker
+;;------------------------------------------------------------------------------
+
 (flycheck-define-checker openscad
-  "A linter for prose."
+  "Runs openscad"
   :command ("openscad"
-            "-o"
-            (eval (concat (flycheck-temp-dir-system) ".png"))
+            (eval (concat "-o" (flycheck-temp-dir-system) "/tmp.png"))
             source-inplace
             )
   :error-patterns
-  ((error line-start "ERROR:" (message) " " (file-name)  ", line " line line-end))
+  ;; different versions of scad produce slightly different error messages... uhg
+  ((error line-start "ERROR:" (message) " " (file-name)  ", line " line line-end)
+   (error line-start "ERROR:" (message) "\"" (file-name) "\", line " line ": syntax error" line-end))
   :modes (scad-mode))
-
-
 (add-to-list 'flycheck-checkers 'openscad)
 
 ;;------------------------------------------------------------------------------
