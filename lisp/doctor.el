@@ -43,6 +43,9 @@
         (check-for-exe "rg")
         (check-for-exe "ag" :cmd "sudo apt install silversearcher-ag")
 
+        ;; proselint
+        (check-for-exe "proselint")
+
         ;; markdown
         (check-for-exe "markdownlint"
                        :url "https://github.com/igorshubovych/markdownlint-cli"
