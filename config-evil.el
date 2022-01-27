@@ -57,10 +57,12 @@
     (lambda ()
       (interactive)
       (let ((default-directory "~/Dropbox/notes"))
-        (ivy-read "Find file: " (counsel-git-cands default-directory)
-                  :initial-input ""
-                  :action #'counsel-git-action
-                  :caller 'counsel-git))))
+        (if (functionp 'counsel-git-action)
+            (ivy-read "Find file: " (counsel-git-cands default-directory)
+                      :initial-input ""
+                      :action #'counsel-git-action
+                      :caller 'counsel-git)
+          (projectile-find-file-in-directory default-directory)))))
 
   ;; (define-key evil-normal-state-map (kbd "C-n")
   ;;   (lambda () (interactive)
