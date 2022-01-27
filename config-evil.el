@@ -117,8 +117,13 @@
   (defun open-pwd-in-terminator ()
     "Opens the present working directory in Terminator"
     (interactive)
-    (let ((pwd (file-name-directory (buffer-file-name))))
-      (call-process (executable-find "terminator") nil nil nil "--working-directory" pwd)))
+    (let ((pwd (cl-case major-mode
+                 ;; dired
+                 ('dired-mode (file-name-directory (dired-get-filename)))
+                 ;; default
+                 (t (file-name-directory (buffer-file-name))))))
+      (start-process "*terminator*" nil
+                     (executable-find "terminator") "--working-directory" pwd)))
 
   (defun open-buffer-in-vim ()
     "Opens the current buffer in gvim :)"
