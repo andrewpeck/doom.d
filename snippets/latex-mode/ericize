@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ericize
+# key: ericize
+# --
+% -*- fill-column: 70; sentence-end-double-space: t -*-

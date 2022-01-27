@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: vhdl-constant
+# key: const
+# --
+constant ${1} : integer := ${2};
