@@ -54,7 +54,7 @@
 
 
 (setq ws-butler-global-exempt-modes
-      '(special-mode comint-mode term-mode eshell-mode markdown-mode))
+      '(special-mode comint-mode term-mode eshell-mode))
 
 (setq org-ditaa-jar-path (executable-find "ditaa"))
 
