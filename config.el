@@ -300,8 +300,8 @@ char of the language you are editing"
 
 (cond
  ((string= (system-name) "strange") (setq doom-theme 'doom-material))
- ((string= (system-name) "pepper")  (setq doom-theme 'doom-gruvbox))
- ((string= (system-name) "larry")   (setq doom-theme 'doom-gruvbox))
+ ((string= (system-name) "pepper")  (setq doom-theme 'doom-sourcerer))
+ ((string= (system-name) "larry")   (setq doom-theme 'doom-spacegrey))
  (t (setq doom-theme 'doom-one)))
 
 ;;; FONT
