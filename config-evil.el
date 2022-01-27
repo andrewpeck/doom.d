@@ -128,7 +128,8 @@
   (defun open-buffer-in-vim ()
     "Opens the current buffer in gvim :)"
     (interactive)
-    (call-process (executable-find "gvim") nil nil nil (buffer-file-name)))
+    (start-process "*gvim*" nil
+                   (executable-find "gvim") (buffer-file-name)))
 
   (defun org-make-tables-pretty ()
     "Makes org mode tables pretty in the current buffer"
