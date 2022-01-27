@@ -75,6 +75,14 @@
   (define-key evil-normal-state-map (kbd "C-t")   'nil)
   (define-key evil-normal-state-map (kbd "C-t")
     (lambda () (interactive) (find-file "~/Dropbox/org/todo.org")))
+  (define-key evil-normal-state-map (kbd "C-S-b")
+    (lambda () (interactive)
+      (progn
+        (find-file "~/Dropbox/notes/billing/billing.org")
+        (end-of-buffer)
+        (re-search-backward "TBLFM")
+        (forward-line -1)
+        (forward-line -1))))
 
   ;; Ctrl + Alt + equal to re-indent buffer
   (defun re-indent-buffer ()
