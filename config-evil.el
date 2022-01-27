@@ -193,11 +193,8 @@
   ;; (define-key evil-visual-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt-incremental)
 
   ;; Jump back and forth through files, time, and space with arrow keys
-
-  (define-key evil-normal-state-map (kbd "<C-M-left>")   'better-jumper-jump-backward)
-  (define-key evil-normal-state-map (kbd "<C-M-right>")   'better-jumper-jump-forward)
-
-  )
+  (define-key evil-normal-state-map (kbd "<M-C-S-left>")   'better-jumper-jump-backward)
+  (define-key evil-normal-state-map (kbd "<M-C-S-right>")   'better-jumper-jump-forward))
 
 ;; Evil Surround
 ;;------------------------------------------------------------------------------
