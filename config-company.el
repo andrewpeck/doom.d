@@ -24,11 +24,12 @@
   (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
 
   (add-hook 'Latex-mode-hook
-            (lambda () (set-company-backend! 'LaTeX-mode-hook
-                         '(company-yasnippet company-reftex company-auctex
-                                             company-math company-files
-                                             company-keywords company-capf company-dabbrev-code
-                                             company-etags company-dabbrev))))
+            (lambda ()
+              (set-company-backend! 'LaTeX-mode-hook
+                '(company-yasnippet company-reftex company-auctex
+                                    company-math company-files
+                                    company-keywords company-capf company-dabbrev-code
+                                    company-etags company-dabbrev))))
 
   ;; (set-company-backend! 'org-mode '(company-yasnippet
   ;;                                   company-capf
