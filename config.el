@@ -23,6 +23,7 @@
 (load  "~/.doom.d/config-lsp.el")
 (load  "~/.doom.d/config-org.el")
 (load  "~/.doom.d/config-random.el")
+(load  "~/.doom.d/config-scad.el")
 (load  "~/.doom.d/config-tex.el")
 (load  "~/.doom.d/config-theme.el")
 (load  "~/.doom.d/lisp/doctor.el")
@@ -35,23 +36,6 @@
 (load  "~/.doom.d/lisp/verilog-port-copy.el")
 (load  "~/.doom.d/lisp/vivado-mode.el")
 ;; end:sort
-
-;;------------------------------------------------------------------------------
-;; OpenSCAD Checker
-;;------------------------------------------------------------------------------
-
-(flycheck-define-checker openscad
-  "Runs openscad"
-  :command ("openscad"
-            (eval (concat "-o" (flycheck-temp-dir-system) "/tmp.png"))
-            source-inplace
-            )
-  :error-patterns
-  ;; different versions of scad produce slightly different error messages... uhg
-  ((error line-start "ERROR:" (message) " " (file-name)  ", line " line line-end)
-   (error line-start "ERROR:" (message) "\"" (file-name) "\", line " line ": syntax error" line-end))
-  :modes (scad-mode))
-(add-to-list 'flycheck-checkers 'openscad)
 
 ;;------------------------------------------------------------------------------
 ;; Prose lint
