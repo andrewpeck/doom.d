@@ -164,6 +164,16 @@
   ;;(evil-leader/set-key "tag" 'projectile-regenerate-tags)
 
   ;; Let enter open org mode links
+  (defun open-in-openscad ()
+    (interactive)
+
+    (start-process (format "*scad-%s*" (file-name-base))
+                   nil
+                   "openscad" (buffer-file-name)))
+
+  (after! scad-mode
+    (define-key scad-mode-map (kbd "C-c C-p")
+      'open-in-openscad))
 
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") 'link-hint-open-link-at-point)
