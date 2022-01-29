@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
+(custom-set-faces
+ '(writegood-weasels-face ((t (:underline (:color "#888888" :style wave))))))
+
 ;; override some annoying defaults of doom-gruvbox
 (custom-theme-set-faces! 'doom-gruvbox
   '(org-todo :weight bold :foreground "orange red")
