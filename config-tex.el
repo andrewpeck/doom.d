@@ -1,5 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 
+;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
+(after! tex-fold
+  (add-to-list 'TeX-fold-macro-spec-list '("{1}" ("gls")))
+  (add-to-list 'TeX-fold-macro-spec-list '("{1}" ("cite")))
+)
 ;; Semantic Linefeeds
 ;;------------------------------------------------------------------------------
 ;; https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
