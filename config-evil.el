@@ -139,12 +139,14 @@
   (defun xdg-browse-directory ()
     "Open the current file's directory however the OS would."
     (interactive)
-    (call-process (executable-find "xdg-open") nil nil nil (file-name-directory (buffer-file-name))))
+    (call-process (executable-find "xdg-open") nil nil nil
+                  (file-name-directory (buffer-file-name))))
 
   (defun xdg-open-file ()
     "Open the current file however the OS would."
     (interactive)
-    (call-process (executable-find "xdg-open") nil nil nil (buffer-file-name)))
+    (call-process (executable-find "xdg-open") nil nil nil
+                  (buffer-file-name)))
 
   (evil-leader/set-key "bt" 'org-make-tables-pretty)
   (evil-leader/set-key "bf" 'xdg-browse-directory)
