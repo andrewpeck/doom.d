@@ -17,11 +17,11 @@
   ;;   (align-regexp begin end
   ;;                 (rx "," (group (zero-or-more (syntax whitespace))) ) 1 1 t ))
   ;;
-  ;; (defun bjm/align-& (start end)
-  ;;   "Align columns by ampersand"
-  ;;   (interactive "r")
-  ;;   (align-regexp start end
-  ;;                 "\\(\\s-*\\)&" 1 1 t))
+  (defun align-& (start end)
+    "Align columns by ampersand"
+    (interactive "r")
+    (align-regexp start end
+                  "\\(\\s-*\\)&" 1 1 t))
   ;;
   ;; ;; http://pragmaticemacs.com/emacs/aligning-text/
   ;; (defun bjm/align-comma (start end)
