@@ -25,7 +25,6 @@
 (load  "~/.doom.d/config-random.el")
 (load  "~/.doom.d/config-scad.el")
 (load  "~/.doom.d/config-tex.el")
-(load  "~/.doom.d/config-theme.el")
 (load  "~/.doom.d/lisp/doctor.el")
 (load  "~/.doom.d/lisp/hdl_deps/hdl_deps.el")
 (load  "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
