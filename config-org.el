@@ -77,7 +77,9 @@
   (setq user-full-name "A.P.")
   (with-eval-after-load 'ox-latex
     (add-to-list 'org-latex-classes
-                 '("article" "\\documentclass[11pt]{article}
+                 '(
+                   "article"
+                   "\\documentclass[11pt]{article}
              \\usepackage[utf8]{inputenc}
              \\usepackage[T1]{fontenc}
              \\usepackage{fixltx2e}
@@ -94,7 +96,8 @@
              \\usepackage{wasysym}
              \\usepackage{amssymb}
              \\usepackage{hyperref}
-             \\usepackage{mathpazo}
+             %\\usepackage{mathpazo}
+             \\renewcommand{\\familydefault}{\\sfdefault}
              \\usepackage{color}
              \\usepackage{enumerate}
              \\definecolor{bg}{rgb}{0.95,0.95,0.95}
