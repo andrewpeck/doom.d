@@ -150,7 +150,7 @@
         ;;nix                ; I hereby declare "nix geht mehr!"
         ;;ocaml              ; an objective camel
         (org                 ; organize your plain life in plain text
-            ;;+roam
+            +roam2
             +gnuplot
           ;;+pretty         ; Enables pretty unicode symbols for bullets and priorities
             +dragndrop      ; drag & drop files/images into org buffers

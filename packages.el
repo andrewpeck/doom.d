@@ -37,7 +37,6 @@
 (package! mixed-pitch)
 (package! org-attach-screenshot)
 (package! org-download :recipe (:host github :repo "abo-abo/org-download"))
-(package! org-roam :recipe (:host github :repo "org-roam/org-roam"))
 (package! ox-clip :recipe (:host github :repo "jkitchin/ox-clip"))
 (package! ox-gfm)
 (package! pcre2el)
@@ -48,6 +47,7 @@
 (package! vimrc-mode)
 (package! visual-fill-column)
 (package! yaml-mode)
+;; (package! org-roam :recipe (:host github :repo "org-roam/org-roam"))
 ;; end:sort
 
 ;; start:sort -- keep the stuff below sorted alphabetically
