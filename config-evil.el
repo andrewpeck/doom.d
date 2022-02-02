@@ -10,19 +10,19 @@
   ;;
 
   ;; ;; Save user defined words to the dictionary
-  ;; (after! ispell
-  ;;   (setq ispell-personal-dictionary "~/.aspell.en.pws")
-  ;;   (defun my-save-word ()
-  ;;     (interactive)
-  ;;     (let ((current-location (point))
-  ;;           (word (flyspell-get-word)))
-  ;;       (when (consp word)
-  ;;         (flyspell-do-correct 'save nil
-  ;;                              (car word) current-location (cadr word)
-  ;;                              (caddr word) current-location)))))
+  (after! ispell
+    (setq ispell-personal-dictionary "~/.aspell.en.pws")
+    (defun my-save-word ()
+      (interactive)
+      (let ((current-location (point))
+            (word (flyspell-get-word)))
+        (when (consp word)
+          (flyspell-do-correct 'save nil
+                               (car word) current-location (cadr word)
+                               (caddr word) current-location)))))
 
-  ;;   (define-key evil-normal-state-map "zg" #'my-save-word )
-  ;;   (define-key evil-normal-state-map "z=" 'ispell-word)
+  ;; (define-key evil-normal-state-map "zg" #'my-save-word )
+  ;; (define-key evil-normal-state-map "z=" 'ispell-word)
 
   ;; Evil Bindings
 
