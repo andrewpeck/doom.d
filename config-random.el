@@ -127,3 +127,7 @@
     (find-file tmp-buffer-file)))
 
 (map! :leader :desc "Reload buffer" "b r" #'reload-this-buffer)
+
+(defun fix-evil ()
+  (interactive)
+  (setq-local transient-mark-mode t))
