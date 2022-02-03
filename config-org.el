@@ -9,6 +9,11 @@
 
 (after! org
 
+  ;; FIXME: this should be removed at some point, but it is crashing emacs after
+  ;; the latest update
+  (remove-hook 'org-babel-after-execute-hook
+               #'+org-redisplay-inline-images-in-babel-result-h)
+
   (defun org-latex-preview-all ()
     (interactive)
     (org-latex-preview '(16)))
