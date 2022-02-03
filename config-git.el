@@ -8,7 +8,11 @@
   (setq truncate-lines nil))
 
 (after! magit
+
   (add-hook 'magit-diff-mode-hook #'my-wrap-lines)
+
+  (setq magit-repository-directories '(("~/work" . 1)))
+
   ;;(magit-todos-mode)
   (setq-default magit-diff-refine-hunk 'all)
   ;;(setq magit-repository-directories '(("~/" . 1)))
