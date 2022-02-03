@@ -36,8 +36,8 @@
         ;;doom-quit      ; DOOM quit-message prompts when you quit Emacs
         hl-todo          ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
         ;;hydra          ; This module adds hydra to Doom Emacs
-        indent-guides    ; highlighted indent columns
-        ;; modeline         ; snazzy, Atom-inspired modeline, plus API
+        ;;indent-guides  ; highlighted indent columns
+        ;; modeline      ; snazzy, Atom-inspired modeline, plus API
         nav-flash        ; blink the current line after jumping
         ;;neotree        ; a project drawer, like NERDTree for vim
         ophints          ; highlight the region an operation acts on
@@ -95,6 +95,7 @@
         (eval +overlay)     ; run code, run (also, repls)
         ;;gist              ; interacting with github gists
         (lookup             ; helps you navigate your code and documentation
+         +dictionary
         +docsets)           ; ...or in Dash docsets locally
         lsp
         (magit +forge)      ; a git porcelain for Emacs
@@ -116,7 +117,7 @@
         ;;assembly           ; assembly for fun or debugging
         (cc +lsp)            ; C/C++/Obj-C madness
         clojure              ; java with a lisp
-        json
+        json                 ; json, uhg
         common-lisp          ; if you've seen one lisp, you've seen them all
         ;;coq                ; proofs-as-programs
         ;;crystal            ; ruby at the speed of c
@@ -131,7 +132,7 @@
         ;;fsharp             ; ML stands for Microsoft's Language
         ;;fstar              ; (dependent) types and (monadic) effects and Z3
         ;;go                 ; the hipster dialect
-        (haskell +dante)     ; a language that's lazier than I am
+        ;;(haskell +dante)   ; a language that's lazier than I am
         ;;hy                 ; readability of scheme w/ speed of python
         ;;idris              ;
         ;;(java +meghanada)  ; the poster child for carpal tunnel syndrome
@@ -146,7 +147,7 @@
         ;;ledger             ; an accounting system in Emacs
         ;;lua                ; one-based indices? one-based indices
         (markdown +grip)     ; writing docs for people to ignore
-        nim                  ; python + lisp at the speed of c
+        ;; nim                  ; python + lisp at the speed of c
         ;;nix                ; I hereby declare "nix geht mehr!"
         ;;ocaml              ; an objective camel
         (org                 ; organize your plain life in plain text
@@ -160,7 +161,7 @@
             ;;+pomodoro     ; be fruitful with the tomato technique
             +present        ; using org-mode for presentations
         )
-        perl                ; write code no one else can comprehend
+        ;; perl                ; write code no one else can comprehend
         ;;php               ; perl's insecure younger brother
         ;;plantuml          ; diagrams for confusing people more
         ;;purescript        ; javascript, but functional
@@ -186,7 +187,7 @@
         ;;notmuch
         ;;(wanderlust +gmail)
 
-    :app
+    ;; :app
         ;;calendar
         ;;emms              ; This module enables Emacs to be used as a music player
         ;;everywhere        ; *leave* Emacs!? You must be joking
