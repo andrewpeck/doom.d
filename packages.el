@@ -47,6 +47,7 @@
 (package! toc-org)
 (package! vimrc-mode)
 (package! visual-fill-column)
+(package! xr)
 (package! yaml-mode)
 ;; (package! org-roam :recipe (:host github :repo "org-roam/org-roam"))
 ;; end:sort
