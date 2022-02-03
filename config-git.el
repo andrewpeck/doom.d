@@ -3,7 +3,12 @@
 ;; Magit
 ;;------------------------------------------------------------------------------
 
+(defun my-wrap-lines ()
+  "Disable `truncate-lines' in the current buffer."
+  (setq truncate-lines nil))
+
 (after! magit
+  (add-hook 'magit-diff-mode-hook #'my-wrap-lines)
   ;;(magit-todos-mode)
   (setq-default magit-diff-refine-hunk 'all)
   ;;(setq magit-repository-directories '(("~/" . 1)))
