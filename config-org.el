@@ -301,20 +301,22 @@
 ;;; Org roam
 ;;------------------------------------------------------------------------------
 
-;; (after! org
+(after! org-roam
+  (setq org-roam-db-autosync-mode t)
+  (setq org-roam-directory (file-truename "~/Sync/notes/"))
+  (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
+  (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
 
-;;   (setq org-roam-directory "~/Sync/notes/")
-;;   (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
-;;   (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
-;;   (map! :leader
-;;         :prefix "n"
-;;         :desc "Org-Roam-Insert"     "i" #'org-roam-insert
-;;         :desc "Org-Roam-Find"       "/" #'org-roam-find-file
-;;         :desc "Org-Roam-Buffer"     "r" #'org-roam
-;;         :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph
-;;         )
+  (map! :leader
+        :prefix "n"
+        :desc "Org-Roam-Insert"     "i" #'org-roam-insert
+        :desc "Org-Roam-Find"       "/" #'org-roam-find-file
+        :desc "Org-Roam-Buffer"     "r" #'org-roam
+        :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph
+        )
 
-;;   (setq org-roam-link-title-format "Org:%s")
+  (setq org-roam-link-title-format "Org:%s"))
+
 ;;   (use-package! org-roam-server
 ;;     :ensure t
 ;;     :config
