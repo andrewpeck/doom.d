@@ -70,7 +70,7 @@
   (define-key evil-normal-state-map (kbd "C-n")
     (lambda ()
       (interactive)
-      (let ((default-directory "~/Dropbox/notes"))
+      (let ((default-directory "~/Sync/notes"))
         (if (functionp 'counsel-git-action)
             (ivy-read "Find file: " (counsel-git-cands default-directory)
                       :initial-input ""
@@ -80,8 +80,8 @@
 
   ;; (define-key evil-normal-state-map (kbd "C-n")
   ;;   (lambda () (interactive)
-  ;;     (fzf-find-file-in-dir "~/Dropbox/notes")))
-  ;;     ;;(counsel-fzf "" "~/Dropbox/notes")))
+  ;;     (fzf-find-file-in-dir "~/Sync/notes")))
+  ;;     ;;(counsel-fzf "" "~/Sync/notes")))
 
   ;; C-t to open TODO file
   ;;  • Needed to unbind some conflicts first
@@ -92,7 +92,7 @@
   (define-key evil-normal-state-map (kbd "C-S-b")
     (lambda () (interactive)
       (progn
-        (find-file "~/Dropbox/notes/billing/billing.org")
+        (find-file "~/Sync/notes/billing/billing.org")
         (end-of-buffer)
         (re-search-backward "TBLFM")
         (forward-line -1)

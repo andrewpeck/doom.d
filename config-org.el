@@ -134,7 +134,7 @@
   (add-hook 'org-mode-hook
             (lambda () (define-key evil-normal-state-map "zs" #'org-toggle-link-display)))
 
-  (add-to-list 'load-path "~/Dropbox/org")
+  (add-to-list 'load-path "~/Sync/org")
 
   ;;(mapc 'load
   ;;      '("org-sync" "org-sync-bb" "org-sync-github" "org-sync-gitlab"))
@@ -179,10 +179,10 @@
   ;; https://console.cloud.google.com/apis/dashboard?pli=1
   ;;(setq
   ;; org-gcal-file-alist '(
-  ;;              ("7rlvcq7qs49tb3ed0rpe97f2us@group.calendar.google.com" . "~/Dropbox/org/gcal-medical.org")
-  ;;              ("ericshazen@gmail.com"                                 . "~/Dropbox/org/gcal-hazen.org")
-  ;;              ("peckandrew@gmail.com"                                 . "~/Dropbox/org/gcal-peck.org")
-  ;;              ("ijavvtk9nsrs89e1h3oahltgko@group.calendar.google.com" . "~/Dropbox/org/gcal-work.org")
+  ;;              ("7rlvcq7qs49tb3ed0rpe97f2us@group.calendar.google.com" . "~/Sync/org/gcal-medical.org")
+  ;;              ("ericshazen@gmail.com"                                 . "~/Sync/org/gcal-hazen.org")
+  ;;              ("peckandrew@gmail.com"                                 . "~/Sync/org/gcal-peck.org")
+  ;;              ("ijavvtk9nsrs89e1h3oahltgko@group.calendar.google.com" . "~/Sync/org/gcal-work.org")
   ;;              )
   ;;      org-gcal-remove-api-cancelled-events t
   ;;      )
@@ -193,18 +193,18 @@
   ;;(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-fetch) ))
 
   (setq org-link-file-path-type 'relative)
-  (setq org-agenda-files (list "~/Dropbox/org"))
-  (setq org-id-locations-file "~/Dropbox/org/.org-id-locations")
+  (setq org-agenda-files (list "~/Sync/org"))
+  (setq org-id-locations-file "~/Sync/org/.org-id-locations")
   (setq org-hide-emphasis-markers t)
   (setq org-export-with-sub-superscripts nil)
-  (setq org-directory "~/Dropbox/org")
+  (setq org-directory "~/Sync/org")
   (setq org-default-notes-file (concat org-directory "/todo.org"))
   ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
   ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
   (setq org-capture-templates '(
                                 ("t" "TODO" entry (file+headline +org-capture-todo-file "To do")
                                  "** TODO %?" :prepend t)
-                                ("a" "Appointment" entry (file  "~/Dropbox/org/gcal-peck.org" )
+                                ("a" "Appointment" entry (file  "~/Sync/org/gcal-peck.org" )
                                  "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
                                 ("s" "Shopping" item (file+headline +org-capture-todo-file "Shopping")
                                  "- [ ] %?" :prepend t)
@@ -269,7 +269,7 @@
 ;;;;;        '(
 ;;;;;          ;; ... add all the components here (see below)...
 ;;;;;          ("org-notes"
-;;;;;           :base-directory "~/Dropbox/notes/"
+;;;;;           :base-directory "~/Sync/notes/"
 ;;;;;           :base-extension "org"
 ;;;;;           :publishing-directory "~/notes_html/"
 ;;;;;           :recursive t
@@ -279,7 +279,7 @@
 ;;;;;           )
 ;;;;;
 ;;;;;          ("org-static"
-;;;;;           :base-directory "~/Dropbox/notes/"
+;;;;;           :base-directory "~/Sync/notes/"
 ;;;;;           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
 ;;;;;           :publishing-directory "~/notes_html/"
 ;;;;;           :recursive t
@@ -298,7 +298,7 @@
 
 ;; (after! org
 
-;;   (setq org-roam-directory "~/Dropbox/notes/")
+;;   (setq org-roam-directory "~/Sync/notes/")
 ;;   (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
 ;;   (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
 ;;   (map! :leader
