@@ -11,6 +11,7 @@
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)
 (package! all-the-icons-ivy)
+(package! ample-regexps)
 (package! base16-theme)
 (package! browse-at-remote)
 (package! company-jedi)
