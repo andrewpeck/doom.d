@@ -46,7 +46,6 @@
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
 (package! toc-org)
 (package! vimrc-mode)
-(package! visual-fill-column)
 (package! xr)
 (package! yaml-mode)
 ;; (package! org-roam :recipe (:host github :repo "org-roam/org-roam"))
@@ -73,5 +72,6 @@
 ;;(package! org-table-comment)
 ;;(package! rainbow-mode) ;; included in rgb package
 ;;(package! theme-changer :recipe (:host github :repo "hadronzoo/theme-changer"))
+;;(package! visual-fill-column)
 ;;(package! vterm)
 ;; end:sort
