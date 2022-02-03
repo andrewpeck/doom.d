@@ -64,19 +64,20 @@
 
   (define-key evil-normal-state-map (kbd "C-S-p")
     (lambda () (interactive)
-      (counsel-fzf "" "~/Dropbox")))
+      (counsel-fzf "" "~/Sync")))
 
-  ;; Ctrl-n to search Dropbox notes
+  ;; Ctrl-n to search notes
   (define-key evil-normal-state-map (kbd "C-n")
     (lambda ()
       (interactive)
-      (let ((default-directory "~/Sync/notes"))
-        (if (functionp 'counsel-git-action)
-            (ivy-read "Find file: " (counsel-git-cands default-directory)
-                      :initial-input ""
-                      :action #'counsel-git-action
-                      :caller 'counsel-git)
-          (projectile-find-file-in-directory default-directory)))))
+      ;; (let ((default-directory "~/Sync/notes"))
+      ;;   (if (functionp 'counsel-git-action)
+      ;;       (ivy-read "Find file: " (counsel-git-cands default-directory)
+      ;;                 :initial-input ""
+      ;;                 :action #'counsel-git-action
+      ;;                 :caller 'counsel-git)
+      ;;     (projectile-find-file-in-directory default-directory))))
+    (doom-project-find-file "~/Sync/notes")))
 
   ;; (define-key evil-normal-state-map (kbd "C-n")
   ;;   (lambda () (interactive)
@@ -88,12 +89,14 @@
   (define-key evil-motion-state-map (kbd "C-t")   'nil)
   (define-key evil-normal-state-map (kbd "C-t")   'nil)
   (define-key evil-normal-state-map (kbd "C-t")
-    (lambda () (interactive) (find-file "~/Dropbox/org/todo.org")))
+    (lambda () (interactive) (find-file "~/Sync/org/todo.org")))
+
+  ;;  Open the end of my billing log
   (define-key evil-normal-state-map (kbd "C-S-b")
     (lambda () (interactive)
       (progn
         (find-file "~/Sync/notes/billing/billing.org")
-        (end-of-buffer)
+        (goto-char (point-max))
         (re-search-backward "TBLFM")
         (forward-line -1)
         (forward-line -1))))
@@ -178,18 +181,6 @@
   ;;(evil-leader/set-key "f" 'helm-locate)
   ;;(evil-leader/set-key "b" 'helm-mini) ;; map helm mini to leader
   ;;(evil-leader/set-key "tag" 'projectile-regenerate-tags)
-
-  ;; Let enter open org mode links
-  (defun open-in-openscad ()
-    (interactive)
-
-    (start-process (format "*scad-%s*" (file-name-base))
-                   nil
-                   "openscad" (buffer-file-name)))
-
-  (after! scad-mode
-    (define-key scad-mode-map (kbd "C-c C-p")
-      'open-in-openscad))
 
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") 'link-hint-open-link-at-point)

@@ -90,6 +90,6 @@
 
         ;;
         (princ "** Checking for required paths\n")
-        (check-for-path "~/Dropbox/org")
-        (check-for-path "~/Dropbox/notes")
+        (check-for-path "~/Sync/org")
+        (check-for-path "~/Sync/notes")
         ))))
