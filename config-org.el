@@ -14,6 +14,12 @@
   (remove-hook 'org-babel-after-execute-hook
                #'+org-redisplay-inline-images-in-babel-result-h)
 
+  (defun pandoc-buffer-to-org ()
+    (interactive)
+    (shell-command
+     (concat "pandoc " (shell-quote-argument (buffer-file-name)) " -o "
+             (shell-quote-argument (file-name-sans-extension (buffer-file-name))) ".org")))
+
   (defun org-latex-preview-all ()
     (interactive)
     (org-latex-preview '(16)))
