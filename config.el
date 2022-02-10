@@ -292,6 +292,140 @@ char of the language you are editing"
   (sort-code-block ";;"))
 
 
+
+;;------------------------------------------------------------------------------
+;; Plotting
+;;------------------------------------------------------------------------------
+
+(defun plot-chart (data keyword valword &optional normalize sort)
+  "Simple function to plot an ascii bar chart.
+
+It accepts DATA in the form of an alist of the form '((KEY . VAL) (KEY . VAL) (KEY . VAL)) and will
+produce a bar chart where for each key val is summed.
+
+NORMALIZE will normalize the bar chart to some number of ASCII symbols.
+
+SORT to non-nill will sort the list. "
+
+  (let ((totals ())
+        (ht (make-hash-table :test 'equal)))
+
+    (dolist (row data 't)
+      (let ((key (nth 0 row))
+            (val (nth 1 row)))
+        (when (and (> val 0) (numberp val))
+          (puthash key (+ val (gethash key ht 0)) ht))))
+
+    (maphash (lambda (key value)
+               (setq totals (cons (list key value) totals))) ht)
+
+    ;; sort in increasing date order
+    (when sort
+      (setq totals (sort totals (lambda (a b) (< (cadr a) (cadr b))))))
+
+    ;; find max value for normalization
+    (setq max-val (apply #'max (mapcar (lambda (a) (float (car (cdr a)))) totals)))
+
+    ;; Get the total for percentages
+    (setq sum (apply #'+ (mapcar (lambda (a) (float (car (cdr a)))) totals)))
+
+    ;; Get the longest key so we can zero pad accordingly
+    (setq max-length (max (length keyword)
+                          (apply #'max (mapcar
+                                        (lambda (a) (length (car a))) totals))))
+
+    ;; Get the number of decimal digits needed, if not specified
+
+    ;;
+
+    (if (< max-val normalize) (setq normalize max-val))
+
+    (princ (format "%5s   %4s    %s%s\n"
+                   valword "%Tot"
+
+                   (make-string (- max-length (length keyword)) ? )
+                   keyword))
+    (princ (format "%s\n" (make-string 32 ?-)))
+    (dolist (item totals)
+      (let* ((key (car item))
+             (count (cadr item))
+             (count-normal (if normalize (* normalize (/ count max-val)) count))
+             (percent (* 100 (/ count sum))))
+        (when (not (equal key "--"))
+          (princ (format "%6.2f   %2d%%     %s%s %s\n"
+                         count                                        ; count
+                         percent                                      ; percent
+                         (make-string (- max-length (length key)) ? ) ; white paddng
+                         key                                          ; key
+                         (make-string (round count-normal) ?+))))))   ; +++++
+    (princ (format "%s\n" (make-string 32 ?-)))
+    (princ (format "%6.2f" sum))))
+
+(defun filter-work-chart (data)
+  (cl-remove-if
+   (lambda (a) (string= "" (car a)))
+   (cdr (mapcar
+         (lambda (x)
+           (list
+            (replace-regexp-in-string
+             "^VAC$" "VACATION"
+             (upcase (nth 3 x )))         ; project
+            (if (stringp (nth 6 x))
+                (string-to-number (nth 6 x)) (nth 6 x)))) data))))
+
+(defun plot-monthly-work-chart (data)
+  (plot-chart
+   (filter-work-chart data) "Project" "Hours" 50 t) )
+
+(defun date-range-to-year-month-list (start-year start-month end-year end-month)
+  (let* ((end-tag (+ end-month (* 12 end-year)))
+         (start-tag (+ start-month (* 12 start-year)))
+         (difference (- end-tag start-tag))
+         (month-sequence (number-sequence 0 difference)))
+    (mapcar (lambda (x) (list (+ start-year (floor (+ x (- start-month 1)) 12))
+                              (1+ (mod (+ x (- start-month 1)) 12))
+                              )) month-sequence)))
+
+(defun print-work-chart-in-date-range (title start-year start-month end-year end-month &optional short)
+  (let ((org-table-data ()))
+
+    (princ "---------------------------------------------------------------------------\n")
+    (princ (format "%s\n" title))
+    (princ "---------------------------------------------------------------------------\n")
+
+    ;; gather all of the tables into one list
+    (save-excursion
+      (dolist (table
+               (mapcar (lambda (x) (format "%04d-%02d" (car x) (cadr x)))
+                       (date-range-to-year-month-list start-year start-month end-year end-month))
+               )
+        (goto-char (point-min))
+        (search-forward (concat "#+" "TBLNAME: " table))
+        (setq org-table-data
+              (append org-table-data
+                      (org-table-to-lisp
+                       (buffer-substring-no-properties
+                        (org-table-begin) (org-table-end)))))))
+
+    ;; remove hlines and the first line (heading)
+    (setq org-table-data
+          (cl-remove-if (lambda (a) (equal 'hline a))
+                        org-table-data))
+
+    ;; plot once with everything included
+    (plot-monthly-work-chart org-table-data)
+
+
+    ;; plot again with only billable items
+    (when (not short)
+      (princ "\n\n")
+      (setq org-table-data
+            (cl-remove-if
+             (lambda (a)
+               (member (upcase (nth 3 a)) '("VACATION" "HOLIDAY" "SICK" "ADMIN" "DEVEL")))
+             org-table-data))
+      (plot-monthly-work-chart org-table-data))))
+
 ;;
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'after-save-hook)
