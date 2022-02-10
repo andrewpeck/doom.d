@@ -32,7 +32,7 @@
         (while (search-forward-regexp "#\\(\\+TBLNAME: \\|\\+TBLNAME: \\)\\(.*\\)" nil t)
           (let ((name (match-string-no-properties 2)))
             (progn
-              (next-line)
+              (forward-line)
               (princ (format "Exporting table to %s.csv\n" name))
               (org-table-export (format "%s.csv" name) "orgtbl-to-csv")))))))
 
