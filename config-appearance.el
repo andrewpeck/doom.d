@@ -34,10 +34,11 @@
 ;;------------------------------------------------------------------------------
 
 ;; (setq my-font "Inconsolata")
-(setq my-font "JetBrains Mono")
+;; (setq my-font "JetBrains Mono")
 ;; (setq my-font "IBM Plex Mono")
+(setq my-font "Fira Code")
 
-(setq doom-font (font-spec :family my-font :size 14)
+(setq doom-font (font-spec :family my-font :size 15)
       doom-big-font (font-spec :family my-font :size 14)
       doom-variable-pitch-font (font-spec :family my-font  :size 17)
       ;;doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17)
