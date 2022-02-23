@@ -1,11 +1,5 @@
 ;; -*- no-byte-compile: t; -*-
 
-;; Local Variables:
-;; eval: (make-variable-buffer-local 'after-save-hook)
-;; https://www.emacswiki.org/emacs/UntabifyUponSave
-;; eval: (add-hook 'write-contents-hooks 'sort-elisp-block nil t)
-;; End:
-
 ;; start:sort -- keep the stuff below sorted alphabetically
 (package! all-the-icons)
 (package! all-the-icons-dired)
@@ -76,3 +70,9 @@
 ;;(package! visual-fill-column)
 ;;(package! vterm)
 ;; end:sort
+
+;; https://www.emacswiki.org/emacs/UntabifyUponSave
+;; Local Variables:
+;; eval: (make-variable-buffer-local 'write-contents-hooks)
+;; eval: (add-hook 'write-contents-hooks 'sort-elisp-block nil t)
+;; End:
