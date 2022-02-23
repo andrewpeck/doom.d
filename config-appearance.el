@@ -102,6 +102,15 @@
   '(org-level-3 :height 1.1 :weight normal :foreground "#d3869b")
   '(org-level-4 :height 1.1 :weight normal :foreground "#83a598"))
 
+(custom-theme-set-faces! 'doom-spacegrey
+  '(org-todo :weight bold :foreground "orange red")
+  '(org-table :weight normal :foreground "lightblue")
+  '(org-link :weight normal :underline "lightpink" :foreground "light pink")
+  '(org-level-1 :height 1.5 :weight bold   :foreground "#c0c5ce")
+  '(org-level-2 :height 1.2 :weight bold   :foreground "lightblue")
+  '(org-level-3 :height 1.1 :weight normal :foreground "#d3869b")
+  '(org-level-4 :height 1.1 :weight normal :foreground "#83a598"))
+
 
 (defun ap/toggle-theme ()
   (interactive)
