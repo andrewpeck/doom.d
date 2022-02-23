@@ -14,6 +14,9 @@
 ;; Bookmarks
 
 (setq bookmark-default-file "~/.doom.d/bookmarks")
+;; make $ not part of a symbol in tcl-mode
+(with-eval-after-load "tcl"
+  (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
 
 (setq so-long-threshold 800)
 
