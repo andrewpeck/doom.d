@@ -85,6 +85,8 @@
   (interactive)
   (shell-command "chmod o-w ~/")
   (shell-command "chmod 700 ~/.ssh")
+  (shell-command "chmod 644 ~/.ssh/id_rsa.pub")
+  (shell-command "chmod 600 ~/.ssh/id_rsa")
   (shell-command "chmod 600 ~/.ssh/authorized_keys")
   t)
 
