@@ -7,8 +7,11 @@
 (setq ws-butler-global-exempt-modes
       '(special-mode comint-mode term-mode eshell-mode))
 
-(setq org-ditaa-jar-path (executable-find "ditaa"))
+(after! org
+ (setq org-ditaa-jar-path
+       "~/.doom.d/ditaa.jar"))
 
+;; (executable-find "ditaa")
 
 (defun copy-html-to-ohm ()
   (start-process
