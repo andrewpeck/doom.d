@@ -8,6 +8,9 @@
 (with-eval-after-load "tcl"
   (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
 
+;; so-long-threshold can increase, it is still reasonably performant at 800
+(setq so-long-threshold 800)
+
 (setq ws-butler-global-exempt-modes
       '(special-mode comint-mode term-mode eshell-mode))
 
