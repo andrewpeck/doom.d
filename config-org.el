@@ -86,45 +86,47 @@
   (setq org-return-follows-links t)
 
   (setq user-full-name "A.P.")
+
+  ;;  Latex Export Class
   (with-eval-after-load 'ox-latex
-    (add-to-list 'org-latex-classes
-                 '(
-                   "article"
-                   "\\documentclass[11pt]{article}
-             \\usepackage[utf8]{inputenc}
-             \\usepackage[T1]{fontenc}
-             \\usepackage{fixltx2e}
-             \\usepackage{fullpage}
-             \\usepackage{graphicx}
-             \\usepackage{longtable}
-             \\usepackage{float}
-             \\usepackage{wrapfig}
-             \\usepackage{rotating}
-             \\usepackage[normalem]{ulem}
-             \\usepackage{amsmath}
-             \\usepackage{textcomp}
-             \\usepackage{marvosym}
-             \\usepackage{wasysym}
-             \\usepackage{amssymb}
-             \\usepackage{hyperref}
-             %\\usepackage{mathpazo}
-             \\renewcommand{\\familydefault}{\\sfdefault}
-             \\usepackage{color}
-             \\usepackage{enumerate}
-             \\definecolor{bg}{rgb}{0.95,0.95,0.95}
-             \\tolerance=1000
-             [NO-DEFAULT-PACKAGES]
-             [PACKAGES]
-             [EXTRA]
-             \\linespread{1.1}
-             \\hypersetup{pdfborder=0 0 0}"
-                   ("\\section{%s}"       . "\\section*{%s}")
-                   ("\\subsection{%s}"    . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\paragraph{%s}"     . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}"  . "\\subparagraph*{%s}"))
-                 )
-    )
+    (add-to-list
+     'org-latex-classes
+     `("article"
+       ,(concat
+         "\\documentclass[11pt]{article}\n"
+         "\\usepackage[utf8]{inputenc}\n"
+         "\\usepackage[T1]{fontenc}\n"
+         "\\usepackage{fixltx2e}\n"
+         "\\usepackage{fullpage}\n"
+         "\\usepackage{graphicx}\n"
+         "\\usepackage{longtable}\n"
+         "\\usepackage{float}\n"
+         "\\usepackage{wrapfig}\n"
+         "\\usepackage{rotating}\n"
+         "\\usepackage[normalem]{ulem}\n"
+         "\\usepackage{amsmath}\n"
+         "\\usepackage{textcomp}\n"
+         "\\usepackage{marvosym}\n"
+         "\\usepackage{wasysym}\n"
+         "\\usepackage{amssymb}\n"
+         "\\usepackage{hyperref}\n"
+         "%\\usepackage{mathpazo}\n"
+         "\\renewcommand{\\familydefault}{\\sfdefault}\n"
+         "\\usepackage{color}\n"
+         "\\usepackage{enumerate}\n"
+         "\\definecolor{bg}{rgb}{0.95,0.95,0.95}\n"
+         "\\tolerance=1000\n"
+         "[NO-DEFAULT-PACKAGES]\n"
+         "[PACKAGES]\n"
+         "[EXTRA]\n"
+         "\\linespread{1.1}\n"
+         "\\hypersetup{pdfborder=0 0 0}")
+
+       ("\\section{%s}"       . "\\section*{%s}")
+       ("\\subsection{%s}"    . "\\subsection*{%s}")
+       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+       ("\\paragraph{%s}"     . "\\paragraph*{%s}")
+       ("\\subparagraph{%s}"  . "\\subparagraph*{%s}"))))
 
   ;; Appearance
   ;;------------------------------------------------------------------------------
