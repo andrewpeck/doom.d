@@ -311,16 +311,22 @@
   (setq org-roam-db-autosync-mode t)
   (setq org-roam-directory (file-truename "~/Sync/notes/"))
   (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
-  (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
+  ;; (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
+  (setq org-roam-graph-link-hidden-types '("file" "http" "https"))
+
+  ;; add a space before inserting a node for lists etc so it does
+  ;; not come out as -[link] but rather as - [link]
+  (advice-add 'org-roam-node-insert :before (lambda () (insert " ")))
 
   (map! :leader
         :prefix "n"
-        :desc "Org-Roam-Insert"     "i" #'org-roam-insert
+        :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
         :desc "Org-Roam-Find"       "/" #'org-roam-find-file
         :desc "Org-Roam-Buffer"     "r" #'org-roam
         :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph
         )
 
+  (setq org-roam-db-location "~/.org-roam.db")
   (setq org-roam-link-title-format "Org:%s"))
 
 ;;   (use-package! org-roam-server
@@ -338,7 +344,6 @@
 ;;           org-roam-server-network-label-truncate-length 60
 ;;           org-roam-server-network-label-wrap-length 20))
 
-;;   (setq org-roam-db-location "~/.org-roam.db"))
 
 
 
