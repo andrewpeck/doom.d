@@ -99,9 +99,28 @@ SORT to non-nill will sort the list. "
     title start-year start-month end-year end-month
     :short short :meetings meetings :meetings-detailed meetings-detailed)))
 
+(defun add-yyyy-mm-to-table (data year month)
+  (mapcar
+   (lambda (x)
+     (if (listp x)
+         (progn
+           (let ((day (nth 1 x)))
+             (setf (nth 1 x)
+                   (cond ((integerp day)
+                          (format "%4d-%02d-%02d" year month day))
+                         ((and (stringp day)
+                               (> (string-to-number day) 0))
+                          (format "%4d-%02d-%02d"
+                                  (string-to-number year)
+                                  (string-to-number month)
+                                  (string-to-number day)
+                                  ))
+                         (t day)))) x)
+       x)) data))
+
 (cl-defun get-work-data-in-date-range
     (title start-year start-month end-year end-month
-           &key short meetings meetings-detailed)
+           &key short meetings meetings-detailed hlines projects)
   (let ((org-table-data ()))
 
     (princ "---------------------------------------------------------------------------\n")
@@ -110,32 +129,68 @@ SORT to non-nill will sort the list. "
 
     ;; gather all of the tables into one list
     (save-excursion
+
+      ;;  make a list of all year-months and iterate over it
       (dolist (table
                (mapcar (lambda (x) (format "%04d-%02d" (car x) (cadr x)))
                        (date-range-to-year-month-list start-year start-month end-year end-month)))
         (goto-char (point-min))
         (search-forward (concat "#+" "TBLNAME: " table))
-        (setq org-table-data
-              (append org-table-data
-                      (org-table-to-lisp
-                       (buffer-substring-no-properties
-                        (org-table-begin) (org-table-end)))))))
+
+        ;;  gather an org table
+        (let ((month-table-data
+               (org-table-to-lisp
+                (buffer-substring-no-properties (org-table-begin) (org-table-end)))))
+
+          ;;  concat all the tables together
+          (setq org-table-data
+                ;;  append the yyyy-mm to the day
+                ;; month-table-data
+                (append org-table-data
+                        (add-yyyy-mm-to-table month-table-data
+                                              (car (split-string table "-"))
+                                              (cadr (split-string table "-"))))))))
+
 
     ;; remove hlines and the first line (heading)
-    (setq org-table-data
-          (cl-remove-if (lambda (a) (equal 'hline a))
-                        org-table-data))
+    (when (not hlines)
+      (setq org-table-data
+            (cl-remove-if (lambda (a) (equal 'hline a))
+                          org-table-data)))
 
-    ;; (print org-table-data)
-
+    ;; remove empty items and non-entered -- items
     (setq org-table-data
           (cl-remove-if
            (lambda (a)
-             (or
-              (string= "--" (upcase (nth 3 a)))
-              (string= "" (upcase (nth 3 a))))
-             )
+             (and (listp a)
+                  (or (string= "--" (nth 3 a))
+                      (string= "" (nth 3 a))
+                      (string= "TIME" (upcase (nth 2 a)))
+                      )))
            org-table-data))
+
+    ;; if projects, filter out all non-matching entries
+    (when projects
+      (setq org-table-data
+            (cl-remove-if-not
+             (lambda (a)
+               (member (upcase (nth 3 a)) (mapcar #'upcase projects)))
+             org-table-data)))
+
+    ;; filter out all of the header lines except the first; convert those to hlines
+    (when hlines
+      (setq header (cadr org-table-data))
+      (print header)
+      (setq org-table-data
+            (mapcar
+             (lambda (x)
+               (if (listp x)
+                   (if (string= (nth 1 x) "D") nil x)
+                 x))
+             (cdr org-table-data)))
+      (push header org-table-data)
+      (push 'hline org-table-data))
+
 
     ;; if short, filter out non-billable items
     (when short
@@ -146,64 +201,43 @@ SORT to non-nill will sort the list. "
                (member (upcase (nth 3 a)) '("VACATION" "HOLIDAY" "SICK" "ADMIN" "DEVEL")))
              org-table-data)))
 
+    ;; if meetings, filter into meeting vs. real work categories
     (when meetings
-      (setq org-table-data
-            (mapcar
-             (lambda (a)
-               (cond  ((or (string-match-p (regexp-quote "MEET") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "ACCRUALS") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "INDARA") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "EMAIL") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "E-MAIL") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "CALL") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "OZGUR") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "SLIDES") (upcase (nth 4 a)))
-                           ;; (string-match-p (regexp-quote "CHLOE") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "MOCKUP") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "CHAT") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "PDR") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "REVIEW") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "CHRIS +") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "MANAGER") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "REQUIREMENTS DOC") (upcase (nth 4 a)))
-                           (string-match-p (regexp-quote "TALK") (upcase (nth 4 a)))
-                           )
-                       (list (nth 0 a)  ; #
-                             (nth 1 a)  ; day
-                             (nth 2 a)  ; hours
-                             (if meetings-detailed
-                                 (concat (nth 3 a) " - Meeting") ; project
-                               "Meeting")                        ; project
-                             (nth 4 a)                           ; task
-                             (nth 5 a)                           ; day
-                             (nth 6 a)))                         ; hours
-                      ;; ((or (string-match-p (regexp-quote "PDR") (upcase (nth 4 a)))
-                      ;;      (string-match-p (regexp-quote "REVIEW") (upcase (nth 4 a))))
-                      ;;  (list (nth 0 a)  ; #
-                      ;;        (nth 1 a)  ; day
-                      ;;        (nth 2 a)  ; hours
-                      ;;        (if meetings-detailed
-                      ;;            (concat (nth 3 a)
-                      ;;                    " - Review")
-                      ;;            "Review"
-                      ;;          )  ; project
-                      ;;        (nth 4 a)  ; task
-                      ;;        (nth 5 a)  ; day
-                      ;;        (nth 6 a)))
+      (let ((meetings-keywords
+             '("MEET" "ACCRUALS" "INDARA" "EMAIL" "E-MAIL"
+               "CALL" "OZGUR" "SLIDES" "CHLOE"
+               "MOCKUP" "CHAT" "PDR" "REVIEW" "CHRIS +"
+               "MANAGER" "REQUIREMENTS DOC" "TALK")))
+        (setq org-table-data
+              (mapcar
+               (lambda (a)
 
-                      (t
-                       (list (nth 0 a)  ; #
-                             (nth 1 a)  ; day
-                             (nth 2 a)  ; hours
-                             (if meetings-detailed
-                                 (concat (nth 3 a)
-                                         " - Real Work") ; project
-                               "Real Work")
-                             (nth 4 a)     ; task
-                             (nth 5 a)     ; day
-                             (nth 6 a))))) ; hours
+                 (let ((cmd (nth 0 a))
+                       (day (nth 1 a))
+                       (hours (nth 2 a))
+                       (project (nth 3 a))
+                       (task (nth 4 a))
+                       (weekday (nth 5 a))
+                       (hours (nth 6 a)))
+                   (cond
 
-             org-table-data)))
+                    ;; is a meeting
+                    ((cl-some (lambda (x) x)
+                              (mapcar
+                               (lambda (x)
+                                 (string-match-p x (upcase task))) meetings-keywords))
+                     (list cmd day hours
+                           (if meetings-detailed (concat project " - Meeting") "Meeting")
+                           task weekday hours))
+
+                    ;; is not a meeting
+                    (t
+                     (list cmd day hours
+                           (if meetings-detailed (concat task " - Real Work") "Real Work")
+                           task weekday hours)))))
+
+               org-table-data))))
+
     ;; (pp org-table-data)
 
     org-table-data))
