@@ -36,7 +36,8 @@
 ;; (setq my-font "Inconsolata")
 ;; (setq my-font "JetBrains Mono")
 ;; (setq my-font "IBM Plex Mono")
-(setq my-font "Fira Code")
+;; (setq my-font "Fira Code")
+(setq my-font "Roboto Mono")
 
 (setq doom-font (font-spec :family my-font :size 15)
       doom-big-font (font-spec :family my-font :size 14)
