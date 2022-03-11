@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: state
+# key: state
+# --
+type $1_state_t is (A);

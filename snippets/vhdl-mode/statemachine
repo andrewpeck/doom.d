@@ -1,8 +1,6 @@
 # -*- mode: snippet -*-
 # name: statemachine
-# uuid: statemachine
-# key: trigger-key
-# condition: t
+# key: statemachine
 # --
 process (clock)
 begin
