@@ -8,74 +8,43 @@
 ;; package specific commands and flags
 
 (defun system-install-get-package-cmd ()
-  (cond
-   ((system-install-commandp "dnf")
-    "dnf")
-   ((system-install-commandp "pacman")
-    "pacman")
-   ((system-install-commandp "apt")
-    "apt")))
+  (cond ((system-install-commandp "dnf")    "dnf")
+        ((system-install-commandp "pacman") "pacman")
+        ((system-install-commandp "apt")    "apt")))
 
 (defun system-install-get-package-info-flag ()
-  (cond
-   ((system-install-commandp "dnf")
-    "info")
-   ((system-install-commandp "pacman")
-    "-Si")
-   ((system-install-commandp "apt")
-    "show")))
+  (cond ((system-install-commandp "dnf")    "info")
+        ((system-install-commandp "pacman") "-Si")
+        ((system-install-commandp "apt")    "show")))
 
 (defun system-install-get-package-install-flag ()
-  (cond
-   ((system-install-commandp "dnf")
-    "install")
-   ((system-install-commandp "pacman")
-    "-S")
-   ((system-install-commandp "apt")
-    "install")))
+  (cond ((system-install-commandp "dnf")    "install")
+        ((system-install-commandp "pacman") "-S")
+        ((system-install-commandp "apt")    "install")))
 
 (defun system-install-get-package-update-flag ()
-  (cond
-   ((system-install-commandp "dnf")
-    "makecache")
-   ((system-install-commandp "pacman")
-    "-Sy")
-   ((system-install-commandp "apt")
-    "update")))
+  (cond ((system-install-commandp "dnf")    "makecache")
+        ((system-install-commandp "pacman") "-Sy")
+        ((system-install-commandp "apt")    "install")))
 
 (defun system-install-get-system-upgrade-flag ()
-  (cond
-   ((system-install-commandp "dnf")
-    "update")
-   ((system-install-commandp "pacman")
-    "-Syu")
-   ((system-install-commandp "apt")
-    "upgrade")))
+  (cond ((system-install-commandp "dnf")    "update")
+        ((system-install-commandp "pacman") "-Syu")
+        ((system-install-commandp "apt")    "upgrade")))
 
 (defun system-install-get-package-list-cmd ()
-  (cond
-   ((system-install-commandp "dnf")
-    "dnf -C list available | awk '{print $1}' | tail -n +2")
-   ((system-install-commandp "pacman")
-    "pacman -Sl | awk '{print $2}'")
-   ((system-install-commandp "apt")
-    "apt-cache search . | awk '{print $1}'")))
+  (cond ((system-install-commandp "dnf")    "dnf -C list available | awk '{print $1}' | tail -n +2")
+        ((system-install-commandp "pacman") "pacman -Sl | awk '{print $2}'")
+        ((system-install-commandp "apt")    "apt-cache search . | awk '{print $1}'")))
 
 (defun system-install-get-installed-package-list-cmd ()
-  (cond
-   ((system-install-commandp "dnf")
-    "dnf -C list installed | awk '{print $1}' | tail -n +2")
-   ((system-install-commandp "pacman")
-    "pacman -Q | awk '{print $2}'")
-   ((system-install-commandp "apt list --installed 2> /dev/null | awk -F\/ '{print $1}' | grep -v "Listing..." ")
-    "")))
+  (cond ((system-install-commandp "dnf") "dnf -C list installed | awk '{print $1}' | tail -n +2")
+        ((system-install-commandp "pacman") "pacman -Q | awk '{print $2}'")
+        ((system-install-commandp "apt") "apt list --installed 2> /dev/null | awk -F\/ '{print $1}' | grep -v \"Listing...\"")))
 
 (defun system-install-get-clean-cache-cmd ()
-  (cond
-   ((system-install-commandp "pacman")
-    "sudo pacman -Sc")
-   ((system-install-commandp "apt")
-    "sudo apt-get clean")))
+  (cond ((system-install-commandp "pacman") "sudo pacman -Sc")
+        ((system-install-commandp "apt") "sudo apt-get clean")))
 
 ;;;###autoload
 (defun system-install-clean-cache ()
@@ -86,8 +55,7 @@
 ;; generic functions
 
 (defun system-install-get-package-list ()
-  (s-split "\n" (shell-command-to-string (system-install-get-package-list-cmd)) t)
-  )
+  (s-split "\n" (shell-command-to-string (system-install-get-package-list-cmd)) t))
 
 (defun system-install-get-installed-package-list ()
   (s-split "\n" (shell-command-to-string (system-install-get-installed-package-list-cmd)) t))
