@@ -275,29 +275,76 @@
   "Alphabetically sorts code blocks in a file, starting with #
 start:sort and ending with # end:sort, where # is the comment
 char of the language you are editing"
-  (let ((home (point))
-        (start-search (concat "^\s*" comment-char " start:sort"))
-        (end-search (concat "^\s*" comment-char " end:sort")))
-    (goto-char (point-min))
-    (while (re-search-forward start-search nil t)
+  (save-excursion
+    (let ((home (point))
+          (start-search (concat "^\s*" comment-char " start:sort"))
+          (end-search (concat "^\s*" comment-char " end:sort")))
+      (goto-char (point-min))
+      (while (re-search-forward start-search nil t)
 
-      (previous-line)
-      (let ((start (re-search-forward start-search nil t))
-            (end
-             ;; want to get the match *before* end:sort
-             (- (progn (re-search-forward end-search nil t)
-                       (match-beginning 0)) 1)))
-        (sort-lines 'nil start end)))
-    (goto-char home))
-  ;; make sure to return nil here for write-contents-hooks
+        (forward-line -1)
+        (let ((start (re-search-forward start-search nil t))
+              (end
+               ;; want to get the match *before* end:sort
+               (- (progn (re-search-forward end-search nil t)
+                         (match-beginning 0)) 1)))
+          (sort-lines 'nil start end)))
+      (goto-char home)))
+  ;; make sure to return nil here for write-contents-functions
   nil)
 
 (defun sort-elisp-block ()
   (interactive)
   (sort-code-block ";;"))
 
+;; https://jblevins.org/log/mmm
+;;
+;; (require 'mmm-mode)
+;; (setq mmm-global-mode 'maybe)
+;; (setq mmm-parse-when-idle 't)
+
+;; (defun my-mmm-markdown-auto-class (lang &optional submode)
+;;   "Define a mmm-mode class for LANG in `markdown-mode' using SUBMODE.
+;; If SUBMODE is not provided, use `LANG-mode' by default."
+;;   (let ((class (intern (concat "markdown-" lang)))
+;;         (submode (or submode (intern (concat lang "-mode"))))
+;;         (front (concat "^```" lang "[\n\r]+"))
+;;         (back "^```"))
+;;     (mmm-add-classes (list (list class :submode submode :front front :back back)))
+;;     (mmm-add-mode-ext-class 'markdown-mode nil class)))
+
+;; ;; Mode names that derive directly from the language name
+;; (mapc 'my-mmm-markdown-auto-class
+;;       '("vhdl" "toml" "bash" "ini" "awk" "bibtex" "c" "cpp" "css" "html" "latex" "lisp" "makefile"
+;;         "markdown" "python" "r" "ruby" "sql" "stata" "xml"))
 
 
+;; https://github.com/rougier/svg-tag-mode
+;; :
+;; :firmware:
+(setq svg-tag-tags
+      '(("\\(:[A-Z]+:\\)" . ((lambda (tag)
+                               (svg-tag-make tag :beg 1 :end -1))))))
+
+(setq svg-tag-tags
+      '(("\\(:#[A-Za-z0-9]+\\)" . ((lambda (tag)
+                                     (svg-tag-make tag :beg 2))))
+        ("\\(:#[A-Za-z0-9]+:\\)$" . ((lambda (tag)
+                                       (svg-tag-make tag :beg 2 :end -1))))))
+
+(setq svg-tag-tags
+      '(
+        ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:" . ((lambda (tag)
+                                              (svg-tag-make tag :beg 1 :inverse t
+                                                            :margin 0 :crop-right t))))
+        (":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)" . ((lambda (tag)
+                                              (svg-tag-make tag :beg 1 :end -1
+                                                            :margin 0 :crop-left t))))
+
+        ))
+
+(setq svg-tag-tags
+      '((":TODO:" . ((lambda (tag) (svg-tag-make "TODO"))))))
 
 
 ;;
