@@ -4,6 +4,10 @@
 ;;; Random
 ;;;------------------------------------------------------------------------------
 
+;; make $ not part of a symbol in tcl-mode
+(with-eval-after-load "tcl"
+  (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
+
 (setq ws-butler-global-exempt-modes
       '(special-mode comint-mode term-mode eshell-mode))
 
