@@ -4,6 +4,31 @@
 ;; Plotting
 ;;------------------------------------------------------------------------------
 
+(cl-defun bin-data (data &key normalize sort)
+  (let ((totals ())
+        (ht (make-hash-table :test 'equal)))
+
+    (dolist (row data 't)
+      (let ((key (nth 0 row))
+            (val (nth 1 row)))
+        (when (and (> val 0) (numberp val))
+          (puthash key (+ val (gethash key ht 0)) ht))))
+
+    (maphash (lambda (key value)
+               (setq totals (cons (list key value) totals))) ht)
+
+    ;; sort in increasing date order
+    (when sort
+      (setq totals (sort totals (lambda (a b) (funcall sort (cadr a) (cadr b))))))
+
+    ;; find max value for normalization
+    (setq max-val (apply #'max (mapcar (lambda (a) (float (car (cdr a)))) totals)))
+
+    (when normalize
+      (setq totals (mapcar  (lambda (x) (list (nth 0 x) (/ (nth 1 x) max-val))) totals)))
+
+    totals))
+
 (defun plot-chart (data keyword valword &optional normalize sort)
   "Simple function to plot an ascii bar chart.
 
@@ -92,11 +117,11 @@ SORT to non-nill will sort the list. "
                               )) month-sequence)))
 
 (cl-defun plot-work-chart-in-date-range
-    (title start-year start-month end-year end-month
-           &key short meetings meetings-detailed)
+    (title &key start-year start-month end-year end-month short meetings meetings-detailed)
   (plot-monthly-work-chart
    (get-work-data-in-date-range
-    title start-year start-month end-year end-month
+    title
+    :start-year start-year :start-month start-month :end-year end-year :end-month end-month
     :short short :meetings meetings :meetings-detailed meetings-detailed)))
 
 (defun add-yyyy-mm-to-table (data year month)
@@ -119,13 +144,23 @@ SORT to non-nill will sort the list. "
        x)) data))
 
 (cl-defun get-work-data-in-date-range
-    (title start-year start-month end-year end-month
-           &key short meetings meetings-detailed hlines projects)
+    (title &key
+           start-year start-month end-year end-month
+           short meetings meetings-detailed hlines projects)
   (let ((org-table-data ()))
 
-    (princ "---------------------------------------------------------------------------\n")
-    (princ (format "%s\n" title))
-    (princ "---------------------------------------------------------------------------\n")
+    ;; defaults for start/end time to min/max
+    (when (and (not start-year) (not start-month))
+      (setq start-year 2021)
+      (setq start-month 01))
+
+    (when (and (not end-year) (not end-month))
+      (setq end-year (nth 5 (decode-time (current-time)))) ;; current year
+      (setq end-month (nth 4 (decode-time (current-time))))) ;; current month
+
+    ;; (princ "---------------------------------------------------------------------------\n")
+    ;; (princ (format "%s\n" title))
+    ;; (princ "---------------------------------------------------------------------------\n")
 
     ;; gather all of the tables into one list
     (save-excursion
@@ -239,5 +274,43 @@ SORT to non-nill will sort the list. "
                org-table-data))))
 
     ;; (pp org-table-data)
-
     org-table-data))
+
+(cl-defun filter-timesheet-for-hours (data)
+  (let ((plot-data
+         (cdr (mapcar
+               (lambda (x)
+                 (let* ((hours (string-to-number (nth 6 x)))
+                        (yyyy-mm-dd (split-string (nth 1 x) "-"))
+                        (yyyy (nth 0 yyyy-mm-dd))
+                        (mm   (nth 1 yyyy-mm-dd))
+                        (datestr (concat yyyy "-" mm)))
+                   (list datestr hours)))
+               data))))
+
+    (setq plot-data
+          (cl-remove-if
+           (lambda (x) (string= "-TOTAL" (car x))) plot-data))
+    plot-data))
+
+(cl-defun plot-monthly-histogram (title data)
+  (plot-chart (filter-timesheet-for-hours data) "Month" title 50 nil))
+
+;; (plot-gaps-timesheet "Hours")
+;; (princ "\n\n")
+;; (plot-gaps-timesheet "Dollars" 45)
+;; #+end_src
+
+;; ((or (string-match-p (regexp-quote "PDR") (upcase (nth 4 a)))
+;;      (string-match-p (regexp-quote "REVIEW") (upcase (nth 4 a))))
+;;  (list (nth 0 a)  ; #
+;;        (nth 1 a)  ; day
+;;        (nth 2 a)  ; hours
+;;        (if meetings-detailed
+;;            (concat (nth 3 a)
+;;                    " - Review")
+;;            "Review"
+;;          )  ; project
+;;        (nth 4 a)  ; task
+;;        (nth 5 a)  ; day
+;;        (nth 6 a)))
