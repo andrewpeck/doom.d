@@ -363,9 +363,8 @@ char of the language you are editing"
 (setq svg-tag-tags
       '((":TODO:" . ((lambda (tag) (svg-tag-make "TODO"))))))
 
-
 ;;
 ;; Local Variables:
-;; eval: (make-variable-buffer-local 'after-save-hook)
-;; eval: (add-hook 'write-contents-hooks 'sort-elisp-block nil t)
+;; eval: (make-variable-buffer-local 'write-contents-functions)
+;; eval: (add-hook 'write-contents-functions 'sort-elisp-block nil t)
 ;; End:

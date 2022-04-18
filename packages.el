@@ -73,6 +73,6 @@
 
 ;; https://www.emacswiki.org/emacs/UntabifyUponSave
 ;; Local Variables:
-;; eval: (make-variable-buffer-local 'write-contents-hooks)
-;; eval: (add-hook 'write-contents-hooks 'sort-elisp-block nil t)
+;; eval: (make-variable-buffer-local 'write-contents-functions)
+;; eval: (add-hook 'write-contents-functions 'sort-elisp-block nil t)
 ;; End:
