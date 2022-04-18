@@ -165,6 +165,9 @@
     (call-process (executable-find "xdg-open") nil nil nil
                   (buffer-file-name)))
 
+  (evil-define-minor-mode-key 'normal 'org-mode-map (kbd "M-q") (lambda ()  (org-fill-paragraph t)))
+  (evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'fill-paragraph)
+
   (evil-leader/set-key "bt" 'org-make-tables-pretty)
   (evil-leader/set-key "bf" 'xdg-browse-directory)
   (evil-leader/set-key "ot" 'open-pwd-in-terminator)
