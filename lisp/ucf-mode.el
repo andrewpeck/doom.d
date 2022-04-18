@@ -175,3 +175,5 @@
      ))
   ;; docstring
   "Major mode for editing Xilinx User Constraints Files")
+
+(provide 'ucf-mode)
