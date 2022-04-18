@@ -104,11 +104,9 @@
               "[0-9]+\.?[0-9]+"
               "\\>"))
 
-(setq ucf-string-re
-      (rx "\"" (group (0+ (or (1+ (not (any "\"" "\\"))) (seq "\\" anything)))) "\""))
+(setq ucf-string-re "\"[^\s]+\"")
 
-
-;; "name-introducers" imply that the next symbol is a new name in the
+;; name-introducers" imply that the next symbol is a new name in the
 ;; constraint file. That is in a like "FOO BAR BAZ ...", if "FOO" is a
 ;; name-introducer, then "BAR" is a name.
 (setq ucf-name-introducers
