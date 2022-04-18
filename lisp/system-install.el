@@ -1,4 +1,4 @@
-;;; pacman.el --- An Emacs interface to Pacman   -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; -*-
 
 ;;; Code:
 
@@ -23,7 +23,7 @@
         ((system-install-commandp "apt")    "install")))
 
 (defun system-install-get-package-update-flag ()
-  (cond ((system-install-commandp "dnf")    "makecache")
+  (cond ((system-install-commandp "dnf")    "update")
         ((system-install-commandp "pacman") "-Sy")
         ((system-install-commandp "apt")    "install")))
 
@@ -33,12 +33,12 @@
         ((system-install-commandp "apt")    "upgrade")))
 
 (defun system-install-get-package-list-cmd ()
-  (cond ((system-install-commandp "dnf")    "dnf -C list available | awk '{print $1}' | tail -n +2")
+  (cond ((system-install-commandp "dnf")    "dnf -C list available | awk -F. '{print $1}' | uniq | tail -n +2")
         ((system-install-commandp "pacman") "pacman -Sl | awk '{print $2}'")
         ((system-install-commandp "apt")    "apt-cache search . | awk '{print $1}'")))
 
 (defun system-install-get-installed-package-list-cmd ()
-  (cond ((system-install-commandp "dnf") "dnf -C list installed | awk '{print $1}' | tail -n +2")
+  (cond ((system-install-commandp "dnf") "dnf -C list installed | awk -F. '{print $1}' | uniq | tail -n +2")
         ((system-install-commandp "pacman") "pacman -Q | awk '{print $2}'")
         ((system-install-commandp "apt") "apt list --installed 2> /dev/null | awk -F\/ '{print $1}' | grep -v \"Listing...\"")))
 
