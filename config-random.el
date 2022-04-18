@@ -4,6 +4,11 @@
 ;;; Random
 ;;;------------------------------------------------------------------------------
 
+;;
+(after! tree-sitter
+  (global-tree-sitter-mode)
+  (tree-sitter-hl-mode))
+
 ;; make $ not part of a symbol in tcl-mode
 (with-eval-after-load "tcl"
   (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
