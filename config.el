@@ -12,39 +12,56 @@
 ;; Henrik: https://github.com/hlissner/doom-emacs-private/blob/master/config.el
 
 ;; Bookmarks
+;;------------------------------------------------------------------------------
+;; Loads
+;;------------------------------------------------------------------------------
 
-(setq bookmark-default-file "~/.doom.d/bookmarks")
-;; make $ not part of a symbol in tcl-mode
-(with-eval-after-load "tcl"
-  (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
+;; (add-to-list 'load-path (expand-file-name "~/.doom.d/"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hog-emacs/"))
+;; (add-to-list 'load-path (expand-file-name "~/.doom.d/scad-preview/"))
+;; https://github.com/hlissner/doom-emacs/issues/1213
 
-(setq so-long-threshold 800)
+(if (string= (system-name) "larry")
+    (load! "~/.doom.d/config-mail.el"))
+
+(use-package! system-install :ensure nil :load-path "~/.doom.d/lisp/system-install.el")
+(use-package! hog-emacs :ensure nil :load-path "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
+(use-package! vivado-mode :ensure nil :load-path "~/.doom.d/lisp/vivado-mode.el")
+(use-package! ucf-mode :ensure nil :load-path "~/.doom.d/lisp/ucf-mode.el")
+(use-package! regulator :ensure nil :load-path "~/.doom.d/lisp/regulator.el")
+
+(require 'undo-hl)
+(add-hook 'text-mode-hook #'undo-hl-mode)
+(add-hook 'prog-mode-hook #'undo-hl-mode)
 
 ;; start:sort
-(load "~/.doom.d/config-align.el")
-(load "~/.doom.d/config-appearance.el")
-(load "~/.doom.d/config-company.el")
-(load "~/.doom.d/config-doom.el")
-(load "~/.doom.d/config-evil.el")
-(load "~/.doom.d/config-git.el")
-(load "~/.doom.d/config-lsp.el")
-(load "~/.doom.d/config-modeline.el")
-(load "~/.doom.d/config-org.el")
-(load "~/.doom.d/config-random.el")
-(load "~/.doom.d/config-scad.el")
-(load "~/.doom.d/config-tex.el")
-(load "~/.doom.d/lisp/doctor.el")
-(load "~/.doom.d/lisp/hdl_deps/hdl_deps.el")
-(load "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
-(load "~/.doom.d/lisp/regulator.el")
-(load "~/.doom.d/lisp/system-install.el")
-(load "~/.doom.d/lisp/tracking.el")
-(load "~/.doom.d/lisp/ucf-mode.el")
-(load "~/.doom.d/lisp/verilog-port-copy.el")
-(load "~/.doom.d/lisp/vivado-mode.el")
-(load "~/.doom.d/lisp/work-plotting.el")
-;; (load "~/.doom.d/config-modeline.el")
+(load! "~/.doom.d/config-align.el")
+(load! "~/.doom.d/config-appearance.el")
+(load! "~/.doom.d/config-company.el")
+(load! "~/.doom.d/config-doom.el")
+(load! "~/.doom.d/config-evil.el")
+(load! "~/.doom.d/config-git.el")
+(load! "~/.doom.d/config-lsp.el")
+(load! "~/.doom.d/config-modeline.el")
+(load! "~/.doom.d/config-org.el")
+(load! "~/.doom.d/config-random.el")
+(load! "~/.doom.d/config-scad.el")
+(load! "~/.doom.d/config-tex.el")
+(load! "~/.doom.d/lisp/doctor.el")
+(load! "~/.doom.d/lisp/hdl_deps/hdl_deps.el")
+(load! "~/.doom.d/lisp/tracking.el")
+;; (load! "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
+;; (load! "~/.doom.d/lisp/regulator.el")
+;; (load! "~/.doom.d/lisp/system-install.el")
+;; (load! "~/.doom.d/lisp/ucf-mode.el")
+;; (load! "~/.doom.d/lisp/verilog-port-copy.el")
+;; (load! "~/.doom.d/lisp/vivado-mode.el")
+;; (load! "~/.doom.d/lisp/work-plotting.el")
 ;; end:sort
+
+(after! vhdl-mode
+  (load!  "~/.doom.d/lisp/hdl_deps/hdl_deps.el"))
 
 ;;------------------------------------------------------------------------------
 ;; Prose lint
