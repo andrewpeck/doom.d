@@ -5,6 +5,15 @@
 ;;;------------------------------------------------------------------------------
 
 ;;------------------------------------------------------------------------------
+;; Command to suspend the system
+;;------------------------------------------------------------------------------
+
+(defun suspend ()
+  "Suspend the system using systemctl syspend"
+  (interactive)
+  (start-process "suspend" nil "systemctl" "suspend"))
+
+;;------------------------------------------------------------------------------
 ;; C-backspace without modifying kill ring
 ;; https://emacs.stackexchange.com/questions/22266/backspace-without-adding-to-kill-ring
 ;;------------------------------------------------------------------------------
