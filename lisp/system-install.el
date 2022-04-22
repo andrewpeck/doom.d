@@ -2,49 +2,46 @@
 
 ;;; Code:
 
-(defun system-install-commandp (program)
-  (eq 0 (shell-command (format "command -v %s 2> /dev/null" program))))
-
 ;; package specific commands and flags
 
 (defun system-install-get-package-cmd ()
-  (cond ((system-install-commandp "dnf")    "dnf")
-        ((system-install-commandp "pacman") "pacman")
-        ((system-install-commandp "apt")    "apt")))
+  (cond ((executable-find "dnf")    "dnf")
+        ((executable-find "pacman") "pacman")
+        ((executable-find "apt")    "apt")))
 
 (defun system-install-get-package-info-flag ()
-  (cond ((system-install-commandp "dnf")    "info")
-        ((system-install-commandp "pacman") "-Si")
-        ((system-install-commandp "apt")    "show")))
+  (cond ((executable-find "dnf")    "info")
+        ((executable-find "pacman") "-Si")
+        ((executable-find "apt")    "show")))
 
 (defun system-install-get-package-install-flag ()
-  (cond ((system-install-commandp "dnf")    "install")
-        ((system-install-commandp "pacman") "-S")
-        ((system-install-commandp "apt")    "install")))
+  (cond ((executable-find "dnf")    "install")
+        ((executable-find "pacman") "-S")
+        ((executable-find "apt")    "install")))
 
 (defun system-install-get-package-update-flag ()
-  (cond ((system-install-commandp "dnf")    "update")
-        ((system-install-commandp "pacman") "-Sy")
-        ((system-install-commandp "apt")    "install")))
+  (cond ((executable-find "dnf")    "update")
+        ((executable-find "pacman") "-Sy")
+        ((executable-find "apt")    "install")))
 
 (defun system-install-get-system-upgrade-flag ()
-  (cond ((system-install-commandp "dnf")    "update")
-        ((system-install-commandp "pacman") "-Syu")
-        ((system-install-commandp "apt")    "upgrade")))
+  (cond ((executable-find "dnf")    "update")
+        ((executable-find "pacman") "-Syu")
+        ((executable-find "apt")    "upgrade")))
 
 (defun system-install-get-package-list-cmd ()
-  (cond ((system-install-commandp "dnf")    "dnf -C list available | awk -F. '{print $1}' | uniq | tail -n +2")
-        ((system-install-commandp "pacman") "pacman -Sl | awk '{print $2}'")
-        ((system-install-commandp "apt")    "apt-cache search . | awk '{print $1}'")))
+  (cond ((executable-find "dnf")    "dnf -C list available | awk -F. '{print $1}' | uniq | tail -n +2")
+        ((executable-find "pacman") "pacman -Sl | awk '{print $2}'")
+        ((executable-find "apt")    "apt-cache search . | awk '{print $1}'")))
 
 (defun system-install-get-installed-package-list-cmd ()
-  (cond ((system-install-commandp "dnf") "dnf -C list installed | awk -F. '{print $1}' | uniq | tail -n +2")
-        ((system-install-commandp "pacman") "pacman -Q | awk '{print $2}'")
-        ((system-install-commandp "apt") "apt list --installed 2> /dev/null | awk -F\/ '{print $1}' | grep -v \"Listing...\"")))
+  (cond ((executable-find "dnf") "dnf -C list installed | awk -F. '{print $1}' | uniq | tail -n +2")
+        ((executable-find "pacman") "pacman -Q | awk '{print $2}'")
+        ((executable-find "apt") "apt list --installed 2> /dev/null | awk -F\/ '{print $1}' | grep -v \"Listing...\"")))
 
 (defun system-install-get-clean-cache-cmd ()
-  (cond ((system-install-commandp "pacman") "sudo pacman -Sc")
-        ((system-install-commandp "apt") "sudo apt-get clean")))
+  (cond ((executable-find "pacman") "sudo pacman -Sc")
+        ((executable-find "apt") "sudo apt-get clean")))
 
 ;;;###autoload
 (defun system-install-clean-cache ()

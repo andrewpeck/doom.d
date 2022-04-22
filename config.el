@@ -19,6 +19,7 @@
 ;; (add-to-list 'load-path (expand-file-name "~/.doom.d/"))
 (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/"))
 (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hog-emacs/"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/doctor/"))
 ;; (add-to-list 'load-path (expand-file-name "~/.doom.d/scad-preview/"))
 ;; https://github.com/hlissner/doom-emacs/issues/1213
 
@@ -30,6 +31,7 @@
 (use-package! vivado-mode :ensure nil :load-path "~/.doom.d/lisp/vivado-mode.el")
 (use-package! ucf-mode :ensure nil :load-path "~/.doom.d/lisp/ucf-mode.el")
 (use-package! regulator :ensure nil :load-path "~/.doom.d/lisp/regulator.el")
+(use-package! doctor :ensure nil :load-path "~/.doom.d/lisp/doctor/doctor.el")
 
 (require 'undo-hl)
 (add-hook 'text-mode-hook #'undo-hl-mode)
@@ -48,9 +50,8 @@
 (load! "~/.doom.d/config-random.el")
 (load! "~/.doom.d/config-scad.el")
 (load! "~/.doom.d/config-tex.el")
-(load! "~/.doom.d/lisp/doctor.el")
-(load! "~/.doom.d/lisp/hdl_deps/hdl_deps.el")
 (load! "~/.doom.d/lisp/tracking.el")
+;; (load! "~/.doom.d/lisp/hdl_deps/hdl_deps.el")
 ;; (load! "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
 ;; (load! "~/.doom.d/lisp/regulator.el")
 ;; (load! "~/.doom.d/lisp/system-install.el")
