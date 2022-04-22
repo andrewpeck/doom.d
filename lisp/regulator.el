@@ -88,3 +88,5 @@
       (read-only-mode -1)
       (org-mode)
       (org-table-align))) t)
+
+(provide 'regulator)
