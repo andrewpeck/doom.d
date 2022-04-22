@@ -39,11 +39,17 @@
 ;; (setq my-font "Fira Code")
 (setq my-font "Roboto Mono")
 
-(setq doom-font (font-spec :family my-font :size 15)
-      doom-big-font (font-spec :family my-font :size 14)
-      doom-variable-pitch-font (font-spec :family my-font  :size 17)
-      ;;doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17)
-      doom-serif-font (font-spec :family my-font :weight 'light))
+(defun font-exists-p (font)
+  "Check if FONT exists"
+  (if (null (x-list-fonts font))
+      nil t))
+
+(when (font-exists-p my-font)
+  (setq doom-font (font-spec :family my-font :size 15)
+        doom-big-font (font-spec :family my-font :size 14)
+        doom-variable-pitch-font (font-spec :family my-font  :size 17)
+        ;;doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17)
+        doom-serif-font (font-spec :family my-font :weight 'light)))
 
 ;;------------------------------------------------------------------------------
 ;; Syntax Highlighting
