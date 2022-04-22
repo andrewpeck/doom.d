@@ -29,7 +29,7 @@
   (setq a  (concat (expand-file-name "~/Sync/dotfiles/") a))
 
   (shell-command (format "mkdir -p %s" (file-name-directory b)))
-  (shell-command (format "ln -s %s %s"  a b))
+  (shell-command (format "ln -sn %s %s"  a b))
 
   (let ((check
          (if  (string=
@@ -156,20 +156,21 @@ they are installed and the computer is set up ok"
         (make-symlink "bash_logout" "~/.bash_logout")
 
         (make-symlink "xinitrc" "~/.xinitrc")
-        (make-symlink "doom.d" "~/.doom.d")
         (make-symlink "xmobarrc" "~/.xmobarrc")
-        (make-symlink "xmonad" "~/.xmonad")
         (make-symlink "vim/vimrc" "~/.vimrc")
-        (make-symlink "vim/vim" "~/.vim")
-        (make-symlink "Fonts" "~/.fonts")
         (make-symlink "ssh/config" "~/.ssh/config")
         (make-symlink "ncmpcpp/config" "~/.ncmpcpp/config")
         (make-symlink "mpd/mpd.conf" "~/.mpd/mpd.conf")
         (make-symlink "xbindkeysrc" "~/.xbindkeysrc")
-        (make-symlink "bin" "~/bin")
-        (make-symlink "nvim" "~/.config/nvim")
         (make-symlink "local/share/applications/emacsclient.desktop" "~/.local/share/applications/emacsclient.desktop")
         (make-symlink "config/autostart/xbindkeys.desktop" "~/.config/autostart/xbindkeys.desktop")
+
+        (make-symlink "nvim" "~/.config/nvim")
+        (make-symlink "doom.d" "~/.doom.d")
+        (make-symlink "xmonad" "~/.xmonad")
+        (make-symlink "vim/vim" "~/.vim")
+        (make-symlink "Fonts" "~/.fonts")
+        (make-symlink "bin" "~/bin")
 
         (princ "** Setting custom mimetypes\n")
         (shell-command "cp mime/* ~/.local/share/mime/packages/ && update-mime-database ~/.local/share/mime")
