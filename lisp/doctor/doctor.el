@@ -1,7 +1,7 @@
 ;;; ../.dotfiles/doom.d/lisp/doctor.el -*- lexical-binding: t; -*-
 ;;;
 
-(cl-defun check-for-exe (exe &key url cmd ubuntu dnf)
+(cl-defun check-for-exe (exe &key url noroot cmd ubuntu dnf)
   (if  (executable-find exe)
       (progn (princ (format "- [X] Found %s\n" exe)))
     (progn
@@ -18,15 +18,19 @@
 
       (when (or cmd ubuntu dnf)
         (let ((pad "      "))
-          (princ (concat pad "#+begin_src bash  :tangle no :dir /sudo::~/ :results output\n"))
+          (if noroot
+              (princ (concat pad "#+begin_src bash  :tangle no :results output\n"))
+              (princ (concat pad "#+begin_src bash  :tangle no :dir /sudo::~/ :results output\n")))
           (when ubuntu (princ (concat pad (concat "sudo apt --yes install " ubuntu "\n"))))
           (when dnf (princ (concat pad (concat "sudo dnf install " dnf "\n"))))
           (when pacman (princ (concat pad (concat "sudo pacman -Syu " dnf "\n"))))
           (when cmd    (princ (concat pad (concat cmd "\n"))))
           (princ (concat pad "#+end_src\n")))))))
 
+(defun dotfiles (file)
+  (concat (expand-file-name "~/Sync/dotfiles/") file))
+
 (defun make-symlink (a b &rest create)
-  (setq a  (concat (expand-file-name "~/Sync/dotfiles/") a))
 
   (shell-command (format "mkdir -p %s" (file-name-directory b)))
   (shell-command (format "ln -sn %s %s"  a b))
@@ -71,14 +75,24 @@ they are installed and the computer is set up ok"
         (check-for-exe "terminator" :ubuntu "terminator")
         (check-for-exe "bat" :ubuntu "bat")
         (check-for-exe "rg" :dnf "rg")
+        (check-for-exe "fd" :ubuntu "fd-find")
         ;; $ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
         ;; $ sudo dpkg -i ripgrep_13.0.0_amd64.deb
         (check-for-exe "ag" :ubuntu "silversearcher-ag")
 
-        ;; proselint
+        ;; python
         (check-for-exe "pip3" :ubuntu "python3-pip")
+        (check-for-exe "pyflakes" :cmd "sudo pip install pyflakes")
+        (check-for-exe "isort" :cmd "sudo pip install isort")
+        (check-for-exe "pytest" :cmd "sudo pip install pytest")
 
-        ;; proselint
+        ;; sbcl
+        (check-for-exe "sbcl" :ubuntu "sbcl" :dnf "sbcl")
+
+        ;; gnuplot
+        (check-for-exe "gnuplot" :ubuntu "gnuplot" :dnf "gnuplot")
+
+        ;; npm
         (check-for-exe "npm" :ubuntu "npm" :dnf "npm")
 
         ;; proselint
@@ -88,11 +102,15 @@ they are installed and the computer is set up ok"
         (check-for-exe "markdownlint"
                        :url "https://github.com/igorshubovych/markdownlint-cli"
                        :cmd "sudo npm install -g markdownlint-cli")
+        (check-for-exe "grip" :cmd "sudo pip3 install grip")
+
         ;; c/c++
         (check-for-exe "bear"
                        :url "https://github.com/rizsotto/Bear"
+                       :ubuntu "bear"
                        :dnf "bear")
         (check-for-exe "ccls" )
+        (check-for-exe "libtool" :ubuntu "libtool-bin")
 
         ;; vhdl
         (check-for-exe "vhdl-tool" :url "https://www.vhdltool.com/")
@@ -100,10 +118,17 @@ they are installed and the computer is set up ok"
         (check-for-exe "ghdl-ls")
         (check-for-exe "vhdl_ls")
 
+        ;; node
+        (check-for-exe "node"
+                       :noroot t
+                       :cmd "curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo apt-get install -y nodejs")
+
         ;; python
         (check-for-exe "pyright"
                        :url "https://github.com/microsoft/pyright"
                        :cmd "sudo npm install -g pyright")
+        (check-for-exe "black"
+                       :cmd "pip install black")
 
         ;; bash
         (check-for-exe "shellcheck" :dnf "ShellCheck" :ubuntu "shellcheck")
@@ -111,13 +136,11 @@ they are installed and the computer is set up ok"
         ;; graph-easy
         (check-for-exe "graph-easy" :cmd "sudo" :ubuntu "sudo cpan install Graph::Easy")
 
-        ;; markdown
-        (check-for-exe "markdownlint"
-                       :url "https://github.com/igorshubovych/markdownlint-cli"
-                       :cmd "sudo npm install -g markdownlint-cli")
-
         ;; utilities
-        (check-for-exe "aspell" :dnf "aspell")
+        (check-for-exe "aspell" :dnf "aspell" :ubuntu "aspell")
+        (check-for-exe "pandoc" :dnf "pandoc" :ubuntu "pandoc")
+        (check-for-exe "cmake" :ubuntu "cmake" :dnf "cmake")
+        (check-for-exe "cloc" :ubuntu "cloc" :dnf "cloc")
         (check-for-exe "rg" :dnf "rg")
         (check-for-exe "fzf" :cmd "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install")
         (check-for-exe "gvim" :ubuntu "vim-gtk3")
@@ -145,32 +168,35 @@ they are installed and the computer is set up ok"
         ;; symlinks
         (princ "** Creating symlinks\n")
 
-        (make-symlink "org-protocol.desktop" "~/.local/share/applications/org-protocol.desktop")
-        (make-symlink "aspell.en.pws" "~/.aspell.en.pws")
-        (make-symlink "mimeapps.list" "~/.config/mimeapps.list")
-        (make-symlink "Xresources" "~/.Xresources")
-        (make-symlink "profile" "~/.profile")
-        (make-symlink "bash_profile" "~/.bash_profile")
-        (make-symlink "mbsyncrc" "~/.mbsyncrc")
-        (make-symlink "bashrc" "~/.bashrc")
-        (make-symlink "bash_logout" "~/.bash_logout")
+        (make-symlink (dotfiles "org-protocol.desktop") "~/.local/share/applications/org-protocol.desktop")
+        (make-symlink (dotfiles "aspell.en.pws") "~/.aspell.en.pws")
+        (make-symlink (dotfiles "mimeapps.list") "~/.config/mimeapps.list")
+        (make-symlink (dotfiles "Xresources") "~/.Xresources")
+        (make-symlink (dotfiles "profile") "~/.profile")
+        (make-symlink (dotfiles "bash_profile") "~/.bash_profile")
+        (make-symlink (dotfiles "mbsyncrc") "~/.mbsyncrc")
+        (make-symlink (dotfiles "bashrc") "~/.bashrc")
+        (make-symlink (dotfiles "bash_logout") "~/.bash_logout")
 
-        (make-symlink "xinitrc" "~/.xinitrc")
-        (make-symlink "xmobarrc" "~/.xmobarrc")
-        (make-symlink "vim/vimrc" "~/.vimrc")
-        (make-symlink "ssh/config" "~/.ssh/config")
-        (make-symlink "ncmpcpp/config" "~/.ncmpcpp/config")
-        (make-symlink "mpd/mpd.conf" "~/.mpd/mpd.conf")
-        (make-symlink "xbindkeysrc" "~/.xbindkeysrc")
-        (make-symlink "local/share/applications/emacsclient.desktop" "~/.local/share/applications/emacsclient.desktop")
-        (make-symlink "config/autostart/xbindkeys.desktop" "~/.config/autostart/xbindkeys.desktop")
+        (make-symlink (dotfiles "xinitrc") "~/.xinitrc")
+        (make-symlink (dotfiles "xmobarrc") "~/.xmobarrc")
+        (make-symlink (dotfiles "vim/vimrc") "~/.vimrc")
+        (make-symlink (dotfiles "ssh/config") "~/.ssh/config")
+        (make-symlink (dotfiles "ncmpcpp/config") "~/.ncmpcpp/config")
+        (make-symlink (dotfiles "mpd/mpd.conf") "~/.mpd/mpd.conf")
+        (make-symlink (dotfiles "xbindkeysrc") "~/.xbindkeysrc")
+        (make-symlink (dotfiles "local/share/applications/emacsclient.desktop") "~/.local/share/applications/emacsclient.desktop")
+        (make-symlink (dotfiles "config/autostart/xbindkeys.desktop") "~/.config/autostart/xbindkeys.desktop")
 
-        (make-symlink "nvim" "~/.config/nvim")
-        (make-symlink "doom.d" "~/.doom.d")
-        (make-symlink "xmonad" "~/.xmonad")
-        (make-symlink "vim/vim" "~/.vim")
-        (make-symlink "Fonts" "~/.fonts")
-        (make-symlink "bin" "~/bin")
+        (when (string-match ".*ubuntu.*" (shell-command-to-string "uname -a"))
+          (make-symlink (executable-find "fdfind") "~/.local/bin/fd"))
+
+        (make-symlink (dotfiles "nvim") "~/.config/nvim")
+        (make-symlink (dotfiles "doom.d") "~/.doom.d")
+        (make-symlink (dotfiles "xmonad") "~/.xmonad")
+        (make-symlink (dotfiles "vim/vim") "~/.vim")
+        (make-symlink (dotfiles "Fonts") "~/.fonts")
+        (make-symlink (dotfiles "bin") "~/bin")
 
         (princ "** Setting custom mimetypes\n")
         (shell-command "cp mime/* ~/.local/share/mime/packages/ && update-mime-database ~/.local/share/mime")
