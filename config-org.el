@@ -12,6 +12,18 @@
 
 (after! org
 
+  ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
+  (defun org-copy-region-as-markdown ()
+    "Copy the region (in Org) to the system clipboard as Markdown."
+    (interactive)
+    (if (use-region-p)
+        (let* ((region
+                (buffer-substring-no-properties
+                 (region-beginning)
+                 (region-end)))
+               (markdown
+                (org-export-string-as region 'md t '(:with-toc nil))))
+          (gui-set-selection 'CLIPBOARD markdown))))
   ;; FIXME: this should be removed at some point, but it is crashing emacs after
   ;; the latest update
   (remove-hook 'org-babel-after-execute-hook
