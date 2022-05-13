@@ -22,22 +22,30 @@
 ;; Loads
 ;;------------------------------------------------------------------------------
 
-;; (add-to-list 'load-path (expand-file-name "~/.doom.d/"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/"))
 (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/"))
 (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hog-emacs/"))
 (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/doctor/"))
-;; (add-to-list 'load-path (expand-file-name "~/.doom.d/scad-preview/"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hdl_deps/"))
+
+(let ((default-directory (expand-file-name "lisp" doom-private-dir)))
+  (normal-top-level-add-subdirs-to-load-path))
+
+(add-to-list 'load-path (expand-file-name "~/.doom.d/scad-preview/"))
 ;; https://github.com/hlissner/doom-emacs/issues/1213
 
 (if (string= (system-name) "larry")
     (load! "~/.doom.d/config-mail.el"))
 
-(use-package! system-install :ensure nil :load-path "~/.doom.d/lisp/system-install.el")
-(use-package! hog-emacs :ensure nil :load-path "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
-(use-package! vivado-mode :ensure nil :load-path "~/.doom.d/lisp/vivado-mode.el")
-(use-package! ucf-mode :ensure nil :load-path "~/.doom.d/lisp/ucf-mode.el")
+(use-package! doctor :ensure nil :load-path "~/.doom.d/lisp/doctor.el")
+(use-package! hdl_deps :ensure nil :load-path "~/.doom.d/lisp/hdl_deps/hdl_deps.el")
+(use-package! hog :ensure nil :load-path "~/.doom.d/lisp/hog-emacs/hog.el")
 (use-package! regulator :ensure nil :load-path "~/.doom.d/lisp/regulator.el")
 (use-package! doctor :ensure nil :load-path "~/.doom.d/lisp/doctor/doctor.el")
+(use-package! system-install :ensure nil :load-path "~/.doom.d/lisp/system-install.el")
+(use-package! tracking :ensure nil :load-path "~/.doom.d/lisp/tracking.el")
+(use-package! ucf-mode :ensure nil :load-path "~/.doom.d/lisp/ucf-mode.el")
+(use-package! vivado-mode :ensure nil :load-path "~/.doom.d/lisp/vivado-mode.el")
 
 (require 'undo-hl)
 (add-hook 'text-mode-hook #'undo-hl-mode)
@@ -52,24 +60,20 @@
 (load! "~/.doom.d/config-flycheck.el")
 (load! "~/.doom.d/config-git.el")
 (load! "~/.doom.d/config-lsp.el")
-(load! "~/.doom.d/config-modeline.el")
 (load! "~/.doom.d/config-org.el")
 (load! "~/.doom.d/config-random.el")
 (load! "~/.doom.d/config-scad.el")
 (load! "~/.doom.d/config-tex.el")
 (load! "~/.doom.d/lisp/tracking.el")
-;; (load! "~/.doom.d/lisp/hdl_deps/hdl_deps.el")
-;; (load! "~/.doom.d/lisp/hog-emacs/hog-emacs.el")
+(load! "~/.doom.d/lisp/work-plotting.el")
+;; end:sort
+
+;; (load! "~/.doom.d/config-modeline.el")
 ;; (load! "~/.doom.d/lisp/regulator.el")
 ;; (load! "~/.doom.d/lisp/system-install.el")
 ;; (load! "~/.doom.d/lisp/ucf-mode.el")
 ;; (load! "~/.doom.d/lisp/verilog-port-copy.el")
 ;; (load! "~/.doom.d/lisp/vivado-mode.el")
-;; (load! "~/.doom.d/lisp/work-plotting.el")
-;; end:sort
-
-(after! vhdl-mode
-  (load!  "~/.doom.d/lisp/hdl_deps/hdl_deps.el"))
 
 ;;------------------------------------------------------------------------------
 ;; Backups
@@ -83,7 +87,7 @@
 (add-hook 'after-save-hook 'backup-each-save)
 
 ;;------------------------------------------------------------------------------
-;;; SLIME
+;; SLIME
 ;;------------------------------------------------------------------------------
 
 ;; slime
@@ -92,13 +96,14 @@
 ;;  (setq org-babel-lisp-eval-fn 'slime-eval))
 
 ;;------------------------------------------------------------------------------
-;;; Spell-Checking
+;; Spell-Checking
 ;;------------------------------------------------------------------------------
 
 (after! writegood
   (writegood-passive-voice-turn-off))
 
-;;; Snippets
+;;------------------------------------------------------------------------------
+;; Snippets
 ;;------------------------------------------------------------------------------
 
 ;; Don't add newlines to snippet endings
@@ -108,7 +113,7 @@
             (lambda () (setq require-final-newline nil))))
 
 ;;------------------------------------------------------------------------------
-;;; Mixed Pitch Mode
+;; Mixed Pitch Mode
 ;;------------------------------------------------------------------------------
 
 ;; (add-hook 'org-mode-hook      #'mixed-pitch-mode)
@@ -116,7 +121,7 @@
 ;; (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
 
 ;;------------------------------------------------------------------------------
-;;; Line wrapping
+;; Line wrapping
 ;;------------------------------------------------------------------------------
 
 (defun ap/no-wrap ()
@@ -141,10 +146,10 @@
 (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 
 ;;------------------------------------------------------------------------------
-;;; Hog
+;; Hog
 ;;------------------------------------------------------------------------------
 
-(after! hog-emacs
+(after! hog
   (cond
 
    ((string= (system-name) "strange")
