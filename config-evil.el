@@ -179,7 +179,7 @@
 
   (evil-leader/set-key "bt" 'org-make-tables-pretty)
   (evil-leader/set-key "bf" 'xdg-browse-directory)
-  (evil-leader/set-key "ot" 'open-pwd-in-terminator)
+  (evil-leader/set-key "ot" 'open-pwd-in-terminal)
   (evil-leader/set-key "vv" 'open-buffer-in-vim)
   (evil-leader/set-key "tt" 'doom/ivy-tasks)
   (evil-leader/set-key "pp" '+ivy/project-search)
