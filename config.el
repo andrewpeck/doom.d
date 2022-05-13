@@ -12,6 +12,7 @@
 ;; Henrik: https://github.com/hlissner/doom-emacs-private/blob/master/config.el
 
 ;; Bookmarks
+(load! "~/.doom.d/custom.el")
 ;;------------------------------------------------------------------------------
 ;; Loads
 ;;------------------------------------------------------------------------------
