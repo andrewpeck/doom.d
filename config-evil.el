@@ -131,16 +131,18 @@
 
   ;; Evil leader keys
 
-  (defun open-pwd-in-terminator ()
-    "Opens the present working directory in Terminator"
+  (defun open-pwd-in-terminal ()
+    "Opens the present working directory in terminal"
     (interactive)
     (let ((pwd (cl-case major-mode
+                 ;; magit mode
+                 ('magit-status-mode (projectile-project-root))
                  ;; dired
                  ('dired-mode (file-name-directory (dired-get-filename)))
                  ;; default
                  (t (file-name-directory (buffer-file-name))))))
-      (start-process "*terminator*" nil
-                     (executable-find "terminator") "--working-directory" pwd)))
+      (start-process "*terminal*" nil
+                     (executable-find "kitty") "--directory" pwd)))
 
   (defun open-buffer-in-vim ()
     "Opens the current buffer in gvim :)"

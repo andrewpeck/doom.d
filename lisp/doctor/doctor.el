@@ -137,6 +137,8 @@ they are installed and the computer is set up ok"
         (check-for-exe "graph-easy" :cmd "sudo" :ubuntu "sudo cpan install Graph::Easy")
 
         ;; utilities
+        ;;
+        (check-for-exe "kitty" :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
         (check-for-exe "aspell" :dnf "aspell" :ubuntu "aspell")
         (check-for-exe "pandoc" :dnf "pandoc" :ubuntu "pandoc")
         (check-for-exe "cmake" :ubuntu "cmake" :dnf "cmake")
@@ -178,6 +180,8 @@ they are installed and the computer is set up ok"
         (make-symlink (dotfiles "bashrc") "~/.bashrc")
         (make-symlink (dotfiles "bash_logout") "~/.bash_logout")
 
+        (make-symlink "~/.local/kitty.app/bin/kitty" "~/bin/kitty")
+        (make-symlink (dotfiles "kitty") "~/.config/kitty")
         (make-symlink (dotfiles "xinitrc") "~/.xinitrc")
         (make-symlink (dotfiles "xmobarrc") "~/.xmobarrc")
         (make-symlink (dotfiles "vim/vimrc") "~/.vimrc")
