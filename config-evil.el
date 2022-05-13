@@ -169,6 +169,13 @@
 
   (evil-define-minor-mode-key 'normal 'org-mode-map (kbd "M-q") (lambda ()  (org-fill-paragraph t)))
   (evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'fill-paragraph)
+  (defun py-black () (interactive)
+         (save-buffer)
+         (print (shell-command-to-string (concat "black " (buffer-file-name))))
+         (revert-buffer))
+
+  (after! python-mode
+    (define-key python-mode-map (kbd "C-c C-b") #'py-black))
 
   (evil-leader/set-key "bt" 'org-make-tables-pretty)
   (evil-leader/set-key "bf" 'xdg-browse-directory)
