@@ -255,6 +255,15 @@
         :desc "Download Yank" "P" #'org-download-yank
         )
   )
+  (defun org-remove-link-and-trash-linked-file ()
+    "Remove `org-mode' link at point and trash linked file."
+    (interactive)
+    (let* ((link (org-element-context))
+           (path (org-element-property :path link)))
+      (move-file-to-trash path)
+      (delete-region (org-element-property :begin link)
+                     (org-element-property :end link))))
+
 
 (after! org-download
 
