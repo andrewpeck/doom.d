@@ -7,6 +7,9 @@
 ;;; Org Mode
 ;;------------------------------------------------------------------------------
 
+(after! emojify-mode
+  (setq global-emojify-mode t))
+
 (after! org
 
   ;; FIXME: this should be removed at some point, but it is crashing emacs after
