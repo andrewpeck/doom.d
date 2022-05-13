@@ -13,6 +13,11 @@
 
 ;; Bookmarks
 (load! "~/.doom.d/custom.el")
+;; disable confusing undo-fu behavior
+;; https://gitlab.com/ideasman42/emacs-undo-fu/-/issues/6
+(after! undo-fu
+  (setq undo-fu-ignore-keyboard-quit t))
+
 ;;------------------------------------------------------------------------------
 ;; Loads
 ;;------------------------------------------------------------------------------
