@@ -2,7 +2,7 @@
 #+begin_src bash
 # http://ergoemacs.org/emacs/building_emacs_from_git_repository.html
 
-sudo apt install autoconf make gcc texinfo libgtk-3-dev libxpm-dev libjpeg-dev libgif-dev libtiff5-dev libgnutls28-dev libncurses5-dev
+sudo apt install autoconf make gcc texinfo libgtk-3-dev libxpm-dev libjpeg-dev libgif-dev libtiff5-dev libgnutls28-dev libncurses5-dev libgccjit-8-dev sysinfo libjansson-dev
 
 git clone https://github.com/emacs-mirror/emacs
 
