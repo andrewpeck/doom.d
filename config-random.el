@@ -130,20 +130,6 @@ This command does not push text to `kill-ring'."
 ;; Bookmarks
 (setq bookmark-default-file "~/.doom.d/bookmarks")
 
-(setq flycheck-temp-prefix ".flycheck")
-
-(setq flycheck-markdown-markdownlint-cli-config
-      (concat doom-private-dir "markdownlint-config.yml"))
-
-(setq flycheck-yamllintrc
-      (concat doom-private-dir "yamllintrc.yml"))
-
-(setq flycheck-flake8rc
-      (concat doom-private-dir "flake8.rc"))
-
-(setq flycheck-pylintrc
-      (concat doom-private-dir "pylint.rc"))
-
 ;; save macros and other registers peristently
 (after! savehist
   (add-to-list 'savehist-additional-variables 'register-alist)

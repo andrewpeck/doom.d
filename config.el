@@ -43,6 +43,7 @@
 (load! "~/.doom.d/config-company.el")
 (load! "~/.doom.d/config-doom.el")
 (load! "~/.doom.d/config-evil.el")
+(load! "~/.doom.d/config-flycheck.el")
 (load! "~/.doom.d/config-git.el")
 (load! "~/.doom.d/config-lsp.el")
 (load! "~/.doom.d/config-modeline.el")
@@ -65,25 +66,15 @@
   (load!  "~/.doom.d/lisp/hdl_deps/hdl_deps.el"))
 
 ;;------------------------------------------------------------------------------
-;; Prose lint
+;; Backups
 ;;------------------------------------------------------------------------------
 
-;; https://unconj.ca/blog/linting-prose-in-emacs.html
-(flycheck-define-checker proselint
-  "A linter for prose."
-  :command ("proselint"
-            ;;
-            ;;            (option-flag "--external-sources" flycheck-shellcheck-follow-sources)
-            "--config" (eval (expand-file-name "~/.doom.d/proselint.rc"))
-            source-inplace)
-  :error-patterns
-  ((warning line-start (file-name) ":" line ":" column ": "
-            (id (one-or-more (not (any " "))))
-            (message) line-end))
-  :modes (text-mode latex-mode markdown-mode gfm-mode org-mode))
+;; https://www.emacswiki.org/emacs/BackupDirectory
+;; https://stackoverflow.com/questions/3893727/setting-emacs-tramp-to-store-local-backups
+;; https://www.emacswiki.org/emacs/ForceBackups
 
-(add-to-list 'flycheck-checkers 'proselint)
-
+(setq backup-each-save-mirror-location "~/emacs-backups")
+(add-hook 'after-save-hook 'backup-each-save)
 
 ;;------------------------------------------------------------------------------
 ;;; SLIME
