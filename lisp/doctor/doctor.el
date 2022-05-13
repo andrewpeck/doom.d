@@ -32,6 +32,9 @@
 
 (defun make-symlink (a b &rest create)
 
+  (setq a (expand-file-name a))
+  (setq b (expand-file-name b))
+
   (shell-command (format "mkdir -p %s" (file-name-directory b)))
   (shell-command (format "ln -sn %s %s"  a b))
 
@@ -98,6 +101,12 @@ they are installed and the computer is set up ok"
         ;; proselint
         (check-for-exe "proselint" :cmd "sudo pip3 install proselint")
 
+        ;; yamllint
+        (check-for-exe "yamllint" :dnf "yamllint" :ubuntu "yamllint")
+
+        ;;  cask
+        (check-for-exe "cask" :cmd "cd ~/ && git clone https://github.com/cask/cask && make -C cask install")
+
         ;; markdown
         (check-for-exe "markdownlint"
                        :url "https://github.com/igorshubovych/markdownlint-cli"
@@ -139,6 +148,7 @@ they are installed and the computer is set up ok"
         ;; utilities
         ;;
         (check-for-exe "kitty" :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
+        (check-for-exe "act" :cmd "cd ~/ && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash")
         (check-for-exe "aspell" :dnf "aspell" :ubuntu "aspell")
         (check-for-exe "pandoc" :dnf "pandoc" :ubuntu "pandoc")
         (check-for-exe "cmake" :ubuntu "cmake" :dnf "cmake")
@@ -180,6 +190,8 @@ they are installed and the computer is set up ok"
         (make-symlink (dotfiles "bashrc") "~/.bashrc")
         (make-symlink (dotfiles "bash_logout") "~/.bash_logout")
 
+        (make-symlink "~/Sync/emacs-backups" "~/emacs-backups")
+
         (make-symlink "~/.local/kitty.app/bin/kitty" "~/bin/kitty")
         (make-symlink (dotfiles "kitty") "~/.config/kitty")
         (make-symlink (dotfiles "xinitrc") "~/.xinitrc")
@@ -193,12 +205,13 @@ they are installed and the computer is set up ok"
         (make-symlink (dotfiles "config/autostart/xbindkeys.desktop") "~/.config/autostart/xbindkeys.desktop")
 
         (when (string-match ".*ubuntu.*" (shell-command-to-string "uname -a"))
-          (make-symlink (executable-find "fdfind") "~/.local/bin/fd"))
+          (when (executable-find "fdfind")
+            (make-symlink (executable-find "fdfind") "~/.local/bin/fd")))
 
         (make-symlink (dotfiles "nvim") "~/.config/nvim")
         (make-symlink (dotfiles "doom.d") "~/.doom.d")
         (make-symlink (dotfiles "xmonad") "~/.xmonad")
-        (make-symlink (dotfiles "vim/vim") "~/.vim")
+        ;; (make-symlink (dotfiles "vim/vim") "~/.vim")
         (make-symlink (dotfiles "Fonts") "~/.fonts")
         (make-symlink (dotfiles "bin") "~/bin")
 
@@ -225,6 +238,12 @@ they are installed and the computer is set up ok"
         ;;   description: Setting up UPower config for pepper
         ;; - command: if [ $(hostname) = pepper ]; then sudo ln -sf ~/.dotfiles/logind.conf /etc/systemd/logind.conf; fi;
         ;;   description: Setting up Logind config for pepper
+        ;;
+        ;;
+
+
+        ;; curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        ;;     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
         ))))
 
