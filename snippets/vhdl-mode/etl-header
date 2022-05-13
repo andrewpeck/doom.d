@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: etl-header
+# key: etl-header
+# --
+----------------------------------------------------------------------------------
+-- CMS Endcap Timing Layer
+-- ETROC Readout Firmware
+-- A. Peck, D. Spitzbart
+-- Boston University
+--
+-- ${1:module name}
+--
+----------------------------------------------------------------------------------
+-- Description: ${2:module description}
+----------------------------------------------------------------------------------

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: max_fanout
+# key: max_fanout
+# --
+attribute MAX_FANOUT : string;
+attribute MAX_FANOUT of ${1} : signal is "${2}";
