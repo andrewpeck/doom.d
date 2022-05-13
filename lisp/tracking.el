@@ -6,9 +6,9 @@
 (require 'cl-lib)
 
 (defun track-package ()
+  "Track Fedex/UPS/USPS package number at point"
   (interactive)
-  (track-package-by-number (current-word))
-  t)
+  (track-package-by-number (current-word)) t)
 
 (defun track-package-is-usps (tracking-number)
   (or (string-match "\\b\\(9[1234]\\)[0-9]\\{2\\} ?[0-9]\\{4\\} ?[0-9]\\{4\\} ?[0-9]\\{4\\} ?[0-9]\\{4\\} ?[0-9]\\{2\\}\\b" tracking-number)))
@@ -17,8 +17,7 @@
   (or (string-match "\\b1[A-z][A-Z,0-9]\\{16\\}\\b" tracking-number) ;   1Z9999999999999999
       (string-match "\\bT[0-9]\\{10\\}\\b" tracking-number) ;   T9999999999
       (string-match "\\b[0-9]\\{9\\}\\b" tracking-number);   999999999
-      (string-match "\\b[0-9]\\{12\\}\\b" tracking-number));   999999999999
-  )
+      (string-match "\\b[0-9]\\{12\\}\\b" tracking-number))) ;   999999999999
 
 (defun track-package-is-fedex (tracking-number)
   (or (string-match "\\b\\(81\\|7[789]\\)[0-9]\\{10\\}\\b" tracking-number)))

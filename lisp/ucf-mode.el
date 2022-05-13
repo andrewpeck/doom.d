@@ -173,6 +173,7 @@
      (modify-syntax-entry ?\[ "_")
      (modify-syntax-entry ?\. "_")
      ))
+
   ;; docstring
   "Major mode for editing Xilinx User Constraints Files")
 

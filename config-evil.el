@@ -204,12 +204,13 @@
 
   ;; Backspace to switch to last buffer
   (defun er-switch-to-previous-buffer ()
-    "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
+    "Switch to previously open buffer. Repeated invocations toggle
+between the two most recently open buffers."
     (interactive)
     (switch-to-buffer (other-buffer (current-buffer) 1)))
 
   (define-key evil-normal-state-map (kbd "DEL") 'er-switch-to-previous-buffer)
-  (add-hook 'verilog-mode-hook (lambda() (local-unset-key [backspace])))
+  (add-hook 'verilog-mode-hook (lambda () (local-unset-key [backspace])))
 
   ;; Evil numbers increment/decrement
 
