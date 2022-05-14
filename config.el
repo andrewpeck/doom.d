@@ -13,6 +13,11 @@
 
 ;; Bookmarks
 (load! "~/.doom.d/custom.el")
+;; (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*")
+(after! langtool
+  (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
+  (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
+
 ;; disable confusing undo-fu behavior
 ;; https://gitlab.com/ideasman42/emacs-undo-fu/-/issues/6
 (after! undo-fu
