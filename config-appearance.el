@@ -24,14 +24,25 @@
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
 (cond
- ((string= (system-name) "strange") (setq doom-theme 'doom-material))
+ ((string= (system-name) "strange") (setq doom-theme 'doom-spacegray))
  ((string= (system-name) "pepper")  (setq doom-theme 'doom-gruvbox))
- ((string= (system-name) "larry")   (setq doom-theme 'doom-spacegrey))
+ ((string= (system-name) "larry")   (setq doom-theme 'doom-material))
  (t (setq doom-theme 'doom-one)))
 
 ;;------------------------------------------------------------------------------
 ;;; FONT
 ;;------------------------------------------------------------------------------
+
+;; (set-face-attribute 'default nil
+;;                     :family "Roboto Mono" :weight 'regular :height 110)
+;; (set-face-attribute 'bold nil
+;;                     :family "Roboto Mono" :weight 'bold)
+;; (set-fontset-font t 'unicode
+;;     (font-spec :name "Inconsolata Light" :size 14) nil)
+;; (set-fontset-font t '(#xe000 . #xffdd)
+;;     (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
+;; (set-face-attribute 'italic nil
+;;                     :family "Victor Mono Variable" :slant 'italic)
 
 ;; (setq my-font "Inconsolata")
 ;; (setq my-font "JetBrains Mono")
