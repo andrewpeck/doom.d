@@ -184,7 +184,7 @@
 
   ;; Turn on inline images by default
   (setq org-startup-with-inline-images t)
-  (org-display-inline-images t t)
+  ;; (org-display-inline-images t t)
 
   ;; Allow M-Ret to split list items
   (setq org-M-RET-may-split-line t)
@@ -223,7 +223,8 @@
   (setq org-link-file-path-type 'relative)
   (setq org-agenda-files (list "~/Sync/org"))
   (setq org-id-locations-file "~/Sync/org/.org-id-locations")
-  (setq org-hide-emphasis-markers t)
+  ;; (setq org-hide-emphasis-markers nil)
+  (+org-pretty-mode t)
   (setq org-export-with-sub-superscripts nil)
   (setq org-directory "~/Sync/org")
   (setq org-default-notes-file (concat org-directory "/todo.org"))
@@ -254,7 +255,7 @@
         :desc "Download Clipboard" "p" #'org-download-clipboard
         :desc "Download Yank" "P" #'org-download-yank
         )
-  )
+
   (defun org-remove-link-and-trash-linked-file ()
     "Remove `org-mode' link at point and trash linked file."
     (interactive)
@@ -264,6 +265,7 @@
       (delete-region (org-element-property :begin link)
                      (org-element-property :end link))))
 
+  ) ;; after! evil
 
 (after! org-download
 
@@ -355,20 +357,20 @@
   (setq org-roam-db-location "~/.org-roam.db")
   (setq org-roam-link-title-format "Org:%s"))
 
-;;   (use-package! org-roam-server
-;;     :ensure t
-;;     :config
-;;     (setq org-roam-server-host "127.0.0.1"
-;;           org-roam-server-port 8080
-;;           org-roam-server-authenticate nil
-;;           org-roam-server-export-inline-images t
-;;           org-roam-server-serve-files nil
-;;           org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
-;;           org-roam-server-network-poll t
-;;           org-roam-server-network-arrows nil
-;;           org-roam-server-network-label-truncate t
-;;           org-roam-server-network-label-truncate-length 60
-;;           org-roam-server-network-label-wrap-length 20))
+  ;; (use-package! org-roam-server
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq org-roam-server-host "127.0.0.1"
+  ;;         org-roam-server-port 8080
+  ;;         org-roam-server-authenticate nil
+  ;;         org-roam-server-export-inline-images t
+  ;;         org-roam-server-serve-files nil
+  ;;         org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+  ;;         org-roam-server-network-poll t
+  ;;         org-roam-server-network-arrows nil
+  ;;         org-roam-server-network-label-truncate t
+  ;;         org-roam-server-network-label-truncate-length 60
+  ;;         org-roam-server-network-label-wrap-length 20))
 
 
 

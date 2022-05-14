@@ -46,6 +46,7 @@
   (let ((url (format "https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=%s" number)))
     (browse-url url)))
 
+;; TODO: convert to ERT?
 (eval-when-compile
   ;; USPS:
   (cl-assert (track-package-is-usps "9374889692090270407075")) ; regular
@@ -67,3 +68,5 @@
   (cl-assert (track-package-is-ups "1Z0159190392069793"))
   (cl-assert (track-package-is-ups "1Z739R590322540520"))
   )
+
+(provide 'tracking)

@@ -13,6 +13,13 @@
 
 ;; Bookmarks
 (load! "~/.doom.d/custom.el")
+
+;; Fix issue with this
+;; https://github.com/tecosaur/screenshot/issues/7
+
+;;------------------------------------------------------------------------------
+;; to file
+;;------------------------------------------------------------------------------
 ;; (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*")
 (after! langtool
   (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
@@ -22,6 +29,10 @@
 ;; https://gitlab.com/ideasman42/emacs-undo-fu/-/issues/6
 (after! undo-fu
   (setq undo-fu-ignore-keyboard-quit t))
+
+(add-to-list 'warning-suppress-types '(iedit))
+(remove-hook
+ '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
 ;;------------------------------------------------------------------------------
 ;; Loads
@@ -52,9 +63,9 @@
 (use-package! ucf-mode :ensure nil :load-path "~/.doom.d/lisp/ucf-mode.el")
 (use-package! vivado-mode :ensure nil :load-path "~/.doom.d/lisp/vivado-mode.el")
 
-(require 'undo-hl)
-(add-hook 'text-mode-hook #'undo-hl-mode)
-(add-hook 'prog-mode-hook #'undo-hl-mode)
+;; (require 'undo-hl)
+;; (add-hook 'text-mode-hook #'undo-hl-mode)
+;; (add-hook 'prog-mode-hook #'undo-hl-mode)
 
 ;; start:sort
 (load! "~/.doom.d/config-align.el")
@@ -136,19 +147,21 @@
   (visual-fill-column-mode 0))
 
 ;; Disable auto fill mode in text modes
-(remove-hook 'text-mode-hook #'auto-fill-mode)
+;; (remove-hook 'text-mode-hook #'auto-fill-mode)
 
 ;; Don't wrap text modes unless we really want it
 (remove-hook 'text-mode-hook #'+word-wrap-mode)
+(add-hook 'latex-mode-hook #'+word-wrap-mode)
+(add-hook 'markdown-mode-hook #'+word-wrap-mode)
 
-(defun fix-visual-fill-column-mode (&optional ARG)
-  (setq visual-fill-column-mode visual-line-mode))
+;; (defun fix-visual-fill-column-mode (&optional ARG)
+;;   (setq visual-fill-column-mode visual-line-mode))
 
 ;; toggle visual-fill column mode when chaing word wrap settings
-(advice-add '+word-wrap-mode
-            :after 'fix-visual-fill-column-mode)
+;; (advice-add '+word-wrap-mode
+;;             :after 'fix-visual-fill-column-mode)
 ;;
-(add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
+;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 
 ;;------------------------------------------------------------------------------
 ;; Hog
@@ -170,18 +183,20 @@
 ;;------------------------------------------------------------------------------
 
 ;; vhdl mode will wrap comments after some # of characters
-(setq vhdl-end-comment-column 200
-      vhdl-prompt-for-comments nil
-      auto-fill-mode nil)
+(after! vhdl
+  (setq vhdl-end-comment-column 200
+        vhdl-prompt-for-comments nil
+        auto-fill-mode nil))
 
 ;;-----------------------------------------------------------------------------------------
 ;; Elfeed
 ;;------------------------------------------------------------------------------
 
 (after! elfeed
-  (setq
-   elfeed-feeds
-   '("https://hackaday.com/blog/feed/")))
+  (setq elfeed-feeds
+        '("https://hackaday.com/blog/feed/"
+          "http://mbork.pl/?action=rss;days=30;all=0;showedit=0"
+          "https://sachachua.com/blog/feed/")))
 
 ;;-----------------------------------------------------------------------------------------
 ;; IELM
@@ -206,7 +221,6 @@
     (message "Saving comint-input-ring...")
     (setq ielm-comint-input-ring comint-input-ring))
 
-  (require 'ielm)
   (add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring))
 
 ;;-----------------------------------------------------------------------------------------
@@ -250,11 +264,11 @@
 ;; Clojure
 ;;-----------------------------------------------------------------------------------------
 
-(setq org-babel-clojure-backend "cider")
-;; http://blogs.fluidinfo.com/terry/2011/11/10/emacs-buffer-mode-histogram/
+;; (setq org-babel-clojure-backend "cider")
 
 ;;-----------------------------------------------------------------------------------------
 ;; Buffer Mode Histogram
+;; http://blogs.fluidinfo.com/terry/2011/11/10/emacs-buffer-mode-histogram/
 ;;-----------------------------------------------------------------------------------------
 
 (defun buffer-mode-histogram ()
@@ -320,59 +334,11 @@ char of the language you are editing"
 
 (defun sort-elisp-block ()
   (interactive)
-  (sort-code-block ";;"))
-
-;; https://jblevins.org/log/mmm
-;;
-;; (require 'mmm-mode)
-;; (setq mmm-global-mode 'maybe)
-;; (setq mmm-parse-when-idle 't)
-
-;; (defun my-mmm-markdown-auto-class (lang &optional submode)
-;;   "Define a mmm-mode class for LANG in `markdown-mode' using SUBMODE.
-;; If SUBMODE is not provided, use `LANG-mode' by default."
-;;   (let ((class (intern (concat "markdown-" lang)))
-;;         (submode (or submode (intern (concat lang "-mode"))))
-;;         (front (concat "^```" lang "[\n\r]+"))
-;;         (back "^```"))
-;;     (mmm-add-classes (list (list class :submode submode :front front :back back)))
-;;     (mmm-add-mode-ext-class 'markdown-mode nil class)))
-
-;; ;; Mode names that derive directly from the language name
-;; (mapc 'my-mmm-markdown-auto-class
-;;       '("vhdl" "toml" "bash" "ini" "awk" "bibtex" "c" "cpp" "css" "html" "latex" "lisp" "makefile"
-;;         "markdown" "python" "r" "ruby" "sql" "stata" "xml"))
-
-
-;; https://github.com/rougier/svg-tag-mode
-;; :
-;; :firmware:
-(setq svg-tag-tags
-      '(("\\(:[A-Z]+:\\)" . ((lambda (tag)
-                               (svg-tag-make tag :beg 1 :end -1))))))
-
-(setq svg-tag-tags
-      '(("\\(:#[A-Za-z0-9]+\\)" . ((lambda (tag)
-                                     (svg-tag-make tag :beg 2))))
-        ("\\(:#[A-Za-z0-9]+:\\)$" . ((lambda (tag)
-                                       (svg-tag-make tag :beg 2 :end -1))))))
-
-(setq svg-tag-tags
-      '(
-        ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:" . ((lambda (tag)
-                                              (svg-tag-make tag :beg 1 :inverse t
-                                                            :margin 0 :crop-right t))))
-        (":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)" . ((lambda (tag)
-                                              (svg-tag-make tag :beg 1 :end -1
-                                                            :margin 0 :crop-left t))))
-
-        ))
-
-(setq svg-tag-tags
-      '((":TODO:" . ((lambda (tag) (svg-tag-make "TODO"))))))
+  (save-excursion
+    (sort-code-block ";;")))
 
 ;;
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'write-contents-functions)
-;; eval: (add-hook 'write-contents-functions 'sort-elisp-block nil t)
+;; eval: (add-hook 'write-contents-functions (lambda () (when (boundp 'sort-elisp-block) sort-elisp-block)) nil t)
 ;; End:

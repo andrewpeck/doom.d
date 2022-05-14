@@ -31,8 +31,8 @@
   ;; Make evil-mode up/down operate in screen lines instead of logical lines
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
   (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+  ;;(define-key evil-visual-state-map "j" 'evil-next-visual-line)
+  ;;(define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
   ;; unbind annoying emacs bindings
   (define-key evil-normal-state-map "\C-p" nil)
@@ -167,8 +167,11 @@
     (call-process (executable-find "xdg-open") nil nil nil
                   (buffer-file-name)))
 
-  (evil-define-minor-mode-key 'normal 'org-mode-map (kbd "M-q") (lambda ()  (org-fill-paragraph t)))
-  (evil-define-minor-mode-key 'normal 'text-mode-map (kbd "M-q") #'fill-paragraph)
+  (defun org-fill-paragraph-t () (interactive) (org-fill-paragraph t))
+  (after! org-mode
+    (define-key org-mode-map (kbd "M-q") #'org-fill-paragraph-t))
+  (define-key text-mode-map (kbd "M-q") #'fill-paragraph)
+
   (defun py-black () (interactive)
          (save-buffer)
          (print (shell-command-to-string (concat "black " (buffer-file-name))))
@@ -223,8 +226,9 @@ between the two most recently open buffers."
   ;; (define-key evil-visual-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt-incremental)
 
   ;; Jump back and forth through files, time, and space with arrow keys
-  (define-key evil-normal-state-map (kbd "<M-C-S-left>")   'better-jumper-jump-backward)
-  (define-key evil-normal-state-map (kbd "<M-C-S-right>")   'better-jumper-jump-forward))
+  ;; (define-key evil-normal-state-map (kbd "C-[")   'better-jumper-jump-backward)
+  ;; (define-key evil-normal-state-map (kbd "C-]")   'better-jumper-jump-forward))
+  )
 
 ;; Evil Surround
 ;;------------------------------------------------------------------------------

@@ -1,28 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-;;; mu4e
-;;------------------------------------------------------------------------------
-
-;;;;;(after! mu4e
-;;;;;  (setq mail-user-agent 'mu4e-user-agent)
-;;;;;  (setq mu4e-drafts-folder "/[Gmail].Drafts")
-;;;;;  (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
-;;;;;  (setq mu4e-trash-folder  "/[Gmail].Trash")
-;;;;;  (setq mu4e-sent-messages-behavior 'delete)
-;;;;;  (setq mu4e-maildir-shortcuts
-;;;;;        '( ("/INBOX"               . ?i)
-;;;;;           ("/[Gmail].Sent Mail"   . ?s)
-;;;;;           ("/[Gmail].Trash"       . ?t)
-;;;;;           ("/[Gmail].All Mail"    . ?a)))
-;;;;;  (setq mu4e-get-mail-command "offlineimap")
-;;;;;  (setq mu4e-use-fancy-chars t)
-;;;;;  (setq mu4e-view-show-addresses t)
-;;;;;  (setq mu4e-view-show-images t)
-;;;;;  (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
-;;;;;  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
-;;;;;)
-;;;;;
-
 
 ;;(defvar +company-backend-alist
 ;;  '((text-mode company-yasnippet company-dabbrev  company-ispell)
@@ -136,3 +113,220 @@
 ;;   (let ((face-offset (* (face-id 'shadow) (lsh 1 22))))
 ;;     (vconcat (mapcar (lambda (c) (+ face-offset c)) " +"))))
 ;;  )
+
+  ;; (defun my-mode-line/padding ()
+  ;;   (let ((r-length (length (format-mode-line mode-line-end-spaces))))
+  ;;     (propertize " "
+  ;;                 'display `(space :align-to (- right ,r-length)))))
+
+  ;; (setq mode-line-format
+  ;;       (quote
+  ;;        (""
+
+  ;;         ;; (eldoc-mode-line-string (" " eldoc-mode-line-string " "))
+
+  ;;         ("%e" mode-line-front-space
+
+  ;;          (:propertize
+  ;;           (""
+  ;;            mode-line-mule-info
+  ;;            mode-line-client
+  ;;            mode-line-modified
+  ;;            mode-line-remote)
+  ;;           display (min-width (5.0)))
+
+  ;;          mode-line-frame-identification
+
+  ;;          ;;  system name
+  ;;          "   "
+  ;;          (:eval (substring (system-name) 0 (string-match "\\..+" (system-name))))
+
+  ;;          ;; buffer path + file name
+  ;;          ":" default-directory
+  ;;          mode-line-buffer-identification
+
+
+  ;;          "   "
+  ;;          mode-line-position
+
+  ;;          (:eval (my-mode-line/padding))
+
+  ;;          ;; git / vc status
+  ;;          (vc-mode vc-mode) "  "
+
+  ;;          mode-line-process
+  ;;          ;; mode-line-modes
+  ;;          ;; mode-line-misc-info
+  ;;          mode-line-end-spaces))))
+
+  ;; (use-package doom-modeline
+  ;;   :hook (after-init . doom-modeline-mode)
+  ;;   :custom
+  ;;   (doom-modeline-height 25)
+  ;;   (doom-modeline-bar-width 1)
+  ;;   (doom-modeline-icon t)
+  ;;   (doom-modeline-major-mode-icon t)
+  ;;   (doom-modeline-major-mode-color-icon t)
+  ;;   (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  ;;   (doom-modeline-buffer-state-icon t)
+  ;;   (doom-modeline-buffer-modification-icon t)
+  ;;   (doom-modeline-minor-modes nil)
+  ;;   (doom-modeline-enable-word-count nil)
+  ;;   (doom-modeline-buffer-encoding t)
+  ;;   (doom-modeline-indent-info nil)
+  ;;   (doom-modeline-checker-simple-format t)
+  ;;   (doom-modeline-vcs-max-length 12)
+  ;;   (doom-modeline-env-version t)
+  ;;   (doom-modeline-irc-stylize 'identity)
+  ;;   (doom-modeline-github-timer nil)
+  ;;   (doom-modeline-gnus-timer nil))
+
+  ;; https://github.com/mclear-tools/bespoke-modeline
+  ;; (setq bespoke-modeline-position 'bottom
+  ;;       ;; Set mode-line height
+  ;;       bespoke-modeline-size 2
+  ;;       ;; Show diff lines in mode-line
+  ;;       bespoke-modeline-git-diff-mode-line t
+  ;;       ;; Set mode-line cleaner
+  ;;       bespoke-modeline-cleaner t
+  ;;       ;; Use mode-line visual bell
+  ;;       bespoke-modeline-visual-bell t)
+
+  ;; (bespoke-modeline-mode t)
+
+
+  ;; (setq vc-make-backup-files t
+  ;;       ;; auto-save-default t
+  ;;       ;; version-control t ; Use version numbers for backups.
+  ;;       delete-old-versions t ; Don't ask to delete excess backup versions.
+  ;;       delete-by-moving-to-trash nil
+  ;;       kept-new-versions 10 ; Number of newest versions to keep.
+  ;;       backup-by-copying t ; Copy all files, don't rename them.
+  ;;       kept-old-versions 0  ; Number of oldest versions to keep.
+  ;;       backup-inhibited nil
+  ;;       make-backup-files t
+  ;;       backup-directory-alist `(("." . ,(expand-file-name "~/emacs-backups")))
+  ;;       tramp-backup-directory-alist `(("." . ,(expand-file-name "~/emacs-backups")))
+  ;;       )
+
+
+  ;; (defun force-backup-of-buffer ()
+  ;;   (setq buffer-backed-up nil))
+  ;; (add-hook 'before-save-hook  'force-backup-of-buffer)
+
+  ;; (defun force-backup-of-buffer ()
+  ;;   ;; Make a special "per session" backup at the first save of each
+  ;;   ;; emacs session.
+  ;;   (when (not buffer-backed-up)
+  ;;     ;; Override the default parameters for per-session backups.
+  ;;     (let ((backup-directory-alist `(("" . ,(expand-file-name "~/emacs-backups"))))
+  ;;           (kept-new-versions 3))
+  ;;       (backup-buffer)))
+  ;;   ;; Make a "per save" backup on each save.  The first save results in
+  ;;   ;; both a per-session and a per-save backup, to keep the numbering
+  ;;   ;; of per-save backups consistent.
+  ;;   (let ((buffer-backed-up nil))
+  ;;     (backup-buffer)))
+
+  ;; (add-hook 'before-save-hook  'force-backup-of-buffer)
+
+
+  ;; make backup to a designated dir, mirroring the full path
+  ;; http://xahlee.info/emacs/emacs/emacs_set_backup_into_a_directory.html ;;
+  (defun my-backup-file-name (fpath)
+    "Return a new file path of a given file path.
+If the new path's directories does not exist, create them."
+    (let* ((backupRootDir "~/emacs-backups/")
+           (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path, for example, “C:”
+           (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~"))))
+      (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
+      backupFilePath))
+
+  (setq make-backup-file-name-function 'my-backup-file-name)
+
+  ;; (setq backup-directory-alist `(("." . ,(expand-file-name "~/emacs-backups"))))
+  ;; (setq tramp-backup-directory-alist `(("." . ,(expand-file-name "~/emacs-backups"))))
+
+  ;; (setq mode-line-modes "    mode-line-mode    ")
+
+  ;; (after! doom-modeline (doom-modeline-def-segment process ""))
+
+  ;; (setq mode-line-modes
+
+  ;;     (list (propertize "%[" 'help-echo recursive-edit-help-echo)
+  ;;           "("
+  ;;           `(:propertize ("" mode-name)
+  ;;             help-echo "Major mode\n\
+  ;; mouse-1: Display major mode menu\n\
+  ;; mouse-2: Show help for major mode\n\
+  ;; mouse-3: Toggle minor modes"
+  ;;             mouse-face mode-line-highlight
+  ;;             local-map ,mode-line-major-mode-keymap)
+  ;;
+  ;;           ;;'("" mode-line-process)
+  ;;           `(:propertize ("" minor-mode-alist)
+  ;;             mouse-face mode-line-highlight
+  ;;             help-echo "Minor mode\n\
+  ;; mouse-1: Display minor mode menu\n\
+  ;; mouse-2: Show help for minor mode\n\
+  ;; mouse-3: Toggle minor modes"
+  ;;             local-map ,mode-line-minor-mode-keymap)
+  ;;           (propertize "%n" 'help-echo "mouse-2: Remove narrowing from buffer"
+  ;;                       'mouse-face 'mode-line-highlight
+  ;;                       'local-map (make-mode-line-mouse-map
+  ;;                                   'mouse-2 #'mode-line-widen))
+  ;;           ")"
+  ;;           (propertize "%]" 'help-echo recursive-edit-help-echo)
+  ;;           " "))
+
+
+  ;; https://jblevins.org/log/mmm
+  ;;
+  ;; (require 'mmm-mode)
+  ;; (setq mmm-global-mode 'maybe)
+  ;; (setq mmm-parse-when-idle 't)
+
+  ;; (defun my-mmm-markdown-auto-class (lang &optional submode)
+  ;;   "Define a mmm-mode class for LANG in `markdown-mode' using SUBMODE.
+  ;; If SUBMODE is not provided, use `LANG-mode' by default."
+  ;;   (let ((class (intern (concat "markdown-" lang)))
+  ;;         (submode (or submode (intern (concat lang "-mode"))))
+  ;;         (front (concat "^```" lang "[\n\r]+"))
+  ;;         (back "^```"))
+  ;;     (mmm-add-classes (list (list class :submode submode :front front :back back)))
+  ;;     (mmm-add-mode-ext-class 'markdown-mode nil class)))
+
+  ;; ;; Mode names that derive directly from the language name
+  ;; (mapc 'my-mmm-markdown-auto-class
+  ;;       '("vhdl" "toml" "bash" "ini" "awk" "bibtex" "c" "cpp" "css" "html" "latex" "lisp" "makefile"
+  ;;         "markdown" "python" "r" "ruby" "sql" "stata" "xml"))
+
+
+  ;; https://github.com/rougier/svg-tag-mode
+  ;; :
+  ;; :firmware:
+  (setq svg-tag-tags
+        '(("\\(:[A-Z]+:\\)" . ((lambda (tag)
+                                 (svg-tag-make tag :beg 1 :end -1))))))
+
+  (setq svg-tag-tags
+        '(("\\(:#[A-Za-z0-9]+\\)" . ((lambda (tag)
+                                       (svg-tag-make tag :beg 2))))
+          ("\\(:#[A-Za-z0-9]+:\\)$" . ((lambda (tag)
+                                         (svg-tag-make tag :beg 2 :end -1))))))
+
+  (setq svg-tag-tags
+        '(
+          ("\\(:[A-Z]+\\)\|[a-zA-Z#0-9]+:" . ((lambda (tag)
+                                                (svg-tag-make tag :beg 1 :inverse t
+                                                              :margin 0 :crop-right t))))
+          (":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)" . ((lambda (tag)
+                                                (svg-tag-make tag :beg 1 :end -1
+                                                              :margin 0 :crop-left t))))
+
+          ))
+
+  (setq svg-tag-tags
+        '((":TODO:" . ((lambda (tag) (svg-tag-make "TODO"))))))
+
+  ;; )

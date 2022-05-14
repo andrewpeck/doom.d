@@ -3,6 +3,8 @@
 ;;; Code:
 
 ;; package specific commands and flags
+;;
+(require 'ansi-color)
 
 (defun system-install-get-package-cmd ()
   (cond ((executable-find "dnf")    "dnf")
@@ -64,16 +66,26 @@
 (with-eval-after-load 'evil
   (evil-define-key 'normal system-install-run-minor-mode-map "q" #'bury-buffer))
 
+;; (ignore-errors
+;;   (defun my-colorize-compilation-buffer ()
+;;     (when (eq major-mode 'compilation-mode)
+;;       (ansi-color-apply-on-region compilation-filter-start (point-max))))
+;;   (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
+
 (defun system-install-run (subcmd &rest args)
   (let* ((name (format "%s" subcmd))
          (buf (format "*%s*" name)))
+
+
     (with-editor-async-shell-command (format "sudo %s %s%s%s"
                                              (system-install-get-package-cmd)
                                              subcmd
                                              (if args " " "")
                                              (string-join args " "))
                                      buf)
+
     (with-current-buffer buf
+      (ansi-color-apply-on-region (point-min) (point-max))
       (system-install-run-minor-mode))))
 
 ;;;###autoload

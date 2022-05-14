@@ -2,9 +2,18 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(
-("0xbefe-oh"
- (filename . "/sshx:larry:/home/andrew/work/0xbefe-oh/")
+(("org-capture-last-stored"
+ (filename . "~/Sync/org/todo.org")
+ (front-context-string . "** [ ] https://g")
+ (rear-context-string . "\n# End:\n* Inbox\n")
+ (position . 4757))
+("y"
+ (filename . "/sshx:rpi:/home/pi/zigbee2mqtt/docker-compose.yaml")
+ (front-context-string)
+ (rear-context-string . "restart: always\n")
+ (position . 1069))
+("work"
+ (filename . "/sshx:larry:/home/andrew/work/")
  (front-context-string . "Top\n  -rw-r--r--")
  (rear-context-string . "0K Feb  5 13:52 ")
  (position . 1365))

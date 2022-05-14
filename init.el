@@ -37,8 +37,9 @@
         hl-todo          ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
         ;;hydra          ; This module adds hydra to Doom Emacs
         ;;indent-guides  ; highlighted indent columns
-        ;; modeline      ; snazzy, Atom-inspired modeline, plus API
-        nav-flash        ; blink the current line after jumping
+        modeline      ; snazzy, Atom-inspired modeline, plus API
+        ;; nav-flash
+                                        ; blink the current line after jumping
         ;;neotree        ; a project drawer, like NERDTree for vim
         ophints          ; highlight the region an operation acts on
         (popup           ; tame sudden yet inevitable temporary windows
@@ -127,7 +128,7 @@
         ;;elm                ; care for a cup of TEA?
         (emacs-lisp  +lsp)   ; drown in parentheses
         ;;erlang             ; an elegant language for a more civilized age
-        ;;ess                ; emacs speaks statistics
+        ess                ; emacs speaks statistics
         ;;faust              ; dsp, but you get to keep your soul
         ;;fsharp             ; ML stands for Microsoft's Language
         ;;fstar              ; (dependent) types and (monadic) effects and Z3
@@ -173,7 +174,7 @@
         ;;rest              ; Emacs as a REST client
         ;;rst               ; ReST in peace
         ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-        ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+        rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
         ;;scala             ; java, but good
         ;;scheme            ; a fully conniving family of lisps
         (sh +lsp)           ; she sells {ba,z,fi}sh shells on the C xor
@@ -182,20 +183,22 @@
         ;;terra             ; Earth and Moon in alignment for performance.
         ;;web               ; the tubes
 
-    ;;email
-        ;;(mu4e +gmail)
+    :email
+        (mu4e +gmail)
         ;;notmuch
         ;;(wanderlust +gmail)
 
-    ;; :app
+    :app
         ;;calendar
         ;;emms              ; This module enables Emacs to be used as a music player
         ;;everywhere        ; *leave* Emacs!? You must be joking
         ;;irc               ; how neckbeards socialize
-        ;;(rss +org)        ; emacs as an RSS reader
+        ;; (rss +org)        ; emacs as an RSS reader
+        (rss)        ; emacs as an RSS reader
         ;;twitter           ; twitter client https://twitter.com/vnought
 
     :config
         ;;literate
         (default +bindings +smartparens)
 )
+
