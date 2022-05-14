@@ -4,3 +4,6 @@
 [submodule "lisp/hdl_deps"]
 	path = lisp/hdl_deps
 	url = https://github.com/andrewpeck/hdl_deps
+[submodule "lisp/tabular"]
+	path = lisp/tabular
+	url = ./lisp/tabular/
