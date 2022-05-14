@@ -41,8 +41,9 @@
 
 (defun font-exists-p (font)
   "Check if FONT exists"
-  (if (null (x-list-fonts font))
-      nil t))
+  (ignore-errors
+    (if (null (x-list-fonts font))
+        nil t)))
 
 (when (font-exists-p my-font)
   (setq doom-font (font-spec :family my-font :size 15)
