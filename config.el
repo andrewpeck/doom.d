@@ -11,11 +11,8 @@
 ;; Steve Purcell: https://github.com/purcell/emacs.d/
 ;; Henrik: https://github.com/hlissner/doom-emacs-private/blob/master/config.el
 
-;; Bookmarks
-(load! "~/.doom.d/custom.el")
 
-;; Fix issue with this
-;; https://github.com/tecosaur/screenshot/issues/7
+(load! "~/.doom.d/custom.el")
 
 ;;------------------------------------------------------------------------------
 ;; to file

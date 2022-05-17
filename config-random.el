@@ -18,6 +18,12 @@
 ;;; Random
 ;;;------------------------------------------------------------------------------
 
+;; https://github.com/tecosaur/screenshot/issues/11
+(load-file (locate-library "screenshot.el"))
+
+;; Fix issue with this
+;; https://github.com/tecosaur/screenshot/issues/7
+
 ;;------------------------------------------------------------------------------
 ;; Command to suspend the system
 ;;------------------------------------------------------------------------------
@@ -64,6 +70,8 @@ This command does not push text to `kill-ring'."
 
 ;; so-long-threshold can increase, it is still reasonably performant at 800
 (setq so-long-threshold 800)
+
+(setq bookmark-default-file "~/.doom.d/bookmarks")
 
 (setq ws-butler-global-exempt-modes
       '(special-mode comint-mode term-mode eshell-mode))
