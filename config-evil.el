@@ -130,6 +130,14 @@
       (outline-hide-body)))
 
   ;; Evil leader keys
+  ;;
+
+  (cond
+   ((string= (system-name) "strange")   (setq preferred-terminal '("terminator" "--working-directory")))
+   ((string= (system-name) "pepper")    (setq preferred-terminal '("terminator" "--working-directory")))
+   ((string= (system-name) "larry")     (setq preferred-terminal '("kitty" "--directory")))
+   ((string= (system-name) "cobweb")    (setq preferred-terminal '("kitty" "--directory")))
+   (t '("terminator" "--working-directory") ))
 
   (defun open-pwd-in-terminal ()
     "Opens the present working directory in terminal"
@@ -142,7 +150,7 @@
                  ;; default
                  (t (file-name-directory (buffer-file-name))))))
       (start-process "*terminal*" nil
-                     (executable-find "kitty") "--directory" pwd)))
+                     (executable-find (car preferred-terminal)) (cadr preferred-terminal) pwd)))
 
   (defun open-buffer-in-vim ()
     "Opens the current buffer in gvim :)"
