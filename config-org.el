@@ -12,6 +12,8 @@
 
 (after! org
 
+  (setq org-export-in-background t)
+
   ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
   (defun org-copy-region-as-markdown ()
     "Copy the region (in Org) to the system clipboard as Markdown."
