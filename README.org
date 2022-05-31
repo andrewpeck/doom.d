@@ -2,7 +2,7 @@
 #+begin_src bash
 # http://ergoemacs.org/emacs/building_emacs_from_git_repository.html
 
-sudo apt install autoconf make gcc texinfo libgtk-3-dev libxpm-dev libjpeg-dev libgif-dev libtiff5-dev libgnutls28-dev libncurses5-dev libgccjit-8-dev sysinfo libjansson-dev
+sudo apt install autoconf make gcc texinfo libgtk-3-dev libxpm-dev libjpeg-dev libgif-dev libtiff5-dev libgnutls28-dev libncurses5-dev libgccjit-8-dev sysinfo libjansson-dev libxml2-dev librsvg2-dev libwebp-dev libsqlite3-dev
 
 git clone https://github.com/emacs-mirror/emacs
 
@@ -10,12 +10,12 @@ git clone https://github.com/emacs-mirror/emacs
 git clean -xdf
 ./autogen.sh
 ./configure --prefix=/home/andrew/emacs --bindir=/home/andrew/bin \
-    --with-native-compilation --with-json --with-rsvg --with-xft
+    --with-native-compilation --with-json --with-rsvg --with-xft --with-xml2 --without-compress-install
 
 # system install
 git clean -xdf
 ./autogen.sh
-./configure --with-native-compilation --with-json --with-rsvg --with-xft
+./configure --with-native-compilation --with-json --with-rsvg --with-xft --with-sqllite3 --with-xml2 --without-compress-install --with-webp  --with-jpeg --with-png CFLAGS="-O2"
 
 #make -C lisp autoloads-force
 make bootstrap
