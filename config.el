@@ -11,6 +11,11 @@
 ;; Steve Purcell: https://github.com/purcell/emacs.d/
 ;; Henrik: https://github.com/hlissner/doom-emacs-private/blob/master/config.el
 
+(add-hook! emacs-lisp-mode-hook
+  (lambda () (progn
+               (make-variable-buffer-local tab-width)
+               (setq tab-width 4))))
+
 
 (load! "~/.doom.d/custom.el")
 
