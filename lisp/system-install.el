@@ -26,6 +26,11 @@
         ((executable-find "pacman") "-Sy")
         ((executable-find "apt")    "install")))
 
+(defun system-install-get-package-remove-flag ()
+  (cond ((executable-find "dnf")    "remove")
+        ((executable-find "pacman") "-R")
+        ((executable-find "apt")    "uninstall")))
+
 (defun system-install-get-system-upgrade-flag ()
   (cond ((executable-find "dnf")    "update")
         ((executable-find "pacman") "-Syu")
@@ -105,6 +110,15 @@
                                       nil
                                       t)))
   (system-install-run (system-install-get-package-update-flag) package))
+
+;;;###autoload
+(defun system-remove-package (package)
+  "Remove `package' using system package manager"
+  (interactive (list (completing-read "Formula: "
+                                      (system-install-get-installed-package-list)
+                                      nil
+                                      t)))
+  (system-install-run (system-install-get-package-remove-flag) package))
 
 ;;;###autoload
 (defun system-upgrade ()
