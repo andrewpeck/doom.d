@@ -1,11 +1,11 @@
 # -*- mode: snippet -*-
-# name: gem-header
-# key: gem-header
+# name: GEM block header
+# key: header-gem
 # --
 ----------------------------------------------------------------------------------
 -- CMS Muon Endcap
 -- GEM Collaboration
--- Optohybrid v3 Firmware -- GBT Link Parser
+-- Optohybrid Firmware
 -- T. Lenzi, E. Juska, A. Peck
 ----------------------------------------------------------------------------------
 -- Description:

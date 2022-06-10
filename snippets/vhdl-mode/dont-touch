@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: vhdl-dont-touch
-# key: touch
+# name: dont-touch
+# key: dont_touch
 # --
 attribute DONT_TOUCH : string;
 attribute DONT_TOUCH of ${1:name} : signal is "true";

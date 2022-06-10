@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: etl-header
-# key: etl-header
+# name: ETL Block Header
+# key: header-etl
 # --
 ----------------------------------------------------------------------------------
 -- CMS Endcap Timing Layer

@@ -2,4 +2,4 @@
 # name: constant
 # key: const
 # --
-constant $1 : natural := $2;
+constant ${1:name} : natural := ${2:0};

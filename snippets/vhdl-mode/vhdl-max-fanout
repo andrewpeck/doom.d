@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: vhdl-max-fanout
-# key: MAX_FANOUT
-# --
-attribute MAX_FANOUT : string;
-attribute MAX_FANOUT of $1 : signal is "$2";
