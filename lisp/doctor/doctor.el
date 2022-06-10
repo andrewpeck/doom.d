@@ -147,7 +147,7 @@ they are installed and the computer is set up ok"
 
         ;; utilities
         ;;
-        (check-for-exe "kitty" :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
+        (check-for-exe "kitty" :noroot t :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
         (check-for-exe "act" :cmd "cd ~/ && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash")
         (check-for-exe "aspell" :dnf "aspell" :ubuntu "aspell")
         (check-for-exe "pandoc" :dnf "pandoc" :ubuntu "pandoc")
@@ -180,6 +180,8 @@ they are installed and the computer is set up ok"
         ;; symlinks
         (princ "** Creating symlinks\n")
 
+        (make-symlink (dotfiles "bin") "~/bin")
+
         (make-symlink (dotfiles "org-protocol.desktop") "~/.local/share/applications/org-protocol.desktop")
         (make-symlink (dotfiles "aspell.en.pws") "~/.aspell.en.pws")
         (make-symlink (dotfiles "mimeapps.list") "~/.config/mimeapps.list")
@@ -193,6 +195,10 @@ they are installed and the computer is set up ok"
         (make-symlink "~/Sync/emacs-backups" "~/emacs-backups")
 
         (make-symlink "~/.local/kitty.app/bin/kitty" "~/bin/kitty")
+
+        ;; systemctl  start --user emacs.service
+        (make-symlink (dotfiles "emacs.service") "~/.config/systemd/user/emacs.service")
+
         (make-symlink (dotfiles "kitty") "~/.config/kitty")
         (make-symlink (dotfiles "xinitrc") "~/.xinitrc")
         (make-symlink (dotfiles "xmobarrc") "~/.xmobarrc")
@@ -213,7 +219,6 @@ they are installed and the computer is set up ok"
         (make-symlink (dotfiles "xmonad") "~/.xmonad")
         ;; (make-symlink (dotfiles "vim/vim") "~/.vim")
         (make-symlink (dotfiles "Fonts") "~/.fonts")
-        (make-symlink (dotfiles "bin") "~/bin")
 
         (princ "** Setting custom mimetypes\n")
         (shell-command "cp mime/* ~/.local/share/mime/packages/ && update-mime-database ~/.local/share/mime")
