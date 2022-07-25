@@ -206,7 +206,12 @@
          (print (shell-command-to-string (concat "black " (buffer-file-name))))
          (revert-buffer))
 
-  (after! python-mode
+  (defun pyment () (interactive)
+         (save-buffer)
+         (print (shell-command-to-string (concat "pyment -o google -w " (buffer-file-name))))
+         (revert-buffer))
+
+  (after! python
     (define-key python-mode-map (kbd "C-c C-b") #'py-black))
 
   (evil-leader/set-key "bt" 'org-make-tables-pretty)
