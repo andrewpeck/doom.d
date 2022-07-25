@@ -64,6 +64,16 @@
 
 (after! evil-maps
 
+
+  (map! :leader
+        :prefix "o"
+        :desc "Open Elfeed" "e" #'elfeed)
+
+  (evil-define-key 'normal elfeed-search-mode-map
+    "q" #'elfeed-kill-buffer
+    "r" #'elfeed-search-update--force
+    (kbd "M-RET") #'elfeed-search-browse-url)
+
   ;; Ctrl-o to search the home with fzf
   (define-key evil-normal-state-map (kbd "C-o")
     (lambda () (interactive)
