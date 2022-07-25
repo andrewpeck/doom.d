@@ -13,6 +13,7 @@
 (after! org
 
   (setq org-export-in-background t)
+  (define-key org-mode-map (kbd "M-RET") (lambda () (interactive) (org-meta-return t)))
 
   ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
   (defun org-copy-region-as-markdown ()
