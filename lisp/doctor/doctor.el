@@ -22,7 +22,7 @@
               (princ (concat pad "#+begin_src bash  :tangle no :results output\n"))
               (princ (concat pad "#+begin_src bash  :tangle no :dir /sudo::~/ :results output\n")))
           (when ubuntu (princ (concat pad (concat "sudo apt --yes install " ubuntu "\n"))))
-          (when dnf (princ (concat pad (concat "sudo dnf install " dnf "\n"))))
+          (when dnf (princ (concat pad (concat "sudo dnf install -y " dnf "\n"))))
           (when pacman (princ (concat pad (concat "sudo pacman -Syu " dnf "\n"))))
           (when cmd    (princ (concat pad (concat cmd "\n"))))
           (princ (concat pad "#+end_src\n")))))))
@@ -77,17 +77,16 @@ they are installed and the computer is set up ok"
         ;; external programs wanted by my emacs
         (check-for-exe "terminator" :ubuntu "terminator")
         (check-for-exe "bat" :ubuntu "bat")
-        (check-for-exe "rg" :dnf "rg")
         (check-for-exe "fd" :ubuntu "fd-find")
         ;; $ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
         ;; $ sudo dpkg -i ripgrep_13.0.0_amd64.deb
         (check-for-exe "ag" :ubuntu "silversearcher-ag")
 
         ;; python
-        (check-for-exe "pip3" :ubuntu "python3-pip")
-        (check-for-exe "pyflakes" :cmd "sudo pip install pyflakes")
-        (check-for-exe "isort" :cmd "sudo pip install isort")
-        (check-for-exe "pytest" :cmd "sudo pip install pytest")
+        (check-for-exe "pip3" :ubuntu "python3-pip" :dnf "python3-pip")
+        (check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
+        (check-for-exe "isort" :cmd "pip install isort" :noroot t)
+        (check-for-exe "pytest" :cmd "pip install pytest" :noroot t)
 
         ;; sbcl
         (check-for-exe "sbcl" :ubuntu "sbcl" :dnf "sbcl")
@@ -99,19 +98,19 @@ they are installed and the computer is set up ok"
         (check-for-exe "npm" :ubuntu "npm" :dnf "npm")
 
         ;; proselint
-        (check-for-exe "proselint" :cmd "sudo pip3 install proselint")
+        (check-for-exe "proselint" :cmd "pip install proselint" :noroot t)
 
         ;; yamllint
         (check-for-exe "yamllint" :dnf "yamllint" :ubuntu "yamllint")
 
         ;;  cask
-        (check-for-exe "cask" :cmd "cd ~/ && git clone https://github.com/cask/cask && make -C cask install")
+        ;; (check-for-exe "cask" :cmd "cd ~/ && git clone https://github.com/cask/cask && make -C cask install")
 
         ;; markdown
         (check-for-exe "markdownlint"
                        :url "https://github.com/igorshubovych/markdownlint-cli"
                        :cmd "sudo npm install -g markdownlint-cli")
-        (check-for-exe "grip" :cmd "sudo pip3 install grip")
+        (check-for-exe "grip" :cmd "pip install grip" :noroot t)
 
         ;; c/c++
         (check-for-exe "bear"
@@ -135,9 +134,15 @@ they are installed and the computer is set up ok"
         ;; python
         (check-for-exe "pyright"
                        :url "https://github.com/microsoft/pyright"
-                       :cmd "sudo npm install -g pyright")
+                       :cmd "pip install pyright" :noroot t)
         (check-for-exe "black"
-                       :cmd "pip install black")
+                       :cmd "pip install black" :noroot t)
+        (check-for-exe "pyimport"
+                       :cmd "pip install pyimport" :noroot t)
+        (check-for-exe "isort"
+                       :cmd "pip install isort" :noroot t)
+        (check-for-exe "pyflakes"
+                       :cmd "pip install pyflakes" :noroot t)
 
         ;; bash
         (check-for-exe "shellcheck" :dnf "ShellCheck" :ubuntu "shellcheck")
@@ -149,13 +154,14 @@ they are installed and the computer is set up ok"
         ;;
         (check-for-exe "kitty" :noroot t :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
         (check-for-exe "act" :cmd "cd ~/ && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash")
+        (check-for-exe "htop" :dnf "htop" :ubuntu "htop")
         (check-for-exe "aspell" :dnf "aspell" :ubuntu "aspell")
         (check-for-exe "pandoc" :dnf "pandoc" :ubuntu "pandoc")
         (check-for-exe "cmake" :ubuntu "cmake" :dnf "cmake")
         (check-for-exe "cloc" :ubuntu "cloc" :dnf "cloc")
-        (check-for-exe "rg" :dnf "rg")
-        (check-for-exe "fzf" :cmd "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install")
-        (check-for-exe "gvim" :ubuntu "vim-gtk3")
+        (check-for-exe "rg" :dnf "ripgrep")
+        (check-for-exe "fzf" :noroot t :cmd "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install")
+        (check-for-exe "gvim" :ubuntu "vim-gtk3" :dnf "vim-X11")
         (check-for-exe "mpd" :ubuntu "mpd" :dnf "mpd")
         (check-for-exe "mpc" :ubuntu "mpc" :dnf "mpc")
         (check-for-exe "ncmpcpp" :ubuntu "ncmpcpp" :dnf "ncmpcpp")
@@ -194,7 +200,7 @@ they are installed and the computer is set up ok"
 
         (make-symlink "~/Sync/emacs-backups" "~/emacs-backups")
 
-        (make-symlink "~/.local/kitty.app/bin/kitty" "~/bin/kitty")
+        (make-symlink "~/.local/kitty.app/bin/kitty" "~/.local/bin/kitty")
 
         ;; systemctl  start --user emacs.service
         (make-symlink (dotfiles "emacs.service") "~/.config/systemd/user/emacs.service")
