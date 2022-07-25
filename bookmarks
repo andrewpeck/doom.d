@@ -2,18 +2,23 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-capture-last-stored"
- (filename . "~/Sync/org/todo.org")
- (front-context-string . "** [ ] https://g")
- (rear-context-string . "\n# End:\n* Inbox\n")
- (position . 4757))
-("y"
+(("gaps-timesheet.org"
+ (filename . "~/Sync/GAPS/Invoices/gaps-timesheet.org")
+ (front-context-string . "#+TITLE: Gaps Timesheet")
+ (rear-context-string)
+ (position . 1))
+("org-capture-last-stored"
+ (filename . "~/Sync/notes/todo.org")
+ (front-context-string)
+ (rear-context-string . " 'local)\n# End:\n")
+ (position . 7648))
+("RPi Docker Compose"
  (filename . "/sshx:rpi:/home/pi/zigbee2mqtt/docker-compose.yaml")
  (front-context-string)
  (rear-context-string . "restart: always\n")
  (position . 1069))
 ("work"
- (filename . "/sshx:larry:/home/andrew/work/")
+ (filename . "/sshx:larry:/home/apeck/work/")
  (front-context-string . "Top\n  -rw-r--r--")
  (rear-context-string . "0K Feb  5 13:52 ")
  (position . 1365))
@@ -32,17 +37,12 @@
  (front-context-string . ";;; hog-emacs.el")
  (rear-context-string)
  (position . 1))
-("debian"
+("gapsrb23"
  (filename . "/sshx:gapsrb23:/home/debian/")
  (front-context-string)
  (rear-context-string . "0:35 .wget-hsts\n")
  (position . 1714))
-("etl_test_fw"
- (filename . "/sshx:larry:/home/andrew/work/etl_test_fw/")
- (front-context-string . "Projects\n  -rw-r")
- (rear-context-string . "0K Feb  5 10:48 ")
- (position . 1735))
-("work"
+("larry:etl_test_fw"
  (filename . "/sshx:larry:/home/andrew/work/etl_test_fw/")
  (front-context-string . "Projects\n  -rw-r")
  (rear-context-string . "0K Feb  5 10:48 ")
