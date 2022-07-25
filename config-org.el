@@ -206,41 +206,43 @@
 
   (setq org-log-done 'time)
 
-  ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/#.WIqBud9vGAk
-  ;; https://console.cloud.google.com/apis/dashboard?pli=1
-  ;;(setq
-  ;; org-gcal-file-alist '(
-  ;;              ("7rlvcq7qs49tb3ed0rpe97f2us@group.calendar.google.com" . "~/Sync/org/gcal-medical.org")
-  ;;              ("ericshazen@gmail.com"                                 . "~/Sync/org/gcal-hazen.org")
-  ;;              ("peckandrew@gmail.com"                                 . "~/Sync/org/gcal-peck.org")
-  ;;              ("ijavvtk9nsrs89e1h3oahltgko@group.calendar.google.com" . "~/Sync/org/gcal-work.org")
-  ;;              )
-  ;;      org-gcal-remove-api-cancelled-events t
-  ;;      )
-  ;;      ;;org-gcal-auto-archive nil
-  ;;      ;;org-gcal-notify-p nil
-
-  ;;(add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
-  ;;(add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-fetch) ))
-
-  (setq org-link-file-path-type 'relative)
-  (setq org-agenda-files (list "~/Sync/org"))
-  (setq org-id-locations-file "~/Sync/org/.org-id-locations")
-  ;; (setq org-hide-emphasis-markers nil)
   (+org-pretty-mode t)
-  (setq org-export-with-sub-superscripts nil)
-  (setq org-directory "~/Sync/org")
-  (setq org-default-notes-file (concat org-directory "/todo.org"))
-  ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
-  ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
-  (setq org-capture-templates '(
-                                ("t" "TODO" entry (file+headline +org-capture-todo-file "To do")
-                                 "** TODO %?" :prepend t)
-                                ("a" "Appointment" entry (file  "~/Sync/org/gcal-peck.org" )
-                                 "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-                                ("s" "Shopping" item (file+headline +org-capture-todo-file "Shopping")
-                                 "- [ ] %?" :prepend t)
-                                ))
+  ;; (setq org-hide-emphasis-markers nil)
+  (setq org-link-file-path-type 'relative
+        org-agenda-files (list "~/Sync/notes")
+        org-id-locations-file "~/Sync/notes/.org-id-locations"
+        org-export-with-sub-superscripts nil
+        org-directory "~/Sync/notes"
+        org-attach-id-dir "./images/"
+        org-default-notes-file (concat org-directory "/todo.org")
+        +org-capture-todo-file "~/Sync/notes/todo.org"
+
+        ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
+        ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
+        org-capture-templates
+        '(;; ("a" "Appointment" entry (file  "~/Sync/org/gcal-peck.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+
+          ;; https://orgmode.org/manual/Template-elements.html
+
+          ("t" "TODO" entry
+           (file+headline +org-capture-todo-file "To do") "** TODO %?" :prepend t)
+
+          ("w" "Web site" entry
+           (file+headline "~/Sync/notes/inbox.org" "Captured")
+           "* %a :website:\n\n%U %?\n\n%:initial" :unnarrowed t)
+
+          ("a" "capture-clipboard" entry
+           ;; %i == body
+           ;; %u == date
+           (file+headline "~/Sync/notes/inbox.org" "To do") "** TODO %:link %i"
+           :immediate-finish t
+           :unnarrowed t)
+
+          ("n" "Note" entry
+           (file+headline (concat org-directory  "/notes-to-file.org") "Notes") "* %?" :prepend t)
+
+          ("s" "Shopping" item
+           (file+headline +org-capture-todo-file "Shopping") "- [ ] %?" :prepend t)))
 
   ;;
   (add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
@@ -266,138 +268,75 @@
            (path (org-element-property :path link)))
       (move-file-to-trash path)
       (delete-region (org-element-property :begin link)
-                     (org-element-property :end link))))
-
-  ) ;; after! evil
+                     (org-element-property :end link))))) ;; after! evil
 
 (after! org-download
+
+  (map! :leader
+        :prefix "ma"
+        :desc "Download Screenshot" "c" #'org-download-screenshot
+        :desc "Download Clipboard" "p" #'org-download-clipboard
+        :desc "Download Yank" "P" #'org-download-yank
+        :desc "Edit Image" "e" #'org-download-edit
+        :desc "Delete Image" "d" #'org-download-delete
+        :desc "Move Image" "m" #'org-download-rename)
 
   ;; Drag-and-drop to `dired`
   (add-hook 'dired-mode-hook 'org-download-enable)
 
-  (setq org-download-image-dir "./images/screenshots")
+  ;; (defun org-download-named-screenshot (fname)
+  ;;   (interactive "FEnter Filename:")
+  ;;   (make-directory (file-name-directory fname) t)
+  ;;   (if (functionp org-download-screenshot-method)
+  ;;       (funcall org-download-screenshot-method fname)
+  ;;     (shell-command-to-string
+  ;;      (format org-download-screenshot-method fname)))
+  ;;   (org-download-image fname))
 
-  (defun org-download-named-screenshot (fname)
-    (interactive "FEnter Filename:")
-    (make-directory (file-name-directory fname) t)
-    (if (functionp org-download-screenshot-method)
-        (funcall org-download-screenshot-method fname)
-      (shell-command-to-string
-       (format org-download-screenshot-method fname)))
-    (org-download-image fname))
 
-  (setq org-directory "~/projects/org"
-        org-attach-id-dir "./images/"
-        org-download-dir "download/")
-
-  (setq-default org-download-method            'directory
-                ;;org-download-screenshot-method 'nil
-                ;;org-download-screenshot-method "spectacle -b -r -o %s"
-                org-download-screenshot-method "xfce4-screenshooter -r -s %s"
-                org-download-image-dir         "./images/screenshots"
-                org-download-heading-lvl       0
-                org-download-link-format       "[[file:%s]]\n"
-                ;;org-download-image-attr-list   ("#+attr_org: :width 800px")
-                org-download-annotate-function (lambda (text) "")
-                org-download-image-org-width   800))
+  (setq org-download-method            'directory
+        ;;org-download-screenshot-method 'nil
+        ;;org-download-screenshot-method "spectacle -b -r -o %s"
+        org-download-screenshot-method "xfce4-screenshooter -r -s %s"
+        org-download-image-dir         "./images/screenshots"
+        org-download-heading-lvl       0
+        org-download-link-format       (concat  "[[file:" org-download-image-dir "/%s]]\n")
+        org-download-annotate-function (lambda (text) "")
+        org-download-image-org-width   200
+        ;; org-download-image-dir "./images/screenshots"
+        org-download-dir               "download/"))
 
 (after! org-attach-screenshot
   (setq org-attach-screenshot-command-line "xfce4-screenshooter -r -s %f"))
-
-;; Org publishing
-;;;;;(after! org
-;;;;;  (setq org-list-allow-alphabetical t)
-;;;;;  (setq org-publish-project-alist
-;;;;;        '(
-;;;;;          ;; ... add all the components here (see below)...
-;;;;;          ("org-notes"
-;;;;;           :base-directory "~/Sync/notes/"
-;;;;;           :base-extension "org"
-;;;;;           :publishing-directory "~/notes_html/"
-;;;;;           :recursive t
-;;;;;           :publishing-function org-html-publish-to-html
-;;;;;           :headline-levels 4  ; Just the default for this project.
-;;;;;           :auto-preamble t
-;;;;;           )
-;;;;;
-;;;;;          ("org-static"
-;;;;;           :base-directory "~/Sync/notes/"
-;;;;;           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-;;;;;           :publishing-directory "~/notes_html/"
-;;;;;           :recursive t
-;;;;;           :publishing-function org-publish-attachment
-;;;;;           )
-;;;;;
-;;;;;          ("org" :components ("org-notes" "org-static"))
-;;;;;
-;;;;;          )
-;;;;;        )
-;;;;;  )
-;;;;;
 
 ;;; Org roam
 ;;------------------------------------------------------------------------------
 
 (after! org-roam
-  (setq org-roam-db-autosync-mode t)
-  (setq org-roam-directory (file-truename "~/Sync/notes/"))
-  (setq org-roam-graph-extra-config '(("rankdir" . "RL")))
-  ;; (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
-  (setq org-roam-graph-link-hidden-types '("file" "http" "https"))
+
+  (setq org-roam-db-autosync-mode t
+        org-roam-directory (file-truename "~/Sync/notes/")
+        org-roam-graph-extra-config '(("rankdir" . "RL"))
+        ;; (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
+        org-roam-graph-link-hidden-types '("file" "http" "https"))
 
   ;; add a space before inserting a node for lists etc so it does
   ;; not come out as -[link] but rather as - [link]
   (advice-add 'org-roam-node-insert :before (lambda () (insert " ")))
 
   (map! :leader
+        :prefix "y"
+        :desc "Org Link Copy"       "y" #'org-link-copy)
+
+  (map! :leader
         :prefix "n"
         :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
         :desc "Org-Roam-Find"       "/" #'org-roam-find-file
         :desc "Org-Roam-Buffer"     "r" #'org-roam
-        :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph
-        )
+        :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph)
 
   (setq org-roam-db-location "~/.org-roam.db")
   (setq org-roam-link-title-format "Org:%s"))
-
-  ;; (use-package! org-roam-server
-  ;;   :ensure t
-  ;;   :config
-  ;;   (setq org-roam-server-host "127.0.0.1"
-  ;;         org-roam-server-port 8080
-  ;;         org-roam-server-authenticate nil
-  ;;         org-roam-server-export-inline-images t
-  ;;         org-roam-server-serve-files nil
-  ;;         org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
-  ;;         org-roam-server-network-poll t
-  ;;         org-roam-server-network-arrows nil
-  ;;         org-roam-server-network-label-truncate t
-  ;;         org-roam-server-network-label-truncate-length 60
-  ;;         org-roam-server-network-label-wrap-length 20))
-
-
-
-
-;;(require 'org-download)
-
-
-;;
-;; (setq org-roam-backlinks-mode-hook
-;;       '(
-;;         (flyspell-mode)
-;;         (define-key evil-motion-state-map (kbd "RET") 'org-roam-open-at-point)
-;;         )
-;;       )
-
-;; (setq org-roam-completion-system 'ivy)
-
-;; (setq org-roam-capture-templates
-;;       '(("d" "default" plain (function org-roam--capture-get-point)
-;;          "%?"
-;;          :file-name "${title}"
-;;          :head "#+SETUPFILE: \"org.setup\"\n#+TITLE: ${title}\n#"
-
-;;          :unnarrowed t))
 
 ;;------------------------------------------------------------------------------
 ;; Functions to Convert to/from org / markdown links
