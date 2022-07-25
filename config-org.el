@@ -149,7 +149,6 @@
   ;; Appearance
   ;;------------------------------------------------------------------------------
 
-
   (add-hook 'org-mode-hook
             (lambda ()
               (progn
@@ -165,7 +164,7 @@
   (add-hook 'org-mode-hook
             (lambda () (define-key evil-normal-state-map "zs" #'org-toggle-link-display)))
 
-  (add-to-list 'load-path "~/Sync/org")
+  ;; (add-to-list 'load-path "~/Sync/org")
 
   ;;(mapc 'load
   ;;      '("org-sync" "org-sync-bb" "org-sync-github" "org-sync-gitlab"))
@@ -253,13 +252,6 @@
   ;;------------------------------------------------------------------------------
 
   (setq org-attach-id-dir "./images/screenshots")
-
-  (map! :leader
-        :prefix "ma"
-        :desc "Download Screenshot" "c" #'org-download-screenshot
-        :desc "Download Clipboard" "p" #'org-download-clipboard
-        :desc "Download Yank" "P" #'org-download-yank
-        )
 
   (defun org-remove-link-and-trash-linked-file ()
     "Remove `org-mode' link at point and trash linked file."
@@ -378,3 +370,16 @@
            (url (nth 3 l)))
       (markdown-kill-thing-at-point)
       (org-insert-link nil url desc))))
+
+;; from
+;; (https://github.com/SqrtMinusOne/dotfiles/blob/4b176a5bb1a5e20a7fdd7398b74df79701267a7e/.emacs.d/init.el)
+(defun org-link-copy (&optional arg)
+  "Extract URL from org-mode link and add it to kill ring."
+  (interactive "P")
+  (let* ((link (org-element-lineage (org-element-context) '(link) t))
+         (type (org-element-property :type link))
+         (url (org-element-property :path link))
+         (url (concat type ":" url)))
+    (kill-new url)
+    (message (concat "Copied URL: " url))))
+
