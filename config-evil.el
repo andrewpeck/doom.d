@@ -59,8 +59,7 @@
 
   ;; Switch to the new window after splitting
   (setq evil-split-window-below t
-        evil-vsplit-window-right t)
-  )
+        evil-vsplit-window-right t))
 
 (after! evil-maps
 
@@ -99,7 +98,7 @@
       ;;                 :action #'counsel-git-action
       ;;                 :caller 'counsel-git)
       ;;     (projectile-find-file-in-directory default-directory))))
-    (doom-project-find-file "~/Sync/notes")))
+      (doom-project-find-file "~/Sync/notes")))
 
   ;; (define-key evil-normal-state-map (kbd "C-n")
   ;;   (lambda () (interactive)
@@ -133,7 +132,7 @@
 
   (defun ap/tab-fallthrough ()
     (interactive)
-    (or ; short circuiting OR
+    (or          ; short circuiting OR
      ;; evil jump item throws a user-error if a jumpable item is not
      ;; found, so we have to catch the error with a condition case
      ;; and turn it into a nil
