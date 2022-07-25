@@ -27,10 +27,6 @@
                (markdown
                 (org-export-string-as region 'md t '(:with-toc nil))))
           (gui-set-selection 'CLIPBOARD markdown))))
-  ;; FIXME: this should be removed at some point, but it is crashing emacs after
-  ;; the latest update
-  (remove-hook 'org-babel-after-execute-hook
-               #'+org-redisplay-inline-images-in-babel-result-h)
 
   (defun pandoc-buffer-to-org ()
     (interactive)
