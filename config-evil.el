@@ -197,7 +197,7 @@
                   (buffer-file-name)))
 
   (defun org-fill-paragraph-t () (interactive) (org-fill-paragraph t))
-  (after! org-mode
+  (after! org
     (define-key org-mode-map (kbd "M-q") #'org-fill-paragraph-t))
   (define-key text-mode-map (kbd "M-q") #'fill-paragraph)
 
