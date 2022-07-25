@@ -18,7 +18,7 @@
             (insert (propertize (+doom-dashboard--center +doom-dashboard--width line)
                                 'face 'doom-dashboard-banner) " ")
             (insert "\n"))
-          '(" doom emacs "))
+          '(" emacs "))
     (when (and (display-graphic-p)
                (stringp fancy-splash-image)
                (file-readable-p fancy-splash-image))
