@@ -42,6 +42,18 @@
   (global-set-key (kbd "M-<right>") nil)
   (global-set-key (kbd "M-`") nil)
 
+  (evil-define-key 'motion python-mode-map
+    (kbd "M-RET") #'python-shell-send-buffer)
+
+  (map! :localleader
+        :map python-mode-map
+        :desc "Expand macro" "m" #'macrostep-expand
+        (:prefix ("e" . "eval")
+         "R" #'run-python
+         "b" #'python-shell-send-buffer
+         "d" #'python-shell-send-defun
+         "r" #'python-shell-send-region))
+
   ;; only substitute the 1st match by default (reverse vim behavior)
   (setq evil-ex-substitute-global t)
 
