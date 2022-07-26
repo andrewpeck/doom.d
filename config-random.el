@@ -98,7 +98,7 @@ This command does not push text to `kill-ring'."
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Fill column width
-(setq-default fill-column 80)
+(setq-default fill-column 100)
 
 ;; Turn on menu bar
 (menu-bar-mode 1)
