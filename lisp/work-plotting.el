@@ -233,7 +233,7 @@ SORT to non-nill will sort the list. "
       (setq org-table-data
             (cl-remove-if
              (lambda (a)
-               (member (upcase (nth 3 a)) '("VACATION" "HOLIDAY" "SICK" "ADMIN" "DEVEL")))
+               (member (upcase (nth 3 a)) '("VACATION" "HOLIDAY" "SICK" "ADMIN" "DEVEL" "VAC")))
              org-table-data)))
 
     ;; if meetings, filter into meeting vs. real work categories
@@ -294,7 +294,8 @@ SORT to non-nill will sort the list. "
     plot-data))
 
 (cl-defun plot-monthly-histogram (title data)
-  (plot-chart (filter-timesheet-for-hours data) "Month" title 50 nil))
+  (plot-chart (filter-timesheet-for-hours data) "Month" title 50 nil)
+  (princ "\n"))
 
 ;; (plot-gaps-timesheet "Hours")
 ;; (princ "\n\n")
