@@ -4,6 +4,27 @@
 
 sudo apt install autoconf make gcc texinfo libgtk-3-dev libxpm-dev libjpeg-dev libgif-dev libtiff5-dev libgnutls28-dev libncurses5-dev libgccjit-8-dev sysinfo libjansson-dev libxml2-dev librsvg2-dev libwebp-dev libsqlite3-dev
 
+sudo dnf install -y \
+        make \
+        automake \
+        gcc \
+        gcc-c++ \
+        kernel-devel \
+        gtk3-devel \
+        libjpeg-devel \
+        libXpm-devel \
+        giflib-devel \
+        libtiff-devel \
+        gnutls-devel \
+        ncurses-devel \
+        texinfo \
+        libgccjit  \
+        jansson-devel \
+        librsvg2-devel \
+        libgccjit-devel
+
+./configure --with-native-compilation --with-json --with-rsvg --with-xft --with-sqllite3 --with-xml2 --without-compress-install --with-webp  --with-jpeg --with-png CFLAGS="-O2"
+
 git clone https://github.com/emacs-mirror/emacs
 
 # local install
