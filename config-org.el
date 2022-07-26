@@ -15,6 +15,10 @@
   (setq org-export-in-background t)
   (define-key org-mode-map (kbd "M-RET") (lambda () (interactive) (org-meta-return t)))
 
+  (defun org-archive-done ()
+    (interactive)
+    (org-archive-all-done))
+
   ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
   (defun org-copy-region-as-markdown ()
     "Copy the region (in Org) to the system clipboard as Markdown."
