@@ -71,7 +71,7 @@
 ;; start:sort
 (load! "~/.doom.d/config-align.el")
 (load! "~/.doom.d/config-appearance.el")
-(load! "~/.doom.d/config-company.el")
+;; (load! "~/.doom.d/config-company.el")
 (load! "~/.doom.d/config-doom.el")
 (load! "~/.doom.d/config-evil.el")
 (load! "~/.doom.d/config-flycheck.el")

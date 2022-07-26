@@ -1,5 +1,14 @@
 ;; -*- no-byte-compile: t; -*-
 
+;;  corfu
+(package! company)
+(package! corfu)
+(package! corfu-doc
+  :recipe (:host github :repo "galeo/corfu-doc"))
+(package! cape)
+(package! kind-icon)
+
+
 ;; start:sort -- keep the stuff below sorted alphabetically
 (package! all-the-icons)
 (package! all-the-icons-dired)

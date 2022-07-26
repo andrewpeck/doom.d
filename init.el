@@ -21,13 +21,14 @@
 
 (doom!
     :completion
-        (company            ; the ultimate code completion backend
-        +childframe)
+        ;; (company            ; the ultimate code completion backend
+        ;; +childframe)
         ;;helm              ; the *other* search engine for love and life
         ;;ido               ; the other *other* search engine...
         ;; (ivy +fuzzy)
                                         ; a search engine for love and life
-        (vertico)
+        (corfu +orderless)
+        (vertico +icons)
 
     :ui
         ;;deft           ; notational velocity for Emacs
