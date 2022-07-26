@@ -12,10 +12,9 @@
 ;; Henrik: https://github.com/hlissner/doom-emacs-private/blob/master/config.el
 
 (add-hook! emacs-lisp-mode-hook
-  (lambda () (progn
+  (progn
                (make-variable-buffer-local tab-width)
-               (setq tab-width 4))))
-
+               (setq tab-width 4)))
 
 (load! "~/.doom.d/custom.el")
 
