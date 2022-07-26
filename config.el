@@ -198,8 +198,10 @@
 
 (after! elfeed
   (setq elfeed-feeds
-        '("https://hackaday.com/blog/feed/"
+        '(
+          ;; "https://hackaday.com/blog/feed/"
           "https://nullprogram.com/feed/"
+          "https://bzg.fr/index.xml"
           "http://mbork.pl/?action=rss;days=30;all=0;showedit=0"
           "https://sachachua.com/blog/feed/")))
 
