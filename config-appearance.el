@@ -26,7 +26,7 @@
 (cond
  ((string= (system-name) "strange") (setq doom-theme 'doom-spacegray))
  ((string= (system-name) "pepper")  (setq doom-theme 'doom-gruvbox))
- ((string= (system-name) "larry")   (setq doom-theme 'doom-material))
+ ((string= (system-name) "larry")   (setq doom-theme 'doom-zenburn))
  (t (setq doom-theme 'doom-one)))
 
 ;;------------------------------------------------------------------------------
