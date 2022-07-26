@@ -4,7 +4,7 @@
 ;;------------------------------------------------------------------------------
 
 (after! lsp-ui
-  (setq-default lsp-headerline-breadcrumb-enable t
+  (setq-default lsp-headerline-breadcrumb-enable nil
                 lsp-ui-doc-enable t
                 lsp-ui-doc-show-with-mouse t
                 lsp-ui-doc-show-with-cursor nil
