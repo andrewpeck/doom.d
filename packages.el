@@ -23,6 +23,7 @@
 (package! magit-todos)
 (package! mixed-pitch)
 (package! org-download :recipe (:host github :repo "abo-abo/org-download"))
+(package! org-protocol-capture-html :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
 (package! org-web-tools)
 (package! ox-clip :recipe (:host github :repo "jkitchin/ox-clip"))
 (package! ox-gfm)
@@ -33,6 +34,8 @@
 (package! tree-sitter)
 (package! tree-sitter-langs)
 (package! vimrc-mode)
+(package! visual-fill-column)
+(package! web-mode)
 (package! xr)                           ; xr is rx in reverse
 (package! yaml-mode)
 ;; (package! ample-regexps)
@@ -86,7 +89,6 @@
 ;;(package! org-table-comment)
 ;;(package! rainbow-mode) ;; included in rgb package
 ;;(package! theme-changer :recipe (:host github :repo "hadronzoo/theme-changer"))
-;;(package! visual-fill-column)
 ;;(package! vterm)
 ;; end:sort
 ;;
