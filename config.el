@@ -1,15 +1,16 @@
 ;; config.el -*- lexical-binding: t; -*-
 ;;
 ;; https://github.com/alphapapa/taxy.el
-;; https://svn.red-bean.com/repos/kfogel/trunk/.emacs
 ;;
 ;; TODO tabular-like alignment
 ;; TODO magit.sh like functionality
 ;; TODO outline folding
 ;;
 ;; Tecosaur: https://github.com/tecosaur/emacs-config/blob/master/config.org
+;; https://svn.red-bean.com/repos/kfogel/trunk/.emacs
 ;; Steve Purcell: https://github.com/purcell/emacs.d/
 ;; Henrik: https://github.com/hlissner/doom-emacs-private/blob/master/config.el
+;; https://github.com/caisah/emacs.dz
 
 (add-hook! emacs-lisp-mode-hook
   (progn
