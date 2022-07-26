@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: integer
+# key: int
+# --
+signal ${1:name} : integer := ${2:0};
