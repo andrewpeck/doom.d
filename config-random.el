@@ -101,7 +101,7 @@ This command does not push text to `kill-ring'."
 (setq-default fill-column 100)
 
 ;; Turn on menu bar
-(menu-bar-mode 1)
+(menu-bar-mode 0)
 
 ;; Increase the amount of data which Emacs reads from the process.
 ;; Again the emacs default is too low 4k considering that the some
