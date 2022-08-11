@@ -201,9 +201,13 @@
   (setq elfeed-feeds
         '(
           ;; "https://hackaday.com/blog/feed/"
+          "https://www.evalapply.org/index.xml"
           "https://nullprogram.com/feed/"
           "https://bzg.fr/index.xml"
+          "https://www.mattblaze.org/blog/rss20.xml"
           "http://mbork.pl/?action=rss;days=30;all=0;showedit=0"
+          "https://isc.sans.edu/rssfeed_full.xml"
+          "https://watchguy.co.uk/feed/"
           "https://sachachua.com/blog/feed/")))
 
 ;;-----------------------------------------------------------------------------------------
