@@ -40,13 +40,14 @@
 (package! scad-mode)
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
 (package! toc-org)
-(package! tree-sitter)
-(package! tree-sitter-langs)
 (package! vimrc-mode)
 (package! visual-fill-column)
 (package! web-mode)
 (package! xr)                           ; xr is rx in reverse
 (package! yaml-mode)
+;; end:sort
+
+;; start:sort -- keep the stuff below sorted alphabetically
 ;; (package! ample-regexps)
 ;; (package! base16-theme)
 ;; (package! bespoke-modeline :recipe (:host github :repo "mclear-tools/bespoke-modeline"))
@@ -74,11 +75,10 @@
 ;; (package! popup)
 ;; (package! prism)
 ;; (package! svg-tag-mode :recipe (:host github :repo "rougier/svg-tag-mode"))
+;; (package! tree-sitter)
+;; (package! tree-sitter-langs)
 ;; (package! undo-hl :recipe (:host github :repo "casouri/undo-hl"))
 ;; (package! vlf)                          ; view large files
-;; end:sort
-
-;; start:sort -- keep the stuff below sorted alphabetically
 ;;(package! auctex)
 ;;(package! clang-format)
 ;;(package! clang-format+)
