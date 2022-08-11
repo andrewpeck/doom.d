@@ -3,8 +3,6 @@
 ;;; Code:
 
 ;; package specific commands and flags
-;;
-;; (require 'ansi-color)
 
 (defvar system-install-package-cache-file "~/.emacs.d/system-package-cache.json")
 (defvar system-install-package-cache-refresh-days 7)
@@ -94,12 +92,6 @@
 
 (with-eval-after-load 'evil
   (evil-define-key 'normal system-install-run-minor-mode-map "q" #'bury-buffer))
-
-;; (ignore-errors
-;;   (defun my-colorize-compilation-buffer ()
-;;     (when (eq major-mode 'compilation-mode)
-;;       (ansi-color-apply-on-region compilation-filter-start (point-max))))
-;;   (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
 
 (defun system-install-run (subcmd &rest args)
   (let* ((name (format "%s" subcmd))
