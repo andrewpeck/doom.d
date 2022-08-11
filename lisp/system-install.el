@@ -40,14 +40,14 @@
         ((executable-find "apt")    "upgrade")))
 
 (defun system-install-get-package-list-cmd ()
-  (cond ((executable-find "dnf")    "dnf -C list available | awk -F. '{print $1}' | uniq | tail -n +2")
+  (cond ((executable-find "dnf")    "dnf -C list available | awk -F. 'NF > 2 {this = $1; if (this != prev) {print this}; prev = this}'")
         ((executable-find "pacman") "pacman -Sl | awk '{print $2}'")
         ((executable-find "apt")    "apt-cache search . | awk '{print $1}'")))
 
 (defun system-install-get-installed-package-list-cmd ()
-  (cond ((executable-find "dnf") "dnf -C list installed | awk -F. '{print $1}' | uniq | tail -n +2")
+  (cond ((executable-find "dnf") "dnf -C list installed | awk -F. 'NF > 2 {this = $1; if (this != prev) {print this}; prev = this}'")
         ((executable-find "pacman") "pacman -Q | awk '{print $2}'")
-        ((executable-find "apt") "apt list --installed 2> /dev/null | awk -F\/ '{print $1}' | grep -v \"Listing...\"")))
+        ((executable-find "apt") "apt list --installed 2> /dev/null | awk -F\/ '/\[installed/ {print $1}'")))
 
 (defun system-install-get-clean-cache-cmd ()
   (cond ((executable-find "pacman") "sudo pacman -Sc")
