@@ -13,7 +13,6 @@
 (after! org
 
   (setq org-export-in-background t)
-  (define-key org-mode-map (kbd "M-RET") (lambda () (interactive) (org-meta-return t)))
   (defun org-insert-monthly-timesheet ()
     "Insert a new timesheet for the current month"
     (interactive)
@@ -57,6 +56,11 @@
     (interactive)
     (org-capture-url (current-kill 0)))
 
+  (define-key org-mode-map
+    (kbd "M-RET")
+    (lambda ()
+      (interactive)
+      (org-meta-return t)))
 
   (defun org-archive-done ()
     (interactive)
