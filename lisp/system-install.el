@@ -9,6 +9,9 @@
 (defvar system-install-package-cache-file "~/.emacs.d/system-package-cache.json")
 (defvar system-install-package-cache-refresh-days 7)
 
+;; trim the 2 header lines off of the package list output, and remove duplicate lines
+(defvar system-install--dnf-filter-cmd "awk -F. 'NF > 2 {this = $1; if (this != prev) {print this}; prev = this}'")
+
 (defun system-install-get-package-cmd ()
   (cond ((executable-find "dnf")    "dnf")
         ((executable-find "pacman") "pacman")
@@ -40,18 +43,19 @@
         ((executable-find "apt")    "upgrade")))
 
 (defun system-install-get-package-list-cmd ()
-  (cond ((executable-find "dnf")    "dnf -C list available | awk -F. 'NF > 2 {this = $1; if (this != prev) {print this}; prev = this}'")
+  (cond ((executable-find "dnf")    (concat  "dnf -C list available | " system-install--dnf-filter-cmd))
         ((executable-find "pacman") "pacman -Sl | awk '{print $2}'")
         ((executable-find "apt")    "apt-cache search . | awk '{print $1}'")))
 
 (defun system-install-get-installed-package-list-cmd ()
-  (cond ((executable-find "dnf") "dnf -C list installed | awk -F. 'NF > 2 {this = $1; if (this != prev) {print this}; prev = this}'")
+  (cond ((executable-find "dnf") (concat  "dnf -C list installed | " system-install--dnf-filter-cmd))
         ((executable-find "pacman") "pacman -Q | awk '{print $2}'")
         ((executable-find "apt") "apt list --installed 2> /dev/null | awk -F\/ '/\[installed/ {print $1}'")))
 
 (defun system-install-get-clean-cache-cmd ()
-  (cond ((executable-find "pacman") "sudo pacman -Sc")
-        ((executable-find "apt") "sudo apt-get clean")))
+  (cond ((executable-find "pacman") "pacman -Sc")
+        ((executable-find "apt") "apt-get clean")
+        ((executable-find "dnf") "dnf clean all")))
 
 ;;;###autoload
 (defun system-install-clean-cache ()
