@@ -43,6 +43,20 @@
         "(plot-monthly-work-chart data)\n"
         "#+end_src\n"))))
 
+  (require 'org-web-tools)
+
+  (defun www-get-page-title (url)
+    "Gets the title of a webpage at URL"
+    (org-web-tools--html-title (org-web-tools--get-url url)))
+
+  (defun org-capture-url (url)
+    (insert (org-insert-link nil url (www-get-page-title url))))
+
+  (defun org-capture-url-from-clipboard (url)
+    "Capture a URL from clipboard and paste it as an org link"
+    (interactive)
+    (org-capture-url (current-kill 0)))
+
 
   (defun org-archive-done ()
     (interactive)
