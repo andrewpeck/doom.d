@@ -4,13 +4,14 @@
 
 ;; package specific commands and flags
 ;;
-(require 'ansi-color)
+;; (require 'ansi-color)
 
 (defvar system-install-package-cache-file "~/.emacs.d/system-package-cache.json")
 (defvar system-install-package-cache-refresh-days 7)
 
 ;; trim the 2 header lines off of the package list output, and remove duplicate lines
-(defvar system-install--dnf-filter-cmd "awk -F. 'NF > 2 {this = $1; if (this != prev) {print this}; prev = this}'")
+(defvar system-install--dnf-filter-cmd
+  "awk -F. 'NF > 2 {this = $1; if (this != prev) {print this}; prev = this}'")
 
 (defun system-install-get-package-cmd ()
   (cond ((executable-find "dnf")    "dnf")
@@ -66,22 +67,26 @@
 ;; generic functions
 
 (defun system-install-get-package-list ()
+  ;; if we have no cache, or it is out of date generate one
   (if (or  (not (file-exists-p system-install-package-cache-file))
            (> (time-to-seconds
                (subtract-time (current-time)
-                              (f-modification-time system-install-package-cache-file )))
+                              (file-attribute-modification-time
+                               (file-attributes system-install-package-cache-file ))))
               (* 60 60 24 system-install-package-cache-refresh-days)))
-      ;; if we have no cache, or it is out of date generate one
       (let ((package-list (s-split "\n" (shell-command-to-string (system-install-get-package-list-cmd)) t)))
         (with-temp-file system-install-package-cache-file
           (insert (json-encode package-list)))
         package-list)
+
     ;; if it exists and is up to date, just return the cache
     (let ((json-array-type 'list))
       (json-read-file system-install-package-cache-file))))
 
 (defun system-install-get-installed-package-list ()
-  (s-split "\n" (shell-command-to-string (system-install-get-installed-package-list-cmd)) t))
+  (s-split "\n"
+           (shell-command-to-string
+            (system-install-get-installed-package-list-cmd)) t))
 
 (define-minor-mode system-install-run-minor-mode
   "Minor mode for buffers running brew commands"
@@ -101,12 +106,12 @@
          (buf (format "*%s*" name)))
 
 
-    (with-editor-async-shell-command (format "sudo %s %s%s%s"
-                                             (system-install-get-package-cmd)
-                                             subcmd
-                                             (if args " " "")
-                                             (string-join args " "))
-                                     buf)
+    (with-editor-async-shell-command
+     (format "sudo %s %s%s%s"
+             (system-install-get-package-cmd)
+             subcmd
+             (if args " " "")
+             (string-join args " ")) buf)
 
     (with-current-buffer buf
       (ansi-color-apply-on-region (point-min) (point-max))
@@ -115,28 +120,37 @@
 ;;;###autoload
 (defun system-install (package)
   "Install `package' via system installer"
-  (interactive (list (completing-read "Formula: "
-                                      (system-install-get-package-list)
-                                      nil
-                                      t)))
+  (interactive
+   (list
+    (completing-read
+     "Formula: "
+     (system-install-get-package-list)
+     nil
+     t)))
   (system-install-run (system-install-get-package-install-flag) package))
 
 ;;;###autoload
 (defun system-upgrade-package (package)
   "Upgrade `package' to the latest version"
-  (interactive (list (completing-read "Formula: "
-                                      (system-install-get-installed-package-list)
-                                      nil
-                                      t)))
+  (interactive
+   (list
+    (completing-read
+     "Formula: "
+     (system-install-get-installed-package-list)
+     nil
+     t)))
   (system-install-run (system-install-get-package-update-flag) package))
 
 ;;;###autoload
 (defun system-remove-package (package)
   "Remove `package' using system package manager"
-  (interactive (list (completing-read "Formula: "
-                                      (system-install-get-installed-package-list)
-                                      nil
-                                      t)))
+  (interactive
+   (list
+    (completing-read
+     "Formula: "
+     (system-install-get-installed-package-list)
+     nil
+     t)))
   (system-install-run (system-install-get-package-remove-flag) package))
 
 ;;;###autoload
@@ -154,10 +168,13 @@
 ;;;###autoload
 (defun system-package-info (package)
   "Display `info' output for `package'"
-  (interactive (list (completing-read "Formula: "
-                                      (system-install-get-package-list)
-                                      nil
-                                      t)))
+  (interactive
+   (list
+    (completing-read
+     "Formula: "
+     (system-install-get-package-list)
+     nil
+     t)))
   (system-install-run (system-install-get-package-info-flag) package))
 
 (provide 'system-install)
