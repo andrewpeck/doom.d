@@ -6,6 +6,9 @@
 ;;
 (require 'ansi-color)
 
+(defvar system-install-package-cache-file "~/.emacs.d/system-package-cache.json")
+(defvar system-install-package-cache-refresh-days 7)
+
 (defun system-install-get-package-cmd ()
   (cond ((executable-find "dnf")    "dnf")
         ((executable-find "pacman") "pacman")
@@ -59,7 +62,19 @@
 ;; generic functions
 
 (defun system-install-get-package-list ()
-  (s-split "\n" (shell-command-to-string (system-install-get-package-list-cmd)) t))
+  (if (or  (not (file-exists-p system-install-package-cache-file))
+           (> (time-to-seconds
+               (subtract-time (current-time)
+                              (f-modification-time system-install-package-cache-file )))
+              (* 60 60 24 system-install-package-cache-refresh-days)))
+      ;; if we have no cache, or it is out of date generate one
+      (let ((package-list (s-split "\n" (shell-command-to-string (system-install-get-package-list-cmd)) t)))
+        (with-temp-file system-install-package-cache-file
+          (insert (json-encode package-list)))
+        package-list)
+    ;; if it exists and is up to date, just return the cache
+    (let ((json-array-type 'list))
+      (json-read-file system-install-package-cache-file))))
 
 (defun system-install-get-installed-package-list ()
   (s-split "\n" (shell-command-to-string (system-install-get-installed-package-list-cmd)) t))
