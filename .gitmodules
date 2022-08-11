@@ -7,3 +7,6 @@
 [submodule "lisp/tabular"]
 	path = lisp/tabular
 	url = ./lisp/tabular/
+[submodule "lisp/system-install.el"]
+	path = lisp/system-install
+	url = https://github.com/andrewpeck/system-install.el
