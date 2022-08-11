@@ -116,9 +116,10 @@
   (define-key evil-normal-state-map (kbd "C-S-b")
     (lambda () (interactive)
       (progn
-        (find-file "~/Sync/notes/billing/billing.org")
+        (find-file "~/Sync/billing/billing.org")
         (goto-char (point-max))
         (re-search-backward "TBLFM")
+        (org-reveal)
         (forward-line -1)
         (forward-line -1))))
 
