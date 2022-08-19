@@ -45,6 +45,9 @@
   (evil-define-key 'motion python-mode-map
     (kbd "M-RET") #'python-shell-send-buffer)
 
+  (map! :leader
+        :desc "Open Dired" "E" #'dired-jump)
+
   (map! :localleader
         :map python-mode-map
         :desc "Expand macro" "m" #'macrostep-expand
