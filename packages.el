@@ -10,6 +10,7 @@
 
 
 ;; start:sort -- keep the stuff below sorted alphabetically
+(package! affe)
 (package! all-the-icons)
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)

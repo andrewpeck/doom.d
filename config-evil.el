@@ -76,16 +76,15 @@
   ;; Ctrl-o to search the home with fzf
   (define-key evil-normal-state-map (kbd "C-o")
     (lambda () (interactive)
-      (counsel-fzf "" "~/")))
+      (affe-find "~/")))
 
-  ;; Ctrl-p to search the project root with fzf
   (define-key evil-normal-state-map (kbd "C-p")
     (lambda () (interactive)
-      (counsel-fzf "" (projectile-project-root))))
+      (affe-find (projectile-project-root))))
 
   (define-key evil-normal-state-map (kbd "C-S-p")
     (lambda () (interactive)
-      (counsel-fzf "" "~/Sync")))
+      (affe-grep (projectile-project-root))))
 
   ;; Ctrl-n to search notes
   (define-key evil-normal-state-map (kbd "C-n")
