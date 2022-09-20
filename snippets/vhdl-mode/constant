@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: constant
-# key: const
+# key: constant
 # --
-constant ${1:name} : natural := ${2:0};
+constant $1 : integer := $2;
