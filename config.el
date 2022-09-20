@@ -46,7 +46,7 @@
 (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/doctor/"))
 (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hdl_deps/"))
 
-(let ((default-directory (expand-file-name "lisp" doom-private-dir)))
+(let ((default-directory (expand-file-name "lisp" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
 (add-to-list 'load-path (expand-file-name "~/.doom.d/scad-preview/"))
