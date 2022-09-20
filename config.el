@@ -74,6 +74,7 @@
 (load! "~/.doom.d/config-appearance.el")
 ;; (load! "~/.doom.d/config-company.el")
 (load! "~/.doom.d/config-doom.el")
+(load! "~/.doom.d/config-langs.el")
 (load! "~/.doom.d/config-evil.el")
 (load! "~/.doom.d/config-flycheck.el")
 (load! "~/.doom.d/config-git.el")
