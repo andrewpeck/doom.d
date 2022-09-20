@@ -71,6 +71,10 @@
         :prefix "o"
         :desc "Open Elfeed" "e" #'elfeed)
 
+  (map! :leader
+        :prefix "o"
+        :desc "List flycheck errors" "l" #'flycheck-list-errors)
+
   (evil-define-key 'normal elfeed-search-mode-map
     "q" #'elfeed-kill-buffer
     "r" #'elfeed-search-update--force
