@@ -2,8 +2,10 @@
 #+begin_src bash
 # http://ergoemacs.org/emacs/building_emacs_from_git_repository.html
 
+# ubuntu
 sudo apt install autoconf make gcc texinfo libgtk-3-dev libxpm-dev libjpeg-dev libgif-dev libtiff5-dev libgnutls28-dev libncurses5-dev libgccjit-8-dev sysinfo libjansson-dev libxml2-dev librsvg2-dev libwebp-dev libsqlite3-dev
 
+# fedora
 sudo dnf install -y \
         make \
         automake \
@@ -23,20 +25,17 @@ sudo dnf install -y \
         librsvg2-devel \
         libgccjit-devel
 
-./configure --with-native-compilation --with-json --with-rsvg --with-xft --with-sqllite3 --with-xml2 --without-compress-install --with-webp  --with-jpeg --with-png CFLAGS="-O2"
-
 git clone https://github.com/emacs-mirror/emacs
 
-# local install
-git clean -xdf
-./autogen.sh
-./configure --prefix=/home/andrew/emacs --bindir=/home/andrew/bin \
-    --with-native-compilation --with-json --with-rsvg --with-xft --with-xml2 --without-compress-install
+OPTIONS='--with-native-compilation --with-json --with-rsvg --with-xft --with-sqllite3 --with-xml2 --without-compress-install --with-webp  --with-jpeg --with-png CFLAGS="-O2" --with-x-toolkit=lucid'
 
-# system install
 git clean -xdf
 ./autogen.sh
-./configure --with-native-compilation --with-json --with-rsvg --with-xft --with-sqllite3 --with-xml2 --without-compress-install --with-webp  --with-jpeg --with-png CFLAGS="-O2"
+
+# local install
+./configure --prefix=/home/andrew/emacs --bindir=/home/andrew/bin $OPTIONS
+# system install
+./configure $OPTIONS
 
 #make -C lisp autoloads-force
 make bootstrap
