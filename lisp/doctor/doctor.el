@@ -77,7 +77,7 @@ they are installed and the computer is set up ok"
         ;; external programs wanted by my emacs
         (check-for-exe "terminator" :ubuntu "terminator")
         (check-for-exe "bat" :ubuntu "bat")
-        (check-for-exe "fd" :ubuntu "fd-find")
+        (check-for-exe "fd" :dnf "fd-find" :ubuntu "fd-find")
         ;; $ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
         ;; $ sudo dpkg -i ripgrep_13.0.0_amd64.deb
         (check-for-exe "ag" :ubuntu "silversearcher-ag")
