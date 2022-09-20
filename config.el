@@ -171,15 +171,13 @@
 ;;------------------------------------------------------------------------------
 
 (after! hog
-  (cond
-
-   ((string= (system-name) "strange")
-    (progn (setq hog-vivado-path "~/Xilinx/Vivado/2020.2/settings64.sh")
-           (setq hog-number-of-jobs 16)))
-
-   ((string= (system-name) "larry")
-    (progn (setq hog-vivado-path "~/Xilinx/Vivado/2020.2/settings64.sh")
-           (setq hog-number-of-jobs 4)))))
+  (pcase (system-name)
+    ("strange" (progn (setq hog-vivado-path "~/Xilinx/Vivado/2021.1/settings64.sh")
+                      (setq hog-number-of-jobs 16)))
+    ("larry" (progn (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1/settings64.sh")
+                    (setq hog-number-of-jobs 4)))
+    ("pepper" (progn
+                (setq hog-template-xml-path "/home/andy/.doom.d/lisp/hog-emacs/")))))
 
 ;;------------------------------------------------------------------------------
 ;; VHDL Mode
