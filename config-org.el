@@ -252,7 +252,9 @@
 
   (setq org-log-done 'time)
 
-  (+org-pretty-mode t)
+  (when (boundp '+org-pretty-mode)
+        (+org-pretty-mode t))
+
   ;; (setq org-hide-emphasis-markers nil)
   (setq org-link-file-path-type 'relative
         org-agenda-files (list "~/Sync/notes")
