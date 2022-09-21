@@ -162,8 +162,8 @@
 
   (cond
    ((string= (system-name) "strange")   (setq preferred-terminal '("terminator" "--working-directory")))
-   ((string= (system-name) "pepper")    (setq preferred-terminal '("terminator" "--working-directory")))
-   ((string= (system-name) "larry")     (setq preferred-terminal '("kitty" "--directory")))
+   ((string= (system-name) "pepper")    (setq preferred-terminal '("kitty" "--directory")))
+   ((string= (system-name) "larry")     (setq preferred-terminal '("terminator" "--working-directory")))
    ((string= (system-name) "cobweb")    (setq preferred-terminal '("kitty" "--directory")))
    (t '("terminator" "--working-directory") ))
 
