@@ -17,17 +17,6 @@
                 lsp-ui-sideline-enable nil
                 lsp-ui-doc-delay 0.2))
 
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-
-(add-hook 'vhdl-mode-hook #'lsp)
-(add-hook 'vhdl-mode-hook #'lsp-ui-mode)
-
-(add-hook 'python-mode-hook #'lsp)
-(add-hook 'python-mode-hook #'lsp-ui-mode)
-
-
 (after! lsp-mode
 
   ;; vhdl-tool, hdl-checker vhdl-ls ghdl-ls
