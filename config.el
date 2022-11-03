@@ -11,16 +11,25 @@
 ;; Steve Purcell: https://github.com/purcell/emacs.d/
 ;; Henrik: https://github.com/hlissner/doom-emacs-private/blob/master/config.el
 ;; https://github.com/caisah/emacs.dz
+;; https://github.com/danilevy1212/doom
 
 (load! "~/.doom.d/custom.el")
+(load! "~/.doom.d/lisp/monochrome-theme.el")
+
+(setq lsp-julia-default-environment "~/.julia/environments/v1.6")
 
 ;;------------------------------------------------------------------------------
 ;; to file
 ;;------------------------------------------------------------------------------
 ;; (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*")
+;;
 (after! langtool
   (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
+
   (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
+
+(setq  flycheck-check-syntax-automatically
+       '(save idle-buffer-switch mode-enabled))
 
 ;; disable confusing undo-fu behavior
 ;; https://gitlab.com/ideasman42/emacs-undo-fu/-/issues/6
@@ -49,228 +58,36 @@
 (if (string= (system-name) "larry")
     (load! "~/.doom.d/config-mail.el"))
 
-
-;; (use-package! nano-modeline :load-path "~/.doom.d/lisp/nano-modeline/nano-modeline.el")
-;; (nano-modeline-mode)
-;; (use-package! hdl_deps :load-path "~/.doom.d/lisp/hdl_deps/hdl_deps.el")
-(use-package! regulator :load-path "~/.doom.d/lisp/regulator.el")
+;; start:sort
 (use-package! doctor :load-path "~/.doom.d/lisp/doctor/doctor.el")
 (use-package! hog :load-path "~/.doom.d/lisp/hog-emacs/hog.el")
+(use-package! regulator :load-path "~/.doom.d/lisp/regulator.el")
 (use-package! system-install :load-path "~/.doom.d/lisp/system-install/system-install.el")
 (use-package! tracking :load-path "~/.doom.d/lisp/tracking.el")
 (use-package! ucf-mode :load-path "~/.doom.d/lisp/ucf-mode.el")
 (use-package! vivado-mode :load-path "~/.doom.d/lisp/vivado-mode.el")
-
-;; (require 'undo-hl)
-;; (add-hook 'text-mode-hook #'undo-hl-mode)
-;; (add-hook 'prog-mode-hook #'undo-hl-mode)
-;; (load! "~/.doom.d/config-company.el")
+;; end:sort
 
 ;; start:sort
-(load! "~/.doom.d/config-langs.el")
+(load! "~/.doom.d/config-align.el")
+(load! "~/.doom.d/config-appearance.el")
+(load! "~/.doom.d/config-company.el")
+(load! "~/.doom.d/config-doom.el")
 (load! "~/.doom.d/config-evil.el")
+(load! "~/.doom.d/config-flycheck.el")
 (load! "~/.doom.d/config-git.el")
+(load! "~/.doom.d/config-langs.el")
+(load! "~/.doom.d/config-lsp.el")
 (load! "~/.doom.d/config-org.el")
 (load! "~/.doom.d/config-random.el")
 (load! "~/.doom.d/config-scad.el")
 (load! "~/.doom.d/config-tex.el")
 (load! "~/.doom.d/lisp/work-plotting.el")
-(load! "~/.doom.d/config-align.el")
-(load! "~/.doom.d/config-doom.el")
-(load! "~/.doom.d/config-flycheck.el")
-(load! "~/.doom.d/config-lsp.el")
-;; end:sort
-
-;; (load! "~/.doom.d/lisp/scimax-org-return.el")
-(load! "~/.doom.d/config-appearance.el")
 ;; (load! "~/.doom.d/config-modeline.el")
 ;; (load! "~/.doom.d/lisp/regulator.el")
-;; (load! "~/.doom.d/lisp/ucf-mode.el")
+;; (load! "~/.doom.d/lisp/scimax-org-return.el")
 ;; (load! "~/.doom.d/lisp/verilog-port-copy.el")
-;; (load! "~/.doom.d/lisp/vivado-mode.el")
-
-;;------------------------------------------------------------------------------
-;; Backups
-;;------------------------------------------------------------------------------
-
-;; https://www.emacswiki.org/emacs/BackupDirectory
-;; https://stackoverflow.com/questions/3893727/setting-emacs-tramp-to-store-local-backups
-;; https://www.emacswiki.org/emacs/ForceBackups
-
-(setq backup-each-save-mirror-location "~/emacs-backups")
-(add-hook 'after-save-hook 'backup-each-save)
-
-;;------------------------------------------------------------------------------
-;; SLIME
-;;------------------------------------------------------------------------------
-
-;; slime
-;;(after! slime
-;;  (setq inferior-lisp-program "sbcl")
-;;  (setq org-babel-lisp-eval-fn 'slime-eval))
-
-;;------------------------------------------------------------------------------
-;; Spell-Checking
-;;------------------------------------------------------------------------------
-
-(after! writegood
-  (writegood-passive-voice-turn-off))
-
-;;------------------------------------------------------------------------------
-;; Snippets
-;;------------------------------------------------------------------------------
-
-;; Don't add newlines to snippet endings
-(after! yasnippet
-  (setq-default yas-also-auto-indent-first-line t)
-  (add-hook 'snippet-mode-hook
-            (lambda () (setq require-final-newline nil))))
-
-;;------------------------------------------------------------------------------
-;; Mixed Pitch Mode
-;;------------------------------------------------------------------------------
-
-;; (add-hook 'org-mode-hook      #'mixed-pitch-mode)
-;; (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
-;; (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
-
-;;------------------------------------------------------------------------------
-;; Line wrapping
-;;------------------------------------------------------------------------------
-
-(defun ap/no-wrap ()
-  (interactive)
-  (visual-line-mode 0)
-  (toggle-truncate-lines 1)
-  (visual-fill-column-mode 0))
-
-;; Disable auto fill mode in text modes
-;; (remove-hook 'text-mode-hook #'auto-fill-mode)
-
-;; Don't wrap text modes unless we really want it
-(remove-hook 'text-mode-hook #'+word-wrap-mode)
-(add-hook 'latex-mode-hook #'+word-wrap-mode)
-(add-hook 'markdown-mode-hook #'+word-wrap-mode)
-
-;; (defun fix-visual-fill-column-mode (&optional ARG)
-;;   (setq visual-fill-column-mode visual-line-mode))
-
-;; toggle visual-fill column mode when chaing word wrap settings
-;; (advice-add '+word-wrap-mode
-;;             :after 'fix-visual-fill-column-mode)
-;;
-;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
-
-;;------------------------------------------------------------------------------
-;; Hog
-;;------------------------------------------------------------------------------
-
-(after! hog
-  (pcase (system-name)
-    ("strange" (progn (setq hog-vivado-path "~/Xilinx/Vivado/2021.1/settings64.sh")
-                      (setq hog-number-of-jobs 16)))
-    ("larry" (progn (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1/settings64.sh")
-                    (setq hog-number-of-jobs 4)))
-    ("pepper" (progn
-                (setq hog-template-xml-path "/home/andy/.doom.d/lisp/hog-emacs/")))))
-
-;;------------------------------------------------------------------------------
-;; VHDL Mode
-;;------------------------------------------------------------------------------
-
-;; vhdl mode will wrap comments after some # of characters
-(after! vhdl
-  (setq vhdl-end-comment-column 200
-        vhdl-prompt-for-comments nil
-        auto-fill-mode nil))
-
-;;-----------------------------------------------------------------------------------------
-;; Elfeed
-;;------------------------------------------------------------------------------
-
-;; Run `elfeed-update' every 8 hours
-(run-at-time nil (* 8 60 60) #'elfeed-update)
-
-(after! elfeed
-  (setq elfeed-feeds
-        '(
-          ;; "https://hackaday.com/blog/feed/"
-          "https://www.evalapply.org/index.xml"
-          "https://nullprogram.com/feed/"
-          "https://bzg.fr/index.xml"
-          "https://www.mattblaze.org/blog/rss20.xml"
-          "http://mbork.pl/?action=rss;days=30;all=0;showedit=0"
-          "https://isc.sans.edu/rssfeed_full.xml"
-          "https://watchguy.co.uk/feed/"
-          "https://sachachua.com/blog/feed/")))
-
-;;-----------------------------------------------------------------------------------------
-;; IELM
-;;------------------------------------------------------------------------------
-
-;; remember ielm history
-;; global copy of the buffer-local variable
-(after! ielm
-  (defvar ielm-comint-input-ring nil)
-
-  (defun set-ielm-comint-input-ring ()
-    ;; create a buffer-local binding of kill-buffer-hook
-    (make-local-variable 'kill-buffer-hook)
-    ;; save the value of comint-input-ring when this buffer is killed
-    (add-hook 'kill-buffer-hook #'save-ielm-comint-input-ring)
-    ;; restore saved value (if available)
-    (when ielm-comint-input-ring
-      (message "Restoring comint-input-ring...")
-      (setq comint-input-ring ielm-comint-input-ring)))
-
-  (defun save-ielm-comint-input-ring ()
-    (message "Saving comint-input-ring...")
-    (setq ielm-comint-input-ring comint-input-ring))
-
-  (add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring))
-
-;;-----------------------------------------------------------------------------------------
-;; XML
-;;------------------------------------------------------------------------------
-
-(after! nxml
-  (add-hook
-   'nxml-mode-hook
-   (setq nxml-child-indent 2 nxml-attribute-indent 2)))
-
-;; (add-hook 'nxml-mode-hook (lambda () (visual-fill-column-mode -1)))
-;; (defun nxml-pretty-format ()
-;;   (interactive)
-;;   (save-excursion
-;;     (shell-command-on-region (point-min) (point-max)
-;;     "xmllint --format -" (buffer-name) t)
-;;     (nxml-mode)
-;;     (indent-region begin end)))
-
-;;-----------------------------------------------------------------------------------------
-;; Markdown
-;;------------------------------------------------------------------------------
-
-;; Make Fundamental Mode GFM by default
-(after! gfm
-  (setq initial-major-mode 'gfm-mode))
-
-;;-----------------------------------------------------------------------------------------
-;; C mode
-;;-----------------------------------------------------------------------------------------
-
-;; For example, if you prefer double slashes // instead of slash-stars /* ... */
-;; in c-mode, insert below code into your ~/.emacs:
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            ;; Preferred comment style
-            (setq comment-start "// " comment-end "")))
-
-;;-----------------------------------------------------------------------------------------
-;; Clojure
-;;-----------------------------------------------------------------------------------------
-
-;; (setq org-babel-clojure-backend "cider")
+;; end:sort
 
 ;;------------------------------------------------------------------------------
 ;; Functions for alphabetically sorting items
@@ -303,8 +120,7 @@ char of the language you are editing"
   (save-excursion
     (sort-code-block ";;")))
 
-;;
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'write-contents-functions)
-;; eval: (add-hook 'write-contents-functions (lambda () (when (boundp 'sort-elisp-block) sort-elisp-block)) nil t)
+;; eval: (add-hook 'write-contents-functions (lambda () (when (fboundp 'sort-elisp-block) (sort-elisp-block))) nil t)
 ;; End:

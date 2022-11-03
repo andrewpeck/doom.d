@@ -138,6 +138,9 @@ This command does not push text to `kill-ring'."
 (global-subword-mode 1)                           ; Iterate through CamelCase words
 ;; (modify-syntax-entry ?_ "w")                   ; Treat underscore as part of a word to match vim behavior
 
+(after! hl-todo
+  (setq global-hl-todo-mode t))
+
 ;; better dired soring
 (after! dired
   (setq dired-listing-switches "-a1vBhl  --group-directories-first"))
@@ -160,7 +163,15 @@ This command does not push text to `kill-ring'."
       (setq-local register-alist
                   (cl-remove-if-not #'savehist-printable register-alist)))))
 
+(setq auto-revert-remote-files t)
+
 (after! tramp
+  (setq tramp-ssh-controlmaster-options "-o ControlMaster=no")
+  (setq tramp-histfile-override "~/.tramp_history")
+
+  ;; Another way to find the remote path is to use the path assigned to the remote user by the
+  ;; remote host. TRAMP does not normally retain this remote path after login. However,
+  ;; tramp-own-remote-path preserves the path value, which can be used to update tramp-remote-path.
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
 (map! :n [mouse-8] #'previous-buffer
@@ -186,3 +197,186 @@ This command does not push text to `kill-ring'."
 (defun fix-evil ()
   (interactive)
   (setq-local transient-mark-mode t))
+
+
+;;------------------------------------------------------------------------------
+;; SLIME
+;;------------------------------------------------------------------------------
+
+;; slime
+;;(after! slime
+;;  (setq inferior-lisp-program "sbcl")
+;;  (setq org-babel-lisp-eval-fn 'slime-eval))
+
+;;------------------------------------------------------------------------------
+;; Spell-Checking
+;;------------------------------------------------------------------------------
+
+(after! writegood
+  (writegood-passive-voice-turn-off))
+
+;;------------------------------------------------------------------------------
+;; Snippets
+;;------------------------------------------------------------------------------
+
+;; Don't add newlines to snippet endings
+(after! yasnippet
+  (setq-default yas-also-auto-indent-first-line t)
+  (add-hook 'snippet-mode-hook
+            (lambda () (setq require-final-newline nil))))
+
+;;------------------------------------------------------------------------------
+;; Mixed Pitch Mode
+;;------------------------------------------------------------------------------
+
+;; (add-hook 'org-mode-hook      #'mixed-pitch-mode)
+;; (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+;; (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
+
+;;------------------------------------------------------------------------------
+;; Line wrapping
+;;------------------------------------------------------------------------------
+
+(defun ap/no-wrap ()
+  (interactive)
+  (visual-line-mode 0)
+  (toggle-truncate-lines 1)
+  (visual-fill-column-mode 0))
+
+;; (add-hook 'text-mode-hook #'visual-fill-column-mode)
+
+;; Disable auto fill mode in text modes
+;; (remove-hook 'text-mode-hook #'auto-fill-mode)
+
+;; Don't wrap text modes unless we really want it
+(remove-hook 'text-mode-hook #'+word-wrap-mode)
+(add-hook 'latex-mode-hook #'+word-wrap-mode)
+(add-hook 'markdown-mode-hook #'+word-wrap-mode)
+
+;; (defun fix-visual-fill-column-mode (&optional ARG)
+;;   (setq visual-fill-column-mode visual-line-mode))
+
+;; toggle visual-fill column mode when chaing word wrap settings
+;; (advice-add '+word-wrap-mode
+;;             :after 'fix-visual-fill-column-mode)
+;;
+;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
+
+
+;;------------------------------------------------------------------------------
+;; Backups
+;;------------------------------------------------------------------------------
+
+(setq backup-each-save-mirror-location "~/emacs-backups")
+(add-hook 'after-save-hook 'backup-each-save)
+
+;;------------------------------------------------------------------------------
+;; Hog
+;;------------------------------------------------------------------------------
+
+(after! hog
+  (pcase (system-name)
+    ("strange" (progn (setq hog-vivado-path "~/Xilinx/Vivado/2021.1/settings64.sh")
+                      (setq hog-number-of-jobs 16)))
+    ("larry" (progn (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1/settings64.sh")
+                    (setq hog-number-of-jobs 4)))
+    ("pepper" (progn
+                (setq hog-template-xml-path "/home/andy/.doom.d/lisp/hog-emacs/")))))
+
+;;------------------------------------------------------------------------------
+;; VHDL Mode
+;;------------------------------------------------------------------------------
+
+;; vhdl mode will wrap comments after some # of characters
+(after! vhdl
+  (setq vhdl-end-comment-column 200
+        vhdl-prompt-for-comments nil
+        auto-fill-mode nil))
+
+;;-----------------------------------------------------------------------------------------
+;; Elfeed
+;;------------------------------------------------------------------------------
+
+;; Run `elfeed-update' every 8 hours
+(run-at-time nil (* 8 60 60) #'elfeed-update)
+
+(after! elfeed
+  (setq elfeed-feeds
+        '(
+          ;; "https://hackaday.com/blog/feed/"
+          "https://www.evalapply.org/index.xml"
+          "https://nullprogram.com/feed/"
+          "https://bzg.fr/index.xml"
+          "https://www.mattblaze.org/blog/rss20.xml"
+          "http://mbork.pl/?action=rss;days=30;all=0;showedit=0"
+          "https://isc.sans.edu/rssfeed_full.xml"
+          "https://watchguy.co.uk/feed/"
+          "https://sachachua.com/blog/feed/")))
+
+;;-----------------------------------------------------------------------------------------
+;; IELM
+;;------------------------------------------------------------------------------
+
+;; remember ielm history
+;; global copy of the buffer-local variable
+(after! ielm
+  (defvar ielm-comint-input-ring nil)
+
+  (defun set-ielm-comint-input-ring ()
+    ;; create a buffer-local binding of kill-buffer-hook
+    (make-local-variable 'kill-buffer-hook)
+    ;; save the value of comint-input-ring when this buffer is killed
+    (add-hook 'kill-buffer-hook #'save-ielm-comint-input-ring)
+    ;; restore saved value (if available)
+    (when ielm-comint-input-ring
+      (message "Restoring comint-input-ring...")
+      (setq comint-input-ring ielm-comint-input-ring)))
+
+  (defun save-ielm-comint-input-ring ()
+    (message "Saving comint-input-ring...")
+    (setq ielm-comint-input-ring comint-input-ring))
+
+  (add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring))
+
+;;-----------------------------------------------------------------------------------------
+;; XML
+;;------------------------------------------------------------------------------
+
+(after! nxml
+  (add-hook
+   'nxml-mode-hook
+   (setq nxml-child-indent 2 nxml-attribute-indent 2)))
+
+;; (add-hook 'nxml-mode-hook (lambda () (visual-fill-column-mode -1)))
+;; (defun nxml-pretty-format ()
+;;   (interactive)
+;;   (save-excursion
+;;     (shell-command-on-region (point-min) (point-max)
+;;     "xmllint --format -" (buffer-name) t)
+;;     (nxml-mode)
+;;     (indent-region begin end)))
+
+;;-----------------------------------------------------------------------------------------
+;; Markdown
+;;------------------------------------------------------------------------------
+
+;; Make Fundamental Mode GFM by default
+(after! gfm
+  (setq initial-major-mode 'gfm-mode))
+
+;;-----------------------------------------------------------------------------------------
+;; C mode
+;;-----------------------------------------------------------------------------------------
+
+;; For example, if you prefer double slashes // instead of slash-stars /* ... */
+;; in c-mode, insert below code into your ~/.emacs:
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            ;; Preferred comment style
+            (setq comment-start "// " comment-end "")))
+
+;;-----------------------------------------------------------------------------------------
+;; Clojure
+;;-----------------------------------------------------------------------------------------
+
+;; (setq org-babel-clojure-backend "cider")
