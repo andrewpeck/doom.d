@@ -3,6 +3,10 @@
 ;; LSP
 ;;------------------------------------------------------------------------------
 
+(after! eglot
+  (add-to-list 'eglot-server-programs
+               '(vhdl-mode . ("ghdl-ls"))))
+
 (after! lsp-ui
   (setq-default lsp-headerline-breadcrumb-enable nil
                 lsp-ui-doc-enable t
