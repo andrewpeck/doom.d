@@ -1,9 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance '("crypt"))
-(setq org-crypt-key nil)
-
 ;;; Org Mode
 ;;------------------------------------------------------------------------------
 
@@ -12,7 +8,13 @@
 
 (after! org
 
-  (setq org-export-in-background t)
+  (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance '("crypt"))
+  (setq org-crypt-key nil)
+  (setq org-crypt-disable-auto-save t)
+
+  (setq  org-confirm-babel-evaluate nil)
+
   (defun org-insert-monthly-timesheet ()
     "Insert a new timesheet for the current month"
     (interactive)
@@ -108,8 +110,6 @@
               (org-table-export (format "%s.csv" name) "orgtbl-to-csv")))))))
 
   (setq org-display-remote-inline-images 'download)
-
-  (load "~/.doom.d/lisp/scimax-org-return.el")
 
   (defun org-rename-file-at-point ()
     (interactive)
