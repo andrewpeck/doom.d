@@ -66,6 +66,9 @@
 
 (after! evil-maps
 
+  (map! :leader
+        :prefix "g"
+        :desc "Magit Amend" "A" #'magit-commit-amend)
 
   (map! :leader
         :prefix "o"
@@ -80,36 +83,22 @@
     "r" #'elfeed-search-update--force
     (kbd "M-RET") #'elfeed-search-browse-url)
 
-  ;; Ctrl-o to search the home with fzf
-  (define-key evil-normal-state-map (kbd "C-o")
-    (lambda () (interactive)
-      (affe-find "~/")))
+  ;; - Keybindings up for grabs:
+  ;;   C-s
+  ;;   C-y
+  ;; C-d
 
-  (define-key evil-normal-state-map (kbd "C-p")
-    (lambda () (interactive)
-      (affe-find (projectile-project-root))))
+  (defun affe-find-home () (interactive) (affe-find "~/"))
+  (define-key evil-normal-state-map (kbd "C-o") #'affe-find-home)
 
-  (define-key evil-normal-state-map (kbd "C-S-p")
-    (lambda () (interactive)
-      (affe-grep (projectile-project-root))))
+  (defun affe-find-project () (interactive) (affe-find (projectile-project-root)))
+  (define-key evil-normal-state-map (kbd "C-p") #'affe-find-project)
 
-  ;; Ctrl-n to search notes
-  (define-key evil-normal-state-map (kbd "C-n")
-    (lambda ()
-      (interactive)
-      ;; (let ((default-directory "~/Sync/notes"))
-      ;;   (if (functionp 'counsel-git-action)
-      ;;       (ivy-read "Find file: " (counsel-git-cands default-directory)
-      ;;                 :initial-input ""
-      ;;                 :action #'counsel-git-action
-      ;;                 :caller 'counsel-git)
-      ;;     (projectile-find-file-in-directory default-directory))))
-      (doom-project-find-file "~/Sync/notes")))
+  (defun affe-grep-project () (interactive) (affe-grep (projectile-project-root)))
+  (define-key evil-normal-state-map (kbd "C-S-p") #'affe-grep-project)
 
-  ;; (define-key evil-normal-state-map (kbd "C-n")
-  ;;   (lambda () (interactive)
-  ;;     (fzf-find-file-in-dir "~/Sync/notes")))
-  ;;     ;;(counsel-fzf "" "~/Sync/notes")))
+  (defun affe-find-notes () (interactive) (affe-find "~/Sync/notes"))
+  (define-key evil-normal-state-map (kbd "C-n") #'affe-find-notes)
 
   ;; C-t to open TODO file
   ;;  • Needed to unbind some conflicts first
