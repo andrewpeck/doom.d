@@ -97,7 +97,7 @@
         (lookup             ; helps you navigate your code and documentation
          +dictionary
         +docsets)           ; ...or in Dash docsets locally
-        lsp
+        (lsp +eglot)
         (magit +forge)      ; a git porcelain for Emacs
         make                ; run make tasks from Emacs
         ;;pass              ; password manager for nerds
