@@ -33,7 +33,7 @@
       ;;deft                ; notational velocity for Emacs
       ;;doom-dashboard      ; a nifty splash screen for Emacs
       ;;doom-quit           ; DOOM quit-message prompts when you quit Emacs
-      ;;hl-todo             ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+      hl-todo             ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
       ;;hydra               ; This module adds hydra to Doom Emacs
       ;;indent-guides       ; highlighted indent columns
         (modeline +light)   ; snazzy, Atom-inspired modeline, plus API
