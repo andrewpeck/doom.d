@@ -7,7 +7,7 @@
 
   (add-hook 'after-init-hook 'global-company-mode) ; turn on company
 
-  (setq company-idle-delay 0.2
+  (setq company-idle-delay 0.25
         company-minimum-prefix-length 2)
 
   ;; (setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
@@ -34,20 +34,25 @@
   ;; company-yasnippet
   ;; company-capf
 
-  (set-company-backend! '(org-mode) nil)
-  (set-company-backend!
-    '(markdown-mode org-mode)
-    '(company-files))
+  ;; (set-company-backend!
+  ;;   '(markdown-mode org-mode)
+  ;;   nil)
 
-  (set-company-backend! '(vhdl-mode) nil)
-  (set-company-backend!
-    '(vhdl-mode)
-    '(company-capf company-keywords company-dabbrev-code company-yasnippet))
+  (set-company-backend! 'text-mode nil)
 
-  (set-company-backend! 'hog-src-mode nil)
-  (set-company-backend!
-    '(hog-src-mode)
-    '(company-files )))
+  (after! org
+    (set-company-backend! 'org-mode nil)
+    (set-company-backend! 'org-mode '(company-capf company-files company-yasnippet company-dabbrev)))
+
+  (after! vhdl-mode
+    (set-company-backend! 'vhdl-mode nil)
+    (set-company-backend! 'vhdl-mode
+      '(company-capf company-keywords company-dabbrev-code company-yasnippet)))
+
+  (after! hog-src-mode
+    (set-company-backend! 'hog-src-mode nil)
+    (set-company-backend! 'hog-src-mode 'company-files))
+  )
 
 ;; (use-package corfu-doc
 ;;   :config
