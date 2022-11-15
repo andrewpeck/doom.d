@@ -87,6 +87,7 @@ they are installed and the computer is set up ok"
         (check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
         (check-for-exe "isort" :cmd "pip install isort" :noroot t)
         (check-for-exe "pytest" :cmd "pip install pytest" :noroot t)
+        (check-for-exe "wordcloud_cli" :cmd "pip install wordcloud" :noroot t)
 
         ;; sbcl
         (check-for-exe "sbcl" :ubuntu "sbcl" :dnf "sbcl")
@@ -126,23 +127,24 @@ they are installed and the computer is set up ok"
         (check-for-exe "ghdl-ls")
         (check-for-exe "vhdl_ls")
 
+        ;; Lesspipe
+        (check-for-exe "xpdf")
+        (check-for-exe "lesspipe.sh")
+
+        ;; Mail
+        (check-for-exe "mu4e" :dnf "maildir-utils")
+        (check-for-exe "mbsync" :dnf "isync")
+
         ;; node
-        (check-for-exe "node"
-                       :noroot t
+        (check-for-exe "node" :noroot t
                        :cmd "curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo apt-get install -y nodejs")
 
         ;; python
-        (check-for-exe "pyright"
-                       :url "https://github.com/microsoft/pyright"
-                       :cmd "pip install pyright" :noroot t)
-        (check-for-exe "black"
-                       :cmd "pip install black" :noroot t)
-        (check-for-exe "pyimport"
-                       :cmd "pip install pyimport" :noroot t)
-        (check-for-exe "isort"
-                       :cmd "pip install isort" :noroot t)
-        (check-for-exe "pyflakes"
-                       :cmd "pip install pyflakes" :noroot t)
+        (check-for-exe "pyright" :url "https://github.com/microsoft/pyright" :cmd "pip install pyright" :noroot t)
+        (check-for-exe "black" :cmd "pip install black" :noroot t)
+        (check-for-exe "pyimport" :cmd "pip install pyimport" :noroot t)
+        (check-for-exe "isort" :cmd "pip install isort" :noroot t)
+        (check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
 
         ;; bash
         (check-for-exe "shellcheck" :dnf "ShellCheck" :ubuntu "shellcheck")
