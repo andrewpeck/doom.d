@@ -33,22 +33,6 @@
 ;;; FONT
 ;;------------------------------------------------------------------------------
 
-;; (set-face-attribute 'default nil
-;;                     :family "Roboto Mono" :weight 'regular :height 110)
-;; (set-face-attribute 'bold nil
-;;                     :family "Roboto Mono" :weight 'bold)
-;; (set-fontset-font t 'unicode
-;;     (font-spec :name "Inconsolata Light" :size 14) nil)
-;; (set-fontset-font t '(#xe000 . #xffdd)
-;;     (font-spec :name "RobotoMono Nerd Font" :size 12) nil)
-;; (set-face-attribute 'italic nil
-;;                     :family "Victor Mono Variable" :slant 'italic)
-
-;; (setq my-font "Inconsolata")
-;; (setq my-font "JetBrains Mono")
-;; (setq my-font "IBM Plex Mono")
-;; (setq my-font "Fira Code")
-(setq my-font "Roboto Mono")
 
 (defun font-exists-p (font)
   "Check if FONT exists"
@@ -56,12 +40,22 @@
     (if (null (x-list-fonts font))
         nil t)))
 
-(when (font-exists-p my-font)
-  (setq doom-font (font-spec :family my-font :size 15)
-        doom-big-font (font-spec :family my-font :size 14)
-        doom-variable-pitch-font (font-spec :family my-font  :size 17)
-        ;;doom-variable-pitch-font (font-spec :family "Comic Sans MS"   :size 17)
-        doom-serif-font (font-spec :family my-font :weight 'light)))
+(setq font-list
+      '("Hack"
+        "Inconsolata"
+        "JetBrains Mono"
+        "IBM Plex Mono"
+        "Fira Code"
+        "Roboto Mono"))
+
+(cl-dolist (my-font font-list)
+  (when (font-exists-p my-font)
+    (progn
+      (setq doom-font (font-spec :family my-font :size 14)
+            doom-big-font (font-spec :family my-font :size 14)
+            doom-variable-pitch-font (font-spec :family my-font  :size 17)
+            doom-serif-font (font-spec :family my-font :weight 'light))
+      (cl-return t))))
 
 ;;------------------------------------------------------------------------------
 ;; Syntax Highlighting
