@@ -1,4 +1,6 @@
 # https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml
+---
 MD013:
   line_length: 500
 MD007: false
+MD033: false  # raw html
