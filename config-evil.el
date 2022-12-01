@@ -95,6 +95,9 @@
   (defun affe-find-home () (interactive) (affe-find "~/"))
   (define-key evil-normal-state-map (kbd "C-o") #'affe-find-home)
 
+  (defun affe-find-work () (interactive) (affe-find "~/work"))
+  (define-key evil-normal-state-map (kbd "C-y") #'affe-find-work)
+
   (defun affe-find-project () (interactive) (affe-find (projectile-project-root)))
   (define-key evil-normal-state-map (kbd "C-p") #'affe-find-project)
 
