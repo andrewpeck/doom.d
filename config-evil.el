@@ -75,6 +75,10 @@
         :desc "Open Elfeed" "e" #'elfeed)
 
   (map! :leader
+        :prefix "c"
+        :desc "Make" "m" #'+make/run)
+
+  (map! :leader
         :prefix "o"
         :desc "List flycheck errors" "l" #'flycheck-list-errors)
 
