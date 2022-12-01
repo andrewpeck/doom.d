@@ -177,6 +177,38 @@ title of the page is retrieved from the web page"
   (ap/url->org)
   (org-link->markdown))
 
+(defun ap/inline-org-inbox-link ()
+  (interactive)
+  (save-excursion
+    (let ((link nil)
+          (description nil))
+
+      (progn
+        (progn
+          (next-line)
+          (end-of-line)
+          (push-mark (point) t t)
+          (move-beginning-of-line 1)
+          (setq link (buffer-substring-no-properties (region-beginning) (region-end)))
+          (setq link (replace-regexp-in-string "^- " "" link))
+          (previous-line)))
+
+      (progn
+        (end-of-line)
+        (push-mark (point) t t)
+        (re-search-backward "^\*+ ")
+        (re-search-forward " ")
+        (setq description (buffer-substring-no-properties (region-beginning) (region-end))))
+
+      (org-insert-link nil link description)
+
+      (replace-regexp-in-region "^\*+" "-" (line-beginning-position) (line-end-position))
+
+      (next-line)
+      (beginning-of-line)
+      (kill-line)
+      (kill-line))))
+
 ;; save macros and other registers peristently
 (after! savehist
   (add-to-list 'savehist-additional-variables 'register-alist)
@@ -330,6 +362,7 @@ title of the page is retrieved from the web page"
           "https://nullprogram.com/feed/"
           "https://bzg.fr/index.xml"
           "https://www.mattblaze.org/blog/rss20.xml"
+          "https://jackrusher.com/feed.xml"
           "http://mbork.pl/?action=rss;days=30;all=0;showedit=0"
           "https://isc.sans.edu/rssfeed_full.xml"
           "https://watchguy.co.uk/feed/"
