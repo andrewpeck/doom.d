@@ -25,6 +25,7 @@
 (package! mixed-pitch)
 (package! ob-mermaid :recipe (:host github :repo "arnm/ob-mermaid"))
 (package! org-download :recipe (:host github :repo "abo-abo/org-download"))
+(package! org-mode :pin "971eb6885ec996c923e955730df3bafbdc244e54") ; https://github.com/doomemacs/doomemacs/issues/6478
 (package! org-protocol-capture-html :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
 (package! org-web-tools)
 (package! ox-clip :recipe (:host github :repo "jkitchin/ox-clip"))
@@ -32,6 +33,8 @@
 (package! pdf-tools)
 (package! scad-mode)
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
+(package! straight :pin "3eca39d"); https://github.com/doomemacs/doomemacs/issues/6960
+(package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org)
 (package! vimrc-mode)
 (package! visual-fill-column)
