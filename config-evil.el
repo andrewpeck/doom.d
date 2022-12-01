@@ -112,7 +112,7 @@
   (define-key evil-motion-state-map (kbd "C-t")   'nil)
   (define-key evil-normal-state-map (kbd "C-t")   'nil)
   (define-key evil-normal-state-map (kbd "C-t")
-    (lambda () (interactive) (find-file "~/Sync/org/todo.org")))
+    (lambda () (interactive) (find-file "~/Sync/notes/todo.org")))
 
   ;;  Open the end of my billing log
   (define-key evil-normal-state-map (kbd "C-S-b")
