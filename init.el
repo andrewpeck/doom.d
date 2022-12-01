@@ -14,8 +14,6 @@
 ;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
-(load  "~/.doom.d/lisp/obsolete.el")
-
 (setq comp-deferred-compilation t)
 (setq evil-want-C-i-jump t)
 
