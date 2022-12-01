@@ -209,6 +209,11 @@
          (print (shell-command-to-string (concat "black " (buffer-file-name))))
          (revert-buffer))
 
+  (defun verible-format () (interactive)
+         (save-buffer)
+         (print (shell-command-to-string (concat "verible-verilog-format --inplace " (buffer-file-name))))
+         (revert-buffer))
+
   (defun pyment () (interactive)
          (save-buffer)
          (print (shell-command-to-string (concat "pyment -o google -w " (buffer-file-name))))
