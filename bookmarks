@@ -2,49 +2,59 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("gaps-timesheet.org"
- (filename . "~/Sync/GAPS/Invoices/gaps-timesheet.org")
- (front-context-string . "#+TITLE: Gaps Timesheet")
+(("module_test_sw"
+ (filename . "/sshx:strange:/home/andrew/module_test_sw/")
+ (front-context-string . "address_table\n  ")
+ (rear-context-string . "0K Nov 15 13:51 ")
+ (position . 144))
+("bashrc larry"
+ (filename . "/sshx:larry:/home/apeck/Sync/dotfiles/bashrc")
+ (front-context-string . "-s checkwinsize\n")
+ (rear-context-string . "FAQ (E11)\nshopt ")
+ (position . 9079))
+("bashrc strange"
+ (filename . "/sshx:strange:/home/andrew/dotfiles/bashrc")
+ (front-context-string . "history -a;$PROM")
+ (rear-context-string . "PROMPT_COMMAND=\"")
+ (position . 6868))
+("bashrc pepper"
+ (filename . "~/Sync/dotfiles/bashrc")
+ (front-context-string . "ertain bash sess")
+ (rear-context-string . "cation because c")
+ (position . 9435))
+("gitlab runner"
+ (filename . "/sshx:strange:/home/gitlab-runner/.gitlab-runner/config.toml")
+ (front-context-string)
  (rear-context-string)
  (position . 1))
-("org-capture-last-stored"
- (filename . "~/Sync/notes/todo.org")
+("gaps tof computer"
+ (filename . "/sshx:tof-gfp-computer-ucla:/home/gaps/")
  (front-context-string)
- (rear-context-string . " 'local)\n# End:\n")
- (position . 7648))
+ (rear-context-string)
+ (position . 1))
+("etl_test_fw"
+ (filename . "/sshx:strange:/home/andrew/work/etl_test_fw/")
+ (front-context-string)
+ (rear-context-string)
+ (position . 1))
+("gaps-timesheet.org"
+ (filename . "~/Sync/GAPS/Invoices/gaps-timesheet.org")
+ (front-context-string . "* Local Variables")
+ (rear-context-string)
+ (position . 1))
 ("RPi Docker Compose"
  (filename . "/sshx:rpi:/home/pi/zigbee2mqtt/docker-compose.yaml")
  (front-context-string)
- (rear-context-string . "restart: always\n")
- (position . 1069))
-("work"
- (filename . "/sshx:larry:/home/apeck/work/")
- (front-context-string . "Top\n  -rw-r--r--")
- (rear-context-string . "0K Feb  5 13:52 ")
- (position . 1365))
-("drs-firmware-devel"
- (filename . "/sshx:larry:/home/andrew/work/drs-firmware-devel/")
- (front-context-string . "drs\n  -rw-r--r--")
- (rear-context-string . "0K Nov 25 14:45 ")
- (position . 306))
-("l0mdt-hdl-design"
- (filename . "/sshx:larry:/home/andrew/work/l0mdt-hdl-design/")
- (front-context-string . "Top\n  drwxr-xr-x")
- (rear-context-string . "0K Feb 19 10:30 ")
- (position . 3195))
-("hog-emacs.el"
- (filename . "~/.emacs.d/.local/straight/repos/hog-emacs/hog-emacs.el")
- (front-context-string . ";;; hog-emacs.el")
  (rear-context-string)
  (position . 1))
-("gapsrb23"
- (filename . "/sshx:gapsrb23:/home/debian/")
+("work on Larry"
+ (filename . "/sshx:larry:/home/apeck/work/")
  (front-context-string)
- (rear-context-string . "0:35 .wget-hsts\n")
- (position . 1714))
-("larry:etl_test_fw"
- (filename . "/sshx:larry:/home/andrew/work/etl_test_fw/")
- (front-context-string . "Projects\n  -rw-r")
- (rear-context-string . "0K Feb  5 10:48 ")
- (position . 1735))
+ (rear-context-string)
+ (position . 1))
+("work on Strange"
+ (filename . "/sshx:strange:/home/andrew/work/")
+ (front-context-string)
+ (rear-context-string)
+ (position . 1))
 )
