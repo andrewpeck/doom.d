@@ -152,6 +152,9 @@ This command does not push text to `kill-ring'."
 (after! undo
   (setq undo-tree-auto-save-history t))
 
+(after! undo-tree
+  (setq undo-tree-history-directory-alist '(("." . "~/.doom.d/undo"))))
+
 ;; Bookmarks
 (setq bookmark-default-file "~/.doom.d/bookmarks")
 
