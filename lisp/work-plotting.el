@@ -92,30 +92,40 @@ SORT to non-nill will sort the list. "
     (princ (format "%6.2f\n" sum))))
 
 (defun filter-work-chart (data)
-  (cl-remove-if
-   (lambda (a) (string= "" (car a)))
-   (cdr (mapcar
-         (lambda (x)
-           (let ((project (upcase (nth 3 x)))
-                 (hours (nth 6 x)))
 
-             (list
+  (let* ((substitutions '(("^ME0SF$" . "ME0")
+                          ("^ME0OH$" . "ME0")
+                          ("^ME0BE$" . "ME0")
+                          ("^VAC$". "VACATION")))
 
-              ;; uhg this is so ugly... we should take a plist of substitutions and do this in a sane way
-              ;; https://emacs.stackexchange.com/questions/37135/executing-multiple-replacement-regexps-against-a-string
-              (replace-regexp-in-string
-               "^ME0SF$" "ME0"
-               (replace-regexp-in-string
-                "^ME0OH$" "ME0"
-                (replace-regexp-in-string
-                 "^ME0BE$" "ME0"
-                 (replace-regexp-in-string
-                  "^VAC$" "VACATION"
-                  project)))) ; project
+         ;; remove the header
+         (data (cdr data))
 
-              (if (stringp hours)
-                  (string-to-number hours) hours))))
-         data))))
+         ;;  remove empty lines (e.g. ("" 0))
+         (data
+          (cl-remove-if
+           (lambda (a) (string= "" (car a)))
+           data))
+
+         ;; Filter the data from an entire table to just a list of
+         ;; ( (PROJECT + HOURS) x N )
+         ;; e.g. (("ETL" 6.5) ("ADMIN" 0.5) ("" 0))
+         (data-filtered
+          (mapcar
+           (lambda (x)
+             (let* ((hours (nth 6 x))
+                    (hours (if (stringp hours)
+                               (string-to-number hours) hours))
+                    (project (upcase (nth 3 x)))
+                    (project (seq-reduce
+                              (lambda (str subs)
+                                (replace-regexp-in-string
+                                 (car subs)
+                                 (cdr subs) str))
+                              substitutions project)))
+               (list project hours))) data)))
+
+    data-filtered))
 
 (defun plot-monthly-work-chart (data)
   (plot-chart
