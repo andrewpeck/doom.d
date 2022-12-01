@@ -155,6 +155,28 @@ This command does not push text to `kill-ring'."
 ;; Bookmarks
 (setq bookmark-default-file "~/.doom.d/bookmarks")
 
+(defun ap/url->org ()
+  "Convert the URL at point into an Org mode formatted link. The
+title of the page is retrieved from the web page"
+  (interactive)
+  (let* ((link (thing-at-point 'url))
+         (bounds (bounds-of-thing-at-point 'url))
+         (start (car bounds))
+         (end   (cdr bounds))
+         (description
+          (if (org-url-p link)
+              (www-get-page-title link) link)))
+    (when (and link description start end)
+      (delete-region start end)
+      (org-insert-link nil link description))))
+
+(defun ap/url->md ()
+  "Convert the URL at point into an md mode formatted link. The
+title of the page is retrieved from the web page"
+  (interactive)
+  (ap/url->org)
+  (org-link->markdown))
+
 ;; save macros and other registers peristently
 (after! savehist
   (add-to-list 'savehist-additional-variables 'register-alist)
