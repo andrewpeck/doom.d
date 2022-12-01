@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: to_int
+# key: to_int
+# --
+to_integer(unsigned($1));

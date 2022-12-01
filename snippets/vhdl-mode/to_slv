@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: to_slv
+# key: to_slv
+# --
+std_logic_vector(to_unsigned($1, $2));
