@@ -96,12 +96,26 @@ SORT to non-nill will sort the list. "
    (lambda (a) (string= "" (car a)))
    (cdr (mapcar
          (lambda (x)
-           (list
-            (replace-regexp-in-string
-             "^VAC$" "VACATION"
-             (upcase (nth 3 x )))         ; project
-            (if (stringp (nth 6 x))
-                (string-to-number (nth 6 x)) (nth 6 x)))) data))))
+           (let ((project (upcase (nth 3 x)))
+                 (hours (nth 6 x)))
+
+             (list
+
+              ;; uhg this is so ugly... we should take a plist of substitutions and do this in a sane way
+              ;; https://emacs.stackexchange.com/questions/37135/executing-multiple-replacement-regexps-against-a-string
+              (replace-regexp-in-string
+               "^ME0SF$" "ME0"
+               (replace-regexp-in-string
+                "^ME0OH$" "ME0"
+                (replace-regexp-in-string
+                 "^ME0BE$" "ME0"
+                 (replace-regexp-in-string
+                  "^VAC$" "VACATION"
+                  project)))) ; project
+
+              (if (stringp hours)
+                  (string-to-number hours) hours))))
+         data))))
 
 (defun plot-monthly-work-chart (data)
   (plot-chart
