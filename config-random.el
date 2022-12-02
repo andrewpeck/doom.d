@@ -77,8 +77,8 @@ This command does not push text to `kill-ring'."
       '(special-mode comint-mode term-mode eshell-mode))
 
 (after! org
- (setq org-ditaa-jar-path
-       "~/.doom.d/ditaa.jar"))
+  (setq org-ditaa-jar-path
+        "~/.doom.d/ditaa.jar"))
 
 ;; (executable-find "ditaa")
 

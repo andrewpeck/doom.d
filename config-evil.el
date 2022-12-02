@@ -229,6 +229,7 @@
   (evil-leader/set-key "tt" 'doom/ivy-tasks)
   (evil-leader/set-key "pp" '+ivy/project-search)
   (evil-leader/set-key "rr" 'projectile-recentf)
+
   (evil-leader/set-key "rtw" 'delete-trailing-whitespace) ;; delete trailing whitespace
   (evil-leader/set-key "E" 'dired-jump)
   (evil-leader/set-key "pp" 'org-publish-current-project)
