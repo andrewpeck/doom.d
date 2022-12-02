@@ -68,6 +68,33 @@
     (interactive)
     (org-archive-all-done))
 
+  (defun md-shorten-indico-url ()
+    (org-shorten-indico-link)
+    (org-link->markdown))
+
+  (defun org-shorten-indico-url ()
+    "Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
+and shortens it into an org mode link consisting of just `some file`"
+
+    (interactive)
+
+    (let* ((org-link-pos (org-in-regexp org-link-any-re))
+           (beg (car org-link-pos))
+           (end (cdr org-link-pos))
+           (url (buffer-substring-no-properties beg end))
+           (desc (unless (string-blank-p url) url))
+           (desc (replace-regexp-in-string  "^.*\/" "" desc))
+           (desc (replace-regexp-in-string  "_" " " desc))
+           (desc (replace-regexp-in-string  "\%20" " " desc))
+           (desc (replace-regexp-in-string  "\s+" " " desc))
+           (desc (file-name-sans-extension desc)))
+
+      (when desc
+        (delete-region beg end)
+        (org-insert-link nil url desc))))
+
+  (setq org-export-in-background nil)
+
   ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
   (defun org-copy-region-as-markdown ()
     "Copy the region (in Org) to the system clipboard as Markdown."
