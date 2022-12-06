@@ -222,6 +222,24 @@ title of the page is retrieved from the web page"
 
 (setq auto-revert-remote-files t)
 
+(defun pdf-rotate (dir)
+  "Rotate a pdf using Qpdf. Dir should either be + or -"
+  (if (and (stringp dir) (or (string= "+" dir) (string= "-" dir)))
+      (if (string= "pdf" (file-name-extension (buffer-file-name)))
+          (shell-command (format "qpdf --rotate=%s90 --replace-input %s" dir (buffer-file-name)))
+        (message (format "File %s is not a pdf" (buffer-file-name))))
+    (message (format "Direction \'%s\' is not valid. Please use a direction \'+\' or \'-\'." dir))))
+
+(defun pdf-rotate-clockwise ()
+  "Rotate a pdf clockwise using Qpdf"
+  (interactive)
+  (pdf-rotate "+"))
+
+(defun pdf-rotate-counterclockwise ()
+  "Rotate a pdf counterclockwise using Qpdf"
+  (interactive)
+  (pdf-rotate "-"))
+
 (after! tramp
   (setq tramp-ssh-controlmaster-options "-o ControlMaster=no")
   (setq tramp-histfile-override "~/.tramp_history")
