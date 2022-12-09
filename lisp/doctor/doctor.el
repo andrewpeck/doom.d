@@ -134,6 +134,9 @@ they are installed and the computer is set up ok"
         (check-for-exe "xpdf")
         (check-for-exe "lesspipe.sh")
 
+        ;; latex lsp
+        (check-for-exe "digestif" :noroot t :cmd "wget https://raw.githubusercontent.com/astoff/digestif/master/scripts/digestif -O ~/.local/bin/digestif && chmod +x ~/.local/bin/digestif")
+
         ;; Mail
         (check-for-exe "mu4e" :dnf "maildir-utils")
         (check-for-exe "mbsync" :dnf "isync")
