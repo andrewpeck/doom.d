@@ -35,15 +35,18 @@
   (setq a (expand-file-name a))
   (setq b (expand-file-name b))
 
-  (shell-command (format "mkdir -p %s" (file-name-directory b)))
-  (shell-command (format "ln -sn %s %s"  a b))
+  (if (file-exists-p a)
+      (progn
+        (shell-command (format "mkdir -p %s" (file-name-directory b)))
+        (shell-command (format "ln -sn %s %s"  a b))
 
-  (let ((check
-         (if  (string=
-               (shell-command-to-string (concat  "printf %s \"$(readlink " b ")\""))
-               a)
-             "X" " ")))
-    (princ (format "- [%s] ~%s~ → ~%s~\n"  check a b))))
+        (let ((check
+               (if  (string=
+                     (shell-command-to-string (concat  "printf %s \"$(readlink " b ")\""))
+                     a)
+                   "X" " ")))
+          (princ (format "- [%s] ~%s~ → ~%s~\n"  check a b)))))
+  (princ (format "- [ ] %s not found\n"  check a )))
 
 (defun check-for-path (path)
   (if (not (f-directory-p path))
