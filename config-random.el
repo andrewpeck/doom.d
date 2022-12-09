@@ -22,16 +22,6 @@
     (insert insertion)))
 
 ;;------------------------------------------------------------------------------
-;;; Random
-;;;------------------------------------------------------------------------------
-
-;; https://github.com/tecosaur/screenshot/issues/11
-(load-file (locate-library "screenshot.el"))
-
-;; Fix issue with this
-;; https://github.com/tecosaur/screenshot/issues/7
-
-;;------------------------------------------------------------------------------
 ;; Command to suspend the system
 ;;------------------------------------------------------------------------------
 
