@@ -3,17 +3,38 @@
 ;;; Org Mode
 ;;------------------------------------------------------------------------------
 
-(after! emojify-mode
-  (setq global-emojify-mode t))
-
 (after! org
 
   (org-crypt-use-before-save-magic)
-  (setq org-tags-exclude-from-inheritance '("crypt"))
-  (setq org-crypt-key nil)
-  (setq org-crypt-disable-auto-save t)
 
-  (setq  org-confirm-babel-evaluate nil)
+  (setq org-tags-exclude-from-inheritance '("crypt")
+        org-crypt-key nil
+        org-crypt-disable-auto-save t
+        org-export-in-background nil
+        org-confirm-babel-evaluate nil
+        org-display-remote-inline-images 'download
+        ;; Latex Previews
+        org-preview-latex-default-process 'dvisvgm
+        org-format-latex-options (plist-put org-format-latex-options :scale 1.5)
+
+        ;; html export
+        ;; (setq org-html-htmlize-output-type 'inline-css) ;; default
+        ;; (setq org-html-htmlize-font-prefix "") ;; default
+        org-html-htmlize-output-type 'css
+        org-html-htmlize-font-prefix "org-"
+        user-full-name "A.P."
+
+
+        ;; Toggle Displays
+        org-startup-folded 'f
+
+        ;; Turn on inline images by default
+        org-startup-with-inline-images t
+        ;; (org-display-inline-images t t)
+
+        ;; Allow M-Ret to split list items
+        org-M-RET-may-split-line t
+        org-log-done 'time)
 
   (defun org-insert-monthly-timesheet ()
     "Insert a new timesheet for the current month"
@@ -72,6 +93,18 @@
     (org-shorten-indico-link)
     (org-link->markdown))
 
+  (defun org-shorten-url-by-title ()
+    ""
+    (interactive)
+    (let* ((org-link-pos (org-in-regexp org-link-any-re))
+           (beg (car org-link-pos))
+           (end (cdr org-link-pos))
+           (url (buffer-substring-no-properties beg end))
+           (desc (www-get-page-title url)))
+      (when desc
+        (delete-region beg end)
+        (org-insert-link nil url desc))))
+
   (defun org-shorten-indico-url ()
     "Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
 and shortens it into an org mode link consisting of just `some file`"
@@ -92,8 +125,6 @@ and shortens it into an org mode link consisting of just `some file`"
       (when desc
         (delete-region beg end)
         (org-insert-link nil url desc))))
-
-  (setq org-export-in-background nil)
 
   ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
   (defun org-copy-region-as-markdown ()
@@ -136,8 +167,6 @@ and shortens it into an org mode link consisting of just `some file`"
               (princ (format "Exporting table to %s.csv\n" name))
               (org-table-export (format "%s.csv" name) "orgtbl-to-csv")))))))
 
-  (setq org-display-remote-inline-images 'download)
-
   (defun org-rename-file-at-point ()
     (interactive)
     (save-buffer)
@@ -168,17 +197,8 @@ and shortens it into an org mode link consisting of just `some file`"
               (princ (format "Renaming in %s\n" file))
               (shell-command (format "sed -i 's|%s|%s|g' %s" old new file)))))))
 
-  ;; html export
-  ;; (setq org-html-htmlize-output-type 'inline-css) ;; default
-  (setq org-html-htmlize-output-type 'css)
-  ;; (setq org-html-htmlize-font-prefix "") ;; default
-  (setq org-html-htmlize-font-prefix "org-")
 
   ;; Latex Export
-  (setq org-return-follows-links t)
-
-  (setq user-full-name "A.P.")
-
   ;;  Latex Export Class
   (with-eval-after-load 'ox-latex
     (add-to-list
@@ -251,19 +271,6 @@ and shortens it into an org mode link consisting of just `some file`"
                      (user-error t)))))
       (org-map-entries fun)))
 
-  ;; Latex Previews
-  (setq org-preview-latex-default-process 'dvisvgm)
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
-
-  ;; Toggle Displays
-  (setq org-startup-folded 'f)
-
-  ;; Turn on inline images by default
-  (setq org-startup-with-inline-images t)
-  ;; (org-display-inline-images t t)
-
-  ;; Allow M-Ret to split list items
-  (setq org-M-RET-may-split-line t)
 
   ;;  Turn on Bullets Mode
   ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -277,10 +284,9 @@ and shortens it into an org mode link consisting of just `some file`"
   (add-hook 'evil-org-agenda-mode-hook
             'evil-org-agenda-set-keys)
 
-  (setq org-log-done 'time)
 
   (when (boundp '+org-pretty-mode)
-        (+org-pretty-mode t))
+    (+org-pretty-mode t))
 
   ;; (setq org-hide-emphasis-markers nil)
   (setq org-link-file-path-type 'relative
