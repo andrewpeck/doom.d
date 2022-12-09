@@ -5,6 +5,27 @@
 
 (after! evil
 
+  ;; middle click to paste
+  (global-set-key (kbd "<C-mouse-2>") 'evil-paste-after)
+
+  ;; (define-key evil-motion-state-map "\C-b" nil)
+  (define-key evil-visual-state-map "\C-i" nil)
+
+  ;; (define-key evil-visual-state-map "\C-b" nil)
+  ;; (define-key evil-normal-state-map "\C-b" nil)
+  ;; (define-key evil-insert-state-map "\C-b" nil)
+
+  ;; (evil-define-key 'motion
+  ;;   latex-mode-map  "\C-b" nil)
+
+  ;; (evil-define-key nil
+  ;;   'latex-mode  "\C-b" 'tex-bold)
+
+  (evil-define-key 'visual 'latex-mode  "\C-b" 'tex-bold)
+  (evil-define-key 'visual 'latex-mode  "\C-i" 'tex-italic)
+
+  ;; (define-key evil-visual-state-map (kbd "C-b") 'tex-bold)
+
   ;;(define-key evil-normal-state-map "zg" 'spell-fu-word-add)
   ;;(define-key evil-normal-state-map "zg" 'spell-fu-word-add)
   ;;
@@ -21,12 +42,18 @@
                                (car word) current-location (cadr word)
                                (caddr word) current-location)))))
 
+  ;; for some reason this makes org tables really really slow
+  (advice-remove 'set-window-buffer #'ad-Advice-set-window-buffer)
+
   ;; (define-key evil-normal-state-map "zg" #'my-save-word )
   ;; (define-key evil-normal-state-map "z=" 'ispell-word)
 
   ;; Evil Bindings
 
-  (global-evil-leader-mode)
+  ;; write an elisp interactive functino to open a file in a new buffer
+
+  ;; ????? turning on  global evil leader mode makes org tables freeze
+  ;; (global-evil-leader-mode)
 
   ;; Make evil-mode up/down operate in screen lines instead of logical lines
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
@@ -63,6 +90,27 @@
   ;; Switch to the new window after splitting
   (setq evil-split-window-below t
         evil-vsplit-window-right t))
+
+(after! evil-leader
+
+  ;;(evil-leader/set-key "rr" 'fzf-recentf)
+  ;;(evil-leader/set-key "S" 'magit-stage-file)
+  ;;(evil-leader/set-key "er" 'eval-region)
+  ;;(evil-leader/set-key "f" 'helm-locate)
+  ;;(evil-leader/set-key "b" 'helm-mini) ;; map helm mini to leader
+  ;;(evil-leader/set-key "tag" 'projectile-regenerate-tags)
+
+  (evil-leader/set-key "bt" 'org-make-tables-pretty)
+  (evil-leader/set-key "bf" 'xdg-browse-directory)
+  (evil-leader/set-key "ot" 'open-pwd-in-terminal)
+  (evil-leader/set-key "vv" 'open-buffer-in-vim)
+  (evil-leader/set-key "tt" 'doom/ivy-tasks)
+  (evil-leader/set-key "pp" '+ivy/project-search)
+  (evil-leader/set-key "rr" 'projectile-recentf)
+
+  (evil-leader/set-key "rtw" 'delete-trailing-whitespace) ;; delete trailing whitespace
+  (evil-leader/set-key "E" 'dired-jump)
+  (evil-leader/set-key "pp" 'org-publish-current-project))
 
 (after! evil-maps
 
@@ -174,12 +222,13 @@
                  ;; default
                  (t (file-name-directory (buffer-file-name))))))
       (start-process "*terminal*" nil
+                     "setsid"
                      (executable-find (car preferred-terminal)) (cadr preferred-terminal) pwd)))
 
   (defun open-buffer-in-vim ()
     "Opens the current buffer in gvim :)"
     (interactive)
-    (start-process "*gvim*" nil
+    (start-process "*gvim*" nil "setsid"
                    (executable-find "gvim") (buffer-file-name)))
 
   (defun org-make-tables-pretty ()
@@ -222,23 +271,6 @@
   (after! python
     (define-key python-mode-map (kbd "C-c C-b") #'py-black))
 
-  (evil-leader/set-key "bt" 'org-make-tables-pretty)
-  (evil-leader/set-key "bf" 'xdg-browse-directory)
-  (evil-leader/set-key "ot" 'open-pwd-in-terminal)
-  (evil-leader/set-key "vv" 'open-buffer-in-vim)
-  (evil-leader/set-key "tt" 'doom/ivy-tasks)
-  (evil-leader/set-key "pp" '+ivy/project-search)
-  (evil-leader/set-key "rr" 'projectile-recentf)
-
-  (evil-leader/set-key "rtw" 'delete-trailing-whitespace) ;; delete trailing whitespace
-  (evil-leader/set-key "E" 'dired-jump)
-  (evil-leader/set-key "pp" 'org-publish-current-project)
-  ;;(evil-leader/set-key "rr" 'fzf-recentf)
-  ;;(evil-leader/set-key "S" 'magit-stage-file)
-  ;;(evil-leader/set-key "er" 'eval-region)
-  ;;(evil-leader/set-key "f" 'helm-locate)
-  ;;(evil-leader/set-key "b" 'helm-mini) ;; map helm mini to leader
-  ;;(evil-leader/set-key "tag" 'projectile-regenerate-tags)
 
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") 'link-hint-open-link-at-point)
@@ -265,13 +297,15 @@ between the two most recently open buffers."
   (define-key evil-normal-state-map (kbd "C-x")   'evil-numbers/dec-at-pt)
   (define-key evil-visual-state-map (kbd "C-a")   'evil-numbers/inc-at-pt-incremental)
   (define-key evil-visual-state-map (kbd "C-x")   'evil-numbers/dec-at-pt-incremental)
+
   ;; (define-key evil-normal-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt)
   ;; (define-key evil-visual-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt-incremental)
 
   ;; Jump back and forth through files, time, and space with arrow keys
   ;; (define-key evil-normal-state-map (kbd "C-[")   'better-jumper-jump-backward)
   ;; (define-key evil-normal-state-map (kbd "C-]")   'better-jumper-jump-forward))
-  )
+
+  ) ;; after! evil-maps
 
 ;; Evil Surround
 ;;------------------------------------------------------------------------------
