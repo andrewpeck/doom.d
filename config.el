@@ -82,6 +82,7 @@
 (load! "~/.doom.d/config-random.el")
 (load! "~/.doom.d/config-scad.el")
 (load! "~/.doom.d/config-tex.el")
+(load! "~/.doom.d/gerb-view.el")
 (load! "~/.doom.d/lisp/work-plotting.el")
 ;; (load! "~/.doom.d/config-modeline.el")
 ;; (load! "~/.doom.d/lisp/regulator.el")
