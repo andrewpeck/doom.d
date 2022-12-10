@@ -93,6 +93,18 @@
     (org-shorten-indico-link)
     (org-link->markdown))
 
+  (defun org-link-get ()
+    "Extract URL from org-mode link and add return it"
+    (let* ((link (org-element-lineage (org-element-context) '(link) t))
+           (url (org-element-property :path link))) url))
+
+  (defun org-edit-image ()
+    ""
+    (interactive)
+    (let ((link (org-link-get)))
+      (when link
+        (start-process "*gimp*" nil "setsid" "gimp" link))))
+
   (defun org-shorten-url-by-title ()
     ""
     (interactive)
