@@ -117,6 +117,11 @@
         (delete-region beg end)
         (org-insert-link nil url desc))))
 
+  (defun md-shorten-url-by-title ()
+    (interactive)
+    (org-shorten-url-by-title)
+    (org-link->markdown))
+
   (defun org-shorten-indico-url ()
     "Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
 and shortens it into an org mode link consisting of just `some file`"
