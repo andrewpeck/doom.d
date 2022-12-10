@@ -6,7 +6,9 @@
 (after! evil
 
   ;; middle click to paste
-  (global-set-key (kbd "<C-mouse-2>") 'evil-paste-after)
+  (global-set-key (kbd "<mouse-2>") 'evil-paste-after)
+  (define-key evil-insert-state-map  (kbd "<mouse-2>") 'evil-paste-after)
+  (define-key evil-normal-state-map  (kbd "<mouse-2>") 'evil-paste-after)
 
   ;; (define-key evil-motion-state-map "\C-b" nil)
   (define-key evil-visual-state-map "\C-i" nil)
