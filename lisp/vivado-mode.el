@@ -34,34 +34,30 @@
 ;; (autoload 'vivado-mode "vivado-mode")
 
 (setq vivado-keywords
- '(("\\<\\(get_files\\|get_clocks\\|get_cells\\|get_pins\\|get_ports\\|get_nets\\)\\>" . font-lock-keyword-face)
-   ("\\<\\(create_generated_clock\\|create_clock\\|set_input_jitter\\|set_input_delay\\|set_output_delay\\)\\>" . font-lock-keyword-face)
-   ("\\<\\(set_property\\|set_clock_groups\\|set_multicycle_path\\|set_false_path\\|set_max_delay\\)\\>" . font-lock-keyword-face)
-   ("\\<\\(create_pblock\\|add_cells_to_pblock\\|resize_pblock\\)\\>" . font-lock-keyword-face)
-   ("\\<\\(MAX_FANOUT\\|CLOCK_DEDICATED_ROUTE\\|IOSTANDARD\\|DRIVE\\|DIFF_TERM\\|VCCAUX_IO\\|SLEW\\|FAST\\|DCI_CASCADE\\)\\>" . font-lock-constant-face)
-   ("\\<\\(PACKAGE_PIN\\|IOB\\|LOC\\)\\>" . font-lock-constant-face)
-   ("-\\<\\(name\\|period\\|clock\\|through\\|filter\\|hierarchical\\|hier\\|fall_from\\|rise_from\\|add_delay\\)\\>" . font-lock-constant-face)
-   ("-\\<\\(max\\|min\\|rise_to\\|fall_to\\|of_objects\\|from\\|to\\|setup\\|hold\\|end\\|start\\|of\\|group\\|quiet\\|datapath_only\\)\\>" . font-lock-constant-face)
-   ("-\\<\\(physically_exclusive\\|asynchronous\\|min\\|rise_to\\|fall_to\\|of_objects\\|from\\|to\\|setup\\|hold\\|of\\|group\\|asynchronous\\)\\>" . font-lock-constant-face)
-   ("-\\<\\(include_generated_clocks\\|primitive_group\\|pppasynchronous\\)\\>" . font-lock-constant-face)
-
-   ("\\<\\(create_bd_design\\|create_bd_cell\\|create_bd_intf_pin\\|current_bd_instance\\)\\>" . font-lock-keyword-face)
-   ("\\<\\(create_bd_pin\\|connect_bd_intf_net\\|connect_bd_net\\|create_bd_addr_seg\\)\\>" . font-lock-keyword-face)
-   ("-\\<\\(intf_net\\|dict\\|range\\|offset\\|dir\\|type\\|vlnv\\|net\\)\\>" . font-lock-constant-face)
-  ))
-
-
+      '(("\\<\\(get_files\\|get_clocks\\|get_cells\\|get_pins\\|get_ports\\|get_nets\\)\\>" . font-lock-builtin-face)
+        ("\\<\\(create_generated_clock\\|create_clock\\|set_input_jitter\\|set_input_delay\\|set_output_delay\\)\\>" . font-lock-builtin-face)
+        ("\\<\\(set_property\\|set_clock_groups\\|set_multicycle_path\\|set_false_path\\|set_max_delay\\)\\>" . font-lock-builtin-face)
+        ("\\<\\(create_pblock\\|add_cells_to_pblock\\|resize_pblock\\)\\>" . font-lock-keyword-face)
+        ("\\<\\(MAX_FANOUT\\|CLOCK_DEDICATED_ROUTE\\|IOSTANDARD\\|DRIVE\\|DIFF_TERM\\|VCCAUX_IO\\|SLEW\\|FAST\\|SLOW\\|DCI_CASCADE\\)\\>" . font-lock-constant-face)
+        ("\\<\\(LVCMOS33\\|LVCMOS25\\|LVCMOS15\\|LVCMOS18\\|LVDS_25\\|LVDS\\)\\>" . font-lock-constant-face)
+        ("\\<\\(true\\|false\\)\\>" . font-lock-constant-face)
+        ("\\<\\(PULLDOWN\\|PULLUP\\|PACKAGE_PIN\\|IOB\\|LOC\\)\\>" . font-lock-constant-face)
+        ("-\\<\\(name\\|period\\|clock\\|through\\|filter\\|hierarchical\\|hier\\|fall_from\\|rise_from\\|add_delay\\)\\>" . font-lock-constant-face)
+        ("-\\<\\(max\\|min\\|rise_to\\|fall_to\\|of_objects\\|from\\|to\\|setup\\|hold\\|end\\|start\\|of\\|group\\|quiet\\|datapath_only\\)\\>" . font-lock-constant-face)
+        ("-\\<\\(physically_exclusive\\|asynchronous\\|min\\|rise_to\\|fall_to\\|of_objects\\|from\\|to\\|setup\\|hold\\|of\\|group\\|asynchronous\\)\\>" . font-lock-constant-face)
+        ("-\\<\\(include_generated_clocks\\|primitive_group\\|pppasynchronous\\)\\>" . font-lock-constant-face)
+        ("\\<\\(create_bd_design\\|create_bd_cell\\|create_bd_intf_pin\\|current_bd_instance\\)\\>" . font-lock-keyword-face)
+        ("\\<\\(create_bd_pin\\|connect_bd_intf_net\\|connect_bd_net\\|create_bd_addr_seg\\)\\>" . font-lock-keyword-face)
+        ("-\\<\\(intf_net\\|dict\\|range\\|offset\\|dir\\|type\\|vlnv\\|net\\)\\>" . font-lock-constant-face)))
 
 (define-derived-mode
-  vivado-mode ; child
-  tcl-mode ; parent
-  "Vivado Mode"  ; name
+  vivado-mode                    ; child
+  tcl-mode                       ; parent
+  "Vivado Mode"                  ; name
   "Major mode for Xilinx Vivado" ; docstring
 
   ;; body
   (setq font-lock-defaults (list (append vivado-keywords tcl-font-lock-keywords)))
-  (setq mode-name "Vivado")
-)
-
+  (setq mode-name "Vivado"))
 
 (provide 'vivado-mode)
