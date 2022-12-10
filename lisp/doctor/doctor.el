@@ -1,7 +1,9 @@
 ;;; ../.dotfiles/doom.d/lisp/doctor.el -*- lexical-binding: t; -*-
 ;;;
 
-(cl-defun check-for-exe (exe &key url noroot cmd ubuntu dnf)
+(require 'cl)
+
+(cl-defun check-for-exe (exe &key url noroot cmd ubuntu dnf pacman)
   (if  (executable-find exe)
       (progn (princ (format "- [X] Found %s\n" exe)))
     (progn
@@ -16,52 +18,63 @@
       (when (not (executable-find "pacman"))
         (setq pacman nil))
 
-      (when (or cmd ubuntu dnf)
+      (when (or cmd ubuntu dnf pacman)
         (let ((pad "      "))
+
           (if noroot
               (princ (concat pad "#+begin_src bash  :tangle no :results output\n"))
-              (princ (concat pad "#+begin_src bash  :tangle no :dir /sudo::~/ :results output\n")))
-          (when ubuntu (princ (concat pad (concat "sudo apt --yes install " ubuntu "\n"))))
-          (when dnf (princ (concat pad (concat "sudo dnf install -y " dnf "\n"))))
-          (when pacman (princ (concat pad (concat "sudo pacman -Syu " dnf "\n"))))
-          (when cmd    (princ (concat pad (concat cmd "\n"))))
+            (princ (concat pad "#+begin_src bash  :tangle no :dir /sudo::~/ :results output\n")))
+
+          (when ubuntu
+            (princ (format "%ssudo apt --yes install %s\n" pad ubuntu)))
+          (when dnf
+            (princ (format "%ssudo dnf install -y %s\n" pad dnf)))
+          (when pacman
+            (princ (format "%ssudo pacman -Syu %s\n" pad dnf)))
+          (when cmd
+            (princ (format "%s%s\n" pad cmd)))
+
           (princ (concat pad "#+end_src\n")))))))
+
+(defun shell-command-nil (command)
+  (let ((ret (shell-command command)))
+    (if (= 0 ret) t nil)))
 
 (defun dotfiles (file)
   (concat (expand-file-name "~/Sync/dotfiles/") file))
 
-(defun make-symlink (a b &rest create)
+(defun make-symlink (a b)
 
   (setq a (expand-file-name a))
   (setq b (expand-file-name b))
 
-  (if (file-exists-p a)
-      (progn
-        (shell-command (format "mkdir -p %s" (file-name-directory b)))
-        (shell-command (format "ln -sn %s %s"  a b))
+  ;; make sure that the target file exists
+  (if (not (file-exists-p a))
+      (princ (format "- [ ] %s not found\n"  check a ))
+    (progn
+      (shell-command (format "mkdir -p %s" (file-name-directory b)))
 
-        (let ((check
-               (if  (string=
-                     (shell-command-to-string (concat  "printf %s \"$(readlink " b ")\""))
-                     a)
-                   "X" " ")))
-          (princ (format "- [%s] ~%s~ → ~%s~\n"  check a b)))))
-  (princ (format "- [ ] %s not found\n"  check a )))
+      (when (not (file-exists-p b))
+        (shell-command (format "ln -sn %s %s"  a b)))
+
+      (let* ((command (concat  "printf %s \"$(readlink " b ")\""))
+             (check (if  (string= (shell-command-to-string command) a)
+                        "X" " ")))
+        (princ (format "- [%s] ~%s~ → ~%s~\n"  check a b))))))
 
 (defun check-for-path (path)
-  (if (not (f-directory-p path))
+  (if (not (file-directory-p path))
       (progn (princ (format "- [ ] path %s was not found\n" path)))
     (progn (princ (format "- [X] path %s found\n" path)))))
 
 (defun fix-ssh-permissions ()
   "Fix the ssh permissions on host computer"
   (interactive)
-  (shell-command "chmod o-w ~/")
-  (shell-command "chmod 700 ~/.ssh > /dev/null 2>&1")
-  (shell-command "chmod 644 ~/.ssh/id_rsa.pub > /dev/null 2>&1")
-  (shell-command "chmod 600 ~/.ssh/id_rsa > /dev/null 2>&1")
-  (shell-command "chmod 600 ~/.ssh/authorized_keys > /dev/null 2>&1")
-  t)
+  (and (shell-command-nil "chmod o-w ~/")
+       (shell-command-nil "chmod 700 ~/.ssh > /dev/null 2>&1")
+       (shell-command-nil "chmod 644 ~/.ssh/id_rsa.pub > /dev/null 2>&1")
+       (shell-command-nil "chmod 600 ~/.ssh/id_rsa > /dev/null 2>&1")
+       (shell-command-nil "chmod 600 ~/.ssh/authorized_keys > /dev/null 2>&1")))
 
 (defun my-doctor ()
   "Keep a list of useful programs and other things, make sure
@@ -83,7 +96,7 @@ they are installed and the computer is set up ok"
         (check-for-exe "fd" :dnf "fd-find" :ubuntu "fd-find")
         ;; $ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
         ;; $ sudo dpkg -i ripgrep_13.0.0_amd64.deb
-        (check-for-exe "ag" :ubuntu "silversearcher-ag")
+        (check-for-exe "ag" :ubuntu "silversearcher-ag" :dnf "the_silver_searcher")
 
         ;; python
         (check-for-exe "pip3" :ubuntu "python3-pip" :dnf "python3-pip")
@@ -180,7 +193,7 @@ they are installed and the computer is set up ok"
         ;; TODO: should just check here and prompt if its wrong?
         (princ "** Fixing ssh permissions\n")
         (when (fix-ssh-permissions)
-          (princ (format "- [X] ssh permissions corrected\n")))
+          (princ "- [X] ssh permissions corrected\n"))
 
         ;;
         (princ "** Checking for required paths\n")
@@ -188,8 +201,13 @@ they are installed and the computer is set up ok"
         (check-for-path "~/Sync/notes")
 
         (princ "** Setting git settings\n")
-        (shell-command "git config --global user.name \"Andrew Peck\"")
-        (shell-command "git config --global user.email \"andrew.peck@cern.ch\"")
+        (when (and (shell-command-nil "git config --global user.name \"Andrew Peck\"")
+                   (shell-command-nil "git config --global user.email \"andrew.peck@cern.ch\""))
+          (princ "- [X] git username and email set\n"))
+
+        (when (and (shell-command-nil  "git config pull.rebase true")
+                   (shell-command-nil  "git config rebase.autoStash true"))
+          (princ "- [X] git autostash configured\n"))
 
         ;; symlinks
         (princ "** Creating symlinks\n")
@@ -215,7 +233,7 @@ they are installed and the computer is set up ok"
 
         (make-symlink (dotfiles "kitty") "~/.config/kitty")
         (make-symlink (dotfiles "xinitrc") "~/.xinitrc")
-        (make-symlink (dotfiles "xmobarrc") "~/.xmobarrc")
+        (make-symlink (dotfiles ".xmobarrc") "~/.xmobarrc")
         (make-symlink (dotfiles "vim/vimrc") "~/.vimrc")
         (make-symlink (dotfiles "ssh/config") "~/.ssh/config")
         (make-symlink (dotfiles "ncmpcpp/config") "~/.ncmpcpp/config")
