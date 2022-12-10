@@ -108,6 +108,7 @@
 (custom-theme-set-faces! 'doom-gruvbox
   ;; the default function name face is the same as the string face and looks awful for lisp
   '(font-lock-function-name-face :foreground "#d3869b")
+  '(whitespace-tab :background "#282828")
   '(org-todo :weight bold :foreground "orange red")
   '(org-table :weight normal :foreground "lightblue")
   '(org-link :weight normal :underline "lightpink" :foreground "light pink")
