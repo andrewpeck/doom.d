@@ -8,10 +8,79 @@
 (after! tex-fold
   (add-to-list 'TeX-fold-macro-spec-list '("{1}" ("gls")))
   (add-to-list 'TeX-fold-macro-spec-list '("{1}" ("cite")))
-;;(add-to-list 'TeX-fold-macro-spec-list '("{1}s" ("gls")))
-;;(add-to-list 'TeX-fold-macro-spec-list '("{1}" ("ac" "acf")))
-;;(add-to-list 'TeX-fold-macro-spec-list '("{1}s" ("acp" "acpf")))
-)
+  (add-to-list 'TeX-fold-macro-spec-list '("{1}" ("yearsago")))
+  ;;(add-to-list 'TeX-fold-macro-spec-list '("{1}s" ("gls")))
+  ;;(add-to-list 'TeX-fold-macro-spec-list '("{1}" ("ac" "acf")))
+  ;;(add-to-list 'TeX-fold-macro-spec-list '("{1}s" ("acp" "acpf")))
+  )
+
+(defun tex-bold ()
+  "Make the current TeX selection bold."
+  (interactive)
+  (TeX-font nil 2))
+
+(defun tex-italic ()
+  "Make the current TeX selection italic."
+  (interactive)
+  (TeX-font nil 9))
+
+(defun tex-tt ()
+  "Make the current TeX selection italic."
+  (interactive)
+  (TeX-font nil 20))
+
+(setq TeX-fold-auto t)
+
+(add-hook 'latex-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook (lambda () (TeX-fold-buffer)) nil 'make-it-local)))
+
+;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
+(add-hook 'latex-mode-hook
+          (lambda ()
+            (TeX-fold-mode 1)
+            (add-hook 'find-file-hook 'TeX-fold-buffer t t)
+            (add-hook 'after-change-functions 'TeX-fold-paragraph t t)
+            ;; (add-hook 'after-change-functions
+            ;;           (lambda (start end oldlen)
+            ;;             (when (= (- end start) 1)
+            ;;               (let ((char-point
+            ;;                      (buffer-substring-no-properties
+            ;;                       start end)))
+            ;;                 (when (or (string= char-point "}")
+            ;;                           (string= char-point "$"))
+            ;;                   (TeX-fold-paragraph)))))
+            ;;           t t)
+            ))
+(add-hook 'LaTeX-mode-hook
+          (lambda ()
+            (TeX-fold-mode 1)
+            (add-hook 'find-file-hook 'TeX-fold-buffer t t)
+            (add-hook 'after-change-functions (TeX-fold-paragraph)
+                      ;; (lambda (start end oldlen)
+                      ;;   (when (= (- end start) 1)
+                      ;;     (let ((char-point
+                      ;;                    (buffer-substring-no-properties
+                      ;;                     start end)))
+                      ;;      (when (or (string= char-point "}")
+                      ;;            (string= char-point "$"))
+                      ;;       (TeX-fold-paragraph)))))
+                      t t)))
+
+;; (global-set-key "\C-b" nil)
+
+;; (add-hook 'tex-mode-hook
+;;       (lambda ()
+;;         (local-unset-key (kbd "C-b"))))
+
+;; (define-key latex-mode-map
+;;   (kbd "C-S-b") 'tex-bold)
+
+;; (evil-define-key 'visual
+;;   tex-mode-map  (kbd "C-b") 'tex-bold)
+
+(define-key evil-visual-state-map (kbd "C-b") 'tex-bold)
+                                        ;(define-key evil-tex-mode-map (kbd "C-b") 'tex-bold)
 
 (add-hook
  'LaTex-mode-hook
@@ -50,8 +119,8 @@
     ;; otherwise do ordinary fill paragraph
     (fill-paragraph P)))
 
-  (evil-define-key 'normal latex-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
-  (evil-define-key 'normal latex-mode-map (kbd "M-q") nil)
+(evil-define-key 'normal latex-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
+(evil-define-key 'normal latex-mode-map (kbd "M-q") nil)
 
 ;; TeX
 ;;------------------------------------------------------------------------------
