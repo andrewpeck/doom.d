@@ -6,13 +6,12 @@
 
 ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
 (after! tex-fold
-  (add-to-list 'TeX-fold-macro-spec-list '("{1}" ("gls")))
-  (add-to-list 'TeX-fold-macro-spec-list '("{1}" ("cite")))
-  (add-to-list 'TeX-fold-macro-spec-list '("{1}" ("yearsago")))
-  ;;(add-to-list 'TeX-fold-macro-spec-list '("{1}s" ("gls")))
-  ;;(add-to-list 'TeX-fold-macro-spec-list '("{1}" ("ac" "acf")))
-  ;;(add-to-list 'TeX-fold-macro-spec-list '("{1}s" ("acp" "acpf")))
-  )
+  (setq TeX-fold-macro-spec-list
+        (append TeX-fold-macro-spec-list
+                '(("{1}" ("gls"))         ; used in l0mdt
+                  ("{1}" ("cite"))        ; used in l0mdt
+                  ("{1}" ("yearsago"))    ; used in resume
+                  ("{1}" ("heading")))))) ; used in resume
 
 (defun tex-bold ()
   "Make the current TeX selection bold."
@@ -31,53 +30,16 @@
 
 (setq TeX-fold-auto t)
 
-(add-hook 'latex-mode-hook
-          (lambda ()
-            (add-hook 'after-save-hook (lambda () (TeX-fold-buffer)) nil 'make-it-local)))
+;; LaTeX-mode-hook is used by AUCTeX's LaTeX mode.
+;; latex-mode-hook is used by Emacs' built-in latex mode.
 
 ;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
-(add-hook 'latex-mode-hook
+(add-hook 'TeX-mode-hook
           (lambda ()
             (TeX-fold-mode 1)
+            ;; (add-hook 'after-change-functions 'TeX-fold-paragraph t t)
             (add-hook 'find-file-hook 'TeX-fold-buffer t t)
-            (add-hook 'after-change-functions 'TeX-fold-paragraph t t)
-            ;; (add-hook 'after-change-functions
-            ;;           (lambda (start end oldlen)
-            ;;             (when (= (- end start) 1)
-            ;;               (let ((char-point
-            ;;                      (buffer-substring-no-properties
-            ;;                       start end)))
-            ;;                 (when (or (string= char-point "}")
-            ;;                           (string= char-point "$"))
-            ;;                   (TeX-fold-paragraph)))))
-            ;;           t t)
-            ))
-(add-hook 'LaTeX-mode-hook
-          (lambda ()
-            (TeX-fold-mode 1)
-            (add-hook 'find-file-hook 'TeX-fold-buffer t t)
-            (add-hook 'after-change-functions (TeX-fold-paragraph)
-                      ;; (lambda (start end oldlen)
-                      ;;   (when (= (- end start) 1)
-                      ;;     (let ((char-point
-                      ;;                    (buffer-substring-no-properties
-                      ;;                     start end)))
-                      ;;      (when (or (string= char-point "}")
-                      ;;            (string= char-point "$"))
-                      ;;       (TeX-fold-paragraph)))))
-                      t t)))
-
-;; (global-set-key "\C-b" nil)
-
-;; (add-hook 'tex-mode-hook
-;;       (lambda ()
-;;         (local-unset-key (kbd "C-b"))))
-
-;; (define-key latex-mode-map
-;;   (kbd "C-S-b") 'tex-bold)
-
-;; (evil-define-key 'visual
-;;   tex-mode-map  (kbd "C-b") 'tex-bold)
+            (add-hook 'after-save-hook 'TeX-fold-buffer t t)))
 
 (define-key evil-visual-state-map (kbd "C-b") 'tex-bold)
                                         ;(define-key evil-tex-mode-map (kbd "C-b") 'tex-bold)
@@ -130,9 +92,9 @@
   (setq reftex-toc-split-windows-fraction 0.15)
   (setq-default TeX-master nil)
   (add-hook 'LaTeX-mode-hook (lambda () (reftex-mode 1)))
-  (add-hook 'reftex-toc-mode-hook (lambda ()
-                                    (define-key reftex-toc-mode-map (kbd "<return>") 'reftex-toc-goto-line)))
-  )
+  (add-hook 'reftex-toc-mode-hook
+            (lambda ()
+              (define-key reftex-toc-mode-map (kbd "<return>") 'reftex-toc-goto-line))))
 
 ;; Electric Space
 ;;------------------------------------------------------------------------------
@@ -141,8 +103,7 @@
   (interactive)
   (if (looking-back (sentence-end) nil)
       (insert "\n")
-    (self-insert-command 1))
-  )
+    (self-insert-command 1)))
 
 (defvar electric-space-on-p nil)
 
