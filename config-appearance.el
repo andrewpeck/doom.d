@@ -4,6 +4,9 @@
 ;;; Appearance
 ;;------------------------------------------------------------------------------
 
+(hl-line-mode 0)
+(global-hl-line-mode 0)
+
 (after! highlight-indent-guides
   ;;(setq highlight-indent-guides-auto-enabled nil)
   (setq highlight-indent-guides-responsive nil
