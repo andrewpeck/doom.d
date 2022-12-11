@@ -28,7 +28,7 @@
 (defun suspend ()
   "Suspend the system using systemctl syspend"
   (interactive)
-  (start-process "suspend" nil "systemctl" "suspend"))
+  (start-process "*suspend*" nil "setsid" "systemctl" "suspend"))
 
 ;;------------------------------------------------------------------------------
 ;; C-backspace without modifying kill ring
@@ -83,7 +83,7 @@ This command does not push text to `kill-ring'."
   (start-process
    "copy-to-ohm"
    nil "rsync" "-av"
-   (format "%s.html" (file-name-base))
+   (format "%s.html" (file-name-base buffer-file-name))
    "ohm:~/public_html/notes/"))
 
 ;; WINDOW TITLE :: https://www.emacswiki.org/emacs/FrameTitle
@@ -185,13 +185,13 @@ title of the page is retrieved from the web page"
 
       (progn
         (progn
-          (next-line)
+          (forward-line)
           (end-of-line)
           (push-mark (point) t t)
           (move-beginning-of-line 1)
           (setq link (buffer-substring-no-properties (region-beginning) (region-end)))
           (setq link (replace-regexp-in-string "^- " "" link))
-          (previous-line)))
+          (forward-line -1)))
 
       (progn
         (end-of-line)
@@ -204,7 +204,7 @@ title of the page is retrieved from the web page"
 
       (replace-regexp-in-region "^\*+" "-" (line-beginning-position) (line-end-position))
 
-      (next-line)
+      (forward-line)
       (beginning-of-line)
       (kill-line)
       (kill-line))))
@@ -451,5 +451,25 @@ title of the page is retrieved from the web page"
 ;;-----------------------------------------------------------------------------------------
 ;; Clojure
 ;;-----------------------------------------------------------------------------------------
+
+;;-----------------------------------------------------------------------------------------
+;; reindent on save
+;;
+;; Local Variables:
+;; eval: (make-variable-buffer-local 'write-contents-functions)
+;; eval: (add-hook 'write-contents-functions #'re-indent-buffer nil t)
+;; End:
+;;
+;;-----------------------------------------------------------------------------------------
+
+(add-hook 'scad-mode-hook
+          (lambda ()
+            (add-hook 'write-contents-functions
+                      #'re-indent-buffer nil t)))
+
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (add-hook 'write-contents-functions
+                      #'re-indent-buffer nil t)))
 
 ;; (setq org-babel-clojure-backend "cider")
