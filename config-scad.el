@@ -7,9 +7,8 @@
 (flycheck-define-checker openscad
   "Runs openscad"
   :command ("openscad"
-            (eval (concat "-o" (flycheck-temp-dir-system) "/tmp.png"))
-            source-inplace
-            )
+            (eval (concat "-o" (flycheck-temp-dir-system) "/scad-tmp.png"))
+            source-inplace)
   :error-patterns
   ;; different versions of scad produce slightly different error messages... uhg
   ((error line-start "ERROR:" (message) " " (file-name)  ", line " line line-end)
@@ -17,7 +16,6 @@
   :modes (scad-mode))
 (add-to-list 'flycheck-checkers 'openscad)
 
-;; Function to open the current file in openscad
 (defun open-in-openscad ()
   "Open the current buffer in openscad"
   (interactive)
