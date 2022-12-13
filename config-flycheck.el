@@ -1,4 +1,4 @@
-;;; ../Sync/dotfiles/doom.d/config-flycheck.el -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; -*-
 
 (after! flycheck
 
@@ -28,16 +28,16 @@
   (setq flycheck-temp-prefix ".flycheck")
 
   (setq flycheck-markdown-markdownlint-cli-config
-        (concat doom-private-dir "markdownlint-config.yml"))
+        (concat doom-user-dir "markdownlint-config.yml"))
 
   (setq flycheck-yamllintrc
-        (concat doom-private-dir "yamllintrc.yml"))
+        (concat doom-user-dir "yamllintrc.yml"))
 
   (setq flycheck-flake8rc
-        (concat doom-private-dir "flake8.rc"))
+        (concat doom-user-dir "flake8.rc"))
 
   (setq flycheck-pylintrc
-        (concat doom-private-dir "pylint.rc"))
+        (concat doom-user-dir "pylint.rc"))
 
   ;; (flycheck-add-next-checker 'python-flake8 'python-pylint)
 
