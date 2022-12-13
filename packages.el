@@ -25,7 +25,7 @@
 (package! mixed-pitch)
 (package! ob-mermaid :recipe (:host github :repo "arnm/ob-mermaid"))
 (package! org-download :recipe (:host github :repo "abo-abo/org-download"))
-(package! org-mode :pin "971eb6885ec996c923e955730df3bafbdc244e54") ; https://github.com/doomemacs/doomemacs/issues/6478
+(package! org-mode :pin "bd46813") ; https://github.com/doomemacs/doomemacs/issues/6478
 (package! org-protocol-capture-html :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
 (package! org-web-tools)
 (package! ox-clip :recipe (:host github :repo "jkitchin/ox-clip"))
