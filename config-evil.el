@@ -10,6 +10,10 @@
   (define-key evil-insert-state-map  (kbd "<mouse-2>") 'evil-paste-after)
   (define-key evil-normal-state-map  (kbd "<mouse-2>") 'evil-paste-after)
 
+  ;; Jump back and forth through files, time, and space with arrow keys
+  (define-key evil-normal-state-map (kbd "<mouse-8>")   'evil-jump-backward)
+  (define-key evil-normal-state-map (kbd "<mouse-9>")   'evil-jump-forward)
+
   ;; (define-key evil-motion-state-map "\C-b" nil)
   (define-key evil-visual-state-map "\C-i" nil)
 
