@@ -140,6 +140,8 @@ This command does not push text to `kill-ring'."
 
 ;; better dired soring
 (after! dired
+  (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
+  (setq dired-omit-extensions (remove ".bit" dired-omit-extensions))
   (setq dired-listing-switches "-a1vBhl  --group-directories-first"))
 
 ;; add a margin while scrolling
