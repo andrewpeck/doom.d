@@ -14,6 +14,7 @@
 (package! flycheck-clang-tidy)
 (package! fzf :recipe (:host github :repo "bling/fzf.el"))
 (package! graphviz-dot-mode)
+(package! hl-line :disable t)
 (package! logview)
 (package! lorem-ipsum)
 (package! magit-todos)
