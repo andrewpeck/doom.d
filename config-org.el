@@ -302,8 +302,9 @@ and shortens it into an org mode link consisting of just `some file`"
             'evil-org-agenda-set-keys)
 
 
-  (when (boundp '+org-pretty-mode)
-    (+org-pretty-mode t))
+  ;; only turn this on in org mode!!
+  ;; (when (boundp '+org-pretty-mode)
+  ;;   (+org-pretty-mode t))
 
   ;; (setq org-hide-emphasis-markers nil)
   (setq org-link-file-path-type 'relative
