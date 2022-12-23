@@ -7,6 +7,7 @@
 (package! all-the-icons-ibuffer)
 (package! backup-each-save)
 (package! crontab-mode)
+(package! delight)
 (package! doom-todo-ivy :recipe (:host github :repo "jsmestad/doom-todo-ivy"))
 (package! emojify)
 (package! evil-leader)

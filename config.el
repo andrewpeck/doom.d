@@ -17,6 +17,37 @@
 (load! "~/.doom.d/lisp/monochrome-theme.el")
 
 (setq lsp-julia-default-environment "~/.julia/environments/v1.6")
+(require 'delight)
+
+(delight '+org-pretty-mode         " org-pretty " "org")
+(delight 'better-jumper-local-mode ""             "better-jumper")
+(delight 'company-mode             ""             "company")
+(delight 'dtrt-indent-mode         ""             "dtrt-indent")
+(delight 'eldoc-mode               ""             "eldoc")
+(delight 'evil-escape-mode         ""             "evil-escape")
+(delight 'evil-goggles-mode        ""             "evil-goggles")
+(delight 'evil-org-mode            ""             "evil-org")
+(delight 'evil-snipe-local-mode    ""             "evil-snipe")
+(delight 'evil-traces-mode         ""             "evil-traces")
+(delight 'evil-traces-mode         ""             "evil-traces")
+(delight 'gcmh-mode                ""             "gcmh")
+(delight 'hi-lock-mode             ""             "hi-lock")
+(delight 'lispy-mode               ""             "lispy")
+(delight 'lispyville-mode          ""             "lispyville")
+(delight 'org-indent-mode          ""             "org-indent")
+(delight 'outline-minor-mode       ""             "outline")
+(delight 'persp-mode               "view"         "perspective-mode")
+(delight 'projectile-mode          ""             "projectile")
+(delight 'subword-mode             ""             "subword")
+(delight 'undo-tree-mode           ""             "undo-tree")
+(delight 'which-key-mode           ""             "which-key")
+(delight 'whitespace-mode          ""             "whitespace")
+(delight 'ws-butler-mode           ""             "ws-butler")
+(delight 'yas-minor-mode           ""             "yasnippet")
+(delight 'evil-markdown-mode       ""             "evil-markdown")
+(delight 'markdown-mode            "Md"           "markdown")
+(delight 'poly-markdown-mode       " Pm"          "poly-markdown")
+
 
 ;;------------------------------------------------------------------------------
 ;; to file
