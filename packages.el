@@ -26,7 +26,8 @@
 (package! pdf-tools)
 (package! scad-mode)
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
-(package! straight :pin "3eca39d"); https://github.com/doomemacs/doomemacs/issues/6960
+(package! solarized-emacs :recipe (:host github :repo "bbatsov/solarized-emacs"))
+(package! straight :pin "3eca39d") ; https://github.com/doomemacs/doomemacs/issues/6960
 (package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org)
 (package! vimrc-mode)
@@ -34,6 +35,7 @@
 (package! web-mode)
 (package! xr)                           ; xr is rx in reverse
 (package! yaml-mode)
+(package! zenburn-emacs :recipe (:host github :repo "bbatsov/zenburn-emacs"))
 ;; (package! all-the-icons-ivy)
 ;; (package! ewp :recipe (:host github :repo "larsmagne/ewp"))
 ;; (package! flymake-json)
