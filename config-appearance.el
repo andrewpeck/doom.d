@@ -45,20 +45,21 @@
         nil t)))
 
 (setq font-list
-      '("Hack"
-        "Inconsolata"
-        "JetBrains Mono"
-        "IBM Plex Mono"
-        "Fira Code"
-        "Roboto Mono"))
+      '(("Source Code Pro" . 16)
+        ("Hack" . 15)
+        ("JetBrains Mono" . 14)
+        ("IBM Plex Mono" . 14)
+        ("Inconsolata" . 14)
+        ("Fira Code" . 14)
+        ("Roboto Mono" . 14)))
 
 (cl-dolist (my-font font-list)
-  (when (font-exists-p my-font)
+  (when (font-exists-p (car my-font))
     (progn
-      (setq doom-font (font-spec :family my-font :size 14)
-            doom-big-font (font-spec :family my-font :size 14)
-            doom-variable-pitch-font (font-spec :family my-font  :size 17)
-            doom-serif-font (font-spec :family my-font :weight 'light))
+      (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
+            doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
+            doom-variable-pitch-font (font-spec :family (car my-font)  :size (cdr my-font))
+            doom-serif-font (font-spec :family (car my-font) :weight 'light))
       (cl-return t))))
 
 ;;------------------------------------------------------------------------------
