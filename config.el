@@ -26,10 +26,10 @@
 (let ((default-directory (expand-file-name "lisp" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; (add-to-list 'load-path (expand-file-name "~/.doom.d/"))
-;; (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/"))
-;; (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/doctor/"))
-;; (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hdl_deps/"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/doctor/"))
+(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hdl_deps/"))
 
 ;; (add-to-list 'load-path (expand-file-name "~/.doom.d/scad-preview/"))
 ;; https://github.com/hlissner/doom-emacs/issues/1213
@@ -55,6 +55,7 @@
 (load! "~/.doom.d/config-flycheck.el")
 (load! "~/.doom.d/config-git.el")
 (load! "~/.doom.d/config-langs.el")
+(load! "~/.doom.d/config-modeline.el")
 (load! "~/.doom.d/config-org.el")
 (load! "~/.doom.d/config-random.el")
 (load! "~/.doom.d/config-scad.el")
@@ -67,7 +68,6 @@
 (load! "~/.doom.d/passwords.el")
 ;; end:sort
 
-;; (load! "~/.doom.d/config-modeline.el")
 ;; (load! "~/.doom.d/lisp/regulator.el")
 ;; (load! "~/.doom.d/lisp/scimax-org-return.el")
 ;; (load! "~/.doom.d/lisp/verilog-port-copy.el")
