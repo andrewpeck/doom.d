@@ -131,6 +131,12 @@
   '(org-level-3 :height 1.1 :weight normal :foreground "#d3869b")
   '(org-level-4 :height 1.1 :weight normal :foreground "#83a598"))
 
+(custom-theme-set-faces! 'hima
+  '(org-level-1 :height 1.0 :weight bold)
+  '(org-level-2 :height 1.0 :weight bold)
+  '(org-level-3 :height 1.0 :weight bold)
+  '(org-level-4 :height 1.0 :weight bold))
+
 
 (defun ap/toggle-theme ()
   (interactive)
