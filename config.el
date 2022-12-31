@@ -63,11 +63,12 @@
 (load! "~/.doom.d/config-vhdl.el")
 (load! "~/.doom.d/lisp/gerb-view.el")
 (load! "~/.doom.d/lisp/gpt-emacs-macro/gpt-macro.el")
-(load! "~/.doom.d/lisp/monochrome-theme.el")
+(load! "~/.doom.d/lisp/monochrome-solarized-theme.el")
 (load! "~/.doom.d/lisp/work-plotting.el")
 (load! "~/.doom.d/passwords.el")
 ;; end:sort
 
+;; (load! "~/.doom.d/lisp/monochrome-theme.el")
 ;; (load! "~/.doom.d/lisp/regulator.el")
 ;; (load! "~/.doom.d/lisp/scimax-org-return.el")
 ;; (load! "~/.doom.d/lisp/verilog-port-copy.el")
