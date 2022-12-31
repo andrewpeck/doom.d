@@ -41,8 +41,8 @@
             (add-hook 'find-file-hook 'TeX-fold-buffer t t)
             (add-hook 'after-save-hook 'TeX-fold-buffer t t)))
 
-(define-key evil-visual-state-map (kbd "C-b") 'tex-bold)
-                                        ;(define-key evil-tex-mode-map (kbd "C-b") 'tex-bold)
+;; (define-key evil-visual-state-map (kbd "C-b") 'tex-bold)
+;; (define-key vil-tex-mode-map (kbd "C-S-b") 'tex-bold)
 
 (add-hook
  'LaTex-mode-hook
