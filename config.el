@@ -35,9 +35,6 @@
 ;; (add-to-list 'load-path (expand-file-name "~/.doom.d/scad-preview/"))
 ;; https://github.com/hlissner/doom-emacs/issues/1213
 
-(if (string= (system-name) "larry")
-    (load! "~/.doom.d/config-mail.el"))
-
 ;; start:sort
 (use-package! doctor :load-path "~/.doom.d/lisp/doctor/doctor.el")
 (use-package! hog :load-path "~/.doom.d/lisp/hog-emacs/hog.el")
@@ -49,6 +46,7 @@
 ;; end:sort
 
 ;; start:sort
+(if (string= (system-name) "larry") (load! "~/.doom.d/config-mail.el"))
 (load! "~/.doom.d/config-align.el")
 (load! "~/.doom.d/config-appearance.el")
 (load! "~/.doom.d/config-company.el")
