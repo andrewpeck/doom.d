@@ -1,22 +1,18 @@
 ;; -*- lexical-binding: t; -*-
 
+;; (add-hook 'dired-after-readin-hook 'dired-git-info-auto-enable)
+;; (setq +vc-gutter-in-remote-files t)
+;; (setq diff-hl-disable-on-remote t)
+
 ;; Magit
 ;;------------------------------------------------------------------------------
 
-(defun my-wrap-lines ()
-  "Disable `truncate-lines' in the current buffer."
-  (setq truncate-lines nil))
-
 (after! magit
-
-  (add-hook 'magit-diff-mode-hook #'my-wrap-lines)
-
-  (setq magit-repository-directories '(("~/work" . 1)))
-
-  ;;(magit-todos-mode)
-  (setq-default magit-diff-refine-hunk 'all)
   ;;(setq magit-repository-directories '(("~/" . 1)))
-  )
+  ;;(magit-todos-mode)
+  (add-hook 'magit-diff-mode-hook (lambda () (setq truncate-lines nil)))
+  (setq magit-repository-directories '(("~/work" . 1)))
+  (setq-default magit-diff-refine-hunk 'all))
 
 (after! browse-at-remote
   (add-to-list 'browse-at-remote-remote-type-regexps
@@ -24,6 +20,7 @@
 
 (after! forge
 
+  (add-to-list 'auth-sources "~/.authinfo")
   (setq forge-topic-list-limit '(60 . 0))
 
   (add-to-list 'forge-alist
@@ -39,10 +36,7 @@
           ("ucla-gaps-tof")
           ("emu")
           ("andrewpeck1")
-          ("apeck")))
-
-
-  )
+          ("apeck"))))
 
 ;; Git Gutter
 ;;------------------------------------------------------------------------------
