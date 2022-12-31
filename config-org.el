@@ -434,63 +434,66 @@ and shortens it into an org mode link consisting of just `some file`"
 ;; Functions to Convert to/from org / markdown links
 ;;------------------------------------------------------------------------------
 
-;; taken from:
-;; https://github.com/agzam/.doom.d/blob/main/modules/custom/org/autoload/custom.el#L181-L214
-(defun org-link-parse (link)
-  ;; borrowed and adopted from:
-  ;; github.com/xuchunyang/emacs.d/blob/5f4f873cf7a671a36f686f3d1346fd7c5a5462bc/lisp/chunyang-misc.el#L488-L526
-  (if (string-match
-       (rx "[[" (group (0+ anything)) "][" (group (0+ anything)) "]]")
-       link)
-      (list (match-string 1 link)
-            (match-string 2 link))
-    (error "Cannot parse %s as Org link" link)))
+(after! org
+  ;; taken from:
+  ;; https://github.com/agzam/.doom.d/blob/main/modules/custom/org/autoload/custom.el#L181-L214
+  (defun org-link-parse (link)
+    ;; borrowed and adopted from:
+    ;; github.com/xuchunyang/emacs.d/blob/5f4f873cf7a671a36f686f3d1346fd7c5a5462bc/lisp/chunyang-misc.el#L488-L526
+    (if (string-match
+         (rx "[[" (group (0+ anything)) "][" (group (0+ anything)) "]]")
+         link)
+        (list (match-string 1 link)
+              (match-string 2 link))
+      (error "Cannot parse %s as Org link" link)))
 
-(defun org-link->markdown ()
-  (interactive)
-  (let* ((ctx (org-in-regexp org-any-link-re))
-         (beg (car ctx)) (end (cdr ctx))
-         (link-txt (buffer-substring beg end))
-         (parsed (unless (string-blank-p link-txt)
-                   (seq-map
-                    ;; escape square brackets and parens, see:
-                    ;; https://emacs.stackexchange.com/questions/68814/escape-all-square-brackets-with-replace-regexp-in-string
-                    (lambda (m)
-                      (replace-regexp-in-string "\\[\\|\\]\\|(\\|)" "\\\\\\&" m))
-                    (org-link-parse link-txt)))))
-    (when parsed
-      (delete-region beg end)
-      (insert (apply 'format "[%s](%s)" (reverse parsed))))))
+  (defun org-link->markdown ()
+    (interactive)
+    (let* ((ctx (org-in-regexp org-link-any-re))
+           (beg (car ctx)) (end (cdr ctx))
+           (link-txt (buffer-substring beg end))
+           (parsed (unless (string-blank-p link-txt)
+                     (seq-map
+                      ;; escape square brackets and parens, see:
+                      ;; https://emacs.stackexchange.com/questions/68814/escape-all-square-brackets-with-replace-regexp-in-string
+                      (lambda (m)
+                        (replace-regexp-in-string "\\[\\|\\]\\|(\\|)" "\\\\\\&" m))
+                      (org-link-parse link-txt)))))
+      (when parsed
+        (delete-region beg end)
+        (insert (apply 'format "[%s](%s)" (reverse parsed))))))
 
-(defun markdown-link->org ()
-  (interactive)
-  (when (markdown-link-p)
-    (let* ((l (markdown-link-at-pos (point)))
-           (desc (nth 2 l))
-           (url (nth 3 l)))
-      (markdown-kill-thing-at-point)
-      (org-insert-link nil url desc))))
+  (defun markdown-link->org ()
+    (interactive)
+    (when (markdown-link-p)
+      (let* ((l (markdown-link-at-pos (point)))
+             (desc (nth 2 l))
+             (url (nth 3 l)))
+        (markdown-kill-thing-at-point)
+        (org-insert-link nil url desc))))
 
-;; from
-;; (https://github.com/SqrtMinusOne/dotfiles/blob/4b176a5bb1a5e20a7fdd7398b74df79701267a7e/.emacs.d/init.el)
-(defun org-link-copy (&optional arg)
-  "Extract URL from org-mode link and add it to kill ring."
-  (interactive "P")
-  (let* ((link (org-element-lineage (org-element-context) '(link) t))
-         (type (org-element-property :type link))
-         (url (org-element-property :path link))
-         (url (concat type ":" url)))
-    (kill-new url)
-    (message (concat "Copied URL: " url))))
+  ;; from
+  ;; (https://github.com/SqrtMinusOne/dotfiles/blob/4b176a5bb1a5e20a7fdd7398b74df79701267a7e/.emacs.d/init.el)
+  (defun org-link-copy (&optional arg)
+    "Extract URL from org-mode link and add it to kill ring."
+    (interactive "P")
+    (let* ((link (org-element-lineage (org-element-context) '(link) t))
+           (type (org-element-property :type link))
+           (url (org-element-property :path link))
+           (url (concat type ":" url)))
+      (kill-new url)
+      (message (concat "Copied URL: " url)))))
 
 
-(eval-when-compile
-  (require 'easy-mmode)
-  (require 'ox))
+;; (eval-when-compile
+;;   (require 'easy-mmode)
+;;   (require 'ox))
 
 ;; https://github.com/alphapapa/unpackaged.el#download-and-attach-remote-files
-(use-package ox
+(use-package! ox
+  :defer 4.0
   :config
+
   (define-minor-mode unpackaged/org-export-html-with-useful-ids-mode
     "Attempt to export Org as HTML with useful link IDs.
 Instead of random IDs like \"#orga1b2c3\", use heading titles,
