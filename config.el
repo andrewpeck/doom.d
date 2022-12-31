@@ -14,7 +14,6 @@
 ;; https://github.com/danilevy1212/doom
 
 (load! "~/.doom.d/custom.el")
-(load! "~/.doom.d/lisp/monochrome-theme.el")
 
 ;;------------------------------------------------------------------------------
 ;; to file
@@ -24,13 +23,13 @@
 ;; Loads
 ;;------------------------------------------------------------------------------
 
-(add-to-list 'load-path (expand-file-name "~/.doom.d/"))
-(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/"))
-(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/doctor/"))
-(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hdl_deps/"))
-
 (let ((default-directory (expand-file-name "lisp" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
+
+;; (add-to-list 'load-path (expand-file-name "~/.doom.d/"))
+;; (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/"))
+;; (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/doctor/"))
+;; (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hdl_deps/"))
 
 ;; (add-to-list 'load-path (expand-file-name "~/.doom.d/scad-preview/"))
 ;; https://github.com/hlissner/doom-emacs/issues/1213
@@ -62,12 +61,16 @@
 (load! "~/.doom.d/config-tex.el")
 (load! "~/.doom.d/config-vhdl.el")
 (load! "~/.doom.d/gerb-view.el")
+(load! "~/.doom.d/lisp/gpt-emacs-macro/gpt-macro.el")
+(load! "~/.doom.d/lisp/monochrome-theme.el")
 (load! "~/.doom.d/lisp/work-plotting.el")
+(load! "~/.doom.d/passwords.el")
+;; end:sort
+
 ;; (load! "~/.doom.d/config-modeline.el")
 ;; (load! "~/.doom.d/lisp/regulator.el")
 ;; (load! "~/.doom.d/lisp/scimax-org-return.el")
 ;; (load! "~/.doom.d/lisp/verilog-port-copy.el")
-;; end:sort
 
 ;;------------------------------------------------------------------------------
 ;; Functions for alphabetically sorting items
