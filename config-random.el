@@ -500,3 +500,23 @@ title of the page is retrieved from the web page"
    :utils "tar"))
 
 ;; (setq org-babel-clojure-backend "cider")
+
+(after! langtool
+  (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
+
+  (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
+
+(after! flycheck
+  (setq  flycheck-check-syntax-automatically
+         '(save idle-buffer-switch mode-enabled)))
+
+;; disable confusing undo-fu behavior
+;; https://gitlab.com/ideasman42/emacs-undo-fu/-/issues/6
+(after! undo-fu
+  (setq undo-fu-ignore-keyboard-quit t))
+
+(add-to-list 'warning-suppress-types '(iedit))
+(remove-hook
+ '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+
+;; (setq langtool-java-classpath "/usr/share/languagetool:/usr/share/java/languagetool/*")
