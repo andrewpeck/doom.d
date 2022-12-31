@@ -27,7 +27,7 @@
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
 (cond
- ((not (display-graphic-p)) (setq doom-theme 'monochrome))
+ ((not (display-graphic-p)) (setq doom-theme 'monochrome-solarized))
  ((string= (system-name) "strange") (setq doom-theme 'doom-spacegray))
  ((string= (system-name) "pepper")  (setq doom-theme 'doom-zenburn))
  ((string= (system-name) "larry")   (setq doom-theme 'doom-zenburn))
