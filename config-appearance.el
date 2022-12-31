@@ -39,9 +39,9 @@
   "Check if FONT exists"
   (if (functionp 'doom-font-exists-p)
       (doom-font-exists-p font)
-      (ignore-errors
-        (if (null (x-list-fonts font))
-            nil t))))
+    (ignore-errors
+      (if (null (x-list-fonts font))
+          nil t))))
 
 (setq font-list
       '(("Source Code Pro" . 16)
