@@ -667,8 +667,8 @@ If the new path's directories does not exist, create them."
     ;; Fix matches segment mirroring across all buffers
     (mapc #'make-variable-buffer-local
           '(anzu--total-matched anzu--current-position anzu--state
-                                anzu--cached-count anzu--cached-positions anzu--last-command
-                                anzu--last-isearch-string anzu--overflow-p)))
+            anzu--cached-count anzu--cached-positions anzu--last-command
+            anzu--last-isearch-string anzu--overflow-p)))
 
   (use-package! evil-anzu
     :when (featurep! :editor evil)
@@ -781,8 +781,8 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
  mode-line-modes ; remove minor modes
  '(""
    (:propertize mode-name
-    face bold
-    mouse-face mode-line-highlight)
+                face bold
+                mouse-face mode-line-highlight)
    mode-line-process
    "%n"
    "%]"
@@ -967,7 +967,7 @@ lines are selected, or the NxM dimensions of a block selection.")
             :v-adjust -0.05
             :height 1.25)
           (:propertize (" " (:eval (abbreviate-file-name default-directory)))
-           face bold))
+                       face bold))
         mode-line-format-right
         '("" mode-line-modes)))
 
@@ -1000,3 +1000,14 @@ lines are selected, or the NxM dimensions of a block selection.")
 (add-hook 'image-mode-hook #'set-special-modeline)
 (add-hook 'circe-mode-hook #'set-special-modeline)
 (add-hook 'pdf-tools-enabled-hook #'set-pdf-modeline)
+
+;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
+;; (setq-default visual-fill-column-center-text nil)
+
+
+;; Doom
+(after! doom-todo-ivy
+  (setq doom/ivy-task-tags
+        '(("TODO"  . warning)
+          ("FIXME" . error))))
+;;("NOTE"  . note)

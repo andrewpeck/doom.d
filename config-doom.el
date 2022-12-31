@@ -3,14 +3,6 @@
 ;;; Doom
 ;;------------------------------------------------------------------------------
 
-;; Doom
-(after! doom-todo-ivy
-  (setq doom/ivy-task-tags
-        '(("TODO"  . warning)
-          ("FIXME" . error)
-          ;;("NOTE"  . note)
-          )))
-
 ;; Dashboard
 (defun ap/dashboard-widget-banner ()
   (let ((point (point)))
