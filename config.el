@@ -61,7 +61,7 @@
 (load! "~/.doom.d/config-scad.el")
 (load! "~/.doom.d/config-tex.el")
 (load! "~/.doom.d/config-vhdl.el")
-(load! "~/.doom.d/gerb-view.el")
+(load! "~/.doom.d/lisp/gerb-view.el")
 (load! "~/.doom.d/lisp/gpt-emacs-macro/gpt-macro.el")
 (load! "~/.doom.d/lisp/monochrome-theme.el")
 (load! "~/.doom.d/lisp/work-plotting.el")
