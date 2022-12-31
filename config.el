@@ -71,7 +71,6 @@ Containing LEFT, and RIGHT aligned respectively."
 
 (defun flycheck-mode-line-status-text (&optional status)
   "Get a text describing STATUS for use in the mode line.
-
 STATUS defaults to `flycheck-last-status-change' if omitted or
 nil."
   (pcase (or status flycheck-last-status-change)
@@ -84,8 +83,8 @@ nil."
      (let-alist (flycheck-count-errors flycheck-current-errors)
        (if (or .error .warning)
            (concat
-            "" (propertize (format "%s" (or .error 0) ) 'face '(:foreground "red"))
-            "|" (propertize (format "%s" (or .warning 0)) 'face '(:foreground "orange")))
+            "" (propertize (format "%s" (or .error 0) ) 'face '(:inherit error))
+            "|" (propertize (format "%s" (or .warning 0)) 'face '(:inherit warning)))
          " ✓")))
     (`interrupted ".")
     (`suspicious "?")))
