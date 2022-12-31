@@ -34,3 +34,6 @@
         doom-dashboard-widget-shortmenu
         doom-dashboard-widget-loaded
         doom-dashboard-widget-footer))
+
+;; (remove-hook
+;;  '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
