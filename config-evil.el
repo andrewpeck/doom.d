@@ -5,6 +5,8 @@
 
 (after! evil
 
+  (evil-define-key 'normal system-install-run-minor-mode-map "q" #'bury-buffer)
+
   ;; middle click to paste
   (global-set-key (kbd "<mouse-2>") 'evil-paste-after)
   (define-key evil-insert-state-map  (kbd "<mouse-2>") 'evil-paste-after)
