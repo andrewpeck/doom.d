@@ -45,24 +45,26 @@ nil."
            (concat
             "" (propertize (format "%s" (or .error 0) ) 'face '(:inherit error))
             "|" (propertize (format "%s" (or .warning 0)) 'face '(:inherit warning)))
-         " ✓")))
+         "✓")))
     (`interrupted ".")
     (`suspicious "?")))
 
-(setq-default mode-line-format
-              '((:eval (simple-mode-line-render
-                        ;; Left.
-                        `("%e "
-                          mode-line-mule-info
-                          evil-mode-line-tag
-                          mode-line-modified " "
-                          mode-line-buffer-identification)
+(setq mode-line-format
+      '((:eval (simple-mode-line-render
+                ;; Left.
+                `("%e"
+                  evil-mode-line-tag
+                  mode-line-mule-info
+                  "%* "
+                  mode-line-buffer-identification)
 
-                        ;; Right.
-                        `("L%l:C%c:%p"
-                          (vc-mode vc-mode)
-                          mode-line-frame-identification
-                          mode-line-modes
-                          " "
-                          flycheck-mode-line
-                          " ")))))
+                ;; Right.
+                `("l%l|c%c|%p"
+                  " ·"
+                  (vc-mode vc-mode)
+                  " · "
+                  ,(format "%s" (car mode-name))
+                  " · "
+                  flycheck-mode-line
+                  " ")))))
+(setq-default mode-line-format mode-line-format)
