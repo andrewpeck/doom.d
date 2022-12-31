@@ -137,3 +137,10 @@
   '(org-level-3 :height 1.0 :weight bold)
   '(org-level-4 :height 1.0 :weight bold))
 
+(custom-theme-set-faces! 'solarized-zenburn
+  '(font-lock-doc-face :inherit font-lock-comment-face)
+  '(font-lock-string-face :inherit error)
+  '(font-lock-keyword-face :foreground "#7F9F7F")
+  '(font-lock-constant-face :foreground "#7F9F7F")
+  '(font-lock-variable-name-face :foreground "#8CD0D3" :weight normal)
+  '(highlight-quoted-symbol :inherit font-lock-variable-name-face :slant italic))
