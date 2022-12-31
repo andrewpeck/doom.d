@@ -199,3 +199,7 @@
         (default +bindings +smartparens)
 )
 
+;; Local Variables:
+;; eval: (make-variable-buffer-local 'write-contents-functions)
+;; eval: (remove-hook 'write-contents-functions #'re-indent-buffer)
+;; End:
