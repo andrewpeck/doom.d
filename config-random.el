@@ -481,4 +481,22 @@ title of the page is retrieved from the web page"
             (add-hook 'write-contents-functions
                       #'re-indent-buffer nil t)))
 
+(require 'dwim-shell-command)
+
+(defun my/dwim-shell-command-archive-zstd ()
+  "Convert all marked images to jpg(s)."
+  (interactive)
+  (dwim-shell-command-on-marked-files
+   "Archive as zstd"
+   "tar -cavf '<<fne>>.tar.zst' '<<f>>'"
+   :utils "tar"))
+
+(defun my/dwim-shell-command-archive-gz ()
+  "Convert all marked images to jpg(s)."
+  (interactive)
+  (dwim-shell-command-on-marked-files
+   "Archive as zstd"
+   "tar -cavf '<<fne>>.tar.gz' '<<f>>'"
+   :utils "tar"))
+
 ;; (setq org-babel-clojure-backend "cider")
