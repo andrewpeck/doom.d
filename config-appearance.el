@@ -101,9 +101,6 @@
 
 (add-hook 'vhdl-mode-hook #'my/highlight-false)
 (add-hook 'vhdl-mode-hook #'my/highlight-true)
-(add-hook 'python-mode-hook #'my/highlight-false)
-(add-hook 'python-mode-hook #'my/highlight-true)
-
 
 (custom-set-faces
  '(writegood-weasels-face ((t (:underline (:color "#888888" :style wave))))))
