@@ -137,22 +137,3 @@
   '(org-level-3 :height 1.0 :weight bold)
   '(org-level-4 :height 1.0 :weight bold))
 
-
-(defun ap/toggle-theme ()
-  (interactive)
-  (if (eq doom-theme 'summerfruit)
-      (progn
-        (setq highlight-indent-guides-auto-enabled nil)
-        (setq highlight-indent-guides-responsive "stack")
-        (setq doom-theme 'doom-gruvbox)
-        (load-theme 'doom-gruvbox t)
-        (set-face-foreground 'highlight-indent-guides-character-face "#375c3c644822"))
-
-    (progn
-      (setq highlight-indent-guides-auto-enabled nil)
-      (setq highlight-indent-guides-responsive "stack")
-      (setq doom-theme 'summerfruit)
-      (load-theme 'summerfruit t)
-      (set-face-foreground 'highlight-indent-guides-character-face "#efefef"))))
-
-(map! :leader :desc "Toggle Themes" "t t" #'ap/toggle-theme)
