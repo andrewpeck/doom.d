@@ -59,7 +59,7 @@ nil."
                   mode-line-buffer-identification)
 
                 ;; Right.
-                `("l%l|c%c|%p"
+                `("l%l⸱c%c⸱%p"
                   " ·"
                   (vc-mode vc-mode)
                   " · "
