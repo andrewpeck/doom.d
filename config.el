@@ -59,12 +59,12 @@
 (load! "~/.doom.d/config-org.el")
 (load! "~/.doom.d/config-random.el")
 (load! "~/.doom.d/config-scad.el")
-(load! "~/.doom.d/config-tex.el")
 (load! "~/.doom.d/lisp/gerb-view.el")
 (load! "~/.doom.d/lisp/gpt-emacs-macro/gpt-macro.el")
 (load! "~/.doom.d/lisp/monochrome-solarized-theme.el")
 (load! "~/.doom.d/lisp/work-plotting.el")
 (load! "~/.doom.d/passwords.el")
+;; (load! "~/.doom.d/config-tex.el")
 ;; end:sort
 
 ;; (load! "~/.doom.d/lisp/monochrome-theme.el")
