@@ -16,7 +16,6 @@
 (load! "~/.doom.d/custom.el")
 (load! "~/.doom.d/lisp/monochrome-theme.el")
 
-(setq lsp-julia-default-environment "~/.julia/environments/v1.6")
 (require 'delight)
 
 (delight '+org-pretty-mode         " org-pretty " "org")
@@ -165,7 +164,6 @@ nil."
 (load! "~/.doom.d/config-flycheck.el")
 (load! "~/.doom.d/config-git.el")
 (load! "~/.doom.d/config-langs.el")
-(load! "~/.doom.d/config-lsp.el")
 (load! "~/.doom.d/config-org.el")
 (load! "~/.doom.d/config-random.el")
 (load! "~/.doom.d/config-scad.el")
@@ -209,6 +207,14 @@ char of the language you are editing"
   (interactive)
   (save-excursion
     (sort-code-block ";;")))
+
+;;------------------------------------------------------------------------------
+;; Eglot
+;;------------------------------------------------------------------------------
+
+(after! eglot
+  (add-to-list 'eglot-server-programs
+               '(vhdl-mode . ("ghdl-ls"))))
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'write-contents-functions)
