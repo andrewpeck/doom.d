@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: package!
+# key: package!
+# --
+(Package! $2 :recipe (:host github :repo "$1"))

@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: reset-locked
+# key: reset-locked
+# --
+process (clock, locked) is
+begin
+  if (locked = '0') then
+    reset <= '1';
+  elsif (rising_edge(clock)) then
+    reset <= '0';
+  end if;
+end process;

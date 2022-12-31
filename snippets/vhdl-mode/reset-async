@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: reset-async
+# key: reset-async
+# --
+process (clock, reset_i) is
+begin
+  if (reset_i = '1') then
+    reset <= '1';
+  elsif (rising_edge(clock)) then
+    reset <= '0';
+  end if;
+end process;
