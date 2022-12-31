@@ -1,14 +1,17 @@
 ;; -*- lexical-binding: t; no-byte-compile: t;-*-
 
-;; start:sort -- keep the stuff below sorted alphabetically
+;; -- keep the stuff below sorted alphabetically
+;; start:sort
 (package! affe)
 (package! all-the-icons)
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)
 (package! backup-each-save)
+(package! company-org-block :pin "4d96750" :recipe (:host github :repo "xenodium/company-org-block"))
 (package! crontab-mode)
 (package! delight)
 (package! doom-todo-ivy :recipe (:host github :repo "jsmestad/doom-todo-ivy"))
+(package! dwim-shell-command :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! emojify)
 (package! evil-leader)
 (package! evil-matchit)
@@ -19,6 +22,7 @@
 (package! logview)
 (package! lorem-ipsum)
 (package! magit-todos)
+(package! minibuffer-line)
 (package! org-download :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-mode :pin "bd46813") ; https://github.com/doomemacs/doomemacs/issues/6478
 (package! org-protocol-capture-html :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
