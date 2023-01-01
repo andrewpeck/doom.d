@@ -21,6 +21,23 @@
 
   (add-to-list 'flycheck-checkers 'proselint)
 
+  (flycheck-define-checker
+      hog-src-checker
+    "Checker for Hog source files"
+
+    :command ("emacs" (eval flycheck-emacs-args)
+              "--load" (eval (file-name-sans-extension (locate-library "hog")))
+              "--visit" source-inplace
+              "-f" "hog-check-src-file")
+
+    :error-patterns
+    ((error line-start "Error:" line (one-or-more blank) (message) line-end)
+     (info line-start "Info:" line (one-or-more blank) (message) line-end)
+     (warning line-start "Warning:" (one-or-more blank) line (message) line-end))
+    :modes (hog-src-mode))
+
+  (add-to-list 'flycheck-checkers 'hog-src-checker)
+
   ;;------------------------------------------------------------------------------
   ;; 1
   ;;------------------------------------------------------------------------------
