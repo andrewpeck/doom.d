@@ -31,7 +31,7 @@
 ;; https://github.com/hlissner/doom-emacs/issues/1213
 ;; start:sort
 (use-package! doctor         :defer-incrementally t)
-(use-package! gpt-macro      :defer-incrementally t)
+(use-package! gpt-emacs      :defer-incrementally t)
 (use-package! hog            :defer-incrementally t)
 (use-package! system-install :defer-incrementally t)
 (use-package! ucf-mode       :defer-incrementally t)
