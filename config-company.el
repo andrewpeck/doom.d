@@ -42,6 +42,16 @@
     (set-company-backend! 'org-mode nil)
     (set-company-backend! 'org-mode '(company-capf company-files company-yasnippet company-dabbrev)))
 
+  (after! tcl-mode
+
+    (defun my-tcl-mode-hook ()
+      (setq-local company-backends
+                  '((company-keywords  company-yasnippet company-files))))
+    (add-hook 'tcl-mode-hook #'my-tcl-mode-hook)
+
+    (set-company-backend! 'tcl-mode
+      '(:separate company-capf company-keywords company-dabbrev-code company-yasnippet)))
+
   (after! vhdl-mode
     (set-company-backend! 'vhdl-mode nil)
     (set-company-backend! 'vhdl-mode
