@@ -35,13 +35,13 @@
 ;; https://github.com/hlissner/doom-emacs/issues/1213
 
 ;; start:sort
-(use-package! doctor         :defer 10.0 :load-path "~/.doom.d/lisp/doctor/doctor.el")
-(use-package! hog            :defer 10.0 :load-path "~/.doom.d/lisp/hog-emacs/hog.el")
-(use-package! regulator      :defer 10.0 :load-path "~/.doom.d/lisp/regulator.el")
-(use-package! system-install :defer 10.0 :load-path "~/.doom.d/lisp/system-install/system-install.el")
-(use-package! tracking       :defer 10.0 :load-path "~/.doom.d/lisp/tracking.el")
-(use-package! ucf-mode       :defer 10.0 :load-path "~/.doom.d/lisp/ucf-mode.el")
-(use-package! vivado-mode    :defer 10.0 :load-path "~/.doom.d/lisp/vivado-mode.el")
+(use-package! doctor         :load-path "~/.doom.d/lisp/doctor/doctor.el")
+(use-package! hog            :load-path "~/.doom.d/lisp/hog-emacs/hog.el")
+(use-package! regulator      :load-path "~/.doom.d/lisp/regulator.el")
+(use-package! system-install :load-path "~/.doom.d/lisp/system-install/system-install.el")
+(use-package! tracking       :load-path "~/.doom.d/lisp/tracking.el")
+(use-package! ucf-mode       :load-path "~/.doom.d/lisp/ucf-mode.el")
+(use-package! vivado-mode    :load-path "~/.doom.d/lisp/vivado-mode.el")
 ;; end:sort
 
 ;; start:sort
