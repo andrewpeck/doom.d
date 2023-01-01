@@ -10,8 +10,6 @@
 ;; (remove-hook '+popup-buffer-mode-hook #'+popup-set-modeline-on-enable-h)
 ;; Make sure evil is on in popups
 (add-hook '+popup-buffer-mode-hook #'turn-on-evil-mode)
-;; Make popups read only while we're at it...
-(add-hook '+popup-buffer-mode-hook #'read-only-mode)
 
 ;; (set-popup-rules!
 ;;  '(("^ \\*" :slot -1) ; fallback rule for special buffers
