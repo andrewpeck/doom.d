@@ -1,5 +1,27 @@
 ;;; ../.dotfiles/doom.d/config-random.el -*- lexical-binding: t; -*-
 
+(add-hook! debugger-mode-hook #'turn-on-evil-mode)
+
+;;------------------------------------------------------------------------------
+;; Popups
+;;------------------------------------------------------------------------------
+
+;; Completely disable management of the mode-line in popups:
+;; (remove-hook '+popup-buffer-mode-hook #'+popup-set-modeline-on-enable-h)
+;; Make sure evil is on in popups
+(add-hook '+popup-buffer-mode-hook #'turn-on-evil-mode)
+;; Make popups read only while we're at it...
+(add-hook '+popup-buffer-mode-hook #'read-only-mode)
+
+;; (set-popup-rules!
+;;  '(("^ \\*" :slot -1) ; fallback rule for special buffers
+;;    ("^\\*" :select t)
+;;    ("^\\*Completions" :slot -1 :ttl 0)
+;;    ("^\\*\\(?:scratch\\|Messages\\)" :ttl t)
+;;    ("^\\*Help" :slot -1 :size 0.2 :select t)
+;;    ("^\\*doom:"
+;;     :size 0.35 :select t :modeline t :quit t :ttl t)))
+
 ;;------------------------------------------------------------------------------
 ;; Emojify
 ;;------------------------------------------------------------------------------
