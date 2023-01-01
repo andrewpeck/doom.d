@@ -3,6 +3,24 @@
 (after! flycheck
 
   ;;------------------------------------------------------------------------------
+  ;; Tcl Nagelfar
+  ;; modified from the original to add filters and change options
+  ;;------------------------------------------------------------------------------
+
+  (flycheck-define-checker tcl-nagelfar
+    "An extensible tcl syntax checker
+
+See URL `http://nagelfar.sourceforge.net/'."
+    :command ("nagelfar" "-Wunusedvar" "-filter" "*Unknown command*" "-H" source)
+    :error-patterns
+    ;; foo.tcl: 29: E Wrong number of arguments (4) to "set"
+    ;; foo.tcl: 29: W Expr without braces
+    ((info    line-start (file-name) ": " line ": N " (message) line-end)
+     (warning line-start (file-name) ": " line ": W " (message) line-end)
+     (error   line-start (file-name) ": " line ": E " (message) line-end))
+    :modes tcl-mode)
+
+  ;;------------------------------------------------------------------------------
   ;; Prose lint
   ;; https://unconj.ca/blog/linting-prose-in-emacs.html
   ;;------------------------------------------------------------------------------
