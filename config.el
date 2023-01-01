@@ -23,25 +23,19 @@
 ;; Loads
 ;;------------------------------------------------------------------------------
 
-(let ((default-directory (expand-file-name "lisp" doom-user-dir)))
+(let ((default-directory (expand-file-name "packages" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
-(add-to-list 'load-path (expand-file-name "~/.doom.d/"))
 (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/"))
-(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/doctor/"))
-(add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/hdl_deps/"))
 
-;; (add-to-list 'load-path (expand-file-name "~/.doom.d/scad-preview/"))
 ;; https://github.com/hlissner/doom-emacs/issues/1213
-
 ;; start:sort
-(use-package! doctor         :load-path "~/.doom.d/lisp/doctor/doctor.el")
-(use-package! hog            :load-path "~/.doom.d/lisp/hog-emacs/hog.el")
-(use-package! regulator      :load-path "~/.doom.d/lisp/regulator.el")
-(use-package! system-install :load-path "~/.doom.d/lisp/system-install/system-install.el")
-(use-package! tracking       :load-path "~/.doom.d/lisp/tracking.el")
-(use-package! ucf-mode       :load-path "~/.doom.d/lisp/ucf-mode.el")
-(use-package! vivado-mode    :load-path "~/.doom.d/lisp/vivado-mode.el")
+(use-package! doctor         :defer-incrementally t)
+(use-package! gpt-macro      :defer-incrementally t)
+(use-package! hog            :defer-incrementally t)
+(use-package! system-install :defer-incrementally t)
+(use-package! ucf-mode       :defer-incrementally t)
+(use-package! vivado-mode    :defer-incrementally t)
 ;; end:sort
 
 ;; start:sort
@@ -60,15 +54,13 @@
 (load! "~/.doom.d/config-random.el")
 (load! "~/.doom.d/config-scad.el")
 (load! "~/.doom.d/lisp/gerb-view.el")
-(load! "~/.doom.d/lisp/gpt-emacs-macro/gpt-macro.el")
-(load! "~/.doom.d/lisp/monochrome-solarized-theme.el")
+(load! "~/.doom.d/lisp/regulator.el")
+(load! "~/.doom.d/lisp/tracking.el")
 (load! "~/.doom.d/lisp/work-plotting.el")
 (load! "~/.doom.d/passwords.el")
 ;; (load! "~/.doom.d/config-tex.el")
 ;; end:sort
 
-;; (load! "~/.doom.d/lisp/monochrome-theme.el")
-;; (load! "~/.doom.d/lisp/regulator.el")
 ;; (load! "~/.doom.d/lisp/scimax-org-return.el")
 ;; (load! "~/.doom.d/lisp/verilog-port-copy.el")
 

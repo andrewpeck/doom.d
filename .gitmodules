@@ -1,12 +1,12 @@
 [submodule "lisp/hog-emacs"]
-	path = lisp/hog-emacs
+	path = packages/hog-emacs
 	url = https://github.com/andrewpeck/hog-emacs
 [submodule "lisp/hdl_deps"]
-	path = lisp/hdl_deps
+	path = packages/hdl-deps
 	url = https://github.com/andrewpeck/hdl_deps
 [submodule "lisp/tabular"]
-	path = lisp/tabular
+	path = packages/tabular
 	url = ./lisp/tabular/
 [submodule "lisp/system-install.el"]
-	path = lisp/system-install
+	path = packages/system-install
 	url = https://github.com/andrewpeck/system-install.el
