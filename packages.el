@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t; no-byte-compile: t;-*-
 
+;; packages to disable
+(package! hl-line :disable t)
+
 ;; -- keep the stuff below sorted alphabetically
 ;; start:sort
 (package! affe)
@@ -14,14 +17,11 @@
 (package! emojify)
 (package! evil-leader)
 (package! evil-matchit)
-(package! flycheck-clang-tidy)
 (package! fzf :recipe (:host github :repo "bling/fzf.el"))
 (package! graphviz-dot-mode)
-(package! hl-line :disable t)
 (package! logview)
 (package! lorem-ipsum)
 (package! magit-todos)
-(package! minibuffer-line)
 (package! org-download :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-mode :pin "bd46813") ; https://github.com/doomemacs/doomemacs/issues/6478
 (package! org-protocol-capture-html :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
@@ -42,17 +42,11 @@
 (package! xr)                           ; xr is rx in reverse
 (package! yaml-mode)
 (package! zenburn-emacs :recipe (:host github :repo "bbatsov/zenburn-emacs"))
-;; (package! all-the-icons-ivy)
-;; (package! doom-todo-ivy :recipe (:host github :repo "jsmestad/doom-todo-ivy"))
-;; (package! ewp :recipe (:host github :repo "larsmagne/ewp"))
-;; (package! flymake-json)
-;; (package! irony)
-;; (package! mermaid-mode :recipe (:host github :repo "abrochard/mermaid-mode"))
-;; (package! mixed-pitch)
-;; (package! ob-mermaid :recipe (:host github :repo "arnm/ob-mermaid"))
 ;; end:sort
 
 ;; start:sort -- keep the stuff below sorted alphabetically
+;; (package! minibuffer-line)
+;;(package! all-the-icons-ivy)
 ;;(package! ample-regexps)
 ;;(package! auctex)
 ;;(package! base16-theme)
@@ -66,6 +60,7 @@
 ;;(package! company-jedi)
 ;;(package! company-tabnine)
 ;;(package! counsel-etags)
+;;(package! doom-todo-ivy :recipe (:host github :repo "jsmestad/doom-todo-ivy"))
 ;;(package! dumb-jump)
 ;;(package! eaf :recipe (:host github :repo "manateelazycat/emacs-application-framework"))
 ;;(package! elfeed)
@@ -74,19 +69,26 @@
 ;;(package! esup)
 ;;(package! etags-table)
 ;;(package! evil-anzu)
+;;(package! ewp :recipe (:host github :repo "larsmagne/ewp"))
 ;;(package! fira-code-mode)
+;;(package! flycheck-clang-tidy)
 ;;(package! flycheck-projectile :pin "ce6e9e8" :recipe (:host github :repo "nbfalcon/flycheck-projectile"))
+;;(package! flymake-json)
 ;;(package! fzf :recipe (:host github :repo "seenaburns/fzf.el"))
 ;;(package! good-scroll :recipe (:host github :repo "io12/good-scroll.el"))
 ;;(package! hl-line :disable t)
 ;;(package! htmlize :recipe (:host github :repo "hniksic/emacs-htmlize"))
 ;;(package! infix.el :recipe (:host github :repo "rspeele/infix.el"))
+;;(package! irony)
 ;;(package! leuven-theme)
 ;;(package! lsp-mode :recipe (:host github :repo "emacs-lsp/lsp-mode"))
 ;;(package! lsp-pyright)
+;;(package! mermaid-mode :recipe (:host github :repo "abrochard/mermaid-mode"))
+;;(package! mixed-pitch)
 ;;(package! mmm-mode)
 ;;(package! nano-modeline)
 ;;(package! nano-theme)
+;;(package! ob-mermaid :recipe (:host github :repo "arnm/ob-mermaid"))
 ;;(package! olivetti)
 ;;(package! org-attach-screenshot)
 ;;(package! org-bullets)
