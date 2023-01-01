@@ -115,12 +115,13 @@ This command does not push text to `kill-ring'."
                 (if dired-directory dired-directory (expand-file-name "%b"))))))
 
 ;; Start emacs in full screen by default
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist
+             '(fullscreen . maximized))
 
 ;; Fill column width
 (setq-default fill-column 80)
 
-;; Turn on menu bar
+;; Turn off menu bar
 (menu-bar-mode 0)
 
 ;; Increase the amount of data which Emacs reads from the process.
