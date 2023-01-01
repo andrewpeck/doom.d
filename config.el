@@ -15,6 +15,9 @@
 
 (load! "~/.doom.d/custom.el")
 
+(advice-remove '+undo--append-zst-extension-to-file-name-a
+               'undo-tree-make-history-save-file-name)
+
 ;;------------------------------------------------------------------------------
 ;; to file
 ;;------------------------------------------------------------------------------
