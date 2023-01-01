@@ -108,10 +108,13 @@ This command does not push text to `kill-ring'."
    (format "%s.html" (file-name-base buffer-file-name))
    "ohm:~/public_html/notes/"))
 
-;; WINDOW TITLE :: https://www.emacswiki.org/emacs/FrameTitle
+;; Window Title
+;; https://www.emacswiki.org/emacs/FrameTitle
 (setq frame-title-format
-      `((buffer-file-name "%f" "%b")
-        ,(format " - emacs %s" emacs-version)))
+      '(:eval (concat
+               (if (buffer-modified-p) "• " "")
+               (abbreviate-file-name
+                (if dired-directory dired-directory (expand-file-name "%b"))))))
 
 ;; Start emacs in full screen by default
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
