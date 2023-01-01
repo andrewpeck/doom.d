@@ -63,7 +63,7 @@ nil."
                   " ·"
                   (vc-mode vc-mode)
                   " · "
-                  ,(format "%s" (car mode-name))
+                  ,(format "%s" (if (listp mode-name) (car mode-name) mode-name))
                   " · "
                   flycheck-mode-line
                   " ")))))
