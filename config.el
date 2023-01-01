@@ -28,6 +28,9 @@
 
 (add-to-list 'load-path (expand-file-name "~/.doom.d/lisp/"))
 
+(setq doom-incremental-idle-timer 0.1)
+(setq doom-incremental-first-idle-timer 0.1)
+
 ;; https://github.com/hlissner/doom-emacs/issues/1213
 ;; start:sort
 (use-package! doctor         :defer-incrementally t)
