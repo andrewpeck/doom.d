@@ -5,10 +5,12 @@
 
 (after! org
 
+
   (org-crypt-use-before-save-magic)
 
   (setq org-tags-exclude-from-inheritance '("crypt")
         org-crypt-key nil
+        org-ditaa-jar-path "~/.doom.d/ditaa.jar"
         org-crypt-disable-auto-save t
         org-export-in-background nil
         org-confirm-babel-evaluate nil
@@ -360,7 +362,63 @@ and shortens it into an org mode link consisting of just `some file`"
            (path (org-element-property :path link)))
       (move-file-to-trash path)
       (delete-region (org-element-property :begin link)
-                     (org-element-property :end link))))) ;; after! evil
+                     (org-element-property :end link))))
+
+  (defun ap/inline-org-inbox-link ()
+    (interactive)
+    (save-excursion
+      (let ((link nil)
+            (description nil))
+
+        (progn
+          (progn
+            (forward-line)
+            (end-of-line)
+            (push-mark (point) t t)
+            (move-beginning-of-line 1)
+            (setq link (buffer-substring-no-properties (region-beginning) (region-end)))
+            (setq link (replace-regexp-in-string "^- " "" link))
+            (forward-line -1)))
+
+        (progn
+          (end-of-line)
+          (push-mark (point) t t)
+          (re-search-backward "^\*+ ")
+          (re-search-forward " ")
+          (setq description (buffer-substring-no-properties (region-beginning) (region-end))))
+
+        (org-insert-link nil link description)
+
+        (replace-regexp-in-region "^\*+" "-" (line-beginning-position) (line-end-position))
+
+        (forward-line)
+        (beginning-of-line)
+        (kill-line)
+        (kill-line))))
+
+  (defun ap/url->org ()
+    "Convert the URL at point into an Org mode formatted link. The
+  title of the page is retrieved from the web page"
+    (interactive)
+    (let* ((link (thing-at-point 'url))
+           (bounds (bounds-of-thing-at-point 'url))
+           (start (car bounds))
+           (end   (cdr bounds))
+           (description
+            (if (org-url-p link)
+                (www-get-page-title link) link)))
+      (when (and link description start end)
+        (delete-region start end)
+        (org-insert-link nil link description))))
+
+  (defun ap/url->md ()
+    "Convert the URL at point into an md mode formatted link. The
+  title of the page is retrieved from the web page"
+    (interactive)
+    (ap/url->org)
+    (org-link->markdown))
+
+  )
 
 (after! org-download
 

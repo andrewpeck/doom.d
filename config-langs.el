@@ -38,6 +38,27 @@
   (progn (make-variable-buffer-local tab-width)
          (setq tab-width 4)))
 
+;; remember ielm history
+;; global copy of the buffer-local variable
+(after! ielm
+  (defvar ielm-comint-input-ring nil)
+
+  (defun set-ielm-comint-input-ring ()
+    ;; create a buffer-local binding of kill-buffer-hook
+    (make-local-variable 'kill-buffer-hook)
+    ;; save the value of comint-input-ring when this buffer is killed
+    (add-hook 'kill-buffer-hook #'save-ielm-comint-input-ring)
+    ;; restore saved value (if available)
+    (when ielm-comint-input-ring
+      (message "Restoring comint-input-ring...")
+      (setq comint-input-ring ielm-comint-input-ring)))
+
+  (defun save-ielm-comint-input-ring ()
+    (message "Saving comint-input-ring...")
+    (setq ielm-comint-input-ring comint-input-ring))
+
+  (add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring))
+
 ;;------------------------------------------------------------------------------
 ;; VHDL
 ;;------------------------------------------------------------------------------
@@ -72,3 +93,118 @@
   (let ((sig (buffer-substring-no-properties (mark) (point))))
     (delete-region (mark) (point))
     (insert (format  "to_integer(unsigned(%s))" sig))))
+
+;;--------------------------------------------------------------------------------
+;; Verilog
+;;--------------------------------------------------------------------------------
+
+(setq
+ verilog-align-ifelse t
+ verilog-auto-delete-trailing-whitespace t
+ verilog-auto-inst-param-value t
+ verilog-auto-inst-vector nil
+ verilog-auto-lineup (quote all)
+ verilog-auto-newline nil
+ verilog-auto-save-policy nil
+ verilog-auto-template-warn-unused t
+ verilog-case-indent 3
+ verilog-cexp-indent 3
+ verilog-highlight-grouping-keywords t
+ verilog-highlight-modules t
+ verilog-indent-level 3
+ verilog-indent-level-behavioral 3
+ verilog-indent-level-declaration 3
+ verilog-indent-level-module 3
+ verilog-tab-to-comment t)
+
+;;------------------------------------------------------------------------------
+;; Tcl
+;;------------------------------------------------------------------------------
+
+;; make $ not part of a symbol in tcl-mode
+(after! tcl
+  (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
+
+;;------------------------------------------------------------------------------
+;; Common Lisp
+;;------------------------------------------------------------------------------
+
+(after! slime
+  (setq inferior-lisp-program "sbcl")
+  (setq org-babel-lisp-eval-fn 'slime-eval))
+
+;;------------------------------------------------------------------------------
+;; Clojure
+;;------------------------------------------------------------------------------
+
+(setq org-babel-clojure-backend "cider")
+
+;;-----------------------------------------------------------------------------------------
+;; Markdown
+;;------------------------------------------------------------------------------
+
+;; Make Mode GFM by default
+;; (after! gfm
+;;   (setq initial-major-mode 'gfm-mode))
+
+;;-----------------------------------------------------------------------------------------
+;; C mode
+;;-----------------------------------------------------------------------------------------
+
+;; For example, if you prefer double slashes // instead of slash-stars /* ... */
+;; in c-mode, insert below code into your ~/.emacs:
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            ;; Preferred comment style
+            (setq comment-start "// " comment-end "")))
+;;------------------------------------------------------------------------------
+;; SCAD
+;;------------------------------------------------------------------------------
+
+(add-hook 'scad-mode-hook
+          (lambda ()
+            (add-hook 'write-contents-functions
+                      #'re-indent-buffer nil t)))
+
+;;------------------------------------------------------------------------------
+;; Emacs
+;;------------------------------------------------------------------------------
+
+;; (add-hook 'emacs-lisp-mode-hook
+;;           (lambda ()
+;;             (add-hook 'write-contents-functions
+;;                       #'re-indent-buffer nil t)))
+
+;;-----------------------------------------------------------------------------------------
+;; XML
+;;------------------------------------------------------------------------------
+
+(after! nxml
+  (add-hook
+   'nxml-mode-hook
+   (setq nxml-child-indent 2 nxml-attribute-indent 2)))
+
+;; (add-hook 'nxml-mode-hook (lambda () (visual-fill-column-mode -1)))
+;; (defun nxml-pretty-format ()
+;;   (interactive)
+;;   (save-excursion
+;;     (shell-command-on-region (point-min) (point-max)
+;;     "xmllint --format -" (buffer-name) t)
+;;     (nxml-mode)
+;;     (indent-region begin end)))
+
+;;------------------------------------------------------------------------------
+;; Python
+;;------------------------------------------------------------------------------
+
+(setq python-shell--interpreter  "python3")
+
+;;------------------------------------------------------------------------------
+;; VHDL Mode
+;;------------------------------------------------------------------------------
+
+;; vhdl mode will wrap comments after some # of characters
+(after! vhdl
+  (setq vhdl-end-comment-column 200
+        vhdl-prompt-for-comments nil
+        auto-fill-mode nil))

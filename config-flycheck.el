@@ -2,6 +2,9 @@
 
 (after! flycheck
 
+  (setq  flycheck-check-syntax-automatically
+         '(save idle-buffer-switch mode-enabled))
+
   ;;------------------------------------------------------------------------------
   ;; Tcl Nagelfar
   ;; modified from the original to add filters and change options
