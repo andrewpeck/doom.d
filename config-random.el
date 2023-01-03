@@ -96,6 +96,18 @@
 (after! undo-fu
   (setq undo-fu-ignore-keyboard-quit t))
 
+;; persistent undo
+(after! undo
+  (setq undo-tree-auto-save-history t))
+
+(after! undo-tree
+  (setq undo-tree-history-directory-alist '(("." . "~/.doom.d/undo"))))
+
+;; https://github.com/doomemacs/doomemacs/issues/902
+;; ~/.emacs.d/.local/cache/undo-tree-hist
+;; (advice-remove '+undo--append-zst-extension-to-file-name-a
+;;                'undo-tree-make-history-save-file-name)
+
 (after! +popup
   ;; Completely disable management of the mode-line in popups:
   ;; (remove-hook '+popup-buffer-mode-hook #'+popup-set-modeline-on-enable-h)
@@ -143,13 +155,6 @@
 (after! dired-aux
   (setq dired-compress-file-default-suffix ".zst")
   (setq dired-compress-directory-default-suffix ".tar.zst"))
-
-;; persistent undo
-(after! undo
-  (setq undo-tree-auto-save-history t))
-
-(after! undo-tree
-  (setq undo-tree-history-directory-alist '(("." . "~/.doom.d/undo"))))
 
 ;; save macros and other registers peristently
 (after! savehist

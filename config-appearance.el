@@ -16,9 +16,6 @@
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
   (all-the-icons-ibuffer-mode 1))
 
-(after! ivy
-  (all-the-icons-ivy-setup))
-
 ;; Theme
 (add-to-list 'load-path "~/.doom.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
@@ -33,7 +30,6 @@
 ;;------------------------------------------------------------------------------
 ;;; FONT
 ;;------------------------------------------------------------------------------
-
 
 (defun font-exists-p (font)
   "Check if FONT exists"
