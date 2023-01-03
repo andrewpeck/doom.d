@@ -141,10 +141,90 @@ SORT to non-nill will sort the list. "
 
       data-filtered))
 
+  (defun week-number (month day year)
+    (require 'calendar)
+    (require 'cal-iso)
+    (car
+     (calendar-iso-from-absolute
+      (calendar-absolute-from-gregorian
+       (list month day year)))))
+
+  (defun iso-week-to-time (year week day)
+    (pcase-let ((`(,m ,d ,y)
+                 (calendar-gregorian-from-absolute
+                  (calendar-iso-to-absolute (list week day year)))))
+      (encode-time 0 0 0 d m y)))
+
+  (defun plot-weekly-work-goals (data)
+    ""
+
+    (let ((sums (make-hash-table :test 'equal))
+          (keys '()))
+
+      (dolist (datum data)
+
+        (let* ((timesheet (nth 0 datum))
+               (year (nth 1 datum))
+               (month (nth 2 datum)))
+
+          (dolist (row timesheet 't)
+            (let* ((day (nth 1 row))
+                   (prj (nth 3 row))
+                   (hours (nth 6 row))
+                   (week (if (numberp day) (week-number month day year) -1)))
+
+              (when (and (numberp day)
+                         (numberp hours)
+                         (not (equal prj "--"))
+                         (> hours 0))
+                ;; (princ (format "%04d-%02d-%02d\n" year month day))
+                (let ((key (format "%04d-%02d" year week)))
+                  (puthash key (+ hours (gethash key sums 0)) sums)
+                  (add-to-list 'keys key)))))))
+
+      (dolist (key (reverse keys))
+        (let* ((sum (gethash key sums 0))
+               (year (string-to-number (nth 0 (split-string key "-"))))
+               (week (string-to-number (nth 1 (split-string key "-"))))
+               (goal (if (and (>= year 2022) (>= week 48)) 24 40))
+               (percentage (* 100 (/ sum goal)))
+               (indicator-count-total 20)
+               (indicator-count (round (* indicator-count-total (/ percentage 100.0))))
+               ;; (indicator-count 4)
+               (indicator (make-string indicator-count ?+))
+               (pad-count (- indicator-count-total indicator-count 1))
+               (pad (if (< pad-count 0) ""
+                      (concat  (make-string pad-count ? ) "|")))
+               (time (iso-week-to-time year week 1))
+               (month (string-to-number (format-time-string "%m" time))))
+          (princ (format "Week %04d-%02d-%02d: %5.1f%% (%2d hours) %s%s\n" year month week percentage sum indicator pad))))))
+
+  (defun plot-weekly-work-goals-for-date-range (start-year start-month end-year end-month)
+    (let* ((year start-year)
+           (month start-month)
+           (timesheets nil))
+
+      (while (and (<= month end-month)
+                  (<= year end-year))
+        ;; (print year)
+        ;; (print month)
+        (push (list
+               (cl-remove-if
+                (lambda (x) (equal x 'hline))
+                (cdr (org-babel-ref-resolve
+                      (format "%04d-%02d" year month)))) year month)
+              timesheets)
+
+        (if (= month 12)
+            (setq month 1
+                  year (+ 1 year))
+          (setq month (+ 1 month))))
+
+      (plot-weekly-work-goals (reverse timesheets))))
+
   (defun plot-monthly-work-chart (data)
     ""
-    (plot-chart
-     (filter-work-chart data) "Project" "Hours" 50 t) )
+    (plot-chart (filter-work-chart data) "Project" "Hours" 50 t) )
 
   (defun date-range-to-year-month-list (start-year start-month end-year end-month)
     ""
@@ -190,7 +270,7 @@ SORT to non-nill will sort the list. "
         (setq start-month 01))
 
       (when (and (not end-year) (not end-month))
-        (setq end-year (nth 5 (decode-time (current-time))))   ;; current year
+        (setq end-year (nth 5 (decode-time (current-time)))) ;; current year
         (setq end-month (nth 4 (decode-time (current-time))))) ;; current month
 
       ;; (princ "---------------------------------------------------------------------------\n")
