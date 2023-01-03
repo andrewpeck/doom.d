@@ -15,12 +15,10 @@
 
 (load! "~/.doom.d/custom.el")
 
-(advice-remove '+undo--append-zst-extension-to-file-name-a
-               'undo-tree-make-history-save-file-name)
-
 ;;------------------------------------------------------------------------------
 ;; to file
 ;;------------------------------------------------------------------------------
+
 
 ;;------------------------------------------------------------------------------
 ;; Loads
@@ -45,7 +43,6 @@
 ;; end:sort
 
 ;; start:sort
-(if (string= (system-name) "larry") (load! "~/.doom.d/config-mail.el"))
 (load! "~/.doom.d/config-align.el")
 (load! "~/.doom.d/config-appearance.el")
 (load! "~/.doom.d/config-company.el")
@@ -65,6 +62,7 @@
 (load! "~/.doom.d/lisp/tracking.el")
 (load! "~/.doom.d/lisp/work-plotting.el")
 (load! "~/.doom.d/passwords.el")
+(when (string= (system-name) "larry") (load! "~/.doom.d/config-mail.el"))
 ;; (load! "~/.doom.d/config-tex.el")
 ;; end:sort
 
