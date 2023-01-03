@@ -10,34 +10,35 @@
                                 (shell-command-to-string "pwd")))))
   (error "Not in the emacs backup dir!"))
 
-(let* ((match-re (rx (seq (submatch (* nonl))
-                          "-"
-                          (submatch
-                           (= 4 digit) "_" ; year
-                           (= 2 digit) "_" ; month
-                           (= 2 digit)) "_" ; day
-                          (= 2 digit) "_" ; hours
-                          (= 2 digit) "_" ; min
-                          (= 2 digit)))) ; sec
+(defvar match-re
+  (rx (seq (submatch (* nonl))
+           "-"
+           (submatch
+            (= 4 digit) "_"  ; year
+            (= 2 digit) "_"  ; month
+            (= 2 digit)) "_" ; day
 
-       (all-files (seq-filter
-                   (lambda (x)
-                     (string-match-p match-re x))
-                   (split-string
-                    (shell-command-to-string "find . -type f") "\n")))
+           (= 2 digit) "_"   ; hours
+           (= 2 digit) "_"   ; min
+           (= 2 digit)))) ; sec
 
-       (file-names-sans-seconds (delete-dups
-                                 (mapcar (lambda (x) ()
-                                           (string-match match-re x)
-                                           (concat
-                                            (match-string 1 x)
-                                            "-"
-                                            (match-string 2 x))) all-files))))
+(defun get-all-files ()
+  (seq-filter
+   (lambda (x) (string-match-p match-re x))
+   (split-string (shell-command-to-string "find . -type f") "\n")))
 
-  (let ((size 0)
-        (cnt 0))
-    (dolist (file file-names-sans-seconds)
-      ;; (princ (format "%s\n" file))
+(defun strip-file-timestamps (files)
+  (delete-dups
+   (mapcar (lambda (x) ()
+             (string-match match-re x)
+             (concat (match-string 1 x) "-"
+                     (match-string 2 x))) files)))
+
+(defun delete-old-files-by-day ()
+  (let* ((files (strip-file-timestamps (get-all-files)))
+         (size 0)
+         (cnt 0))
+    (dolist (file files)
       (let* ((path (file-name-directory file))
              (matches (split-string
                        (shell-command-to-string
@@ -52,3 +53,5 @@
           (delete-file match))))
     (princ (format "Total removed: %s (%d files)\n"
                    (file-size-human-readable size) cnt))))
+
+(delete-old-files-by-day)
