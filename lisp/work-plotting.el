@@ -57,7 +57,9 @@ SORT to non-nill will sort the list. "
       (dolist (row data 't)
         (let ((key (nth 0 row))
               (val (nth 1 row)))
-          (when (and (> val 0) (numberp val))
+          (when (and (not (equal key "--"))
+                     (> val 0)
+                     (numberp val))
             (puthash key (+ val (gethash key ht 0)) ht))))
 
       (maphash (lambda (key value)
@@ -81,7 +83,6 @@ SORT to non-nill will sort the list. "
       ;; Get the number of decimal digits needed, if not specified
 
       ;;
-
       (if (< max-val normalize) (setq normalize max-val))
 
       (princ (format "%5s   %4s    %s%s\n" valword "%Tot"
@@ -93,13 +94,14 @@ SORT to non-nill will sort the list. "
                (count (cadr item))
                (count-normal (if normalize (* normalize (/ count max-val)) count))
                (percent (* 100 (/ count sum))))
-          (when (not (equal key "--"))
-            (princ (format "%7.2f   %2d%%     %s%s %s\n"
-                           count                                        ; count
-                           percent                                      ; percent
-                           (make-string (- max-length (length key)) ? ) ; white paddng
-                           key                                          ; key
-                           (make-string (round count-normal) ?+))))))   ; +++++
+
+
+          (princ (format "%7.2f   %2d%%     %s%s %s\n"
+                         count                                        ; count
+                         percent                                      ; percent
+                         (make-string (- max-length (length key)) ? ) ; white paddng
+                         key                                          ; key
+                         (make-string (round count-normal) ?+)))))   ; +++++
       (princ (format "%s\n" (make-string 32 ?-)))
       (princ (format "%6.2f\n" sum))))
 
