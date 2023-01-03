@@ -19,26 +19,20 @@
                           (= 2 digit) "_" ; hours
                           (= 2 digit) "_" ; min
                           (= 2 digit)))) ; sec
-       (all-files
-        (seq-filter
-         (lambda (x)
-           (string-match-p match-re x))
-         (split-string
-          (shell-command-to-string "find . -type f") "\n")))
 
-       (file-names-sans-seconds
-        (delete-dups
-         (mapcar (lambda (x) ()
-                   (string-match match-re x)
-                   (concat
-                    (match-string 1 x)
-                    "-"
-                    (match-string 2 x))) all-files))))
+       (all-files (seq-filter
+                   (lambda (x)
+                     (string-match-p match-re x))
+                   (split-string
+                    (shell-command-to-string "find . -type f") "\n")))
 
-(defun bytes-to-megabytes (bytes)
-  "Converts the given BYTES to megabytes and prints the result."
-  (let ((megabytes (/ bytes 1048576.0)))
-    (message "%.2f megabytes" megabytes)))
+       (file-names-sans-seconds (delete-dups
+                                 (mapcar (lambda (x) ()
+                                           (string-match match-re x)
+                                           (concat
+                                            (match-string 1 x)
+                                            "-"
+                                            (match-string 2 x))) all-files))))
 
   (let ((size 0)
         (cnt 0))
