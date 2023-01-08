@@ -1,7 +1,6 @@
-;;; ../.dotfiles/doom.d/lisp/doctor.el -*- lexical-binding: t; -*-
-;;;
+;;; -*- lexical-binding: t; -*-
 
-(require 'cl)
+(require 'cl-lib)
 
 (cl-defun check-for-exe (exe &key url noroot cmd ubuntu dnf pacman)
   (if  (executable-find exe)
@@ -76,19 +75,19 @@
        (shell-command-nil "chmod 600 ~/.ssh/id_rsa > /dev/null 2>&1")
        (shell-command-nil "chmod 600 ~/.ssh/authorized_keys > /dev/null 2>&1")))
 
-(defun my-doctor ()
+(defun setup-system ()
   "Keep a list of useful programs and other things, make sure
 they are installed and the computer is set up ok"
   (interactive)
 
-  (let ((buffer "*doctor*"))
+  (let ((buffer "*Setup System*"))
     (with-output-to-temp-buffer buffer
       (with-current-buffer buffer
 
         (read-only-mode -1)
         (org-mode)
 
-        (princ "* Doctor\n")
+        (princ "* Setup System\n")
         (princ "** Checking for required programs\n")
         ;; external programs wanted by my emacs
         (check-for-exe "terminator" :ubuntu "terminator")
@@ -104,6 +103,10 @@ they are installed and the computer is set up ok"
         (check-for-exe "isort" :cmd "pip install isort" :noroot t)
         (check-for-exe "pytest" :cmd "pip install pytest" :noroot t)
         (check-for-exe "wordcloud_cli" :cmd "pip install wordcloud" :noroot t)
+
+        ;; clojure
+        (check-for-exe "clj-kondo" :noroot t :cmd "cd /tmp && curl -sLO https://raw.githubusercontent.com/clj-kondo/clj-kondo/master/script/install-clj-kondo && chmod +x install-clj-kondo && ./install-clj-kondo --dir ~/.local/bin")
+        (check-for-exe "clojure-lsp" :cmd "sudo bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)")
 
         ;; sbcl
         (check-for-exe "sbcl" :ubuntu "sbcl" :dnf "sbcl")
@@ -284,4 +287,4 @@ they are installed and the computer is set up ok"
 
         ))))
 
-(provide 'doctor)
+(provide 'setup-system)
