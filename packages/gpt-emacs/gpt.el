@@ -70,29 +70,35 @@ response is parsed to extract the resulting text and the usage
 cost in tokens. The resulting text is then inserted into the
 buffer, and the usage cost is displayed in a message."
   (interactive)
-  (let* ((beg (region-beginning))
-         (end (region-end))
-         (selection
-          (if (region-active-p)
-              (buffer-substring-no-properties  beg end) ""))
-         (prompt (read-string "Command: ")))
+  (let ((selection ""))
+    (when (region-active-p)
+      (setq selection (buffer-substring-no-properties
+                       (region-beginning)
+                       (region-end))))
+    (let ((prompt (read-string "Command: ")))
 
-    ;; if we have a selection but not a prompt just switch them
-    (when (and selection (string-empty-p prompt))
-      (setq prompt selection))
+      ;; if we have a selection but not a prompt just switch them
+      (when (and selection (string-empty-p prompt))
+        (setq prompt selection))
 
-    (when (not (string-empty-p prompt))
-      (let* ((prompt-text (format "%s .\\n\\n%s" prompt selection))
-             (rx-json (gpt-api-call prompt-text))
-             (text (string-trim (cdaadr (assoc 'choices rx-json))))
-             (usage (cdr (assoc 'total_tokens (assoc 'usage rx-json)))))
+      (when (not (string-empty-p prompt))
+        (let* ((prompt-text (format "%s .\\n\\n%s" prompt selection))
+               (rx-json (gpt-api-call prompt-text))
+               (text (string-trim (cdaadr (assoc 'choices rx-json))))
+               (usage (cdr (assoc 'total_tokens (assoc 'usage rx-json)))))
 
-        (print selection)
-        (end-of-line)
-        (open-line 1)
-        (insert text)
-        (message (format "Usage: %d tokens (%f cents)" usage
-                         (* usage gpt-cost-per-token)))))))
+          (print selection)
+          (progn
+            (when (region-active-p)
+              (deactivate-mark)
+              (forward-line -1))
+
+            (end-of-line)
+            (insert "\n"))
+          (insert text)
+          (beginning-of-line)
+          (message (format "Usage: %d tokens (%f cents)" usage
+                           (* usage gpt-cost-per-token))))))))
 
 (provide 'gpt)
 ;;; gpt.el ends here
