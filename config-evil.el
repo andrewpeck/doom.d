@@ -183,7 +183,8 @@
         (re-search-backward "TBLFM")
         (org-reveal)
         (forward-line -1)
-        (forward-line -1))))
+        (forward-line -1)
+        (recenter-top-bottom))))
 
   ;; Ctrl + Alt + equal to re-indent buffer
   (defun re-indent-buffer ()
