@@ -30,6 +30,7 @@
 (package! ox-gfm)
 (package! pdf-tools)
 (package! plz)
+(package! rainbow-mode)
 (package! scad-mode)
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
 (package! solarized-emacs :recipe (:host github :repo "bbatsov/solarized-emacs"))
