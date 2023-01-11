@@ -136,4 +136,5 @@
   '(font-lock-keyword-face :foreground "#7F9F7F")
   '(font-lock-constant-face :foreground "#7F9F7F")
   '(font-lock-variable-name-face :foreground "#8CD0D3" :weight normal)
+  '(flyspell-incorrect :underline (:style wave :color "#CC9393") )
   '(highlight-quoted-symbol :inherit font-lock-variable-name-face :slant italic))
