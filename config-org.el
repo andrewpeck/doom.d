@@ -5,6 +5,9 @@
 
 (after! org
 
+  (setq org-mode-hook nil)
+  (add-hook 'org-mode-hook #'evil-org-mode)
+  (add-hook 'org-mode-hook #'+org-enable-auto-reformat-tables-h)
 
   (org-crypt-use-before-save-magic)
 
