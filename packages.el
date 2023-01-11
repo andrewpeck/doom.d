@@ -25,7 +25,6 @@
 (package! lorem-ipsum)
 (package! magit-todos)
 (package! org-download :recipe (:host github :repo "abo-abo/org-download"))
-(package! org-mode :pin "bd46813") ; https://github.com/doomemacs/doomemacs/issues/6478
 (package! org-protocol-capture-html :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
 (package! org-web-tools)
 (package! ox-clip :recipe (:host github :repo "jkitchin/ox-clip"))
