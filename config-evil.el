@@ -80,6 +80,12 @@
   (evil-define-key 'motion python-mode-map
     (kbd "M-RET") #'python-shell-send-buffer)
 
+  (evil-define-key 'motion emacs-lisp-mode-map
+    (kbd "RET") #'eval-buffer)
+
+  (evil-define-key 'motion clojure-mode-map
+    (kbd "RET") #'cider-eval-buffer)
+
   (map! :leader
         :desc "Open Dired" "E" #'dired-jump)
 
