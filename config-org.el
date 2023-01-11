@@ -52,7 +52,7 @@
       (insert
        (concat
         ;; (s-lex-format)
-        (format "*** %s 2022\n" month)
+        (format "*** %s %s\n" month year)
         ":PROPERTIES:\n"
         ":VISIBILITY: showall\n"
         ":END:\n"
