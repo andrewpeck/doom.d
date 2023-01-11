@@ -183,31 +183,44 @@ SORT to non-nill will sort the list. "
                   (add-to-list 'keys key)))))))
 
       (dolist (key (reverse keys))
-        (let* ((sum (gethash key sums 0))
+        (let* ((annual-goal 1200)
+               (holidays 15)
+               (sickdays 15)
+               (vacdays 20)
+               (weekly-goal (/ (+ annual-goal
+                                  (* 8 sickdays)
+                                  (* 8 holidays)
+                                  (* 8 vacdays)) 52))
+               (sum (gethash key sums 0))
                (year (string-to-number (nth 0 (split-string key "-"))))
                (week (string-to-number (nth 1 (split-string key "-"))))
-               (goal (if (and (>= year 2022) (>= week 48)) 24 40))
+               (goal (if (or (>= year 2023)
+                             (and (>= year 2022)
+                                  (>= week 48)))
+                         22 32))
                (percentage (* 100 (/ sum goal)))
                (indicator-count-total 20)
-               (indicator-count (round (* indicator-count-total (/ percentage 100.0))))
+               (indicator-count (round (* indicator-count-total
+                                          (/ percentage 100.0))))
                ;; (indicator-count 4)
                (indicator (make-string indicator-count ?+))
                (pad-count (- indicator-count-total indicator-count 1))
                (pad (if (< pad-count 0) ""
                       (concat  (make-string pad-count ? ) "|")))
+               (difference (- sum goal))
                (time (iso-week-to-time year week 1))
                (month (string-to-number (format-time-string "%m" time))))
-          (princ (format "Week %04d-%02d-%02d: %5.1f%% (%2d hours) %s%s\n" year month week percentage sum indicator pad))))))
+
+          (princ (format "Week %04d-%02d-%02d: %5.1f%% (%2d hours) %s%s\t\t(%d)\n"
+                         year month week percentage sum indicator pad difference))))))
 
   (defun plot-weekly-work-goals-for-date-range (start-year start-month end-year end-month)
     (let* ((year start-year)
            (month start-month)
            (timesheets nil))
 
-      (while (and (<= month end-month)
-                  (<= year end-year))
-        ;; (print year)
-        ;; (print month)
+      (while (not (and (= month end-month)
+                       (= year end-year)))
         (push (list
                (cl-remove-if
                 (lambda (x) (equal x 'hline))
