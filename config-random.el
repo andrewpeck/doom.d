@@ -191,6 +191,10 @@
 (after! writegood
   (writegood-passive-voice-turn-off))
 
+(setq-default auto-revert-mode t)
+(after! pdf-view-mode (add-hook! 'pdf-view-mode-hook #'auto-revert-mode))
+(after! image-mode    (add-hook! 'image-mode-hook #'auto-revert-mode))
+
 (after! yasnippet
   ;; Don't add newlines to snippet endings
   (setq-default yas-also-auto-indent-first-line t)
