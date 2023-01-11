@@ -103,7 +103,6 @@
 ;;(package! pcre2el)
 ;;(package! popup)
 ;;(package! prism)
-;;(package! rainbow-mode) ;; included in rgb package
 ;;(package! svg-tag-mode :recipe (:host github :repo "rougier/svg-tag-mode"))
 ;;(package! theme-changer :recipe (:host github :repo "hadronzoo/theme-changer"))
 ;;(package! tree-sitter)
