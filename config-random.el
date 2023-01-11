@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
 (setq +format-on-save-enabled-modes
-      '(not python-mode emacs-lisp-mode sql-mode tex-mode latex-mode org-msg-edit-mode))
+      '(not yaml-mode python-mode emacs-lisp-mode sql-mode tex-mode latex-mode org-msg-edit-mode))
 
 (add-to-list 'warning-suppress-types '(iedit))
 
