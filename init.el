@@ -113,8 +113,8 @@
         ;;agda               ; types of types of types of types...
         ;;assembly           ; assembly for fun or debugging
         (cc +lsp)            ; C/C++/Obj-C madness
-        clojure              ; java with a lisp
-        json                 ; json, uhg
+        (clojure +lsp)       ; java with a lisp
+        (json +lsp +tree-sitter) ; json, uhg
         common-lisp          ; if you've seen one lisp, you've seen them all
         ;;coq                ; proofs-as-programs
         ;;crystal            ; ruby at the speed of c
