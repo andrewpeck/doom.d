@@ -56,7 +56,7 @@
         (evil +everywhere)  ; come to the dark side, we have cookies
         file-templates      ; auto-snippets for empty files
         fold                ; (nigh) universal code folding
-        format              ; automated prettiness
+        (format +onsave)    ; automated prettiness
       ;;multiple-cursors    ; editing in many places at once
       ;;objed               ; text object editing for the innocent
       ;;parinfer            ; turn lisp into python, sort of
