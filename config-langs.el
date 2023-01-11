@@ -137,7 +137,11 @@
 ;; Clojure
 ;;------------------------------------------------------------------------------
 
+(use-package! flycheck-clj-kondo :defer-incrementally t)
+
+;; cider-edit-jack-in-command
 (setq org-babel-clojure-backend "cider")
+(setq cider-save-file-on-load t)
 
 ;;-----------------------------------------------------------------------------------------
 ;; Markdown
