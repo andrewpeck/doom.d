@@ -10,6 +10,7 @@
 (after! magit
   ;;(setq magit-repository-directories '(("~/" . 1)))
   ;;(magit-todos-mode)
+  (setq-default magit-mode-hook nil)
   (add-hook 'magit-diff-mode-hook (lambda () (setq truncate-lines nil)))
   (setq magit-repository-directories '(("~/work" . 1)))
   (setq-default magit-diff-refine-hunk 'all))
