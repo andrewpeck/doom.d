@@ -40,13 +40,14 @@
           nil t))))
 
 (setq font-list
-      '(("Source Code Pro" . 16)
+      '(("Roboto Mono" . 16)
+        ("Consolas" . 17)
+        ("Source Code Pro" . 16)
         ("Hack" . 15)
-        ("JetBrains Mono" . 14)
-        ("IBM Plex Mono" . 14)
+        ("IBM Plex Mono" . 16)
+        ("JetBrains Mono" . 16)
         ("Inconsolata" . 14)
-        ("Fira Code" . 14)
-        ("Roboto Mono" . 14)))
+        ("Fira Code" . 14)))
 
 (cl-dolist (my-font font-list)
   (when (font-exists-p (car my-font))
