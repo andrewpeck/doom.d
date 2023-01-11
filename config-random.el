@@ -113,9 +113,18 @@
 
 (after! +popup
   ;; Completely disable management of the mode-line in popups:
-  ;; (remove-hook '+popup-buffer-mode-hook #'+popup-set-modeline-on-enable-h)
+  (remove-hook '+popup-buffer-mode-hook #'+popup-set-modeline-on-enable-h)
   ;; Make sure evil is on in popups
   (add-hook '+popup-buffer-mode-hook #'turn-on-evil-mode)
+
+  (set-popup-rule! ".*cider-repl.*"
+    :modeline t
+    :side right
+    :quit nil
+    :size 0.5
+    ;; :vslot -4
+    :select nil
+    :ttl 0)
 
   (evil-define-key
     'motion +popup-buffer-mode-map "q" #'bury-buffer)
