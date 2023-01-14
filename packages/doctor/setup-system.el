@@ -252,6 +252,7 @@ they are installed and the computer is set up ok"
             (make-symlink (executable-find "fdfind") "~/.local/bin/fd")))
 
         (make-symlink (dotfiles "nvim") "~/.config/nvim")
+        (make-symlink (dotfiles "tmux.conf") "~/.tmux.conf")
         (make-symlink (dotfiles "doom.d") "~/.doom.d")
         (make-symlink (dotfiles "xmonad") "~/.xmonad")
         ;; (make-symlink (dotfiles "vim/vim") "~/.vim")
