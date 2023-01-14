@@ -173,7 +173,8 @@
         rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
         ;;scala             ; java, but good
         ;;scheme            ; a fully conniving family of lisps
-        (sh +lsp)           ; she sells {ba,z,fi}sh shells on the C xor
+        (sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
+            +treesitter)
         ;;solidity          ; do you need a blockchain? No.
         ;;swift             ; who asked for emoji variables?
         ;;terra             ; Earth and Moon in alignment for performance.
