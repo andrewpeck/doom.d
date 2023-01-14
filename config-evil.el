@@ -5,6 +5,9 @@
 
 (after! evil
 
+  ;; https://github.com/doomemacs/doomemacs/issues/6478
+  (evil-select-search-module 'evil-search-module 'isearch)
+
   (evil-define-key 'normal system-install-run-minor-mode-map "q" #'bury-buffer)
 
   ;; middle click to paste
@@ -86,9 +89,6 @@
   (evil-define-key 'motion clojure-mode-map
     (kbd "RET") #'cider-eval-buffer)
 
-  (map! :leader
-        :desc "Open Dired" "E" #'dired-jump)
-
   (map! :localleader
         :map python-mode-map
         :desc "Expand macro" "m" #'macrostep-expand
@@ -128,25 +128,19 @@
 
 (after! evil-maps
 
-  (map! :leader
-        :prefix "g"
-        :desc "Magit Amend" "A" #'magit-commit-amend)
+  (defun ap/find-file-in-dotfiles ()
+    "Search for a file in `dotfiles'."
+    (interactive)
+    (doom-project-find-file "~/.dotfiles"))
 
-  (map! :leader
-        :prefix "o"
-        :desc "Open Elfeed" "e" #'elfeed)
 
-  (map! :leader
-        :prefix "g"
-        :desc "Open Elfeed" "pt" #'gpt-prompt)
-
-  (map! :leader
-        :prefix "c"
-        :desc "Make" "m" #'+make/run)
-
-  (map! :leader
-        :prefix "o"
-        :desc "List flycheck errors" "l" #'flycheck-list-errors)
+  (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
+  (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)
+  (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
+  (map! :leader :prefix "g" :desc "Open Elfeed"          "pt" #'gpt-prompt)
+  (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
+  (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
+  (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'ap/find-file-in-dotfiles)
 
   (evil-define-key 'normal elfeed-search-mode-map
     "q" #'elfeed-kill-buffer
