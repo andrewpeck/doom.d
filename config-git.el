@@ -1,8 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 ;; (add-hook 'dired-after-readin-hook 'dired-git-info-auto-enable)
-;; (setq +vc-gutter-in-remote-files t)
-;; (setq diff-hl-disable-on-remote t)
+(setq +vc-gutter-in-remote-files t)
 
 ;; Magit
 ;;------------------------------------------------------------------------------
