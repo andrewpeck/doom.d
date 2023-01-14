@@ -3,6 +3,16 @@
 ;; packages to disable
 (package! hl-line :disable t)
 
+;; org mode
+(package! toc-org)
+(package! evil-org)
+(package! org-download :recipe (:host github :repo "abo-abo/org-download"))
+(package! org-web-tools)
+(package! ox-gfm)
+(package! ox-pandoc)
+(package! ox-clip :recipe (:host github :repo "jkitchin/ox-clip"))
+;; (package! org-protocol-capture-html :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
+
 ;; -- keep the stuff below sorted alphabetically
 ;; start:sort
 (package! affe)
@@ -11,7 +21,6 @@
 (package! all-the-icons-ibuffer)
 (package! backup-each-save)
 (package! clojure-emacs :recipe (:host github :repo "clojure-emacs/squiggly-clojure"))
-(package! company-org-block :pin "4d96750" :recipe (:host github :repo "xenodium/company-org-block"))
 (package! crontab-mode)
 (package! delight)
 (package! dwim-shell-command :recipe (:host github :repo "xenodium/dwim-shell-command"))
@@ -24,11 +33,7 @@
 (package! logview)
 (package! lorem-ipsum)
 (package! magit-todos)
-(package! org-download :recipe (:host github :repo "abo-abo/org-download"))
-(package! org-protocol-capture-html :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
 (package! org-web-tools)
-(package! ox-clip :recipe (:host github :repo "jkitchin/ox-clip"))
-(package! ox-gfm)
 (package! pdf-tools)
 (package! plz)
 (package! rainbow-mode)
@@ -37,7 +42,6 @@
 (package! solarized-emacs :recipe (:host github :repo "bbatsov/solarized-emacs"))
 (package! straight :pin "3eca39d") ; https://github.com/doomemacs/doomemacs/issues/6960
 (package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae" :recipe (:host github :repo "holomorph/systemd-mode"))
-(package! toc-org)
 (package! vimrc-mode)
 (package! visual-fill-column)
 (package! web-mode)
