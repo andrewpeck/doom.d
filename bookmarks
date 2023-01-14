@@ -2,7 +2,7 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("module_test_sw"
+(("module_test_st
  (filename . "/sshx:strange:/home/andrew/module_test_sw/")
  (front-context-string . "address_table\n  ")
  (rear-context-string . "0K Nov 15 13:51 ")
@@ -43,7 +43,7 @@
  (rear-context-string)
  (position . 1))
 ("RPi Docker Compose"
- (filename . "/sshx:rpi:/home/pi/zigbee2mqtt/docker-compose.yaml")
+ (filename . "/sshx:rpi:/home/pi/docker-compose/docker-compose.yaml")
  (front-context-string)
  (rear-context-string)
  (position . 1))
