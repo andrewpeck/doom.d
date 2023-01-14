@@ -64,7 +64,7 @@
         "|---+---+----------+---------+--------------------+-----+-------|\n"
         "| # |   |          |         |                    |     |       |\n"
         "|---+---+----------+---------+--------------------+-----+-------|\n"
-        (format  "#+TBLFM: $6='(org-sbe ymd_to_weekday (k $$2) (path $\"%s %s\"))::$7='(org-sbe subtract (a $$3))\n" month year)
+        (format  "#+TBLFM: $6='(get-day-of-week \"%s %s\" $2)::$7='(range-to-time $3)\n" month year)
         "\n"
         (format  "#+begin_src emacs-lisp :exports results :results output :var data=%s-%s\n" year mm)
         "(plot-monthly-work-chart data)\n"
