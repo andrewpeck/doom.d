@@ -375,3 +375,37 @@
               (setq key (substring key 0 -5)))
           (princ (format "%2d %20s %s\n" count key
                          (make-string count ?+))))))))
+
+;;------------------------------------------------------------------------------
+;; Functions for alphabetically sorting items
+;;------------------------------------------------------------------------------
+
+(defun sort-code-block (comment-char)
+  "Alphabetically sorts code blocks in a file, starting with #
+start:sort and ending with # end:sort, where # is the comment
+char of the language you are editing"
+
+  (let (buffer-undo-list)
+    (save-excursion
+      (let ((home (point))
+            (start-search (concat "^\s*" comment-char " start:sort"))
+            (end-search (concat "^\s*" comment-char " end:sort")))
+        (goto-char (point-min))
+        (while (re-search-forward start-search nil t)
+
+          (forward-line -1)
+          (let ((start (re-search-forward start-search nil t))
+                (end
+                 ;; want to get the match *before* end:sort
+                 (- (progn (re-search-forward end-search nil t)
+                           (match-beginning 0)) 1)))
+            (sort-lines 'nil start end)))
+        (goto-char home))))
+
+  ;; make sure to return nil here for write-contents-functions
+  nil)
+
+(defun sort-elisp-block ()
+  (interactive)
+  (save-excursion
+    (sort-code-block ";;")))
