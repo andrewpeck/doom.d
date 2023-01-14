@@ -63,6 +63,8 @@
 ;; VHDL
 ;;------------------------------------------------------------------------------
 
+(setq flycheck-ghdl-language-standard "08")
+
 (defun vhdl-slv->unsigned ()
   (interactive)
   (er/mark-symbol)
