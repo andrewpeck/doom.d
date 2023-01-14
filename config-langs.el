@@ -125,6 +125,7 @@
 
 ;; make $ not part of a symbol in tcl-mode
 (after! tcl
+  (add-hook 'tcl-mode-hook #'tree-sitter-hl-mode)
   (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
 
 ;;------------------------------------------------------------------------------
