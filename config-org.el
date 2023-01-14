@@ -41,35 +41,6 @@
         org-M-RET-may-split-line t
         org-log-done 'time)
 
-  (defun org-insert-monthly-timesheet ()
-    "Insert a new timesheet for the current month"
-    (interactive)
-    (let* ((time (current-time))
-           (month (format-time-string "%B" time))
-           (mm (format-time-string "%m" time))
-           (year (format-time-string "%Y" time)))
-
-      (insert
-       (concat
-        ;; (s-lex-format)
-        (format "*** %s %s\n" month year)
-        ":PROPERTIES:\n"
-        ":VISIBILITY: showall\n"
-        ":END:\n"
-        "#+ATTR_HTML: :border 2 :frame none\n"
-        "\n"
-        (format  "#+TBLNAME: %s-%s\n" year mm)
-        "|---+---+----------+---------+--------------------+-----+-------|\n"
-        "|   | D |     Time | Project | Task               | Day | Hours |\n"
-        "|---+---+----------+---------+--------------------+-----+-------|\n"
-        "| # |   |          |         |                    |     |       |\n"
-        "|---+---+----------+---------+--------------------+-----+-------|\n"
-        (format  "#+TBLFM: $6='(get-day-of-week \"%s %s\" $2)::$7='(range-to-time $3)\n" month year)
-        "\n"
-        (format  "#+begin_src emacs-lisp :exports results :results output :var data=%s-%s\n" year mm)
-        "(plot-monthly-work-chart data)\n"
-        "#+end_src\n"))))
-
   (require 'org-web-tools)
 
   (defun www-get-page-title (url)
