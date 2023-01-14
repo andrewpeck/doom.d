@@ -59,6 +59,7 @@ Returns a list decoded from the JSON reponse."
                  :headers post-headers :body post-body
                  :as #'json-read :then 'sync))) post))
 
+;;;###autoload
 (defun gpt-prompt ()
   "Use GPT-3 on the active selection, with an optional prompt.
 

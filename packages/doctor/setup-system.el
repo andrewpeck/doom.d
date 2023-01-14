@@ -66,6 +66,7 @@
       (progn (princ (format "- [ ] path %s was not found\n" path)))
     (progn (princ (format "- [X] path %s found\n" path)))))
 
+;;;###autoload
 (defun fix-ssh-permissions ()
   "Fix the ssh permissions on host computer"
   (interactive)
@@ -75,6 +76,7 @@
        (shell-command-nil "chmod 600 ~/.ssh/id_rsa > /dev/null 2>&1")
        (shell-command-nil "chmod 600 ~/.ssh/authorized_keys > /dev/null 2>&1")))
 
+;;;###autoload
 (defun setup-system ()
   "Keep a list of useful programs and other things, make sure
 they are installed and the computer is set up ok"
