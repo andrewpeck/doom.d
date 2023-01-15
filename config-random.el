@@ -51,10 +51,6 @@
 (map! :n [mouse-8] #'previous-buffer
       :n [mouse-9] #'next-buffer)
 
-;; Start emacs in full screen by default
-(add-to-list 'default-frame-alist
-             '(fullscreen . maximized))
-
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 

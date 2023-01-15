@@ -1,7 +1,71 @@
 ;;; -*- lexical-binding: t; -*-
 
+
+;;------------------------------------------------------------------------------
+;;; Appearance
+;;------------------------------------------------------------------------------
+
+;; Start emacs in full screen by default
+(add-to-list 'default-frame-alist
+             '(fullscreen . maximized))
+
+(after! highlight-indent-guides
+  ;;(setq highlight-indent-guides-auto-enabled nil)
+  (setq highlight-indent-guides-responsive nil
+        highlight-indent-guides-method 'bitmap))
+
+;; All the icons
+(use-package! all-the-icons
+  :defer-incrementally t
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (all-the-icons-ibuffer-mode 1))
+
+;; Theme
+(add-to-list 'load-path "~/.doom.d/themes/")
+(add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
+
+(cond
+ ;; ((not (display-graphic-p)) (setq doom-theme 'monochrome-solarized))
+ ((string= (system-name) "pepper")  (setq doom-theme 'doom-zenburn))
+ ((string= (system-name) "larry")   (setq doom-theme 'doom-zenburn))
+ ((string= (system-name) "strange") (setq doom-theme 'doom-spacegray))
+ (t (setq doom-theme 'doom-one)))
+
+;;------------------------------------------------------------------------------
+;;; FONT
+;;------------------------------------------------------------------------------
+
+(defun font-exists-p (font)
+  "Check if FONT exists"
+  (if (functionp 'doom-font-exists-p)
+      (doom-font-exists-p font)
+    (ignore-errors
+      (if (null (x-list-fonts font))
+          nil t))))
+
+(setq font-list
+      '(("Roboto Mono" . 16)
+        ("Consolas" . 17)
+        ("Source Code Pro" . 16)
+        ("Hack" . 15)
+        ("IBM Plex Mono" . 16)
+        ("JetBrains Mono" . 16)
+        ("Inconsolata" . 14)
+        ("Fira Code" . 14)))
+
+(cl-dolist (my-font font-list)
+  (when (font-exists-p (car my-font))
+    (progn
+      (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
+            doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
+                                        ;doom-variable-pitch-font (font-spec :family "Comic Sans" :size 16)
+            doom-serif-font (font-spec :family (car my-font) :weight 'light))
+      (cl-return t))))
+
+;;
 (use-package! delight
-  :defer 1.0
+  :defer-incrementally t
   :config
   (delight '+org-pretty-mode         " 🌻"          "org")
   (delight 'better-jumper-local-mode ""             "better-jumper")

@@ -1,9 +1,10 @@
-;;; config-elfeed.el -*- lexical-binding: t; -*-
-
-;; Run `elfeed-update' every 8 hours
-(run-at-time nil (* 8 60 60) #'elfeed-update)
+;;; -*- lexical-binding: t; -*-
 
 (after! elfeed
+
+  ;; Run `elfeed-update' every 8 hours
+  (run-at-time nil (* 8 60 60) #'elfeed-update)
+
   (setq elfeed-feeds
         '("https://www.evalapply.org/index.xml"
           ;; "https://hackaday.com/blog/feed/"

@@ -1,8 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
 ;; https://github.com/hlissner/doom-emacs/blob/master/modules/lang/latex/README.org
-(setq +latex-viewers
-      '(okular atril evince zathura))
+(setq +latex-viewers '(okular atril evince zathura)
+      TeX-fold-auto t)
 
 ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
 (after! tex-fold
@@ -27,8 +27,6 @@
   "Make the current TeX selection italic."
   (interactive)
   (TeX-font nil 20))
-
-(setq TeX-fold-auto t)
 
 ;; LaTeX-mode-hook is used by AUCTeX's LaTeX mode.
 ;; latex-mode-hook is used by Emacs' built-in latex mode.

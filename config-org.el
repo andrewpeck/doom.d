@@ -11,9 +11,10 @@
 
   (org-crypt-use-before-save-magic)
 
-  (setq org-tags-exclude-from-inheritance '("crypt")
+  (setq org-tags-exclude-from-inheritance (list "crypt")
         org-crypt-key nil
         org-ditaa-jar-path "~/.doom.d/ditaa.jar"
+        org-plantuml-jar-path "~/.doom.d/plantuml.jar"
         org-crypt-disable-auto-save t
         org-export-in-background nil
         org-confirm-babel-evaluate nil
@@ -452,12 +453,12 @@ and shortens it into an org mode link consisting of just `some file`"
         :prefix "y"
         :desc "Org Link Copy"       "y" #'org-link-copy)
 
-  (map! :leader
-        :prefix "n"
-        :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
-        :desc "Org-Roam-Find"       "/" #'org-roam-find-file
-        :desc "Org-Roam-Buffer"     "r" #'org-roam
-        :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph)
+  ;; (map! :leader
+  ;;       :prefix "n"
+  ;;       :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
+  ;;       :desc "Org-Roam-Find"       "/" #'org-roam-find-file
+  ;;       :desc "Org-Roam-Buffer"     "r" #'org-roam
+  ;;       :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph)
 
   (setq org-roam-db-location "~/.org-roam.db")
   (setq org-roam-link-title-format "Org:%s"))
