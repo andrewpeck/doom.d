@@ -50,11 +50,12 @@
         ("\\<\\(create_bd_pin\\|connect_bd_intf_net\\|connect_bd_net\\|create_bd_addr_seg\\)\\>" . font-lock-keyword-face)
         ("-\\<\\(intf_net\\|dict\\|range\\|offset\\|dir\\|type\\|vlnv\\|net\\)\\>" . font-lock-constant-face)))
 
+;;;###autoload
 (define-derived-mode
-  vivado-mode                    ; child
-  tcl-mode                       ; parent
-  "Vivado Mode"                  ; name
-  "Major mode for Xilinx Vivado" ; docstring
+  vivado-mode                     ; child
+  tcl-mode                        ; parent
+  "Vivado Mode"                   ; name
+  "Major mode for Xilinx Vivado." ; docstring
 
   ;; body
   (setq font-lock-defaults (list (append vivado-keywords tcl-font-lock-keywords)))

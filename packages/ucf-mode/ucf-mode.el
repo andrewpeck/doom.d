@@ -112,6 +112,7 @@
 (setq ucf-name-introducers
       '("NET" "INST" "TIMESPEC" "TIMEGRP" "AREA_GROUP" "AFTER"))
 
+;;;###autoload
 (define-generic-mode 'ucf-mode
   ;; comment list
   '("#")
