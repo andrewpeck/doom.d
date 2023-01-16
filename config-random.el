@@ -51,9 +51,6 @@
 (map! :n [mouse-8] #'previous-buffer
       :n [mouse-9] #'next-buffer)
 
-;; Prevents some cases of Emacs flickering
-(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-
 ;; Backups
 (setq backup-each-save-mirror-location "~/emacs-backups")
 (add-hook 'after-save-hook 'backup-each-save)
@@ -150,19 +147,6 @@
 
 (after! hl-todo
   (setq global-hl-todo-mode t))
-
-;; better dired soring
-(after! dired-x
-  (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
-  (setq dired-omit-extensions (remove ".bit" dired-omit-extensions))
-  (setq dired-listing-switches "-a1vBhl  --group-directories-first"))
-
-(after! diredfl
-  (add-to-list 'diredfl-compressed-extensions ".zst"))
-
-(after! dired-aux
-  (setq dired-compress-file-default-suffix ".zst")
-  (setq dired-compress-directory-default-suffix ".tar.zst"))
 
 ;; save macros and other registers peristently
 (after! savehist
