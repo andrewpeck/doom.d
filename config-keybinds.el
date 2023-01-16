@@ -192,6 +192,9 @@ between the two most recently open buffers."
 (global-set-key (kbd "M-<right>") nil)
 (global-set-key (kbd "M-`") nil)
 
+(after! hog
+  (define-key hog-src-mode-map (kbd "M-RET") #'hog-follow-link-at-point))
+
 ;; Ctrl + Alt + equal to re-indent buffer
 (define-key evil-normal-state-map (kbd "C-M-=")
   #'re-indent-buffer)
