@@ -100,17 +100,18 @@
   (interactive)
   (org-table-map-tables 'org-table-align))
 
+(defun xdg-do (x)
+  (call-process (executable-find "xdg-open") nil nil nil x))
+
 (defun xdg-browse-directory ()
   "Open the current file's directory however the OS would."
   (interactive)
-  (call-process (executable-find "xdg-open") nil nil nil
-                (file-name-directory (buffer-file-name))))
+  (xdg-do (file-name-directory (buffer-file-name))))
 
 (defun xdg-open-file ()
   "Open the current file however the OS would."
   (interactive)
-  (call-process (executable-find "xdg-open") nil nil nil
-                (buffer-file-name)))
+  (xdg-do (buffer-file-name)))
 
 (defun org-fill-paragraph-t ()
   (interactive)
