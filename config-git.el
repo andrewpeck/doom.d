@@ -6,7 +6,6 @@
 ;;------------------------------------------------------------------------------
 
 (after! magit
-  ;;(setq magit-repository-directories '(("~/" . 1)))
   ;;(magit-todos-mode)
   (setq-default magit-mode-hook nil)
   (add-hook 'magit-diff-mode-hook (lambda () (setq truncate-lines nil)))
@@ -36,47 +35,3 @@
           ("emu")
           ("andrewpeck1")
           ("apeck"))))
-
-;; Git Gutter
-;;------------------------------------------------------------------------------
-
-;; for some reason this is slow to load :(
-;;
-;;(use-package! git-gutter
-;;  :defer t
-;;  :init
-;;  (use-package! git-gutter-fringe
-;;    :defer t
-;;    :config
-;;    (fringe-mode 9)
-;;    (fringe-helper-define 'git-gutter-fr:added nil
-;;      "....X...."
-;;      "....X...."
-;;      "....X...."
-;;      "....X...."
-;;      "XXXXXXXXX"
-;;      "....X...."
-;;      "....X...."
-;;      "....X....")
-;;
-;;    (fringe-helper-define 'git-gutter-fr:deleted nil
-;;      "........."
-;;      "........."
-;;      "........."
-;;      "..XXXXXX."
-;;      "........."
-;;      "........."
-;;      "........."
-;;      ".........")
-;;
-;;    (fringe-helper-define 'git-gutter-fr:modified nil
-;;      "........."
-;;      "...X....."
-;;      "...XXX..."
-;;      "...XXXX.."
-;;      "...XXXXX."
-;;      "...XXXX.."
-;;      "...XXX..."
-;;      "...X.....")
-;;    )
-;;)
