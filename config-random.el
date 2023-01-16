@@ -1,21 +1,26 @@
 ;;; -*- lexical-binding: t; -*-
 
-(setq +format-on-save-enabled-modes
-      '(not yaml-mode python-mode emacs-lisp-mode sql-mode tex-mode latex-mode org-msg-edit-mode))
-
 (add-to-list 'warning-suppress-types '(iedit))
 
-(setq enable-local-variables t      ;
-      scroll-margin 30              ; add a margin while scrolling
-      auto-revert-remote-files t    ;
-      so-long-threshold 800         ; so-long-threshold can increase
-      smartparens-global-mode nil   ; disable smartparens/automatic parentheses completion
-      smartparens-mode nil          ; disable smartparens/automatic parentheses completion
-      undo-limit 80000000           ; Raise undo-limit to 80Mb
-      auto-save-default t           ; Nobody likes to loose work, I certainly don't
-      truncate-string-ellipsis "…"  ; Unicode ellispis are nicer than "...", and also save /precious/ space
+(after! pdf-view-mode (add-hook! 'pdf-view-mode-hook #'auto-revert-mode))
+(after! image-mode    (add-hook! 'image-mode-hook #'auto-revert-mode))
+
+(setq enable-local-variables t     ;
+      auto-revert-mode t           ;
+      scroll-margin 30             ; add a margin while scrolling
+      auto-revert-remote-files t   ;
+      so-long-threshold 800        ; so-long-threshold can increase
+      smartparens-global-mode nil  ; disable smartparens/automatic parentheses completion
+      smartparens-mode nil         ; disable smartparens/automatic parentheses completion
+      undo-limit 80000000          ; Raise undo-limit to 80Mb
+      auto-save-default t          ; Nobody likes to loose work, I certainly don't
+      truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
 
       bookmark-default-file "~/.doom.d/bookmarks" ;
+
+      +format-on-save-enabled-modes
+      '(not yaml-mode python-mode emacs-lisp-mode
+        sql-mode tex-mode latex-mode org-msg-edit-mode)
 
       ;; Increase the amount of data which Emacs reads from the process.
       ;; Again the emacs default is too low 4k considering that the some
@@ -23,7 +28,17 @@
       read-process-output-max (* 1024 1024) ;; 1mb
 
       ;; Etags search depth
-      etags-table-search-up-depth 10)
+      etags-table-search-up-depth 10
+
+      ;; Window Title
+      ;; https://www.emacswiki.org/emacs/FrameTitle
+      frame-title-format
+      '(:eval
+        (if dired-directory
+            (concat (abbreviate-file-name dired-directory) " - Dired" )
+          (concat (abbreviate-file-name (expand-file-name "%b"))
+                  (if (buffer-modified-p) " • " " - ")
+                  "Emacs" ))))
 
 (setq-default fill-column 80
               tab-width 2
@@ -31,21 +46,10 @@
               window-combination-resize t ; take new window space from all other windows (not just current)
               x-stretch-cursor t)         ; Stretch cursor to the glyph width
 
-(menu-bar-mode 0)                   ; Turn off menu bar
 (midnight-mode)                     ; Clear buffers at midnight
 (display-time-mode 1)               ; Enable time in the mode-line
 (global-subword-mode 1)             ; Iterate through CamelCase words
 ;; (modify-syntax-entry ?_ "w")     ; Treat underscore as part of a word to match vim behavior
-
-;; Window Title
-;; https://www.emacswiki.org/emacs/FrameTitle
-(setq frame-title-format
-      '(:eval
-        (if dired-directory
-            (concat (abbreviate-file-name dired-directory) " - Dired" )
-          (concat (abbreviate-file-name (expand-file-name "%b"))
-                  (if (buffer-modified-p) " • " " - ")
-                  "Emacs" ))))
 
 ;;
 (map! :n [mouse-8] #'previous-buffer
@@ -56,9 +60,6 @@
 (add-hook 'after-save-hook 'backup-each-save)
 
 ;;
-(add-hook! debugger-mode-hook #'turn-on-evil-mode)
-
-;;
 (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
 
 ;;------------------------------------------------------------------------------
@@ -66,6 +67,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! dwim-shell-command
+  :defer-incrementally t
   :config
   (defun my/dwim-shell-command-archive-zstd ()
     "Convert all marked images to jpg(s)."
@@ -171,10 +173,6 @@
 (after! writegood
   (writegood-passive-voice-turn-off))
 
-(setq-default auto-revert-mode t)
-(after! pdf-view-mode (add-hook! 'pdf-view-mode-hook #'auto-revert-mode))
-(after! image-mode    (add-hook! 'image-mode-hook #'auto-revert-mode))
-
 (after! yasnippet
   ;; Don't add newlines to snippet endings
   (setq-default yas-also-auto-indent-first-line t)
@@ -183,12 +181,11 @@
 
 (after! hog
   (pcase (system-name)
-    ("strange" (progn (setq hog-vivado-path "~/Xilinx/Vivado/2021.1")
-                      (setq hog-number-of-jobs 16)))
-    ("larry" (progn (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1")
-                    (setq hog-number-of-jobs 4)))
-    ("pepper" (progn
-                (setq hog-template-xml-path "/home/andy/.doom.d/lisp/hog-emacs/")))))
+    ("strange" (setq hog-vivado-path "~/Xilinx/Vivado/2021.1"
+                     hog-number-of-jobs 16))
+    ("larry" (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1"
+                   hog-number-of-jobs 4))
+    ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1"))))
 
 ;;------------------------------------------------------------------------------
 ;; Mixed Pitch Mode
@@ -215,8 +212,8 @@
 
 ;; Don't wrap text modes unless we really want it
 (remove-hook 'text-mode-hook #'+word-wrap-mode)
-(add-hook 'latex-mode-hook #'+word-wrap-mode)
-(add-hook 'markdown-mode-hook #'+word-wrap-mode)
+(add-hook! latex-mode-hook #'+word-wrap-mode)
+(add-hook! markdown-mode-hook #'+word-wrap-mode)
 
 ;; (defun fix-visual-fill-column-mode (&optional ARG)
 ;;   (setq visual-fill-column-mode visual-line-mode))
