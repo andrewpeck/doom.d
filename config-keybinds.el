@@ -139,26 +139,29 @@ between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
+(defun open-todo ()
+  "Open my todo file"
+  (interactive)
+  (find-file "~/Sync/notes/todo.org"))
+
+(defun open-timesheet ()
+  "Open my EDF timesheet"
+  (interactive)
+  (find-file "~/Sync/billing/billing.org")
+  (goto-char (point-max))
+  (re-search-backward "TBLFM")
+  (org-reveal)
+  (forward-line -1)
+  (forward-line -1)
+  (recenter-top-bottom))
+
 ;;------------------------------------------------------------------------------
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 
-(define-key evil-motion-state-map (kbd "C-t")   'nil)
 (define-key evil-normal-state-map (kbd "C-t")   'nil)
-(define-key evil-normal-state-map (kbd "C-t")
-  (lambda () (interactive) (find-file "~/Sync/notes/todo.org")))
-
-;;  Open the end of my billing log
-(define-key evil-normal-state-map (kbd "C-S-b")
-  (lambda () (interactive)
-    (progn
-      (find-file "~/Sync/billing/billing.org")
-      (goto-char (point-max))
-      (re-search-backward "TBLFM")
-      (org-reveal)
-      (forward-line -1)
-      (forward-line -1)
-      (recenter-top-bottom))))
+(define-key evil-motion-state-map (kbd "C-t")   #'open-todo)
+(define-key evil-motion-state-map (kbd "C-S-b") #'open-timesheet)
 
 (define-key minibuffer-mode-map
   (kbd "C-p") 'evil-paste-after)
