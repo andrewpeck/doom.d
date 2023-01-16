@@ -28,13 +28,8 @@
 
 (defun open-link-or (fn)
   (cond
-   ((thing-at-point 'url) (link-hint-open-link-at-point))
-   (t (funcall fn))) t)
-
-(defun ap/find-file-in-dotfiles ()
-  "Search for a file in `dotfiles'."
-  (interactive)
-  (doom-project-find-file "~/.dotfiles"))
+   ((thing-at-point 'url) #'link-hint-open-link-at-point)
+   (t fn)) t)
 
 ;; (defmacro affe-find-x! (name path bind)
 ;;   (defun )
