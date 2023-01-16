@@ -19,7 +19,6 @@
              '(fullscreen . maximized))
 
 (setq comp-deferred-compilation t)
-(setq evil-want-C-i-jump t)
 
 (doom!
     :completion
