@@ -272,12 +272,8 @@ between the two most recently open buffers."
   (evil-leader/set-key "bf" 'xdg-browse-directory)
   (evil-leader/set-key "ot" 'open-pwd-in-terminal)
   (evil-leader/set-key "vv" 'open-buffer-in-vim)
-  (evil-leader/set-key "tt" 'doom/ivy-tasks)
-  (evil-leader/set-key "pp" '+ivy/project-search)
   (evil-leader/set-key "rr" 'projectile-recentf)
-
   (evil-leader/set-key "rtw" 'delete-trailing-whitespace) ;; delete trailing whitespace
-  (evil-leader/set-key "E" 'dired-jump)
   (evil-leader/set-key "pp" 'org-publish-current-project))
 
 ;;------------------------------------------------------------------------------
@@ -301,4 +297,4 @@ between the two most recently open buffers."
   (map! :leader :prefix "g" :desc "Open Elfeed"          "pt" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
-  (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'ap/find-file-in-dotfiles))
+  (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile))
