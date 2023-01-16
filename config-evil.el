@@ -80,14 +80,26 @@
   (global-set-key (kbd "M-<right>") nil)
   (global-set-key (kbd "M-`") nil)
 
-  (evil-define-key 'motion python-mode-map
-    (kbd "M-RET") #'python-shell-send-buffer)
+  (defun open-link-or (fn)
+    (cond
+     ((thing-at-point 'url) (link-hint-open-link-at-point))
+     (t (funcall fn))) t)
 
   (evil-define-key 'motion emacs-lisp-mode-map
-    (kbd "RET") #'eval-buffer)
+    (kbd "RET") (lambda ()
+                  (interactive)
+                  (open-link-or #'eval-buffer)))
 
+(setq display-line-numbers-type nil)
   (evil-define-key 'motion clojure-mode-map
-    (kbd "RET") #'cider-eval-buffer)
+    (kbd "RET") (lambda ()
+                  (interactive)
+                  (open-link-or #'cider-eval-buffer)))
+
+  (evil-define-key 'motion python-mode-map
+    (kbd "RET") (lambda ()
+                  (interactive)
+                  (open-link-or #'python-shell-send-buffer)))
 
   (map! :localleader
         :map python-mode-map
@@ -286,7 +298,6 @@
 
 
   (define-key evil-motion-state-map (kbd "SPC") nil)
-  (define-key evil-motion-state-map (kbd "RET") 'link-hint-open-link-at-point)
 
   ;; Tab in normal mode shouldn't indent
 
