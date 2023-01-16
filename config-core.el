@@ -5,6 +5,8 @@
 ;;; Appearance
 ;;------------------------------------------------------------------------------
 
+(setq display-line-numbers nil)
+
 ;; Start emacs in full screen by default
 (add-to-list 'default-frame-alist
              '(fullscreen . maximized))
