@@ -7,6 +7,7 @@
 (after! evil
   (add-hook! debugger-mode-hook #'turn-on-evil-mode)
 
+  ;; Whether C-i jumps forward in the jump list (like Vim).
   (setq evil-want-C-i-jump t)
 
   ;; https://github.com/doomemacs/doomemacs/issues/6478
@@ -28,12 +29,17 @@
 
 (defun open-link-or (fn)
   (cond
-   ((thing-at-point 'url) #'link-hint-open-link-at-point)
-   (t fn)) t)
+   ((thing-at-point 'url) (link-hint-open-link-at-point))
+   (t (call-interactively fn))))
 
-;; (defmacro affe-find-x! (name path bind)
-;;   (defun )
-;;   )
+;; (defmacro affe-find-x! (name path &optional bind)
+;;   `(define-key evil-normal-state-map (kbd ,bind) (quote ,name))
+;;   `(defun ,name () (interactive) (affe-find ,path)))
+
+;; (affe-find-x! affe-find-home      "~/"           "C-o")
+;; (affe-find-x! affe-find-work      "~/work"       "C-y")
+;; (affe-find-x! affe-find-notes     "~/Sync/notes" "C-n")
+;; (affe-find-x! affe-find-dotfiles  "~/.dotfiles"  "C-i")
 
 (defun affe-find-home () (interactive) (affe-find "~/"))
 (define-key evil-normal-state-map (kbd "C-o") #'affe-find-home)
@@ -68,12 +74,13 @@
      (print "Outline Cycle")
      (outline-cycle))))
 
-(cond
- ((string= (system-name) "strange")   (setq preferred-terminal '("terminator" "--working-directory")))
- ((string= (system-name) "pepper")    (setq preferred-terminal '("kitty" "--directory")))
- ((string= (system-name) "larry")     (setq preferred-terminal '("terminator" "--working-directory")))
- ((string= (system-name) "cobweb")    (setq preferred-terminal '("kitty" "--directory")))
- (t '("terminator" "--working-directory") ))
+(setq preferred-terminal
+      (pcase (system-name)
+        ("pepper"  '("terminator" "--working-directory"))
+        ("larry"   '("terminator" "--working-directory"))
+        ("cobweb"  '("terminator" "--working-directory"))
+        ("strange" '("terminator" "--working-directory"))
+        (_         '("terminator" "--working-directory"))))
 
 (defun open-pwd-in-terminal ()
   "Opens the present working directory in terminal"
@@ -159,85 +166,119 @@ between the two most recently open buffers."
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 
-(define-key evil-normal-state-map (kbd "C-t")   'nil)
-(define-key evil-motion-state-map (kbd "C-t")   #'open-todo)
-(define-key evil-motion-state-map (kbd "C-S-b") #'open-timesheet)
-
-(define-key minibuffer-mode-map
-  (kbd "C-p") 'evil-paste-after)
-
-(define-key evil-insert-state-map  (kbd "<mouse-2>") 'evil-paste-after)
-(define-key evil-normal-state-map  (kbd "<mouse-2>") 'evil-paste-after)
-
-;; Jump back and forth through files, time, and space with arrow keys
-(define-key evil-normal-state-map (kbd "<mouse-8>")   'evil-jump-backward)
-(define-key evil-normal-state-map (kbd "<mouse-9>")   'evil-jump-forward)
-
-;; (define-key evil-motion-state-map "\C-b" nil)
-(define-key evil-visual-state-map "\C-i" nil)
-
-
-;; middle click to paste
-(global-set-key (kbd "<mouse-2>") 'evil-paste-after)
-(global-set-key (kbd "M-p") 'evil-paste-after)
-
-;; Make evil-mode up/down operate in screen lines instead of logical lines
-(define-key evil-motion-state-map "j" 'evil-next-visual-line)
-(define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-
 ;; unbind annoying emacs bindings
 (define-key evil-normal-state-map "\C-p" nil)
 (define-key evil-normal-state-map "\C-d" nil)
 (global-set-key (kbd "M-<left>") nil)
 (global-set-key (kbd "M-<right>") nil)
 (global-set-key (kbd "M-`") nil)
-
-(after! hog
-  (define-key hog-src-mode-map (kbd "M-RET") #'hog-follow-link-at-point))
-
-;; Ctrl + Alt + equal to re-indent buffer
-(define-key evil-normal-state-map (kbd "C-M-=")
-  #'re-indent-buffer)
-
-(define-key evil-normal-state-map (kbd "<C-tab>")
-  (lambda () (interactive)
-    (outline-cycle)))
-
-(define-key evil-normal-state-map (kbd "C-<iso-lefttab>")
-  (lambda () (interactive)
-    (outline-hide-body)))
-
-;; Evil numbers increment/decrement
-(global-set-key (kbd "C-x") nil)
-(define-key evil-normal-state-map (kbd "C-a")   'evil-numbers/inc-at-pt)
-(define-key evil-normal-state-map (kbd "C-x")   'evil-numbers/dec-at-pt)
-(define-key evil-visual-state-map (kbd "C-a")   'evil-numbers/inc-at-pt-incremental)
-(define-key evil-visual-state-map (kbd "C-x")   'evil-numbers/dec-at-pt-incremental)
-
-(define-key org-mode-map (kbd "M-q") #'org-fill-paragraph-t)
-(define-key text-mode-map (kbd "M-q") #'fill-paragraph)
-
-
-(define-key python-mode-map (kbd "C-c C-b") #'py-black)
-
-
-(define-key evil-motion-state-map (kbd "SPC") nil)
-
-;; Tab in normal mode shouldn't indent
-
-(global-set-key (kbd "TAB") nil)
-(define-key evil-insert-state-map (kbd "TAB") 'indent-for-tab-command)
-
-(define-key evil-normal-state-map (kbd "DEL") 'er-switch-to-previous-buffer)
-(add-hook 'verilog-mode-hook (lambda () (local-unset-key [backspace])))
+(global-set-key (kbd "M-RET") nil)
+(global-set-key (kbd "RET") nil)
 
 ;;------------------------------------------------------------------------------
-;; Evil Bindings
+;; Mode Specific Bindings
 ;;------------------------------------------------------------------------------
 
-(after! evil
+(add-hook! verilog-mode-hook
+  (local-unset-key [backspace]))
 
-  (evil-define-key 'normal system-install-run-minor-mode-map "q" #'bury-buffer)
+(after! lispy
+  (define-key lispy-mode-map        (kbd  "M-<return>") nil)
+  (define-key lispy-mode-map-evilcp (kbd  "M-<return>") nil)
+  (define-key lispy-mode-map-lispy  (kbd  "M-<return>") nil)
+  (define-key lispy-mode-map        (kbd  "M-RET") nil)
+  (define-key lispy-mode-map-evilcp (kbd  "M-RET") nil)
+  (define-key lispy-mode-map-lispy  (kbd  "M-RET") nil))
+
+(after! evil-maps
+
+  (evil-define-key '(motion normal) hog-src-mode-map
+    (kbd "M-RET") #'hog-follow-link-at-point)
+
+  ;; Ctrl + Alt + equal to re-indent buffer
+  (evil-define-key '(motion normal) 'global
+    (kbd "C-M-=") #'re-indent-buffer)
+
+  ;; ???
+  (evil-define-key '(motion normal) 'global
+    (kbd "<C-tab>") (lambda () (interactive) (outline-cycle)))
+  (evil-define-key '(motion normal) 'global
+    (kbd "C-<iso-lefttab>") (lambda () (interactive) (outline-hide-body)))
+
+  ;; Bindings to open files
+  (evil-define-key '(normal motion) 'global
+    (kbd "C-t")   #'open-todo
+    (kbd "C-S-b") #'open-timesheet)
+
+  ;; Jump back and forth through files, time, and space with arrow keys
+  (evil-define-key nil 'global
+    (kbd "<mouse-8>") 'evil-jump-backward
+    (kbd "<mouse-9>") 'evil-jump-forward)
+
+  (evil-define-key 'visual 'global
+    (kbd "C-i") nil)
+
+  ;; middle click to paste
+  (evil-define-key nil 'global
+    (kbd "<mouse-2>") 'evil-paste-after
+    (kbd "M-p")       'evil-paste-after)
+
+  ;; C-p to paste in the minibuffer
+  (evil-define-key nil minibuffer-mode-map
+    (kbd "C-p") #'evil-paste-after)
+
+  ;; Make evil-mode up/down operate in screen lines instead of logical lines
+  (evil-define-key '(motion normal) 'global
+    "j" 'evil-next-visual-line
+    "k" 'evil-previous-visual-line)
+
+  ;; Evil numbers increment/decrement
+  ;; (global-set-key (kbd "C-x") nil)
+
+  (evil-define-key '(motion normal) 'global
+    (kbd "C-a") 'evil-numbers/inc-at-pt
+    (kbd "C-x") 'evil-numbers/dec-at-pt)
+
+  (evil-define-key '(visual) 'global
+    (kbd "C-a") 'evil-numbers/inc-at-pt-incremental
+    (kbd "C-x") 'evil-numbers/dec-at-pt-incremental)
+
+  (evil-define-key nil text-mode-map
+    (kbd "M-q") #'fill-paragraph)
+
+  ;; Tab in normal mode shouldn't indent
+  (evil-define-key 'insert 'global
+    (kbd "TAB") 'indent-for-tab-command)
+
+  ;; Backspace to jump to previous buffer
+  (evil-define-key '(normal motion) 'global
+    (kbd "DEL") 'er-switch-to-previous-buffer)
+
+  (evil-define-key '(normal motion insert) python-mode-map
+    (kbd "C-c C-b") #'py-black)
+
+  (evil-define-key '(normal motion) org-mode-map
+    (kbd "M-q") #'org-fill-paragraph-t)
+
+  (evil-define-key '(normal motion) emacs-lisp-mode-map
+    (kbd "RET") (lambda () (interactive) (open-link-or #'eval-defun))
+    (kbd "M-RET") #'eval-buffer)
+
+  (evil-define-key 'motion clojure-mode-map
+    (kbd "RET") (lambda () (interactive) (open-link-or #'cider-eval-defun-at-point))
+    (kbd "M-RET") #'cider-eval-buffer)
+
+  (evil-define-key 'motion python-mode-map
+    (kbd "RET") (lambda () (interactive) (open-link-or #'python-shell-send-defun))
+    (kbd "M-RET") #'python-shell-send-buffer)
+
+  (evil-define-key 'normal system-install-run-minor-mode-map
+    "q" #'bury-buffer)
+
+  (evil-define-key 'normal elfeed-search-mode-map
+    "q" #'elfeed-kill-buffer
+    "r" #'elfeed-search-update--force
+    (kbd "M-RET") #'elfeed-search-browse-url)
 
   ;; (define-key evil-visual-state-map "\C-b" nil)
   ;; (define-key evil-normal-state-map "\C-b" nil)
@@ -249,21 +290,7 @@ between the two most recently open buffers."
   ;; (evil-define-key 'visual 'latex-mode  "\C-b" 'tex-bold)
   ;; (evil-define-key 'visual 'latex-mode  "\C-i" 'tex-italic)
 
-  ;; bindings to eval buffers
-
-  (evil-define-key 'motion emacs-lisp-mode-map
-    (kbd "RET") (lambda () (interactive) (open-link-or #'eval-buffer)))
-
-  (evil-define-key 'motion clojure-mode-map
-    (kbd "RET") (lambda () (interactive) (open-link-or #'cider-eval-buffer)))
-
-  (evil-define-key 'motion python-mode-map
-    (kbd "RET") (lambda () (interactive) (open-link-or #'python-shell-send-buffer)))
-
-  (evil-define-key 'normal elfeed-search-mode-map
-    "q" #'elfeed-kill-buffer
-    "r" #'elfeed-search-update--force
-    (kbd "M-RET") #'elfeed-search-browse-url))
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Evil Leader Keys

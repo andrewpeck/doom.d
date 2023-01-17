@@ -63,7 +63,7 @@
 (load-idle "~/.doom.d/lisp/regulator")
 (load-idle "~/.doom.d/lisp/tracking")
 (load-idle "~/.doom.d/passwords")
-(load-timer "~/.doom.d/config-evil")
+(load-timer "~/.doom.d/config-keybinds")
 ;; end:sort
 
 
