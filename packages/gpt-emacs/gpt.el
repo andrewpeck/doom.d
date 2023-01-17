@@ -32,7 +32,7 @@
 (require 'plz)
 (require 'json)
 
-(defvar gpt-api-key "" "A key for openai.")
+(defvar gpt-api-key "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" "A key for openai.")
 (defvar gpt-cost-per-token (/ 2.0 1000.0) "Cost for single GPT token.")
 (defvar gpt-text-model "text-davinci-003" "Model used by gpt.")
 (defvar gpt-max-tokens 256 "Max number of tokens.")

@@ -16,11 +16,12 @@
       auto-save-default t          ; Nobody likes to loose work, I certainly don't
       truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
 
-      bookmark-default-file "~/.doom.d/bookmarks" ;
+      ;; place bookmarks in the doom folder for version control
+      bookmark-default-file (concat doom-user-dir "bookmarks")
 
-      +format-on-save-enabled-modes
-      '(not yaml-mode python-mode emacs-lisp-mode
-        sql-mode tex-mode latex-mode org-msg-edit-mode)
+      ;; +format-on-save-enabled-modes
+      ;; '(not yaml-mode python-mode emacs-lisp-mode
+      ;;   sql-mode tex-mode latex-mode org-msg-edit-mode)
 
       ;; Increase the amount of data which Emacs reads from the process.
       ;; Again the emacs default is too low 4k considering that the some
@@ -50,8 +51,9 @@
 (display-time-mode 1)               ; Enable time in the mode-line
 (global-subword-mode 1)             ; Iterate through CamelCase words
 ;; (modify-syntax-entry ?_ "w")     ; Treat underscore as part of a word to match vim behavior
+;; (modify-syntax-entry ?- "w")     ; Treat dash as part of a word
 
-;;
+;; use mouse forward/backward to jump between buffers
 (map! :n [mouse-8] #'previous-buffer
       :n [mouse-9] #'next-buffer)
 
@@ -386,3 +388,19 @@ char of the language you are editing"
   (interactive)
   (save-excursion
     (sort-code-block ";;")))
+
+;;------------------------------------------------------------------------------
+;; Ispell
+;;------------------------------------------------------------------------------
+
+;; Save user defined words to the dictionary
+(after! ispell
+  (setq ispell-personal-dictionary "~/.aspell.en.pws")
+  (defun my-save-word ()
+    (interactive)
+    (let ((current-location (point))
+          (word (flyspell-get-word)))
+      (when (consp word)
+        (flyspell-do-correct 'save nil
+                             (car word) current-location (cadr word)
+                             (caddr word) current-location)))))

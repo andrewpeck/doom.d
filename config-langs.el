@@ -2,9 +2,8 @@
 ;; Awk
 ;;------------------------------------------------------------------------------
 
-(add-hook 'awk-mode-hook (lambda ()
-                           (progn (make-variable-buffer-local 'comment-start)
-                                  (setq comment-start "# "))))
+(add-hook! awk-mode-hook
+  (setq-local  comment-start "# "))
 
 ;; redefine the awk checker to have no-ext enabled on the linter "--lint=no-ext"
 (flycheck-define-checker awk-gawk
@@ -59,65 +58,74 @@
 
   (add-hook 'inferior-emacs-lisp-mode-hook #'set-ielm-comint-input-ring))
 
-;;------------------------------------------------------------------------------
-;; VHDL
-;;------------------------------------------------------------------------------
-
-(setq flycheck-ghdl-language-standard "08")
-
-(defun vhdl-slv->unsigned ()
-  (interactive)
-  (er/mark-symbol)
-  (let ((sig (buffer-substring-no-properties (mark) (point))))
-    (delete-region (mark) (point))
-    (insert (format  "unsigned(%s)" sig))
-    (backward-char 1)))
-
-(defun vhdl-unsigned->slv ()
-  (interactive)
-  (er/mark-symbol)
-  (let ((sig (buffer-substring-no-properties (mark) (point))))
-    (delete-region (mark) (point))
-    (insert (format  "std_logic_vector(%s)" sig))
-    (backward-char 1)))
-
-(defun vhdl-int->slv ()
-  (interactive)
-  (er/mark-symbol)
-  (let ((sig (buffer-substring-no-properties (mark) (point))))
-    (delete-region (mark) (point))
-    (insert (format  "std_logic_vector(to_unsigned(%s, ))" sig))
-    (backward-char 2)))
-
-(defun vhdl-slv->int ()
-  (interactive)
-  (er/mark-symbol)
-  (let ((sig (buffer-substring-no-properties (mark) (point))))
-    (delete-region (mark) (point))
-    (insert (format  "to_integer(unsigned(%s))" sig))))
-
 ;;--------------------------------------------------------------------------------
 ;; Verilog
 ;;--------------------------------------------------------------------------------
 
-(setq
- verilog-align-ifelse t
- verilog-auto-delete-trailing-whitespace t
- verilog-auto-inst-param-value t
- verilog-auto-inst-vector nil
- verilog-auto-lineup (quote all)
- verilog-auto-newline nil
- verilog-auto-save-policy nil
- verilog-auto-template-warn-unused t
- verilog-case-indent 3
- verilog-cexp-indent 3
- verilog-highlight-grouping-keywords t
- verilog-highlight-modules t
- verilog-indent-level 3
- verilog-indent-level-behavioral 3
- verilog-indent-level-declaration 3
- verilog-indent-level-module 3
- verilog-tab-to-comment t)
+(after! verilog
+  (setq verilog-align-ifelse t
+        verilog-auto-delete-trailing-whitespace t
+        verilog-auto-inst-param-value t
+        verilog-auto-inst-vector nil
+        verilog-auto-lineup (quote all)
+        verilog-auto-newline nil
+        verilog-auto-save-policy nil
+        verilog-auto-template-warn-unused t
+        verilog-case-indent 3
+        verilog-cexp-indent 3
+        verilog-highlight-grouping-keywords t
+        verilog-highlight-modules t
+        verilog-indent-level 3
+        verilog-indent-level-behavioral 3
+        verilog-indent-level-declaration 3
+        verilog-indent-level-module 3
+        verilog-tab-to-comment t))
+
+;;------------------------------------------------------------------------------
+;; VHDL Mode
+;;------------------------------------------------------------------------------
+
+;; vhdl mode will wrap comments after some # of characters
+(after! vhdl
+  (add-hook! tcl-mode-hook
+    (setq-local smartparens-mode t
+                auto-fill-mode nil))
+  (setq vhdl-end-comment-column 200
+        vhdl-prompt-for-comments nil)
+
+
+  (setq flycheck-ghdl-language-standard "08")
+
+  (defun vhdl-slv->unsigned ()
+    (interactive)
+    (er/mark-symbol)
+    (let ((sig (buffer-substring-no-properties (mark) (point))))
+      (delete-region (mark) (point))
+      (insert (format  "unsigned(%s)" sig))
+      (backward-char 1)))
+
+  (defun vhdl-unsigned->slv ()
+    (interactive)
+    (er/mark-symbol)
+    (let ((sig (buffer-substring-no-properties (mark) (point))))
+      (delete-region (mark) (point))
+      (insert (format  "std_logic_vector(%s)" sig))
+      (backward-char 1)))
+
+  (defun vhdl-int->slv ()
+    (interactive)
+    (er/mark-symbol)
+    (let ((sig (buffer-substring-no-properties (mark) (point))))
+      (delete-region (mark) (point))
+      (insert (format  "std_logic_vector(to_unsigned(%s, ))" sig))
+      (backward-char 2)))
+
+  (defun vhdl-slv->int ()
+    (interactive)
+    (er/mark-symbol)
+    (let ((sig (buffer-substring-no-properties (mark) (point))))
+      (delete-region (mark) (point))
+      (insert (format  "to_integer(unsigned(%s))" sig)))))
 
 ;;------------------------------------------------------------------------------
 ;; Tcl
@@ -125,7 +133,8 @@
 
 ;; make $ not part of a symbol in tcl-mode
 (after! tcl
-  (add-hook 'tcl-mode-hook #'tree-sitter-hl-mode)
+  (add-hook! tcl-mode-hook (setq-local smartparens-mode t))
+  (add-hook! tcl-mode-hook #'tree-sitter-hl-mode)
   (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
 
 ;;------------------------------------------------------------------------------
@@ -160,18 +169,17 @@
 
 ;; For example, if you prefer double slashes // instead of slash-stars /* ... */
 ;; in c-mode, insert below code into your ~/.emacs:
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            ;; Preferred comment style
-            (setq comment-start "// " comment-end "")))
+(add-hook! c-mode-common-hook
+           ;; Preferred comment style
+           (setq comment-start "// " comment-end ""))
+
 ;;------------------------------------------------------------------------------
 ;; SCAD
 ;;------------------------------------------------------------------------------
 
-(add-hook 'scad-mode-hook
-          (lambda ()
-            (add-hook 'write-contents-functions
-                      #'re-indent-buffer nil t)))
+(add-hook! scad-mode-hook
+  (add-hook 'write-contents-functions
+            #'re-indent-buffer nil t))
 
 ;;------------------------------------------------------------------------------
 ;; Emacs
@@ -187,31 +195,20 @@
 ;;------------------------------------------------------------------------------
 
 (after! nxml
-  (add-hook
-   'nxml-mode-hook
-   (setq nxml-child-indent 2 nxml-attribute-indent 2)))
-
-;; (add-hook 'nxml-mode-hook (lambda () (visual-fill-column-mode -1)))
-;; (defun nxml-pretty-format ()
-;;   (interactive)
-;;   (save-excursion
-;;     (shell-command-on-region (point-min) (point-max)
-;;     "xmllint --format -" (buffer-name) t)
-;;     (nxml-mode)
-;;     (indent-region begin end)))
+  (setq nxml-child-indent 2
+        nxml-attribute-indent 2)
+  (add-hook! nxml-mode-hook
+    (visual-fill-column-mode -1))
+  (defun nxml-pretty-format ()
+    (interactive)
+    (save-excursion
+      (shell-command-on-region (point-min) (point-max)
+                               "xmllint --format -" (buffer-name) t)
+      (nxml-mode)
+      (indent-region begin end))))
 
 ;;------------------------------------------------------------------------------
 ;; Python
 ;;------------------------------------------------------------------------------
 
-(setq python-shell--interpreter  "python3")
-
-;;------------------------------------------------------------------------------
-;; VHDL Mode
-;;------------------------------------------------------------------------------
-
-;; vhdl mode will wrap comments after some # of characters
-(after! vhdl
-  (setq vhdl-end-comment-column 200
-        vhdl-prompt-for-comments nil
-        auto-fill-mode nil))
+(setq python-shell--interpreter "python3")

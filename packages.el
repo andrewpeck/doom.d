@@ -4,6 +4,8 @@
 (package! hl-line :disable t)
 (package! powerline :disable t)
 (package! popwin :disable t)
+(package! popwin :disable t)
+(package! ivy :disable t)
 
 ;; Org mode
 (package! evil-org)

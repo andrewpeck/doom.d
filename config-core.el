@@ -1,6 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-
 ;;------------------------------------------------------------------------------
 ;;; Appearance
 ;;------------------------------------------------------------------------------
@@ -27,12 +26,14 @@
 (add-to-list 'load-path "~/.doom.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
-(cond
- ;; ((not (display-graphic-p)) (setq doom-theme 'monochrome-solarized))
- ((string= (system-name) "pepper")  (setq doom-theme 'doom-zenburn))
- ((string= (system-name) "larry")   (setq doom-theme 'doom-zenburn))
- ((string= (system-name) "strange") (setq doom-theme 'doom-spacegray))
- (t (setq doom-theme 'doom-one)))
+(setq doom-theme
+      (if (not (display-graphic-p))
+          'monochrome-solarized
+        (pcase (system-name)
+          ("pepper"  'doom-zenburn)
+          ("larry"   'doom-zenburn)
+          ("strange" 'doom-spacegray)
+          (_         'doom-one))))
 
 ;;------------------------------------------------------------------------------
 ;;; FONT

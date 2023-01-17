@@ -89,10 +89,9 @@
   (setq reftex-toc-split-windows-horizontally t)
   (setq reftex-toc-split-windows-fraction 0.15)
   (setq-default TeX-master nil)
-  (add-hook 'LaTeX-mode-hook (lambda () (reftex-mode 1)))
-  (add-hook 'reftex-toc-mode-hook
-            (lambda ()
-              (define-key reftex-toc-mode-map (kbd "<return>") 'reftex-toc-goto-line)))
+  (add-hook! 'LaTeX-mode-hook (reftex-mode 1))
+  (add-hook! 'reftex-toc-mode-hook
+    (define-key reftex-toc-mode-map (kbd "<return>") 'reftex-toc-goto-line))
 
   ;; Electric Space
   ;;------------------------------------------------------------------------------

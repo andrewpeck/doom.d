@@ -17,6 +17,11 @@
 ;; Start emacs in full screen by default
 (add-to-list 'default-frame-alist
              '(fullscreen . maximized))
+;; Prevents some cases of Emacs flickering
+(add-to-list 'default-frame-alist
+             '(inhibit-double-buffering . t))
+
+(menu-bar-mode 0)                   ; Turn off menu bar
 
 (setq comp-deferred-compilation t)
 
