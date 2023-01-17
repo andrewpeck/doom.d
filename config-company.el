@@ -4,7 +4,7 @@
 
   (add-hook 'after-init-hook 'global-company-mode) ; turn on company
 
-  (setq company-idle-delay 0.25
+  (setq company-idle-delay 1.0
         company-minimum-prefix-length 2
         company-icon-size '(auto-scale . 24))
 
