@@ -6,7 +6,7 @@
 	url = https://github.com/andrewpeck/hdl_deps
 [submodule "lisp/tabular"]
 	path = packages/tabular
-	url = ./lisp/tabular/
+	url =https://github.com/andrewpeck/tabular
 [submodule "lisp/system-install.el"]
 	path = packages/system-install
 	url = https://github.com/andrewpeck/system-install.el
