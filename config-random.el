@@ -139,8 +139,8 @@
   )
 
 (after! tree-sitter
-  (add-hook! tcl-mode-hook    #'tree-sitter-hl-mode)
-  (add-hook! python-mode-hook #'tree-sitter-hl-mode))
+  (add-hook! 'tcl-mode-hook    #'tree-sitter-hl-mode)
+  (add-hook! 'python-mode-hook #'tree-sitter-hl-mode))
 
 (after! emojify-mode
   (setq global-emojify-mode t))
