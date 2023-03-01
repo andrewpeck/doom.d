@@ -49,7 +49,7 @@
 
   ;; make sure that the target file exists
   (if (not (file-exists-p a))
-      (princ (format "- [ ] %s not found\n"  check a ))
+      (princ (format "- [ ] %s not found\n"  a ))
     (progn
       (shell-command (format "mkdir -p %s" (file-name-directory b)))
 
