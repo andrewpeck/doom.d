@@ -29,7 +29,7 @@
 
 (defun load!! (pkg)
 "Demote errors while loading a file to prevent errors in startup from cascading."
-  (with-demoted-errors (load! pkg)))
+  (with-demoted-errors "Error %s" (load! pkg)))
 
 (defun load-timer (pkg &optional timer)
   "Load package on a timer."
@@ -68,7 +68,7 @@
 
 
 (when (string= (system-name) "larry")
-  (load!!! "~/.doom.d/config-mail"))
+  (load!! "~/.doom.d/config-mail"))
 
 (when init-file-debug
   (benchmark-init/deactivate))
