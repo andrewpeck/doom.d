@@ -166,6 +166,7 @@ they are installed and the computer is set up ok"
         ;; python
         (check-for-exe "pyright" :url "https://github.com/microsoft/pyright" :cmd "pip install pyright" :noroot t)
         (check-for-exe "black" :cmd "pip install black" :noroot t)
+        (check-for-exe "pyment" :cmd "pip install pyment" :noroot t)
         (check-for-exe "pyimport" :cmd "pip install pyimport" :noroot t)
         (check-for-exe "isort" :cmd "pip install isort" :noroot t)
         (check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
