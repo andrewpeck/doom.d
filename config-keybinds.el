@@ -32,32 +32,12 @@
    ((thing-at-point 'url) (link-hint-open-link-at-point))
    (t (call-interactively fn))))
 
-;; (defmacro affe-find-x! (name path &optional bind)
-;;   `(define-key evil-normal-state-map (kbd ,bind) (quote ,name))
-;;   `(defun ,name () (interactive) (affe-find ,path)))
-
-;; (affe-find-x! affe-find-home      "~/"           "C-o")
-;; (affe-find-x! affe-find-work      "~/work"       "C-y")
-;; (affe-find-x! affe-find-notes     "~/Sync/notes" "C-n")
-;; (affe-find-x! affe-find-dotfiles  "~/.dotfiles"  "C-i")
-
-(defun affe-find-home () (interactive) (affe-find "~/"))
-(define-key evil-normal-state-map (kbd "C-o") #'affe-find-home)
-
-(defun affe-find-work () (interactive) (affe-find "~/work"))
-(define-key evil-normal-state-map (kbd "C-y") #'affe-find-work)
-
+(defun affe-find-home    () (interactive) (affe-find "~/"))
+(defun affe-find-work    () (interactive) (affe-find "~/work"))
 (defun affe-find-project () (interactive) (affe-find (projectile-project-root)))
-(define-key evil-normal-state-map (kbd "C-p") #'affe-find-project)
-
 (defun affe-grep-project () (interactive) (affe-grep (projectile-project-root)))
-(define-key evil-normal-state-map (kbd "C-S-p") #'affe-grep-project)
-
-(defun affe-find-notes () (interactive) (affe-find "~/Sync/notes"))
-(define-key evil-normal-state-map (kbd "C-n") #'affe-find-notes)
-
+(defun affe-find-notes   () (interactive) (affe-find "~/work/notes"))
 (defun affe-find-dotfile () (interactive) (affe-find "~/.dotfiles"))
-(define-key evil-normal-state-map (kbd "C-n") #'affe-find-notes)
 
 (defun re-indent-buffer ()
   (interactive)
@@ -75,21 +55,24 @@
      (outline-cycle))))
 
 (setq preferred-terminal
-      (pcase (system-name)
-        ("pepper"  '("terminator" "--working-directory"))
-        ("larry"   '("terminator" "--working-directory"))
-        ("cobweb"  '("terminator" "--working-directory"))
-        ("strange" '("terminator" "--working-directory"))
-        (_         '("terminator" "--working-directory"))))
+      (let* ((suffixes '((terminator . "--working-directory")))
+             (pref-shell (pcase (system-name)
+                       ("pepper" 'terminator)
+                       ("larry" 'terminator)
+                       ("cobweb" 'terminator)
+                       ("strange" 'terminator)
+                       (_ 'terminator)))
+             (assl (assoc pref-shell suffixes)))
+        (list (symbol-name (car assl)) (cdr assl))))
 
 (defun open-pwd-in-terminal ()
   "Opens the present working directory in terminal"
   (interactive)
   (let ((pwd (cl-case major-mode
                ;; magit mode
-               ('magit-status-mode (projectile-project-root))
+               (magit-status-mode (projectile-project-root))
                ;; dired
-               ('dired-mode (file-name-directory (dired-get-filename)))
+               (dired-mode (file-name-directory (dired-get-filename)))
                ;; default
                (t (file-name-directory (buffer-file-name))))))
     (start-process "*terminal*" nil
@@ -97,13 +80,13 @@
                    (executable-find (car preferred-terminal)) (cadr preferred-terminal) pwd)))
 
 (defun open-buffer-in-vim ()
-  "Opens the current buffer in gvim :)"
+  "Opens the current buffer in gvim."
   (interactive)
   (start-process "*gvim*" nil "setsid"
                  (executable-find "gvim") (buffer-file-name)))
 
 (defun org-make-tables-pretty ()
-  "Makes org mode tables pretty in the current buffer"
+  "Makes org mode tables pretty in the current buffer."
   (interactive)
   (org-table-map-tables 'org-table-align))
 
@@ -135,6 +118,7 @@
        (revert-buffer))
 
 (defun pyment () (interactive)
+       "Format buffer with python pyment"
        (save-buffer)
        (print (shell-command-to-string (concat "pyment -o google -w " (buffer-file-name))))
        (revert-buffer))
@@ -149,12 +133,12 @@ between the two most recently open buffers."
 (defun open-todo ()
   "Open my todo file"
   (interactive)
-  (find-file "~/Sync/notes/todo.org"))
+  (find-file "~/work/notes/todo.org"))
 
 (defun open-timesheet ()
   "Open my EDF timesheet"
   (interactive)
-  (find-file "~/Sync/billing/billing.org")
+  (find-file "~/work/billing/billing.org")
   (goto-char (point-max))
   (re-search-backward "TBLFM")
   (org-reveal)
@@ -164,19 +148,6 @@ between the two most recently open buffers."
 
 ;;------------------------------------------------------------------------------
 ;; Keybindings
-;;------------------------------------------------------------------------------
-
-;; unbind annoying emacs bindings
-(define-key evil-normal-state-map "\C-p" nil)
-(define-key evil-normal-state-map "\C-d" nil)
-(global-set-key (kbd "M-<left>") nil)
-(global-set-key (kbd "M-<right>") nil)
-(global-set-key (kbd "M-`") nil)
-(global-set-key (kbd "M-RET") nil)
-(global-set-key (kbd "RET") nil)
-
-;;------------------------------------------------------------------------------
-;; Mode Specific Bindings
 ;;------------------------------------------------------------------------------
 
 (add-hook! verilog-mode-hook
@@ -192,6 +163,20 @@ between the two most recently open buffers."
 
 (after! evil-maps
 
+  ;; Affe
+  (evil-define-key '(motion normal) 'global
+    (kbd "C-o")   #'affe-find-home
+    (kbd "C-y")   #'affe-find-work
+    (kbd "C-p")   #'affe-find-project
+    (kbd "C-S-p") #'affe-grep-project
+    (kbd "C-n")   #'affe-find-notes
+    (kbd "C-n")   #'affe-find-notes)
+
+  ;; Org
+  (evil-define-key nil org-mode-map
+    (kbd "TAB") #'org-cycle)
+
+  ;; Hog
   (evil-define-key '(motion normal) hog-src-mode-map
     (kbd "M-RET") #'hog-follow-link-at-point)
 
@@ -232,19 +217,21 @@ between the two most recently open buffers."
     "j" 'evil-next-visual-line
     "k" 'evil-previous-visual-line)
 
-  ;; Evil numbers increment/decrement
-  ;; (global-set-key (kbd "C-x") nil)
-
+  ;; Addition / Subtraction
   (evil-define-key '(motion normal) 'global
     (kbd "C-a") 'evil-numbers/inc-at-pt
     (kbd "C-x") 'evil-numbers/dec-at-pt)
-
   (evil-define-key '(visual) 'global
     (kbd "C-a") 'evil-numbers/inc-at-pt-incremental
     (kbd "C-x") 'evil-numbers/dec-at-pt-incremental)
 
+  ;; Fill Paragraph
   (evil-define-key nil text-mode-map
     (kbd "M-q") #'fill-paragraph)
+  (evil-define-key nil org-mode-map
+    (kbd "M-q") #'org-fill-paragraph-t)
+  (evil-define-key nil latex-mode-map
+    (kbd "M-q") #'ap/line-fill-paragraph)
 
   ;; Tab in normal mode shouldn't indent
   (evil-define-key 'insert 'global
@@ -256,9 +243,6 @@ between the two most recently open buffers."
 
   (evil-define-key '(normal motion insert) python-mode-map
     (kbd "C-c C-b") #'py-black)
-
-  (evil-define-key '(normal motion) org-mode-map
-    (kbd "M-q") #'org-fill-paragraph-t)
 
   (evil-define-key '(normal motion) emacs-lisp-mode-map
     (kbd "RET") (lambda () (interactive) (open-link-or #'eval-defun))
@@ -276,8 +260,8 @@ between the two most recently open buffers."
     "q" #'bury-buffer)
 
   (evil-define-key 'normal elfeed-search-mode-map
-    "q" #'elfeed-kill-buffer
-    "r" #'elfeed-search-update--force
+    (kbd  "q")    #'elfeed-kill-buffer
+    (kbd  "r")    #'elfeed-search-update--force
     (kbd "M-RET") #'elfeed-search-browse-url)
 
   ;; (define-key evil-visual-state-map "\C-b" nil)
@@ -290,7 +274,6 @@ between the two most recently open buffers."
   ;; (evil-define-key 'visual 'latex-mode  "\C-b" 'tex-bold)
   ;; (evil-define-key 'visual 'latex-mode  "\C-i" 'tex-italic)
 
-  )
 
 ;;------------------------------------------------------------------------------
 ;; Evil Leader Keys
@@ -303,7 +286,7 @@ between the two most recently open buffers."
   (evil-leader/set-key "ot" 'open-pwd-in-terminal)
   (evil-leader/set-key "vv" 'open-buffer-in-vim)
   (evil-leader/set-key "rr" 'projectile-recentf)
-  (evil-leader/set-key "rtw" 'delete-trailing-whitespace) ;; delete trailing whitespace
+  (evil-leader/set-key "rtw" 'delete-trailing-whitespace)
   (evil-leader/set-key "pp" 'org-publish-current-project))
 
 ;;------------------------------------------------------------------------------
