@@ -82,4 +82,17 @@
   '(flyspell-incorrect :underline (:style wave :color "#CC9393") )
   '(flycheck-error :underline (:style wave :color "#552424") )
   '(flycheck-info :underline (:style wave :color "#75898a") )
-  '(highlight-quoted-symbol :inherit font-lock-variable-name-face :slant italic))
+  '(highlight-quoted-symbol :inherit font-lock-variable-name-face :slant italic)
+  '(font-latex-italic-face :inherit default :slant italic)
+  '(font-latex-bold-face :inherit default :weight bold))
+
+(custom-theme-set-faces! 'doom-zenburn
+  '(font-latex-italic-face :inherit default :slant italic)
+  '(font-latex-bold-face :inherit default :weight bold)
+  )
+
+(custom-theme-set-faces! 'hima
+  '(font-latex-italic-face :inherit default :slant italic)
+  '(font-latex-bold-face :inherit default :weight bold)
+  '(font-lock-type-face :inherit default :family "Courier New" )
+  )

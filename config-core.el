@@ -23,15 +23,13 @@
   (all-the-icons-ibuffer-mode 1))
 
 ;; Theme
-(add-to-list 'load-path "~/.doom.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
 (setq doom-theme
-      (if (not (display-graphic-p))
-          'monochrome-solarized
+      (if (not (display-graphic-p)) 'monochrome-solarized
         (pcase (system-name)
-          ("pepper"  'doom-zenburn)
-          ("larry"   'doom-zenburn)
+          ("pepper"  'doom-gruvbox)
+          ("larry"   'doom-gruvbox)
           ("strange" 'doom-spacegray)
           (_         'doom-one))))
 
