@@ -23,7 +23,7 @@
 
 (menu-bar-mode 0)                   ; Turn off menu bar
 
-(setq comp-deferred-compilation t)
+(setq display-line-numbers nil)
 
 (doom!
     :completion
@@ -35,11 +35,12 @@
         (vertico +icons)      ; the search engine of the future
 
     :ui
-        doom                ; what makes DOOM look the way it does
+      doom                  ; what makes DOOM look the way it does
       ;;deft                ; notational velocity for Emacs
       doom-dashboard        ; a nifty splash screen for Emacs
       ;;doom-quit           ; DOOM quit-message prompts when you quit Emacs
-      hl-todo             ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+      emoji                 ; what makes DOOM look the way it does
+      hl-todo               ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
       ;;hydra               ; This module adds hydra to Doom Emacs
       ;;indent-guides       ; highlighted indent columns
       ;;(modeline +light)   ; snazzy, Atom-inspired modeline, plus API
@@ -50,7 +51,7 @@
         +all                ; catch all popups that start with an asterix
         +defaults)          ; default popup rules
       ;;pretty-code         ; replace bits of code with pretty symbols
-      ;; tabs               ; an tab bar for Emacs
+      ;;tabs               ; an tab bar for Emacs
       ;;treemacs            ; a project drawer, like neotree but cooler
       ;;unicode             ; extended unicode support for various languages
        (vc-gutter +pretty)  ; vcs diff in the fringe
@@ -95,6 +96,7 @@
         ;;debugger          ; FIXME stepping through code, to help you add bugs
         ;;direnv
         docker
+        ein
         tree-sitter
         ;;editorconfig      ; let someone else argue about tabs vs spaces
         ;;ein               ; tame Jupyter notebooks with emacs
@@ -115,15 +117,15 @@
 
     :os
         (:if IS-MAC macos)  ; improve compatibility with macOS
-        ;;tty               ; improve the terminal Emacs experience
+        tty               ; improve the terminal Emacs experience
 
     :lang
         ;;agda               ; types of types of types of types...
         ;;assembly           ; assembly for fun or debugging
-      ;;(cc +lsp)            ; C/C++/Obj-C madness
+        ;;(cc +lsp)            ; C/C++/Obj-C madness
         (clojure +lsp)       ; java with a lisp
         (json +lsp +tree-sitter) ; json, uhg
-      ;;common-lisp          ; if you've seen one lisp, you've seen them all
+        ;;common-lisp          ; if you've seen one lisp, you've seen them all
         ;;coq                ; proofs-as-programs
         ;;crystal            ; ruby at the speed of c
         ;;csharp             ; unity, .NET, and mono shenanigans
@@ -209,7 +211,7 @@
     (default +bindings +smartparens))
 
 (when init-file-debug
-  (load "/home/andy/.emacs.d/.local/straight/repos/benchmark-init-el/benchmark-init")
+  (load "~/.emacs.d/.local/straight/repos/benchmark-init-el/benchmark-init")
   (require 'benchmark-init)
   (add-hook 'doom-first-input-hook #'benchmark-init/deactivate))
 
