@@ -59,12 +59,16 @@ nil."
                   mode-line-buffer-identification)
 
                 ;; Right.
-                `("l%l⸱c%c⸱%p"
-                  " ·"
-                  (vc-mode vc-mode)
-                  " · "
+                `(,(if (or defining-kbd-macro executing-kbd-macro)
+                       (concat "MACRO(" (char-to-string evil-this-macro) ") · ") "")
+
+                  "l%l⸱c%c⸱%p" " ·"
+
+                  (vc-mode vc-mode) " · "
+
                   ,(format "%s" (if (listp mode-name) (car mode-name) mode-name))
                   " · "
-                  flycheck-mode-line
-                  " ")))))
+
+                  flycheck-mode-line " ")))))
+
 (setq-default mode-line-format mode-line-format)
