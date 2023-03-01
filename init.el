@@ -27,7 +27,7 @@
 
 (doom!
     :completion
-      (company)               ; the ultimate code completion backend
+      (company +tng)          ; the ultimate code completion backend
       ;;helm                  ; the *other* search engine for love and life
       ;;ido                   ; the other *other* search engine...
       ;;(ivy +fuzzy)          ; a search engine for love and life
@@ -103,7 +103,7 @@
         (lookup             ; helps you navigate your code and documentation
          +dictionary
         +docsets)           ; ...or in Dash docsets locally
-        (lsp +eglot)
+        (lsp)
         (magit +forge)      ; a git porcelain for Emacs
         make                ; run make tasks from Emacs
         ;;pass              ; password manager for nerds
@@ -159,8 +159,8 @@
         (org                 ; organize your plain life in plain text
          ;; +roam2
          +gnuplot
-         ;;+pretty         ; Enables pretty unicode symbols for bullets and priorities
-         ;; +dragndrop   ; drag & drop files/images into org buffers
+         ;;+pretty       ; Enables pretty unicode symbols for bullets and priorities
+         +dragndrop      ; drag & drop files/images into org buffers
          +pandoc         ; export-with-pandoc support
          ;;+hugo         ; use Emacs for hugo blogging
          ;;+jupyter      ; ipython/jupyter support for babel
@@ -179,7 +179,7 @@
         ;;rest              ; Emacs as a REST client
         ;;rst               ; ReST in peace
         ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-        ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+        rust                ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
         ;;scala             ; java, but good
         ;;scheme            ; a fully conniving family of lisps
         (sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
