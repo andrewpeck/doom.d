@@ -58,8 +58,10 @@
       :n [mouse-9] #'next-buffer)
 
 ;; Backups
-(setq backup-each-save-mirror-location "~/emacs-backups")
-(add-hook 'after-save-hook 'backup-each-save)
+(after! backup-each-save
+  (setq backup-each-save-mirror-location "~/emacs-backups")
+  (require 'backup-each-save)
+  (add-hook 'after-save-hook 'backup-each-save))
 
 ;;
 (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
