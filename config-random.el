@@ -196,8 +196,15 @@ is deferred until the file is saved. Respects `git-gutter:disabled-modes'."
                   (cl-remove-if-not #'savehist-printable register-alist)))))
 
 (after! tramp
-  (setq tramp-ssh-controlmaster-options "-o ControlMaster=no")
-  (setq tramp-histfile-override "~/.tramp_history")
+
+  (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
+        tramp-use-ssh-controlmaster-options t
+        tramp-histfile-override "~/.tramp_history"
+        tramp-inline-compress-start-size 1000
+        tramp-copy-size-limit 10000
+        vc-handled-backends '(Git)
+        tramp-verbose 1
+        tramp-default-method "scp")
 
   ;; Another way to find the remote path is to use the path assigned to the remote user by the
   ;; remote host. TRAMP does not normally retain this remote path after login. However,
