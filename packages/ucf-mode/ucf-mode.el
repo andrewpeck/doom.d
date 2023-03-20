@@ -1,4 +1,6 @@
-;;; ../.dotfiles/doom.d/lisp/ucf-mode.el -*- lexical-binding: t; -*-
+;;; ucf-mode -- --*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 
 ;;  Major mode for editing Xilinx UCF files
 ;;
@@ -18,13 +20,13 @@
 ;; start with one of these, I think.  Exceptions seem to be some
 ;; TIMESPEC constraints where attributes (like OFFSET) implicitly
 ;; refer to the most recent TIMESPEC?
-(setq ucf-constraint-keywords
+(defvar ucf-constraint-keywords
       '("NET" "INST" "PIN" "TIMESPEC" "TIMEGRP" "CONFIG" "AREA_GROUP"))
 
 ;; "Attributes" are the FOO in "FOO=BAR" statements.  This list is not
 ;; exhaustive!  I'm also including other "joining" keywords that say
 ;; what the constraint means, like FROM-THRU-TO, and PERIOD.
-(setq ucf-constraint-attributes-etc
+(defvar ucf-constraint-attributes-etc
       '("TNM_NET" "TPTHRU" "PERIOD" "OFFSET" "OUT" "VALID" "BEFORE" "AFTER" "LOC"
         "IOSTANDARD" "FROM" "THRU" "TO" "TNM" "LOC" "RLOC" "BEL"
         "BUFG" "CLOCK_DEDICATED_ROUTE" "DIFF_TERM" "FAST" "FLOAT"
@@ -32,11 +34,12 @@
         "CONFIG_MODE" "DCI_CASCADE" "ENABLE_SUSPEND" "PROHIBIT"
         "MCB_PERFORMANCE" "POST_CRC" "POST_CRC_ACTION" "POST_CRC_FREQ"
         "POST_CRC_INIT_FLAG" "POST_CRC_SIGNAL" "POST_CRC_SOURCE"
-        "STEPPING" "VCCAUX" "VREF" "RANGE" "GROUP" "PLACE"))
+        "STEPPING" "VCCAUX" "VREF" "RANGE" "GROUP" "PLACE"
+        "SLEW" "DRIVE" "IOB"))
 
 ;; "Constants" are pre-defined values (the "BAR" in "FOO=BAR") as well
 ;; as "tags" like TIG, and defined units like "MHz".
-(setq ucf-constraint-constants
+(defvar ucf-constraint-constants
       ;; Miscelaneous values -- not exhaustive
       '("HIGH" "RISING" "FALLING" "IN" "DATAPATHONLY" "TIG" "FALSE"
         "TRUE" "YES" "NO" "PULLUP" "UPPER" "LOWER" "CLK" "OE" "SR"
@@ -71,7 +74,7 @@
         ;; Misc
         "HT_25" "RSDS_25" "LVPECL_25"))
 
-(setq things-with-xy-locations
+(defvar things-with-xy-locations
       ;; From UG625 v.13.4 pp47-49
       '("BSCAN" "BUFDS" "BUFGCTRL" "BUFGMUX" "BUFHCE" "BUFH" "BUFIO2FB"
         "BUFIO2" "BUFIODQS" "BUFIO""BUFO" "BUFPLL_MCB" "BUFPLL" "BUFR"
@@ -84,32 +87,27 @@
         "PPC405_AV" "PPC440" "PPR_FRAME" "RAMB16" "RAMB18" "RAMB36" "RAMB8"
         "SLICE" "STARTUP" "SYSMON" "TEMAC" "TIEOFF" "USR_ACCESS"))
 
-(setq located-things-re
+(defvar ucf-located-things-re
       (concat "\\<"
               (regexp-opt things-with-xy-locations nil)
               "_X[0-9]+Y[0-9]+"
               "\\>"))
 
-(setq things-with-numbers
-      '("INTERNAL_VREF_BANK" "VCCOSENSEMODE"))
+(defvar ucf-numbered-things-re
+  (let ((things-with-numbers '("INTERNAL_VREF_BANK" "VCCOSENSEMODE")))
+    (concat "\\<"
+            (regexp-opt things-with-numbers nil)
+            "[0-9]+"
+            "\\>")))
 
-(setq numbered-things-re
-      (concat "\\<"
-              (regexp-opt things-with-numbers nil)
-              "[0-9]+"
-              "\\>"))
-
-(setq ucf-numbers-re
-      (concat "\\<"
-              "[0-9]+\.?[0-9]+"
-              "\\>"))
-
-(setq ucf-string-re "\"[^\s]+\"")
+(defvar ucf-numbers-re "\\<[0-9]+\.?[0-9]*\\>")
+(defvar ucf-string-re "\"[^\"]*\"")
+(setq ucf-numbers-re "\\<[0-9]+\\>")
 
 ;; name-introducers" imply that the next symbol is a new name in the
 ;; constraint file. That is in a like "FOO BAR BAZ ...", if "FOO" is a
 ;; name-introducer, then "BAR" is a name.
-(setq ucf-name-introducers
+(defvar ucf-name-introducers
       '("NET" "INST" "TIMESPEC" "TIMEGRP" "AREA_GROUP" "AFTER"))
 
 ;;;###autoload
@@ -125,18 +123,35 @@
   ;;    element of this list should have the same form as an element of
   ;;    font-lock-keywords.
 
-  `((,(regexp-opt ucf-constraint-keywords 'symbols) . 'font-lock-keyword-face)
-    (,ucf-numbers-re . 'highlight-numbers-number)
-    (,(regexp-opt ucf-constraint-attributes-etc 'symbols) .  'font-lock-type-face)
-    (,numbered-things-re . 'font-lock-type-face)
-    (,(regexp-opt ucf-constraint-constants 'symbols) .  'font-lock-constant-face)
-    (,located-things-re . 'font-lock-constant-face)
-    ;; Anchored regexp should highlight the BAR in FOO BAR or FOO "BAR".
-    (,(regexp-opt ucf-name-introducers 'symbols) "\\_<\"?\\(.*?\\)\"?\\_>\\(.+\\)"
+  (list
+
+   ;; highlight NET etc
+   (cons (regexp-opt ucf-constraint-keywords 'symbols) 'font-lock-keyword-face)
+
+
+   ;; highlight PERIOD etc
+   (cons (regexp-opt ucf-constraint-attributes-etc 'symbols) 'font-lock-type-face)
+
+   ;; highlights INTERNAL_VREF_BANK{X} etc
+   (cons ucf-numbered-things-re 'font-lock-type-face)
+
+   ;; constants such as ns, LVCMOS33, etc
+   (cons (regexp-opt ucf-constraint-constants 'symbols) 'font-lock-constant-face)
+
+   ;; highlights X0Y0 etc
+   (cons ucf-located-things-re 'font-lock-constant-face)
+
+   ;; Anchored regexp should highlight the BAR in FOO BAR or FOO "BAR".
+   `(,(regexp-opt ucf-name-introducers 'symbols) "\\_<\"?\\(.*?\\)\"?\\_>\\(.+\\)"
      nil nil
      (1 'font-lock-string-face))
-    (,ucf-string-re . 'font-lock-string-face)
-    )
+
+   ;; stuff in quotes
+   (cons ucf-string-re 'font-lock-string-face)
+
+   ;; numbers
+   (cons ucf-numbers-re 'font-lock-type-face)
+   )
 
   ;; auto-mode-list
   '(".ucf\\'")
@@ -179,3 +194,4 @@
   "Major mode for editing Xilinx User Constraints Files")
 
 (provide 'ucf-mode)
+;;; ucf-mode.el ends here
