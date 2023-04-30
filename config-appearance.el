@@ -1,16 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
 ;;------------------------------------------------------------------------------
-;; Syntax Highlighting
-;;------------------------------------------------------------------------------
-
-;; enable syntax highlighting for vimrc files
-(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))   ; vimrc
-(add-to-list 'auto-mode-alist '("\\.xdc\\'"          . vivado-mode))  ; tcl mode for xdc files
-(add-to-list 'auto-mode-alist '("\\.ltx\\'"          . json-mode))    ; json mode for ltx files
-(add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; cpp mode for arduino files
-
-;;------------------------------------------------------------------------------
 ;; Rainbow Delimeters
 ;;------------------------------------------------------------------------------
 
