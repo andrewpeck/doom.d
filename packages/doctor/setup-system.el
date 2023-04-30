@@ -36,39 +36,13 @@
           (princ (concat pad "#+end_src\n")))))))
 
 (defun shell-command-nil (command)
+  "Wraps `shell-command` and return nil instead of 0 from the output of COMMAND."
   (let ((ret (shell-command command)))
     (if (= 0 ret) t nil)))
 
-(defun dotfiles (file)
-  (concat (expand-file-name "~/Sync/dotfiles/") file))
-
-(defun make-symlink (a b)
-
-  (setq a (expand-file-name a))
-  (setq b (expand-file-name b))
-
-  ;; make sure that the target file exists
-  (if (not (file-exists-p a))
-      (princ (format "- [ ] %s not found\n"  a ))
-    (progn
-      (shell-command (format "mkdir -p %s" (file-name-directory b)))
-
-      (when (not (file-exists-p b))
-        (shell-command (format "ln -sn %s %s"  a b)))
-
-      (let* ((command (concat  "printf %s \"$(readlink " b ")\""))
-             (check (if  (string= (shell-command-to-string command) a)
-                        "X" " ")))
-        (princ (format "- [%s] ~%s~ → ~%s~\n"  check a b))))))
-
-(defun check-for-path (path)
-  (if (not (file-directory-p path))
-      (progn (princ (format "- [ ] path %s was not found\n" path)))
-    (progn (princ (format "- [X] path %s found\n" path)))))
-
 ;;;###autoload
 (defun fix-ssh-permissions ()
-  "Fix the ssh permissions on host computer"
+  "Fix the ssh permissions on host computer."
   (interactive)
   (and (shell-command-nil "chmod o-w ~/")
        (shell-command-nil "chmod 700 ~/.ssh > /dev/null 2>&1")
@@ -78,217 +52,246 @@
 
 ;;;###autoload
 (defun setup-system ()
-  "Keep a list of useful programs and other things, make sure
-they are installed and the computer is set up ok"
+  "Keep a list of useful programs and other things.
+Make sure they are installed and the computer is set up ok"
   (interactive)
 
-  (let ((buffer "*Setup System*"))
-    (with-output-to-temp-buffer buffer
-      (with-current-buffer buffer
+  (cl-flet
+      ((check-for-path
+        (path)
+        (if (not (file-directory-p path))
+            (progn (princ (format "- [ ] path %s was not found\n" path)))
+          (progn (princ (format "- [X] path %s found\n" path)))))
 
-        (read-only-mode -1)
-        (org-mode)
+       (dotfiles (file)
+         (concat (expand-file-name "~/Sync/dotfiles/") file))
 
-        (princ "* Setup System\n")
-        (princ "** Checking for required programs\n")
-        ;; external programs wanted by my emacs
-        (check-for-exe "terminator" :ubuntu "terminator")
-        (check-for-exe "bat" :ubuntu "bat")
-        (check-for-exe "fd" :dnf "fd-find" :ubuntu "fd-find")
-        ;; $ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
-        ;; $ sudo dpkg -i ripgrep_13.0.0_amd64.deb
-        (check-for-exe "ag" :ubuntu "silversearcher-ag" :dnf "the_silver_searcher")
+       (make-symlink (a b)
 
-        ;; python
-        (check-for-exe "pip3" :ubuntu "python3-pip" :dnf "python3-pip")
-        (check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
-        (check-for-exe "isort" :cmd "pip install isort" :noroot t)
-        (check-for-exe "pytest" :cmd "pip install pytest" :noroot t)
-        (check-for-exe "wordcloud_cli" :cmd "pip install wordcloud" :noroot t)
+         (setq a (expand-file-name a))
+         (setq b (expand-file-name b))
 
-        ;; clojure
-        (check-for-exe "clj-kondo" :noroot t :cmd "cd /tmp && curl -sLO https://raw.githubusercontent.com/clj-kondo/clj-kondo/master/script/install-clj-kondo && chmod +x install-clj-kondo && ./install-clj-kondo --dir ~/.local/bin")
-        (check-for-exe "clojure-lsp" :cmd "sudo bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)")
+         ;; make sure that the target file exists
+         (if (not (file-exists-p a))
+             (princ (format "- [ ] %s not found\n"  a ))
+           (progn
+             (shell-command (format "mkdir -p %s" (file-name-directory b)))
 
-        ;; sbcl
-        (check-for-exe "sbcl" :ubuntu "sbcl" :dnf "sbcl")
+             (when (not (file-exists-p b))
+               (shell-command (format "ln -sn %s %s"  a b)))
 
-        ;; gnuplot
-        (check-for-exe "gnuplot" :ubuntu "gnuplot" :dnf "gnuplot")
+             (let* ((command (concat  "printf %s \"$(readlink " b ")\""))
+                    (check (if  (string= (shell-command-to-string command) a)
+                               "X" " ")))
+               (princ (format "- [%s] ~%s~ → ~%s~\n"  check a b)))))))
 
-        ;; npm
-        (check-for-exe "npm" :ubuntu "npm" :dnf "npm")
+    (let ((buffer "*Setup System*"))
+      (with-output-to-temp-buffer buffer
+        (with-current-buffer buffer
 
-        ;; proselint
-        (check-for-exe "proselint" :cmd "pip install proselint" :noroot t)
+          (read-only-mode -1)
+          (org-mode)
 
-        ;; yamllint
-        (check-for-exe "yamllint" :dnf "yamllint" :ubuntu "yamllint")
+          (princ "* Setup System\n")
+          (princ "** Checking for required programs\n")
+          ;; external programs wanted by my emacs
+          (check-for-exe "terminator" :ubuntu "terminator")
+          (check-for-exe "bat" :ubuntu "bat")
+          (check-for-exe "fd" :dnf "fd-find" :ubuntu "fd-find")
+          ;; $ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+          ;; $ sudo dpkg -i ripgrep_13.0.0_amd64.deb
+          (check-for-exe "ag" :ubuntu "silversearcher-ag" :dnf "the_silver_searcher")
 
-        ;;  cask
-        ;; (check-for-exe "cask" :cmd "cd ~/ && git clone https://github.com/cask/cask && make -C cask install")
+          ;; python
+          (check-for-exe "pip3" :ubuntu "python3-pip" :dnf "python3-pip")
+          (check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
+          (check-for-exe "isort" :cmd "pip install isort" :noroot t)
+          (check-for-exe "pytest" :cmd "pip install pytest" :noroot t)
+          (check-for-exe "wordcloud_cli" :cmd "pip install wordcloud" :noroot t)
 
-        ;; markdown
-        (check-for-exe "markdownlint"
-                       :url "https://github.com/igorshubovych/markdownlint-cli"
-                       :cmd "sudo npm install -g markdownlint-cli")
-        (check-for-exe "grip" :cmd "pip install grip" :noroot t)
+          ;; clojure
+          (check-for-exe "clj-kondo" :noroot t :cmd "cd /tmp && curl -sLO https://raw.githubusercontent.com/clj-kondo/clj-kondo/master/script/install-clj-kondo && chmod +x install-clj-kondo && ./install-clj-kondo --dir ~/.local/bin")
+          (check-for-exe "clojure-lsp" :cmd "sudo bash < <(curl -s https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install)")
 
-        ;; c/c++
-        (check-for-exe "bear"
-                       :url "https://github.com/rizsotto/Bear"
-                       :ubuntu "bear"
-                       :dnf "bear")
-        (check-for-exe "ccls" )
-        (check-for-exe "libtool" :ubuntu "libtool-bin")
+          ;; sbcl
+          (check-for-exe "sbcl" :ubuntu "sbcl" :dnf "sbcl")
 
-        ;; vhdl
-        (check-for-exe "vhdl-tool" :url "https://www.vhdltool.com/")
-        (check-for-exe "ghdl")
-        (check-for-exe "ghdl-ls")
-        (check-for-exe "vhdl_ls")
+          ;; gnuplot
+          (check-for-exe "gnuplot" :ubuntu "gnuplot" :dnf "gnuplot")
 
-        ;; Lesspipe
-        (check-for-exe "xpdf")
-        (check-for-exe "lesspipe.sh")
+          ;; npm
+          (check-for-exe "npm" :ubuntu "npm" :dnf "npm")
 
-        ;; latex lsp
-        (check-for-exe "digestif" :noroot t :cmd "wget https://raw.githubusercontent.com/astoff/digestif/master/scripts/digestif -O ~/.local/bin/digestif && chmod +x ~/.local/bin/digestif")
+          ;; proselint
+          (check-for-exe "proselint" :cmd "pip install proselint" :noroot t)
 
-        ;; Mail
-        (check-for-exe "mu4e" :dnf "maildir-utils")
-        (check-for-exe "mbsync" :dnf "isync")
+          ;; yamllint
+          (check-for-exe "yamllint" :dnf "yamllint" :ubuntu "yamllint")
 
-        ;; node
-        (check-for-exe "node" :noroot t
-                       :cmd "curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo apt-get install -y nodejs")
+          ;;  cask
+          ;; (check-for-exe "cask" :cmd "cd ~/ && git clone https://github.com/cask/cask && make -C cask install")
 
-        ;; python
-        (check-for-exe "pyright" :url "https://github.com/microsoft/pyright" :cmd "pip install pyright" :noroot t)
-        (check-for-exe "black" :cmd "pip install black" :noroot t)
-        (check-for-exe "pyment" :cmd "pip install pyment" :noroot t)
-        (check-for-exe "pyimport" :cmd "pip install pyimport" :noroot t)
-        (check-for-exe "isort" :cmd "pip install isort" :noroot t)
-        (check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
+          ;; markdown
+          (check-for-exe "markdownlint"
+                         :url "https://github.com/igorshubovych/markdownlint-cli"
+                         :cmd "sudo npm install -g markdownlint-cli")
+          (check-for-exe "grip" :cmd "pip install grip" :noroot t)
 
-        ;; bash
-        (check-for-exe "shellcheck" :dnf "ShellCheck" :ubuntu "shellcheck")
+          ;; c/c++
+          (check-for-exe "bear"
+                         :url "https://github.com/rizsotto/Bear"
+                         :ubuntu "bear"
+                         :dnf "bear")
+          (check-for-exe "ccls" )
+          (check-for-exe "libtool" :ubuntu "libtool-bin")
 
-        ;; graph-easy
-        (check-for-exe "graph-easy" :cmd "sudo" :ubuntu "sudo cpan install Graph::Easy")
+          ;; vhdl
+          (check-for-exe "vhdl-tool" :url "https://www.vhdltool.com/")
+          (check-for-exe "ghdl")
+          (check-for-exe "ghdl-ls")
+          (check-for-exe "vhdl_ls")
 
-        ;; utilities
-        ;;
-        (check-for-exe "kitty" :noroot t :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
-        (check-for-exe "act" :cmd "cd ~/ && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash")
-        (check-for-exe "htop" :dnf "htop" :ubuntu "htop")
-        (check-for-exe "aspell" :dnf "aspell" :ubuntu "aspell")
-        (check-for-exe "pandoc" :dnf "pandoc" :ubuntu "pandoc")
-        (check-for-exe "cmake" :ubuntu "cmake" :dnf "cmake")
-        (check-for-exe "cloc" :ubuntu "cloc" :dnf "cloc")
-        (check-for-exe "rg" :dnf "ripgrep")
-        (check-for-exe "fzf" :noroot t :cmd "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install")
-        (check-for-exe "gvim" :ubuntu "vim-gtk3" :dnf "vim-X11")
-        (check-for-exe "mpd" :ubuntu "mpd" :dnf "mpd")
-        (check-for-exe "mpc" :ubuntu "mpc" :dnf "mpc")
-        (check-for-exe "ncmpcpp" :ubuntu "ncmpcpp" :dnf "ncmpcpp")
-        (check-for-exe "xfce4-screenshooter" :ubuntu "xfce4-screenshooter")
+          ;; Lesspipe
+          (check-for-exe "xpdf")
+          (check-for-exe "lesspipe.sh")
 
-        ;; make sure ssh permissions are right
-        ;;
-        ;; TODO: should just check here and prompt if its wrong?
-        (princ "** Fixing ssh permissions\n")
-        (when (fix-ssh-permissions)
-          (princ "- [X] ssh permissions corrected\n"))
+          ;; latex lsp
+          (check-for-exe "digestif" :noroot t :cmd "wget https://raw.githubusercontent.com/astoff/digestif/master/scripts/digestif -O ~/.local/bin/digestif && chmod +x ~/.local/bin/digestif")
 
-        ;;
-        (princ "** Checking for required paths\n")
-        (check-for-path "~/Sync/org")
-        (check-for-path "~/Sync/notes")
+          ;; Mail
+          (check-for-exe "mu4e" :dnf "maildir-utils")
+          (check-for-exe "mbsync" :dnf "isync")
 
-        (princ "** Setting git settings\n")
-        (when (and (shell-command-nil "git config --global user.name \"Andrew Peck\"")
-                   (shell-command-nil "git config --global user.email \"andrew.peck@cern.ch\""))
-          (princ "- [X] git username and email set\n"))
+          ;; node
+          (check-for-exe "node" :noroot t
+                         :cmd "curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo apt-get install -y nodejs")
 
-        (when (and (shell-command-nil  "git config pull.rebase true")
-                   (shell-command-nil  "git config rebase.autoStash true"))
-          (princ "- [X] git autostash configured\n"))
+          ;; python
+          (check-for-exe "pyright" :url "https://github.com/microsoft/pyright" :cmd "pip install pyright" :noroot t)
+          (check-for-exe "black" :cmd "pip install black" :noroot t)
+          (check-for-exe "pyment" :cmd "pip install pyment" :noroot t)
+          (check-for-exe "pyimport" :cmd "pip install pyimport" :noroot t)
+          (check-for-exe "isort" :cmd "pip install isort" :noroot t)
+          (check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
 
-        ;; symlinks
-        (princ "** Creating symlinks\n")
+          ;; bash
+          (check-for-exe "shellcheck" :dnf "ShellCheck" :ubuntu "shellcheck")
 
-        (make-symlink (dotfiles "bin") "~/bin")
+          ;; graph-easy
+          (check-for-exe "graph-easy" :cmd "sudo" :ubuntu "sudo cpan install Graph::Easy")
 
-        (make-symlink (dotfiles "org-protocol.desktop") "~/.local/share/applications/org-protocol.desktop")
-        (make-symlink (dotfiles "aspell.en.pws") "~/.aspell.en.pws")
-        (make-symlink (dotfiles "mimeapps.list") "~/.config/mimeapps.list")
-        (make-symlink (dotfiles "Xresources") "~/.Xresources")
-        (make-symlink (dotfiles "profile") "~/.profile")
-        (make-symlink (dotfiles "bash_profile") "~/.bash_profile")
-        (make-symlink (dotfiles "mbsyncrc") "~/.mbsyncrc")
-        (make-symlink (dotfiles "bashrc") "~/.bashrc")
-        (make-symlink (dotfiles "bash_logout") "~/.bash_logout")
+          ;; utilities
+          ;;
+          (check-for-exe "kitty" :noroot t :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
+          (check-for-exe "act" :cmd "cd ~/ && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash")
+          (check-for-exe "htop" :dnf "htop" :ubuntu "htop")
+          (check-for-exe "aspell" :dnf "aspell" :ubuntu "aspell")
+          (check-for-exe "pandoc" :dnf "pandoc" :ubuntu "pandoc")
+          (check-for-exe "cmake" :ubuntu "cmake" :dnf "cmake")
+          (check-for-exe "cloc" :ubuntu "cloc" :dnf "cloc")
+          (check-for-exe "rg" :dnf "ripgrep")
+          (check-for-exe "fzf" :noroot t :cmd "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install")
+          (check-for-exe "gvim" :ubuntu "vim-gtk3" :dnf "vim-X11")
+          (check-for-exe "mpd" :ubuntu "mpd" :dnf "mpd")
+          (check-for-exe "mpc" :ubuntu "mpc" :dnf "mpc")
+          (check-for-exe "ncmpcpp" :ubuntu "ncmpcpp" :dnf "ncmpcpp")
+          (check-for-exe "xfce4-screenshooter" :ubuntu "xfce4-screenshooter")
 
-        (make-symlink "~/Sync/emacs-backups" "~/emacs-backups")
+          ;; make sure ssh permissions are right
+          ;;
+          ;; TODO: should just check here and prompt if its wrong?
+          (princ "** Fixing ssh permissions\n")
+          (when (fix-ssh-permissions)
+            (princ "- [X] ssh permissions corrected\n"))
 
-        (make-symlink "~/.local/kitty.app/bin/kitty" "~/.local/bin/kitty")
+          ;;
+          (princ "** Checking for required paths\n")
+          (check-for-path "~/Sync/org")
+          (check-for-path "~/Sync/notes")
 
-        ;; systemctl  start --user emacs.service
-        (make-symlink (dotfiles "emacs.service") "~/.config/systemd/user/emacs.service")
+          (princ "** Setting git settings\n")
+          (when (and (shell-command-nil "git config --global user.name \"Andrew Peck\"")
+                     (shell-command-nil "git config --global user.email \"andrew.peck@cern.ch\""))
+            (princ "- [X] git username and email set\n"))
 
-        (make-symlink (dotfiles "kitty") "~/.config/kitty")
-        (make-symlink (dotfiles "xinitrc") "~/.xinitrc")
-        (make-symlink (dotfiles ".xmobarrc") "~/.xmobarrc")
-        (make-symlink (dotfiles "vim/vimrc") "~/.vimrc")
-        (make-symlink (dotfiles "ssh/config") "~/.ssh/config")
-        (make-symlink (dotfiles "ncmpcpp/config") "~/.ncmpcpp/config")
-        (make-symlink (dotfiles "mpd/mpd.conf") "~/.mpd/mpd.conf")
-        (make-symlink (dotfiles "xbindkeysrc") "~/.xbindkeysrc")
-        (make-symlink (dotfiles "local/share/applications/emacsclient.desktop") "~/.local/share/applications/emacsclient.desktop")
-        (make-symlink (dotfiles "config/autostart/xbindkeys.desktop") "~/.config/autostart/xbindkeys.desktop")
+          (when (and (shell-command-nil  "git config pull.rebase true")
+                     (shell-command-nil  "git config rebase.autoStash true"))
+            (princ "- [X] git autostash configured\n"))
 
-        (when (string-match ".*ubuntu.*" (shell-command-to-string "uname -a"))
-          (when (executable-find "fdfind")
-            (make-symlink (executable-find "fdfind") "~/.local/bin/fd")))
+          ;; symlinks
+          (princ "** Creating symlinks\n")
 
-        (make-symlink (dotfiles "nvim") "~/.config/nvim")
-        (make-symlink (dotfiles "tmux.conf") "~/.tmux.conf")
-        (make-symlink (dotfiles "doom.d") "~/.doom.d")
-        (make-symlink (dotfiles "xmonad") "~/.xmonad")
-        ;; (make-symlink (dotfiles "vim/vim") "~/.vim")
-        (make-symlink (dotfiles "Fonts") "~/.fonts")
+          (make-symlink (dotfiles "bin") "~/bin")
 
-        (princ "** Setting custom mimetypes\n")
-        (shell-command "cp mime/* ~/.local/share/mime/packages/ && update-mime-database ~/.local/share/mime")
+          (make-symlink (dotfiles "org-protocol.desktop") "~/.local/share/applications/org-protocol.desktop")
+          (make-symlink (dotfiles "aspell.en.pws") "~/.aspell.en.pws")
+          (make-symlink (dotfiles "mimeapps.list") "~/.config/mimeapps.list")
+          (make-symlink (dotfiles "Xresources") "~/.Xresources")
+          (make-symlink (dotfiles "profile") "~/.profile")
+          (make-symlink (dotfiles "bash_profile") "~/.bash_profile")
+          (make-symlink (dotfiles "mbsyncrc") "~/.mbsyncrc")
+          (make-symlink (dotfiles "bashrc") "~/.bashrc")
+          (make-symlink (dotfiles "bash_logout") "~/.bash_logout")
 
-        (princ "** Setting up org desktop protocol\n")
-        (shell-command "xdg-mime default org-protocol.desktop x-scheme-handler/org-protocol")
+          (make-symlink "~/Sync/emacs-backups" "~/emacs-backups")
 
-        ;; (princ "** Setting up CERN certificate\n")
-        ;; FIXME: sudo doesn't work here .. put an org block? or use `compile`
-        ;; (shell-command "sudo mkdir -p /usr/local/share/ca-certificates/ && sudo cp ~/.dotfiles/CERN\ Root\ Certification\ Authority\ 2.crt /usr/local/share/ca-certificates/CERN\ Root\ Certification\ Authority\ 2.crt && sudo update-ca-trust")
+          (make-symlink "~/.local/kitty.app/bin/kitty" "~/.local/bin/kitty")
 
-        (princ "** Updating font cache\n")
-        (start-process "*fc-cache*" nil "fc-cache" "-f" "-v")
+          ;; systemctl  start --user emacs.service
+          (make-symlink (dotfiles "emacs.service") "~/.config/systemd/user/emacs.service")
 
-        ;; - command: if [ $(hostname) = pepper ]; then ln -sf ~/.dotfiles/equalizerrc_mb42x ~/.config/pulseaudio/equalizerrc
-        ;;   description: Setting up MB42X Equalizer for pepper
-        ;; - command: if [ $(hostname) = larry  ]; then sudo ln -sf ~/.rsnapshot.conf /etc/rsnapshot.conf; fi;
-        ;;   description: Linking rsnapshot configuration to /etc
-        ;; - command: if [ $(hostname) = pepper  ]; then sudo ln -sf ~/.rsnapshot.conf /etc/rsnapshot.conf; fi;
-        ;;   description: Linking rsnapshot configuration to /etc
-        ;; - command: if [ $(hostname) = pepper ]; then sudo ln -sf ~/.dotfiles/UPower.conf /etc/UPower/UPower.conf; sudo chmod a+rw /etc/UPower/UPower.conf; fi;
-        ;;   description: Setting up UPower config for pepper
-        ;; - command: if [ $(hostname) = pepper ]; then sudo ln -sf ~/.dotfiles/logind.conf /etc/systemd/logind.conf; fi;
-        ;;   description: Setting up Logind config for pepper
-        ;;
-        ;;
+          (make-symlink (dotfiles "kitty") "~/.config/kitty")
+          (make-symlink (dotfiles "xinitrc") "~/.xinitrc")
+          (make-symlink (dotfiles ".xmobarrc") "~/.xmobarrc")
+          (make-symlink (dotfiles "vim/vimrc") "~/.vimrc")
+          (make-symlink (dotfiles "ssh/config") "~/.ssh/config")
+          (make-symlink (dotfiles "ncmpcpp/config") "~/.ncmpcpp/config")
+          (make-symlink (dotfiles "mpd/mpd.conf") "~/.mpd/mpd.conf")
+          (make-symlink (dotfiles "xbindkeysrc") "~/.xbindkeysrc")
+          (make-symlink (dotfiles "local/share/applications/emacsclient.desktop") "~/.local/share/applications/emacsclient.desktop")
+          (make-symlink (dotfiles "config/autostart/xbindkeys.desktop") "~/.config/autostart/xbindkeys.desktop")
+
+          (when (string-match ".*ubuntu.*" (shell-command-to-string "uname -a"))
+            (when (executable-find "fdfind")
+              (make-symlink (executable-find "fdfind") "~/.local/bin/fd")))
+
+          (make-symlink (dotfiles "nvim") "~/.config/nvim")
+          (make-symlink (dotfiles "tmux.conf") "~/.tmux.conf")
+          (make-symlink (dotfiles "doom.d") "~/.doom.d")
+          (make-symlink (dotfiles "xmonad") "~/.xmonad")
+          ;; (make-symlink (dotfiles "vim/vim") "~/.vim")
+          (make-symlink (dotfiles "../Fonts") "~/.fonts")
+
+          (princ "** Setting custom mimetypes\n")
+          (shell-command "cp mime/* ~/.local/share/mime/packages/ && update-mime-database ~/.local/share/mime")
+
+          (princ "** Setting up org desktop protocol\n")
+          (shell-command "xdg-mime default org-protocol.desktop x-scheme-handler/org-protocol")
+
+          ;; (princ "** Setting up CERN certificate\n")
+          ;; FIXME: sudo doesn't work here .. put an org block? or use `compile`
+          ;; (shell-command "sudo mkdir -p /usr/local/share/ca-certificates/ && sudo cp ~/.dotfiles/CERN\ Root\ Certification\ Authority\ 2.crt /usr/local/share/ca-certificates/CERN\ Root\ Certification\ Authority\ 2.crt && sudo update-ca-trust")
+
+          (princ "** Updating font cache\n")
+          (start-process "*fc-cache*" nil "fc-cache" "-f" "-v")
+
+          ;; - command: if [ $(hostname) = pepper ]; then ln -sf ~/.dotfiles/equalizerrc_mb42x ~/.config/pulseaudio/equalizerrc
+          ;;   description: Setting up MB42X Equalizer for pepper
+          ;; - command: if [ $(hostname) = larry  ]; then sudo ln -sf ~/.rsnapshot.conf /etc/rsnapshot.conf; fi;
+          ;;   description: Linking rsnapshot configuration to /etc
+          ;; - command: if [ $(hostname) = pepper  ]; then sudo ln -sf ~/.rsnapshot.conf /etc/rsnapshot.conf; fi;
+          ;;   description: Linking rsnapshot configuration to /etc
+          ;; - command: if [ $(hostname) = pepper ]; then sudo ln -sf ~/.dotfiles/UPower.conf /etc/UPower/UPower.conf; sudo chmod a+rw /etc/UPower/UPower.conf; fi;
+          ;;   description: Setting up UPower config for pepper
+          ;; - command: if [ $(hostname) = pepper ]; then sudo ln -sf ~/.dotfiles/logind.conf /etc/systemd/logind.conf; fi;
+          ;;   description: Setting up Logind config for pepper
+          ;;
+          ;;
 
 
-        ;; curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-        ;;     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+          ;; curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+          ;;     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-        ))))
+          )))))
 
 (provide 'setup-system)
