@@ -758,3 +758,75 @@ except uses heading titles instead of random numbers."
             ;; No more ancestors: add and increment a number.
             (inc-suffixf ref)))
         ref))))
+
+
+(defun org-get-linked-files (&optional buffer)
+  "Get all of the 'file' type links in a buffer.
+Current buffer is assumed unless specified by BUFFER"
+  (with-current-buffer
+      (or buffer (current-buffer))
+    (org-element-map (org-element-parse-buffer) 'link
+      (lambda (link)
+        (when (string= (org-element-property :type link) "file")
+          (org-element-property :path link))))))
+
+(defun org-global-props (&optional property buffer)
+  "Get the plists of global org properties of current buffer."
+
+  (unless property
+    (setq property "PROPERTY"))
+
+  (with-current-buffer
+      (or buffer (current-buffer))
+    (org-element-map (org-element-parse-buffer) 'keyword
+      (lambda (el)
+        (when (string-match property (org-element-property :key el))
+          el)))))
+
+(defun org-global-prop-value (key)
+  "Get global org property KEY of current buffer."
+  (org-element-property :value (car (org-global-props key))))
+
+(setq org-default-publish-dest "nfs:/home/public")
+
+(defun org-publish-this-file ()
+  "Publish this Org mode file.
+
+If a DEST property is specified in the org file it will by used
+as the destination. Copying is done with rsync"
+
+  (interactive)
+
+  ;; export the file to html
+  ;; - export _synchronously_ so that it blocks
+  ;; - use useful IDs so that the links are stable
+  (message "Exporting to html...")
+  (unpackaged/org-export-html-with-useful-ids-mode t)
+  (org-html-export-to-html nil)
+
+  (message "Publishing...")
+
+  (let* ((dest (or (org-global-prop-value "DEST")
+                   org-default-publish-dest))
+         (args
+
+          (cl-concatenate 'list
+                          `("-avz" "--relative"
+                            ,(concat (file-name-base (buffer-file-name)) ".html"))
+                          (org-get-linked-files)
+                          (list dest))))
+
+    ;; (set-process-sentinel
+    ;;  (apply #'start-process "*copy-to-dest*" nil "ls" '("-l"))
+    ;;  nil)
+
+    (set-process-sentinel
+
+     ;; copy
+     (apply #'start-process "*copy-to-dest*" nil "rsync" args)
+
+     ;; cleanup
+     (lambda (process event)
+       (when (string= event "finished\n")
+         (message "rsync finished, cleaning up...")
+         (delete-file (concat (file-name-base (buffer-file-name)) ".html")))))))
