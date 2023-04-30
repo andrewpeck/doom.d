@@ -681,7 +681,8 @@ made unique when necessary."
       (advice-remove #'org-export-get-reference #'unpackaged/org-export-get-reference)))
 
   (defun unpackaged/org-export-get-reference (datum info)
-    "Like `org-export-get-reference', except uses heading titles instead of random numbers."
+    "Like `org-export-get-reference',
+except uses heading titles instead of random numbers."
     (let ((cache (plist-get info :internal-references)))
       (or (car (rassq datum cache))
           (let* ((crossrefs (plist-get info :crossrefs))
@@ -727,20 +728,21 @@ made unique when necessary."
 
   (defun unpackaged/org-export-new-title-reference (datum cache)
     "Return new reference for DATUM that is unique in CACHE."
-    (cl-macrolet ((inc-suffixf (place)
-                               `(progn
-                                  (string-match (rx bos
-                                                    (minimal-match (group (1+ anything)))
-                                                    (optional "--" (group (1+ digit)))
-                                                    eos)
-                                                ,place)
-                                  ;; HACK: `s1' instead of a gensym.
-                                  (-let* (((s1 suffix) (list (match-string 1 ,place)
-                                                             (match-string 2 ,place)))
-                                          (suffix (if suffix
-                                                      (string-to-number suffix)
-                                                    0)))
-                                    (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
+    (cl-macrolet
+        ((inc-suffixf (place)
+                      `(progn
+                         (string-match (rx bos
+                                           (minimal-match (group (1+ anything)))
+                                           (optional "--" (group (1+ digit)))
+                                           eos)
+                                       ,place)
+                         ;; HACK: `s1' instead of a gensym.
+                         (-let* (((s1 suffix) (list (match-string 1 ,place)
+                                                    (match-string 2 ,place)))
+                                 (suffix (if suffix
+                                             (string-to-number suffix)
+                                           0)))
+                           (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
       (let* ((title (org-element-property :raw-value datum))
              (ref (url-hexify-string (substring-no-properties title)))
              (parent (org-element-property :parent datum)))
