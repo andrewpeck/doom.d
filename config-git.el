@@ -2,6 +2,12 @@
 
 (setq +vc-gutter-in-remote-files t)
 
+;; set vc-ignore-dir-regexp to the default emacs value; doom overwrites this to
+;; a value that ignores any remote directories, causing git-gutter etc to not
+;; work through tramp
+(setq vc-ignore-dir-regexp
+      "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'")
+
 ;; Magit
 ;;------------------------------------------------------------------------------
 
