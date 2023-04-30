@@ -25,11 +25,14 @@
 ;; Theme
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
+;; doom-material, doom-manegarm, doom-one, doom-spacegray, doom-material
+;; doom-gruvbox, doom-oceanic-next, doom-tomorrow-night
+
 (setq doom-theme
-      (if (not (display-graphic-p)) 'monochrome-solarized
+      (if (not (display-graphic-p)) 'doom-gruvbox
         (pcase (system-name)
-          ("pepper"  'doom-gruvbox)
-          ("larry"   'doom-gruvbox)
+          ("pepper"  'doom-oceanic-next)
+          ("larry"   'modus-operandi)
           ("strange" 'doom-spacegray)
           (_         'doom-one))))
 
