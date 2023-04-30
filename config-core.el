@@ -48,26 +48,41 @@
       (if (null (x-list-fonts font))
           nil t))))
 
+;; M-x describe-font
 (setq font-list
-      '(("Roboto Mono" . 16)
-        ("Consolas" . 17)
-        ("Source Code Pro" . 16)
-        ("Hack" . 15)
-        ("IBM Plex Mono" . 16)
-        ("JetBrains Mono" . 16)
-        ("Inconsolata" . 14)
-        ("Fira Code" . 14)))
+      '(("Source Code Pro" . 16)
+        ("JetBrains Mono"  . 16)
+        ("Terminus"        . 16)
+        ("Consolas"        . 16)
+        ("Hack"            . 14)
+        ("Roboto Mono"     . 14)
+        ("Fira Code"       . 14)
+        ("Inconsolata"     . 18)
+        ("IBM Plex Mono"   . 16)))
+
+(setq variable-pitch-font-list
+      '(("Comic Sans" . 16)
+        ("Fira Code" . 17)
+        ("Cantarell" . 18)
+        ("Calibri" . 18)
+        ("Arial" . 17)
+        ))
 
 (cl-dolist (my-font font-list)
   (when (font-exists-p (car my-font))
     (progn
       (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
             doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
-                                        ;doom-variable-pitch-font (font-spec :family "Comic Sans" :size 16)
             doom-serif-font (font-spec :family (car my-font) :weight 'light))
       (cl-return t))))
 
-;;
+(cl-dolist (my-font variable-pitch-font-list)
+  (when (font-exists-p (car my-font))
+    (progn
+      (setq doom-variable-pitch-font
+            (font-spec :family (car my-font) :size (cdr my-font)))
+      (cl-return t))))
+
 (use-package! delight
   :defer-incrementally t
   :config
