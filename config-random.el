@@ -229,7 +229,16 @@ is deferred until the file is saved. Respects `git-gutter:disabled-modes'."
                      hog-number-of-jobs 16))
     ("larry" (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1"
                    hog-number-of-jobs 4))
-    ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1"))))
+    ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1")))
+
+  (setq hog-ieee-library
+    '("ieee" (
+              "/usr/local/lib/ghdl/src/synopsys/*.vhdl"
+              "/usr/local/lib/ghdl/src/std/v08/*.vhdl"
+              "/usr/local/lib/ghdl/src/ieee2008/*.vhdl"
+              "/usr/lib/ghdl/src/synopsys/*.vhdl"
+              "/usr/lib/ghdl/src/std/v08/*.vhdl"
+              "/usr/lib/ghdl/src/ieee2008/*.vhdl"))))
 
 ;;------------------------------------------------------------------------------
 ;; Mixed Pitch Mode
