@@ -107,37 +107,50 @@
 
   (setq flycheck-ghdl-language-standard "08")
 
-  (defun vhdl-slv->unsigned ()
-    (interactive)
-    (er/mark-symbol)
-    (let ((sig (buffer-substring-no-properties (mark) (point))))
-      (delete-region (mark) (point))
-      (insert (format  "unsigned(%s)" sig))
-      (backward-char 1)))
+  (require 'er-basic-expansions)
 
   (defun vhdl-unsigned->slv ()
+    "Convert a VHDL unsigned to standard logic vector."
     (interactive)
-    (er/mark-symbol)
+    (when (not (region-active-p))
+      (er/mark-symbol))
     (let ((sig (buffer-substring-no-properties (mark) (point))))
       (delete-region (mark) (point))
       (insert (format  "std_logic_vector(%s)" sig))
-      (backward-char 1)))
+      (backward-char 1))
+    (when (functionp 'evil-insert)
+      (evil-insert 0)))
 
   (defun vhdl-int->slv ()
+    "Convert a VHDL integer to standard logic vector."
     (interactive)
-    (er/mark-symbol)
+    (when (not (region-active-p))
+      (er/mark-symbol))
     (let ((sig (buffer-substring-no-properties (mark) (point))))
       (delete-region (mark) (point))
       (insert (format  "std_logic_vector(to_unsigned(%s, ))" sig))
-      (backward-char 2)))
+      (backward-char 2))
+    (when (functionp 'evil-insert)
+      (evil-insert 0)))
 
   (defun vhdl-slv->int ()
+    "Convert a VHDL standard logic vector to integer."
     (interactive)
-    (er/mark-symbol)
+    (when (not (region-active-p))
+      (er/mark-symbol))
     (let ((sig (buffer-substring-no-properties (mark) (point))))
       (delete-region (mark) (point))
       (insert (format  "to_integer(unsigned(%s))" sig)))))
 
+  (defun vhdl-slv->unsigned ()
+    "Convert a VHDL standard logic vector to unsigned."
+    (interactive)
+    (when (not (region-active-p))
+      (er/mark-symbol))
+    (let ((sig (buffer-substring-no-properties (mark) (point))))
+      (delete-region (mark) (point))
+      (insert (format  "unsigned(%s)" sig))
+      (backward-char 1)))
 ;;------------------------------------------------------------------------------
 ;; Tcl
 ;;------------------------------------------------------------------------------
