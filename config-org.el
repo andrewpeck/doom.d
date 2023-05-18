@@ -793,7 +793,14 @@ Current buffer is assumed unless specified by BUFFER"
   "Publish this Org mode file.
 
 If a DEST property is specified in the org file it will by used
-as the destination. Copying is done with rsync"
+as the destination. e.g. the following will set the copy
+destination of the file.
+
+#+DEST: ohm:public_html/notes/
+
+
+Copying is done with rsync, which must be installed on both the
+local and remote servers."
 
   (interactive)
 
@@ -816,9 +823,7 @@ as the destination. Copying is done with rsync"
                           (org-get-linked-files)
                           (list dest))))
 
-    ;; (set-process-sentinel
-    ;;  (apply #'start-process "*copy-to-dest*" nil "ls" '("-l"))
-    ;;  nil)
+    ;; (message (mapconcat #'identity args " "))
 
     (set-process-sentinel
 
@@ -826,7 +831,7 @@ as the destination. Copying is done with rsync"
      (apply #'start-process "*copy-to-dest*" nil "rsync" args)
 
      ;; cleanup
-     (lambda (process event)
+     (lambda (_ event)
        (when (string= event "finished\n")
          (message "rsync finished, cleaning up...")
          (delete-file (concat (file-name-base (buffer-file-name)) ".html")))))))
