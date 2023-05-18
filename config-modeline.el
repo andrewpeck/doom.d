@@ -62,9 +62,10 @@ nil."
                 `(,(if (or defining-kbd-macro executing-kbd-macro)
                        (concat "MACRO(" (char-to-string evil-this-macro) ") · ") "")
 
-                  "l%l⸱c%c⸱%p" " ·"
+                  "L%l⸱C%c⸱%p"
 
-                  (vc-mode vc-mode) " · "
+                  ,(if vc-mode
+                     (concat " ·" vc-mode " · ") " · ")
 
                   ,(format "%s" (if (listp mode-name) (car mode-name) mode-name))
                   " · "
