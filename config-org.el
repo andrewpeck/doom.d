@@ -835,3 +835,22 @@ local and remote servers."
        (when (string= event "finished\n")
          (message "rsync finished, cleaning up...")
          (delete-file (concat (file-name-base (buffer-file-name)) ".html")))))))
+
+(defun ap/shrink-this-image ()
+  (interactive)
+
+  (let* ((name (buffer-file-name))
+         (name-base (file-name-base name))
+         (ext (file-name-extension name)))
+
+    ;; convert to jpg
+    (when (not (or (string= ".jpeg" ext)
+                   (string= ".jpg" ext)))
+
+      (message "Converting to jpg...")
+      (shell-command (format "convert %s %s.jpg" name name-base))
+      (setq name (concat name-base ".jpg")))
+
+    ;; shrink
+    (message "Resizing $i...")
+    (shell-command (format  "convert -resize 1024X768 %s %s-small.jpg" name name-base))))
