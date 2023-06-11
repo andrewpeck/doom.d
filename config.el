@@ -81,6 +81,6 @@
      (message "%.06f" (float-time (time-since time)))))
 
 ;; Local Variables:
-;; eval: (make-variable-buffer-local 'write-contents-functions)
-;; eval: (add-hook 'write-contents-functions (lambda () (when (fboundp 'sort-elisp-block) (sort-elisp-block))) nil t)
+;; eval: (make-variable-buffer-local 'kill-buffer-hook)
+;; eval: (add-hook 'kill-buffer-hook (lambda () (sort-elisp-block) (save-buffer)) nil t)
 ;; End:
