@@ -54,6 +54,6 @@
 ;; end:sort
 
 ;; Local Variables:
-;; eval: (make-variable-buffer-local 'write-contents-functions)
-;; eval: (add-hook 'write-contents-functions 'sort-elisp-block nil t)
+;; eval: (make-variable-buffer-local 'kill-buffer-hook)
+;; eval: (add-hook 'kill-buffer-hook (lambda () (sort-elisp-block) (save-buffer)) nil t)
 ;; End:
