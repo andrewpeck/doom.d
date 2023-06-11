@@ -133,7 +133,12 @@ between the two most recently open buffers."
 (defun open-todo ()
   "Open my todo file"
   (interactive)
-  (find-file "~/work/notes/todo.org"))
+  (find-file "~/work/todo/todo.org"))
+
+(defun org-agenda-and-todo ()
+  "Open the full org agenda + todo"
+  (interactive)
+  (org-agenda nil "n"))
 
 (defun open-timesheet ()
   "Open my EDF timesheet"
@@ -310,4 +315,25 @@ between the two most recently open buffers."
   (map! :leader :prefix "g" :desc "Open Elfeed"          "pt" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
-  (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile))
+  (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile)
+  (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo))
+
+(map! :leader
+      :prefix "ma"
+      :desc "Download Screenshot" "c" #'org-download-screenshot
+      :desc "Download Clipboard" "p" #'org-download-clipboard
+      :desc "Download Yank" "P" #'org-download-yank
+      :desc "Edit Image" "e" #'org-download-edit
+      :desc "Delete Image" "d" #'org-download-delete
+      :desc "Move Image" "m" #'org-download-rename)
+
+(map! :leader
+      :prefix "y"
+      :desc "Org Link Copy"       "y" #'org-link-copy)
+
+;; (map! :leader
+;;       :prefix "n"
+;;       :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
+;;       :desc "Org-Roam-Find"       "/" #'org-roam-find-file
+;;       :desc "Org-Roam-Buffer"     "r" #'org-roam
+;;       :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph)

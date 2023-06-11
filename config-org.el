@@ -149,13 +149,16 @@ guess will be made."
   (use-package! org-download
     :defer-incrementally t)
 
-  (setq org-mode-hook nil)
+  (setq-default org-mode-hook nil)
   (add-hook 'org-mode-hook #'evil-org-mode)
+  (add-hook 'org-mode-hook #'+word-wrap-mode)
   (add-hook 'org-mode-hook #'+org-enable-auto-reformat-tables-h)
 
   (org-crypt-use-before-save-magic)
 
   (setq org-tags-exclude-from-inheritance (list "crypt")
+        visual-fill-column-mode 1
+        org-indent-indentation-per-level 2
         org-crypt-key nil
         org-ditaa-jar-path "~/.doom.d/ditaa.jar"
         org-plantuml-jar-path "~/.doom.d/plantuml.jar"
@@ -207,6 +210,7 @@ guess will be made."
       (org-meta-return t)))
 
   (defun org-archive-done ()
+    "Interactive wrapper for org-archive-all-done"
     (interactive)
     (org-archive-all-done))
 
@@ -429,13 +433,14 @@ and shortens it into an org mode link consisting of just `some file`"
 
   ;; (setq org-hide-emphasis-markers nil)
   (setq org-link-file-path-type 'relative
-        org-agenda-files (list "~/Sync/notes")
-        org-id-locations-file "~/Sync/notes/.org-id-locations"
+        org-id-locations-file "~/work/notes/.org-id-locations"
         org-export-with-sub-superscripts nil
-        org-directory "~/Sync/notes"
+        org-directory "~/work/notes"
         org-attach-id-dir "./images/"
-        org-default-notes-file (concat org-directory "/todo.org")
-        +org-capture-todo-file "~/Sync/notes/todo.org"
+        org-agenda-files (list "~/work/todo")
+        org-default-notes-file "~/work/todo/todo.org"
+        +org-capture-todo-file "~/work/todo/todo.org"
+        +org-capture-meetings-file "~/work/todo/meetings.org"
 
         ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
         ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
@@ -445,21 +450,31 @@ and shortens it into an org mode link consisting of just `some file`"
           ;; https://orgmode.org/manual/Template-elements.html
 
           ("t" "TODO" entry
-           (file+headline +org-capture-todo-file "To do") "** TODO %?" :prepend t)
+           (file+headline +org-capture-todo-file "To do")
+           "** TODO %?\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \".\"))"  :prepend t)
 
           ("w" "Web site" entry
-           (file+headline "~/Sync/notes/inbox.org" "Captured")
-           "* %a :website:\n\n%U %?\n\n%:initial" :unnarrowed t)
+           (file+headline "~/work/notes/inbox.org" "Captured")
+           "** %a :website:\n\n%U %?\n\n%:initial" :unnarrowed t)
+
+          ("m" "Meeting" entry
+           (file+headline +org-capture-todo-file "Meetings")
+           "** MEET %?\n %U")
+
+          ("i" "Idea" entry
+           (file+headline +org-capture-todo-file "Ideas")
+           "** IDEA %?\n%U")
+
+          ("i" "Note" entry
+           (file+headline +org-capture-todo-file "To do")
+           "** NOTE %?\n%U")
 
           ("a" "capture-clipboard" entry
            ;; %i == body
            ;; %u == date
-           (file+headline "~/Sync/notes/inbox.org" "To do") "** TODO %:link %i"
+           (file+headline "~/work/notes/inbox.org" "To do") "** TODO %:link %i"
            :immediate-finish t
            :unnarrowed t)
-
-          ("n" "Note" entry
-           (file+headline (concat org-directory  "/notes-to-file.org") "Notes") "* %?" :prepend t)
 
           ("s" "Shopping" item
            (file+headline +org-capture-todo-file "Shopping") "- [ ] %?" :prepend t)))
@@ -535,50 +550,22 @@ and shortens it into an org mode link consisting of just `some file`"
   title of the page is retrieved from the web page"
     (interactive)
     (ap/url->org)
-    (org-link->markdown))
+    (org-link->markdown)))
 
-  )
 
 (after! org-download
+  (setq-default
+   org-download-method            'directory
+   org-download-screenshot-method "import %s"
+   org-download-image-dir         "./images/screenshots"
+   org-download-heading-lvl       0
+   org-download-link-format       (concat  "[[file:" org-download-image-dir "/%s]]\n")
+   org-download-annotate-function (lambda (_) "")
+   org-download-image-org-width   500
+   org-download-dir               "download/"))
 
-  (map! :leader
-        :prefix "ma"
-        :desc "Download Screenshot" "c" #'org-download-screenshot
-        :desc "Download Clipboard" "p" #'org-download-clipboard
-        :desc "Download Yank" "P" #'org-download-yank
-        :desc "Edit Image" "e" #'org-download-edit
-        :desc "Delete Image" "d" #'org-download-delete
-        :desc "Move Image" "m" #'org-download-rename)
-
-  ;; Drag-and-drop to `dired`
-  (add-hook 'dired-mode-hook 'org-download-enable)
-
-  ;; (defun org-download-named-screenshot (fname)
-  ;;   (interactive "FEnter Filename:")
-  ;;   (make-directory (file-name-directory fname) t)
-  ;;   (if (functionp org-download-screenshot-method)
-  ;;       (funcall org-download-screenshot-method fname)
-  ;;     (shell-command-to-string
-  ;;      (format org-download-screenshot-method fname)))
-  ;;   (org-download-image fname))
-
-
-  (setq org-download-method            'directory
-        ;;org-download-screenshot-method 'nil
-        ;;org-download-screenshot-method "spectacle -b -r -o %s"
-        org-download-screenshot-method "xfce4-screenshooter -r -s %s"
-        org-download-image-dir         "./images/screenshots"
-        org-download-heading-lvl       0
-        org-download-link-format       (concat  "[[file:" org-download-image-dir "/%s]]\n")
-        org-download-annotate-function (lambda (text) "")
-        org-download-image-org-width   200
-        ;; org-download-image-dir "./images/screenshots"
-        org-download-dir               "download/"))
-
-(after! org-attach-screenshot
-  (setq org-attach-screenshot-command-line "xfce4-screenshooter -r -s %f"))
-
-;;; Org roam
+;;------------------------------------------------------------------------------
+;; Org roam
 ;;------------------------------------------------------------------------------
 
 (after! org-roam
@@ -592,18 +579,6 @@ and shortens it into an org mode link consisting of just `some file`"
   ;; add a space before inserting a node for lists etc so it does
   ;; not come out as -[link] but rather as - [link]
   (advice-add 'org-roam-node-insert :before (lambda () (insert " ")))
-
-  (map! :leader
-        :prefix "y"
-        :desc "Org Link Copy"       "y" #'org-link-copy)
-
-  ;; (map! :leader
-  ;;       :prefix "n"
-  ;;       :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
-  ;;       :desc "Org-Roam-Find"       "/" #'org-roam-find-file
-  ;;       :desc "Org-Roam-Buffer"     "r" #'org-roam
-  ;;       :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph)
-
   (setq org-roam-db-location "~/.org-roam.db")
   (setq org-roam-link-title-format "Org:%s"))
 
@@ -668,7 +643,7 @@ and shortens it into an org mode link consisting of just `some file`"
 
 ;; https://github.com/alphapapa/unpackaged.el#download-and-attach-remote-files
 (use-package! ox
-  :defer 4.0
+  ;; :defer-incrementally t
   :config
 
   (define-minor-mode unpackaged/org-export-html-with-useful-ids-mode
@@ -770,6 +745,15 @@ Current buffer is assumed unless specified by BUFFER"
         (when (string= (org-element-property :type link) "file")
           (org-element-property :path link))))))
 
+(defun org-get-links (&optional buffer)
+  "Get all of the 'file' type links in a buffer.
+Current buffer is assumed unless specified by BUFFER"
+  (with-current-buffer
+      (or buffer (current-buffer))
+    (org-element-map (org-element-parse-buffer) 'link
+      (lambda (link)
+        (org-element-property :raw-link link)))))
+
 (defun org-global-props (&optional property buffer)
   "Get the plists of global org properties of current buffer."
 
@@ -813,28 +797,36 @@ local and remote servers."
 
   (message "Publishing...")
 
-  (let* ((dest (or (org-global-prop-value "DEST")
-                   org-default-publish-dest))
-         (args
 
-          (cl-concatenate 'list
-                          `("-avz" "--relative"
-                            ,(concat (file-name-base (buffer-file-name)) ".html"))
-                          (org-get-linked-files)
-                          (list dest))))
+  (let* ((base (file-name-base (buffer-file-name)))
+         (outfile (or (org-global-prop-value "DESTFILE")
+                      (concat base ".html"))))
 
-    ;; (message (mapconcat #'identity args " "))
+    (when (not (string= (concat base ".html") outfile))
+      (rename-file (concat base ".html") outfile))
 
-    (set-process-sentinel
+    (let* ((dest (or (org-global-prop-value "DEST")
+                     org-default-publish-dest))
+           (args
 
-     ;; copy
-     (apply #'start-process "*copy-to-dest*" nil "rsync" args)
+            (cl-concatenate 'list
+                            `("-avz" "--relative"
+                              ,outfile)
+                            (org-get-linked-files)
+                            (list dest))))
 
-     ;; cleanup
-     (lambda (_ event)
-       (when (string= event "finished\n")
-         (message "rsync finished, cleaning up...")
-         (delete-file (concat (file-name-base (buffer-file-name)) ".html")))))))
+      (message (mapconcat #'identity args " "))
+
+      (set-process-sentinel
+
+       ;; copy
+       (apply #'start-process "*copy-to-dest*" nil "rsync" args)
+
+       ;; cleanup
+       (lambda (_ event)
+         (when (string= event "finished\n")
+           (message "rsync finished, cleaning up...")
+           (delete-file outfile)))))))
 
 (defun ap/shrink-this-image ()
   (interactive)
@@ -854,3 +846,190 @@ local and remote servers."
     ;; shrink
     (message "Resizing $i...")
     (shell-command (format  "convert -resize 1024X768 %s %s-small.jpg" name name-base))))
+
+(defun ap/org-sort-entries-recursive (&optional key)
+  "Call `org-sort-entries' recursively on tree at point.
+If KEY, use it; otherwise read key interactively."
+  (interactive)
+  (cl-macrolet ((moves-p (form)
+                         `(let ((pos-before (point)))
+                            ,form
+                            (/= pos-before (point)))))
+    (cl-labels ((sort-tree
+                 () (cl-loop do (when (children-p)
+                                  (save-excursion
+                                    (outline-next-heading)
+                                    (sort-tree))
+                                  (org-sort-entries nil key))
+                             while (moves-p (org-forward-heading-same-level 1))))
+                (children-p (&optional invisible)
+                            ;; Return non-nil if entry at point has child headings.
+                            ;; Only children are considered, not other descendants.
+                            ;; Code from `org-cycle-internal-local'.
+                            (save-excursion
+                              (let ((level (funcall outline-level)))
+                                (outline-next-heading)
+                                (and (org-at-heading-p t)
+                                     (> (funcall outline-level) level))))))
+      (save-excursion
+        (save-restriction
+          (widen)
+          (unless key
+            ;; HACK: Call the sort function just to get the key, then undo its changes.
+            (cl-letf* ((old-fn (symbol-function 'read-char-exclusive))
+                       ((symbol-function 'read-char-exclusive)
+                        (lambda (&rest args)
+                          (setf key (apply #'funcall old-fn args)))))
+              ;; Sort the first heading and save the sort key.
+              (org-sort-entries))
+            (undo-only))
+          (cond ((org-before-first-heading-p)
+                 ;; Sort whole buffer. NOTE: This assumes the first heading is at level 1.
+                 (org-sort-entries nil key)
+                 (outline-next-heading)
+                 (cl-loop do (sort-tree)
+                          while (moves-p (org-forward-heading-same-level 1))))
+                ((org-at-heading-p)
+                 ;; Sort this heading.
+                 (sort-tree))
+                (t (user-error "Neither on a heading nor before first heading"))))))))
+
+(defun ap/org-sort-entries-recursive-multi (&optional keys)
+  "Call `ap/org-sort-entries-recursive'.
+If KEYS, call it for each of them; otherwise call interactively
+until \\[keyboard-quit] is pressed."
+  (interactive)
+  (if keys
+      (dolist (key keys)
+        (ap/org-sort-entries-recursive key))
+    (with-local-quit
+      ;; Not sure if `with-local-quit' is necessary, but probably a good
+      ;; idea in case of recursive edit.
+      (cl-loop while (progn
+                       (call-interactively #'ap/org-sort-entries-recursive)
+                       t)))))
+
+(setq org-html-xml-declaration
+      '(("html" . "")
+        ("php" . "<?php echo \"<?xml version=\\\"1.0\\\" encoding=\\\"%s\\\" ?>\"; ?>")))
+
+;; Tag colors
+(setq org-tag-faces
+      '(("etl"       . (:foreground "gray"))
+        ("atlas"     . (:foreground "gray"))
+        ("l0mdt"     . (:foreground "gray"))
+
+        ("BU"        . (:foreground "red2"       :weight bold))
+        ("bu"        . (:foreground "red2"       :weight bold))
+
+        ("csc"       . (:foreground "steelblue"  :weight bold))
+        ("gaps"      . (:foreground "steelblue"  :weight bold))
+        ("hog"       . (:foreground "steelblue"  :weight bold))
+        ("gem"       . (:foreground "steelblue"  :weight bold))
+        ("me0"       . (:foreground "steelblue"  :weight bold))
+
+        ("move"      . (:background "#666" :foreground "#eee"          :weight bold))
+        ("family"    . (:foreground "red4"          :weight bold))
+        ("home"      . (:foreground "lightorange"   :weight bold))
+        ("meeting"   . (:foreground "gray" :slant italic))
+        ("CRITICAL"  . (:background "red3" :foreground "#fff" :weight bold))))
+
+;; change DEADLINE to a short symbol to reduce line noise
+(font-lock-add-keywords
+ 'org-mode
+ '(("^\\(DEADLINE:\\)"
+    (0 (prog1 ()
+         (compose-region (match-beginning 1) (match-end 1) ""))))))
+
+(setq org-agenda-prefix-format
+      '((agenda  . " %12t")
+        (timeline  . "  % s")
+        (todo  . " %i")
+        (tags  . " %i %-12:c")
+        (search . " %i %-12:c")))
+
+(after! org
+
+  (custom-declare-face
+   '+org-todo-idea
+   `((t :weight bold :foreground "#94e2d5")) "IDEA todo keyword")
+
+  (custom-declare-face
+   '+org-todo-meet
+   `((t :weight bold :foreground "#cdf"))    "MEET todo keyword")
+
+  (custom-declare-face
+   '+org-todo-note
+   `((t :weight bold :foreground "#288"))    "NOTE todo keyword")
+
+  (setq org-todo-keyword-faces
+        '(("[-]"  . +org-todo-active)
+          ("STRT" . +org-todo-active)
+          ("[?]"  . +org-todo-onhold)
+          ("WAIT" . +org-todo-onhold)
+          ("HOLD" . +org-todo-onhold)
+          ("MEET" . +org-todo-meet)
+          ("NOTE" . +org-todo-note)
+          ("PROJ" . +org-todo-project)
+          ("NO"   . +org-todo-cancel)
+          ("IDEA" . +org-todo-idea)
+          ("KILL" . +org-todo-cancel)))
+
+  (setq org-todo-keywords
+        '((sequence "MEET" "MET")
+          (sequence "NOTE" "NOTED")
+          (sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
+          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)"))))
+
+(defun org-procrastinate-all ()
+
+  "Carry forward uncompleted tasks.
+Updates overdue tasks to be due today."
+
+  (interactive)
+  (org-carry-forward-uncompleted-tasks t))
+
+(defun org-procrastinate ()
+  (interactive)
+  (org-deadline nil "+1"))
+
+(defun org-carry-forward-uncompleted-tasks (&optional procrastinate)
+  "Carry forward uncompleted tasks.
+
+Updates overdue tasks to be due today."
+
+  (interactive)
+
+  (save-excursion
+
+    (goto-char (point-max))
+
+    (while (re-search-backward "^[\*]* \\(TODO\\|MEET\\)" nil t)
+      (unless (org-at-heading-p)
+        (org-back-to-heading t))
+
+      (let* ((element (org-element-at-point))
+             ;; (todo-state (org-element-property :todo-keyword element))
+             (deadline (org-element-property :deadline element))
+             (repeats (org-element-property :repeater-value deadline))
+             (deadline-time-stamp
+              (when deadline
+                (time-to-days
+                 (org-time-string-to-time
+                  (org-element-property :raw-value deadline)))))
+             (today (time-to-days (current-time))) )
+        (when (and deadline-time-stamp
+                   (or (> today deadline-time-stamp)
+                       (and procrastinate
+                            (>= today deadline-time-stamp)))) ;; deadline is overdue
+          (if repeats (org-todo 'done)
+            (if procrastinate
+                (org-deadline nil "+1")
+              (org-deadline nil "."))))))))
+
+(defun org-report-dead-links ()
+  "Create a report of dead files in my org mode notes directory."
+  (interactive)
+  (shell-command (format "cd %s && ./find-dead-links.sh" org-directory))
+  (find-file (concat org-directory "/unused-links.org")))
