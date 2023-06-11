@@ -20,7 +20,7 @@
 (setq lsp-enable-file-watchers nil)
 
 ;; vhdl-tool, hdl-checker vhdl-ls ghdl-ls
-(setq lsp-vhdl-server 'hdl-checker)
+(setq lsp-vhdl-server 'ghdl-ls)
 (let ((exe (cl-case lsp-vhdl-server
              ('hdl-checker "hdl_checker")
              ('vhdl-tool "vhdl-tool")
@@ -42,4 +42,6 @@
                     :major-modes '(verilog-mode)
                     :server-id 'verible-ls))
 
-  (add-hook 'verilog-mode-hook 'lsp))
+  (add-hook 'verilog-mode-hook 'lsp)
+  (add-hook 'vhdl-mode-hook 'lsp)
+  )
