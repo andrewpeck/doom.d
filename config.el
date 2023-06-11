@@ -48,7 +48,7 @@
 (load!! "~/.doom.d/custom")
 (load-idle "~/.doom.d/config-align")
 (load-idle "~/.doom.d/config-appearance")
-(load-idle "~/.doom.d/config-company")
+(load-idle "~/.doom.d/config-completion")
 (load-idle "~/.doom.d/config-dired")
 (load-idle "~/.doom.d/config-doom")
 (load-idle "~/.doom.d/config-eglot")
