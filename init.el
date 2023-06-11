@@ -17,6 +17,7 @@
 ;; Start emacs in full screen by default
 (add-to-list 'default-frame-alist
              '(fullscreen . maximized))
+
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist
              '(inhibit-double-buffering . t))
@@ -26,39 +27,31 @@
 (setq display-line-numbers nil)
 
 (doom!
+
     :completion
-      (company +tng)          ; the ultimate code completion backend
-      ;;helm                  ; the *other* search engine for love and life
-      ;;ido                   ; the other *other* search engine...
-      ;;(ivy +fuzzy)          ; a search engine for love and life
-      ;; (corfu +orderless)
+        (corfu +icons)
         (vertico +icons)      ; the search engine of the future
 
     :ui
-      doom                  ; what makes DOOM look the way it does
-      ;;deft                ; notational velocity for Emacs
-      doom-dashboard        ; a nifty splash screen for Emacs
-      ;;doom-quit           ; DOOM quit-message prompts when you quit Emacs
-      emoji                 ; what makes DOOM look the way it does
-      hl-todo               ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-      ;;hydra               ; This module adds hydra to Doom Emacs
-      ;;indent-guides       ; highlighted indent columns
-      ;;(modeline +light)   ; snazzy, Atom-inspired modeline, plus API
+        doom                  ; what makes DOOM look the way it does
+        doom-dashboard        ; a nifty splash screen for Emacs
+        emoji                 ; what makes DOOM look the way it does
+        hl-todo               ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+        ;;indent-guides       ; highlighted indent columns
         nav-flash           ; blink the current line after jumping
-      ;; neotree            ; a project drawer, like NERDTree for vim
         ophints             ; highlight the region an operation acts on
-       (popup               ; tame sudden yet inevitable temporary windows
+        (popup               ; tame sudden yet inevitable temporary windows
         +all                ; catch all popups that start with an asterix
         +defaults)          ; default popup rules
-      ;;pretty-code         ; replace bits of code with pretty symbols
-      ;;tabs               ; an tab bar for Emacs
-      ;;treemacs            ; a project drawer, like neotree but cooler
-      ;;unicode             ; extended unicode support for various languages
-       (vc-gutter +pretty)  ; vcs diff in the fringe
-      ;;vi-tilde-fringe     ; fringe tildes to mark beyond EOB
-      ;;window-select       ; visually switch windows
+        ;;pretty-code         ; replace bits of code with pretty symbols
+        ;;tabs                ; an tab bar for Emacs
+        ;;treemacs            ; a project drawer, like neotree but cooler
+        ;;unicode             ; extended unicode support for various languages
+        (vc-gutter +pretty)  ; vcs diff in the fringe
+        ;;vi-tilde-fringe     ; fringe tildes to mark beyond EOB
+        ;;window-select       ; visually switch windows
         workspaces          ; tab emulation, persistence & separate workspaces
-      ;;zen                 ; distraction-free coding or writing
+        ;;zen                 ; distraction-free coding or writing
 
     :editor
         lispy
@@ -92,27 +85,22 @@
       ;;grammar            ; tasing grammar mistake every you make
 
     :tools
-        ;;ansible
         ;;debugger          ; FIXME stepping through code, to help you add bugs
-        ;;direnv
         docker
         ein
         tree-sitter
-        ;;editorconfig      ; let someone else argue about tabs vs spaces
-        ;;ein               ; tame Jupyter notebooks with emacs
         (eval +overlay)     ; run code, run (also, repls)
-        ;;gist              ; interacting with github gists
-        (lookup             ; helps you navigate your code and documentation
-         +dictionary
-        +docsets)           ; ...or in Dash docsets locally
+
+        ;; helps you navigate your code and documentation
+        (lookup +dictionary +docsets)
+
         (lsp)
         (magit +forge)      ; a git porcelain for Emacs
         make                ; run make tasks from Emacs
-        ;;pass              ; password manager for nerds
         pdf                 ; pdf enhancements
-        ;;prodigy           ; FIXME managing external services & code builders
-        ;;terraform         ; infrastructure as code
-        ;;tmux              ; an API for interacting with tmux
+        tmux                ; an API for interacting with tmux
+
+        ;;pass              ; password manager for nerds
         ;;upload            ; map local to remote projects via ssh/ftp
 
     :os
@@ -120,36 +108,56 @@
         tty               ; improve the terminal Emacs experience
 
     :lang
-        ;;agda               ; types of types of types of types...
+
         ;;assembly           ; assembly for fun or debugging
-        ;;(cc +lsp)            ; C/C++/Obj-C madness
-        (clojure +lsp)       ; java with a lisp
-        (json +lsp +tree-sitter) ; json, uhg
-        ;;common-lisp          ; if you've seen one lisp, you've seen them all
+
+        ;; C/C++/Obj-C madness
+        (cc +lsp +tree-sitter)
+
+        ;; java with a lisp
+        (clojure +lsp)
+
+        ;; json, uhg
+        (json +lsp +tree-sitter)
+
+        ;; if you've seen one lisp, you've seen them all
+        common-lisp
+
         ;;coq                ; proofs-as-programs
         ;;crystal            ; ruby at the speed of c
         ;;csharp             ; unity, .NET, and mono shenanigans
+
+        ;; A dumping ground for data formats
         data                 ; config/data formats
+
         ;;elixir             ; erlang done right
         ;;elm                ; care for a cup of TEA?
+
         (emacs-lisp)         ; drown in parentheses
+
         ;;erlang             ; an elegant language for a more civilized age
-        ;; ess               ; emacs speaks statistics
+        ;;ess               ; emacs speaks statistics
         ;;faust              ; dsp, but you get to keep your soul
         ;;fsharp             ; ML stands for Microsoft's Language
         ;;fstar              ; (dependent) types and (monadic) effects and Z3
-        ;;(go +lsp           ; the hipster dialect
-        ;;   +tree-sitter)   ;
-        (haskell +lsp)       ; a language that's lazier than I am
+
+        ;; the hipster dialect
+        ;;(go +lsp +tree-sitter)
+
+        ;; a language that's lazier than I am
+        (haskell +lsp +tree-sitter)
+
         ;;hy                 ; readability of scheme w/ speed of python
         ;;idris              ; A language you can depend on
         ;;(java +meghanada)  ; the poster child for carpal tunnel syndrome
         ;;javascript         ; all(hope(abandon(ye(who(enter(here))))))
-        ;; (julia + lsp)     ; a better, faster MATLAB
-        ;;kotlin             ; a better, slicker Java(Script)
-        (latex               ; writing papers in Emacs has never been so fun
-         +fold               ;
-         +lsp)               ;
+
+        ;; a better, faster MATLAB
+        ;;(julia + lsp)
+
+        ;; writing papers in Emacs has never been so fun
+        (latex +fold +lsp)
+
         ;;lean               ; For folks with too much to prove
         ;;factor             ;
         ;;ledger             ; an accounting system in Emacs
