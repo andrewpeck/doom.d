@@ -1,7 +1,7 @@
 {
     "checks": {
         "airlinese.misc": true,
-        "annotations.misc": true,
+        "annotations.misc": false,
         "archaism.misc": true,
         "cliches.hell": true,
         "cliches.misc": true,
