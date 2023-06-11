@@ -74,6 +74,12 @@
 (when init-file-debug
   (benchmark-init/deactivate))
 
+(defmacro measure-time (&rest body)
+  "Measure the time it takes to evaluate BODY."
+  `(let ((time (current-time)))
+     ,@body
+     (message "%.06f" (float-time (time-since time)))))
+
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'write-contents-functions)
 ;; eval: (add-hook 'write-contents-functions (lambda () (when (fboundp 'sort-elisp-block) (sort-elisp-block))) nil t)
