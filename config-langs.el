@@ -97,10 +97,7 @@
 ;;------------------------------------------------------------------------------
 
 ;; vhdl mode will wrap comments after some # of characters
-(after! vhdl
-  (add-hook! tcl-mode-hook
-    (setq-local smartparens-mode t
-                auto-fill-mode nil))
+(after! vhdl-mode
   (setq vhdl-end-comment-column 200
         vhdl-prompt-for-comments nil)
 
@@ -151,12 +148,25 @@
       (delete-region (mark) (point))
       (insert (format  "unsigned(%s)" sig))
       (backward-char 1)))
+
 ;;------------------------------------------------------------------------------
 ;; Tcl
 ;;------------------------------------------------------------------------------
 
+(add-hook! tcl-mode-hook
+  (setq-local smartparens-mode t
+              auto-fill-mode nil))
+
+;; (dolist (key vivado-builtin-list)
+;;   (add-to-list 'tcl-builtin-list key))
+;; (dolist (key vivado-keyword-list)
+;;   (add-to-list 'tcl-keyword-list key))
+;; (dolist (key vivado-constant-list)
+;;   (add-to-list 'tcl-constant-list key))
+
 ;; make $ not part of a symbol in tcl-mode
 (after! tcl
+  (setq tcl-help-directory-list '("/usr/share/doc/tclx"))
   (add-hook! tcl-mode-hook (setq-local smartparens-mode t))
   (add-hook! tcl-mode-hook #'tree-sitter-hl-mode)
   (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
