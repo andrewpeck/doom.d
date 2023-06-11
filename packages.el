@@ -6,6 +6,7 @@
 (package! popwin :disable t)
 (package! popwin :disable t)
 (package! ivy :disable t)
+(package! swiper :disable t)
 
 (package! company)
 
