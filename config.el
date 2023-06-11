@@ -44,6 +44,7 @@
 
 ;; start:sort
 (load!! "~/.doom.d/config-core")
+(load!! "~/.doom.d/config-lsp")
 (load!! "~/.doom.d/config-modeline")
 (load!! "~/.doom.d/custom")
 (load-idle "~/.doom.d/config-align")
@@ -51,7 +52,6 @@
 (load-idle "~/.doom.d/config-completion")
 (load-idle "~/.doom.d/config-dired")
 (load-idle "~/.doom.d/config-doom")
-(load-idle "~/.doom.d/config-eglot")
 (load-idle "~/.doom.d/config-elfeed")
 (load-idle "~/.doom.d/config-flycheck")
 (load-idle "~/.doom.d/config-git")
