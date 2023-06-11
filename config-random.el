@@ -91,10 +91,9 @@ is deferred until the file is saved. Respects `git-gutter:disabled-modes'."
       :n [mouse-9] #'next-buffer)
 
 ;; Backups
-(after! backup-each-save
-  (setq backup-each-save-mirror-location "~/emacs-backups")
-  (require 'backup-each-save)
-  (add-hook 'after-save-hook 'backup-each-save))
+(require 'backup-each-save)
+(setq backup-each-save-mirror-location "~/emacs-backups")
+(add-hook 'after-save-hook 'backup-each-save)
 
 ;;
 (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
