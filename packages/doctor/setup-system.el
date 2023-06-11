@@ -164,7 +164,8 @@ Make sure they are installed and the computer is set up ok"
 
           ;; node
           (check-for-exe "node" :noroot t
-                         :cmd "curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo apt-get install -y nodejs")
+                         :ubuntu "curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo apt-get install -y nodejs")
+          (check-for-exe "vl2svg" :cmd "sudo npm install vega-lite vega-cli canvas")
 
           ;; python
           (check-for-exe "pyright" :url "https://github.com/microsoft/pyright" :cmd "pip install pyright" :noroot t)
@@ -182,6 +183,7 @@ Make sure they are installed and the computer is set up ok"
 
           ;; utilities
           ;;
+          (check-for-exe "pushover-cli" :noroot t :cmd "curl -o ~/.local/bin/pushover-cli https://raw.githubusercontent.com/markus-perl/pushover-cli/master/pushover-cli && chmod +x ~/.local/bin/pushover-cli")
           (check-for-exe "kitty" :noroot t :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
           (check-for-exe "act" :cmd "cd ~/ && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash")
           (check-for-exe "htop" :dnf "htop" :ubuntu "htop")
@@ -232,6 +234,7 @@ Make sure they are installed and the computer is set up ok"
           (make-symlink (dotfiles "mbsyncrc") "~/.mbsyncrc")
           (make-symlink (dotfiles "bashrc") "~/.bashrc")
           (make-symlink (dotfiles "bash_logout") "~/.bash_logout")
+          (make-symlink (dotfiles "conkyrc") "~/.conkyrc")
 
           (make-symlink "~/Sync/emacs-backups" "~/emacs-backups")
 
