@@ -50,7 +50,8 @@
 
 ;; M-x describe-font
 (setq font-list
-      '(("Source Code Pro" . 16)
+      '(("Comic Code"      . 16)
+        ("Source Code Pro" . 16)
         ("JetBrains Mono"  . 16)
         ("Terminus"        . 16)
         ("Consolas"        . 16)
@@ -61,12 +62,11 @@
         ("IBM Plex Mono"   . 16)))
 
 (setq variable-pitch-font-list
-      '(("Comic Sans" . 16)
+      '(("Comic Code" . 16)
         ("Fira Code" . 17)
         ("Cantarell" . 18)
         ("Calibri" . 18)
-        ("Arial" . 17)
-        ))
+        ("Arial" . 17)))
 
 (cl-dolist (my-font font-list)
   (when (font-exists-p (car my-font))
