@@ -172,9 +172,8 @@ is deferred until the file is saved. Respects `git-gutter:disabled-modes'."
   ;;     :size 0.35 :select t :modeline t :quit t :ttl t)))
   )
 
-(after! tree-sitter
-  (add-hook! 'tcl-mode-hook    #'tree-sitter-hl-mode)
-  (add-hook! 'python-mode-hook #'tree-sitter-hl-mode))
+(add-hook! 'tcl-mode-hook    #'tree-sitter-hl-mode)
+(add-hook! 'python-mode-hook #'tree-sitter-hl-mode)
 
 (after! emojify-mode
   (setq global-emojify-mode t))
