@@ -760,14 +760,14 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(js2-warning                  ((t (:underline "orange"))))
 
        ;; Org non-standard faces.
-       `(summerfruit-org-deadline-overdue ((t (:foreground "#f22659"))))
-       `(summerfruit-org-deadline-today ((t (:weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
+       `(summerfruit-org-deadline-overdue  ((t (:foreground ,sf-black))))
+       `(summerfruit-org-deadline-today    ((t (:weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
        `(summerfruit-org-deadline-tomorrow ((t (:foreground "#40a80b"))))
-       `(summerfruit-org-deadline-future ((t (:foreground "#40a80b"))))
-       `(summerfruit-gnus-unseen ((t (:weight bold :foreground "#fc7202"))))
-       `(summerfruit-gnus-date ((t (:foreground "#ff80bf"))))
-       `(summerfruit-gnus-size ((t (:foreground "#8fbf60"))))
-       `(summerfruit-todo-items-face ((t (:weight bold :foreground "#ff3125" :background "#ffff88"))))
+       `(summerfruit-org-deadline-future   ((t (:foreground "#40a80b"))))
+       `(summerfruit-gnus-unseen           ((t (:weight bold :foreground "#fc7202"))))
+       `(summerfruit-gnus-date             ((t (:foreground "#ff80bf"))))
+       `(summerfruit-gnus-size             ((t (:foreground "#8fbf60"))))
+       `(summerfruit-todo-items-face       ((t (:weight bold :foreground "#ff3125" :background "#ffff88"))))
 
        `(light-symbol-face ((t (:background "#ffffa0"))))
 
@@ -935,16 +935,16 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(org-scheduled-previously    ((t (:foreground "#1466c6"))))
        `(org-scheduled-today         ((t (:weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
        `(org-sexp-date               ((t (:foreground "#3774cc"))))
-       `(org-special-keyword         ((t (:weight bold :foreground "#00bb00" :background "#eaffea"))))
+       `(org-special-keyword         ((t (:foreground "#00bb00" :background "#eaffea"))))
        `(org-table                   ((t (:foreground "dark green" :background "#eaffea")))) ;; :inherit fixed-pitch))))
-       `(org-tag                     ((t (:weight normal :slant italic :foreground "#9a9fa4" :background ,sf-white))))
+       `(org-tag                     ((t (:weight normal :foreground "#9a9fa4"))))
        `(org-target                  ((t (:foreground "#ff6daf"))))
        `(org-time-grid               ((t (:foreground "#cfcfcf"))))
-       `(org-todo                    ((t (:weight bold :box (:line-width 1 :color "#d8aba7") :foreground "#d8aba7" :background "#ffe6e4"))))
-       `(org-upcoming-deadline       ((t (:foreground "#ff5555"))))
+       `(org-todo                    ((t (:weight bold :foreground "#d8aba7"))))
+       `(org-upcoming-deadline       ((t (:foreground ,sf-black))))
        `(org-verbatim                ((t ,code-inline)))
        `(org-verse                   ((t (:slant italic :foreground "dim gray" :background "#eeeeee"))))
-       `(org-warning                 ((t (:weight bold :foreground ,sf-black :background "#cce7ff"))))
+       `(org-warning                 ((t (:foreground ,sf-black))))
 
        ;; Outline
        `(outline-1 ((t ,ol1)))
