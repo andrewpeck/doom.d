@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: elisp
+# key: elisp
+# --
+#!/usr/bin/env sh
+:; ( echo "$EMACS" | grep -q "term" ) && EMACS=emacs || EMACS=${EMACS:-emacs} # -*-emacs-lisp-*-
+:; command -v $EMACS >/dev/null || { >&2 echo "Can't find emacs in your PATH"; exit 1; }
+:; exec emacs -Q --script "$0" -- "$@"
+:; exit 0
+;; -*- lexical-binding: t -*-
