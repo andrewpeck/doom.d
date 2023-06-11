@@ -99,6 +99,12 @@
     (align-regexp start end
                   "\\(\\s-*\\)&" 1 1 t))
 
+  (defun align-colon (start end)
+    "Align columns by colon"
+    (interactive "r")
+    (align-regexp start end
+                  "\\(\\s-*\\):" 1 1 t))
+
   (defun align-quote-space (start end)
     "Align columns by quote and space"
     (interactive "r")
@@ -121,5 +127,4 @@
     "Align columns by dot"
     (interactive "r")
     (align-regexp start end
-                  "\\(\\s-*\\)\\\." 1 1 t))
-  )
+                  "\\(\\s-*\\)\\\." 1 1 t)))
