@@ -7,6 +7,8 @@
 (package! popwin :disable t)
 (package! ivy :disable t)
 
+(package! company)
+
 ;; Org mode
 (package! evil-org)
 (package! org-download :recipe (:host github :repo "abo-abo/org-download"))
