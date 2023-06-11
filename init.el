@@ -158,44 +158,52 @@
         ;;nim                ; python + lisp at the speed of c
         ;;nix                ; I hereby declare "nix geht mehr!"
         ;;ocaml              ; an objective camel
-        (org                 ; organize your plain life in plain text
-         ;; +roam2
-         +gnuplot
-         ;;+pretty       ; Enables pretty unicode symbols for bullets and priorities
-         +dragndrop      ; drag & drop files/images into org buffers
-         +pandoc         ; export-with-pandoc support
+
+        ;; organize your plain life in plain text
+        (org +dragndrop +gnuplot +pandoc
+         ;; +brain
+         ;; +contacts
          ;;+hugo         ; use Emacs for hugo blogging
+         ;;+journal
          ;;+jupyter      ; ipython/jupyter support for babel
+         ;;+noter
+         ;;+passwords
          ;;+pomodoro     ; be fruitful with the tomato technique
          ;;+present      ; using org-mode for presentations
+         ;;+pretty       ; Enables pretty unicode symbols for bullets and priorities
+         ;;+roam
+         ;;+roam2
          )
-        ;; perl                ; write code no one else can comprehend
-        ;;php               ; perl's insecure younger brother
+
+        ;; perl's insecure younger brother
+        (php +lsp +tree-sitter)
+
         ;;plantuml          ; diagrams for confusing people more
         ;;purescript        ; javascript, but functional
-        (python             ; beautiful is better than ugly
-            +pyright
-            +lsp)
-        ;;qt                ; the 'cutest' gui framework ever
-        (racket +lsp +xp)   ; a DSL for DSLs
-        ;;rest              ; Emacs as a REST client
-        ;;rst               ; ReST in peace
-        ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-        rust                ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-        ;;scala             ; java, but good
-        ;;scheme            ; a fully conniving family of lisps
-        (sh +lsp            ; she sells {ba,z,fi}sh shells on the C xor
-            +treesitter)
-        ;;solidity          ; do you need a blockchain? No.
-        ;;swift             ; who asked for emoji variables?
-        ;;terra             ; Earth and Moon in alignment for performance.
-        web                 ; the tubes
-        (yaml +lsp)
+
+        ;; beautiful is better than ugly
+        (python +pyright +lsp)
+
+        ;; a DSL for DSLs
+        (racket +lsp +xp)
+
+        ;; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+        rust
+
+        ;; a fully conniving family of lisps
+        ;;scheme
+
+        ;; she sells {ba,z,fi}sh shells on the C xor
+        (sh +lsp +treesitter)
+
+        ;; the tubes
+        web
+
+        ;; JSON, but readable
+        (yaml +lsp +tree-sitter)
 
     :email
         (mu4e +gmail)
-        ;;notmuch
-        ;;(wanderlust +gmail)
 
     :app
         ;;calendar
