@@ -44,6 +44,7 @@
 (package! fzf :recipe (:host github :repo "bling/fzf.el"))
 (package! graphviz-dot-mode)
 (package! logview)
+(package! lsp-grammarly)
 (package! magit-todos)
 (package! plz)
 (package! rainbow-mode)
