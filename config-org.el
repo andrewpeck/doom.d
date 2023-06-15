@@ -1063,4 +1063,15 @@ Updates overdue tasks to be due today."
           ;; save
           (write-file file)
 
-          (princ weight))))))
+          (princ weight)))))
+
+
+  ;; https://github.com/doomemacs/doomemacs/pull/7002
+  (defun +org/return ()
+    "Call `org-return' then indent (if `electric-indent-mode' is on)."
+    (interactive)
+    (if (and (modulep! :completion corfu)
+             corfu--frame
+             (frame-visible-p corfu--frame))
+        (corfu-insert)
+      (org-return electric-indent-mode))))
