@@ -181,6 +181,12 @@ between the two most recently open buffers."
   (evil-define-key nil org-mode-map
     (kbd "TAB") #'org-cycle)
 
+  (evil-define-key nil org-mode-map
+    (kbd "M-RET")
+    (lambda ()
+      (interactive)
+      (org-meta-return t)))
+
   ;; Hog
   (evil-define-key '(motion normal) hog-src-mode-map
     (kbd "M-RET") #'hog-follow-link-at-point)
