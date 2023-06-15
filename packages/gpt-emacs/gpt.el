@@ -50,12 +50,9 @@ Returns a list decoded from the JSON reponse."
                         (cons "model" gpt-text-model)
                         (cons "max_tokens" gpt-max-tokens)
                         (cons "temperature" gpt-temperature)
-                        `("messages" .
-                          ,(list `(("role" . "user")
-                                   ("content" . ,prompt))
-                                 ;; `(("role" . "system")
-                                 ;;   ("content" . ,gpt-api-role))
-                                 ))
+                        (cons "messages"
+                              (list (list (cons "role" "user")
+                                          (cons "content" prompt))))
                         (cons "top_p" gpt-top-p)
                         (cons "frequency_penalty" 0)
                         (cons "presence_penalty" 0))))
