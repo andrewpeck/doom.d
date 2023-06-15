@@ -29,7 +29,7 @@
 (doom!
 
     :completion
-        (corfu +icons)
+        (corfu +icons +tng)
         (vertico +icons)      ; the search engine of the future
 
     :ui
