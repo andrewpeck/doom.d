@@ -211,7 +211,7 @@
         (yaml +lsp +tree-sitter)
 
     :email
-        (mu4e +gmail)
+        (mu4e +gmail +org)
 
     :app
         ;;calendar
