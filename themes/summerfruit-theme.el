@@ -47,8 +47,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
    more...")
 
   ;; define colors
-  (let (
-        (sf-black          '"#444")
+  (let ((sf-black          '"#444")
         (sf-gray           '"#666")
         (sf-lightgray      '"#bbb")
         (sf-white          '"#dddddd")
@@ -75,8 +74,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
         (sf-blue4          '"#08d")
         (sf-blue5          '"#adf")
         (sf-blue6          '"#48c")
-        (sf-yellow         '"#ffd")
-        )
+        (sf-yellow         '"#ffd"))
 
     ;; create classes
     (let (
