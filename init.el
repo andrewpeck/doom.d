@@ -33,36 +33,35 @@
         (vertico +icons)      ; the search engine of the future
 
     :ui
-        doom                  ; what makes DOOM look the way it does
-        doom-dashboard        ; a nifty splash screen for Emacs
-        emoji                 ; what makes DOOM look the way it does
-        hl-todo               ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-        ;;indent-guides       ; highlighted indent columns
-        nav-flash           ; blink the current line after jumping
-        ophints             ; highlight the region an operation acts on
+        doom                 ; what makes DOOM look the way it does
+        ;;emoji              ;
+        hl-todo              ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+        ;;indent-guides      ; highlighted indent columns
+        nav-flash            ; blink the current line after jumping
+        ophints              ; highlight the region an operation acts on
         (popup               ; tame sudden yet inevitable temporary windows
-        +all                ; catch all popups that start with an asterix
-        +defaults)          ; default popup rules
-        ;;pretty-code         ; replace bits of code with pretty symbols
-        ;;tabs                ; an tab bar for Emacs
-        ;;treemacs            ; a project drawer, like neotree but cooler
-        ;;unicode             ; extended unicode support for various languages
-        (vc-gutter +pretty)  ; vcs diff in the fringe
-        ;;vi-tilde-fringe     ; fringe tildes to mark beyond EOB
-        ;;window-select       ; visually switch windows
-        workspaces          ; tab emulation, persistence & separate workspaces
-        ;;zen                 ; distraction-free coding or writing
+        +all                 ; catch all popups that start with an asterix
+        +defaults)           ; default popup rules
+        ;;pretty-code        ; replace bits of code with pretty symbols
+        ;;tabs               ; an tab bar for Emacs
+        ;;treemacs           ; a project drawer, like neotree but cooler
+        ;;unicode            ; extended unicode support for various languages
+        (vc-gutter +diff-hl) ; vcs diff in the fringe
+        ;;vi-tilde-fringe    ; fringe tildes to mark beyond EOB
+        ;;window-select      ; visually switch windows
+        ;;workspaces           ; tab emulation, persistence & separate workspaces
+        ;;zen                ; distraction-free coding or writing
 
     :editor
         lispy
         (evil +everywhere)  ; come to the dark side, we have cookies
-        file-templates      ; auto-snippets for empty files
+        ;;file-templates    ; auto-snippets for empty files
         fold                ; (nigh) universal code folding
         (format)            ; automated prettiness
-      ;;multiple-cursors    ; editing in many places at once
-      ;;objed               ; text object editing for the innocent
-      ;;parinfer            ; turn lisp into python, sort of
-      ;;rotate-text         ; cycle region at point between text candidates
+        ;;multiple-cursors  ; editing in many places at once
+        ;;objed             ; text object editing for the innocent
+        ;;parinfer          ; turn lisp into python, sort of
+        ;;rotate-text       ; cycle region at point between text candidates
         snippets            ; my elves. They type so I don't have to
         word-wrap           ; soft wrapping with language-aware indent
 
