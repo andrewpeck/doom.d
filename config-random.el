@@ -148,9 +148,18 @@ is deferred until the file is saved. Respects `git-gutter:disabled-modes'."
   ;; Make sure evil is on in popups
   (add-hook '+popup-buffer-mode-hook #'turn-on-evil-mode)
 
+  (set-popup-rule! ".*eww.*"
+    :modeline t
+    :side 'right
+    :quit nil
+    :size 0.5
+    ;; :vslot -4
+    :select nil
+    :ttl 0)
+
   (set-popup-rule! ".*cider-repl.*"
     :modeline t
-    :side right
+    :side 'right
     :quit nil
     :size 0.5
     ;; :vslot -4
