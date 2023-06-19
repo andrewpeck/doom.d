@@ -2,4 +2,5 @@
 # name: org-width
 # key: width
 # --
-#+ATTR_HTML: :style max-width:100%;width:${1:500px}
+#+ATTR_ORG: :width 500px
+#+ATTR_HTML: :style max-width:100%;width:${1:768px}
