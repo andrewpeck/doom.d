@@ -427,14 +427,14 @@ and shortens it into an org mode link consisting of just `some file`"
 
   ;; (setq org-hide-emphasis-markers nil)
   (setq org-link-file-path-type 'relative
-        org-id-locations-file "~/work/notes/.org-id-locations"
+        org-id-locations-file "~/notes/.org-id-locations"
         org-export-with-sub-superscripts nil
-        org-directory "~/work/notes"
+        org-directory "~/notes"
         org-attach-id-dir "./images/"
-        org-agenda-files (list "~/work/todo")
-        org-default-notes-file "~/work/todo/todo.org"
-        +org-capture-todo-file "~/work/todo/todo.org"
-        +org-capture-meetings-file "~/work/todo/meetings.org"
+        org-agenda-files (list "~/todo")
+        org-default-notes-file "~/todo/todo.org"
+        +org-capture-todo-file "~/todo/todo.org"
+        +org-capture-meetings-file "~/todo/meetings.org"
 
         ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
         ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
@@ -448,7 +448,7 @@ and shortens it into an org mode link consisting of just `some file`"
            "** TODO %?\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \".\"))"  :prepend t)
 
           ("u" "Url" entry
-           (file+headline "~/work/notes/inbox.org" "Captured")
+           (file+headline "~/notes/inbox.org" "Captured")
            "** %a :website:\n\n%U %?\n\n%:initial" :unnarrowed t)
 
           ("m" "Meeting" entry
@@ -470,7 +470,7 @@ and shortens it into an org mode link consisting of just `some file`"
           ("a" "capture-clipboard" entry
            ;; %i == body
            ;; %u == date
-           (file+headline "~/work/notes/inbox.org" "To do") "** TODO %:link %i"
+           (file+headline "~/notes/inbox.org" "To do") "** TODO %:link %i"
            :immediate-finish t
            :unnarrowed t)
 
