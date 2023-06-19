@@ -830,7 +830,8 @@ local and remote servers."
 
     (let* ((name (buffer-file-name))
            (name-base (file-name-base name))
-           (ext (file-name-extension name)))
+           (ext (file-name-extension name))
+           (new-name (concat name-base "-small.jpg")))
 
       ;; convert to jpg
       (when (not (or (string= ".jpeg" ext)
@@ -842,7 +843,16 @@ local and remote servers."
 
       ;; shrink
       (message "Resizing $i...")
-      (shell-command (format  "convert -resize 1024X768 %s %s-small.jpg" name name-base))))
+      (shell-command (format  "convert -resize 1024X768 %s %s-small.jpg" name name-base))
+
+      ;; return the new-name
+                     new-name))
+
+  (defun ap/shrink-and-replace-this-image ()
+    (interactive)
+    (let ((new-name (ap/shrink-this-image))))
+    (when new-name
+      (rename-file new-name  (buffer-file-name))))
 
   (defun ap/org-sort-entries-recursive (&optional key)
     "Call `org-sort-entries' recursively on tree at point.
