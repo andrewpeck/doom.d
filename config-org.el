@@ -830,7 +830,7 @@ local and remote servers."
 
     (let* ((name (buffer-file-name))
            (name-base (file-name-base name))
-           (ext (file-name-extension name))
+           (ext (downcase (file-name-extension name)))
            (new-name (concat name-base "-small.jpg")))
 
       ;; convert to jpg
