@@ -1,19 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
 ;;------------------------------------------------------------------------------
-;; Eglot
-;;------------------------------------------------------------------------------
-
-(after! eglot
-
-  (dolist (provider '(:hoverProvider :documentHighlightProvider))
-    (add-to-list 'eglot-ignored-server-capabilities provider))
-
-  (add-to-list 'eglot-server-programs
-               '(vhdl-mode . ("ghdl-ls"))))
-
-
-;;------------------------------------------------------------------------------
 ;; LSP Mode
 ;;------------------------------------------------------------------------------
 
@@ -33,15 +20,13 @@
       lsp-enable-on-type-formatting nil
       lsp-enable-indentation nil
       +format-with-lsp nil)
-(after! lsp-mode
 
-  ;; https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md
-  (add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog"))
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection "verible-verilog-ls")
-                    :major-modes '(verilog-mode)
-                    :server-id 'verible-ls))
+;; https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md
+(add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog"))
+(lsp-register-client
+ (make-lsp-client :new-connection (lsp-stdio-connection "verible-verilog-ls")
+                  :major-modes '(verilog-mode)
+                  :server-id 'verible-ls))
 
-  (add-hook 'verilog-mode-hook 'lsp)
-  (add-hook 'vhdl-mode-hook 'lsp)
-  )
+(add-hook 'verilog-mode-hook 'lsp)
+(add-hook 'vhdl-mode-hook 'lsp)
