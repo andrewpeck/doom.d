@@ -16,9 +16,7 @@
         highlight-indent-guides-method 'bitmap))
 
 ;; All the icons
-(use-package! all-the-icons
-  :defer-incrementally t
-  :config
+(after! all-the-icons
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
   (all-the-icons-ibuffer-mode 1))
 
