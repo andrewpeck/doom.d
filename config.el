@@ -1,6 +1,6 @@
 ;; config.el -*- lexical-binding: t; -*-
 ;;
-;;https://www.reddit.com/r/emacs/comments/10ktqj0/weekly_tips_tricks_c_thread/
+;; https://www.reddit.com/r/emacs/comments/10ktqj0/weekly_tips_tricks_c_thread/
 ;; https://github.com/alphapapa/taxy.el
 ;; Tecosaur: https://github.com/tecosaur/emacs-config/blob/master/config.org
 ;; https://svn.red-bean.com/repos/kfogel/trunk/.emacs
@@ -16,20 +16,25 @@
 (let ((default-directory (expand-file-name "packages" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
-(setq doom-incremental-idle-timer 0.1)
-(setq doom-incremental-first-idle-timer 1.5)
+;; (setq-default display-line-numbers nil)
+;; (add-hook! org-mode-hook
+;;   (lambda () (setq display-line-numbers nil)))
 
-;; start:sort
+;; (setq doom-incremental-idle-timer 0.1)
+;; (setq doom-incremental-first-idle-timer 1.5)
+
+;; ;; start:sort
 (use-package! gpt            :defer-incrementally t)
 (use-package! hog            :defer-incrementally t)
 (use-package! setup-system   :defer-incrementally t)
 (use-package! system-install :defer-incrementally t)
 (use-package! ucf-mode       :defer-incrementally t)
 (use-package! vivado-mode    :defer-incrementally t)
-;; end:sort
+;; ;; (use-package! hdl-deps       :defer-incrementally t)
+;; ;; end:sort
 
 (defun load!! (pkg)
-"Demote errors while loading a file to prevent errors in startup from cascading."
+  "Demote errors while loading a file to prevent errors in startup from cascading."
   (with-demoted-errors "Error %s" (load! pkg)))
 
 (defun load-timer (pkg &optional timer)
@@ -43,20 +48,20 @@
     (run-with-idle-timer timer nil #'load!! pkg)))
 
 ;; start:sort
-(load "~/.doom.d/config-core")
-(load "~/.doom.d/config-doom")
-(load! "~/.doom.d/config-org")
-(load!! "~/.doom.d/config-appearance")
-(load!! "~/.doom.d/config-lsp")
-(load!! "~/.doom.d/config-langs")
+(after! lsp (load!! "~/.doom.d/config-lsp"))
+(after! org (load!! "~/.doom.d/config-org"))
+(load!! "~/.doom.d/config-core")
+(load!! "~/.doom.d/config-doom")
 (load!! "~/.doom.d/config-modeline")
 (load!! "~/.doom.d/custom")
 (load-idle "~/.doom.d/config-align")
+(load-idle "~/.doom.d/config-appearance")
 (load-idle "~/.doom.d/config-completion")
 (load-idle "~/.doom.d/config-dired")
 (load-idle "~/.doom.d/config-elfeed")
 (load-idle "~/.doom.d/config-flycheck")
 (load-idle "~/.doom.d/config-git")
+(load-idle "~/.doom.d/config-langs")
 (load-idle "~/.doom.d/config-random")
 (load-idle "~/.doom.d/config-scad")
 (load-idle "~/.doom.d/config-tex.el")
@@ -67,18 +72,22 @@
 (load-timer "~/.doom.d/config-keybinds")
 ;; end:sort
 
+;; (when (string= (system-name) "larry")
+;;   (load!! "~/.doom.d/config-mail"))
 
-(when (string= (system-name) "larry")
-  (load!! "~/.doom.d/config-mail"))
+;; (when init-file-debug
+;;   (benchmark-init/deactivate))
 
-(when init-file-debug
-  (benchmark-init/deactivate))
+;; (defmacro measure-time (&rest body)
+;;   "Measure the time it takes to evaluate BODY."
+;;   `(let ((time (current-time)))
+;;      ,@body
+;;      (message "%.06f" (float-time (time-since time)))))
 
-(defmacro measure-time (&rest body)
-  "Measure the time it takes to evaluate BODY."
-  `(let ((time (current-time)))
-     ,@body
-     (message "%.06f" (float-time (time-since time)))))
+;; (remove-hook 'after-save-hook #'rmail-after-save-hook)
+;; (remove-hook 'after-save-hook #'ws-butler-after-save)
+;; (remove-hook 'after-change-functions #'ws-butler-after-change)
+;; (remove-hook 'find-file-hook #'ws-butler-after-save)
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)
