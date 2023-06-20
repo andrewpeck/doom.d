@@ -638,138 +638,135 @@ and shortens it into an org mode link consisting of just `some file`"
 ;;   (require 'ox))
 
 ;; https://github.com/alphapapa/unpackaged.el#download-and-attach-remote-files
-(after! ox
 
-  (define-minor-mode unpackaged/org-export-html-with-useful-ids-mode
-    "Attempt to export Org as HTML with useful link IDs.
+(define-minor-mode unpackaged/org-export-html-with-useful-ids-mode
+  "Attempt to export Org as HTML with useful link IDs.
 Instead of random IDs like \"#orga1b2c3\", use heading titles,
 made unique when necessary."
-    :global t
-    (if unpackaged/org-export-html-with-useful-ids-mode
-        (advice-add #'org-export-get-reference :override #'unpackaged/org-export-get-reference)
-      (advice-remove #'org-export-get-reference #'unpackaged/org-export-get-reference)))
+  :global t
+  (if unpackaged/org-export-html-with-useful-ids-mode
+      (advice-add #'org-export-get-reference :override #'unpackaged/org-export-get-reference)
+    (advice-remove #'org-export-get-reference #'unpackaged/org-export-get-reference)))
 
-  (defun unpackaged/org-export-get-reference (datum info)
-    "Like `org-export-get-reference',
+(defun unpackaged/org-export-get-reference (datum info)
+  "Like `org-export-get-reference',
 except uses heading titles instead of random numbers."
-    (let ((cache (plist-get info :internal-references)))
-      (or (car (rassq datum cache))
-          (let* ((crossrefs (plist-get info :crossrefs))
-                 (cells (org-export-search-cells datum))
-                 ;; Preserve any pre-existing association between
-                 ;; a search cell and a reference, i.e., when some
-                 ;; previously published document referenced a location
-                 ;; within current file (see
-                 ;; `org-publish-resolve-external-link').
-                 ;;
-                 ;; However, there is no guarantee that search cells are
-                 ;; unique, e.g., there might be duplicate custom ID or
-                 ;; two headings with the same title in the file.
-                 ;;
-                 ;; As a consequence, before re-using any reference to
-                 ;; an element or object, we check that it doesn't refer
-                 ;; to a previous element or object.
-                 (new (or (cl-some
-                           (lambda (cell)
-                             (let ((stored (cdr (assoc cell crossrefs))))
-                               (when stored
-                                 (let ((old (org-export-format-reference stored)))
-                                   (and (not (assoc old cache)) stored)))))
-                           cells)
-                          (when (org-element-property :raw-value datum)
-                            ;; Heading with a title
-                            (unpackaged/org-export-new-title-reference datum cache))
-                          ;; NOTE: This probably breaks some Org Export
-                          ;; feature, but if it does what I need, fine.
-                          (org-export-format-reference
-                           (org-export-new-reference cache))))
-                 (reference-string new))
-            ;; Cache contains both data already associated to
-            ;; a reference and in-use internal references, so as to make
-            ;; unique references.
-            (dolist (cell cells) (push (cons cell new) cache))
-            ;; Retain a direct association between reference string and
-            ;; DATUM since (1) not every object or element can be given
-            ;; a search cell (2) it permits quick lookup.
-            (push (cons reference-string datum) cache)
-            (plist-put info :internal-references cache)
-            reference-string))))
+  (let ((cache (plist-get info :internal-references)))
+    (or (car (rassq datum cache))
+        (let* ((crossrefs (plist-get info :crossrefs))
+               (cells (org-export-search-cells datum))
+               ;; Preserve any pre-existing association between
+               ;; a search cell and a reference, i.e., when some
+               ;; previously published document referenced a location
+               ;; within current file (see
+               ;; `org-publish-resolve-external-link').
+               ;;
+               ;; However, there is no guarantee that search cells are
+               ;; unique, e.g., there might be duplicate custom ID or
+               ;; two headings with the same title in the file.
+               ;;
+               ;; As a consequence, before re-using any reference to
+               ;; an element or object, we check that it doesn't refer
+               ;; to a previous element or object.
+               (new (or (cl-some
+                         (lambda (cell)
+                           (let ((stored (cdr (assoc cell crossrefs))))
+                             (when stored
+                               (let ((old (org-export-format-reference stored)))
+                                 (and (not (assoc old cache)) stored)))))
+                         cells)
+                        (when (org-element-property :raw-value datum)
+                          ;; Heading with a title
+                          (unpackaged/org-export-new-title-reference datum cache))
+                        ;; NOTE: This probably breaks some Org Export
+                        ;; feature, but if it does what I need, fine.
+                        (org-export-format-reference
+                         (org-export-new-reference cache))))
+               (reference-string new))
+          ;; Cache contains both data already associated to
+          ;; a reference and in-use internal references, so as to make
+          ;; unique references.
+          (dolist (cell cells) (push (cons cell new) cache))
+          ;; Retain a direct association between reference string and
+          ;; DATUM since (1) not every object or element can be given
+          ;; a search cell (2) it permits quick lookup.
+          (push (cons reference-string datum) cache)
+          (plist-put info :internal-references cache)
+          reference-string))))
 
-  (defun unpackaged/org-export-new-title-reference (datum cache)
-    "Return new reference for DATUM that is unique in CACHE."
-    (cl-macrolet
-        ((inc-suffixf (place)
-                      `(progn
-                         (string-match (rx bos
-                                           (minimal-match (group (1+ anything)))
-                                           (optional "--" (group (1+ digit)))
-                                           eos)
-                                       ,place)
-                         ;; HACK: `s1' instead of a gensym.
-                         (-let* (((s1 suffix) (list (match-string 1 ,place)
-                                                    (match-string 2 ,place)))
-                                 (suffix (if suffix
-                                             (string-to-number suffix)
-                                           0)))
-                           (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
-      (let* ((title (org-element-property :raw-value datum))
-             (ref (url-hexify-string (substring-no-properties title)))
-             (parent (org-element-property :parent datum)))
-        (while (--any (equal ref (car it))
-                      cache)
-          ;; Title not unique: make it so.
-          (if parent
-              ;; Append ancestor title.
-              (setf title (concat (org-element-property :raw-value parent)
-                                  "--" title)
-                    ref (url-hexify-string (substring-no-properties title))
-                    parent (org-element-property :parent parent))
-            ;; No more ancestors: add and increment a number.
-            (inc-suffixf ref)))
-        ref))))
+(defun unpackaged/org-export-new-title-reference (datum cache)
+  "Return new reference for DATUM that is unique in CACHE."
+  (cl-macrolet
+      ((inc-suffixf (place)
+                    `(progn
+                       (string-match (rx bos
+                                         (minimal-match (group (1+ anything)))
+                                         (optional "--" (group (1+ digit)))
+                                         eos)
+                                     ,place)
+                       ;; HACK: `s1' instead of a gensym.
+                       (-let* (((s1 suffix) (list (match-string 1 ,place)
+                                                  (match-string 2 ,place)))
+                               (suffix (if suffix
+                                           (string-to-number suffix)
+                                         0)))
+                         (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
+    (let* ((title (org-element-property :raw-value datum))
+           (ref (url-hexify-string (substring-no-properties title)))
+           (parent (org-element-property :parent datum)))
+      (while (--any (equal ref (car it))
+                    cache)
+        ;; Title not unique: make it so.
+        (if parent
+            ;; Append ancestor title.
+            (setf title (concat (org-element-property :raw-value parent)
+                                "--" title)
+                  ref (url-hexify-string (substring-no-properties title))
+                  parent (org-element-property :parent parent))
+          ;; No more ancestors: add and increment a number.
+          (inc-suffixf ref)))
+      ref)))
 
-(after! org
-
-  (defun org-get-linked-files (&optional buffer)
-    "Get all of the 'file' type links in a buffer.
+(defun org-get-linked-files (&optional buffer)
+  "Get all of the 'file' type links in a buffer.
 Current buffer is assumed unless specified by BUFFER"
-    (with-current-buffer
-        (or buffer (current-buffer))
-      (org-element-map (org-element-parse-buffer) 'link
-        (lambda (link)
-          (when (string= (org-element-property :type link) "file")
-            (org-element-property :path link))))))
+  (with-current-buffer
+      (or buffer (current-buffer))
+    (org-element-map (org-element-parse-buffer) 'link
+      (lambda (link)
+        (when (string= (org-element-property :type link) "file")
+          (org-element-property :path link))))))
 
-  (defun org-get-links (&optional buffer)
-    "Get all of the 'file' type links in a buffer.
+(defun org-get-links (&optional buffer)
+  "Get all of the 'file' type links in a buffer.
 Current buffer is assumed unless specified by BUFFER"
-    (with-current-buffer
-        (or buffer (current-buffer))
-      (org-element-map (org-element-parse-buffer) 'link
-        (lambda (link)
-          (org-element-property :raw-link link)))))
+  (with-current-buffer
+      (or buffer (current-buffer))
+    (org-element-map (org-element-parse-buffer) 'link
+      (lambda (link)
+        (org-element-property :raw-link link)))))
 
-  (defun org-global-props (&optional property buffer)
-    "Get the plists of global org properties of current buffer."
+(defun org-global-props (&optional property buffer)
+  "Get the plists of global org properties of current buffer."
 
-    (unless property
-      (setq property "PROPERTY"))
+  (unless property
+    (setq property "PROPERTY"))
 
-    (with-current-buffer
-        (or buffer (current-buffer))
-      (org-element-map (org-element-parse-buffer) 'keyword
-        (lambda (el)
-          (when (string-match property (org-element-property :key el))
-            el)))))
+  (with-current-buffer
+      (or buffer (current-buffer))
+    (org-element-map (org-element-parse-buffer) 'keyword
+      (lambda (el)
+        (when (string-match property (org-element-property :key el))
+          el)))))
 
-  (defun org-global-prop-value (key)
-    "Get global org property KEY of current buffer."
-    (org-element-property :value (car (org-global-props key))))
+(defun org-global-prop-value (key)
+  "Get global org property KEY of current buffer."
+  (org-element-property :value (car (org-global-props key))))
 
-  (setq org-default-publish-dest "nfs:/home/public")
+(setq org-default-publish-dest "nfs:/home/public")
 
-  (defun org-publish-this-file ()
-    "Publish this Org mode file.
+(defun org-publish-this-file ()
+  "Publish this Org mode file.
 
 If a DEST property is specified in the org file it will by used
 as the destination. e.g. the following will set the copy
@@ -781,316 +778,316 @@ destination of the file.
 Copying is done with rsync, which must be installed on both the
 local and remote servers."
 
-    (interactive)
+  (interactive)
 
-    ;; export the file to html
-    ;; - export _synchronously_ so that it blocks
-    ;; - use useful IDs so that the links are stable
-    (message "Exporting to html...")
-    (unpackaged/org-export-html-with-useful-ids-mode t)
-    (org-html-export-to-html nil)
+  ;; export the file to html
+  ;; - export _synchronously_ so that it blocks
+  ;; - use useful IDs so that the links are stable
+  (message "Exporting to html...")
+  (unpackaged/org-export-html-with-useful-ids-mode t)
+  (org-html-export-to-html nil)
 
-    (message "Publishing...")
+  (message "Publishing...")
 
 
-    (let* ((base (file-name-base (buffer-file-name)))
-           (outfile (or (org-global-prop-value "DESTFILE")
-                        (concat base ".html"))))
+  (let* ((base (file-name-base (buffer-file-name)))
+         (outfile (or (org-global-prop-value "DESTFILE")
+                      (concat base ".html"))))
 
-      (when (not (string= (concat base ".html") outfile))
-        (rename-file (concat base ".html") outfile))
+    (when (not (string= (concat base ".html") outfile))
+      (rename-file (concat base ".html") outfile))
 
-      (let* ((dest (or (org-global-prop-value "DEST")
-                       org-default-publish-dest))
-             (args
+    (let* ((dest (or (org-global-prop-value "DEST")
+                     org-default-publish-dest))
+           (args
 
-              (cl-concatenate 'list
-                              `("-avz" "--relative"
-                                ,outfile)
-                              (org-get-linked-files)
-                              (list dest))))
+            (cl-concatenate 'list
+                            `("-avz" "--relative"
+                              ,outfile)
+                            (org-get-linked-files)
+                            (list dest))))
 
-        (message (mapconcat #'identity args " "))
+      (message (mapconcat #'identity args " "))
 
-        (message (concat "rsync " (string-join args " ")))
+      (message (concat "rsync " (string-join args " ")))
 
-        (set-process-sentinel
+      (set-process-sentinel
 
-         ;; copy
-         (apply #'start-process "*copy-to-dest*" nil "rsync" args)
+       ;; copy
+       (apply #'start-process "*copy-to-dest*" nil "rsync" args)
 
-         ;; cleanup
-         (lambda (_ event)
-           (when (string= event "finished\n")
-             (message "rsync finished, cleaning up...")
-             (delete-file outfile)))))))
+       ;; cleanup
+       (lambda (_ event)
+         (when (string= event "finished\n")
+           (message "rsync finished, cleaning up...")
+           (delete-file outfile)))))))
 
-  (defun ap/shrink-this-image ()
-    (interactive)
+(defun ap/shrink-this-image ()
+  (interactive)
 
-    (let* ((name (buffer-file-name))
-           (name-base (file-name-base name))
-           (ext (downcase (file-name-extension name)))
-           (new-name (concat name-base "-small.jpg")))
+  (let* ((name (buffer-file-name))
+         (name-base (file-name-base name))
+         (ext (downcase (file-name-extension name)))
+         (new-name (concat name-base "-small.jpg")))
 
-      ;; convert to jpg
-      (when (not (or (string= ".jpeg" ext)
-                     (string= ".jpg" ext)))
+    ;; convert to jpg
+    (when (not (or (string= ".jpeg" ext)
+                   (string= ".jpg" ext)))
 
-        (message "Converting to jpg...")
-        (shell-command (format "convert %s %s.jpg" name name-base))
-        (setq name (concat name-base ".jpg")))
+      (message "Converting to jpg...")
+      (shell-command (format "convert %s %s.jpg" name name-base))
+      (setq name (concat name-base ".jpg")))
 
-      ;; shrink
-      (message "Resizing $i...")
-      (shell-command (format  "convert -resize 1024X768 %s %s-small.jpg" name name-base))
+    ;; shrink
+    (message "Resizing $i...")
+    (shell-command (format  "convert -resize 1024X768 %s %s-small.jpg" name name-base))
 
-      ;; return the new-name
-      new-name))
+    ;; return the new-name
+    new-name))
 
-  (defun ap/shrink-and-replace-this-image ()
-    (interactive)
-    (let ((new-name (ap/shrink-this-image))))
-    (when new-name
-      (rename-file new-name  (buffer-file-name))))
+(defun ap/shrink-and-replace-this-image ()
+  (interactive)
+  (let ((new-name (ap/shrink-this-image))))
+  (when new-name
+    (rename-file new-name  (buffer-file-name))))
 
-  (defun ap/org-sort-entries-recursive (&optional key)
-    "Call `org-sort-entries' recursively on tree at point.
+(defun ap/org-sort-entries-recursive (&optional key)
+  "Call `org-sort-entries' recursively on tree at point.
 If KEY, use it; otherwise read key interactively."
-    (interactive)
-    (cl-macrolet ((moves-p (form)
-                           `(let ((pos-before (point)))
-                              ,form
-                              (/= pos-before (point)))))
-      (cl-labels ((sort-tree
-                   () (cl-loop do (when (children-p)
-                                    (save-excursion
-                                      (outline-next-heading)
-                                      (sort-tree))
-                                    (org-sort-entries nil key))
-                               while (moves-p (org-forward-heading-same-level 1))))
-                  (children-p (&optional invisible)
-                              ;; Return non-nil if entry at point has child headings.
-                              ;; Only children are considered, not other descendants.
-                              ;; Code from `org-cycle-internal-local'.
-                              (save-excursion
-                                (let ((level (funcall outline-level)))
-                                  (outline-next-heading)
-                                  (and (org-at-heading-p t)
-                                       (> (funcall outline-level) level))))))
-        (save-excursion
-          (save-restriction
-            (widen)
-            (unless key
-              ;; HACK: Call the sort function just to get the key, then undo its changes.
-              (cl-letf* ((old-fn (symbol-function 'read-char-exclusive))
-                         ((symbol-function 'read-char-exclusive)
-                          (lambda (&rest args)
-                            (setf key (apply #'funcall old-fn args)))))
-                ;; Sort the first heading and save the sort key.
-                (org-sort-entries))
-              (undo-only))
-            (cond ((org-before-first-heading-p)
-                   ;; Sort whole buffer. NOTE: This assumes the first heading is at level 1.
-                   (org-sort-entries nil key)
-                   (outline-next-heading)
-                   (cl-loop do (sort-tree)
-                            while (moves-p (org-forward-heading-same-level 1))))
-                  ((org-at-heading-p)
-                   ;; Sort this heading.
-                   (sort-tree))
-                  (t (user-error "Neither on a heading nor before first heading"))))))))
+  (interactive)
+  (cl-macrolet ((moves-p (form)
+                         `(let ((pos-before (point)))
+                            ,form
+                            (/= pos-before (point)))))
+    (cl-labels ((sort-tree
+                 () (cl-loop do (when (children-p)
+                                  (save-excursion
+                                    (outline-next-heading)
+                                    (sort-tree))
+                                  (org-sort-entries nil key))
+                             while (moves-p (org-forward-heading-same-level 1))))
+                (children-p (&optional invisible)
+                            ;; Return non-nil if entry at point has child headings.
+                            ;; Only children are considered, not other descendants.
+                            ;; Code from `org-cycle-internal-local'.
+                            (save-excursion
+                              (let ((level (funcall outline-level)))
+                                (outline-next-heading)
+                                (and (org-at-heading-p t)
+                                     (> (funcall outline-level) level))))))
+      (save-excursion
+        (save-restriction
+          (widen)
+          (unless key
+            ;; HACK: Call the sort function just to get the key, then undo its changes.
+            (cl-letf* ((old-fn (symbol-function 'read-char-exclusive))
+                       ((symbol-function 'read-char-exclusive)
+                        (lambda (&rest args)
+                          (setf key (apply #'funcall old-fn args)))))
+              ;; Sort the first heading and save the sort key.
+              (org-sort-entries))
+            (undo-only))
+          (cond ((org-before-first-heading-p)
+                 ;; Sort whole buffer. NOTE: This assumes the first heading is at level 1.
+                 (org-sort-entries nil key)
+                 (outline-next-heading)
+                 (cl-loop do (sort-tree)
+                          while (moves-p (org-forward-heading-same-level 1))))
+                ((org-at-heading-p)
+                 ;; Sort this heading.
+                 (sort-tree))
+                (t (user-error "Neither on a heading nor before first heading"))))))))
 
-  (defun ap/org-sort-entries-recursive-multi (&optional keys)
-    "Call `ap/org-sort-entries-recursive'.
+(defun ap/org-sort-entries-recursive-multi (&optional keys)
+  "Call `ap/org-sort-entries-recursive'.
 If KEYS, call it for each of them; otherwise call interactively
 until \\[keyboard-quit] is pressed."
-    (interactive)
-    (if keys
-        (dolist (key keys)
-          (ap/org-sort-entries-recursive key))
-      (with-local-quit
-        ;; Not sure if `with-local-quit' is necessary, but probably a good
-        ;; idea in case of recursive edit.
-        (cl-loop while (progn
-                         (call-interactively #'ap/org-sort-entries-recursive)
-                         t)))))
+  (interactive)
+  (if keys
+      (dolist (key keys)
+        (ap/org-sort-entries-recursive key))
+    (with-local-quit
+      ;; Not sure if `with-local-quit' is necessary, but probably a good
+      ;; idea in case of recursive edit.
+      (cl-loop while (progn
+                       (call-interactively #'ap/org-sort-entries-recursive)
+                       t)))))
 
-  (setq org-html-xml-declaration
-        '(("html" . "")
-          ("php" . "<?php echo \"<?xml version=\\\"1.0\\\" encoding=\\\"%s\\\" ?>\"; ?>")))
+(setq org-html-xml-declaration
+      '(("html" . "")
+        ("php" . "<?php echo \"<?xml version=\\\"1.0\\\" encoding=\\\"%s\\\" ?>\"; ?>")))
 
-  ;; Tag colors
-  (setq org-tag-faces
-        '(("etl"       . (:foreground "gray"))
-          ("atlas"     . (:foreground "gray"))
-          ("l0mdt"     . (:foreground "gray"))
+;; Tag colors
+(setq org-tag-faces
+      '(("etl"       . (:foreground "gray"))
+        ("atlas"     . (:foreground "gray"))
+        ("l0mdt"     . (:foreground "gray"))
 
-          ("BU"        . (:foreground "red2"       :weight bold))
-          ("bu"        . (:foreground "red2"       :weight bold))
+        ("BU"        . (:foreground "red2"       :weight bold))
+        ("bu"        . (:foreground "red2"       :weight bold))
 
-          ("csc"       . (:foreground "steelblue"  :weight bold))
-          ("gaps"      . (:foreground "steelblue"  :weight bold))
-          ("hog"       . (:foreground "steelblue"  :weight bold))
-          ("gem"       . (:foreground "steelblue"  :weight bold))
-          ("me0"       . (:foreground "steelblue"  :weight bold))
+        ("csc"       . (:foreground "steelblue"  :weight bold))
+        ("gaps"      . (:foreground "steelblue"  :weight bold))
+        ("hog"       . (:foreground "steelblue"  :weight bold))
+        ("gem"       . (:foreground "steelblue"  :weight bold))
+        ("me0"       . (:foreground "steelblue"  :weight bold))
 
-          ("move"      . (:background "#666" :foreground "#eee"          :weight bold))
-          ("family"    . (:foreground "red4"          :weight bold))
-          ("home"      . (:foreground "lightorange"   :weight bold))
-          ("meeting"   . (:foreground "gray" :slant italic))
-          ("CRITICAL"  . (:background "red3" :foreground "#fff" :weight bold))))
+        ("move"      . (:background "#666" :foreground "#eee"          :weight bold))
+        ("family"    . (:foreground "red4"          :weight bold))
+        ("home"      . (:foreground "lightorange"   :weight bold))
+        ("meeting"   . (:foreground "gray" :slant italic))
+        ("CRITICAL"  . (:background "red3" :foreground "#fff" :weight bold))))
 
-  ;; change DEADLINE to a short symbol to reduce line noise
-  (font-lock-add-keywords
-   'org-mode
-   '(("^\\(DEADLINE:\\)"
-      (0 (prog1 ()
-           (compose-region (match-beginning 1) (match-end 1) ""))))))
+;; change DEADLINE to a short symbol to reduce line noise
+(font-lock-add-keywords
+ 'org-mode
+ '(("^\\(DEADLINE:\\)"
+    (0 (prog1 ()
+         (compose-region (match-beginning 1) (match-end 1) ""))))))
 
-  (setq org-agenda-prefix-format
-        '((agenda  . " %12t")
-          (timeline  . "  % s")
-          (todo  . " %i")
-          (tags  . " %i %-12:c")
-          (search . " %i %-12:c")))
+(setq org-agenda-prefix-format
+      '((agenda  . " %12t")
+        (timeline  . "  % s")
+        (todo  . " %i")
+        (tags  . " %i %-12:c")
+        (search . " %i %-12:c")))
 
-  (custom-declare-face
-   '+org-todo-idea
-   `((t :weight bold :foreground "#94e2d5")) "IDEA todo keyword")
+(custom-declare-face
+ '+org-todo-idea
+ `((t :weight bold :foreground "#94e2d5")) "IDEA todo keyword")
 
-  (custom-declare-face
-   '+org-todo-meet
-   `((t :weight bold :foreground "#cdf"))    "MEET todo keyword")
+(custom-declare-face
+ '+org-todo-meet
+ `((t :weight bold :foreground "#cdf"))    "MEET todo keyword")
 
-  (custom-declare-face
-   '+org-todo-note
-   `((t :weight bold :foreground "#288"))    "NOTE todo keyword")
+(custom-declare-face
+ '+org-todo-note
+ `((t :weight bold :foreground "#288"))    "NOTE todo keyword")
 
-  (setq org-todo-keyword-faces
-        '(("[-]"  . +org-todo-active)
-          ("STRT" . +org-todo-active)
-          ("[?]"  . +org-todo-onhold)
-          ("WAIT" . +org-todo-onhold)
-          ("HOLD" . +org-todo-onhold)
-          ("MEET" . +org-todo-meet)
-          ("NOTE" . +org-todo-note)
-          ("PROJ" . +org-todo-project)
-          ("NO"   . +org-todo-cancel)
-          ("IDEA" . +org-todo-idea)
-          ("KILL" . +org-todo-cancel)))
+(setq org-todo-keyword-faces
+      '(("[-]"  . +org-todo-active)
+        ("STRT" . +org-todo-active)
+        ("[?]"  . +org-todo-onhold)
+        ("WAIT" . +org-todo-onhold)
+        ("HOLD" . +org-todo-onhold)
+        ("MEET" . +org-todo-meet)
+        ("NOTE" . +org-todo-note)
+        ("PROJ" . +org-todo-project)
+        ("NO"   . +org-todo-cancel)
+        ("IDEA" . +org-todo-idea)
+        ("KILL" . +org-todo-cancel)))
 
-  (setq org-todo-keywords
-        '((sequence "MEET" "MET")
-          (sequence "NOTE" "NOTED")
-          (sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
-          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
-          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+(setq org-todo-keywords
+      '((sequence "MEET" "MET")
+        (sequence "NOTE" "NOTED")
+        (sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
+        (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+        (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 
-  (defun org-procrastinate-all ()
+(defun org-procrastinate-all ()
 
-    "Carry forward uncompleted tasks.
+  "Carry forward uncompleted tasks.
 Updates overdue tasks to be due today."
 
-    (interactive)
-    (org-carry-forward-uncompleted-tasks t))
+  (interactive)
+  (org-carry-forward-uncompleted-tasks t))
 
-  (defun org-procrastinate ()
-    (interactive)
-    (org-deadline nil "+1"))
+(defun org-procrastinate ()
+  (interactive)
+  (org-deadline nil "+1"))
 
-  (defun org-carry-forward-uncompleted-tasks (&optional procrastinate)
-    "Carry forward uncompleted tasks.
+(defun org-carry-forward-uncompleted-tasks (&optional procrastinate)
+  "Carry forward uncompleted tasks.
 
 Updates overdue tasks to be due today."
 
-    (interactive)
+  (interactive)
 
-    (save-excursion
+  (save-excursion
 
-      (goto-char (point-max))
+    (goto-char (point-max))
 
-      (while (re-search-backward "^[\*]* \\(TODO\\|MEET\\)" nil t)
-        (unless (org-at-heading-p)
-          (org-back-to-heading t))
+    (while (re-search-backward "^[\*]* \\(TODO\\|MEET\\)" nil t)
+      (unless (org-at-heading-p)
+        (org-back-to-heading t))
 
-        (let* ((element (org-element-at-point))
-               ;; (todo-state (org-element-property :todo-keyword element))
-               (deadline (org-element-property :deadline element))
-               (repeats (org-element-property :repeater-value deadline))
-               (deadline-time-stamp
-                (when deadline
-                  (time-to-days
-                   (org-time-string-to-time
-                    (org-element-property :raw-value deadline)))))
-               (today (time-to-days (current-time))) )
-          (when (and deadline-time-stamp
-                     (or (> today deadline-time-stamp)
-                         (and procrastinate
-                              (>= today deadline-time-stamp)))) ;; deadline is overdue
-            (if repeats (org-todo 'done)
-              (if procrastinate
-                  (org-deadline nil "+1")
-                (org-deadline nil "."))))))))
+      (let* ((element (org-element-at-point))
+             ;; (todo-state (org-element-property :todo-keyword element))
+             (deadline (org-element-property :deadline element))
+             (repeats (org-element-property :repeater-value deadline))
+             (deadline-time-stamp
+              (when deadline
+                (time-to-days
+                 (org-time-string-to-time
+                  (org-element-property :raw-value deadline)))))
+             (today (time-to-days (current-time))) )
+        (when (and deadline-time-stamp
+                   (or (> today deadline-time-stamp)
+                       (and procrastinate
+                            (>= today deadline-time-stamp)))) ;; deadline is overdue
+          (if repeats (org-todo 'done)
+            (if procrastinate
+                (org-deadline nil "+1")
+              (org-deadline nil "."))))))))
 
-  (defun org-report-dead-links ()
-    "Create a report of dead files in my org mode notes directory."
-    (interactive)
-    (shell-command (format "cd %s && ./find-dead-links.sh" org-directory))
-    (find-file (concat org-directory "/unused-links.org")))
+(defun org-report-dead-links ()
+  "Create a report of dead files in my org mode notes directory."
+  (interactive)
+  (shell-command (format "cd %s && ./find-dead-links.sh" org-directory))
+  (find-file (concat org-directory "/unused-links.org")))
 
-  (defun ap/org-log-weight ()
+(defun ap/org-log-weight ()
 
-    "Log today's weight in my notes file."
+  "Log today's weight in my notes file."
 
-    (interactive)
+  (interactive)
 
-    (let ((file  (concat org-directory "/weight.org"))
-          (weight (string-to-number (read-string "Weight: " ""))))
+  (let ((file  (concat org-directory "/weight.org"))
+        (weight (string-to-number (read-string "Weight: " ""))))
 
-      ;; only write if the weight conversion was sane
-      (when (and (> weight 130)
-                 (< weight 250))
-        (with-temp-buffer
-          (insert-file-contents file)
+    ;; only write if the weight conversion was sane
+    (when (and (> weight 130)
+               (< weight 250))
+      (with-temp-buffer
+        (insert-file-contents file)
 
-          ;; goto weight table
-          (search-forward "#+tblname: weight")
+        ;; goto weight table
+        (search-forward "#+tblname: weight")
 
-          ;; goto end of table
-          (goto-char (org-table-end))
-          (backward-char)
-          (org-table-goto-column 1)
+        ;; goto end of table
+        (goto-char (org-table-end))
+        (backward-char)
+        (org-table-goto-column 1)
 
-          ;; open a new row and log the weight
-          (org-table-insert-row)
-          (insert (format-time-string "%Y/%m/%d"))
-          (org-forward-sentence)
-          (insert (format "%5.1f" weight))
+        ;; open a new row and log the weight
+        (org-table-insert-row)
+        (insert (format-time-string "%Y/%m/%d"))
+        (org-forward-sentence)
+        (insert (format "%5.1f" weight))
 
-          ;; realign the table
-          (org-table-align)
+        ;; realign the table
+        (org-table-align)
 
-          ;; save
-          (write-file file)
+        ;; save
+        (write-file file)
 
-          (princ weight)))))
+        (princ weight)))))
 
-  (setq org-startup-indented nil)
-  (setq-default org-indent-mode nil)
-  (setq org-modern-table nil)
-  (with-eval-after-load 'org (global-org-modern-mode))
-  (setq org-modern-checkbox
-        '((?X  . "✓")
-          (?-  . "␣")
-          (?\s . "☐")))
+;; (setq org-startup-indented nil)
+;; (setq-default org-indent-mode nil)
+(setq org-modern-table nil)
+(with-eval-after-load 'org (global-org-modern-mode))
+(setq org-modern-checkbox
+      '((?X  . "✓")
+        (?-  . "␣")
+        (?\s . "☐")))
 
-  ;; https://github.com/doomemacs/doomemacs/pull/7002
-  (defun +org/return ()
-    "Call `org-return' then indent (if `electric-indent-mode' is on)."
-    (interactive)
-    (if (and (modulep! :completion corfu)
-             corfu--frame
-             (frame-visible-p corfu--frame))
-        (corfu-insert)
-      (org-return electric-indent-mode))))
+;; https://github.com/doomemacs/doomemacs/pull/7002
+(defun +org/return ()
+  "Call `org-return' then indent (if `electric-indent-mode' is on)."
+  (interactive)
+  (if (and (modulep! :completion corfu)
+           corfu--frame
+           (frame-visible-p corfu--frame))
+      (corfu-insert)
+    (org-return electric-indent-mode)))
