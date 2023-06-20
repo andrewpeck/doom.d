@@ -25,8 +25,8 @@
 (package! flycheck-clj-kondo :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
 
 ;; Themes
-(package! solarized-emacs :recipe (:host github :repo "bbatsov/solarized-emacs"))
-(package! zenburn-emacs :recipe (:host github :repo "bbatsov/zenburn-emacs"))
+;; (package! solarized-emacs :recipe (:host github :repo "bbatsov/solarized-emacs"))
+;; (package! zenburn-emacs :recipe (:host github :repo "bbatsov/zenburn-emacs"))
 
 ;; Misc packages
 ;; start:sort
@@ -50,7 +50,6 @@
 (package! rainbow-mode)
 (package! scad-mode)
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
-(package! straight :pin "3eca39d") ; https://github.com/doomemacs/doomemacs/issues/6960
 (package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! vimrc-mode)
 (package! visual-fill-column)
