@@ -13,6 +13,5 @@
           "https://www.mattblaze.org/blog/rss20.xml"
           "https://jackrusher.com/feed.xml"
           "http://mbork.pl/?action=rss;days=30;all=0;showedit=0"
-          "https://isc.sans.edu/rssfeed_full.xml"
           "https://watchguy.co.uk/feed/"
           "https://sachachua.com/blog/feed/")))
