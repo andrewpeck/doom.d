@@ -1,12 +1,15 @@
 ;; config.el -*- lexical-binding: t; -*-
 ;;
-;; https://www.reddit.com/r/emacs/comments/10ktqj0/weekly_tips_tricks_c_thread/
+;; Interesting Packages:
 ;; https://github.com/alphapapa/taxy.el
+;;
+;; Interesting Emacs Configs:
+;;
 ;; Tecosaur: https://github.com/tecosaur/emacs-config/blob/master/config.org
-;; https://svn.red-bean.com/repos/kfogel/trunk/.emacs
+;; Karl Fogel: https://svn.red-bean.com/repos/kfogel/trunk/.emacs
 ;; Steve Purcell: https://github.com/purcell/emacs.d/
 ;; Henrik: https://github.com/hlissner/doom-emacs-private/blob/master/config.el
-;; https://github.com/caisah/emacs.dz
+;; Collection of emacs configs: https://github.com/caisah/emacs.dz
 ;; https://github.com/danilevy1212/doom
 
 ;;------------------------------------------------------------------------------
