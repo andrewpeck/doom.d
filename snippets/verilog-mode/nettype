@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: nettype
+# key: nettype
+# --
+`default nettype none
