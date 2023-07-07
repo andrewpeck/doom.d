@@ -31,37 +31,65 @@
 
 (require 'plz)
 (require 'json)
+(require 'dash)
 
 (defvar gpt-api-key "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" "A key for openai.")
 (defvar gpt-cost-per-token (/ 2.0 1000.0) "Cost for single GPT token.")
 (defvar gpt-text-model "gpt-3.5-turbo" "Model used by gpt.")
-(defvar gpt-max-tokens 256 "Max number of tokens.")
+
+(defvar gpt-max-tokens 1024 "Max number of tokens.")
 (defvar gpt-temperature 0.7 "GPT3 Temperature.")
-(defvar gpt-top-p 1 "GPT3 Top_p. Distribution of probably of common tokens.")
-;; (defvar gpt-api-role "You are a helpful coding and writing assistant." "GPT3 Role")
+(defvar gpt-top-p 1 "GPT Top_p. Distribution of probably of common tokens.")
 
 (defun gpt-api-call (prompt)
   "Posts a GPT api request based on the PROMPT.
 Returns a list decoded from the JSON reponse."
 
   (let* ((json-array-type 'list)
+
          (post-body
-          (json-encode (list
-                        (cons "model" gpt-text-model)
-                        (cons "max_tokens" gpt-max-tokens)
-                        (cons "temperature" gpt-temperature)
-                        (cons "messages"
-                              (list (list (cons "role" "user")
-                                          (cons "content" prompt))))
-                        (cons "top_p" gpt-top-p)
-                        (cons "frequency_penalty" 0)
-                        (cons "presence_penalty" 0))))
+          (json-encode (list (cons "model" gpt-text-model)
+                             (cons "max_tokens" gpt-max-tokens)
+                             (cons "temperature" gpt-temperature)
+                             (cons "messages"
+                                   (list (list (cons "role" "user")
+                                               (cons "content" prompt))))
+                             (cons "top_p" gpt-top-p)
+                             (cons "frequency_penalty" 0)
+                             (cons "presence_penalty" 0))))
+
          (post-headers `(("Content-Type" . "application/json")
                          ("Authorization" . ,(concat  "Bearer " gpt-api-key))))
-         (post (plz 'post
-                 "https://api.openai.com/v1/chat/completions"
-                 :headers post-headers :body post-body
-                 :as #'json-read :then 'sync))) post))
+
+         (response (plz 'post
+                     "https://api.openai.com/v1/chat/completions"
+                     :headers post-headers :body post-body
+                     :as #'json-read :then 'sync)))
+
+    (message (format  "GPT Posting: %s %s" post-headers post-body))
+    (when response (message (format  "GPT Response: %s" response)))
+
+    ;; return the response
+    response))
+
+(insert (format "%s" rx-json))
+
+((id . chatcmpl-7ZgZXDRz7dhXtXK34QQxQxPV8cUTg)
+ (object . chat.completion)
+ (created . 1688739483)
+ (model . gpt-3.5-turbo-0613)
+ (choices ((index . 0) (message (role . assistant) (content . #include<stdio.h>
+
+                                                            int main() {
+                                                            printf("Hello World!\n") ;
+                                                            return 0 ;
+                                                            })) (finish_reason . stop)))
+ (usage (prompt_tokens . 11) (completion_tokens . 22) (total_tokens . 33)))
+
+(defun gpt--extract-response (rx-json)
+  "Extracts the response text from a GPT api RX-JSON data structure."
+  (when rx-json
+    (cdr (assoc 'content (-filter 'consp (-flatten rx-json))))))
 
 ;;;###autoload
 (defun gpt-prompt ()
@@ -74,7 +102,9 @@ selected text, and retrieves the response as a JSON object. The
 response is parsed to extract the resulting text and the usage
 cost in tokens. The resulting text is then inserted into the
 buffer, and the usage cost is displayed in a message."
+
   (interactive)
+
   (let ((selection ""))
 
     (when (region-active-p)
@@ -89,23 +119,27 @@ buffer, and the usage cost is displayed in a message."
 
       (when (not (string-empty-p prompt))
         (let* ((prompt-text (format "%s .\\n\\n%s" prompt selection))
-               (rx-json (gpt-api-call prompt-text))
-               (text (string-trim
-                      (cdr (assoc 'content (cdaadr (assoc 'choices rx-json))))))
-               (usage (cdr (assoc 'total_tokens (assoc 'usage rx-json)))))
+               (rx-json (gpt-api-call prompt-text)))
 
-          (print selection)
-          (progn
-            (when (region-active-p)
-              (deactivate-mark)
-              (forward-line -1))
+          (if (not rx-json)
 
-            (end-of-line)
-            (insert "\n"))
-          (insert text)
-          (beginning-of-line)
-          (message (format "Usage: %d tokens (%f cents)" usage
-                           (* usage gpt-cost-per-token))))))))
+              (message "GPT API call failed!")
+
+            (let ((response (gpt--extract-response rx-json))
+                  (usage (cdr (assoc 'total_tokens (assoc 'usage rx-json)))))
+
+              (print selection)
+              (progn
+                (when (region-active-p)
+                  (deactivate-mark)
+                  (forward-line -1))
+
+                (end-of-line)
+                (insert "\n"))
+              (insert response)
+              (beginning-of-line)
+              (message (format "Usage: %d tokens (%f cents)" usage
+                               (* usage gpt-cost-per-token))))))))))
 
 (provide 'gpt)
 ;;; gpt.el ends here
