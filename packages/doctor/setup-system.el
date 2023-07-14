@@ -198,6 +198,7 @@ Make sure they are installed and the computer is set up ok"
           (check-for-exe "mpc" :ubuntu "mpc" :dnf "mpc")
           (check-for-exe "ncmpcpp" :ubuntu "ncmpcpp" :dnf "ncmpcpp")
           (check-for-exe "xfce4-screenshooter" :ubuntu "xfce4-screenshooter")
+          (check-for-exe "uplot" :noroot t :cmd "gem install youplot")
 
           ;; make sure ssh permissions are right
           ;;
