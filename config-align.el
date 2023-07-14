@@ -3,6 +3,14 @@
 ;;; Alignment
 ;;------------------------------------------------------------------------------
 
+;; https://stackoverflow.com/questions/24515453/align-code-in-emacs-verilog-mode
+;; (eval-after-load "align"
+;;   '(add-to-list 'align-rules-list
+;;                 '(verilog-assignment
+;;                   (regexp . "\\(\\s-*\\)<=")
+;;                   (mode   . '(verilog-mode))
+;;                   (repeat . nil))))
+
 (after! align
   ;; Alignment functions
   ;; (defun align-to-colon (begin end)
