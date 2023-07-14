@@ -34,6 +34,7 @@
 (package! all-the-icons)
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)
+(package! evil-collection :pin "1f34f5e" :recipe (:host github :repo "emacs-evil/evil-collection"))
 (package! backup-each-save)
 (package! benchmark-init)
 (package! crontab-mode)
