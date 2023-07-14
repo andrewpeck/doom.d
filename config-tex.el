@@ -1,8 +1,7 @@
 ;; -*- lexical-binding: t; -*-
-
-;; https://github.com/hlissner/doom-emacs/blob/master/modules/lang/latex/README.org
-(setq +latex-viewers '(okular atril evince zathura)
-      TeX-fold-auto t)
+;;
+;; LaTeX-mode-hook is used by AUCTeX's LaTeX mode.
+;; latex-mode-hook is used by Emacs' built-in latex mode.
 
 ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
 (after! tex-fold
@@ -13,48 +12,38 @@
                   ("{1}" ("yearsago"))    ; used in resume
                   ("{1}" ("heading")))))) ; used in resume
 
-(defun tex-bold ()
-  "Make the current TeX selection bold."
-  (interactive)
-  (TeX-font nil 2))
+(after! tex
 
-(defun tex-italic ()
-  "Make the current TeX selection italic."
-  (interactive)
-  (TeX-font nil 9))
+  (setq reftex-toc-split-windows-horizontally t
+        reftex-toc-split-windows-fraction 0.15
+        TeX-master nil
+        +latex-viewers '(okular atril evince zathura)
+        TeX-fold-auto t)
 
-(defun tex-tt ()
-  "Make the current TeX selection italic."
-  (interactive)
-  (TeX-font nil 20))
+  (add-hook! 'LaTeX-mode-hook
+    (TeX-fold-mode 1)
+    (reftex-mode 1)
+    (variable-pitch-mode 1)
 
-;; LaTeX-mode-hook is used by AUCTeX's LaTeX mode.
-;; latex-mode-hook is used by Emacs' built-in latex mode.
+    ;; (make-variable-buffer-local 'font-lock-type-face)
+    ;; (set-face-attribute 'font-lock-type-face nil
+    ;;                     :inherit 'default
+    ;;                     :family "Courier New"
+    ;;                     :height 120)
 
-;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
-(add-hook 'TeX-mode-hook
-          (lambda ()
-            (TeX-fold-mode 1)
-            ;; (add-hook 'after-change-functions 'TeX-fold-paragraph t t)
-            (add-hook 'find-file-hook 'TeX-fold-buffer t t)
-            (add-hook 'after-save-hook 'TeX-fold-buffer t t)))
+  ;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
+    (add-hook! 'find-file-hook :local (TeX-fold-region (point-min) (point-max)))
+    (add-hook! 'write-contents-functions :local (TeX-fold-region (point-min) (point-max)))
+    ;; (add-hook! 'after-change-functions :local 'TeX-fold-paragraph)
 
-;; (define-key evil-visual-state-map (kbd "C-b") 'tex-bold)
-;; (define-key vil-tex-mode-map (kbd "C-S-b") 'tex-bold)
+    (flycheck-add-next-checker 'proselint 'tex-chktex))
 
-(add-hook
- 'LaTex-mode-hook
- (lambda () (flycheck-add-next-checker 'proselint 'tex-chktex)))
+  ;; Semantic Linefeeds
+  ;;------------------------------------------------------------------------------
+  ;; https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
+  ;; TODO: check for common things at end of line:
+  ;; c.f. e.g. i.e.
 
-;; this is some e.g. text that has an example in it. And some other sentence that is actually a sentence. Something else.
-
-;; Semantic Linefeeds
-;;------------------------------------------------------------------------------
-;; https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
-;; TODO: check for common things at end of line:
-;; c.f. e.g. i.e.
-
-(after! evil
   (defun ap/line-fill-paragraph (&optional P)
     "When called with prefix argument call `fill-paragraph'.
    Otherwise split the current paragraph into one sentence per line."
@@ -79,19 +68,21 @@
 
       ;; otherwise do ordinary fill paragraph
       (fill-paragraph P)))
-  (evil-define-key 'normal latex-mode-map (kbd "M-q") #'ap/line-fill-paragraph)
-  (evil-define-key 'normal latex-mode-map (kbd "M-q") nil))
 
-;; TeX
-;;------------------------------------------------------------------------------
+  (defun tex-bold ()
+    "Make the current TeX selection bold."
+    (interactive)
+    (TeX-font nil 2))
 
-(after! tex
-  (setq reftex-toc-split-windows-horizontally t)
-  (setq reftex-toc-split-windows-fraction 0.15)
-  (setq-default TeX-master nil)
-  (add-hook! 'LaTeX-mode-hook (reftex-mode 1))
-  (add-hook! 'reftex-toc-mode-hook
-    (define-key reftex-toc-mode-map (kbd "<return>") 'reftex-toc-goto-line))
+  (defun tex-italic ()
+    "Make the current TeX selection italic."
+    (interactive)
+    (TeX-font nil 9))
+
+  (defun tex-tt ()
+    "Make the current TeX selection italic."
+    (interactive)
+    (TeX-font nil 20))
 
   ;; Electric Space
   ;;------------------------------------------------------------------------------
