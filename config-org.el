@@ -426,6 +426,8 @@ and shortens it into an org mode link consisting of just `some file`"
       org-id-locations-file "~/notes/.org-id-locations"
       org-export-with-sub-superscripts nil
       org-directory "~/notes"
+      org-agenda-start-day "0d"
+      org-agenda-span 2
       org-attach-id-dir "./images/"
       org-agenda-files (list "~/todo")
       org-default-notes-file "~/todo/todo.org"
