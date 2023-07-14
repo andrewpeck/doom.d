@@ -2,5 +2,9 @@
 # name: setup
 # key: setup
 # --
+:PROPERTIES:
+:ID: `(org-id-uuid)`
+:END:
 #+SETUPFILE: "org.setup"
-#+TITLE: ${1:title}
+#+OPTIONS: toc:3 author:nil
+#+TITLE: ${1:`(capitalize (file-name-base (buffer-file-name)))`}

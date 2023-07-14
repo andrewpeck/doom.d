@@ -9,13 +9,12 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_misc.all;
 use ieee.numeric_std.all;
 
-entity ${1:name} is
+entity ${1:`(file-name-base (buffer-file-name))`} is
   generic(
     );
   port(
-
-    clock          : in std_logic
-
+    clock : in std_logic;
+    reset : in std_logic
     );
 end $1;
 
