@@ -57,6 +57,7 @@
 (load!! "~/.doom.d/config-doom")
 (load!! "~/.doom.d/config-modeline")
 (load!! "~/.doom.d/custom")
+(load!! "~/.doom.d/passwords")
 (load-idle "~/.doom.d/config-align")
 (load-idle "~/.doom.d/config-appearance")
 (load-idle "~/.doom.d/config-completion")
@@ -71,7 +72,6 @@
 (load-idle "~/.doom.d/lisp/gerb-view")
 (load-idle "~/.doom.d/lisp/regulator")
 (load-idle "~/.doom.d/lisp/tracking")
-(load-idle "~/.doom.d/passwords")
 (load-timer "~/.doom.d/config-keybinds")
 ;; end:sort
 
