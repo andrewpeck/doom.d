@@ -343,6 +343,11 @@ between the two most recently open buffers."
       :prefix "v"
       :desc "Toggle Visual Wrap"       "w" #'ap/toggle-wrap)
 
+(map! :leader
+      :prefix "o"
+      :desc "Mu4e Inbox"  "i"
+      (lambda () (interactive) (mu4e~headers-jump-to-maildir "/INBOX")))
+
 ;; (map! :leader
 ;;       :prefix "n"
 ;;       :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
