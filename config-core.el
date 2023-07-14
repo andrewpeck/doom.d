@@ -29,8 +29,9 @@
 (setq doom-theme
       (if (not (display-graphic-p)) 'doom-gruvbox
         (pcase (system-name)
-          ("pepper"  'doom-oceanic-next)
-          ("larry"   'modus-operandi)
+          ("pepper"  'doom-one)
+          ("larry"   'doom-oceanic-next)
+          ;; ("larry"   'modus-operandi)
           ("strange" 'doom-spacegray)
           (_         'doom-one))))
 
