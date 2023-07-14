@@ -84,5 +84,5 @@
 (custom-theme-set-faces! 'hima
   '(font-latex-italic-face :inherit default :slant italic)
   '(font-latex-bold-face :inherit default :weight bold)
-  '(font-lock-type-face :inherit default :family "Courier New" )
+  ;; '(font-lock-type-face :inherit default :family "Courier New" )
   )
