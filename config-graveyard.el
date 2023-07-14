@@ -1080,3 +1080,21 @@ lines are selected, or the NxM dimensions of a block selection.")
 ;;(package! vlf)                          ; view large files
 ;;(package! vterm)
 ;; end:sort
+
+  ;; Drag-and-drop to `dired`
+  ;; (add-hook 'dired-mode-hook 'org-download-enable)
+
+  ;; (defun org-download-named-screenshot (fname)
+  ;;   (interactive "FEnter Filename:")
+  ;;   (make-directory (file-name-directory fname) t)
+  ;;   (if (functionp org-download-screenshot-method)
+  ;;       (funcall org-download-screenshot-method fname)
+  ;;     (shell-command-to-string
+  ;;      (format org-download-screenshot-method fname)))
+  ;;   (org-download-image fname))
+
+
+  ;;org-download-screenshot-method "spectacle -b -r -o %s"
+
+;; (after! org-attach-screenshot
+;;   (setq org-attach-screenshot-command-line "xfce4-screenshooter -r -s %f"))
