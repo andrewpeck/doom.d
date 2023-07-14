@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: proselint
+# key: proselint
+# --
+# eval: (flycheck-disable-checker 'proselint t)

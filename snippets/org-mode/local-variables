@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: local-variables
+# key: local
+# --
+* Local Variables :noexport:
+# Local Variables:
+# End:
