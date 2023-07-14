@@ -57,11 +57,11 @@
 (setq preferred-terminal
       (let* ((suffixes '((terminator . "--working-directory")))
              (pref-shell (pcase (system-name)
-                       ("pepper" 'terminator)
-                       ("larry" 'terminator)
-                       ("cobweb" 'terminator)
-                       ("strange" 'terminator)
-                       (_ 'terminator)))
+                           ("pepper" 'terminator)
+                           ("larry" 'terminator)
+                           ("cobweb" 'terminator)
+                           ("strange" 'terminator)
+                           (_ 'terminator)))
              (assl (assoc pref-shell suffixes)))
         (list (symbol-name (car assl)) (cdr assl))))
 
