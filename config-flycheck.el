@@ -27,6 +27,7 @@ See URL `http://nagelfar.sourceforge.net/'."
   ;; Prose lint
   ;; https://unconj.ca/blog/linting-prose-in-emacs.html
   ;;------------------------------------------------------------------------------
+
   (flycheck-define-checker proselint
     "A linter for prose."
     :command ("proselint"
@@ -40,7 +41,11 @@ See URL `http://nagelfar.sourceforge.net/'."
               (message) line-end))
     :modes (text-mode latex-mode markdown-mode gfm-mode org-mode))
 
-  (add-to-list 'flycheck-checkers 'proselint)
+  ;; (add-to-list 'flycheck-checkers 'proselint)
+  (setq-default flycheck-disabled-checkers '(proselint))
+  ;; (add-hook! 'org-mode-hook
+  ;;   (lambda ()
+  ;;     (flycheck-disable-checker 'proselint)))
 
   (flycheck-define-checker
       hog-src-checker
