@@ -75,8 +75,8 @@
 (load-timer "~/.doom.d/config-keybinds")
 ;; end:sort
 
-;; (when (string= (system-name) "larry")
-;;   (load!! "~/.doom.d/config-mail"))
+(when (string= (system-name) "larry")
+  (load!! "~/.doom.d/config-mail"))
 
 ;; (when init-file-debug
 ;;   (benchmark-init/deactivate))
