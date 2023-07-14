@@ -285,6 +285,8 @@ between the two most recently open buffers."
   ;; (evil-define-key 'visual 'latex-mode  "\C-b" 'tex-bold)
   ;; (evil-define-key 'visual 'latex-mode  "\C-i" 'tex-italic)
 
+  (evil-define-key nil reftex-toc-mode-map
+    (kbd "<return>") #'reftex-toc-goto-line))
 
 ;;------------------------------------------------------------------------------
 ;; Evil Leader Keys
