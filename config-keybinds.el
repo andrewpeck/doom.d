@@ -339,6 +339,10 @@ between the two most recently open buffers."
       :prefix "y"
       :desc "Org Link Copy"       "y" #'org-link-copy)
 
+(map! :leader
+      :prefix "v"
+      :desc "Toggle Visual Wrap"       "w" #'ap/toggle-wrap)
+
 ;; (map! :leader
 ;;       :prefix "n"
 ;;       :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
