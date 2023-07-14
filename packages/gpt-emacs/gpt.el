@@ -72,20 +72,6 @@ Returns a list decoded from the JSON reponse."
     ;; return the response
     response))
 
-(insert (format "%s" rx-json))
-
-((id . chatcmpl-7ZgZXDRz7dhXtXK34QQxQxPV8cUTg)
- (object . chat.completion)
- (created . 1688739483)
- (model . gpt-3.5-turbo-0613)
- (choices ((index . 0) (message (role . assistant) (content . #include<stdio.h>
-
-                                                            int main() {
-                                                            printf("Hello World!\n") ;
-                                                            return 0 ;
-                                                            })) (finish_reason . stop)))
- (usage (prompt_tokens . 11) (completion_tokens . 22) (total_tokens . 33)))
-
 (defun gpt--extract-response (rx-json)
   "Extracts the response text from a GPT api RX-JSON data structure."
   (when rx-json
