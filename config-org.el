@@ -152,6 +152,9 @@ guess will be made."
 
 (org-crypt-use-before-save-magic)
 
+(add-hook! org-mode-hook
+  (lambda () (setq-local user-full-name "A.P.")))
+
 (setq org-tags-exclude-from-inheritance (list "crypt")
       visual-fill-column-mode 1
       org-indent-indentation-per-level 2
@@ -171,7 +174,6 @@ guess will be made."
       ;; (setq org-html-htmlize-font-prefix "") ;; default
       org-html-htmlize-output-type 'css
       org-html-htmlize-font-prefix "org-"
-      user-full-name "A.P."
 
 
       ;; Toggle Displays
