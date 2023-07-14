@@ -146,29 +146,48 @@
 ;; (advice-remove '+undo--append-zst-extension-to-file-name-a
 ;;                'undo-tree-make-history-save-file-name)
 
+(set-popup-rule! ".*eww.*"
+  :ignore t
+  :modeline t
+  :side 'right
+  :quit nil
+  :size 1.0
+  ;; :vslot -4
+  :select nil
+  :ttl 0)
+
+(set-popup-rule! ".*cider-repl.*"
+  :modeline t
+  :side 'right
+  :quit nil
+  :size 0.5
+  ;; :vslot -4
+  :select nil
+  :ttl 0)
+
+(set-popup-rule! ".*mu4e-main.*"
+  :modeline t
+  :side 'left
+  :quit nil
+  :size 0.5
+  :slot -4
+  :select t
+  :ttl 0)
+
+(set-popup-rule! ".*mu4e-headers.*"
+  :modeline t
+  :side 'right
+  :quit nil
+  :size 0.5
+  :slot -4
+  :select t
+  :ttl 0)
+
 (after! +popup
   ;; Completely disable management of the mode-line in popups:
   (remove-hook '+popup-buffer-mode-hook #'+popup-set-modeline-on-enable-h)
   ;; Make sure evil is on in popups
   (add-hook '+popup-buffer-mode-hook #'turn-on-evil-mode)
-
-  (set-popup-rule! ".*eww.*"
-    :modeline t
-    :side 'right
-    :quit nil
-    :size 0.5
-    ;; :vslot -4
-    :select nil
-    :ttl 0)
-
-  (set-popup-rule! ".*cider-repl.*"
-    :modeline t
-    :side 'right
-    :quit nil
-    :size 0.5
-    ;; :vslot -4
-    :select nil
-    :ttl 0)
 
   (evil-define-key
     'motion +popup-buffer-mode-map "q" #'bury-buffer)
