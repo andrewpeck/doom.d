@@ -948,7 +948,7 @@ until \\[keyboard-quit] is pressed."
          (compose-region (match-beginning 1) (match-end 1) ""))))))
 
 (setq org-agenda-prefix-format
-      '((agenda  . " %12t")
+      '((agenda  . " %t")
         (timeline  . "  % s")
         (todo  . " %i")
         (tags  . " %i %-12:c")
