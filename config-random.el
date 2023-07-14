@@ -265,9 +265,29 @@
 
 (defun ap/no-wrap ()
   (interactive)
-  (visual-line-mode 0)
-  (toggle-truncate-lines 1)
-  (visual-fill-column-mode 0))
+  (let ((inhibit-message t))
+    (setq ap/is-wrapped nil)
+    (visual-line-mode 0)
+    (toggle-truncate-lines 1)
+    (visual-fill-column-mode 0))
+
+  (message "Unwraping lines..."))
+
+(defun ap/wrap ()
+  (interactive)
+  (let ((inhibit-message t))
+    (setq ap/is-wrapped 1)
+    (visual-line-mode 1)
+    (toggle-truncate-lines 0)
+    (visual-fill-column-mode 1))
+
+  (message "Wrapping lines..."))
+
+(defun ap/toggle-wrap ()
+  (interactive)
+  (if (and (boundp 'ap/is-wrapped) ap/is-wrapped)
+      (ap/no-wrap)
+    (ap/wrap)))
 
 ;; (add-hook 'text-mode-hook #'visual-fill-column-mode)
 
