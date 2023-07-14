@@ -243,13 +243,12 @@
     ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1")))
 
   (setq hog-ieee-library
-    '("ieee" (
-              "/usr/local/lib/ghdl/src/synopsys/*.vhdl"
-              "/usr/local/lib/ghdl/src/std/v08/*.vhdl"
-              "/usr/local/lib/ghdl/src/ieee2008/*.vhdl"
-              "/usr/lib/ghdl/src/synopsys/*.vhdl"
-              "/usr/lib/ghdl/src/std/v08/*.vhdl"
-              "/usr/lib/ghdl/src/ieee2008/*.vhdl"))))
+        '("ieee" ("/usr/local/lib/ghdl/src/synopsys/*.vhdl"
+                  "/usr/local/lib/ghdl/src/std/v08/*.vhdl"
+                  "/usr/local/lib/ghdl/src/ieee2008/*.vhdl"
+                  "/usr/lib/ghdl/src/synopsys/*.vhdl"
+                  "/usr/lib/ghdl/src/std/v08/*.vhdl"
+                  "/usr/lib/ghdl/src/ieee2008/*.vhdl"))))
 
 ;;------------------------------------------------------------------------------
 ;; Mixed Pitch Mode
