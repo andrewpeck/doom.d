@@ -24,8 +24,6 @@
 
 (menu-bar-mode 0)                   ; Turn off menu bar
 
-(setq display-line-numbers nil)
-
 (doom!
 
     :completion

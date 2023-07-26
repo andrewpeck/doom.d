@@ -19,10 +19,6 @@
 (let ((default-directory (expand-file-name "packages" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; (setq-default display-line-numbers nil)
-;; (add-hook! org-mode-hook
-;;   (lambda () (setq display-line-numbers nil)))
-
 ;; (setq doom-incremental-idle-timer 0.1)
 ;; (setq doom-incremental-first-idle-timer 1.5)
 
