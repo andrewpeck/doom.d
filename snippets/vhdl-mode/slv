@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: Insert a standard_logic_vector signal
 # uuid: vhdl-slv-signal
-# key: slvector
+# key: slv
 # condition: t
 # --
 signal ${1:name} : std_logic_vector ($2 downto 0) := (others => '0');

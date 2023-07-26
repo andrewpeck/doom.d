@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: areset
+# key: areset
+# --
+process (${1:clock}, ${2:locked}) is
+begin
+  if ($2 = '0') then
+    reset <= '1';
+  elsif (rising_edge($1)) then
+    reset <= '0';
+  end if;
+end process;

@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Insert a IBUFDS
+# key: ibufds
+# condition: t
+# --
+$1_ibufds_inst : IBUFDS
+  port map(
+    i  => $1_p,
+    ib => $1_n,
+    o  => $1
+    );

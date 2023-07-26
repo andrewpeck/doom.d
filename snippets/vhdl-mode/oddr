@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: Insert a ODDR Clock Forward
+# key: oddr
+# condition: t
+# --
+$1_oddr : ODDR
+  generic map (                       --
+    DDR_CLK_EDGE => "OPPOSITE_EDGE",  -- "OPPOSITE_EDGE" or "SAME_EDGE"
+    INIT         => '0',              -- Initial value of Q: 1'b0 or 1'b1
+    SRTYPE       => "SYNC"            -- Set/Reset type: "SYNC" or "ASYNC"
+    )
+  port map (
+    C  => ${1:clock},                 -- 1-bit clock input
+    Q  => ${2:output},                -- 1-bit DDR output
+    CE => '1',                        -- 1-bit clock enable input
+    D1 => '1',                        -- 1-bit data input (positive edge)
+    D2 => '0',                        -- 1-bit data input (negative edge)
+    R  => ${3:reset},                 -- 1-bit reset
+    S  => '0'                         -- 1-bit set
+    );

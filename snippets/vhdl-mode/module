@@ -18,9 +18,9 @@ entity ${1:`(file-name-base (buffer-file-name))`} is
     );
 end $1;
 
-architecture behavioral of $1 is
+architecture rtl of $1 is
 
 begin
 
 
-end behavioral;
+end rtl;

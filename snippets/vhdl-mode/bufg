@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Insert a BUFG
+# key: bufg
+# condition: t
+# --
+$1_bufg : BUFG
+  port map(
+    i => $1,
+    o => $2
+    );
