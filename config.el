@@ -19,18 +19,16 @@
 (let ((default-directory (expand-file-name "packages" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; (setq doom-incremental-idle-timer 0.1)
-;; (setq doom-incremental-first-idle-timer 1.5)
+;; ;; (use-package! hdl-deps       :defer-incrementally t)
 
-;; ;; start:sort
+;; start:sort
 (use-package! gpt            :defer-incrementally t)
 (use-package! hog            :defer-incrementally t)
 (use-package! setup-system   :defer-incrementally t)
 (use-package! system-install :defer-incrementally t)
 (use-package! ucf-mode       :defer-incrementally t)
 (use-package! vivado-mode    :defer-incrementally t)
-;; ;; (use-package! hdl-deps       :defer-incrementally t)
-;; ;; end:sort
+;; end:sort
 
 (defun load!! (pkg)
   "Demote errors while loading a file to prevent errors in startup from cascading."
@@ -70,23 +68,6 @@
 (load-idle "~/.doom.d/lisp/tracking")
 (load-timer "~/.doom.d/config-keybinds")
 ;; end:sort
-
-(when (string= (system-name) "larry")
-  (load!! "~/.doom.d/config-mail"))
-
-;; (when init-file-debug
-;;   (benchmark-init/deactivate))
-
-;; (defmacro measure-time (&rest body)
-;;   "Measure the time it takes to evaluate BODY."
-;;   `(let ((time (current-time)))
-;;      ,@body
-;;      (message "%.06f" (float-time (time-since time)))))
-
-;; (remove-hook 'after-save-hook #'rmail-after-save-hook)
-;; (remove-hook 'after-save-hook #'ws-butler-after-save)
-;; (remove-hook 'after-change-functions #'ws-butler-after-change)
-;; (remove-hook 'find-file-hook #'ws-butler-after-save)
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)

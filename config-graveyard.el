@@ -1098,3 +1098,20 @@ lines are selected, or the NxM dimensions of a block selection.")
 
 ;; (after! org-attach-screenshot
 ;;   (setq org-attach-screenshot-command-line "xfce4-screenshooter -r -s %f"))
+
+;; (when init-file-debug
+;;   (benchmark-init/deactivate))
+
+;; (defmacro measure-time (&rest body)
+;;   "Measure the time it takes to evaluate BODY."
+;;   `(let ((time (current-time)))
+;;      ,@body
+;;      (message "%.06f" (float-time (time-since time)))))
+
+;; (remove-hook 'after-save-hook #'rmail-after-save-hook)
+;; (remove-hook 'after-save-hook #'ws-butler-after-save)
+;; (remove-hook 'after-change-functions #'ws-butler-after-change)
+;; (remove-hook 'find-file-hook #'ws-butler-after-save)
+
+;; (setq doom-incremental-idle-timer 0.1)
+;; (setq doom-incremental-first-idle-timer 1.5)
