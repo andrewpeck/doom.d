@@ -29,14 +29,36 @@
 ;; doom-material, doom-manegarm, doom-one, doom-spacegray, doom-material
 ;; doom-gruvbox, doom-oceanic-next, doom-tomorrow-night
 
-(setq doom-theme
-      (if (not (display-graphic-p)) 'doom-gruvbox
-        (pcase (system-name)
-          ("pepper"  'doom-one)
-          ("larry"   'doom-oceanic-next)
-          ;; ("larry"   'modus-operandi)
-          ("strange" 'doom-spacegray)
-          (_         'doom-one))))
+(defun ap/get-dark-theme ()
+  (if (not (display-graphic-p)) 'doom-gruvbox
+    (pcase (system-name)
+      ("pepper"  'doom-gruvbox)
+      ("larry"   'doom-oceanic-next)
+      ("strange" 'doom-spacegray)
+      (_         'doom-one))))
+
+(defun ap/get-light-theme ()
+  (if (not (display-graphic-p)) 'summerfruit
+    (pcase (system-name)
+      ("pepper"  'summerfruit)
+      ("larry"   'summerfruit)
+      ("strange" 'summerfruit)
+      (_         'summerfruit))))
+
+(setq doom-theme (ap/get-dark-theme))
+
+(defun synchronize-theme ()
+  (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
+         (now (if (member hour (number-sequence 7 17))
+                  (ap/get-light-theme)
+                (ap/get-dark-theme))))
+
+    (if (equal now doom-theme)
+        nil
+      (progn (setq doom-theme now)
+             (load-theme now)))))
+
+(run-with-timer 0 1800 'synchronize-theme)
 
 ;;------------------------------------------------------------------------------
 ;;; FONT
@@ -65,10 +87,10 @@
 
 (setq variable-pitch-font-list
       '(("Comic Code" . 16)
-        ("Fira Code" . 17)
-        ("Cantarell" . 18)
-        ("Calibri" . 18)
-        ("Arial" . 17)))
+        ("Fira Code"  . 17)
+        ("Cantarell"  . 18)
+        ("Calibri"    . 18)
+        ("Arial"      . 17)))
 
 (cl-dolist (my-font font-list)
   (when (font-exists-p (car my-font))
