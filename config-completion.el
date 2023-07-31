@@ -7,24 +7,23 @@
 
 (add-hook! vhdl-mode-hook
   (setq-local completion-at-point-functions
-        (list (cape-keyword
-               cape-dabbrev
-               (cape-company-to-capf #'company-yasnippet)
-               corfu--ispell-in-comments-and-strings))))
+              (list 'cape-dabbrev
+                    'cape-keyword
+                    'lsp-completion-at-point
+                    (cape-company-to-capf #'company-yasnippet))))
 
 (setq +corfu-auto-delay 1.0
       corfu-auto-delay 1.0)
 
 (add-hook! python-mode-hook
   (setq-local completion-at-point-functions
-              (list (cape-keyword
-                     cape-file
-                     #'lsp-completion-at-point
-                     ;; #'eglot-completion-at-point
-                     cape-capf-buster
-                     cape-dabbrev
-                     (cape-company-to-capf #'company-yasnippet)
-                     corfu--ispell-in-comments-and-strings))))
+              (list 'cape-keyword
+                    'cape-file
+                    #'lsp-completion-at-point
+                    ;; #'eglot-completion-at-point
+                    'cape-capf-buster
+                    'cape-dabbrev
+                    (cape-company-to-capf #'company-yasnippet))))
 
 (after! company
 
