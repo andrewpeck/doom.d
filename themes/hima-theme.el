@@ -8,7 +8,7 @@
 
 (let* ((white "#FFFFFF")
        (light-white "#F5F5F5")
-       (black "#000000")
+       (black "#444444")
        (light-black "#1C1C1C")
 
        (lighter-gray "#EEEEEE")
