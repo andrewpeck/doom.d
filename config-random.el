@@ -204,8 +204,12 @@
   ;;     :size 0.35 :select t :modeline t :quit t :ttl t)))
   )
 
-(add-hook! 'tcl-mode-hook    #'tree-sitter-hl-mode)
-(add-hook! 'python-mode-hook #'tree-sitter-hl-mode)
+(add-hook! 'tcl-mode-hook     #'tree-sitter-hl-mode)
+(add-hook! 'python-mode-hook  #'tree-sitter-hl-mode)
+(add-hook! 'clojure-mode-hook #'tree-sitter-hl-mode)
+(add-hook! 'yaml-mode-hook    #'tree-sitter-hl-mode)
+(add-hook! 'sh-mode-hook      #'tree-sitter-hl-mode)
+(add-hook! 'json-mode-hook    #'tree-sitter-hl-mode)
 
 (after! emojify-mode
   (setq global-emojify-mode t))
