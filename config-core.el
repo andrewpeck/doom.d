@@ -58,12 +58,8 @@
     (let* ((hour  (string-to-number (substring (current-time-string) 11 13)))
            (darkp (not  (member hour (number-sequence 7 16)))))
       (if darkp
-        (set-dark-mode)
+          (set-dark-mode)
         (set-light-mode)))))
-
-(when (not theme-timer)
-  ;; (cancel-function-timers #'synchronize-theme)
-  (setq theme-timer (run-with-timer 0 1800 'synchronize-theme)))
 
 (defun set-dark-mode ()
   "Set the color scheme to be dark."
@@ -110,6 +106,15 @@
   (message (format "Setting theme mode to %s (%s)"
                    (symbol-name dark-mode)
                    (symbol-name doom-theme))))
+
+(when (or (not (boundp 'theme-timer))
+          (not theme-timer))
+  ;; (cancel-function-timers #'synchronize-theme)
+  (setq theme-timer
+        (run-with-timer 0 3600 'synchronize-theme)))
+
+;; https://gml.noaa.gov/grad/solcalc/solareqns.PDF
+;; https://en.wikipedia.org/wiki/Sunrise_equation
 
 ;;------------------------------------------------------------------------------
 ;;; FONT
