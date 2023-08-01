@@ -26,13 +26,20 @@
 ;; Theme
 (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 
+;;------------------------------------------------------------------------------
+;; Automatic theme setting
+;;------------------------------------------------------------------------------
+
 ;; doom-material, doom-manegarm, doom-one, doom-spacegray, doom-material
 ;; doom-gruvbox, doom-oceanic-next, doom-tomorrow-night
+
+(setq dark-mode 'auto) ;; 'auto 'dark 'light
 
 (defun ap/get-dark-theme ()
   (if (not (display-graphic-p)) 'doom-gruvbox
     (pcase (system-name)
-      ("pepper"  'doom-gruvbox)
+      ;; doom-laserwave doom-one doom-gruvbox
+      ("pepper"  'doom-laserwave)
       ("larry"   'doom-oceanic-next)
       ("strange" 'doom-spacegray)
       (_         'doom-one))))
@@ -40,25 +47,69 @@
 (defun ap/get-light-theme ()
   (if (not (display-graphic-p)) 'summerfruit
     (pcase (system-name)
-      ("pepper"  'summerfruit)
+      ("pepper"  'doom-one-light)
       ("larry"   'summerfruit)
       ("strange" 'summerfruit)
       (_         'summerfruit))))
 
-(setq doom-theme (ap/get-dark-theme))
-
 (defun synchronize-theme ()
-  (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
-         (now (if (member hour (number-sequence 7 17))
-                  (ap/get-light-theme)
-                (ap/get-dark-theme))))
+  (interactive)
+  (when (equal dark-mode 'auto)
+    (let* ((hour  (string-to-number (substring (current-time-string) 11 13)))
+           (darkp (not  (member hour (number-sequence 7 16)))))
+      (if darkp
+        (set-dark-mode)
+        (set-light-mode)))))
 
-    (if (equal now doom-theme)
-        nil
-      (progn (setq doom-theme now)
-             (load-theme now)))))
+(when (not theme-timer)
+  ;; (cancel-function-timers #'synchronize-theme)
+  (setq theme-timer (run-with-timer 0 1800 'synchronize-theme)))
 
-(run-with-timer 0 1800 'synchronize-theme)
+(defun set-dark-mode ()
+  "Set the color scheme to be dark."
+  (interactive)
+  (setq dark-mode 'dark)
+  (let ((theme (ap/get-dark-theme)))
+    (when (not (equal theme (car custom-enabled-themes)))
+      (progn (setq doom-theme theme)
+             (load-theme theme)))))
+
+(defun set-light-mode ()
+  "Set the color scheme to be light."
+  (interactive)
+  (setq dark-mode 'light)
+  (let ((theme (ap/get-light-theme)))
+    (when (not (equal theme (car custom-enabled-themes)))
+      (progn (setq doom-theme theme)
+             (load-theme theme)))))
+
+(defun set-auto-dark-mode ()
+  "Set the color scheme to follow the day cycle (roughly)."
+  (interactive)
+  (setq dark-mode 'auto)
+  (synchronize-theme)
+  (setq dark-mode 'auto))
+
+(defun toggle-dark-mode ()
+  "Toggle dark mode."
+  (interactive)
+
+  (pcase dark-mode
+
+    ;; auto -> dark
+    ('auto (set-dark-mode))
+
+    ;; dark -> light
+    ('dark (set-light-mode))
+
+    ;; light -> auto
+    ('light (set-auto-dark-mode))
+
+    (_ (error "Invalid dark mode!")))
+
+  (message (format "Setting theme mode to %s (%s)"
+                   (symbol-name dark-mode)
+                   (symbol-name doom-theme))))
 
 ;;------------------------------------------------------------------------------
 ;;; FONT
