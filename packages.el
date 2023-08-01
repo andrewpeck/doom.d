@@ -47,6 +47,7 @@
 (package! logview)
 (package! lsp-grammarly)
 (package! magit-todos)
+(package! org-modern :recipe (:host github :repo "minad/org-modern"))
 (package! plz)
 (package! rainbow-mode)
 (package! scad-mode)
