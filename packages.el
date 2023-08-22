@@ -34,7 +34,6 @@
 (package! all-the-icons)
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)
-(package! backup-each-save)
 (package! benchmark-init)
 (package! crontab-mode)
 (package! delight)
