@@ -53,7 +53,7 @@
 ;; start:sort
 (after! lsp (doom-load!! "config-lsp"))
 (after! org (doom-load!! "config-org"))
-(when (f-directory-p (concat doom-user-path "passwords.el")) (doom-load!! "passwords"))
+(when (file-directory-p (concat doom-user-dir "passwords.el")) (doom-load!! "passwords"))
 (doom-load!! "config-core")
 (doom-load!! "config-doom")
 (doom-load!! "config-keybinds")

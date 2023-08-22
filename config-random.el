@@ -98,7 +98,7 @@
 ;; FIXME: after?
 (require 'backup-each-save)
 (setq backup-each-save-mirror-location (expand-file-name "~/emacs-backups"))
-(when (not (f-directory-p backup-each-save-mirror-location))
+(when (not (file-directory-p backup-each-save-mirror-location))
   (make-directory backup-each-save-mirror-location))
 
 (add-hook 'after-save-hook 'backup-each-save)
