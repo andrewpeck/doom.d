@@ -122,7 +122,8 @@ on the system \"/user@host:\"."
 	 (backup-container
 	  (format "%s/%s"
 		  backup-each-save-mirror-location
-		  containing-dir)))
+                  (replace-regexp-in-string ":/" "/" containing-dir)
+)))
     (when (not (file-exists-p backup-container))
       (make-directory backup-container t))
     (format "%s/%s-%s" backup-container basename
