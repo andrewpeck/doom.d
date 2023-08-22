@@ -33,24 +33,26 @@
 ;; doom-material, doom-manegarm, doom-one, doom-spacegray, doom-material
 ;; doom-gruvbox, doom-oceanic-next, doom-tomorrow-night
 
-(setq dark-mode 'auto) ;; 'auto 'dark 'light
+(setq dark-mode 'dark) ;; 'auto 'dark 'light
 
 (defun ap/get-dark-theme ()
   (if (not (display-graphic-p)) 'doom-gruvbox
     (pcase (system-name)
       ;; doom-laserwave doom-one doom-gruvbox
-      ("pepper"  'doom-laserwave)
-      ("larry"   'doom-oceanic-next)
-      ("strange" 'doom-spacegray)
-      (_         'doom-one))))
+      ("pepper"      'doom-laserwave)
+      ("larry"       'doom-oceanic-next)
+      ("strange"     'doom-spacegray)
+      ("APECK-LEN01" 'doom-gruvbox)
+      (_             'doom-one))))
 
 (defun ap/get-light-theme ()
   (if (not (display-graphic-p)) 'summerfruit
     (pcase (system-name)
-      ("pepper"  'doom-one-light)
-      ("larry"   'summerfruit)
-      ("strange" 'summerfruit)
-      (_         'summerfruit))))
+      ("APECK-LEN01"  'doom-one-light)
+      ("pepper"       'doom-one-light)
+      ("larry"        'summerfruit)
+      ("strange"      'summerfruit)
+      (_              'summerfruit))))
 
 (defun synchronize-theme ()
   (interactive)
@@ -131,10 +133,10 @@
 ;; M-x describe-font
 (setq font-list
       '(("Comic Code"      . 16)
+        ("Consolas"        . 18)
         ("Source Code Pro" . 16)
         ("JetBrains Mono"  . 16)
         ("Terminus"        . 16)
-        ("Consolas"        . 16)
         ("Hack"            . 14)
         ("Roboto Mono"     . 14)
         ("Fira Code"       . 14)
