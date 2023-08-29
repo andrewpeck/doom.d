@@ -35,6 +35,7 @@
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)
 (package! benchmark-init)
+(package! verilog-mode :recipe (:host github :repo "veripool/verilog-mode"))
 (package! crontab-mode)
 (package! delight)
 (package! dwim-shell-command :recipe (:host github :repo "xenodium/dwim-shell-command"))
