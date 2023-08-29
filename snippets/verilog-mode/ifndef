@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ifndef
+# key: ifndef
+# --
+\`ifndef ${1:`(upcase (file-name-nondirectory
+(file-name-sans-extension (buffer-file-name))))`}
+\`define $1
+   $0
+\`endif //  \`ifndef $1
