@@ -73,6 +73,9 @@
 ;; Verilog
 ;;--------------------------------------------------------------------------------
 
+(add-hook! 'verilog-mode-hook
+  (setq-local comment-multi-line t))
+
 (after! verilog
   (setq verilog-align-ifelse t
         verilog-auto-delete-trailing-whitespace t
