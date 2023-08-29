@@ -32,6 +32,12 @@
     (align-regexp start end
                   "\\(\\s-*\\)&" 1 1 t))
 
+  (defun align-paren (start end)
+    "Align columns by ampersand"
+    (interactive "r")
+    (align-regexp start end
+                  "\\(\\s-*\\)(" 1 1 nil))
+
   (defun align-= (start end)
     "Align columns by ampersand"
     (interactive "r")
