@@ -80,6 +80,7 @@
   (setq verilog-align-ifelse t
         verilog-auto-delete-trailing-whitespace t
         verilog-auto-inst-param-value t
+        verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
         verilog-auto-inst-vector nil
         verilog-auto-lineup (quote all)
         verilog-auto-newline nil
@@ -275,10 +276,3 @@
 ;;------------------------------------------------------------------------------
 
 (setq python-shell--interpreter "python3")
-
-;;------------------------------------------------------------------------------
-;; Verilog
-;;------------------------------------------------------------------------------
-
-;; Fix the dumb indentation inside of port lists
-(setq verilog-indent-lists nil)
