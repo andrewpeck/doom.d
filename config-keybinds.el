@@ -161,7 +161,7 @@ between the two most recently open buffers."
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 
-(add-hook! verilog-mode-hook
+(add-hook! 'verilog-mode-hook
   (local-unset-key [backspace]))
 
 (after! lispy
