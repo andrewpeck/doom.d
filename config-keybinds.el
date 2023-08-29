@@ -5,7 +5,7 @@
 ;;------------------------------------------------------------------------------
 
 (after! evil
-  (add-hook! debugger-mode-hook #'turn-on-evil-mode)
+  (add-hook! 'debugger-mode-hook #'turn-on-evil-mode)
 
   ;; Whether C-i jumps forward in the jump list (like Vim).
   (setq evil-want-C-i-jump t)

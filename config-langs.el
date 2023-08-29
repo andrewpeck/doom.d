@@ -13,7 +13,7 @@
 ;; Awk
 ;;------------------------------------------------------------------------------
 
-(add-hook! awk-mode-hook
+(add-hook! 'awk-mode-hook
   (setq-local  comment-start "# "))
 
 ;; redefine the awk checker to have no-ext enabled on the linter "--lint=no-ext"
@@ -175,7 +175,7 @@
 ;; Tcl
 ;;------------------------------------------------------------------------------
 
-(add-hook! tcl-mode-hook
+(add-hook! 'tcl-mode-hook
   (setq-local smartparens-mode t
               auto-fill-mode nil))
 
@@ -189,8 +189,7 @@
 ;; make $ not part of a symbol in tcl-mode
 (after! tcl
   (setq tcl-help-directory-list '("/usr/share/doc/tclx"))
-  (add-hook! tcl-mode-hook (setq-local smartparens-mode t))
-  (add-hook! tcl-mode-hook #'tree-sitter-hl-mode)
+  (add-hook! 'tcl-mode-hook (setq-local smartparens-mode t))
   (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
 
 ;;------------------------------------------------------------------------------
@@ -225,7 +224,7 @@
 
 ;; For example, if you prefer double slashes // instead of slash-stars /* ... */
 ;; in c-mode, insert below code into your ~/.emacs:
-(add-hook! c-mode-common-hook
+(add-hook! 'c-mode-common-hook
            ;; Preferred comment style
            (setq comment-start "// " comment-end ""))
 
@@ -233,7 +232,7 @@
 ;; SCAD
 ;;------------------------------------------------------------------------------
 
-(add-hook! scad-mode-hook
+(add-hook! 'scad-mode-hook
   (add-hook 'write-contents-functions
             #'re-indent-buffer nil t))
 
@@ -253,7 +252,7 @@
 (after! nxml
   (setq nxml-child-indent 2
         nxml-attribute-indent 2)
-  (add-hook! nxml-mode-hook
+  (add-hook! 'nxml-mode-hook
     (visual-fill-column-mode -1))
   (defun nxml-pretty-format ()
     (interactive)
