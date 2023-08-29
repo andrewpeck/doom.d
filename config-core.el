@@ -37,18 +37,18 @@
 
 (defun ap/get-dark-theme ()
   (if (not (display-graphic-p)) 'doom-gruvbox
-    (pcase (system-name)
+    (pcase (downcase (system-name))
       ;; doom-laserwave doom-one doom-gruvbox
       ("pepper"      'doom-laserwave)
       ("larry"       'doom-oceanic-next)
       ("strange"     'doom-spacegray)
-      ("APECK-LEN01" 'doom-gruvbox)
+      ("apeck-len01" 'doom-spacegray)
       (_             'doom-one))))
 
 (defun ap/get-light-theme ()
   (if (not (display-graphic-p)) 'summerfruit
-    (pcase (system-name)
-      ("APECK-LEN01"  'doom-one-light)
+    (pcase (downcase (system-name))
+      ("apeck-len01"  'doom-one-light)
       ("pepper"       'doom-one-light)
       ("larry"        'summerfruit)
       ("strange"      'summerfruit)
@@ -133,11 +133,12 @@
 ;; M-x describe-font
 (setq font-list
       '(("Comic Code"      . 16)
-        ("Consolas"        . 18)
+        ("Consolas"        . 20)
         ("Source Code Pro" . 16)
         ("JetBrains Mono"  . 16)
         ("Terminus"        . 16)
         ("Hack"            . 14)
+        ("Ubuntu Mono"     . 21)
         ("Roboto Mono"     . 14)
         ("Fira Code"       . 14)
         ("Inconsolata"     . 18)
