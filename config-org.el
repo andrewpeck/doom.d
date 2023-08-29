@@ -152,7 +152,7 @@ guess will be made."
 
 (org-crypt-use-before-save-magic)
 
-(add-hook! org-mode-hook
+(add-hook! 'org-mode-hook
   (lambda () (setq-local user-full-name "A.P.")))
 
 (setq org-tags-exclude-from-inheritance (list "crypt")
