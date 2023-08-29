@@ -25,14 +25,10 @@
               (princ (concat pad "#+begin_src bash  :tangle no :results output\n"))
             (princ (concat pad "#+begin_src bash  :tangle no :dir /sudo::~/ :results output\n")))
 
-          (when ubuntu
-            (princ (format "%ssudo apt --yes install %s\n" pad ubuntu)))
-          (when dnf
-            (princ (format "%ssudo dnf install -y %s\n" pad dnf)))
-          (when pacman
-            (princ (format "%ssudo pacman -Syu %s\n" pad dnf)))
-          (when cmd
-            (princ (format "%s%s\n" pad cmd)))
+          (when ubuntu (princ (format "%ssudo apt --yes install %s\n" pad ubuntu)))
+          (when dnf    (princ (format "%ssudo dnf install -y %s\n" pad dnf)))
+          (when pacman (princ (format "%ssudo pacman -Syu %s\n" pad dnf)))
+          (when cmd    (princ (format "%s%s\n" pad cmd)))
 
           (princ (concat pad "#+end_src\n")))))))
 
@@ -185,6 +181,9 @@
 
   ;; bash
   (setup--check-for-exe "shellcheck" :dnf "ShellCheck" :ubuntu "shellcheck")
+
+  ;; tree-sitter
+  (setup--check-for-exe "tree-sitter" :dnf "tree-sitter-cli libtree-sitter-devel")
 
   ;; graph-easy
   (setup--check-for-exe "graph-easy" :cmd "sudo" :ubuntu "sudo cpan install Graph::Easy")
