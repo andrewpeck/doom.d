@@ -31,6 +31,7 @@ sudo make install
 ** Building gccemacs
 
 #+begin_src bash
+
 # http://ergoemacs.org/emacs/building_emacs_from_git_repository.html
 
 # ubuntu
@@ -63,15 +64,16 @@ sudo dnf builddep emacs
 
 git clone https://github.com/emacs-mirror/emacs
 
-OPTIONS='--with-native-compilation --with-json --with-rsvg --with-xft --with-sqllite3 --with-xml2 --without-compress-install --with-webp  --with-jpeg --with-png CFLAGS="-O2" --with-x-toolkit=lucid --without-dbus --with-tree-sitter '
+export EMACS_OPTIONS='--with-native-compilation --with-json --with-rsvg --with-xft --with-xml2 --without-compress-install --with-webp  --with-jpeg --with-png --with-x-toolkit=lucid --without-dbus --with-tree-sitter'
 
 git clean -xdf
 ./autogen.sh
 
 # local install
-./configure --prefix=/home/andrew/emacs --bindir=/home/andrew/bin $OPTIONS
+./configure --prefix=/home/andrew/emacs --bindir=/home/andrew/bin $EMACS_OPTIONS
+
 # system install
-./configure $OPTIONS
+./configure $EMACS_OPTIONS
 
 #make -C lisp autoloads-force
 make bootstrap
@@ -85,4 +87,3 @@ sudo make install
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 #+end_src
-
