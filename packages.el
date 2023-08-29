@@ -51,6 +51,7 @@
 (package! rainbow-mode)
 (package! scad-mode)
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
+(package! standard-themes :recipe (:host github :repo "protesilaos/standard-themes"))
 (package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! vimrc-mode)
 (package! visual-fill-column)
