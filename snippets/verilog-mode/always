@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: always
+# key: always
+# --
+always_ff @(posedge ${1:clk}) begin
+  $2
+end
