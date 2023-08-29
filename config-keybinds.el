@@ -164,6 +164,9 @@ between the two most recently open buffers."
 (add-hook! 'verilog-mode-hook
   (local-unset-key [backspace]))
 
+(after! verilog
+  (define-key verilog-mode-map (kbd  "<RET>") nil))
+
 (after! lispy
   (define-key lispy-mode-map        (kbd  "M-<return>") nil)
   (define-key lispy-mode-map-evilcp (kbd  "M-<return>") nil)
