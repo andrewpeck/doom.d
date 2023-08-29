@@ -21,8 +21,7 @@
   (add-to-list 'completion-at-point-functions
                (cape-company-to-capf #'company-yasnippet)))
 
-(setq +corfu-auto-delay 0.5
-      corfu-auto-delay 0.5)
+(setq corfu-auto-delay 0.5)
 
 (add-hook! 'emacs-lisp-mode-hook
   (setq-local completion-at-point-functions
@@ -63,36 +62,37 @@
                                (cape-company-to-capf #'company-yasnippet))))))
 
 (after! tcl
-  (require 'cape-keyword)
-  (add-to-list 'cape-keyword-list
-               (append '(tcl-mode)
+  (with-eval-after-load 'cape-keyword
+    (add-to-list 'cape-keyword-list
+                 (append '(tcl-mode)
 
-                       ;; vivado
-                       '("set_property" "add_files" "generate_target"
-                         "report_utilization"
-                         "report_timing_summary"
-                         "import_ip" "create_project"
-                         "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
-                         "get_nets" "font-lock-builtin-face" "create_generated_clock"
-                         "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
-                         "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
-                         "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
+                         ;; vivado
+                         '("set_property" "add_files" "generate_target"
+                           "report_utilization"
+                           "report_timing_summary"
+                           "import_ip" "create_project"
+                           "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
+                           "get_nets" "font-lock-builtin-face" "create_generated_clock"
+                           "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
+                           "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
+                           "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
 
-                       tcl-keyword-list
-                       tcl-typeword-list
-                       tcl-builtin-list)))
+                         tcl-keyword-list
+                         tcl-typeword-list
+                         tcl-builtin-list))))
 
 (after! vhdl-mode
-  (add-to-list 'cape-keyword-list
-               (append '(vhdl-mode)
-                       vhdl-keywords
-                       vhdl-types
-                       vhdl-attributes
-                       vhdl-enum-values
-                       vhdl-constants
-                       vhdl-functions
-                       vhdl-packages
-                       vhdl-directives)))
+  (with-eval-after-load 'cape-keyword
+    (add-to-list 'cape-keyword-list
+                 (append '(vhdl-mode)
+                         vhdl-keywords
+                         vhdl-types
+                         vhdl-attributes
+                         vhdl-enum-values
+                         vhdl-constants
+                         vhdl-functions
+                         vhdl-packages
+                         vhdl-directives))))
 
 ;;------------------------------------------------------------------------------
 ;; Company
