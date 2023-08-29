@@ -508,3 +508,17 @@ char of the language you are editing"
         (flyspell-do-correct 'save nil
                              (car word) current-location (cadr word)
                              (caddr word) current-location)))))
+
+
+(defun github-package ()
+  (let ((clip (current-kill 0))
+        (repo "")
+        (pkg  "")
+        (host "github"))
+
+    (when (string-match ".*github.com/\\([^/]*\\)/\\(.*\\)" clip)
+      (setq repo (concat (match-string 1 clip) "/" (match-string 2 clip)))
+      (setq pkg  (match-string 2 clip))
+      (setq host "github"))
+
+    (format "(package! %s :recipe (:host %s :repo \"%s\"))" pkg host repo)))
