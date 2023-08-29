@@ -45,9 +45,8 @@
 ;;------------------------------------------------------------------------------
 
 ;;  set the tab width for emacs lisp mode to 4 for compatibility with emacs libs
-(add-hook! emacs-lisp-mode-hook
-  (progn (make-variable-buffer-local tab-width)
-         (setq tab-width 4)))
+(add-hook! 'emacs-lisp-mode-hook
+  (setq-local tab-width 4)))
 
 ;; remember ielm history
 ;; global copy of the buffer-local variable

@@ -318,8 +318,8 @@
 
 ;; Don't wrap text modes unless we really want it
 (remove-hook 'text-mode-hook #'+word-wrap-mode)
-(add-hook! latex-mode-hook #'+word-wrap-mode)
-(add-hook! markdown-mode-hook #'+word-wrap-mode)
+(add-hook! 'latex-mode-hook #'+word-wrap-mode)
+(add-hook! 'markdown-mode-hook #'+word-wrap-mode)
 
 ;; (defun fix-visual-fill-column-mode (&optional ARG)
 ;;   (setq visual-fill-column-mode visual-line-mode))
