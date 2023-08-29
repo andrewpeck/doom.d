@@ -57,7 +57,7 @@
 (defun synchronize-theme ()
   (interactive)
   (when (equal dark-mode 'auto)
-    (let* ((hour  (string-to-number (substring (current-time-string) 11 13)))
+    (let* ((hour  (string-to-number (format-time-string "%H")))
            (darkp (not  (member hour (number-sequence 7 16)))))
       (if darkp
           (set-dark-mode)
