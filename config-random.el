@@ -2,6 +2,7 @@
 
 (add-to-list 'warning-suppress-types '(iedit))
 
+(add-to-list 'warning-suppress-types '(iedit))
 
 ;; (remove-hook! 'find-file-hook #'+vc-gutter-init-maybe-h)
 
