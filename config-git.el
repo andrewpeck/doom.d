@@ -14,7 +14,7 @@
 (after! magit
   ;;(magit-todos-mode)
   (setq-default magit-mode-hook nil)
-  (add-hook! magit-diff-mode-hook
+  (add-hook! 'magit-diff-mode-hook
     (setq-local truncate-lines nil))
   (setq magit-repository-directories '(("~/work" . 1)))
   (setq-default magit-diff-refine-hunk 'all)
