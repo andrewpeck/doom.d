@@ -86,15 +86,15 @@
         verilog-auto-newline nil
         verilog-auto-save-policy nil
         verilog-auto-template-warn-unused t
-        verilog-case-indent 3
-        verilog-cexp-indent 3
         verilog-highlight-grouping-keywords t
         verilog-highlight-modules t
-        verilog-indent-level 3
-        verilog-indent-level-behavioral 3
-        verilog-indent-level-declaration 3
-        verilog-indent-level-module 3
-        verilog-tab-to-comment t))
+        verilog-case-indent 2
+        verilog-cexp-indent 2
+        verilog-indent-level 2
+        verilog-indent-level-behavioral 2
+        verilog-indent-level-declaration 2
+        verilog-indent-level-module 2
+        verilog-tab-to-comment nil)
 
 (defun verilog-align-ports ()
   (interactive)
