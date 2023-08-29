@@ -33,6 +33,9 @@
    ((thing-at-point 'url) (link-hint-open-link-at-point))
    (t (call-interactively fn))))
 
+;; (setq affe-find-command "rg --color=never --files")
+(setq affe-find-command "fd --color=never")
+
 (defun affe-find-home    () (interactive) (affe-find "~/"))
 (defun affe-find-work    () (interactive) (affe-find "~/work"))
 (defun affe-find-project () (interactive) (affe-find (projectile-project-root)))
