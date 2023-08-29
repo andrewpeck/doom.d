@@ -238,7 +238,7 @@
         tramp-copy-size-limit 10000
         vc-handled-backends '(Git)
         tramp-verbose 1
-        tramp-default-method "scp")
+        tramp-default-method "ssh")
 
   ;; Another way to find the remote path is to use the path assigned to the remote user by the
   ;; remote host. TRAMP does not normally retain this remote path after login. However,
