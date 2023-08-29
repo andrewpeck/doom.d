@@ -66,19 +66,21 @@
              (assl (assoc pref-shell suffixes)))
         (list (symbol-name (car assl)) (cdr assl))))
 
+(defun get-pwd ()
+  (cl-case major-mode
+    ;; magit mode
+    (magit-status-mode (projectile-project-root))
+    ;; dired
+    (dired-mode (file-name-directory (dired-get-filename)))
+    ;; default
+    (t (file-name-directory (buffer-file-name)))))
+
 (defun open-pwd-in-terminal ()
   "Opens the present working directory in terminal"
   (interactive)
-  (let ((pwd (cl-case major-mode
-               ;; magit mode
-               (magit-status-mode (projectile-project-root))
-               ;; dired
-               (dired-mode (file-name-directory (dired-get-filename)))
-               ;; default
-               (t (file-name-directory (buffer-file-name))))))
-    (start-process "*terminal*" nil
-                   "setsid"
-                   (executable-find (car preferred-terminal)) (cadr preferred-terminal) pwd)))
+  (start-process "*terminal*" nil
+                 "setsid"
+                 (executable-find (car preferred-terminal)) (cadr preferred-terminal) (get-pwd)))
 
 (defun open-buffer-in-vim ()
   "Opens the current buffer in gvim."
@@ -97,7 +99,7 @@
 (defun xdg-browse-directory ()
   "Open the current file's directory however the OS would."
   (interactive)
-  (xdg-do (file-name-directory (buffer-file-name))))
+  (xdg-do (get-pwd)))
 
 (defun xdg-open-file ()
   "Open the current file however the OS would."
