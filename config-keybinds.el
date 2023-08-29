@@ -291,6 +291,9 @@ between the two most recently open buffers."
   (evil-define-key nil reftex-toc-mode-map
     (kbd "<return>") #'reftex-toc-goto-line))
 
+  (evil-define-key nil archive-mode-map
+    (kbd "-")   #'+popup/quit-window)
+
 ;;------------------------------------------------------------------------------
 ;; Evil Leader Keys
 ;;------------------------------------------------------------------------------
@@ -320,6 +323,13 @@ between the two most recently open buffers."
                  "d" #'python-shell-send-defun
                  "r" #'python-shell-send-region))
 
+  (map! :localleader
+        :map vhdl-mode-map
+        :desc "Beautify"
+        (:prefix ("b" . "Beautify")
+                 "b" #'vhdl-beautify-buffer
+                 "r" #'vhdl-beautify-region))
+
   (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
   (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)
   (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
@@ -327,7 +337,10 @@ between the two most recently open buffers."
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
   (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile)
-  (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo))
+  (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo)
+  (map! :leader :prefix "y" :desc "Org Link Copy"        "y"  #'org-link-copy)
+  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
+  (map! :leader :prefix "t" :desc "Toggle Dark Mode"     "d"  #'toggle-dark-mode))
 
 (map! :leader
       :prefix "ma"
@@ -338,18 +351,12 @@ between the two most recently open buffers."
       :desc "Delete Image" "d" #'org-download-delete
       :desc "Move Image" "m" #'org-download-rename)
 
-(map! :leader
-      :prefix "y"
-      :desc "Org Link Copy"       "y" #'org-link-copy)
-
-(map! :leader
-      :prefix "v"
-      :desc "Toggle Visual Wrap"       "w" #'ap/toggle-wrap)
 
 (map! :leader
       :prefix "o"
       :desc "Mu4e Inbox"  "i"
       (lambda () (interactive) (mu4e~headers-jump-to-maildir "/INBOX")))
+
 
 ;; (map! :leader
 ;;       :prefix "n"
