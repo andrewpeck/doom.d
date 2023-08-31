@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: module
+# key: module
+
+# --
+\`resetall
+\`timescale 1ns / 1ps
+\`default_nettype none
+
+module xgmii_baser_dec_64 # (
+    parameter X = 0)
+(
+    input clk,
+    input rst
+);
+
+endmodule
