@@ -2,4 +2,6 @@
 # name: nettype
 # key: nettype
 # --
-`default nettype none
+`resetall
+`timescale 1ns / 1ps
+`default_nettype none
