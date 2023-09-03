@@ -74,9 +74,9 @@
 ;;--------------------------------------------------------------------------------
 
 (add-hook! 'verilog-mode-hook
-  (setq-local comment-multi-line t))
 
-(after! verilog
+  (setq-local comment-multi-line t)
+
   (setq verilog-align-ifelse t
         verilog-auto-delete-trailing-whitespace t
         verilog-auto-inst-param-value t
@@ -94,13 +94,12 @@
         verilog-indent-level-behavioral 2
         verilog-indent-level-declaration 2
         verilog-indent-level-module 2
-        verilog-tab-to-comment nil)
+        verilog-tab-to-comment nil))
 
-(defun verilog-align-ports ()
-  (interactive)
-  (er/expand-region 2)
-  (align-paren (region-beginning) (region-end)))
-
+  (defun verilog-align-ports ()
+    (interactive)
+    (er/expand-region 2)
+    (align-paren (region-beginning) (region-end)))
 
 ;;------------------------------------------------------------------------------
 ;; VHDL Mode
