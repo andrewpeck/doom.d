@@ -120,7 +120,20 @@
 
 (defun verible-format () (interactive)
        (save-buffer)
-       (print (shell-command-to-string (concat "verible-verilog-format --inplace " (buffer-file-name))))
+       (print (shell-command-to-string (string-join `("verible-verilog-format"
+                                                      "--inplace "
+                                                      "--port_declarations_alignment    align"
+                                                      "--port_declarations_indentation  wrap"
+                                                      "--named_port_alignment           align"
+                                                      "--assignment_statement_alignment align"
+                                                      "--formal_parameters_alignment"   "align"
+                                                      "--try_wrap_long_lines"           "false"
+                                                      "--port_declarations_right_align_unpacked_dimensions true"
+                                                      "--struct_union_members_alignment align"
+                                                      "--formal_parameters_indentation  indent"
+                                                      "--named_parameter_alignment      align"
+                                                      "--named_parameter_indentation    indent"
+                                                      ,(buffer-file-name)) " ")))
        (revert-buffer))
 
 (defun pyment () (interactive)
@@ -161,12 +174,6 @@ between the two most recently open buffers."
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 
-(add-hook! 'verilog-mode-hook
-  (local-unset-key [backspace]))
-
-(after! verilog
-  (define-key verilog-mode-map (kbd  "<RET>") nil))
-
 (after! lispy
   (define-key lispy-mode-map        (kbd  "M-<return>") nil)
   (define-key lispy-mode-map-evilcp (kbd  "M-<return>") nil)
@@ -175,7 +182,7 @@ between the two most recently open buffers."
   (define-key lispy-mode-map-evilcp (kbd  "M-RET") nil)
   (define-key lispy-mode-map-lispy  (kbd  "M-RET") nil))
 
-(after! verilog
+(add-hook! 'verilog-mode-hook
   (define-key verilog-mode-map (kbd "<RET>") nil)
   (define-key verilog-mode-map (kbd "TAB") nil)
   (define-key verilog-mode-map (kbd "<backspace>") nil))
