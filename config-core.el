@@ -56,12 +56,14 @@
 
 (defun synchronize-theme ()
   (interactive)
-  (when (equal dark-mode 'auto)
-    (let* ((hour  (string-to-number (format-time-string "%H")))
+  (pcase dark-mode
+    ('auto (let* ((hour  (string-to-number (format-time-string "%H")))
            (darkp (not  (member hour (number-sequence 7 16)))))
       (if darkp
           (set-dark-mode)
-        (set-light-mode)))))
+        (set-light-mode))))
+    ('dark (set-dark-mode))
+    ('light (set-light-mode))))
 
 (defun set-dark-mode ()
   "Set the color scheme to be dark."
