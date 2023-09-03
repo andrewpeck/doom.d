@@ -31,6 +31,7 @@
 ;; Misc packages
 ;; start:sort
 (package! affe)
+(package! flycheck :pin "e56e30d" :recipe (:host github :repo "flycheck/flycheck"))
 (package! all-the-icons)
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)
