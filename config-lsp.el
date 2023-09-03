@@ -9,10 +9,10 @@
 ;; vhdl-tool, hdl-checker vhdl-ls ghdl-ls
 (setq lsp-vhdl-server 'ghdl-ls)
 (let ((exe (cl-case lsp-vhdl-server
-             ('hdl-checker "hdl_checker")
-             ('vhdl-tool "vhdl-tool")
-             ('ghdl-ls "ghdl-ls")
-             ('vhdl-ls "vhdl_ls"))))
+             (hdl-checker "hdl_checker")
+             (vhdl-tool "vhdl-tool")
+             (ghdl-ls "ghdl-ls")
+             (vhdl-ls "vhdl_ls"))))
   (setq lsp-vhdl-server-path (executable-find exe)))
 
 (setq lsp-progress-via-spinner nil
