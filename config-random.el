@@ -529,3 +529,11 @@ char of the language you are editing"
       (setq host "github"))
 
     (format "(package! %s :recipe (:host %s :repo \"%s\"))" pkg host repo)))
+
+;;------------------------------------------------------------------------------
+;; Run Vim for reindent
+;;------------------------------------------------------------------------------
+
+(defun reindent-buffer-with-vim ()
+  (interactive)
+  (shell-command (format "vim --clean -c 'set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab' -c 'normal gg=G' -c 'wq' %s" buffer-file-name)))
