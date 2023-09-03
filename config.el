@@ -31,9 +31,7 @@
 (use-package! vivado-mode      :defer-incrementally t)
 ;; end:sort
 
-(defun load!! (pkg)
-  "Demote errors while loading a file to prevent errors in startup from cascading."
-  (with-demoted-errors "Error %s" (load! pkg)))
+(defun load!! (path) (load! path doom-user-dir t))
 
 (defun load-timer (pkg &optional timer)
   "Load package on a timer."
@@ -45,34 +43,33 @@
   (let ((timer (if timer timer 1.5)))
     (run-with-idle-timer timer nil #'load!! pkg)))
 
-(defun doom-load!! (path) (load!! (concat doom-user-dir path)))
 (defun doom-load-idle (path) (load-idle (concat doom-user-dir path)))
 (defun doom-load-timer (path) (load-timer (concat doom-user-dir path)))
 
+(load!! "custom")
+(load!! "config-core")
 
 ;; start:sort
-(after! lsp (doom-load!! "config-lsp"))
-(after! org (doom-load!! "config-org"))
-(when (file-directory-p (concat doom-user-dir "passwords.el")) (doom-load!! "passwords"))
-(doom-load!! "config-core")
-(doom-load!! "config-doom")
-(doom-load!! "config-keybinds")
-(doom-load!! "config-modeline")
-(doom-load!! "custom")
-(doom-load-idle "config-align")
-(doom-load-idle "config-appearance")
-(doom-load-idle "config-completion")
-(doom-load-idle "config-dired")
-(doom-load-idle "config-elfeed")
-(doom-load-idle "config-flycheck")
-(doom-load-idle "config-git")
-(doom-load-idle "config-langs")
-(doom-load-idle "config-random")
-(doom-load-idle "config-scad")
-(doom-load-idle "config-tex.el")
-(doom-load-idle "lisp/gerb-view")
-(doom-load-idle "lisp/regulator")
-(doom-load-idle "lisp/tracking")
+(after! lsp (load!! "config-lsp"))
+(after! org (load!! "config-org"))
+(load!! "config-align")
+(load!! "config-appearance")
+(load!! "config-completion")
+(load!! "config-dired")
+(load!! "config-doom")
+(load!! "config-elfeed")
+(load!! "config-flycheck")
+(load!! "config-git")
+(load!! "config-keybinds")
+(load!! "config-langs")
+(load!! "config-modeline")
+(load!! "config-random")
+(load!! "config-scad")
+(load!! "config-tex.el")
+(load!! "lisp/gerb-view")
+(load!! "lisp/regulator")
+(load!! "lisp/tracking")
+(load!! "passwords")
 ;; end:sort
 
 ;; Local Variables:
