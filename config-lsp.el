@@ -23,10 +23,21 @@
 
 ;; https://github.com/chipsalliance/verible/blob/master/verilog/tools/ls/README.md
 (add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog"))
+
+;; (lsp-register-client
+;;    (make-lsp-client :new-connection (lsp-stdio-connection '("svls"))
+;;    :major-modes '(verilog-mode)
+;;    :priority -1))
+;; (require 'lsp-mode)
+
+;; (add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog"))
+
+(setq lsp-client-packages '(ccls))
+
 (lsp-register-client
- (make-lsp-client :new-connection (lsp-stdio-connection "verible-verilog-ls")
+ (make-lsp-client :new-connection (lsp-stdio-connection '("verible-verilog-ls --rules_config_search true"))
                   :major-modes '(verilog-mode)
-                  :server-id 'verible-ls))
+                  :priority -1))
 
 (add-hook 'verilog-mode-hook 'lsp)
 (add-hook 'vhdl-mode-hook 'lsp)
