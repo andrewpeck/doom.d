@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: verible-rules
+# key: verible-rules
+# --
+-module-filename
++posix-eof
+-no-tabs
+-no-trailing-spaces
+-no-tabs
+-line-length
+-parameter-name-style
