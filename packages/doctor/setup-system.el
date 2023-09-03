@@ -198,7 +198,7 @@
   (setup--check-for-exe "pandoc" :dnf "pandoc" :ubuntu "pandoc")
   (setup--check-for-exe "cmake" :ubuntu "cmake" :dnf "cmake")
   (setup--check-for-exe "cloc" :ubuntu "cloc" :dnf "cloc")
-  (setup--check-for-exe "rg" :dnf "ripgrep")
+  (setup--check-for-exe "rg" :dnf "ripgrep" :ubuntu "rg")
   (setup--check-for-exe "fzf" :noroot t :cmd "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install")
   (setup--check-for-exe "gvim" :ubuntu "vim-gtk3" :dnf "vim-X11")
   (setup--check-for-exe "mpd" :ubuntu "mpd" :dnf "mpd")
