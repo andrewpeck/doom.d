@@ -17,82 +17,84 @@
 ;; cape-sgml: Complete Unicode char from SGML entity, e.g., &alpha.
 ;; cape-rfc1345: Complete Unicode char using RFC 1345 mnemonics.
 
-(defun cape-add-yasnippet ()
-  (add-to-list 'completion-at-point-functions
-               (cape-company-to-capf #'company-yasnippet)))
-
 (setq corfu-auto-delay 0.5)
 
-(add-hook! 'emacs-lisp-mode-hook
-  (setq-local completion-at-point-functions
-              (list
-               (cape-company-to-capf #'company-yasnippet)
-               'cape-dabbrev
-               'cape-keyword
-               'cape-elisp-block
-               'cape-files
-               'lsp-completion-at-point)))
+(after! cape
 
-(add-hook! 'vhdl-mode-hook
-  (setq-local completion-at-point-functions
-              (list (cape-super-capf
-                     'cape-dabbrev
-                     'cape-keyword
-                     (cape-company-to-capf #'company-yasnippet)))))
+  (defun cape-add-yasnippet ()
+    (add-to-list 'completion-at-point-functions
+                 (cape-company-to-capf #'company-yasnippet)))
 
-(add-hook! 'python-mode-hook
-  (setq-local completion-at-point-functions
-              (list
-               (cape-super-capf
-                'cape-keyword
-                'cape-file
-                ;; #'lsp-completion-at-point
-                ;; #'eglot-completion-at-point
-                'cape-capf-buster
-                'cape-dabbrev
-                (cape-company-to-capf #'company-yasnippet)))))
+  (add-hook! 'emacs-lisp-mode-hook
+    (setq-local completion-at-point-functions
+                (list
+                 (cape-company-to-capf #'company-yasnippet)
+                 'cape-dabbrev
+                 'cape-keyword
+                 'cape-elisp-block
+                 'cape-files
+                 'lsp-completion-at-point)))
 
-(add-hook 'tcl-mode-hook
-          (lambda ()
-            (setq-local completion-at-point-functions
-                        (list (cape-super-capf
-                               'cape-dabbrev
-                               'cape-keyword
-                               'cape-file
-                               (cape-company-to-capf #'company-yasnippet))))))
+  (add-hook! 'vhdl-mode-hook
+    (setq-local completion-at-point-functions
+                (list (cape-super-capf
+                       'cape-dabbrev
+                       'cape-keyword
+                       (cape-company-to-capf #'company-yasnippet)))))
 
-(after! tcl
-  (with-eval-after-load 'cape-keyword
-    (add-to-list 'cape-keyword-list
-                 (append '(tcl-mode)
+  (add-hook! 'python-mode-hook
+    (setq-local completion-at-point-functions
+                (list
+                 (cape-super-capf
+                  'cape-keyword
+                  'cape-file
+                  ;; #'lsp-completion-at-point
+                  ;; #'eglot-completion-at-point
+                  'cape-capf-buster
+                  'cape-dabbrev
+                  (cape-company-to-capf #'company-yasnippet)))))
 
-                         ;; vivado
-                         '("set_property" "add_files" "generate_target"
-                           "report_utilization"
-                           "report_timing_summary"
-                           "import_ip" "create_project"
-                           "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
-                           "get_nets" "font-lock-builtin-face" "create_generated_clock"
-                           "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
-                           "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
-                           "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
+  (add-hook 'tcl-mode-hook
+            (lambda ()
+              (setq-local completion-at-point-functions
+                          (list (cape-super-capf
+                                 'cape-dabbrev
+                                 'cape-keyword
+                                 'cape-file
+                                 (cape-company-to-capf #'company-yasnippet))))))
 
-                         tcl-keyword-list
-                         tcl-typeword-list
-                         tcl-builtin-list))))
+  (after! tcl
+    (with-eval-after-load 'cape-keyword
+      (add-to-list 'cape-keyword-list
+                   (append '(tcl-mode)
 
-(after! vhdl-mode
-  (with-eval-after-load 'cape-keyword
-    (add-to-list 'cape-keyword-list
-                 (append '(vhdl-mode)
-                         vhdl-keywords
-                         vhdl-types
-                         vhdl-attributes
-                         vhdl-enum-values
-                         vhdl-constants
-                         vhdl-functions
-                         vhdl-packages
-                         vhdl-directives))))
+                           ;; vivado
+                           '("set_property" "add_files" "generate_target"
+                             "report_utilization"
+                             "report_timing_summary"
+                             "import_ip" "create_project"
+                             "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
+                             "get_nets" "font-lock-builtin-face" "create_generated_clock"
+                             "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
+                             "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
+                             "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
+
+                           tcl-keyword-list
+                           tcl-typeword-list
+                           tcl-builtin-list))))
+
+  (after! vhdl-mode
+    (with-eval-after-load 'cape-keyword
+      (add-to-list 'cape-keyword-list
+                   (append '(vhdl-mode)
+                           vhdl-keywords
+                           vhdl-types
+                           vhdl-attributes
+                           vhdl-enum-values
+                           vhdl-constants
+                           vhdl-functions
+                           vhdl-packages
+                           vhdl-directives)))))
 
 ;;------------------------------------------------------------------------------
 ;; Company
