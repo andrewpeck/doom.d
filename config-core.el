@@ -132,19 +132,22 @@
       (if (null (x-list-fonts font))
           nil t))))
 
+(defun hd? ()
+  (> (display-pixel-width) 1920))
+
 ;; M-x describe-font
 (setq font-list
-      '(("Comic Code"      . 16)
-        ("Consolas"        . 20)
-        ("Source Code Pro" . 16)
-        ("JetBrains Mono"  . 16)
-        ("Terminus"        . 16)
-        ("Hack"            . 14)
-        ("Ubuntu Mono"     . 21)
-        ("Roboto Mono"     . 14)
-        ("Fira Code"       . 14)
-        ("Inconsolata"     . 18)
-        ("IBM Plex Mono"   . 16)))
+      `(("Hack"            . ,(if (hd?) 19 15))
+        ("Comic Code"      . ,(if (hd?) 16 19))
+        ("Consolas"        . ,(if (hd?) 20 19))
+        ("Source Code Pro" . ,(if (hd?) 16 19))
+        ("JetBrains Mono"  . ,(if (hd?) 16 19))
+        ("Roboto Mono"     . ,(if (hd?) 18 19))
+        ("Terminus"        . ,(if (hd?) 16 19))
+        ("Fira Code"       . ,(if (hd?) 14 19))
+        ("Inconsolata"     . ,(if (hd?) 18 19))
+        ("IBM Plex Mono"   . ,(if (hd?) 16 19))
+        ("Ubuntu Mono"     . ,(if (hd?) 21 19))))
 
 (setq variable-pitch-font-list
       '(("Comic Code" . 16)
