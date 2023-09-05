@@ -50,7 +50,7 @@
 (load!! "config-core")
 
 ;; start:sort
-(after! lsp (load!! "config-lsp"))
+(load!! "config-lsp")
 (after! org (load!! "config-org"))
 (load!! "config-align")
 (load!! "config-appearance")
