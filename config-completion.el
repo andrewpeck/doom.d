@@ -32,7 +32,7 @@
                  'cape-dabbrev
                  'cape-keyword
                  'cape-elisp-block
-                 'cape-files
+                 'cape-file
                  'lsp-completion-at-point)))
 
   (add-hook! 'vhdl-mode-hook
@@ -99,7 +99,6 @@
 ;;------------------------------------------------------------------------------
 ;; Company
 ;;------------------------------------------------------------------------------
-
 
 (after! company
 
