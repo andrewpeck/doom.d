@@ -73,7 +73,7 @@
 ;; Verilog
 ;;--------------------------------------------------------------------------------
 
-(add-hook! 'verilog-mode-hook
+(after! verilog
 
   (setq-local comment-multi-line t)
 
