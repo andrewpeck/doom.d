@@ -87,7 +87,7 @@
 
 (midnight-mode)                     ; Clear buffers at midnight
 (display-time-mode 1)               ; Enable time in the mode-line
-(global-subword-mode 1)             ; Iterate through CamelCase words
+(global-subword-mode 0)             ; Separate CamelCase words?
 ;; (modify-syntax-entry ?_ "w")     ; Treat underscore as part of a word to match vim behavior
 ;; (modify-syntax-entry ?- "w")     ; Treat dash as part of a word
 
