@@ -220,11 +220,6 @@
   (setup--check-for-path "~/notes")
   (setup--check-for-path "~/todo")
 
-  (princ "** Setting git settings\n")
-  (when (and (setup--shell-command-nil "git config --global user.name \"Andrew Peck\"")
-             (setup--shell-command-nil "git config --global user.email \"andrew.peck@cern.ch\""))
-    (princ "- [X] git username and email set\n"))
-
   (when (and (setup--shell-command-nil  "git config pull.rebase true")
              (setup--shell-command-nil  "git config rebase.autoStash true"))
     (princ "- [X] git autostash configured\n"))
