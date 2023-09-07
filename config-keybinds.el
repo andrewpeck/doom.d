@@ -113,34 +113,55 @@
   (interactive)
   (org-fill-paragraph t))
 
-(defun py-black () (interactive)
-       (save-buffer)
-       (print (shell-command-to-string (concat "black " (buffer-file-name))))
-       (revert-buffer))
+(defun py-black ()
+  "Format python file with black"
+  (interactive)
+  (save-buffer)
+  (if (not (executable-find "black"))
+      (message "Python Black not found. Please install (pip install black)")
+    (shell-command-on-region
+     (point-min) (point-max)            ; beginning and end of buffer
+     "black -"                          ; command and parameters
+     (current-buffer)                   ; output buffer
+     t                                  ; replace?
+     "*Python Black Error Buffer*"      ; name of the error buffer
+     t)))                               ; show error buffer?
 
-(defun verible-format () (interactive)
-       (save-buffer)
-       (print (shell-command-to-string (string-join `("verible-verilog-format"
-                                                      "--inplace "
-                                                      "--port_declarations_alignment    align"
-                                                      "--port_declarations_indentation  wrap"
-                                                      "--named_port_alignment           align"
-                                                      "--assignment_statement_alignment align"
-                                                      "--formal_parameters_alignment"   "align"
-                                                      "--try_wrap_long_lines"           "false"
-                                                      "--port_declarations_right_align_unpacked_dimensions true"
-                                                      "--struct_union_members_alignment align"
-                                                      "--formal_parameters_indentation  indent"
-                                                      "--named_parameter_alignment      align"
-                                                      "--named_parameter_indentation    indent"
-                                                      ,(buffer-file-name)) " ")))
-       (revert-buffer))
+(defun verible-format ()
+  (interactive)
+  (save-buffer)
+  (if (not (executable-find "verible-verilog-format"))
+      (message "verible-verilog-format not found")
+      (print (shell-command-to-string
+              (string-join `("verible-verilog-format"
+                             "--inplace "
+                             "--port_declarations_alignment    align"
+                             "--port_declarations_indentation  wrap"
+                             "--named_port_alignment           align"
+                             "--assignment_statement_alignment align"
+                             "--formal_parameters_alignment"   "align"
+                             "--try_wrap_long_lines"           "false"
+                             "--port_declarations_right_align_unpacked_dimensions true"
+                             "--struct_union_members_alignment align"
+                             "--formal_parameters_indentation  indent"
+                             "--named_parameter_alignment      align"
+                             "--named_parameter_indentation    indent"
+                             ,(buffer-file-name)) " "))))
+  (revert-buffer))
 
-(defun pyment () (interactive)
-       "Format buffer with python pyment"
-       (save-buffer)
-       (print (shell-command-to-string (concat "pyment -o google -w " (buffer-file-name))))
-       (revert-buffer))
+(defun pyment ()
+  "Format python file with pyment"
+  (interactive)
+  (save-buffer)
+  (if (not (executable-find "pyment"))
+      (message "Python pyment not found. Please install (pip install pyment)")
+    (shell-command-on-region
+     (point-min) (point-max)            ; beginning and end of buffer
+     "pyment -o google -w -"            ; command and parameters
+     (current-buffer)                   ; output buffer
+     t                                  ; replace?
+     "*Python Pyment Error Buffer*"     ; name of the error buffer
+     t)))                               ; show error buffer?
 
 ;; Backspace to switch to last buffer
 (defun er-switch-to-previous-buffer ()
