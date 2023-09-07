@@ -117,15 +117,17 @@
   "Format python file with black"
   (interactive)
   (save-buffer)
-  (if (not (executable-find "black"))
-      (message "Python Black not found. Please install (pip install black)")
-    (shell-command-on-region
-     (point-min) (point-max)            ; beginning and end of buffer
-     "black -"                          ; command and parameters
-     (current-buffer)                   ; output buffer
-     t                                  ; replace?
-     "*Python Black Error Buffer*"      ; name of the error buffer
-     t)))                               ; show error buffer?
+  (let ((pt (point)))
+    (if (not (executable-find "black"))
+        (error "Python Black not found. Please install (pip install black)")
+      (shell-command-on-region
+       (point-min) (point-max)          ; beginning and end of buffer
+       "black -"                        ; command and parameters
+       (current-buffer)                 ; output buffer
+       t                                ; replace?
+       "*Python Black Error Buffer*"    ; name of the error buffer
+       nil))  ; show error buffer?
+    (goto-char pt)))                            
 
 (defun verible-format ()
   (interactive)
