@@ -226,6 +226,19 @@
 ;; (after! gfm
 ;;   (setq initial-major-mode 'gfm-mode))
 
+(defun markdown->pdf ()
+  "Export markdown to PDF with Pandoc and open."
+  (interactive)
+  (let* ((base (file-name-base (buffer-file-name)))
+         (md (concat base ".md"))
+         (pdf (concat base ".pdf")))
+
+    (if (not (executable-find "pandoc"))
+        (message "Pandoc not installed!")
+      (progn
+        (message (shell-command-to-string (format "pandoc %s -o %s" md pdf)))
+        (if (f-file-p pdf)
+            (async-shell-command (format "xdg-open %s" pdf)))))))
 ;;-----------------------------------------------------------------------------------------
 ;; C mode
 ;;-----------------------------------------------------------------------------------------
