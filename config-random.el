@@ -516,6 +516,8 @@ char of the language you are editing"
                              (car word) current-location (cadr word)
                              (caddr word) current-location)))))
 
+(add-hook! 'org-mode-hook #'jinx-mode)
+(add-hook! 'markdown-mode-hook #'jinx-mode)
 
 (defun github-package ()
   (let ((clip (current-kill 0))

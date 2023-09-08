@@ -45,6 +45,7 @@
 (package! evil-leader)
 (package! fzf :recipe (:host github :repo "bling/fzf.el"))
 (package! graphviz-dot-mode)
+(package! jinx :recipe (:host github :repo "minad/jinx"))
 (package! logview)
 (package! lsp-grammarly)
 (package! magit-todos)
