@@ -1,28 +1,48 @@
 ;; -*- lexical-binding: t; -*-
 
-;;; Org Mode
+;;------------------------------------------------------------------------------
+;; Appearance
 ;;------------------------------------------------------------------------------
 
+;;  Turn on Bullets Mode
+;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+;; Org mode plain list bullets
+;; (font-lock-add-keywords
+;;  'org-mode
+;;  '(("^[[:space:]]*\\(-\\) "
+;;     0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
+
+
+;;------------------------------------------------------------------------------
+;; General
+;;------------------------------------------------------------------------------
+
+;; hooks
 (setq-default org-mode-hook nil)
 (add-hook 'org-mode-hook #'evil-org-mode)
 (add-hook 'org-mode-hook #'+word-wrap-mode)
 (add-hook 'org-mode-hook #'+org-enable-auto-reformat-tables-h)
 
+;; Add a hook to automatically encrypt entries before a file is saved to disk.
 (org-crypt-use-before-save-magic)
 
 (add-hook! 'org-mode-hook
-  (lambda () (setq-local user-full-name "A.P.")))
+  (setq-local user-full-name "A.P.")
+  (setq-local scroll-margin 1)) ; why???
 
 (setq org-tags-exclude-from-inheritance (list "crypt")
-      visual-fill-column-mode 1
       org-indent-indentation-per-level 2
       org-crypt-key nil
-      org-ditaa-jar-path "~/.doom.d/ditaa.jar"
-      org-plantuml-jar-path "~/.doom.d/plantuml.jar"
       org-crypt-disable-auto-save t
       org-export-in-background nil
       org-confirm-babel-evaluate nil
       org-display-remote-inline-images 'download
+
+      ;; visual-fill-column-mode 1
+      ;; org-ditaa-jar-path "~/.doom.d/ditaa.jar"
+      ;; org-plantuml-jar-path "~/.doom.d/plantuml.jar"
+
       ;; Latex Previews
       org-preview-latex-default-process 'dvisvgm
       org-format-latex-options (plist-put org-format-latex-options :scale 1.5)
@@ -41,245 +61,14 @@
       org-startup-with-inline-images t
       ;; (org-display-inline-images t t)
 
+      org-attach-id-dir "./images/screenshots"
+
       ;; Allow M-Ret to split list items
       org-M-RET-may-split-line t
       org-log-done 'time)
 
-(require 'org-web-tools)
-
-(defun www-get-page-title (url)
-  "Gets the title of a webpage at URL"
-  (org-web-tools--html-title (org-web-tools--get-url url)))
-
-(defun org-capture-url (url)
-  (insert (org-insert-link nil url (www-get-page-title url))))
-
-(defun org-capture-url-from-clipboard (url)
-  "Capture a URL from clipboard and paste it as an org link"
-  (interactive)
-  (org-capture-url (current-kill 0)))
-
-(defun org-archive-done ()
-  "Interactive wrapper for org-archive-all-done"
-  (interactive)
-  (org-archive-all-done))
-
-(defun md-shorten-indico-url ()
-  (org-shorten-indico-link)
-  (org-link->markdown))
-
-(defun org-link-get ()
-  "Extract URL from org-mode link and add return it"
-  (let* ((link (org-element-lineage (org-element-context) '(link) t))
-         (url (org-element-property :path link))) url))
-
-(defun org-edit-image ()
-  ""
-  (interactive)
-  (let ((link (org-link-get)))
-    (when link
-      (start-process "*gimp*" nil "setsid" "gimp" link))))
-
-(defun org-shorten-url-by-title ()
-  ""
-  (interactive)
-  (let* ((org-link-pos (org-in-regexp org-link-any-re))
-         (beg (car org-link-pos))
-         (end (cdr org-link-pos))
-         (url (buffer-substring-no-properties beg end))
-         (desc (www-get-page-title url)))
-    (when desc
-      (delete-region beg end)
-      (org-insert-link nil url desc))))
-
-(defun md-shorten-url-by-title ()
-  (interactive)
-  (org-shorten-url-by-title)
-  (org-link->markdown))
-
-(defun org-shorten-indico-url ()
-  "Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
-and shortens it into an org mode link consisting of just `some file`"
-
-  (interactive)
-
-  (let* ((org-link-pos (org-in-regexp org-link-any-re))
-         (beg (car org-link-pos))
-         (end (cdr org-link-pos))
-         (url (buffer-substring-no-properties beg end))
-         (desc (unless (string-blank-p url) url))
-         (desc (replace-regexp-in-string  "^.*\/" "" desc))
-         (desc (replace-regexp-in-string  "_" " " desc))
-         (desc (replace-regexp-in-string  "\%20" " " desc))
-         (desc (replace-regexp-in-string  "\s+" " " desc))
-         (desc (file-name-sans-extension desc)))
-
-    (when desc
-      (delete-region beg end)
-      (org-insert-link nil url desc))))
-
-;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
-(defun org-copy-region-as-markdown ()
-  "Copy the region (in Org) to the system clipboard as Markdown."
-  (interactive)
-  (if (use-region-p)
-      (let* ((region
-              (buffer-substring-no-properties
-               (region-beginning)
-               (region-end)))
-             (markdown
-              (org-export-string-as region 'md t '(:with-toc nil))))
-        (gui-set-selection 'CLIPBOARD markdown))))
-
-(defun pandoc-buffer-to-org ()
-  (interactive)
-  (shell-command
-   (concat "pandoc " (shell-quote-argument (buffer-file-name)) " -o "
-           (shell-quote-argument (file-name-sans-extension (buffer-file-name))) ".org")))
-
-(defun org-latex-preview-all ()
-  (interactive)
-  (org-latex-preview '(16)))
-
-(defun org-latex-preview-clear ()
-  (interactive)
-  (org-latex-preview '(64)))
-
-(defun org-table-export-all ()
-  "Export to CSV all named tables in current org mode file"
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (outline-show-all)
-    (let ((case-fold-search t))
-      (while (search-forward-regexp "#\\(\\+TBLNAME: \\|\\+TBLNAME: \\)\\(.*\\)" nil t)
-        (let ((name (match-string-no-properties 2)))
-          (progn
-            (forward-line)
-            (princ (format "Exporting table to %s.csv\n" name))
-            (org-table-export (format "%s.csv" name) "orgtbl-to-csv")))))))
-
-(defun org-rename-file-at-point ()
-  (interactive)
-  (save-buffer)
-  (let ((link (org-element-context)))
-    ;;(print link)
-    (if (string= (org-element-property :type link) "file")
-        (let ((old (org-element-property :path link)))
-          (progn
-            ;;(print (format "mv %s %s" old (read-string "New name:" old)))
-            (org-move-linked-file (file-name-directory (buffer-file-name))
-                                  old (read-string "New name:" old))
-            (revert-buffer))))))
-
-(defun org-move-linked-file (rootpath old new)
-  (if (file-exists-p new)
-      (error "Destination file exists!"))
-  (if (not (file-exists-p old))
-      (error "Source file does not exist!"))
-
-  (rename-file old new)
-
-  (let ((org-files (split-string
-                    (shell-command-to-string
-                     (format "find %s -name \"*.org\" -type f" rootpath)))))
-    (dolist (file org-files)
-      (if (not (string= "" (shell-command-to-string (format "rg -l %s %s" old file))))
-          (progn
-            (princ (format "Renaming in %s\n" file))
-            (shell-command (format "sed -i 's|%s|%s|g' %s" old new file)))))))
-
-
-;; Latex Export
-;;  Latex Export Class
-(with-eval-after-load 'ox-latex
-  (add-to-list
-   'org-latex-classes
-   `("article"
-     ,(concat
-       "\\documentclass[11pt]{article}\n"
-       "\\usepackage[utf8]{inputenc}\n"
-       "\\usepackage[T1]{fontenc}\n"
-       "\\usepackage{fixltx2e}\n"
-       "\\usepackage{fullpage}\n"
-       "\\usepackage{graphicx}\n"
-       "\\usepackage{longtable}\n"
-       "\\usepackage{float}\n"
-       "\\usepackage{wrapfig}\n"
-       "\\usepackage{rotating}\n"
-       "\\usepackage[normalem]{ulem}\n"
-       "\\usepackage{amsmath}\n"
-       "\\usepackage{textcomp}\n"
-       "\\usepackage{marvosym}\n"
-       "\\usepackage{wasysym}\n"
-       "\\usepackage{amssymb}\n"
-       "\\usepackage{hyperref}\n"
-       "%\\usepackage{mathpazo}\n"
-       "\\renewcommand{\\familydefault}{\\sfdefault}\n"
-       "\\usepackage{color}\n"
-       "\\usepackage{enumerate}\n"
-       "\\definecolor{bg}{rgb}{0.95,0.95,0.95}\n"
-       "\\tolerance=1000\n"
-       "[NO-DEFAULT-PACKAGES]\n"
-       "[PACKAGES]\n"
-       "[EXTRA]\n"
-       "\\linespread{1.1}\n"
-       "\\hypersetup{pdfborder=0 0 0}")
-
-     ("\\section{%s}"       . "\\section*{%s}")
-     ("\\subsection{%s}"    . "\\subsection*{%s}")
-     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-     ("\\paragraph{%s}"     . "\\paragraph*{%s}")
-     ("\\subparagraph{%s}"  . "\\subparagraph*{%s}"))))
-
-;; Appearance
-;;------------------------------------------------------------------------------
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (progn
-              (make-variable-buffer-local 'scroll-margin)
-              (setq scroll-margin 1))))
-
-;; normal evil-org-end-of-line is broken
-;; https://github.com/Somelauw/evil-org-mode/issues/50
-;; just use the regular evil mode.. there doesn't seem to be any downside
-(add-hook 'org-mode-hook
-          (lambda () (define-key evil-visual-state-map "$" #'evil-end-of-line)))
-
-(add-hook 'org-mode-hook
-          (lambda () (define-key evil-normal-state-map "zs" #'org-toggle-link-display)))
-
-;; (add-to-list 'load-path "~/Sync/org")
-
-;;(mapc 'load
-;;      '("org-sync" "org-sync-bb" "org-sync-github" "org-sync-gitlab"))
-
-(defun sort-all-org-entries ()
-  (interactive)
-  (let ((fun #'(lambda nil
-                 (condition-case nil
-                     (org-sort-entries nil ?o)
-                   (user-error t)))))
-    (org-map-entries fun)))
-
-
-;;  Turn on Bullets Mode
-;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-
-;; Org mode plain list bullets
-;; (font-lock-add-keywords
-;;  'org-mode
-;;  '(("^[[:space:]]*\\(-\\) "
-;;     0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
-
 (add-hook 'evil-org-agenda-mode-hook
           'evil-org-agenda-set-keys)
-
-
-;; only turn this on in org mode!!
-;; (when (boundp '+org-pretty-mode)
-;;   (+org-pretty-mode t))
 
 ;; (setq org-hide-emphasis-markers nil)
 (setq org-link-file-path-type 'relative
@@ -339,78 +128,9 @@ and shortens it into an org mode link consisting of just `some file`"
 (add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
 (add-to-list 'org-file-apps '("\\.odt\\'" . "xdg-open %s"))
 
-
-;; Org Image Attach
 ;;------------------------------------------------------------------------------
-
-(setq org-attach-id-dir "./images/screenshots")
-
-(defun org-remove-link-and-trash-linked-file ()
-  "Remove `org-mode' link at point and trash linked file."
-  (interactive)
-  (let* ((link (org-element-context))
-         (path (org-element-property :path link)))
-    (move-file-to-trash path)
-    (delete-region (org-element-property :begin link)
-                   (org-element-property :end link))))
-
-(defun ap/inline-org-inbox-link ()
-  (interactive)
-  (save-excursion
-    (let ((link nil)
-          (description nil))
-
-      (progn
-        (progn
-          (forward-line)
-          (end-of-line)
-          (push-mark (point) t t)
-          (move-beginning-of-line 1)
-          (setq link (buffer-substring-no-properties (region-beginning) (region-end)))
-          (setq link (replace-regexp-in-string "^- " "" link))
-          (forward-line -1)))
-
-      (progn
-        (end-of-line)
-        (push-mark (point) t t)
-        (re-search-backward "^\*+ ")
-        (re-search-forward " ")
-        (setq description (buffer-substring-no-properties (region-beginning) (region-end))))
-
-      (org-insert-link nil link description)
-
-      (replace-regexp-in-region "^\*+" "-" (line-beginning-position) (line-end-position))
-
-      (forward-line)
-      (beginning-of-line)
-      (kill-line)
-      (kill-line))))
-
-(defun ap/url->org ()
-  "Convert the URL at point into an Org mode formatted link. The
-  title of the page is retrieved from the web page"
-  (interactive)
-  (let* ((link (thing-at-point 'url))
-         (bounds (bounds-of-thing-at-point 'url))
-         (start (car bounds))
-         (end   (cdr bounds))
-         (description
-          (if (org-url-p link)
-              (www-get-page-title link) link)))
-    (when (and link description start end)
-      (delete-region start end)
-      (org-insert-link nil link description))))
-
-(defun ap/url->md ()
-  "Convert the URL at point into an md mode formatted link. The
-  title of the page is retrieved from the web page"
-  (interactive)
-  (ap/url->org)
-  (org-link->markdown))
-
-
-(use-package! org-download
-  :defer-incrementally t)
+;; Org Download
+;;------------------------------------------------------------------------------
 
 (after! org-download
   (setq-default
@@ -424,26 +144,108 @@ and shortens it into an org mode link consisting of just `some file`"
    org-download-dir               "download/"))
 
 ;;------------------------------------------------------------------------------
-;; Org roam
+;;  Org web tools + url parsing
 ;;------------------------------------------------------------------------------
 
-(after! org-roam
+(after! org-web-tools
+  (defun www-get-page-title (url)
+    "Gets the title of a webpage at URL"
+    (org-web-tools--html-title (org-web-tools--get-url url)))
 
-  (setq org-roam-db-autosync-mode t
-        org-roam-directory (file-truename "~/notes/")
-        org-roam-graph-extra-config '(("rankdir" . "RL"))
-        ;; (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
-        org-roam-graph-link-hidden-types '("file" "http" "https"))
+  (defun org-capture-url (url)
+    (insert (org-insert-link nil url (www-get-page-title url))))
 
-  ;; add a space before inserting a node for lists etc so it does
-  ;; not come out as -[link] but rather as - [link]
-  (advice-add 'org-roam-node-insert :before (lambda () (insert " ")))
-  (setq org-roam-db-location "~/.org-roam.db")
-  (setq org-roam-link-title-format "Org:%s"))
+  (defun org-capture-url-from-clipboard (url)
+    "Capture a URL from clipboard and paste it as an org link"
+    (interactive)
+    (org-capture-url (current-kill 0)))
 
-;;------------------------------------------------------------------------------
+
+  (defun ap/url->org ()
+    "Convert the URL at point into an Org mode formatted link. The
+  title of the page is retrieved from the web page"
+    (interactive)
+    (let* ((link (thing-at-point 'url))
+           (bounds (bounds-of-thing-at-point 'url))
+           (start (car bounds))
+           (end   (cdr bounds))
+           (description
+            (if (org-url-p link)
+                (www-get-page-title link) link)))
+      (when (and link description start end)
+        (delete-region start end)
+        (org-insert-link nil link description))))
+
+  (defun ap/url->md ()
+    "Convert the URL at point into an md mode formatted link. The
+  title of the page is retrieved from the web page"
+    (interactive)
+    (ap/url->org)
+    (org-link->markdown))
+
+  (defun md-shorten-indico-url ()
+    (org-shorten-indico-link)
+    (org-link->markdown))
+
+
+
+  (defun org-archive-done ()
+    "Interactive wrapper for org-archive-all-done"
+    (interactive)
+    (org-archive-all-done))
+
+
+  (defun org-link-get ()
+    "Extract URL from org-mode link and add return it"
+    (let* ((link (org-element-lineage (org-element-context) '(link) t))
+           (url (org-element-property :path link))) url))
+
+  (defun org-edit-image ()
+    ""
+    (interactive)
+    (let ((link (org-link-get)))
+      (when link
+        (start-process "*gimp*" nil "setsid" "gimp" link))))
+
+  (defun org-shorten-url-by-title ()
+    ""
+    (interactive)
+    (let* ((org-link-pos (org-in-regexp org-link-any-re))
+           (beg (car org-link-pos))
+           (end (cdr org-link-pos))
+           (url (buffer-substring-no-properties beg end))
+           (desc (www-get-page-title url)))
+      (when desc
+        (delete-region beg end)
+        (org-insert-link nil url desc))))
+
+  (defun md-shorten-url-by-title ()
+    (interactive)
+    (org-shorten-url-by-title)
+    (org-link->markdown))
+
+  (defun org-shorten-indico-url ()
+    "Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
+and shortens it into an org mode link consisting of just `some file`"
+
+    (interactive)
+
+    (let* ((org-link-pos (org-in-regexp org-link-any-re))
+           (beg (car org-link-pos))
+           (end (cdr org-link-pos))
+           (url (buffer-substring-no-properties beg end))
+           (desc (unless (string-blank-p url) url))
+           (desc (replace-regexp-in-string  "^.*\/" "" desc))
+           (desc (replace-regexp-in-string  "_" " " desc))
+           (desc (replace-regexp-in-string  "\%20" " " desc))
+           (desc (replace-regexp-in-string  "\s+" " " desc))
+           (desc (file-name-sans-extension desc)))
+
+      (when desc
+        (delete-region beg end)
+        (org-insert-link nil url desc)))))
+
 ;; Functions to Convert to/from org / markdown links
-;;------------------------------------------------------------------------------
 
 ;; taken from:
 ;; https://github.com/agzam/.doom.d/blob/main/modules/custom/org/autoload/custom.el#L181-L214
@@ -494,10 +296,281 @@ and shortens it into an org mode link consisting of just `some file`"
     (kill-new url)
     (message (concat "Copied URL: " url))))
 
+(defun org-remove-link-and-trash-linked-file ()
+  "Remove `org-mode' link at point and trash linked file."
+  (interactive)
+  (let* ((link (org-element-context))
+         (path (org-element-property :path link)))
+    (move-file-to-trash path)
+    (delete-region (org-element-property :begin link)
+                   (org-element-property :end link))))
 
-;; (eval-when-compile
-;;   (require 'easy-mmode)
-;;   (require 'ox))
+;;------------------------------------------------------------------------------
+;; conversions
+;;------------------------------------------------------------------------------
+
+;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
+(defun org-copy-region-as-markdown ()
+  "Copy the region (in Org) to the system clipboard as Markdown."
+  (interactive)
+  (if (use-region-p)
+      (let* ((region
+              (buffer-substring-no-properties
+               (region-beginning)
+               (region-end)))
+             (markdown
+              (org-export-string-as region 'md t '(:with-toc nil))))
+        (gui-set-selection 'CLIPBOARD markdown))))
+(defun pandoc-buffer-to-org ()
+  (interactive)
+  (shell-command
+   (concat "pandoc " (shell-quote-argument (buffer-file-name)) " -o "
+           (shell-quote-argument (file-name-sans-extension (buffer-file-name))) ".org")))
+
+;;------------------------------------------------------------------------------
+;; Latex
+;;------------------------------------------------------------------------------
+
+(defun org-latex-preview-all ()
+  (interactive)
+  (org-latex-preview '(16)))
+
+(defun org-latex-preview-clear ()
+  (interactive)
+  (org-latex-preview '(64)))
+
+;; Latex Export Class
+(with-eval-after-load 'ox-latex
+  (add-to-list
+   'org-latex-classes
+   `("article"
+     ,(concat
+       "\\documentclass[11pt]{article}\n"
+       "\\usepackage[utf8]{inputenc}\n"
+       "\\usepackage[T1]{fontenc}\n"
+       "\\usepackage{fixltx2e}\n"
+       "\\usepackage{fullpage}\n"
+       "\\usepackage{graphicx}\n"
+       "\\usepackage{longtable}\n"
+       "\\usepackage{float}\n"
+       "\\usepackage{wrapfig}\n"
+       "\\usepackage{rotating}\n"
+       "\\usepackage[normalem]{ulem}\n"
+       "\\usepackage{amsmath}\n"
+       "\\usepackage{textcomp}\n"
+       "\\usepackage{marvosym}\n"
+       "\\usepackage{wasysym}\n"
+       "\\usepackage{amssymb}\n"
+       "\\usepackage{hyperref}\n"
+       "%\\usepackage{mathpazo}\n"
+       "\\renewcommand{\\familydefault}{\\sfdefault}\n"
+       "\\usepackage{color}\n"
+       "\\usepackage{enumerate}\n"
+       "\\definecolor{bg}{rgb}{0.95,0.95,0.95}\n"
+       "\\tolerance=1000\n"
+       "[NO-DEFAULT-PACKAGES]\n"
+       "[PACKAGES]\n"
+       "[EXTRA]\n"
+       "\\linespread{1.1}\n"
+       "\\hypersetup{pdfborder=0 0 0}")
+
+     ("\\section{%s}"       . "\\section*{%s}")
+     ("\\subsection{%s}"    . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+     ("\\paragraph{%s}"     . "\\paragraph*{%s}")
+     ("\\subparagraph{%s}"  . "\\subparagraph*{%s}"))))
+
+
+;;------------------------------------------------------------------------------
+;; Table Functions
+;;------------------------------------------------------------------------------
+
+(defun org-table-export-all ()
+  "Export to CSV all named tables in current org mode file"
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (outline-show-all)
+    (let ((case-fold-search t))
+      (while (search-forward-regexp "#\\(\\+TBLNAME: \\|\\+TBLNAME: \\)\\(.*\\)" nil t)
+        (let ((name (match-string-no-properties 2)))
+          (progn
+            (forward-line)
+            (princ (format "Exporting table to %s.csv\n" name))
+            (org-table-export (format "%s.csv" name) "orgtbl-to-csv")))))))
+
+;;------------------------------------------------------------------------------
+;; Linked File Functions
+;;------------------------------------------------------------------------------
+
+(defun org-rename-file-at-point ()
+  (interactive)
+  (save-buffer)
+  (let ((link (org-element-context)))
+    ;;(print link)
+    (if (string= (org-element-property :type link) "file")
+        (let ((old (org-element-property :path link)))
+          (progn
+            ;;(print (format "mv %s %s" old (read-string "New name:" old)))
+            (org-move-linked-file (file-name-directory (buffer-file-name))
+                                  old (read-string "New name:" old))
+            (revert-buffer))))))
+
+(defun org-move-linked-file (rootpath old new)
+  (if (file-exists-p new)
+      (error "Destination file exists!"))
+  (if (not (file-exists-p old))
+      (error "Source file does not exist!"))
+
+  (rename-file old new)
+
+  (let ((org-files (split-string
+                    (shell-command-to-string
+                     (format "find %s -name \"*.org\" -type f" rootpath)))))
+    (dolist (file org-files)
+      (if (not (string= "" (shell-command-to-string (format "rg -l %s %s" old file))))
+          (progn
+            (princ (format "Renaming in %s\n" file))
+            (shell-command (format "sed -i 's|%s|%s|g' %s" old new file)))))))
+
+(defun org-report-dead-links ()
+  "Create a report of dead files in my org mode notes directory."
+  (interactive)
+  (shell-command (format "cd %s && ./find-dead-links.sh" org-directory))
+  (find-file (concat org-directory "/unused-links.org")))
+
+;;------------------------------------------------------------------------------
+;; Sorting
+;;------------------------------------------------------------------------------
+
+(defun +org-sort-all-org-entries ()
+  (interactive)
+  (let ((fun #'(lambda nil
+                 (condition-case nil
+                     (org-sort-entries nil ?o)
+                   (user-error t)))))
+    (org-map-entries fun)))
+
+(defun +org-sort-entries-recursive (&optional key)
+  "Call `org-sort-entries' recursively on tree at point.
+If KEY, use it; otherwise read key interactively."
+  (interactive)
+  (cl-macrolet ((moves-p (form)
+                  `(let ((pos-before (point)))
+                     ,form
+                     (/= pos-before (point)))))
+    (cl-labels ((sort-tree
+                  () (cl-loop do (when (children-p)
+                                   (save-excursion
+                                     (outline-next-heading)
+                                     (sort-tree))
+                                   (org-sort-entries nil key))
+                              while (moves-p (org-forward-heading-same-level 1))))
+                (children-p (&optional invisible)
+                  ;; Return non-nil if entry at point has child headings.
+                  ;; Only children are considered, not other descendants.
+                  ;; Code from `org-cycle-internal-local'.
+                  (save-excursion
+                    (let ((level (funcall outline-level)))
+                      (outline-next-heading)
+                      (and (org-at-heading-p t)
+                           (> (funcall outline-level) level))))))
+      (save-excursion
+        (save-restriction
+          (widen)
+          (unless key
+            ;; HACK: Call the sort function just to get the key, then undo its changes.
+            (cl-letf* ((old-fn (symbol-function 'read-char-exclusive))
+                       ((symbol-function 'read-char-exclusive)
+                        (lambda (&rest args)
+                          (setf key (apply #'funcall old-fn args)))))
+              ;; Sort the first heading and save the sort key.
+              (org-sort-entries))
+            (undo-only))
+          (cond ((org-before-first-heading-p)
+                 ;; Sort whole buffer. NOTE: This assumes the first heading is at level 1.
+                 (org-sort-entries nil key)
+                 (outline-next-heading)
+                 (cl-loop do (sort-tree)
+                          while (moves-p (org-forward-heading-same-level 1))))
+                ((org-at-heading-p)
+                 ;; Sort this heading.
+                 (sort-tree))
+                (t (user-error "Neither on a heading nor before first heading"))))))))
+
+
+(defun +org-sort-entries-recursive-multi (&optional keys)
+  "Call `+org-sort-entries-recursive'.
+If KEYS, call it for each of them; otherwise call interactively
+until \\[keyboard-quit] is pressed."
+  (interactive)
+  (if keys
+      (dolist (key keys)
+        (ap/org-sort-entries-recursive key))
+    (with-local-quit
+      ;; Not sure if `with-local-quit' is necessary, but probably a good
+      ;; idea in case of recursive edit.
+      (cl-loop while (progn
+                       (call-interactively #'+org-sort-entries-recursive) t)))))
+
+;;------------------------------------------------------------------------------
+;; 1
+;;------------------------------------------------------------------------------
+
+(defun ap/inline-org-inbox-link ()
+  (interactive)
+  (save-excursion
+    (let ((link nil)
+          (description nil))
+
+      (progn
+        (progn
+          (forward-line)
+          (end-of-line)
+          (push-mark (point) t t)
+          (move-beginning-of-line 1)
+          (setq link (buffer-substring-no-properties (region-beginning) (region-end)))
+          (setq link (replace-regexp-in-string "^- " "" link))
+          (forward-line -1)))
+
+      (progn
+        (end-of-line)
+        (push-mark (point) t t)
+        (re-search-backward "^\*+ ")
+        (re-search-forward " ")
+        (setq description (buffer-substring-no-properties (region-beginning) (region-end))))
+
+      (org-insert-link nil link description)
+
+      (replace-regexp-in-region "^\*+" "-" (line-beginning-position) (line-end-position))
+
+      (forward-line)
+      (beginning-of-line)
+      (kill-line)
+      (kill-line))))
+
+;;------------------------------------------------------------------------------
+;; Org roam
+;;------------------------------------------------------------------------------
+
+(after! org-roam
+
+  (setq org-roam-db-autosync-mode t
+        org-roam-directory (file-truename "~/notes/")
+        org-roam-graph-extra-config '(("rankdir" . "RL"))
+        ;; (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
+        org-roam-graph-link-hidden-types '("file" "http" "https"))
+
+  ;; add a space before inserting a node for lists etc so it does
+  ;; not come out as -[link] but rather as - [link]
+  (advice-add 'org-roam-node-insert :before (lambda () (insert " ")))
+  (setq org-roam-db-location "~/.org-roam.db")
+  (setq org-roam-link-title-format "Org:%s"))
+
+
+;;------------------------------------------------------------------------------
+;; Unpackaged
+;;------------------------------------------------------------------------------
 
 ;; https://github.com/alphapapa/unpackaged.el#download-and-attach-remote-files
 
@@ -560,19 +633,19 @@ except uses heading titles instead of random numbers."
   "Return new reference for DATUM that is unique in CACHE."
   (cl-macrolet
       ((inc-suffixf (place)
-                    `(progn
-                       (string-match (rx bos
-                                         (minimal-match (group (1+ anything)))
-                                         (optional "--" (group (1+ digit)))
-                                         eos)
-                                     ,place)
-                       ;; HACK: `s1' instead of a gensym.
-                       (-let* (((s1 suffix) (list (match-string 1 ,place)
-                                                  (match-string 2 ,place)))
-                               (suffix (if suffix
-                                           (string-to-number suffix)
-                                         0)))
-                         (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
+         `(progn
+            (string-match (rx bos
+                              (minimal-match (group (1+ anything)))
+                              (optional "--" (group (1+ digit)))
+                              eos)
+                          ,place)
+            ;; HACK: `s1' instead of a gensym.
+            (-let* (((s1 suffix) (list (match-string 1 ,place)
+                                       (match-string 2 ,place)))
+                    (suffix (if suffix
+                                (string-to-number suffix)
+                              0)))
+              (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
     (let* ((title (org-element-property :raw-value datum))
            (ref (url-hexify-string (substring-no-properties title)))
            (parent (org-element-property :parent datum)))
@@ -624,6 +697,10 @@ Current buffer is assumed unless specified by BUFFER"
 (defun org-global-prop-value (key)
   "Get global org property KEY of current buffer."
   (org-element-property :value (car (org-global-props key))))
+
+;;------------------------------------------------------------------------------
+;; Publishing
+;;------------------------------------------------------------------------------
 
 (setq org-default-publish-dest "nfs:/home/public")
 
@@ -684,96 +761,9 @@ local and remote servers."
            (message "rsync finished, cleaning up...")
            (delete-file outfile)))))))
 
-(defun ap/shrink-this-image ()
-  (interactive)
-
-  (let* ((name (buffer-file-name))
-         (name-base (file-name-base name))
-         (ext (downcase (file-name-extension name)))
-         (new-name (concat name-base "-small.jpg")))
-
-    ;; convert to jpg
-    (when (not (or (string= ".jpeg" ext)
-                   (string= ".jpg" ext)))
-
-      (message "Converting to jpg...")
-      (shell-command (format "convert %s %s.jpg" name name-base))
-      (setq name (concat name-base ".jpg")))
-
-    ;; shrink
-    (message "Resizing $i...")
-    (shell-command (format  "convert -resize 1024X768 %s %s-small.jpg" name name-base))
-
-    ;; return the new-name
-    new-name))
-
-(defun ap/shrink-and-replace-this-image ()
-  (interactive)
-  (let ((new-name (ap/shrink-this-image))))
-  (when new-name
-    (rename-file new-name  (buffer-file-name))))
-
-(defun ap/org-sort-entries-recursive (&optional key)
-  "Call `org-sort-entries' recursively on tree at point.
-If KEY, use it; otherwise read key interactively."
-  (interactive)
-  (cl-macrolet ((moves-p (form)
-                         `(let ((pos-before (point)))
-                            ,form
-                            (/= pos-before (point)))))
-    (cl-labels ((sort-tree
-                 () (cl-loop do (when (children-p)
-                                  (save-excursion
-                                    (outline-next-heading)
-                                    (sort-tree))
-                                  (org-sort-entries nil key))
-                             while (moves-p (org-forward-heading-same-level 1))))
-                (children-p (&optional invisible)
-                            ;; Return non-nil if entry at point has child headings.
-                            ;; Only children are considered, not other descendants.
-                            ;; Code from `org-cycle-internal-local'.
-                            (save-excursion
-                              (let ((level (funcall outline-level)))
-                                (outline-next-heading)
-                                (and (org-at-heading-p t)
-                                     (> (funcall outline-level) level))))))
-      (save-excursion
-        (save-restriction
-          (widen)
-          (unless key
-            ;; HACK: Call the sort function just to get the key, then undo its changes.
-            (cl-letf* ((old-fn (symbol-function 'read-char-exclusive))
-                       ((symbol-function 'read-char-exclusive)
-                        (lambda (&rest args)
-                          (setf key (apply #'funcall old-fn args)))))
-              ;; Sort the first heading and save the sort key.
-              (org-sort-entries))
-            (undo-only))
-          (cond ((org-before-first-heading-p)
-                 ;; Sort whole buffer. NOTE: This assumes the first heading is at level 1.
-                 (org-sort-entries nil key)
-                 (outline-next-heading)
-                 (cl-loop do (sort-tree)
-                          while (moves-p (org-forward-heading-same-level 1))))
-                ((org-at-heading-p)
-                 ;; Sort this heading.
-                 (sort-tree))
-                (t (user-error "Neither on a heading nor before first heading"))))))))
-
-(defun ap/org-sort-entries-recursive-multi (&optional keys)
-  "Call `ap/org-sort-entries-recursive'.
-If KEYS, call it for each of them; otherwise call interactively
-until \\[keyboard-quit] is pressed."
-  (interactive)
-  (if keys
-      (dolist (key keys)
-        (ap/org-sort-entries-recursive key))
-    (with-local-quit
-      ;; Not sure if `with-local-quit' is necessary, but probably a good
-      ;; idea in case of recursive edit.
-      (cl-loop while (progn
-                       (call-interactively #'ap/org-sort-entries-recursive)
-                       t)))))
+;;------------------------------------------------------------------------------
+;; Appearance
+;;------------------------------------------------------------------------------
 
 (setq org-html-xml-declaration
       '(("html" . "")
@@ -846,6 +836,19 @@ until \\[keyboard-quit] is pressed."
         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 
+;; (setq org-startup-indented nil)
+;; (setq-default org-indent-mode nil)
+(setq org-modern-table nil)
+(with-eval-after-load 'org (global-org-modern-mode))
+(setq org-modern-checkbox
+      '((?X  . "✓")
+        (?-  . "␣")
+        (?\s . "☐")))
+
+;;------------------------------------------------------------------------------
+;; Helpers
+;;------------------------------------------------------------------------------
+
 (defun org-procrastinate-all ()
 
   "Carry forward uncompleted tasks.
@@ -892,12 +895,6 @@ Updates overdue tasks to be due today."
                 (org-deadline nil "+1")
               (org-deadline nil "."))))))))
 
-(defun org-report-dead-links ()
-  "Create a report of dead files in my org mode notes directory."
-  (interactive)
-  (shell-command (format "cd %s && ./find-dead-links.sh" org-directory))
-  (find-file (concat org-directory "/unused-links.org")))
-
 (defun ap/org-log-weight ()
 
   "Log today's weight in my notes file."
@@ -935,21 +932,42 @@ Updates overdue tasks to be due today."
 
         (princ weight)))))
 
-;; (setq org-startup-indented nil)
-;; (setq-default org-indent-mode nil)
-(setq org-modern-table nil)
-(with-eval-after-load 'org (global-org-modern-mode))
-(setq org-modern-checkbox
-      '((?X  . "✓")
-        (?-  . "␣")
-        (?\s . "☐")))
+
+(defun +org-shrink-this-image ()
+  (interactive)
+
+  (let* ((name (buffer-file-name))
+         (name-base (file-name-base name))
+         (ext (downcase (file-name-extension name)))
+         (new-name (concat name-base "-small.jpg")))
+
+    ;; convert to jpg
+    (when (not (or (string= ".jpeg" ext)
+                   (string= ".jpg" ext)))
+
+      (message "Converting to jpg...")
+      (shell-command (format "convert %s %s.jpg" name name-base))
+      (setq name (concat name-base ".jpg")))
+
+    ;; shrink
+    (message "Resizing $i...")
+    (shell-command (format  "convert -resize 1024X768 %s %s-small.jpg" name name-base))
+
+    ;; return the new-name
+    new-name))
+
+(defun +org-shrink-and-replace-this-image ()
+  (interactive)
+  (let ((new-name (+org-shrink-this-image)))
+    (when new-name
+      (rename-file new-name  (buffer-file-name)))))
 
 ;; https://github.com/doomemacs/doomemacs/pull/7002
-(defun +org/return ()
-  "Call `org-return' then indent (if `electric-indent-mode' is on)."
-  (interactive)
-  (if (and (modulep! :completion corfu)
-           corfu--frame
-           (frame-visible-p corfu--frame))
-      (corfu-insert)
-    (org-return electric-indent-mode)))
+;; (defun +org/return ()
+;;   "Call `org-return' then indent (if `electric-indent-mode' is on)."
+;;   (interactive)
+;;   (if (and (modulep! :completion corfu)
+;;            corfu--frame
+;;            (frame-visible-p corfu--frame))
+;;       (corfu-insert)
+;;     (org-return electric-indent-mode)))

@@ -225,6 +225,16 @@ between the two most recently open buffers."
   (evil-define-key nil org-mode-map
     (kbd "TAB") #'org-cycle)
 
+  ;; normal evil-org-end-of-line is broken
+  ;; https://github.com/Somelauw/evil-org-mode/issues/50
+  ;; just use the regular evil mode.. there doesn't seem to be any downside
+  (evil-define-key 'visual org-mode-map
+    (kbd "$") #'evil-end-of-line)
+  ;; (add-hook 'org-mode-hook (lambda () (define-key evil-visual-state-map "$" #'evil-end-of-line)))
+
+  (evil-define-key 'normal org-mode-map
+    (kbd "zs") #'org-toggle-link-display)
+
   ;; (evil-define-key nil org-mode-map
   ;;   (kbd "M-RET")
   ;;   (lambda ()
