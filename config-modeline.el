@@ -36,7 +36,7 @@ STATUS defaults to `flycheck-last-status-change' if omitted or
 nil."
   (pcase (or status flycheck-last-status-change)
     (`not-checked "∄")
-    (`no-checker "⛌")
+    (`no-checker "✗")
     (`running "⟳")
     (`errored "‼")
     (`finished
