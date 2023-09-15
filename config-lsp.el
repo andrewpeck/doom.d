@@ -45,16 +45,17 @@
   ;;   :major-modes '(verilog-mode)
   ;;   :priority -1))
 
-  ;; (lsp-register-client
-  ;;  (make-lsp-client
-  ;;   :new-connection (lsp-stdio-connection
-  ;;                    '("verible-verilog-ls" "--rules_config_search" "true"))
-  ;;   :major-modes '(verilog-mode)
-  ;;   :priority -1))
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection
+                     '("verible-verilog-ls" "--rules_config_search" "true"))
+    :major-modes '(verilog-mode)
+    :priority -1))
   )
 
-(after! lsp-mode
-  (setq lsp-clients-svlangserver-launchConfiguration "/tools/verilator -sv --lint-only -Wall"
-        lsp-clients-svlangserver-formatCommand "/tools/verible-verilog-format"))
+;; (after! lsp-mode
+;;   (setq lsp-clients-svlangserver-launchConfiguration "/tools/verilator -sv --lint-only -Wall"
+;;   lsp-clients-svlangserver-formatCommand "/tools/verible-verilog-format")
+;;   )
 
-(add-hook! 'verilog-mode-hook (lsp))
+;; (add-hook! 'verilog-mode-hook (lsp))
