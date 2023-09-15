@@ -73,11 +73,17 @@
 ;; Verilog
 ;;--------------------------------------------------------------------------------
 
-(after! verilog
+;; just wrap verilog-do-indent in a save excursion so it doesn't jump around.... uhg
+(add-hook! 'verilog-mode-hook
+  (setq-local indent-line-function
+              (lambda ()
+                (save-excursion #'verilog-indent-line-relative)))
+  (setq-local comment-multi-line t))
 
-  (setq-local comment-multi-line t)
+(after! verilog-mode
 
   (setq verilog-align-ifelse t
+        verilog-tab-always-indent nil
         verilog-auto-delete-trailing-whitespace t
         verilog-auto-inst-param-value t
         verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
@@ -98,8 +104,10 @@
 
   (defun verilog-align-ports ()
     (interactive)
-    (er/expand-region 2)
-    (align-paren (region-beginning) (region-end)))
+    (save-excursion
+      (beginning-of-line)
+      (er/expand-region 2)
+      (align-paren (region-beginning) (region-end))))
 
 ;;------------------------------------------------------------------------------
 ;; VHDL Mode

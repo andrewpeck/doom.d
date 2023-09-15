@@ -32,8 +32,17 @@
                  'cape-dabbrev
                  'cape-keyword
                  'cape-elisp-block
+                 'cape-elisp-symbol
+                 'cape-history
                  'cape-file
-                 'lsp-completion-at-point)))
+                 )))
+
+  (add-hook! 'verilog-mode-hook
+    (setq-local completion-at-point-functions
+                (list (cape-super-capf
+                       'cape-dabbrev
+                       'cape-keyword
+                       (cape-company-to-capf #'company-yasnippet)))))
 
   (add-hook! 'vhdl-mode-hook
     (setq-local completion-at-point-functions
