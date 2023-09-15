@@ -2,6 +2,7 @@
 
 ;; Disabled packages
 (package! hl-line :disable t)
+(package! lsp :disable t)
 (package! powerline :disable t)
 (package! popwin :disable t)
 (package! popwin :disable t)
@@ -46,7 +47,6 @@
 (package! graphviz-dot-mode)
 (package! jinx :recipe (:host github :repo "minad/jinx"))
 (package! logview)
-(package! lsp-grammarly)
 (package! magit-todos)
 (package! org-modern :recipe (:host github :repo "minad/org-modern"))
 (package! plz)

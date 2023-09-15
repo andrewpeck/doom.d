@@ -91,7 +91,7 @@
         ;; helps you navigate your code and documentation
         (lookup +dictionary +docsets)
 
-        (lsp)
+        (lsp +eglot)
         (magit +forge)      ; a git porcelain for Emacs
         make                ; run make tasks from Emacs
         pdf                 ; pdf enhancements
