@@ -36,6 +36,7 @@
 (package! all-the-icons-dired)
 (package! all-the-icons-ibuffer)
 (package! benchmark-init)
+(package! cape :pin "b3eb9a8" :recipe (:host github :repo "minad/cape"))
 (package! crontab-mode)
 (package! delight)
 (package! dwim-shell-command :recipe (:host github :repo "xenodium/dwim-shell-command"))
