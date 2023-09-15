@@ -7,7 +7,7 @@
 \`timescale 1ns / 1ps
 \`default_nettype none
 
-module xgmii_baser_dec_64 # (
+module `(file-name-base (buffer-file-name))` # (
     parameter X = 0)
 (
     input clk,

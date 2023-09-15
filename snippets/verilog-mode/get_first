@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: get_first
+# key: get_first
+# --
+
+function [$clog2($1)-1:0] get_first_idx (input [${1:N}-1:0] x);
+  begin
+    get_first_idx = 0;
+    for (int i=$1-1; i>0; i=i-1) begin
+      if (x[i])
+        get_first_idx = $clog2($1)'(i);
+    end
+  end
+endfunction

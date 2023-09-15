@@ -1,13 +1,11 @@
 # name: function
-# key: func
+# key: function
 # group: verilog
 # --
-/*! Function Description
- *
- *  \param <name> <description>
- *
- *  \return <return value description>
- */
-function ${2:Type} ${1:Name}();
-   $0
-endfunction : $1
+function [7:0] getbyte (input [15:0] address);
+begin
+// code to extract low-order byte from addressed word
+. . .
+getbyte = result_expression;
+end
+endfunction
