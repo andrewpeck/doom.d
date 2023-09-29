@@ -120,16 +120,16 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           (highlight-yellow              `(:background "#f6fecd" :extend t))
 
           ;; hyperlinks
-          (link                          `(:family "Numbus Mono Ps" :weight bold   :underline t :foreground ,sf-blue2))
-          (link-no-underline             `(:family "Numbus Mono Ps" :weight bold                :foreground ,sf-blue2))
+          (link                          `(:weight bold   :underline t :foreground ,sf-blue2))
+          (link-no-underline             `(:weight bold                :foreground ,sf-blue2))
 
           ;; mail
-          (mail-header-name              `(:family "Sans Serif" :weight normal :foreground "#a3a3a2"))
-          (mail-header-other             `(:family "Sans Serif" :slant normal :foreground "#666666"))
+          (mail-header-name              `(:weight normal :foreground "#a3a3a2"))
+          (mail-header-other             `(:slant normal :foreground "#666666"))
           (mail-read                     `(:foreground "#8c8c8c"))
           (mail-read-high                `(:foreground "#808080"))
           (mail-ticked                   `(:foreground ,sf-red))
-          (mail-to                       `(:family "Sans Serif" :underline nil :foreground ,sf-blue3))
+          (mail-to                       `(:underline nil :foreground ,sf-blue3))
           (mail-unread                   `(:weight bold :foreground ,sf-black))
           (mail-unread-high              `(:weight bold :foreground "#135985"))
 
@@ -151,7 +151,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
           (region                       `(:background ,sf-blue5 :extend t))
           (shadow                       `(:foreground ,sf-gray))
           (string                       `(:foreground ,sf-blue1)) ; affects the color in the mode bar of the project as well as other strings
-          (subject                      `(:foreground ,sf-black :family "Sans Serif" :weight bold ))
+          (subject                      `(:foreground ,sf-black :weight bold ))
           (symlink                      `(:foreground ,sf-blue4))
           (tab                          `(:foreground "#e8e8e8" :background ,sf-white))
           (trailing                     `(:foreground "#e8e8e8" :background "#ffffab"))
@@ -337,15 +337,15 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(gnus-group-news-6             ((t (:weight bold :foreground "gray50"))))
        `(gnus-group-news-6-empty       ((t (:foreground "#808080"))))
        `(gnus-header-content           ((t ,mail-header-other)))
-       `(gnus-header-from              ((t (:family "Sans Serif" :foreground ,sf-black))))
+       `(gnus-header-from              ((t (:foreground ,sf-black))))
        `(gnus-header-name              ((t ,mail-header-name)))
-       `(gnus-header-newsgroups        ((t (:family "Sans Serif" :foreground "#3399cc"))))
+       `(gnus-header-newsgroups        ((t (:foreground "#3399cc"))))
        `(gnus-header-subject           ((t ,subject)))
        `(gnus-picon                    ((t (:foreground "yellow" :background ,sf-white))))
        `(gnus-picon-xbm                ((t (:foreground "yellow" :background ,sf-white))))
        `(gnus-server-closed            ((t (:slant italic :foreground "blue" :background ,sf-white))))
        `(gnus-server-denied            ((t (:weight bold :foreground sf-red :background ,sf-white))))
-       `(gnus-server-opened            ((t (:family "Sans Serif" :foreground ,sf-white :foreground "#466bd7"))))
+       `(gnus-server-opened            ((t (:foreground ,sf-white :foreground "#466bd7"))))
        `(gnus-signature                ((t (:slant italic :foreground "#8b8d8e"))))
        `(gnus-splash                   ((t (:foreground "#ff8c00"))))
        `(gnus-summary-cancelled        ((t ,cancel)))
@@ -371,8 +371,8 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(message-header-subject    ((t ,subject)))
        `(message-header-to         ((t ,mail-to)))
        `(message-cited-text        ((t (:foreground "#5050b0" :background "#f6f6f6"))))
-       `(message-separator         ((t (:family "Sans Serif" :weight normal :foreground "#bdc2c6"))))
-       `(message-header-newsgroups ((t (:family "Sans Serif" :foreground "#3399cc"))))
+       `(message-separator         ((t (:weight normal :foreground "#bdc2c6"))))
+       `(message-header-newsgroups ((t (:foreground "#3399cc"))))
        `(message-header-xheader    ((t ,mail-header-other)))
        `(message-mml               ((t (:foreground "forest green"))))
 
@@ -529,9 +529,9 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(custom-comment ((t (:background "gray85"))))
        `(custom-comment-tag ((t (:foreground "blue4"))))
        `(custom-documentation ((t (nil))))
-       `(custom-face-tag ((t (:family "Sans Serif" :height 1.2 :weight bold))))
+       `(custom-face-tag ((t (:height 1.2 :weight bold))))
        `(custom-group-tag ((t (:height 1.2 :weight bold :foreground "blue1"))))
-       `(custom-group-tag-1 ((t (:family "Sans Serif" :height 1.2 :weight bold :foreground "red1"))))
+       `(custom-group-tag-1 ((t (:height 1.2 :weight bold :foreground "red1"))))
        `(custom-invalid ((t (:foreground "yellow" :background "red"))))
        `(custom-link ((t (:underline t :foreground "blue1"))))
        `(custom-modified ((t (:foreground ,sf-white :background "blue"))))
@@ -541,7 +541,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(custom-state ((t (:foreground "green4"))))
        `(custom-themed ((t (:foreground ,sf-white :background "blue1"))))
        `(custom-variable-button ((t (:weight bold :underline t))))
-       `(custom-variable-tag ((t (:family "Sans Serif" :height 1.0 :weight bold :foreground "blue1"))))
+       `(custom-variable-tag ((t (:height 1.0 :weight bold :foreground "blue1"))))
        `(custom-visibility ((t ,link)))
 
        ;; diff
@@ -730,7 +730,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(ilog-load-face       ((t (:foreground "#ba36a5"))))
        `(ilog-message-face    ((t (:foreground "#808080"))))
 
-       `(info-file         ((t (:family "Sans Serif" :height 1.8 :weight bold :box (:line-width 1 :color "#0000cc") :foreground "cornflower blue" :background "LightSteelBlue1"))))
+       `(info-file         ((t (:height 1.8 :weight bold :box (:line-width 1 :color "#0000cc") :foreground "cornflower blue" :background "LightSteelBlue1"))))
        `(info-header-node  ((t (:underline t :foreground "orange")))) ; nodes in header
        `(info-header-xref  ((t (:underline t :foreground "dodger blue")))) ; cross references in header
        `(info-index-match  ((t (:weight bold :foreground nil :background "#fdbd33")))) ; when using `i'
@@ -797,7 +797,7 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
       ;`(magit-item-mark         ((t ,marked-line)))
       ;`(magit-log-head-label    ((t (:box (:line-width 1 :color "blue" :style nil)))))
       ;`(magit-log-tag-label     ((t (:box (:line-width 1 :color "#00cc00" :style nil)))))
-      ;`(magit-section-title     ((t (:family "Sans Serif" :height 1.8 :weight bold :foreground "cornflower blue" :inherit nil))))
+      ;`(magit-section-title     ((t (:height 1.8 :weight bold :foreground "cornflower blue" :inherit nil))))
       ;`(magit-header-line   ((t (:foreground ,sf-red :background "#e6e6e6"))))
       ;`(magit-section-highlight ((t (:weight bold :foreground ,sf-blue ))))
      ;;`(magit-section-highlight ((t (:box (:line-width 1 :color "#00cc00" :style nil)))))
