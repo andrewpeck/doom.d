@@ -3,6 +3,17 @@
 ;;------------------------------------------------------------------------------
 
 (after! eglot
+
+  (setq eglot-workspace-configuration
+        '((pyright
+           (plugins
+            (mccabe (enabled . t)) ; Remove this if you want mccabe.
+            (pycodestyle (enabled . nil))
+            (flake8 (enabled . t))))))
+
+  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pyright-langserver" "--stdio")))
+
                                         ; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=61373
   ;; pyright generates html :(
   ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=61373
