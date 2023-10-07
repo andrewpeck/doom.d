@@ -21,6 +21,11 @@
 
 (after! cape
 
+;; If t, check all other buffers (subject to dabbrev ignore rules).
+  ;; Any other non-nil value only checks some other buffers, as per
+  ;; dabbrev-select-buffers-function.
+  (setq cape-dabbrev-check-other-buffers nil)
+
   (defun cape-add-yasnippet ()
     (add-to-list 'completion-at-point-functions
                  (cape-company-to-capf #'company-yasnippet)))
