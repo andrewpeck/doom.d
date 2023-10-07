@@ -48,7 +48,7 @@
 (defun ap/get-light-theme ()
   (if (not (display-graphic-p)) 'summerfruit
     (pcase (downcase (system-name))
-      ("apeck-len01"  'summerfruit)
+      ("apeck-len01"  'hima)
       ("pepper"       'doom-one-light)
       ("larry"        'summerfruit)
       ("strange"      'summerfruit)
