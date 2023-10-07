@@ -50,7 +50,6 @@
 (load!! "config-core")
 
 ;; start:sort
-(load!! "config-lsp")
 (after! org (load!! "config-org"))
 (load!! "config-align")
 (load!! "config-appearance")
@@ -62,6 +61,7 @@
 (load!! "config-git")
 (load!! "config-keybinds")
 (load!! "config-langs")
+(load!! "config-lsp")
 (load!! "config-modeline")
 (load!! "config-random")
 (load!! "config-scad")

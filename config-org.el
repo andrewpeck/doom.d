@@ -148,6 +148,7 @@
 ;;------------------------------------------------------------------------------
 
 (after! org-web-tools
+
   (defun www-get-page-title (url)
     "Gets the title of a webpage at URL"
     (org-web-tools--html-title (org-web-tools--get-url url)))
