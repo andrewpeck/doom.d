@@ -539,3 +539,11 @@ char of the language you are editing"
 (defun reindent-buffer-with-vim ()
   (interactive)
   (shell-command (format "vim --clean -c 'set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab' -c 'normal gg=G' -c 'wq' %s" buffer-file-name)))
+
+(defun qrc (replace-str)
+  "Do query-replace current word with"
+  (interactive (list (read-string (format  "Query-replace %s: " (symbol-at-point))
+                                  (symbol-name (symbol-at-point)))))
+  (save-excursion
+    (query-replace (symbol-name (symbol-at-point)) replace-str
+                   t (point-min) (point-max))))
