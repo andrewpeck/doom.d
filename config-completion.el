@@ -17,7 +17,7 @@
 ;; cape-sgml: Complete Unicode char from SGML entity, e.g., &alpha.
 ;; cape-rfc1345: Complete Unicode char using RFC 1345 mnemonics.
 
-(setq corfu-auto-delay 0.5)
+(setq corfu-auto-delay 0.3)
 
 (after! cape
 
