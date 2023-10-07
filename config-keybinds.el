@@ -114,20 +114,37 @@
   (org-fill-paragraph t))
 
 (defun py-black ()
-  "Format python file with black"
+  "Format python file with black."
+  (interactive)
+  (save-buffer)
+  (let ((pt (point)))
+    (save-excursion
+      (if (not (executable-find "black"))
+          (error "Python Black not found. Please install (pip install black)")
+        (shell-command-on-region
+         (point-min) (point-max)        ; beginning and end of buffer
+         "black -l 100 -"               ; command and parameters
+         (current-buffer)               ; output buffer
+         t                              ; replace?
+         "*Python Black Error Buffer*"  ; name of the error buffer
+         nil))) ; show error buffer?
+    (goto-char pt)))
+
+(defun autopep ()
+  "Format python file with autopep."
   (interactive)
   (save-buffer)
   (let ((pt (point)))
     (if (not (executable-find "black"))
-        (error "Python Black not found. Please install (pip install black)")
+        (error "Autopep not found. Please install (pip install autopep8)")
       (shell-command-on-region
-       (point-min) (point-max)          ; beginning and end of buffer
-       "black -"                        ; command and parameters
-       (current-buffer)                 ; output buffer
-       t                                ; replace?
-       "*Python Black Error Buffer*"    ; name of the error buffer
-       nil))  ; show error buffer?
-    (goto-char pt)))                            
+       (point-min) (point-max)         ; beginning and end of buffer
+       "autopep8 -"                    ; command and parameters
+       (current-buffer)                ; output buffer
+       t                               ; replace?
+       "*Python Autopep Error Buffer*" ; name of the error buffer
+       nil))
+    (goto-char pt)))                   ; show error buffer?
 
 (defun verible-format ()
   (interactive)
