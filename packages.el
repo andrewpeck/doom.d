@@ -2,6 +2,7 @@
 
 ;; Disabled packages
 (package! hl-line :disable t)
+(package! diredfl :disable t)
 (package! lsp :disable t)
 (package! powerline :disable t)
 (package! popwin :disable t)
