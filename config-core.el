@@ -58,7 +58,7 @@
   (interactive)
   (pcase dark-mode
     ('auto (let* ((hour  (string-to-number (format-time-string "%H")))
-                  (darkp (not  (member hour (number-sequence 7 16)))))
+                  (darkp (not  (member hour (number-sequence 7 15)))))
              (if darkp
                  (set-dark-mode)
                (set-light-mode))))
