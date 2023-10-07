@@ -35,7 +35,9 @@
 
 (after! browse-at-remote
   (add-to-list 'browse-at-remote-remote-type-regexps
-               '("^gitlab\\.cern.ch$" . "gitlab")))
+               '(:host "^gitlab\\.cern.ch$" :type "gitlab"))
+  (add-to-list 'browse-at-remote-remote-type-regexps
+               '(:host "^gitlab\\.psiquantum\\.com$" :type "gitlab")))
 
 (after! forge
 
@@ -43,10 +45,8 @@
   (setq forge-topic-list-limit '(60 . 0))
 
   (add-to-list 'forge-alist
-               '("gitlab.cern.ch"
-                 "gitlab.cern.ch/api/v4"
-                 "gitlab.cern.ch"
-                 forge-gitlab-repository))
+               '("gitlab.psiquantum.com" "gitlab.psiquantum.com/api/v4" "gitlab.psiquantum.com" forge-gitlab-repository)
+               '("gitlab.cern.ch" "gitlab.cern.ch/api/v4" "gitlab.cern.ch" forge-gitlab-repository))
 
   (setq forge-owned-accounts
         '(("andrewpeck")
