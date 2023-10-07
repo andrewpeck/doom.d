@@ -1,0 +1,5 @@
+generate
+for (genvar ${1:i}=0; $1<${2:MAX}; $1=$1+1) begin
+  $3
+end
+endgenerate

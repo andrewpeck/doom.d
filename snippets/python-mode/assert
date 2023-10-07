@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: assert
+# key: assert
+# --
+assert $1 == $2, f"$3"

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: initial
+# key: initial
+# --
+initial begin
+end
