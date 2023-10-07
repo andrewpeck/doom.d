@@ -33,22 +33,22 @@
 ;; doom-material, doom-manegarm, doom-one, doom-spacegray, doom-material
 ;; doom-gruvbox, doom-oceanic-next, doom-tomorrow-night
 
-(setq dark-mode 'dark) ;; 'auto 'dark 'light
-
 (defun ap/get-dark-theme ()
-  (if (not (display-graphic-p)) 'doom-gruvbox
+  (if (not (or (daemonp)
+               (display-graphic-p)))
+      'doom-gruvbox
     (pcase (downcase (system-name))
       ;; doom-laserwave doom-one doom-gruvbox
       ("pepper"      'doom-laserwave)
       ("larry"       'doom-oceanic-next)
-      ("strange"     'doom-spacegray)
-      ("apeck-len01" 'doom-spacegray)
-      (_             'doom-one))))
+      ("strange"     'doom-spacegrey)
+      ("apeck-len01" 'doom-spacegrey)
+      (_             'doom-spacegrey))))
 
 (defun ap/get-light-theme ()
   (if (not (display-graphic-p)) 'summerfruit
     (pcase (downcase (system-name))
-      ("apeck-len01"  'doom-one-light)
+      ("apeck-len01"  'summerfruit)
       ("pepper"       'doom-one-light)
       ("larry"        'summerfruit)
       ("strange"      'summerfruit)
@@ -58,10 +58,10 @@
   (interactive)
   (pcase dark-mode
     ('auto (let* ((hour  (string-to-number (format-time-string "%H")))
-           (darkp (not  (member hour (number-sequence 7 16)))))
-      (if darkp
-          (set-dark-mode)
-        (set-light-mode))))
+                  (darkp (not  (member hour (number-sequence 7 16)))))
+             (if darkp
+                 (set-dark-mode)
+               (set-light-mode))))
     ('dark (set-dark-mode))
     ('light (set-light-mode))))
 
@@ -111,11 +111,16 @@
                    (symbol-name dark-mode)
                    (symbol-name doom-theme))))
 
-(when (or (not (boundp 'theme-timer))
-          (not theme-timer))
-  ;; (cancel-function-timers #'synchronize-theme)
-  (setq theme-timer
-        (run-with-timer 0 3600 'synchronize-theme)))
+;; (when (or (not (boundp 'theme-timer))
+;;           (not theme-timer))
+;;   ;; (cancel-function-timers #'synchronize-theme)
+;;   (setq theme-timer
+;;         (run-with-timer 0 3600 'synchronize-theme)))
+
+(when (not (boundp 'dark-mode))
+  (setq dark-mode 'auto)) ;; 'auto 'dark 'light
+
+(synchronize-theme)
 
 ;; https://gml.noaa.gov/grad/solcalc/solareqns.PDF
 ;; https://en.wikipedia.org/wiki/Sunrise_equation
@@ -124,7 +129,7 @@
 ;;; FONT
 ;;------------------------------------------------------------------------------
 
-(defun font-exists-p (font)
+(defun font-exists? (font)
   "Check if FONT exists"
   (if (functionp 'doom-font-exists-p)
       (doom-font-exists-p font)
@@ -136,40 +141,56 @@
   (> (display-pixel-width) 1920))
 
 ;; M-x describe-font
-(setq font-list
-      `(("Hack"            . ,(if (hd?) 19 15))
-        ("Comic Code"      . ,(if (hd?) 16 19))
-        ("Consolas"        . ,(if (hd?) 20 19))
-        ("Source Code Pro" . ,(if (hd?) 16 19))
-        ("JetBrains Mono"  . ,(if (hd?) 16 19))
-        ("Roboto Mono"     . ,(if (hd?) 18 19))
-        ("Terminus"        . ,(if (hd?) 16 19))
-        ("Fira Code"       . ,(if (hd?) 14 19))
-        ("Inconsolata"     . ,(if (hd?) 18 19))
-        ("IBM Plex Mono"   . ,(if (hd?) 16 19))
-        ("Ubuntu Mono"     . ,(if (hd?) 21 19))))
+(defun font-list ()
+  ""
+  `(("Julia Mono"       . ,(if (hd?) 21 16))
+    ("Inconsolata"      . ,(if (hd?) 19 18))
+    ("Roboto Mono"      . ,(if (hd?) 18 19))
+    ("Hack"             . ,(if (hd?) 19 15))
+    ("Noto Mono"        . ,(if (hd?) 19 15))
+    ("DejaVu Sans Mono" . ,(if (hd?) 19 17))
+    ("Consolas"         . ,(if (hd?) 20 19))
+    ("Comic Code"       . ,(if (hd?) 16 19))
+    ("Source Code Pro"  . ,(if (hd?) 16 19))
+    ("JetBrains Mono"   . ,(if (hd?) 16 19))
+    ("Terminus"         . ,(if (hd?) 16 19))
+    ("Fira Code"        . ,(if (hd?) 14 19))
+    ("IBM Plex Mono"    . ,(if (hd?) 16 19))
+    ("Ubuntu Mono"      . ,(if (hd?) 21 19))))
 
-(setq variable-pitch-font-list
-      '(("Comic Code" . 16)
-        ("Fira Code"  . 17)
-        ("Cantarell"  . 18)
-        ("Calibri"    . 18)
-        ("Arial"      . 17)))
+(defun variable-pitch-font-list ()
+  ""
+  '(("Comic Code" . 16)
+    ("Fira Code"  . 17)
+    ("Cantarell"  . 18)
+    ("Calibri"    . 18)
+    ("Arial"      . 17)))
 
-(cl-dolist (my-font font-list)
-  (when (font-exists-p (car my-font))
-    (progn
-      (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
-            doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
-            doom-serif-font (font-spec :family (car my-font) :weight 'light))
-      (cl-return t))))
+(defun ap/update-font-list ()
 
-(cl-dolist (my-font variable-pitch-font-list)
-  (when (font-exists-p (car my-font))
-    (progn
-      (setq doom-variable-pitch-font
-            (font-spec :family (car my-font) :size (cdr my-font)))
-      (cl-return t))))
+  (cl-dolist (my-font (font-list))
+    (when (font-exists? (car my-font))
+      (progn
+        (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
+              doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
+              doom-serif-font (font-spec :family (car my-font) :weight 'light))
+        (cl-return t))))
+
+  (cl-dolist (my-font (variable-pitch-font-list))
+    (when (font-exists? (car my-font))
+      (progn
+        (setq doom-variable-pitch-font
+              (font-spec :family (car my-font) :size (cdr my-font)))
+        (cl-return t)))))
+
+(ap/update-font-list)
+
+;; synchronize font periodically since the damn monitor changes so much
+(when (or (not (boundp 'font-timer))
+          (not font-timer))
+  (setq font-timer
+        (run-with-timer 0 60
+                        (lambda () (progn (ap/update-font-list) (doom/reload-font))))))
 
 (use-package! delight
   :defer-incrementally t
