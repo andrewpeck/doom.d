@@ -107,9 +107,13 @@
   (setup--check-for-exe "ag" :ubuntu "silversearcher-ag" :dnf "the_silver_searcher")
 
   ;; python
+  (setup--check-for-exe "autopep8" :cmd "pip install autopep8" :noroot t)
+  (setup--check-for-exe "isort" :cmd "pip install isort" :noroot t)
   (setup--check-for-exe "pip3" :ubuntu "python3-pip" :dnf "python3-pip")
   (setup--check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
-  (setup--check-for-exe "isort" :cmd "pip install isort" :noroot t)
+  (setup--check-for-exe "pyimport" :cmd "pip install pyimport" :noroot t)
+  (setup--check-for-exe "pyment" :cmd "pip install pyment" :noroot t)
+  (setup--check-for-exe "pyright" :url "https://github.com/microsoft/pyright" :cmd "pip install pyright" :noroot t)
   (setup--check-for-exe "pytest" :cmd "pip install pytest" :noroot t)
   (setup--check-for-exe "wordcloud_cli" :cmd "pip install wordcloud" :noroot t)
 
@@ -137,15 +141,15 @@
 
   ;; markdown
   (setup--check-for-exe "markdownlint"
-                 :url "https://github.com/igorshubovych/markdownlint-cli"
-                 :cmd "sudo npm install -g markdownlint-cli")
+                        :url "https://github.com/igorshubovych/markdownlint-cli"
+                        :cmd "sudo npm install -g markdownlint-cli")
   (setup--check-for-exe "grip" :cmd "pip install grip" :noroot t)
 
   ;; c/c++
   (setup--check-for-exe "bear"
-                 :url "https://github.com/rizsotto/Bear"
-                 :ubuntu "bear"
-                 :dnf "bear")
+                        :url "https://github.com/rizsotto/Bear"
+                        :ubuntu "bear"
+                        :dnf "bear")
   (setup--check-for-exe "ccls" )
   (setup--check-for-exe "libtool" :ubuntu "libtool-bin")
 
@@ -168,16 +172,8 @@
 
   ;; node
   (setup--check-for-exe "node" :noroot t
-                 :ubuntu "curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo apt-get install -y nodejs")
+                        :ubuntu "curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && sudo apt-get install -y nodejs")
   (setup--check-for-exe "vl2svg" :cmd "sudo npm install vega-lite vega-cli canvas")
-
-  ;; python
-  (setup--check-for-exe "pyright" :url "https://github.com/microsoft/pyright" :cmd "pip install pyright" :noroot t)
-  (setup--check-for-exe "black" :cmd "pip install black" :noroot t)
-  (setup--check-for-exe "pyment" :cmd "pip install pyment" :noroot t)
-  (setup--check-for-exe "pyimport" :cmd "pip install pyimport" :noroot t)
-  (setup--check-for-exe "isort" :cmd "pip install isort" :noroot t)
-  (setup--check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
 
   ;; bash
   (setup--check-for-exe "shellcheck" :dnf "ShellCheck" :ubuntu "shellcheck")
@@ -195,6 +191,7 @@
   (setup--check-for-exe "act" :cmd "cd ~/ && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash")
   (setup--check-for-exe "htop" :dnf "htop" :ubuntu "htop")
   (setup--check-for-exe "aspell" :dnf "aspell" :ubuntu "aspell")
+  (setup--check-for-exe "unoconv" :dnf "unoconv" :ubuntu "unoconv") ; for emacs doc conversions
   (setup--check-for-exe "pandoc" :dnf "pandoc" :ubuntu "pandoc")
   (setup--check-for-exe "cmake" :ubuntu "cmake" :dnf "cmake")
   (setup--check-for-exe "cloc" :ubuntu "cloc" :dnf "cloc")
