@@ -40,6 +40,7 @@
 (package! elfeed :recipe (:host github :repo "skeeto/elfeed") :pin "55fb162fa27e71b88effa59a83c57842e262b00f" )
 (package! emojify :pin "1b726412f19896abf5e4857d4c32220e33400b55")
 (package! evil-collection :recipe (:host github :repo "emacs-evil/evil-collection") :pin "499415799e982c03b2557150df0c33293cbe41c7")
+(package! browse-at-remote :recipe (:host github :repo "rmuslimov/browse-at-remote") :pin "76aa27dfd469fcae75ed7031bb73830831aaccbf")
 (package! evil-leader :pin "39f7014bcf8b36463e0c7512c638bda4bac6c2cf")
 (package! flycheck :recipe (:host github :repo "flycheck/flycheck") :pin "e56e30d8c66ffc9776d07740658d3b542c1a8e21")
 (package! fzf :recipe (:host github :repo "bling/fzf.el") :pin "3a55b983921c620fb5a2cc811f42aa4daaad8266")
