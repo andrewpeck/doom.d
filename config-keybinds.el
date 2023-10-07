@@ -274,7 +274,7 @@ between the two most recently open buffers."
 
   ;; Bindings to open files
   (evil-define-key '(normal motion) 'global
-    (kbd "C-t")   #'open-todo
+    (kbd "C-S-t") #'open-todo
     (kbd "C-S-b") #'open-timesheet)
 
   ;; Jump back and forth through files, time, and space with arrow keys
