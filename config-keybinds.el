@@ -192,7 +192,7 @@ between the two most recently open buffers."
 (defun open-todo ()
   "Open my todo file"
   (interactive)
-  (find-file "~/work/todo/todo.org"))
+  (find-file +org-capture-todo-file))
 
 (defun org-agenda-and-todo ()
   "Open the full org agenda + todo"
