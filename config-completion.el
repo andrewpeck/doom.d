@@ -19,95 +19,92 @@
 
 (setq corfu-auto-delay 0.3)
 
-(after! cape
-
 ;; If t, check all other buffers (subject to dabbrev ignore rules).
-  ;; Any other non-nil value only checks some other buffers, as per
-  ;; dabbrev-select-buffers-function.
-  (setq cape-dabbrev-check-other-buffers nil)
+;; Any other non-nil value only checks some other buffers, as per
+;; dabbrev-select-buffers-function.
+(setq cape-dabbrev-check-other-buffers nil)
 
-  (defun cape-add-yasnippet ()
-    (add-to-list 'completion-at-point-functions
-                 (cape-company-to-capf #'company-yasnippet)))
+(defun cape-add-yasnippet ()
+  (add-to-list 'completion-at-point-functions
+               (cape-company-to-capf #'company-yasnippet)))
 
-  (add-hook! 'emacs-lisp-mode-hook
-    (setq-local completion-at-point-functions
-                (list
-                 (cape-company-to-capf #'company-yasnippet)
-                 'cape-elisp-symbol
-                 'cape-keyword
-                 'cape-dabbrev
-                 'cape-history
-                 'cape-file)))
+(add-hook! 'emacs-lisp-mode-hook
+  (setq-local completion-at-point-functions
+              (list
+               (cape-company-to-capf #'company-yasnippet)
+               'cape-elisp-symbol
+               'cape-keyword
+               'cape-dabbrev
+               'cape-history
+               'cape-file)))
 
-  (add-hook! 'verilog-mode-hook
-    (setq-local completion-at-point-functions
-                (list (cape-super-capf
-                       'cape-dabbrev
-                       'cape-keyword
-                       (cape-company-to-capf #'company-yasnippet)))))
+(add-hook! 'verilog-mode-hook
+  (setq-local completion-at-point-functions
+              (list (cape-super-capf
+                     'cape-dabbrev
+                     'cape-keyword
+                     (cape-company-to-capf #'company-yasnippet)))))
 
-  (add-hook! 'vhdl-mode-hook
-    (setq-local completion-at-point-functions
-                (list (cape-super-capf
-                       'cape-dabbrev
-                       'cape-keyword
-                       (cape-company-to-capf #'company-yasnippet)))))
+(add-hook! 'vhdl-mode-hook
+  (setq-local completion-at-point-functions
+              (list (cape-super-capf
+                     'cape-dabbrev
+                     'cape-keyword
+                     (cape-company-to-capf #'company-yasnippet)))))
 
-  (add-hook! 'python-mode-hook
-    (setq-local completion-at-point-functions
-                (list
-                 (cape-super-capf
-                  'cape-keyword
-                  'cape-file
-                  ;; #'lsp-completion-at-point
-                  ;; #'eglot-completion-at-point
-                  'cape-capf-buster
-                  'cape-dabbrev
-                  (cape-company-to-capf #'company-yasnippet)))))
+(add-hook! 'python-mode-hook
+  (setq-local completion-at-point-functions
+              (list
+               (cape-super-capf
+                'cape-keyword
+                'cape-file
+                ;; #'lsp-completion-at-point
+                ;; #'eglot-completion-at-point
+                'cape-capf-buster
+                'cape-dabbrev
+                (cape-company-to-capf #'company-yasnippet)))))
 
-  (add-hook 'tcl-mode-hook
-            (lambda ()
-              (setq-local completion-at-point-functions
-                          (list (cape-super-capf
-                                 'cape-dabbrev
-                                 'cape-keyword
-                                 'cape-file
-                                 (cape-company-to-capf #'company-yasnippet))))))
+(add-hook! 'tcl-mode-hook
+  (setq-local completion-at-point-functions
+              (list (cape-super-capf
+                     'cape-dabbrev
+                     'cape-keyword
+                     'cape-file
+                     (cape-company-to-capf #'company-yasnippet)))))
 
+(after! tcl
+  (add-to-list 'cape-keyword-list
+               (append '(tcl-mode)
+
+                       ;; vivado
+                       '("set_property" "add_files" "generate_target"
+                         "report_utilization"
+                         "report_timing_summary"
+                         "import_ip" "create_project"
+                         "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
+                         "get_nets" "font-lock-builtin-face" "create_generated_clock"
+                         "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
+                         "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
+                         "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
+
+                       tcl-keyword-list
+                       tcl-typeword-list
+                       tcl-builtin-list))
+  (add-to-list 'cape-keyword-list
+               (append '(verilog-mode) verilog-keywords)))
+
+(after! vhdl-mode
   (with-eval-after-load 'cape-keyword
     (add-to-list 'cape-keyword-list
-                 (append '(tcl-mode)
-
-                         ;; vivado
-                         '("set_property" "add_files" "generate_target"
-                           "report_utilization"
-                           "report_timing_summary"
-                           "import_ip" "create_project"
-                           "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
-                           "get_nets" "font-lock-builtin-face" "create_generated_clock"
-                           "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
-                           "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
-                           "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
-
-                         tcl-keyword-list
-                         tcl-typeword-list
-                         tcl-builtin-list))
-    (add-to-list 'cape-keyword-list
-                 (append '(verilog-mode) verilog-keywords)))
-
-  (after! vhdl-mode
-    (with-eval-after-load 'cape-keyword
-      (add-to-list 'cape-keyword-list
-                   (append '(vhdl-mode)
-                           vhdl-keywords
-                           vhdl-types
-                           vhdl-attributes
-                           vhdl-enum-values
-                           vhdl-constants
-                           vhdl-functions
-                           vhdl-packages
-                           vhdl-directives)))))
+                 (append '(vhdl-mode)
+                         vhdl-keywords
+                         vhdl-types
+                         vhdl-attributes
+                         vhdl-enum-values
+                         vhdl-constants
+                         vhdl-functions
+                         vhdl-packages
+                         vhdl-directives))))
 
 ;;------------------------------------------------------------------------------
 ;; Company
