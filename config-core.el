@@ -111,11 +111,11 @@
                    (symbol-name dark-mode)
                    (symbol-name doom-theme))))
 
-;; (when (or (not (boundp 'theme-timer))
-;;           (not theme-timer))
-;;   ;; (cancel-function-timers #'synchronize-theme)
-;;   (setq theme-timer
-;;         (run-with-timer 0 3600 'synchronize-theme)))
+(when (or (not (boundp 'theme-timer))
+          (not theme-timer))
+  ;; (cancel-function-timers #'synchronize-theme)
+  (setq theme-timer
+        (run-with-timer 0 3600 'synchronize-theme)))
 
 (when (not (boundp 'dark-mode))
   (setq dark-mode 'auto)) ;; 'auto 'dark 'light
