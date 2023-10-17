@@ -24,7 +24,8 @@
   (all-the-icons-ibuffer-mode 1))
 
 ;; Theme
-(add-to-list 'custom-theme-load-path (expand-file-name "~/.doom.d/themes/"))
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "~/.doom.d/themes/"))
 
 ;;------------------------------------------------------------------------------
 ;; Automatic theme setting
