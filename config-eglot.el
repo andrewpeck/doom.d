@@ -20,8 +20,11 @@
   ;; (add-hook 'python-mode-hook
   ;;           (lambda ()
   ;;             ))
-  (setq eglot-prefer-plaintext t)
+
   (setq eldoc-echo-area-prefer-doc-buffer t
+        eglot-prefer-plaintext t
+        eglot-events-buffer-size 0
+        eglot-autoshutdown t
         eldoc-echo-area-use-multiline-p nil)
 
   (dolist (provider '(:hoverProvider :documentHighlightProvider))
