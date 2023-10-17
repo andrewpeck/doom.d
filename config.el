@@ -49,6 +49,8 @@
 (load!! "custom")
 (load!! "config-core")
 
+(setq doom-scratch-dir doom-user-dir)
+
 ;; start:sort
 (after! org (load!! "config-org"))
 (load!! "config-align")
