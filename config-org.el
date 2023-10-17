@@ -79,7 +79,7 @@
       org-agenda-span 2
       org-attach-id-dir "./images/"
       org-agenda-files (list "~/todo")
-      org-default-notes-file "~/todo/todo.org"
+      org-default-notes-file "~/todo/notes.org"
       +org-capture-todo-file "~/todo/todo.org"
       +org-capture-meetings-file "~/todo/meetings.org"
 
@@ -110,9 +110,9 @@
          (file+headline +org-capture-todo-file "Ideas")
          "** IDEA %?\n%U")
 
-        ("i" "Note" entry
-         (file+headline +org-capture-todo-file "To do")
-         "** NOTE %?\n%U")
+        ("n" "Note" entry
+         (file+headline org-default-notes-file "Notes")
+         "** %?\n%U")
 
         ("a" "capture-clipboard" entry
          ;; %i == body
@@ -147,7 +147,9 @@
 ;;  Org web tools + url parsing
 ;;------------------------------------------------------------------------------
 
-(after! org-web-tools
+(use-package! org-web-tools
+
+  :custom
 
   (defun www-get-page-title (url)
     "Gets the title of a webpage at URL"
@@ -187,8 +189,6 @@
   (defun md-shorten-indico-url ()
     (org-shorten-indico-link)
     (org-link->markdown))
-
-
 
   (defun org-archive-done ()
     "Interactive wrapper for org-archive-all-done"
