@@ -34,7 +34,7 @@
    (t (call-interactively fn))))
 
 ;; (setq affe-find-command "rg --color=never --files")
-(setq affe-find-command "fd --color=never")
+(setq affe-find-command "fd --color=never -L")
 
 (defun affe-find-home    () (interactive) (affe-find "~/"))
 (defun affe-find-work    () (interactive) (affe-find "~/work"))
