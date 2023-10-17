@@ -279,6 +279,10 @@ between the two most recently open buffers."
 
   ;; Jump back and forth through files, time, and space with arrow keys
   (evil-define-key nil 'global
+    (kbd "C-t") 'evil-jump-backward)
+
+  ;; Jump back and forth through files, time, and space with arrow keys
+  (evil-define-key nil 'global
     (kbd "<mouse-8>") 'evil-jump-backward
     (kbd "<mouse-9>") 'evil-jump-forward)
 
