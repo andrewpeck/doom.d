@@ -11,8 +11,13 @@
   (setq evil-want-C-i-jump t)
 
   ;; https://github.com/doomemacs/doomemacs/issues/6478
-  ;; (evil-select-search-module 'evil-search-module 'evil-search)
-  (evil-select-search-module 'evil-search-module 'isearch)
+  ;; Configuration A
+  (setq org-fold-core-style 'overlays)
+  (evil-select-search-module 'evil-search-module 'evil-search)
+
+  ;; Configuration B
+  ;; (setq org-fold-core-style 'text-properties)
+  ;; (evil-select-search-module 'evil-search-module 'isearch)
 
   ;; for some reason this makes org tables really really slow
   (advice-remove 'set-window-buffer #'ad-Advice-set-window-buffer)
