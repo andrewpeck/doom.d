@@ -147,25 +147,26 @@
     (goto-char pt)))                   ; show error buffer?
 
 (defun verible-format ()
+  "Format verilog file with verible."
   (interactive)
   (save-buffer)
   (if (not (executable-find "verible-verilog-format"))
       (message "verible-verilog-format not found")
-      (print (shell-command-to-string
-              (string-join `("verible-verilog-format"
-                             "--inplace "
-                             "--port_declarations_alignment    align"
-                             "--port_declarations_indentation  wrap"
-                             "--named_port_alignment           align"
-                             "--assignment_statement_alignment align"
-                             "--formal_parameters_alignment"   "align"
-                             "--try_wrap_long_lines"           "false"
-                             "--port_declarations_right_align_unpacked_dimensions true"
-                             "--struct_union_members_alignment align"
-                             "--formal_parameters_indentation  indent"
-                             "--named_parameter_alignment      align"
-                             "--named_parameter_indentation    indent"
-                             ,(buffer-file-name)) " "))))
+    (print (shell-command-to-string
+            (string-join `("verible-verilog-format"
+                           "--inplace "
+                           "--port_declarations_alignment    align"
+                           "--port_declarations_indentation  wrap"
+                           "--named_port_alignment           align"
+                           "--assignment_statement_alignment align"
+                           "--formal_parameters_alignment"   "align"
+                           "--try_wrap_long_lines"           "false"
+                           "--port_declarations_right_align_unpacked_dimensions true"
+                           "--struct_union_members_alignment align"
+                           "--formal_parameters_indentation  indent"
+                           "--named_parameter_alignment      align"
+                           "--named_parameter_indentation    indent"
+                           ,(buffer-file-name)) " "))))
   (revert-buffer))
 
 (defun pyment ()
