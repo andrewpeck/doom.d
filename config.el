@@ -74,6 +74,9 @@
 (load!! "passwords")
 ;; end:sort
 
+(make-variable-buffer-local 'after-save-hook)
+(make-variable-buffer-local 'write-contents-functions)
+
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)
 ;; eval: (add-hook 'kill-buffer-hook (lambda () (sort-elisp-block) (save-buffer)) nil t)
