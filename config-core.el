@@ -41,7 +41,7 @@
     (pcase (downcase (system-name))
       ;; doom-laserwave doom-one doom-gruvbox
       ("pepper"      'doom-laserwave)
-      ("larry"       'doom-oceanic-next)
+      ("larry"       'doom-spacegrey)
       ("strange"     'doom-spacegrey)
       ("apeck-len01" 'doom-spacegrey)
       (_             'doom-spacegrey))))
@@ -146,12 +146,12 @@
   ""
   `(("Julia Mono"       . ,(if (hd?) 21 16))
     ("Inconsolata"      . ,(if (hd?) 19 18))
-    ("Roboto Mono"      . ,(if (hd?) 18 19))
+    ("Comic Code"       . ,(if (hd?) 22 19))
+    ("Roboto Mono"      . ,(if (hd?) 22 19))
     ("Hack"             . ,(if (hd?) 19 15))
     ("Noto Mono"        . ,(if (hd?) 19 15))
     ("DejaVu Sans Mono" . ,(if (hd?) 19 17))
     ("Consolas"         . ,(if (hd?) 20 19))
-    ("Comic Code"       . ,(if (hd?) 16 19))
     ("Source Code Pro"  . ,(if (hd?) 16 19))
     ("JetBrains Mono"   . ,(if (hd?) 16 19))
     ("Terminus"         . ,(if (hd?) 16 19))
