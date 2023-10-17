@@ -52,17 +52,17 @@
                      'cape-keyword
                      (cape-company-to-capf #'company-yasnippet)))))
 
-(add-hook! 'python-mode-hook
-  (setq-local completion-at-point-functions
-              (list
-               (cape-super-capf
-                'cape-keyword
-                'cape-file
-                ;; #'lsp-completion-at-point
-                ;; #'eglot-completion-at-point
-                'cape-capf-buster
-                'cape-dabbrev
-                (cape-company-to-capf #'company-yasnippet)))))
+(dolist (mode '(python-ts-mode-hook python-mode-hook))
+  (add-hook! mode
+    (setq-local completion-at-point-functions
+                (list
+                 (cape-super-capf
+                  'cape-keyword
+                  'cape-file
+                  'eglot-completion-at-point
+                  'cape-capf-buster
+                  'cape-dabbrev
+                  (cape-company-to-capf #'company-yasnippet))))))
 
 (add-hook! 'tcl-mode-hook
   (setq-local completion-at-point-functions
