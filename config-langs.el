@@ -83,6 +83,7 @@
 
   (setq verilog-align-ifelse t
         verilog-tab-always-indent nil
+        verilog-align-typedef-regexp (concat "\\<" verilog-identifier-re "_\\(t\\)\\>")  ;; https://github.com/veripool/verilog-mode/issues/1823
         verilog-auto-delete-trailing-whitespace t
         verilog-auto-inst-param-value t
         verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
@@ -101,12 +102,12 @@
         verilog-indent-level-module 2
         verilog-tab-to-comment nil))
 
-  (defun verilog-align-ports ()
-    (interactive)
-    (save-excursion
-      (beginning-of-line)
-      (er/expand-region 2)
-      (align-paren (region-beginning) (region-end))))
+(defun verilog-align-ports ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (er/expand-region 2)
+    (align-paren (region-beginning) (region-end))))
 
 ;;------------------------------------------------------------------------------
 ;; VHDL Mode
@@ -168,7 +169,7 @@
   (defun vhdl-self-op (op)
     (let ((sym (if (region-active-p)
                    (buffer-substring-no-properties (region-beginning) (region-end))
-                   (symbol-at-point))))
+                 (symbol-at-point))))
       (save-excursion
         (when sym
           (forward-line)
