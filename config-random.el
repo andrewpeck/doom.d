@@ -40,6 +40,8 @@
 ;;             (git-gutter-mode +1)
 ;;             (remove-hook 'after-save-hook #'+vc-gutter-init-maybe-h 'local)))))))
 
+(apheleia-global-mode)
+
 (after! pdf-view-mode (add-hook! 'pdf-view-mode-hook #'auto-revert-mode))
 (after! image-mode    (add-hook! 'image-mode-hook #'auto-revert-mode))
 
