@@ -10,7 +10,7 @@
 (package! ivy :disable t)
 (package! swiper :disable t)
 
-(package! company :pin "b59662293cc9bd52bf6c7a4c3f70393351b52d71")
+(package! company :pin "a0c7c1775ab15d5d7df57a2126b6b9699049b7f0")
 
 ;; Org mode
 (package! evil-org :pin "a9706da260c45b98601bcd72b1d2c0a24a017700")
@@ -37,15 +37,15 @@
 (package! cape :recipe (:host github :repo "minad/cape") :pin "116063b9ee912cbaa7318dbe6597ade4a62b3f59")
 (package! crontab-mode :pin "7412f3df0958812bfcacd5875a409fa795fa8ecc")
 (package! delight :pin "46932bdc4da69072329aec8df052da3e04444899")
-(package! dwim-shell-command :recipe (:host github :repo "xenodium/dwim-shell-command") :pin "3ad3db9155bdde0dc050690b2d50a57a3ac99aa4")
+(package! dwim-shell-command :recipe (:host github :repo "xenodium/dwim-shell-command") :pin "1f865701105de5bbc62d88071a05381c14026732")
 (package! elfeed :recipe (:host github :repo "skeeto/elfeed") :pin "55fb162fa27e71b88effa59a83c57842e262b00f" )
 (package! emojify :pin "1b726412f19896abf5e4857d4c32220e33400b55")
-(package! evil-collection :recipe (:host github :repo "emacs-evil/evil-collection") :pin "499415799e982c03b2557150df0c33293cbe41c7")
+(package! evil-collection :recipe (:host github :repo "emacs-evil/evil-collection") :pin "877cc09563430432b69d7987bfae9a9158683f1e")
 (package! evil-leader :pin "39f7014bcf8b36463e0c7512c638bda4bac6c2cf")
 (package! flycheck :recipe (:host github :repo "flycheck/flycheck") :pin "e56e30d8c66ffc9776d07740658d3b542c1a8e21")
 (package! fzf :recipe (:host github :repo "bling/fzf.el") :pin "3a55b983921c620fb5a2cc811f42aa4daaad8266")
 (package! graphviz-dot-mode :pin "8ff793b13707cb511875f56e167ff7f980a31136")
-(package! logview :pin "00b3b01dfc99d1b3fb6d255e1ba9c3b4581cf065")
+(package! logview :pin "9140067afdc2f0d1eb493dc4dfdb53645289dd2b")
 (package! magit-todos :pin "d85518d45d329cc0b465cc3b84910b7c66b3fc42")
 (package! markdown-preview-mode :recipe (:host github :repo "ancane/markdown-preview-mode") :pin "68242b3907dc065aa35412bfd928b43d8052d321")
 (package! org-modern :recipe (:host github :repo "minad/org-modern") :pin "afa7d44282d62dbba84afec2a1a6c2a3ee41e7b9")
@@ -56,11 +56,11 @@
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot") :pin "ddb092d88d61330a3f562f67f051677b8de9ac07")
 (package! standard-themes :recipe (:host github :repo "protesilaos/standard-themes") :pin "b7c89d4f2b36d0a7fcfdac8a7c5b13c132abeddb")
 (package! systemd :recipe (:host github :repo "holomorph/systemd-mode") :pin "8742607120fbc440821acbc351fda1e8e68a8806" )
-(package! treesit-auto :recipe (:host github :repo "renzmann/treesit-auto") :pin "bac3b9d1d61a4d759f87c80de7be3b808d19cbf6")
-(package! verilog-mode :recipe (:host github :repo "veripool/verilog-mode") :pin "08237590afc44db3e19b62acfe7d8af16bcf05e1")
+(package! treesit-auto :recipe (:host github :repo "renzmann/treesit-auto") :pin "d32617b5edb660b8a046053af3b92cf14f9b978e")
+(package! verilog-mode :recipe (:host github :repo "veripool/verilog-mode") :pin "9395f121e0214d3ae385a5500e2c5c9edeb11ad6")
 (package! vimrc-mode :pin "13bc150a870d5d4a95f1111e4740e2b22813c30e")
 (package! visual-fill-column :pin "695a59789209c42fa08a5bce92963ee32f4455be")
-(package! xr :pin "73803c5653ee491e4ff52b038aabf065e72ceadd")                           ; xr is rx in reverse
+(package! xr :pin "3e38048521f56a1414cb2d9adcd55ef5b270b557")                           ; xr is rx in reverse
 ;; end:sort
 
 ;; (package! jinx :recipe (:host github :repo "minad/jinx") :pin "b96d4c27e2f7472e923f7c4446c2061f1259819f") problems in snap?
