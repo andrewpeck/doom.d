@@ -252,6 +252,11 @@ between the two most recently open buffers."
   (evil-define-key 'normal org-mode-map
     (kbd "zs") #'org-toggle-link-display)
 
+  (evil-define-key 'normal org-mode-map
+    (kbd "o") #'evil-org-open-below)
+  (evil-define-key 'normal org-mode-map
+    (kbd "O") #'evil-org-open-above)
+
   ;; (evil-define-key nil org-mode-map
   ;;   (kbd "M-RET")
   ;;   (lambda ()
@@ -321,13 +326,13 @@ between the two most recently open buffers."
 
   ;; Tab in normal mode shouldn't indent
   (evil-define-key 'insert 'global
-    (kbd "TAB") 'indent-for-tab-command)
+    (kbd "TAB") 'nil)
 
   ;; Backspace to jump to previous buffer
   (evil-define-key '(normal motion) 'global
     (kbd "DEL") 'er-switch-to-previous-buffer)
 
-  (evil-define-key '(normal motion insert) python-mode-map
+  (evil-define-key '(normal motion) python-mode-map
     (kbd "C-c C-b") #'py-black)
 
   (evil-define-key '(normal motion) emacs-lisp-mode-map
@@ -363,8 +368,8 @@ between the two most recently open buffers."
   (evil-define-key nil reftex-toc-mode-map
     (kbd "<return>") #'reftex-toc-goto-line))
 
-  (evil-define-key nil archive-mode-map
-    (kbd "-")   #'+popup/quit-window)
+(evil-define-key nil archive-mode-map
+  (kbd "-")   #'+popup/quit-window)
 
 ;;------------------------------------------------------------------------------
 ;; Evil Leader Keys
