@@ -76,8 +76,7 @@
 ;; just wrap verilog-do-indent in a save excursion so it doesn't jump around.... uhg
 (add-hook! 'verilog-mode-hook
   (setq-local indent-line-function
-              (lambda ()
-                (save-excursion #'verilog-indent-line-relative)))
+              (lambda () (save-excursion (verilog-indent-line-relative))))
   (setq-local comment-multi-line t))
 
 (after! verilog-mode
