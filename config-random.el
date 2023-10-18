@@ -218,9 +218,9 @@
   )
 
 (defun crontab-e ()
-    "Run `crontab -e' in a emacs buffer."
-    (interactive)
-    (with-editor-async-shell-command "crontab -e"))
+  "Run `crontab -e' in a emacs buffer."
+  (interactive)
+  (with-editor-async-shell-command "crontab -e"))
 
 (after! emojify-mode
   (setq global-emojify-mode t))
