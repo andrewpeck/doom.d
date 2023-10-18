@@ -50,6 +50,7 @@
 (load!! "config-core")
 
 (setq doom-scratch-dir doom-user-dir)
+(setq bookmark-file (concat doom-user-dir "bookmarks"))
 
 ;; start:sort
 (after! org (load!! "config-org"))
