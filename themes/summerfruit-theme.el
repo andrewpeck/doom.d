@@ -182,9 +182,12 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(cursor      ((t (:background ,sf-blue4))))
 
        ;; Highlighting faces.
+
+       `(highlight  ((t (:background "#d1dae4"))))
+       ;; `(vertico-group-title  ((t (:background "#d1dae4"))))
+
        `(fringe                   ((t (:foreground "black" :background "white"))))
 
-       `(highlight                ((t ,highlight-blue)))
        `(region                   ((t ,region)))
        `(secondary-selection      ((t ,match))) ; Used by Org-mode for highlighting matched entries and keywords.
 
@@ -202,26 +205,6 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(whitespace-tab           ((t ,tab)))
        `(whitespace-trailing      ((t ,trailing)))
 
-       ;;
-       ;; centaur-tabs
-       `(centaur-tabs-default ((t (:foreground ,sf-blue4 :background ,sf-white))))
-       `(centaur-tabs-unselected ((t (:foreground ,sf-blue4 :background ,sf-white))))
-       `(centaur-tabs-selected ((t (:foreground ,sf-blue4 :background ,sf-white))))
-       `(centaur-active-bar-face ((t (:foreground ,sf-blue4 :background ,sf-white))))
-       `(centaur-modified-marker-selected ((t (:foreground ,sf-blue4 :background ,sf-white))))
-       `(centaur-modified-marker-unselected ((t (:foreground ,sf-blue4 :background ,sf-white))))
-
-       ;; ((centaur-tabs-unselected &inherit tab-bar-tab-inactive))
-       ;; (centaur-tabs-selected-modified   :background bg :foreground teal)
-       ;; (centaur-tabs-unselected-modified :background bg-alt :foreground teal)
-       ;; (centaur-tabs-active-bar-face :background (if (bound-and-true-p -modeline-bright) modeline-bg highlight))
-       ;; (centaur-tabs-modified-marker-selected
-       ;;  :foreground (if (bound-and-true-p -modeline-bright) modeline-bg highlight)
-       ;;  :inherit 'centaur-tabs-selected)
-       ;; (centaur-tabs-modified-marker-unselected
-       ;;  :foreground (if (bound-and-true-p -modeline-bright) modeline-bg highlight)
-       ;;  :inherit 'centaur-tabs-unselected)
-
        ;; Mode line faces.
        `(mode-line           ((t (:box (:line-width 1 :color "#1a2f54") :foreground ,sf-white :background ,sf-blue6))))
        `(mode-line-inactive  ((t (:box (:line-width 1 :color "#4e4e4c") :foreground ,sf-white :background ,sf-lightgray))))
@@ -229,29 +212,6 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(mode-line-buffer-id ((t (:weight bold :foreground ,sf-white))))
        `(mode-line-emphasis  ((t (:weight bold :foreground ,sf-white))))
        `(mode-line-highlight ((t (:weight bold :foreground ,sf-white))))
-
-       `(doom-modeline-bar                ((t (:weight bold :foreground ,sf-lightgray)))) ;;
-       `(doom-modeline-buffer-file        ((t (:weight bold :foreground ,sf-white    )))) ;;
-       `(doom-modeline-buffer-major-mode  ((t (             :foreground ,sf-white    )))) ;;
-       `(doom-modeline-buffer-minor-mode  ((t (             :foreground ,sf-white    )))) ;;
-       `(doom-modeline-buffer-modified    ((t (:weight bold :foreground ,sf-red      )))) ;;
-       `(doom-modeline-buffer-path        ((t (:weight bold :foreground ,sf-white    )))) ;;
-       `(doom-modeline-debug              ((t (:weight bold :foreground ,sf-white    )))) ;;
-       `(doom-modeline-evil-emacs-state   ((t (:weight bold :foreground ,sf-orange   )))) ;;
-       `(doom-modeline-evil-insert-state  ((t (:weight bold :foreground ,sf-orange   )))) ;;
-       `(doom-modeline-evil-motion-state  ((t (:weight bold :foreground ,sf-green    )))) ;;
-       `(doom-modeline-evil-normal-state  ((t (:weight bold :foreground ,sf-green    )))) ;;
-       `(doom-modeline-evil-replace-state ((t (:weight bold :foreground ,sf-red      )))) ;;
-       `(doom-modeline-evil-visual-state  ((t (:weight bold :foreground ,sf-orange   )))) ;;
-       `(doom-modeline-highlight          ((t (:weight bold :foreground ,sf-green    )))) ;;
-       `(doom-modeline-info               ((t (             :foreground ,sf-white    )))) ;;
-       `(doom-modeline-project-dir        ((t (:weight bold :foreground ,sf-white    )))) ;;
-       `(doom-modeline-lsp-error          ((t (:weight bold :foreground ,sf-red2     :background ,sf-blue6)))) ;;
-       `(doom-modeline-lsp-running        ((t (:weight bold :foreground ,sf-orange   :background ,sf-blue6)))) ;;
-       `(doom-modeline-lsp-warning        ((t (:weight bold :foreground ,sf-orange   :background ,sf-blue6)))) ;;
-       `(doom-modeline-lsp-success        ((t (:weight bold :foreground ,sf-green    :background ,sf-blue6)))) ;;
-       `(doom-modeline-urgent             ((t (:weight bold :foreground ,sf-red2     :background ,sf-blue6)))) ;;
-       `(doom-modeline-warning            ((t (:weight bold :foreground ,sf-orange   :background ,sf-blue6)))) ;;
 
        ;; Escape and prompt faces.
        `(minibuffer-prompt            ((t (:weight bold :foreground ,sf-black :background "gold"))))
@@ -268,7 +228,6 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(font-lock-comment-face              ((t (:foreground ,sf-green :slant normal  ))))
        `(font-lock-constant-face             ((t (:foreground ,sf-pink                 ))))
        `(font-lock-doc-face                  ((t (:foreground ,sf-green                ))))
-     ;;`(font-lock-doc-string-face           ((t (:foreground ,sf-green                )))) ; XEmacs only, but is used for HTML exports from org2html (and not interactively)
        `(font-lock-function-name-face        ((t (:foreground ,sf-pink                 ))))
        `(font-lock-keyword-face              ((t (:foreground ,sf-orange :bold t       ))))
        `(font-lock-preprocessor-face         ((t (:foreground ,sf-gray                 ))))
@@ -300,69 +259,6 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(highlight-indent-guides-top-character-face   ((t (:background "white" :foreground "lightgray"))))
        `(highlight-indent-guides-top-even-face        ((t (:background "white" :foreground "lightgray"))))
        `(highlight-indent-guides-top-odd-face         ((t (:background "white" :foreground "lightgray"))))
-
-       ;; Gnus faces.
-       `(gnus-button                   ((t (:weight normal))))
-       `(gnus-cite-attribution-face    ((t (:foreground "#5050b0"))))
-       `(gnus-cite-1                   ((t (:foreground "#5050b0" :background "#f6f6f6"))))
-       `(gnus-cite-2                   ((t (:foreground "#660066" :background "#f6f6f6"))))
-       `(gnus-cite-3                   ((t (:foreground "#007777" :background "#f6f6f6"))))
-       `(gnus-cite-4                   ((t (:foreground "#990000" :background "#f6f6f6"))))
-       `(gnus-cite-5                   ((t (:foreground "#000099" :background "#f6f6f6"))))
-       `(gnus-cite-6                   ((t (:foreground "#bb6600" :background "#f6f6f6"))))
-       `(gnus-cite-7                   ((t (:foreground "#5050b0" :background "#f6f6f6"))))
-       `(gnus-cite-8                   ((t (:foreground "#660066" :background "#f6f6f6"))))
-       `(gnus-cite-9                   ((t (:foreground "#007777" :background "#f6f6f6"))))
-       `(gnus-cite-10                  ((t (:foreground "#990000" :background "#f6f6f6"))))
-       `(gnus-emphasis-bold            ((t (:weight bold))))
-       `(gnus-emphasis-highlight-words ((t (:foreground "yellow" :background ,sf-black))))
-       `(gnus-group-mail-1             ((t (:weight bold :foreground "#ff50b0"))))
-       `(gnus-group-mail-1-empty       ((t (:foreground "#5050b0"))))
-       `(gnus-group-mail-2             ((t (:weight bold :foreground "#ff0066"))))
-       `(gnus-group-mail-2-empty       ((t (:foreground "#660066"))))
-       `(gnus-group-mail-3             ((t ,mail-unread)))
-       `(gnus-group-mail-3-empty       ((t ,mail-read)))
-       `(gnus-group-mail-low           ((t ,cancel)))
-       `(gnus-group-mail-low-empty     ((t ,cancel)))
-       `(gnus-group-news-1             ((t (:weight bold :foreground "#ff50b0"))))
-       `(gnus-group-news-1-empty       ((t (:foreground "#5050b0"))))
-       `(gnus-group-news-2             ((t (:weight bold :foreground "#ff0066"))))
-       `(gnus-group-news-2-empty       ((t (:foreground "#660066"))))
-       `(gnus-group-news-3             ((t ,mail-unread)))
-       `(gnus-group-news-3-empty       ((t ,mail-read)))
-       `(gnus-group-news-4             ((t (:weight bold :foreground "#ff0000"))))
-       `(gnus-group-news-4-empty       ((t (:foreground "#990000"))))
-       `(gnus-group-news-5             ((t (:weight bold :foreground "#ff0099"))))
-       `(gnus-group-news-5-empty       ((t (:foreground "#000099"))))
-       `(gnus-group-news-6             ((t (:weight bold :foreground "gray50"))))
-       `(gnus-group-news-6-empty       ((t (:foreground "#808080"))))
-       `(gnus-header-content           ((t ,mail-header-other)))
-       `(gnus-header-from              ((t (:foreground ,sf-black))))
-       `(gnus-header-name              ((t ,mail-header-name)))
-       `(gnus-header-newsgroups        ((t (:foreground "#3399cc"))))
-       `(gnus-header-subject           ((t ,subject)))
-       `(gnus-picon                    ((t (:foreground "yellow" :background ,sf-white))))
-       `(gnus-picon-xbm                ((t (:foreground "yellow" :background ,sf-white))))
-       `(gnus-server-closed            ((t (:slant italic :foreground "blue" :background ,sf-white))))
-       `(gnus-server-denied            ((t (:weight bold :foreground sf-red :background ,sf-white))))
-       `(gnus-server-opened            ((t (:foreground ,sf-white :foreground "#466bd7"))))
-       `(gnus-signature                ((t (:slant italic :foreground "#8b8d8e"))))
-       `(gnus-splash                   ((t (:foreground "#ff8c00"))))
-       `(gnus-summary-cancelled        ((t ,cancel)))
-       `(gnus-summary-high-ancient     ((t ,mail-unread-high)))
-       `(gnus-summary-high-read        ((t ,mail-read-high)))
-       `(gnus-summary-high-ticked      ((t ,mail-ticked)))
-       `(gnus-summary-high-unread      ((t ,mail-unread-high)))
-       `(gnus-summary-low-ancient      ((t (:slant italic :foreground ,sf-black))))
-       `(gnus-summary-low-read         ((t (:slant italic :foreground "#999999" :background "#e0e0e0"))))
-       `(gnus-summary-low-ticked       ((t ,mail-ticked)))
-       `(gnus-summary-low-unread       ((t (:slant italic :foreground ,sf-black))))
-       `(gnus-summary-normal-ancient   ((t ,mail-read)))
-       `(gnus-summary-normal-read      ((t ,mail-read)))
-       `(gnus-summary-normal-ticked    ((t ,mail-ticked)))
-       `(gnus-summary-normal-unread    ((t ,mail-unread)))
-       `(gnus-summary-selected         ((t (:foreground ,sf-white :background "#008cd7"))))
-       `(gnus-x-face                   ((t (:foreground ,sf-black :background ,sf-white))))
 
        ;; Message faces.
        `(message-header-name       ((t ,mail-header-name)))
@@ -413,104 +309,17 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(ediff-odd-diff-A     ((t (:background ,sf-lightgray  :extend t))))
        `(ediff-odd-diff-B     ((t (:background ,sf-lightgray  :extend t))))
 
-       ;; ;; Semantic faces.
-       ;; `(semantic-decoration-on-includes ((t (:underline ,cham-4))))
-       ;; `(semantic-decoration-on-private-members-face ((t (:background ,alum-2))))
-       ;; `(semantic-decoration-on-protected-members-face ((t (:background ,alum-2))))
-       `(semantic-decoration-on-unknown-includes ((t (:background "#fff8f8"))))
-       ;; `(semantic-decoration-on-unparsed-includes ((t (:underline ,orange-3))))
-       `(semantic-highlight-func-current-tag-face ((t ,highlight-current-tag)))
-       `(semantic-tag-boundary-face ((t (:overline "#777777")))) ; Method separator.
-       ;; `(semantic-unmatched-syntax-face ((t (:underline ,red-1))))
-
-       `(Info-title-1-face               ((t ,ol1)))
-       `(Info-title-2-face               ((t ,ol2)))
-       `(Info-title-3-face               ((t ,ol3)))
-       `(Info-title-4-face               ((t ,ol4)))
-       `(ace-jump-face-foreground        ((t (:weight bold :foreground ,sf-black :background "#fea500"))))
-       `(ahs-face                        ((t (:background "#e4e4ff"))))
-       `(ahs-definition-face             ((t (:background "#ffb6c6"))))
-       `(ahs-plugin-defalt-face          ((t (:background "#ffe4ff")))) ; Current.
-       `(anzu-match-1                    ((t (:foreground ,sf-black :background "aquamarine"))))
-       `(anzu-match-2                    ((t (:foreground ,sf-black :background "springgreen"))))
-       `(anzu-match-3                    ((t (:foreground ,sf-black :background "red"))))
-       `(anzu-mode-line                  ((t (:foreground ,sf-black :background "#80ff80"))))
-       `(anzu-mode-line-no-match         ((t (:foreground ,sf-black :background "#ff8080"))))
-       `(anzu-replace-highlight          ((t (:inherit query-replace))))
-       `(anzu-replace-to                 ((t (:weight bold :foreground "#bd33fd" :background "#fdbd33"))))
-       `(auto-dim-other-buffers-face     ((t (:background "#f7f7f7"))))
-       `(avy-background-face             ((t (:background "#a9a9a9"))))
-       `(avy-lead-face                   ((t (:weight bold :foreground ,sf-black :background "#fea500"))))
-       `(bbdb-company                    ((t (:slant italic :foreground "steel blue"))))
-       `(bbdb-field-name                 ((t (:weight bold :foreground "steel blue"))))
-       `(bbdb-field-value                ((t (:foreground "steel blue"))))
-       `(bbdb-name                       ((t (:underline t :foreground "#ff6633"))))
-       `(bmkp-light-autonamed            ((t (:background "#f0f0f0"))))
-       `(bmkp-light-fringe-autonamed     ((t (:foreground "#5a5a5a" :background "#d4d4d4"))))
-       `(bmkp-light-fringe-non-autonamed ((t (:foreground "#ffffcc" :background "#01fffb")))) ; default
-       `(bmkp-light-non-autonamed        ((t (:background "#bffffe"))))
-       `(bmkp-no-local                   ((t (:background "pink"))))
-       `(browse-kill-ring-separator-face ((t (:foreground "red"))))
-       `(calendar-month-header           ((t (:weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
-       `(calendar-today                  ((t (:weight bold :foreground "#4f4a3d" :background "#ffffcc"))))
-       `(calendar-weekday-header         ((t (:weight bold :foreground "#1662af"))))
-       `(calendar-weekend-header         ((t (:weight bold :foreground "#4e4e4e"))))
-       `(cfw:face-annotation             ((t (:foreground "green" :background "red"))))
-       `(cfw:face-day-title              ((t (:foreground "#c9c9c9"))))
-       `(cfw:face-default-content        ((t (:foreground "#2952a3"))))
-       `(cfw:face-default-day            ((t (:weight bold))))
-       `(cfw:face-disable                ((t (:foreground "DarkGray"))))
-       `(cfw:face-grid                   ((t (:foreground "#dddddd"))))
-       `(cfw:face-header                 ((t (:foreground "#1662af" :background ,sf-white :weight bold))))
-       `(cfw:face-holiday                ((t (:foreground "#777777" :background "#e4ebfe"))))
-       `(cfw:face-periods                ((t (:foreground ,sf-white :background "#668cd9" :slant italic))))
-       `(cfw:face-saturday               ((t (:foreground "#4e4e4e" :background ,sf-white :weight bold))))
-       `(cfw:face-select                 ((t (:foreground "#4a95eb" :background "#edf1fa"))))
-       `(cfw:face-sunday                 ((t (:foreground "#4e4e4e" :background ,sf-white :weight bold))))
-       `(cfw:face-title                  ((t (:height 1.0 :foreground "#676767" :weight bold :inherit variable-pitch))))
-       `(cfw:face-today                  ((t (:foreground "#4f4a3d" :background "#ffffcc"))))
-       `(cfw:face-today-title            ((t (:foreground ,sf-white :background "#1766b1"))))
-       `(cfw:face-toolbar                ((t (:background ,sf-white))))
-       `(cfw:face-toolbar-button-off     ((t (:foreground "#cfcfcf" :background ,sf-white))))
-       `(cfw:face-toolbar-button-on      ((t (:foreground "#5e5e5e" :background "#f6f6f6"))))
-       `(change-log-date                 ((t (:foreground "purple"))))
-       `(change-log-file                 ((t (:weight bold :foreground "#4183c4"))))
-       `(change-log-list                 ((t (:foreground ,sf-black :background "#75eec7"))))
-       `(change-log-name                 ((t (:foreground "#008000"))))
-       `(circe-highlight-all-nicks-face  ((t (:foreground "blue" :background "#f0f0f0")))) ; other nick names
-       `(circe-highlight-nick-face       ((t (:foreground "#009300" :background "#f0f0f0")))) ; messages with my nick cited
-       `(circe-my-message-face           ((t (:foreground "#8b8b8b" :background "#f0f0f0"))))
-       `(circe-originator-face           ((t (:foreground "blue"))))
-       `(circe-prompt-face               ((t (:foreground "red"))))
-       `(circe-server-face               ((t (:foreground "#99cae5"))))
-       `(comint-highlight-input          ((t (:weight bold :foreground "#0000ff" :inherit nil))))
-       ;;`(comint-highlight-prompt         ((t (:weight bold :foreground ,sf-black :background "gold"))))
-       `(comint-highlight-prompt         ((t (:weight bold :foreground "#0000ff" :inherit nil))))
-
-       ;; `(ac-selection-face ((t ,completion-selected-candidate)))
-       `(ac-selection-face ((t (:weight bold :foreground ,sf-white :background "orange")))) ; TEMP For diff'ing AC from Comp.
-       `(ac-candidate-face ((t ,completion-other-candidates)))
-       `(ac-completion-face ((t ,completion-inline)))
-       `(ac-candidate-mouse-face ((t (:inherit highlight))))
-       `(popup-scroll-bar-background-face ((t (:background "#ebf4fe"))))
-       `(popup-scroll-bar-foreground-face ((t (:background "#d1dae4")))) ; Scrollbar (visible).
-
-       `(company-tooltip-common-selection     ((t (:weight normal :foreground "#f9eccc" :inherit company-tooltip-selection)))) ; Prefix + common part in tooltip (for selection).
-       `(company-tooltip-selection            ((t ,completion-selected-candidate))) ; Suffix in tooltip (for selection).
-       `(company-tooltip-annotation-selection ((t (:weight normal :foreground "#f9eccc")))) ; Annotation (for selection).
-       `(company-tooltip-common               ((t (:weight normal :foreground "#b000b0" :inherit company-tooltip)))) ; Prefix + common part in tooltip.
-       `(company-tooltip                      ((t ,completion-other-candidates))) ; Suffix in tooltip.
-       `(company-tooltip-annotation           ((t (:weight normal :foreground "#2415ff")))) ; Annotation.
-       `(company-preview-common               ((t ,completion-inline)))
-       `(company-scrollbar-bg                 ((t (:background "#ebf4fe"))))
-       `(company-scrollbar-fg                 ((t (:background "#d1dae4")))) ; Scrollbar (visible).
-
        `(compare-windows ((t (:background "#ffff00"))))
+       `(completions-highlight  ((t (:background "#d1dae4"))))
+       `(consult-preview-match  ((t (:background "#d1dae4"))))
+       `(embark-target  ((t (:background "#d1dae4"))))
+       `(corfu-annotations  ((t (:background "#d1dae4"))))
+       ;; `(highlight                ((t ,highlight-blue)))
        ;; `(completions-common-part ((t (:foreground "red" :weight bold))))
        ;; `(completions-first-difference ((t (:foreground "green" :weight bold))))
 
        `(compilation-error ((t (:weight bold :foreground "red")))) ; Used for grep error messages.
-       `(compilation-info ((t ,grep-file-name)))
+       `(compilation-info  ((t ,grep-file-name)))
        `(compilation-line-number ((t ,grep-line-number)))
        `(compilation-warning ((t (:weight bold :foreground "orange"))))
        `(compilation-mode-line-exit ((t (:weight bold :foreground "green")))) ; :exit[matched]
@@ -662,53 +471,6 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(git-timemachine-minibuffer-author-face ((t ,diff-added)))
        `(git-timemachine-minibuffer-detail-face ((t ,diff-header)))
 
-       ;; Helm
-       `(helm-action                          ((t (:foreground ,sf-black))))
-       `(helm-bookmark-file                   ((t ,file)))
-       `(helm-bookmarks-su-face               ((t (:foreground "red"))))
-       `(helm-buffer-directory                ((t ,directory)))
-     ;;`(helm-non-file-buffer                 ((t (:slant italic :foreground "blue"))))
-     ;;`(helm-buffer-file                     ((t (:foreground ,sf-black))))
-       `(helm-buffer-modified                 ((t (:slant italic :foreground ,sf-purple))))
-       `(helm-buffer-process                  ((t (:foreground "#008200"))))
-       `(helm-candidate-number                ((t (:foreground ,sf-black :background "#ffff66"))))
-       `(helm-dir-heading                     ((t (:foreground "blue" :background "pink"))))
-       `(helm-dir-priv                        ((t (:foreground "dark red" :background "light grey"))))
-       `(helm-ff-directory                    ((t ,directory)))
-       `(helm-ff-dotted-directory             ((t ,directory)))
-       `(helm-ff-executable                   ((t (:foreground "green3" :background ,sf-white))))
-       `(helm-ff-file                         ((t (:foreground ,sf-black))))
-       `(helm-ff-invalid-symlink              ((t (:foreground "yellow" :background "red"))))
-       `(helm-ff-symlink                      ((t ,symlink)))
-       `(helm-file-name                       ((t (:foreground "blue"))))
-       `(helm-gentoo-match-face               ((t (:foreground "red"))))
-       `(helm-grep-file                       ((t ,grep-file-name)))
-       `(helm-grep-lineno                     ((t ,grep-line-number)))
-       `(helm-grep-match                      ((t ,match)))
-       `(helm-grep-running                    ((t (:weight bold :foreground ,sf-white))))
-       `(helm-isearch-match                   ((t (:background "#ccffcc"))))
-       `(helm-lisp-show-completion            ((t ,volatile-highlight-supersize))) ; See `helm-dabbrev'.
-     ;;`(helm-ls-git-added-copied-face        ((t (:foreground ""))))
-     ;;`(helm-ls-git-added-modified-face      ((t (:foreground ""))))
-     ;;`(helm-ls-git-conflict-face            ((t (:foreground ""))))
-     ;;`(helm-ls-git-deleted-and-staged-face  ((t (:foreground ""))))
-     ;;`(helm-ls-git-deleted-not-staged-face  ((t (:foreground ""))))
-     ;;`(helm-ls-git-modified-and-staged-face ((t (:foreground ""))))
-       `(helm-ls-git-modified-not-staged-face ((t (:foreground "#ba36a5"))))
-     ;;`(helm-ls-git-renamed-modified-face    ((t (:foreground ""))))
-     ;;`(helm-ls-git-untracked-face           ((t (:foreground ""))))
-       `(helm-match                           ((t ,match)))
-       `(helm-moccur-buffer                   ((t (:foreground "#0066cc"))))
-       `(helm-selection                       ((t (:background "#3875d6" :foreground ,sf-white))))
-       `(helm-selection-line                  ((t ,highlight-gray))) ; ???
-       `(helm-separator                       ((t (:foreground "red"))))
-       `(helm-source-header                   ((t (:weight bold :box (:line-width 1 :color "#c7c7c7") :background "#dedede" :foreground ,sf-black))))
-       `(helm-swoop-target-line-block-face    ((t (:background "#cccc00" :foreground "#222222"))))
-       `(helm-swoop-target-line-face          ((t (:background "#ccccff"))))
-       `(helm-swoop-target-word-face          ((t (:weight bold :foreground nil :background "#fdbd33"))))
-       `(helm-visible-mark                    ((t ,marked-line)))
-       `(helm-w3m-bookmarks-face              ((t (:underline t :foreground "cyan1"))))
-
        `(highlight-changes        ((t (:foreground nil)))) ;; blue "#2e08b5"
        `(highlight-changes-delete ((t (:strike-through nil :foreground nil)))) ;; red "#b5082e"
        `(highlight-symbol-face    ((t (:background "#ffffa0"))))
@@ -718,44 +480,6 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(hl-tags-face ((t ,highlight-current-tag))) ; ~ Pair highlighting (matching tags).
 
        `(holiday-face ((t (:foreground "#777777" :background "#e4ebfe"))))
-
-       `(html-helper-bold-face      ((t (:weight bold :foreground ,sf-black))))
-       `(html-helper-italic-face    ((t (:slant italic :foreground ,sf-black))))
-       `(html-helper-underline-face ((t (:underline t :foreground ,sf-black))))
-       `(html-tag-face              ((t (:foreground "blue"))))
-
-       `(ilog-non-change-face ((t (:height 2.0 :foreground "#6434a3"))))
-       `(ilog-change-face     ((t (:height 2.0 :foreground "#008200"))))
-       `(ilog-echo-face       ((t (:height 2.0 :foreground "#006fe0"))))
-       `(ilog-load-face       ((t (:foreground "#ba36a5"))))
-       `(ilog-message-face    ((t (:foreground "#808080"))))
-
-       `(info-file         ((t (:height 1.8 :weight bold :box (:line-width 1 :color "#0000cc") :foreground "cornflower blue" :background "LightSteelBlue1"))))
-       `(info-header-node  ((t (:underline t :foreground "orange")))) ; nodes in header
-       `(info-header-xref  ((t (:underline t :foreground "dodger blue")))) ; cross references in header
-       `(info-index-match  ((t (:weight bold :foreground nil :background "#fdbd33")))) ; when using `i'
-       `(info-menu-header  ((t ,ol2))) ; menu titles (headers) -- major topics
-       `(info-menu-star    ((t (:foreground ,sf-black)))) ; every 3rd menu item
-       `(info-node         ((t (:underline t :foreground "blue")))) ; node names
-       `(info-quoted-name  ((t ,code-inline)))
-       `(info-string       ((t ,string)))
-       `(info-title-1      ((t ,ol1)))
-       `(info-xref         ((t (:underline t :foreground "#006daf")))) ; unvisited cross-references
-       `(info-xref-visited ((t (:underline t :foreground "magenta4")))) ; previously visited cross-references
-
-       `(js2-error                    ((t (:box (:line-width 1 :color ,sf-red) :background ,sf-lightred))))
-       `(js2-external-variable        ((t (:foreground "#ff0000" :background "#fff8f8"))))
-       `(js2-function-param           ((t ,function-param)))
-       `(js2-instance-member          ((t (:foreground "DarkOrchid"))))
-       `(js2-jsdoc-html-tag-delimiter ((t (:foreground ,sf-red))))
-       `(js2-jsdoc-html-tag-name      ((t (:foreground ,sf-red))))
-       `(js2-jsdoc-tag                ((t (:weight normal :foreground "#6434a3"))))
-       `(js2-jsdoc-type               ((t (:foreground "SteelBlue"))))
-       `(js2-jsdoc-value              ((t (:weight normal :foreground "#ba36a5")))) ; #800080
-       `(js2-magic-paren              ((t (:underline t))))
-       `(js2-private-function-call    ((t (:foreground "goldenrod"))))
-       `(js2-private-member           ((t (:foreground "PeachPuff3"))))
-       `(js2-warning                  ((t (:underline "orange"))))
 
        ;; Org non-standard faces.
        `(summerfruit-org-deadline-overdue  ((t (:foreground ,sf-black))))
@@ -782,66 +506,13 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(lsp-ui-doc-background ((t (:background ,sf-lightlightgray :foreground "black"))))
 
        ;; Magit
-      ;`(magit-blame-header      ((t (:inherit magit-diff-file-header))))
-      ;`(magit-blame-heading     ((t (:overline ,sf-lightgray :foreground ,sf-red   :background ,sf-offwhite))))
-      ;`(magit-blame-hash        ((t (:overline ,sf-lightgray :foreground ,sf-red   :background ,sf-offwhite))))
-      ;`(magit-blame-name        ((t (:overline ,sf-lightgray :foreground ,sf-green :background ,sf-offwhite))))
-      ;`(magit-blame-date        ((t (:overline ,sf-lightgray :foreground ,sf-blue1 :background ,sf-offwhite))))
-      ;`(magit-blame-summary     ((t (:overline ,sf-lightgray :foreground ,sf-gray  :background ,sf-offwhite :weight bold))))
-      ;`(magit-branch            ((t ,vc-branch)))
-      ;`(magit-diff-file-header  ((t (:height 1.1 :weight bold :foreground "#4183c4"))))
-      ;`(magit-diff-hunk-header  ((t ,diff-hunk-header)))
-      ;`(magit-diff-none         ((t ,diff-none)))
-      ;`(magit-header            ((t (:foreground ,sf-white :background ,sf-red))))
-      ;`(magit-item-highlight    ((t (:background "#eaf2f5"))))
-      ;`(magit-item-mark         ((t ,marked-line)))
-      ;`(magit-log-head-label    ((t (:box (:line-width 1 :color "blue" :style nil)))))
-      ;`(magit-log-tag-label     ((t (:box (:line-width 1 :color "#00cc00" :style nil)))))
-      ;`(magit-section-title     ((t (:height 1.8 :weight bold :foreground "cornflower blue" :inherit nil))))
-      ;`(magit-header-line   ((t (:foreground ,sf-red :background "#e6e6e6"))))
-      ;`(magit-section-highlight ((t (:weight bold :foreground ,sf-blue ))))
-     ;;`(magit-section-highlight ((t (:box (:line-width 1 :color "#00cc00" :style nil)))))
        `(magit-section-heading ((t (:weight bold :foreground ,sf-orange))))
        `(magit-section-highlight ((t (:background ,sf-lightblue))))
        `(magit-branch-remote ((t (:foreground ,sf-green :weight bold))))
        `(magit-branch-local  ((t (:foreground ,sf-blue1 :weight bold))))
-       ;;`(magit-diff-added        ((t ,diff-added)))
-       ;`(magit-diff-added-highlight ((t (:foreground ,sf-green))))
-       ;;`(magit-diff-deleted      ((t ,diff-removed)))
 
        `(makefile-space-face ((t (:background "hot pink"))))
        `(makefile-targets ((t (:weight bold :foreground "blue"))))
-
-       ;; Markdown
-     ;;`(markdown-blockquote-face       ((t ())))
-       `(markdown-bold-face             ((t (:inherit bold))))
-     ;;`(markdown-comment-face          ((t ())))
-     ;;`(markdown-footnote-face         ((t ())))
-     ;;`(markdown-header-delimiter-face ((t ())))
-     ;;`(markdown-header-face           ((t ())))
-       `(markdown-header-face-1         ((t ,ol1)))
-       `(markdown-header-face-2         ((t ,ol2)))
-       `(markdown-header-face-3         ((t ,ol3)))
-       `(markdown-header-face-4         ((t ,ol4)))
-       `(markdown-header-face-5         ((t ,ol5)))
-       `(markdown-header-face-6         ((t ,ol6)))
-     ;;`(markdown-header-rule-face      ((t ())))
-       `(markdown-inline-code-face      ((t ,code-inline)))
-       `(markdown-italic-face           ((t (:inherit italic))))
-       `(markdown-language-keyword-face ((t (:inherit org-block-begin-line))))
-     ;;`(markdown-line-break-face       ((t ())))
-       `(markdown-link-face             ((t ,link-no-underline)))
-     ;;`(markdown-link-title-face       ((t ())))
-     ;;`(markdown-list-face             ((t ())))
-     ;;`(markdown-math-face             ((t ())))
-     ;;`(markdown-metadata-key-face     ((t ())))
-     ;;`(markdown-metadata-value-face   ((t ())))
-     ;;`(markdown-missing-link-face     ((t ())))
-       `(markdown-pre-face              ((t (:inherit org-block-background))))
-     ;;`(markdown-reference-face        ((t ())))
-     ;;`(markdown-strike-through-face   ((t ())))
-       `(markdown-url-face              ((t ,link)))
-
 
        `(match ((t ,match)))           ; Used for grep matches.
        `(mc/cursor-bar-face ((t (:height 1.0 :foreground "#1664c4" :background "#1664c4"))))
@@ -853,18 +524,6 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        `(moccur-face ((t (:foreground ,sf-black :background "#ffff99"))))
        `(next-error ((t ,volatile-highlight-supersize)))
        `(nobreak-space ((t (:background "#cce8f6"))))
-
-       ;; NXML
-       `(nxml-attribute-local-name-face          ((t ,xml-attribute)))
-       `(nxml-attribute-value-delimiter-face     ((t (:foreground "green4"))))
-       `(nxml-attribute-value-face               ((t (:foreground "green4"))))
-       `(nxml-comment-content-face               ((t (:slant italic :foreground "red"))))
-       `(nxml-comment-delimiter-face             ((t (:foreground "red"))))
-       `(nxml-element-local-name                 ((t ,xml-tag)))
-       `(nxml-element-local-name-face            ((t (:foreground "blue"))))
-       `(nxml-processing-instruction-target-face ((t (:foreground "purple1"))))
-       `(nxml-tag-delimiter-face                 ((t (:foreground "blue"))))
-       `(nxml-tag-slash-face                     ((t (:foreground "blue"))))
 
        ;; Org
        `(org-agenda-block-count      ((t (:weight bold :foreground "#a5a5a5"))))
@@ -1012,178 +671,15 @@ CONTROL can be a number, nil, or t.  When t, use DEFAULT-HEIGHT."
        ;; `(sp-wrap-overlay-opening-pair ((t ())))
        ;; `(sp-wrap-tag-overlay-face ((t ())))
 
-       `(speedbar-button-face ((t (:foreground "green4"))))
-       `(speedbar-directory-face ((t (:foreground "blue4"))))
-       `(speedbar-file-face ((t (:foreground "cyan4"))))
-       `(speedbar-highlight-face ((t ,volatile-highlight)))
-       `(speedbar-selected-face ((t (:underline t :foreground "red"))))
-       `(speedbar-tag-face ((t (:foreground "brown"))))
-       `(svn-status-directory-face ((t ,directory)))
-       `(svn-status-filename-face ((t (:weight bold :foreground "#4183c4"))))
-       `(svn-status-locked-face ((t (:weight bold :foreground "red"))))
-       `(svn-status-marked-face ((t ,marked-line)))
-       `(svn-status-marked-popup-face ((t (:weight bold :foreground "green3"))))
-       `(svn-status-switched-face ((t (:slant italic :foreground "gray55"))))
-       `(svn-status-symlink-face ((t ,symlink)))
-       `(svn-status-update-available-face ((t (:foreground "orange"))))
        `(tex-verbatim ((t (:foreground "blue"))))
        `(tool-bar ((t (:box (:line-width 1 :style released-button) :foreground ,sf-black :background "gray75"))))
        `(tooltip ((t (:foreground ,sf-black :background "light yellow"))))
        `(traverse-match-face ((t (:weight bold :foreground "blue violet"))))
 
-       ;;
-       `(vc-annotate-face-3F3FFF ((t (:foreground "#3f3fff" :background ,sf-black))))
-       `(vc-annotate-face-3F6CFF ((t (:foreground "#3f3fff" :background ,sf-black))))
-       `(vc-annotate-face-3F99FF ((t (:foreground "#3f99ff" :background ,sf-black))))
-       `(vc-annotate-face-3FC6FF ((t (:foreground "#3f99ff" :background ,sf-black))))
-       `(vc-annotate-face-3FF3FF ((t (:foreground "#3ff3ff" :background ,sf-black))))
-       `(vc-annotate-face-3FFF56 ((t (:foreground "#4bff4b" :background ,sf-black))))
-       `(vc-annotate-face-3FFF83 ((t (:foreground "#3fffb0" :background ,sf-black))))
-       `(vc-annotate-face-3FFFB0 ((t (:foreground "#3fffb0" :background ,sf-black))))
-       `(vc-annotate-face-3FFFDD ((t (:foreground "#3ff3ff" :background ,sf-black))))
-       `(vc-annotate-face-56FF3F ((t (:foreground "#4bff4b" :background ,sf-black))))
-       `(vc-annotate-face-83FF3F ((t (:foreground "#b0ff3f" :background ,sf-black))))
-       `(vc-annotate-face-B0FF3F ((t (:foreground "#b0ff3f" :background ,sf-black))))
-       `(vc-annotate-face-DDFF3F ((t (:foreground "#fff33f" :background ,sf-black))))
-       `(vc-annotate-face-F6FFCC ((t (:foreground ,sf-black :background "#ffffc0"))))
-       `(vc-annotate-face-FF3F3F ((t (:foreground "#ff3f3f" :background ,sf-black))))
-       `(vc-annotate-face-FF6C3F ((t (:foreground "#ff3f3f" :background ,sf-black))))
-       `(vc-annotate-face-FF993F ((t (:foreground "#ff993f" :background ,sf-black))))
-       `(vc-annotate-face-FFC63F ((t (:foreground "#ff993f" :background ,sf-black))))
-       `(vc-annotate-face-FFF33F ((t (:foreground "#fff33f" :background ,sf-black))))
-
-       ;; ;; vc
-       ;; (vc-up-to-date-state    ((,c :foreground ,(gc 'green-1))))
-       ;; (vc-edited-state        ((,c :foreground ,(gc 'yellow+1))))
-       ;; (vc-missing-state       ((,c :foreground ,(gc 'red))))
-       ;; (vc-conflict-state      ((,c :foreground ,(gc 'red+2) :weight bold)))
-       ;; (vc-locked-state        ((,c :foreground ,(gc 'cyan-1))))
-       ;; (vc-locally-added-state ((,c :foreground ,(gc 'blue))))
-       ;; (vc-needs-update-state  ((,c :foreground ,(gc 'magenta))))
-       ;; (vc-removed-state       ((,c :foreground ,(gc 'red-1))))
-
        `(vhl/default-face ((t ,volatile-highlight))) ; `volatile-highlights.el' (for undo, yank).
 
-       ;;
-       `(w3m-anchor                            ((t ,link)))
-       `(w3m-arrived-anchor                    ((t (:foreground "purple1"))))
-       `(w3m-bitmap-image-face                 ((t (:foreground "gray4" :background "green"))))
-       `(w3m-bold                              ((t (:weight bold :foreground ,sf-black))))
-       `(w3m-current-anchor                    ((t (:weight bold :underline t :foreground "blue"))))
-       `(w3m-form                              ((t (:underline t :foreground "tan1"))))
-       `(w3m-form-button-face                  ((t (:weight bold :underline t :foreground "gray4" :background "light grey"))))
-       `(w3m-form-button-mouse-face            ((t (:underline t :foreground "light grey" :background "#2b7e2a"))))
-       `(w3m-form-button-pressed-face          ((t (:weight bold :underline t :foreground "gray4" :background "light grey"))))
-       `(w3m-header-line-location-content-face ((t (:foreground "#7f7f7f":background "#f7f7f7"))))
-       `(w3m-header-line-location-title-face   ((t (:foreground "#2c55b1" :background "#f7f7f7"))))
-       `(w3m-history-current-url-face          ((t (:foreground "lemon chiffon"))))
-       `(w3m-image-face                        ((t (:weight bold :foreground "DarkSeaGreen2"))))
-       `(w3m-link-numbering                    ((t (:foreground "#b4c7eb")))) ; mouseless browsing
-       `(w3m-strike-through-face               ((t (:strike-through t))))
-       `(w3m-underline-face                    ((t (:underline t))))
-
-       ;; Web mode
-     ;;`(web-mode-block-attr-name-face           ((t ())))
-     ;;`(web-mode-block-attr-value-face          ((t ())))
-     ;;`(web-mode-block-comment-face             ((t ())))
-     ;;`(web-mode-block-control-face             ((t ())))
-     ;;`(web-mode-block-delimiter-face           ((t ())))
-     ;;`(web-mode-block-face                     ((t ())))
-     ;;`(web-mode-block-string-face              ((t ())))
-     ;;`(web-mode-bold-face                      ((t ())))
-     ;;`(web-mode-builtin-face                   ((t ())))
-     ;;`(web-mode-comment-face                   ((t ())))
-     ;;`(web-mode-comment-keyword-face           ((t ())))
-     ;;`(web-mode-constant-face                  ((t ())))
-     ;;`(web-mode-css-at-rule-face               ((t ())))
-     ;;`(web-mode-css-color-face                 ((t ())))
-     ;;`(web-mode-css-comment-face               ((t ())))
-     ;;`(web-mode-css-function-face              ((t ())))
-     ;;`(web-mode-css-priority-face              ((t ())))
-     ;;`(web-mode-css-property-name-face         ((t ())))
-     ;;`(web-mode-css-pseudo-class-face          ((t ())))
-     ;;`(web-mode-css-selector-face              ((t ())))
-     ;;`(web-mode-css-string-face                ((t ())))
-     ;;`(web-mode-css-variable-face              ((t ())))
-     ;;`(web-mode-current-column-highlight-face  ((t ())))
-       `(web-mode-current-element-highlight-face ((t (:background "#99ccff")))) ; #FFEE80
-     ;;`(web-mode-doctype-face                   ((t ())))
-     ;;`(web-mode-error-face                     ((t ())))
-     ;;`(web-mode-filter-face                    ((t ())))
-       `(web-mode-folded-face                    ((t (:box (:line-width 1 :color "#777777") :foreground "#9a9a6a" :background "#f3f349"))))
-     ;;`(web-mode-function-call-face             ((t ())))
-     ;;`(web-mode-function-name-face             ((t ())))
-     ;;`(web-mode-html-attr-custom-face          ((t ())))
-     ;;`(web-mode-html-attr-engine-face          ((t ())))
-     ;;`(web-mode-html-attr-equal-face           ((t ())))
-       `(web-mode-html-attr-name-face            ((t ,xml-attribute)))
-     ;;`(web-mode-html-attr-value-face           ((t ())))
-     ;;`(web-mode-html-entity-face               ((t ())))
-       `(web-mode-html-tag-bracket-face          ((t ,xml-tag)))
-     ;;`(web-mode-html-tag-custom-face           ((t ())))
-       `(web-mode-html-tag-face                  ((t ,xml-tag)))
-     ;;`(web-mode-html-tag-namespaced-face       ((t ())))
-     ;;`(web-mode-inlay-face                     ((t ())))
-     ;;`(web-mode-italic-face                    ((t ())))
-     ;;`(web-mode-javascript-comment-face        ((t ())))
-     ;;`(web-mode-javascript-string-face         ((t ())))
-     ;;`(web-mode-json-comment-face              ((t ())))
-     ;;`(web-mode-json-context-face              ((t ())))
-     ;;`(web-mode-json-key-face                  ((t ())))
-     ;;`(web-mode-json-string-face               ((t ())))
-     ;;`(web-mode-jsx-depth-1-face               ((t ())))
-     ;;`(web-mode-jsx-depth-2-face               ((t ())))
-     ;;`(web-mode-jsx-depth-3-face               ((t ())))
-     ;;`(web-mode-jsx-depth-4-face               ((t ())))
-     ;;`(web-mode-keyword-face                   ((t ())))
-     ;;`(web-mode-param-name-face                ((t ())))
-     ;;`(web-mode-part-comment-face              ((t ())))
-       `(web-mode-part-face                      ((t (:background "#ffffe0"))))
-     ;;`(web-mode-part-string-face               ((t ())))
-     ;;`(web-mode-preprocessor-face              ((t ())))
-       `(web-mode-script-face                    ((t (:background "#eff0f1"))))
-     ;;`(web-mode-sql-keyword-face               ((t ())))
-     ;;`(web-mode-string-face                    ((t ())))
-     ;;`(web-mode-style-face                     ((t ())))
-     ;;`(web-mode-symbol-face                    ((t ())))
-     ;;`(web-mode-type-face                      ((t ())))
-     ;;`(web-mode-underline-face                 ((t ())))
-     ;;`(web-mode-variable-name-face             ((t ())))
-     ;;`(web-mode-warning-face                   ((t ())))
-     ;;`(web-mode-whitespace-face                ((t ())))
-
        `(which-func ((t (:weight bold :slant italic :foreground ,sf-white))))
-       ;; `(which-key-command-description-face)
-       ;; `(which-key-group-description-face)
-       ;; `(which-key-highlighted-command-face)
-       ;; `(which-key-key-face)
        `(which-key-local-map-description-face ((t (:weight bold :background "#f3f7fc" :inherit which-key-command-description-face))))
-       ;; `(which-key-note-face)
-       ;; `(which-key-separator-face)
-       ;; `(which-key-special-key-face)
-       `(widget-button ((t ,link)))
-       `(widget-button-pressed ((t (:foreground "red"))))
-       `(widget-documentation ((t (:foreground "green4"))))
-       `(widget-field ((t (:background "gray85"))))
-       `(widget-inactive ((t (:foreground "dim gray"))))
-       `(widget-single-line-field ((t (:background "gray85"))))
-       `(woman-bold ((t (:weight bold :foreground "#f13d3d"))))
-       `(woman-italic ((t (:weight bold :slant italic :foreground "#46be1b"))))
-       `(woman-symbol ((t (:weight bold :foreground "purple"))))
-       `(yas-field-debug-face ((t (:foreground ,sf-white :background "#a62154"))))
-       `(yas-field-highlight-face ((t (:box (:line-width 1 :color "#838383") :foreground ,sf-black :background "#d4dcd8"))))
-
-       ;; `(ztreep-arrow-face ((t ())))
-       ;; `(ztreep-diff-header-face ((t ())))
-       ;; `(ztreep-diff-header-small-face ((t ())))
-       `(ztreep-diff-model-add-face ((t (:weight bold :foreground "#008800"))))
-       `(ztreep-diff-model-diff-face ((t (:weight bold :foreground "#0044dd"))))
-       `(ztreep-diff-model-ignored-face ((t (:strike-through t :foreground "#9e9e9e"))))
-       `(ztreep-diff-model-normal-face ((t (:foreground ,sf-black))))
-       ;; `(ztreep-expand-sign-face ((t ())))
-       ;; `(ztreep-header-face ((t ())))
-       ;; `(ztreep-leaf-face ((t ())))
-       ;; `(ztreep-node-face ((t ())))
 
        )))
 
