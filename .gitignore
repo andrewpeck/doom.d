@@ -1,4 +1,7 @@
+__default.el
+.flycheck*
 .DS_Store
+custom.el
 .idea
 *.log
 tmp/
