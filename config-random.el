@@ -1,6 +1,9 @@
 ;;; -*- lexical-binding: t; -*-
 
-(add-to-list 'warning-suppress-types '(iedit))
+;; supress warning of obsolete generalized variable in org-web-tools
+;; should check this periodically and remove if org-web-tools updates
+;; for 29.1
+(cl-remprop 'buffer-substring 'byte-obsolete-generalized-variable)
 
 (add-to-list 'warning-suppress-types '(iedit))
 
