@@ -59,6 +59,7 @@
 (load!! "config-completion")
 (load!! "config-dired")
 (load!! "config-doom")
+(load!! "config-eglot")
 (load!! "config-elfeed")
 (load!! "config-flycheck")
 (load!! "config-git")
