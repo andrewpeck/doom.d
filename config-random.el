@@ -152,7 +152,7 @@
   (setq undo-tree-auto-save-history t))
 
 (after! undo-tree
-  (setq undo-tree-history-directory-alist '(("." . "~/.doom.d/undo"))))
+  (setq undo-tree-history-directory-alist '(("." . "~/.undo-tree"))))
 
 ;; https://github.com/doomemacs/doomemacs/issues/902
 ;; ~/.emacs.d/.local/cache/undo-tree-hist
