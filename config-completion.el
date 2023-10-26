@@ -32,7 +32,7 @@
   (setq-local completion-at-point-functions
               (list
                (cape-company-to-capf #'company-yasnippet)
-               'cape-elisp-symbol
+               'cape-symbol
                'cape-keyword
                'cape-dabbrev
                'cape-history
