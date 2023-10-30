@@ -32,6 +32,7 @@
 ;; Misc packages
 ;; start:sort
 (package! affe :pin "ae3169ac4bbd64520d165b4ce4806b7a34b972dc")
+(package! ascii-art-to-unicode :pin "79a73bd4f623f10135b6b65030f6d5e3070466db")
 (package! benchmark-init :pin "02435560415bbadbcf5051fb7042880549170e7e")
 (package! browse-at-remote :recipe (:host github :repo "rmuslimov/browse-at-remote") :pin "76aa27dfd469fcae75ed7031bb73830831aaccbf")
 (package! cape :recipe (:host github :repo "minad/cape") :pin "116063b9ee912cbaa7318dbe6597ade4a62b3f59")
