@@ -10,3 +10,6 @@
 [submodule "lisp/system-install.el"]
 	path = packages/system-install
 	url = https://github.com/andrewpeck/system-install.el
+[submodule "packages/verilog-port-copy"]
+	path = packages/verilog-port-copy
+	url = https://github.com/andrewpeck/verilog-port-copy
