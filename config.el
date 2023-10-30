@@ -22,13 +22,14 @@
 ;; ;; (use-package! hdl-deps       :defer-incrementally t)
 
 ;; start:sort
-(use-package! backup-each-save :defer-incrementally t)
-(use-package! gpt              :defer-incrementally t)
-(use-package! hog              :defer-incrementally t)
-(use-package! setup-system     :defer-incrementally t)
-(use-package! system-install   :defer-incrementally t)
-(use-package! ucf-mode         :defer-incrementally t)
-(use-package! vivado-mode      :defer-incrementally t)
+(use-package! backup-each-save  :defer-incrementally t)
+(use-package! gpt               :defer-incrementally t)
+(use-package! hog               :defer-incrementally t)
+(use-package! setup-system      :defer-incrementally t)
+(use-package! system-install    :defer-incrementally t)
+(use-package! ucf-mode          :defer-incrementally t)
+(use-package! verilog-port-copy :defer-incrementally t)
+(use-package! vivado-mode       :defer-incrementally t)
 ;; end:sort
 
 (defun load!! (path) (load! path doom-user-dir t))
