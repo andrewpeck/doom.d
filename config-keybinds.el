@@ -297,6 +297,9 @@ between the two most recently open buffers."
     (kbd "<mouse-8>") 'evil-jump-backward
     (kbd "<mouse-9>") 'evil-jump-forward)
 
+  (evil-define-key nil 'global
+    (kbd "<mouse-3>") 'context-menu-open)
+
   (evil-define-key 'visual 'global
     (kbd "C-i") nil)
 
