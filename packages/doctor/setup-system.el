@@ -48,7 +48,7 @@
        (setup--shell-command-nil "chmod 600 ~/.ssh/authorized_keys > /dev/null 2>&1")))
 
 (defun setup--check-for-path (path)
-
+  ""
   (if (not (file-directory-p path))
       (progn (princ (format "- [ ] path %s was not found\n" path)))
     (progn (princ (format "- [X] path %s found\n" path)))))

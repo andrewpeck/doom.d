@@ -20,9 +20,9 @@
         highlight-indent-guides-method 'bitmap))
 
 ;; All the icons
-(after! all-the-icons
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-  (all-the-icons-ibuffer-mode 1))
+;; (after! all-the-icons
+;;   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;;   (all-the-icons-ibuffer-mode 1))
 
 ;; Theme
 (add-to-list 'custom-theme-load-path

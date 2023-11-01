@@ -51,7 +51,7 @@
 (load!! "config-core")
 
 (setq doom-scratch-dir doom-user-dir)
-(setq bookmark-file (concat doom-user-dir "bookmarks"))
+(setq bookmark-default-file (concat doom-user-dir "bookmarks"))
 
 ;; start:sort
 (after! org (load!! "config-org"))
@@ -79,6 +79,10 @@
 
 (make-variable-buffer-local 'after-save-hook)
 (make-variable-buffer-local 'write-contents-functions)
+
+(defun byte-compile-config ()
+  (interactive)
+  (byte-recompile-directory (expand-file-name "~/.doom.d") 0))
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)

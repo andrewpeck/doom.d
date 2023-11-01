@@ -1,3 +1,4 @@
+*.elc
 __default.el
 .flycheck*
 .DS_Store
