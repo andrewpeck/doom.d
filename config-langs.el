@@ -109,8 +109,9 @@
 ;; vhdl mode will wrap comments after some # of characters
 (after! vhdl-mode
   (setq vhdl-end-comment-column 200
+        vhdl-standard '(08)
+        vhdl-platform-spec nil
         vhdl-prompt-for-comments nil)
-
 
   (setq flycheck-ghdl-language-standard "08")
 
@@ -289,6 +290,7 @@
 ;;------------------------------------------------------------------------------
 
 (setq python-shell--interpreter "python3")
+
 (setq python-flymake-command '("flake8" "-") )
 
 (setq py-isort-options '("--combine-as"))
