@@ -102,13 +102,6 @@
         verilog-indent-level-module 2
         verilog-tab-to-comment nil))
 
-(defun verilog-align-ports ()
-  (interactive)
-  (save-excursion
-    (beginning-of-line)
-    (er/expand-region 2)
-    (align-paren (region-beginning) (region-end))))
-
 ;;------------------------------------------------------------------------------
 ;; VHDL Mode
 ;;------------------------------------------------------------------------------
