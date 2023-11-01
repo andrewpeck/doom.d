@@ -55,7 +55,7 @@
 (package! rainbow-mode :pin "41f4af40964cdb9d0cc3552eb450540fdc820455")
 (package! scad-mode :pin "e1af74735ad6113448c99b3ab128a665e6adaaca")
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot") :pin "ddb092d88d61330a3f562f67f051677b8de9ac07")
-(package! standard-themes :recipe (:host github :repo "protesilaos/standard-themes") :pin "b7c89d4f2b36d0a7fcfdac8a7c5b13c132abeddb")
+(package! standard-themes :recipe (:host github :repo "protesilaos/standard-themes") :pin "fba33e81789e33c81e8434aeb4ddddd813a940d7")
 (package! systemd :recipe (:host github :repo "holomorph/systemd-mode") :pin "8742607120fbc440821acbc351fda1e8e68a8806" )
 (package! treesit-auto :recipe (:host github :repo "renzmann/treesit-auto") :pin "f5ed138a4179058bf436f18953ed6dc493d9a124")
 (package! verilog-mode :recipe (:host github :repo "veripool/verilog-mode") :pin "9395f121e0214d3ae385a5500e2c5c9edeb11ad6")
