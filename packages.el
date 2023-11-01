@@ -38,7 +38,7 @@
 (package! cape :recipe (:host github :repo "minad/cape") :pin "abacb231157e0c90e29bdda6d15b4b448e48ffbd")
 (package! crontab-mode :pin "7412f3df0958812bfcacd5875a409fa795fa8ecc")
 (package! delight :pin "46932bdc4da69072329aec8df052da3e04444899")
-(package! dwim-shell-command :recipe (:host github :repo "xenodium/dwim-shell-command") :pin "853318d58a9060c17538eaeacc00e4e6eb4fd642")
+(package! dwim-shell-command :recipe (:host github :repo "xenodium/dwim-shell-command") :pin "8b90a964f09e69b1c55258e91710b0488e0bf135")
 (package! elfeed :recipe (:host github :repo "skeeto/elfeed") :pin "55fb162fa27e71b88effa59a83c57842e262b00f" )
 (package! emojify :pin "1b726412f19896abf5e4857d4c32220e33400b55")
 (package! evil-collection :recipe (:host github :repo "emacs-evil/evil-collection") :pin "18304d9d9e4243687a7bf915dc7e591a216873c6")
