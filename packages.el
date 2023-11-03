@@ -27,6 +27,7 @@
 (package! evil-collection :recipe (:host github :repo "emacs-evil/evil-collection") :pin "18304d9d9e4243687a7bf915dc7e591a216873c6")
 (package! evil-leader :pin "39f7014bcf8b36463e0c7512c638bda4bac6c2cf")
 (package! evil-org :pin "a9706da260c45b98601bcd72b1d2c0a24a017700")
+(package! expand-region :recipe (:host github :repo "magnars/expand-region.el") :pin "9e3f86c02c5e2ab6f0d95da8a34045b54f6166d1")
 (package! flycheck :recipe (:host github :repo "flycheck/flycheck") :pin "e56e30d8c66ffc9776d07740658d3b542c1a8e21")
 (package! flycheck-clj-kondo :recipe (:host github :repo "borkdude/flycheck-clj-kondo") :pin "ff7bed2315755cfe02ef471edf522e27b78cd5ca")
 (package! fzf :recipe (:host github :repo "bling/fzf.el") :pin "3a55b983921c620fb5a2cc811f42aa4daaad8266")
