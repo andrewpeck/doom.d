@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: clk
+# key: clk
+# --
+await RisingEdge(dut.clk)

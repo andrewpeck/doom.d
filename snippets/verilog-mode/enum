@@ -1,8 +1,6 @@
+# -*- mode: snippet -*-
 # name: enum
 # key: enum
-# group: verilog
 # --
-/*! Description */
-typedef enum ${2:Type} {
-   ${3:Value} = $0;  //!< Value Description
-} ${1:Name};
+typedef enum int unsigned { IDLE = 1, INCREMENT = 2,  ACCUMULATE = 4, DONE = 8 } state_t;
+var          state_t state;

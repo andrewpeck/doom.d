@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ram_style
+# key: ram_style
+# --
+(* ram_style = "distributed" *)

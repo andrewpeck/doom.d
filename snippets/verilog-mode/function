@@ -2,10 +2,10 @@
 # key: function
 # group: verilog
 # --
-function [7:0] getbyte (input [15:0] address);
+function automatic [7:0] getbyte (input [15:0] address);
 begin
-// code to extract low-order byte from addressed word
-. . .
-getbyte = result_expression;
+  // code to extract low-order byte from addressed word
+  . . .
+  getbyte = result_expression;
 end
 endfunction

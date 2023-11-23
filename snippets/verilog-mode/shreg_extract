@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: shreg_extract
+# key: shreg_extract
+# --
+(* shreg_extract = "no" *)

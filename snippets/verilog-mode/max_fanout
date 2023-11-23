@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: max_fanout
+# key: max_fanout
+# --
+(* max_fanout = ${1:32} *)

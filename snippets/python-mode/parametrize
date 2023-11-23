@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: parametrize
+# key: parametrize
+# expand-env: ((yas-indent-line 'fixed))
+# --
+@pytest.mark.parametrize('n_gmzi_outputs, shadowing', [(10, 0)])

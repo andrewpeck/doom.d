@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name:dir-locals
+# key: dir-locals
+# --
+;; .dir-locals.el
+((nil . ((indent-tabs-mode . t)
+         (fill-column . 80)
+         (mode . auto-fill)))
+ (c-mode . ((c-file-style . "BSD")
+            (subdirs . nil)))
+ ("src/imported"
+  . ((nil . ((change-log-default-name
+              . "ChangeLog.local"))))))

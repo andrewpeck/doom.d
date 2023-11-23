@@ -1,0 +1,90 @@
+# -*- mode: snippet -*-
+# name: cocotb_test
+# key: cocotb_test
+# expand-env: ((yas-indent-line 'fixed))
+# --
+#!/usr/bin/env python3
+"""
+..  Copyright © 2023 PsiQuantum Corp.  All rights reserved.
+    PSIQUANTUM CORP. CONFIDENTIAL
+    This file includes unpublished proprietary source code of PsiQuantum Corp.
+    The copyright notice above does not evidence any actual or intended publication
+    of such source code. Disclosure of this source code or any related proprietary
+    information is strictly prohibited without the express written permission of
+    PsiQuantum Corp.
+"""
+
+import os
+import random
+
+from typing import Mapping, List
+from pathlib import Path
+
+import cocotb
+from cocotb.runner import get_runner
+from cocotb.clock import Clock
+from cocotb.triggers import RisingEdge
+
+
+@cocotb.test()
+async def ${1:topname}_test_bench(dut):
+
+    cocotb.start_soon(Clock(dut.clk, 1, units="ns").start())  # Create a clock
+
+    dut.rst.value = 1
+    await RisingEdge(dut.clk)
+    dut.rst.value = 0
+    await RisingEdge(dut.clk)
+
+    # for clk in range(100000):
+
+
+
+def test_$1():
+
+    test_module = os.path.splitext(os.path.basename(__file__))[0]
+    rtl_dir = Path(__file__).parent / "../hdl"
+    vhdl_sources = []
+
+    # --------------------------------------------------------------------------------
+    # Custom
+    # --------------------------------------------------------------------------------
+
+    verilog_sources: List = [str(rtl_dir / "$1.sv")]
+
+    hdl_toplevel: str = "$1"
+    parameters: Mapping = {}
+    defines: Mapping = {"SIMULATION": 1}
+
+    # --------------------------------------------------------------------------------
+    # Boilerplate
+    # --------------------------------------------------------------------------------
+
+    sim = os.getenv('SIM', 'verilator')
+    runner = get_runner(sim)
+
+    if os.getenv("SIM_FAST", 'false') == "true":
+        extra_args: List = []
+    else:
+        extra_args: List = ["--trace-fst",
+                            "--trace-depth", "2",
+                            "--trace-max-array", "256",
+                            "--trace-max-width", "256",
+                            "--coverage", "--assert"]
+
+    runner.build(
+        verilog_sources=verilog_sources,
+        vhdl_sources=vhdl_sources,
+        hdl_toplevel=hdl_toplevel,
+        always=True,
+        parameters=parameters,
+        build_args=extra_args,
+        defines=defines)
+
+    runner.test(hdl_toplevel=hdl_toplevel,
+                parameters=parameters,
+                test_module=test_module,
+                waves=1)
+
+if __name__ == "__main__":
+    test_$1()

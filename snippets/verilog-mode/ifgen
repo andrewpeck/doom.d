@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ifgen
+# key: ifgen
+# --
+generate
+  if ($1) begin
+  end
+endgenerate

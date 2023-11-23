@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: keep
+# key: keep
+# --
+(* keep = "true" *)
