@@ -180,6 +180,21 @@
     "Insert a vhdl i-- for either the current selection or symbol at point."
     (interactive)
     (vhdl-self-op "-")))
+(defun normalize-comment-strings ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^\\(\s*\\)\\(\/\/\\)\s*\\(-+\\)$" nil t)
+      (let ((whitespace (match-string 1))
+            (comment (match-string 2)))
+        (goto-char (line-beginning-position))
+        (kill-line)
+        (insert whitespace)
+        (insert comment)
+        (insert-char #x2D
+                     (- 80
+                        (length whitespace)
+                        (length comment)))))))
 
 ;;------------------------------------------------------------------------------
 ;; Tcl
