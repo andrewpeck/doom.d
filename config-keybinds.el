@@ -426,6 +426,7 @@ between the two most recently open buffers."
   (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)
   (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
   (map! :leader :prefix "g" :desc "Open Elfeed"          "pt" #'gpt-prompt)
+  (map! :leader :prefix "r" :desc "Replace Symbol"       "s"  #'qrc)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
   (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile)
