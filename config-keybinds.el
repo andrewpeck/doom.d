@@ -189,11 +189,16 @@
      t)))                               ; show error buffer?
 
 ;; Backspace to switch to last buffer
-(defun er-switch-to-previous-buffer ()
+(defun switch-to-previous-buffer ()
   "Switch to previously open buffer. Repeated invocations toggle
 between the two most recently open buffers."
   (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) 1)))
+  ;; (evil-switch-to-windows-last-buffer)
+  (let* ((current (current-buffer))
+         (other (other-buffer current 1)))
+    (when (and  (buffer-file-name other)
+                (buffer-file-name current))
+      (switch-to-buffer other))))
 
 (defun open-todo ()
   "Open my todo file"
@@ -289,7 +294,8 @@ between the two most recently open buffers."
     (kbd "C-S-b") #'open-timesheet)
 
   ;; Jump back and forth through files, time, and space with arrow keys
-  (evil-define-key nil 'global
+
+  (evil-define-key '(normal insert motion) 'global
     (kbd "C-t") 'evil-jump-backward)
 
   ;; Jump back and forth through files, time, and space with arrow keys
@@ -339,7 +345,7 @@ between the two most recently open buffers."
 
   ;; Backspace to jump to previous buffer
   (evil-define-key '(normal motion) 'global
-    (kbd "DEL") 'er-switch-to-previous-buffer)
+    (kbd "DEL") 'switch-to-previous-buffer)
 
   (evil-define-key '(normal motion) python-mode-map
     (kbd "C-c C-b") #'py-black)
