@@ -61,7 +61,7 @@
 
       ;; place bookmarks in the doom folder for version control
 
-      bookmark-default-file bookmark-file
+      bookmark-default-file (concat doom-user-dir "bookmarks")
 
       ;; +format-on-save-enabled-modes
       ;; '(not yaml-mode python-mode emacs-lisp-mode
