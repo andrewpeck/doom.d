@@ -3,4 +3,4 @@
 # key: list
 # --
 list:
-	@make -qp | awk -v RS="" '!/Not a target/{if ($$0 ~ /^[^ %]+:/) {split($$0, A, ":"); print A[1];}}' | sort -u | grep -v ".PHONY"
+	@make -qp | awk -v RS="" '!/Not a target/{if (\$\$0 ~ /^[^ %]+:/) {split(\$\$0, A, ":"); print A[1];}}' | sort -u | grep -v ".PHONY"
