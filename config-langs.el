@@ -158,28 +158,29 @@
     (let ((sig (buffer-substring-no-properties (mark) (point))))
       (delete-region (mark) (point))
       (insert (format  "unsigned(%s)" sig))
-      (backward-char 1)))
+      (backward-char 1))))
 
-  (defun vhdl-self-op (op)
-    (let ((sym (if (region-active-p)
-                   (buffer-substring-no-properties (region-beginning) (region-end))
-                 (symbol-at-point))))
-      (save-excursion
-        (when sym
-          (forward-line)
-          (open-line 1)
-          (indent-for-tab-command)
-          (insert (format "%s <= %s %s 1;" sym sym op))))))
+(defun hdl-self-op (op)
+  (let ((sym (if (region-active-p)
+                 (buffer-substring-no-properties (region-beginning) (region-end))
+               (symbol-at-point))))
+    (save-excursion
+      (when sym
+        (forward-line)
+        (open-line 1)
+        (indent-for-tab-command)
+        (insert (format "%s <= %s %s 1;" sym sym op))))))
 
-  (defun vhdl-i++ ()
-    "Insert a vhdl i++ for either the current selection or symbol at point."
-    (interactive)
-    (vhdl-self-op "+"))
+(defun hdl-i++ ()
+  "Insert a hdl i++ for either the current selection or symbol at point."
+  (interactive)
+  (hdl-self-op "+"))
 
-  (defun vhdl-i-- ()
-    "Insert a vhdl i-- for either the current selection or symbol at point."
-    (interactive)
-    (vhdl-self-op "-")))
+(defun hdl-i-- ()
+  "Insert a hdl i-- for either the current selection or symbol at point."
+  (interactive)
+  (hdl-self-op "-"))
+
 (defun normalize-comment-strings ()
   (interactive)
   (save-excursion
