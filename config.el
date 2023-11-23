@@ -72,6 +72,7 @@
 (load!! "config-scad")
 (load!! "config-tex.el")
 (load!! "lisp/gerb-view")
+(load!! "lisp/plotting")
 (load!! "lisp/regulator")
 (load!! "lisp/tracking")
 (load!! "passwords")
