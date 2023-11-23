@@ -179,6 +179,7 @@
         (delete-region start end)
         (org-insert-link nil link description))))
 
+  ;;;###autoload
   (defun ap/url->md ()
     "Convert the URL at point into an md mode formatted link. The
   title of the page is retrieved from the web page"
@@ -186,10 +187,12 @@
     (ap/url->org)
     (org-link->markdown))
 
+  ;;;###autoload
   (defun md-shorten-indico-url ()
     (org-shorten-indico-link)
     (org-link->markdown))
 
+  ;;;###autoload
   (defun org-archive-done ()
     "Interactive wrapper for org-archive-all-done"
     (interactive)
@@ -201,6 +204,7 @@
     (let* ((link (org-element-lineage (org-element-context) '(link) t))
            (url (org-element-property :path link))) url))
 
+  ;;;###autoload
   (defun org-edit-image ()
     ""
     (interactive)
@@ -208,6 +212,7 @@
       (when link
         (start-process "*gimp*" nil "setsid" "gimp" link))))
 
+  ;;;###autoload
   (defun org-shorten-url-by-title ()
     ""
     (interactive)
@@ -220,11 +225,13 @@
         (delete-region beg end)
         (org-insert-link nil url desc))))
 
+  ;;;###autoload
   (defun md-shorten-url-by-title ()
     (interactive)
     (org-shorten-url-by-title)
     (org-link->markdown))
 
+  ;;;###autoload
   (defun org-shorten-indico-url ()
     "Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
 and shortens it into an org mode link consisting of just `some file`"
@@ -244,84 +251,84 @@ and shortens it into an org mode link consisting of just `some file`"
 
       (when desc
         (delete-region beg end)
-        (org-insert-link nil url desc)))))
+        (org-insert-link nil url desc))))
 
-;; Functions to Convert to/from org / markdown links
+  ;; Functions to Convert to/from org / markdown links
 
-;; taken from:
-;; https://github.com/agzam/.doom.d/blob/main/modules/custom/org/autoload/custom.el#L181-L214
-(defun org-link-parse (link)
-  ;; borrowed and adopted from:
-  ;; github.com/xuchunyang/emacs.d/blob/5f4f873cf7a671a36f686f3d1346fd7c5a5462bc/lisp/chunyang-misc.el#L488-L526
-  (if (string-match
-       (rx "[[" (group (0+ anything)) "][" (group (0+ anything)) "]]")
-       link)
-      (list (match-string 1 link)
-            (match-string 2 link))
-    (error "Cannot parse %s as Org link" link)))
+  ;; taken from:
+  ;; https://github.com/agzam/.doom.d/blob/main/modules/custom/org/autoload/custom.el#L181-L214
+  (defun org-link-parse (link)
+    ;; borrowed and adopted from:
+    ;; github.com/xuchunyang/emacs.d/blob/5f4f873cf7a671a36f686f3d1346fd7c5a5462bc/lisp/chunyang-misc.el#L488-L526
+    (if (string-match
+         (rx "[[" (group (0+ anything)) "][" (group (0+ anything)) "]]")
+         link)
+        (list (match-string 1 link)
+              (match-string 2 link))
+      (error "Cannot parse %s as Org link" link)))
 
-(defun org-link->markdown ()
-  (interactive)
-  (let* ((ctx (org-in-regexp org-link-any-re))
-         (beg (car ctx)) (end (cdr ctx))
-         (link-txt (buffer-substring beg end))
-         (parsed (unless (string-blank-p link-txt)
-                   (seq-map
-                    ;; escape square brackets and parens, see:
-                    ;; https://emacs.stackexchange.com/questions/68814/escape-all-square-brackets-with-replace-regexp-in-string
-                    (lambda (m)
-                      (replace-regexp-in-string "\\[\\|\\]\\|(\\|)" "\\\\\\&" m))
-                    (org-link-parse link-txt)))))
-    (when parsed
-      (delete-region beg end)
-      (insert (apply 'format "[%s](%s)" (reverse parsed))))))
+  (defun org-link->markdown ()
+    (interactive)
+    (let* ((ctx (org-in-regexp org-link-any-re))
+           (beg (car ctx)) (end (cdr ctx))
+           (link-txt (buffer-substring beg end))
+           (parsed (unless (string-blank-p link-txt)
+                     (seq-map
+                      ;; escape square brackets and parens, see:
+                      ;; https://emacs.stackexchange.com/questions/68814/escape-all-square-brackets-with-replace-regexp-in-string
+                      (lambda (m)
+                        (replace-regexp-in-string "\\[\\|\\]\\|(\\|)" "\\\\\\&" m))
+                      (org-link-parse link-txt)))))
+      (when parsed
+        (delete-region beg end)
+        (insert (apply 'format "[%s](%s)" (reverse parsed))))))
 
-(defun markdown-link->org ()
-  (interactive)
-  (when (markdown-link-p)
-    (let* ((l (markdown-link-at-pos (point)))
-           (desc (nth 2 l))
-           (url (nth 3 l)))
-      (markdown-kill-thing-at-point)
-      (org-insert-link nil url desc))))
+  (defun markdown-link->org ()
+    (interactive)
+    (when (markdown-link-p)
+      (let* ((l (markdown-link-at-pos (point)))
+             (desc (nth 2 l))
+             (url (nth 3 l)))
+        (markdown-kill-thing-at-point)
+        (org-insert-link nil url desc))))
 
-;; from
-;; (https://github.com/SqrtMinusOne/dotfiles/blob/4b176a5bb1a5e20a7fdd7398b74df79701267a7e/.emacs.d/init.el)
-(defun org-link-copy (&optional arg)
-  "Extract URL from org-mode link and add it to kill ring."
-  (interactive "P")
-  (let* ((link (org-element-lineage (org-element-context) '(link) t))
-         (type (org-element-property :type link))
-         (url (org-element-property :path link))
-         (url (concat type ":" url)))
-    (kill-new url)
-    (message (concat "Copied URL: " url))))
+  ;; from
+  ;; (https://github.com/SqrtMinusOne/dotfiles/blob/4b176a5bb1a5e20a7fdd7398b74df79701267a7e/.emacs.d/init.el)
+  (defun org-link-copy (&optional arg)
+    "Extract URL from org-mode link and add it to kill ring."
+    (interactive "P")
+    (let* ((link (org-element-lineage (org-element-context) '(link) t))
+           (type (org-element-property :type link))
+           (url (org-element-property :path link))
+           (url (concat type ":" url)))
+      (kill-new url)
+      (message (concat "Copied URL: " url))))
 
-(defun org-remove-link-and-trash-linked-file ()
-  "Remove `org-mode' link at point and trash linked file."
-  (interactive)
-  (let* ((link (org-element-context))
-         (path (org-element-property :path link)))
-    (move-file-to-trash path)
-    (delete-region (org-element-property :begin link)
-                   (org-element-property :end link))))
+  (defun org-remove-link-and-trash-linked-file ()
+    "Remove `org-mode' link at point and trash linked file."
+    (interactive)
+    (let* ((link (org-element-context))
+           (path (org-element-property :path link)))
+      (move-file-to-trash path)
+      (delete-region (org-element-property :begin link)
+                     (org-element-property :end link))))
 
-;;------------------------------------------------------------------------------
-;; conversions
-;;------------------------------------------------------------------------------
+  ;;------------------------------------------------------------------------------
+  ;; conversions
+  ;;------------------------------------------------------------------------------
 
-;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
-(defun org-copy-region-as-markdown ()
-  "Copy the region (in Org) to the system clipboard as Markdown."
-  (interactive)
-  (if (use-region-p)
-      (let* ((region
-              (buffer-substring-no-properties
-               (region-beginning)
-               (region-end)))
-             (markdown
-              (org-export-string-as region 'md t '(:with-toc nil))))
-        (gui-set-selection 'CLIPBOARD markdown))))
+  ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
+  (defun org-copy-region-as-markdown ()
+    "Copy the region (in Org) to the system clipboard as Markdown."
+    (interactive)
+    (if (use-region-p)
+        (let* ((region
+                (buffer-substring-no-properties
+                 (region-beginning)
+                 (region-end)))
+               (markdown
+                (org-export-string-as region 'md t '(:with-toc nil))))
+          (gui-set-selection 'CLIPBOARD markdown)))))
 (defun pandoc-buffer-to-org ()
   (interactive)
   (shell-command
