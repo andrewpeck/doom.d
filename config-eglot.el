@@ -7,8 +7,8 @@
   (setq eglot-prefer-plaintext t
         eglot-autoshutdown t
         ;; eglot-events-buffer-size 0
-        ;; eldoc-echo-area-prefer-doc-buffer nil
-        ;; eldoc-echo-area-use-multiline-p t
+        eldoc-echo-area-prefer-doc-buffer t
+        eldoc-echo-area-use-multiline-p t
         )
 
 
