@@ -11,16 +11,16 @@
 
 ;; Misc packages
 ;; start:sort
-(package! affe                  :pin "ae3169ac4bbd64520d165b4ce4806b7a34b972dc")
+(package! affe                  :pin "2f2423effdcec2731ab865f513fd92bb96d0eb03")
 (package! ascii-art-to-unicode  :pin "79a73bd4f623f10135b6b65030f6d5e3070466db")
 (package! benchmark-init        :pin "02435560415bbadbcf5051fb7042880549170e7e")
 (package! browse-at-remote      :pin "76aa27dfd469fcae75ed7031bb73830831aaccbf" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
-(package! cape                  :pin "abacb231157e0c90e29bdda6d15b4b448e48ffbd" :recipe (:host github :repo "minad/cape"))
+(package! cape                  :pin "f9f8e4a1e36b0ee7972c35bc0a635cbed9959aa0" :recipe (:host github :repo "minad/cape"))
 (package! clojure-emacs         :pin "592c4f89efb5112784cbf94c9ea6fdd045771b62" :recipe (:host github :repo "clojure-emacs/squiggly-clojure"))
-(package! company               :pin "66201465a962ac003f320a1df612641b2b276ab5")
+(package! company               :pin "9b21604d19696de2c79ee28931620839b3a908b4")
 (package! crontab-mode          :pin "7412f3df0958812bfcacd5875a409fa795fa8ecc")
 (package! delight               :pin "46932bdc4da69072329aec8df052da3e04444899")
-(package! dwim-shell-command    :pin "8b90a964f09e69b1c55258e91710b0488e0bf135" :recipe (:host github :repo "xenodium/dwim-shell-command"))
+(package! dwim-shell-command    :pin "e4a139fe181ed1b576302fb36f3761fbf9914580" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! elfeed                :pin "55fb162fa27e71b88effa59a83c57842e262b00f"  :recipe (:host github :repo "skeeto/elfeed"))
 (package! emojify               :pin "1b726412f19896abf5e4857d4c32220e33400b55")
 (package! evil-collection       :pin "18304d9d9e4243687a7bf915dc7e591a216873c6" :recipe (:host github :repo "emacs-evil/evil-collection"))
@@ -47,10 +47,10 @@
 (package! standard-themes       :pin "fba33e81789e33c81e8434aeb4ddddd813a940d7" :recipe (:host github :repo "protesilaos/standard-themes"))
 (package! systemd               :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org               :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
-(package! treesit-auto          :pin "f5ed138a4179058bf436f18953ed6dc493d9a124" :recipe (:host github :repo "renzmann/treesit-auto"))
+(package! treesit-auto          :pin "78b38c4ded525311d6fb1130bfa7ef03273033f5" :recipe (:host github :repo "renzmann/treesit-auto"))
 (package! verilog-mode          :pin "9395f121e0214d3ae385a5500e2c5c9edeb11ad6" :recipe (:host github :repo "veripool/verilog-mode"))
 (package! vimrc-mode            :pin "13bc150a870d5d4a95f1111e4740e2b22813c30e")
-(package! visual-fill-column    :pin "695a59789209c42fa08a5bce92963ee32f4455be")
+(package! visual-fill-column    :pin "db7c7c236555c9c684e1294a277efefdc25fa5c4")
 (package! xr                    :pin "3e38048521f56a1414cb2d9adcd55ef5b270b557")                           ; xr is rx in reverse
 ;; (package! jinx :recipe (:host github :repo "minad/jinx") :pin "b96d4c27e2f7472e923f7c4446c2061f1259819f") problems in snap?
 ;; (package! verilog-ext :recipe (:host github :repo "gmlarumbe/verilog-ext")) ;; brings in too many dependencies... ag aphelia lsp outorg outshine rg :(
