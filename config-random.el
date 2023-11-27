@@ -71,6 +71,8 @@
       auto-save-default t          ; Nobody likes to loose work, I certainly don't
       truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
 
+      abbrev-file-name (concat doom-user-dir "abbrev_defs")
+
       ;; place bookmarks in the doom folder for version control
 
       bookmark-default-file (concat doom-user-dir "bookmarks")
