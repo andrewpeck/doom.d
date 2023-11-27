@@ -45,6 +45,18 @@
 
 (apheleia-global-mode)
 
+(use-package! dired-x
+  :config
+  (setq dired-omit-files
+        (concat dired-omit-files
+                "\\|vivado.*\\.jou\\'"
+                "\\|vivado.*\\.backup\\.log\\'"
+                "\\|vivado\\.log\\'"
+                "\\|^\\.Xil\\'"
+                "\\|^\\.mypy_cache\\'"
+                "\\|^__pycache__\\'"
+                "\\|^\\.pytest_cache\\'")))
+
 (after! pdf-view-mode (add-hook! 'pdf-view-mode-hook #'auto-revert-mode))
 (after! image-mode    (add-hook! 'image-mode-hook #'auto-revert-mode))
 
