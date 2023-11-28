@@ -34,20 +34,23 @@ Containing LEFT, and RIGHT aligned respectively."
   "Get a text describing STATUS for use in the mode line.
 STATUS defaults to `flycheck-last-status-change' if omitted or
 nil."
-  (pcase (or status flycheck-last-status-change)
-    (`not-checked "∄")
-    (`no-checker "✗")
-    (`running "⟳")
-    (`errored "‼")
-    (`finished
-     (let-alist (flycheck-count-errors flycheck-current-errors)
-       (if (or .error .warning)
-           (concat
-            "" (propertize (format "%s" (or .error 0) ) 'face '(:inherit error))
-            "|" (propertize (format "%s" (or .warning 0)) 'face '(:inherit warning)))
-         "✓")))
-    (`interrupted ".")
-    (`suspicious "?")))
+  (concat
+   (pcase (or status flycheck-last-status-change)
+     (`not-checked "")                 ;∄
+     (`no-checker "")                  ;✗
+     (`running "")                     ; ⟳
+     (`errored "")                     ; ‼
+     (`finished
+      (let-alist (flycheck-count-errors flycheck-current-errors)
+        (if (or .error .warning)
+            (concat
+             "" (propertize (format "%s" (or .error 0) ) 'face '(:inherit error))
+             "|" (propertize (format "%s" (or .warning 0)) 'face '(:inherit warning)))
+          "")))                        ;✓
+     (`interrupted ".")
+     (`suspicious "?"))
+   ;; add some extra padding to keep away from screen edge, seems to look better
+   " "))
 
 (setq mode-line-format
       '((:eval (simple-mode-line-render
@@ -65,7 +68,7 @@ nil."
                   "L%l⸱C%c⸱%p"
 
                   ,(if vc-mode
-                     (concat " ·" vc-mode " · ") " · ")
+                       (concat " ·" vc-mode " · ") " · ")
 
                   ,(format "%s" (if (listp mode-name) (car mode-name) mode-name))
                   " · "
