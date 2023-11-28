@@ -249,6 +249,9 @@ between the two most recently open buffers."
     (kbd "C-n")   #'affe-find-notes
     (kbd "C-n")   #'affe-find-notes)
 
+  (evil-define-key '(motion normal insert) 'global
+    (kbd "C-s") #'save-buffer)
+
   ;; Org
   (evil-define-key nil org-mode-map
     (kbd "TAB") #'org-cycle)
