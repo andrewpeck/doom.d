@@ -5,6 +5,11 @@
 ;; for 29.1
 (cl-remprop 'buffer-substring 'byte-obsolete-generalized-variable)
 
+
+;; don't make escape annoyingly close popups UHG
+(advice-remove 'evil-force-normal-state
+               '+evil-escape-a)
+
 (add-to-list 'warning-suppress-types '(iedit))
 
 ;; (remove-hook! 'find-file-hook #'+vc-gutter-init-maybe-h)
