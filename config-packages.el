@@ -34,10 +34,16 @@
 ;;   (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
 ;;   (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
 
-;; disable confusing undo-fu behavior
-;; https://gitlab.com/ideasman42/emacs-undo-fu/-/issues/6
+;; persistent undo
+(use-package! undo-fu-session
+  :after undo-fu
+  :config
+  (setq undo-fu-session-directory (concat doom-user-dir ".undo-fu")))
+
 (use-package! undo-fu
   :config
+  ;; disable confusing undo-fu behavior
+  ;; https://codeberg.org/ideasman42/emacs-undo-fu/issues/6
   (setq undo-fu-ignore-keyboard-quit t))
 
 ;; ;; persistent undo
