@@ -1,4 +1,7 @@
 ;;; hima-theme.el --- Custom face theme for Emacs
+;;;
+;;; adapted in small ways from the lovely theme at:
+;;; https://github.com/meain/hima-theme
 
 ;;; Code:
 (defgroup hima nil "Custom faces for more stuff." :prefix "hima-" :group nil)
@@ -225,8 +228,7 @@
    `(diff-hl-delete ((t (:background ,light-red))))
 
    ;; keycast
-   `(keycast-key ((t (:background ,light-blue))))
-   ))
+   `(keycast-key ((t (:background ,light-blue))))))
 
 (provide-theme 'hima)
 ;;; hima-theme.el ends here
