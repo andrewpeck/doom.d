@@ -101,63 +101,12 @@
 (map! :n [mouse-8] #'previous-buffer
       :n [mouse-9] #'next-buffer)
 
-;; Backups
-;; FIXME: after?
-(require 'backup-each-save)
-(setq backup-each-save-mirror-location (expand-file-name "~/emacs-backups"))
-(when (not (file-directory-p backup-each-save-mirror-location))
-  (make-directory backup-each-save-mirror-location))
-
-(add-hook 'after-save-hook 'backup-each-save)
-
-
-
 ;;
 (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
 
 ;;------------------------------------------------------------------------------
 ;; Package Configs
 ;;------------------------------------------------------------------------------
-
-(use-package! dwim-shell-command
-  :defer-incrementally t
-  :config
-  (defun my/dwim-shell-command-archive-zstd ()
-    "Convert all marked images to jpg(s)."
-    (interactive)
-    (dwim-shell-command-on-marked-files
-     "Archive as zstd"
-     "tar -cavf '<<fne>>.tar.zst' '<<f>>'"
-     :utils "tar"))
-
-  (defun my/dwim-shell-command-archive-gz ()
-    "Convert all marked images to jpg(s)."
-    (interactive)
-    (dwim-shell-command-on-marked-files
-     "Archive as zstd"
-     "tar -cavf '<<fne>>.tar.gz' '<<f>>'"
-     :utils "tar")))
-
-(after! langtool
-  (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
-  (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
-
-;; disable confusing undo-fu behavior
-;; https://gitlab.com/ideasman42/emacs-undo-fu/-/issues/6
-(after! undo-fu
-  (setq undo-fu-ignore-keyboard-quit t))
-
-;; persistent undo
-(after! undo
-  (setq undo-tree-auto-save-history t))
-
-(after! undo-tree
-  (setq undo-tree-history-directory-alist '(("." . "~/.undo-tree"))))
-
-;; https://github.com/doomemacs/doomemacs/issues/902
-;; ~/.emacs.d/.local/cache/undo-tree-hist
-;; (advice-remove '+undo--append-zst-extension-to-file-name-a
-;;                'undo-tree-make-history-save-file-name)
 
 (set-popup-rule! ".*eww.*"
   :ignore t
@@ -221,68 +170,6 @@
   "Run `crontab -e' in a emacs buffer."
   (interactive)
   (with-editor-async-shell-command "crontab -e"))
-
-(after! emojify-mode
-  (setq global-emojify-mode t))
-
-(after! ws-butler
-  (setq ws-butler-global-exempt-modes
-        '(special-mode comint-mode term-mode eshell-mode)))
-
-(after! hl-todo
-  (setq global-hl-todo-mode t))
-
-;; save macros and other registers peristently
-(after! savehist
-  (add-to-list 'savehist-additional-variables 'register-alist)
-  (add-hook! 'savehist-save-hook
-    (defun doom-clean-up-registers-h ()
-      (setq-local register-alist
-                  (cl-remove-if-not #'savehist-printable register-alist)))))
-
-(after! tramp
-
-  (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
-        tramp-use-ssh-controlmaster-options t
-        tramp-histfile-override "~/.tramp_history"
-        tramp-inline-compress-start-size 1000
-        tramp-copy-size-limit 10000
-        vc-handled-backends '(Git)
-        tramp-verbose 1
-        tramp-default-method "ssh")
-
-  ;; Another way to find the remote path is to use the path assigned to the remote user by the
-  ;; remote host. TRAMP does not normally retain this remote path after login. However,
-  ;; tramp-own-remote-path preserves the path value, which can be used to update tramp-remote-path.
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
-
-(after! projectile
-  (setq projectile-sort-order 'recently-active))
-
-(after! writegood
-  (writegood-passive-voice-turn-off))
-
-(after! yasnippet
-  ;; Don't add newlines to snippet endings
-  (setq-default yas-also-auto-indent-first-line t)
-  (add-hook 'snippet-mode-hook
-            (lambda () (setq require-final-newline nil))))
-
-(after! hog
-  (pcase (system-name)
-    ("strange" (setq hog-vivado-path "~/Xilinx/Vivado/2021.1"
-                     hog-number-of-jobs 16))
-    ("larry" (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1"
-                   hog-number-of-jobs 4))
-    ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1")))
-
-  (setq hog-ieee-library
-        '("ieee" ("/usr/local/lib/ghdl/src/synopsys/*.vhdl"
-                  "/usr/local/lib/ghdl/src/std/v08/*.vhdl"
-                  "/usr/local/lib/ghdl/src/ieee2008/*.vhdl"
-                  "/usr/lib/ghdl/src/synopsys/*.vhdl"
-                  "/usr/lib/ghdl/src/std/v08/*.vhdl"
-                  "/usr/lib/ghdl/src/ieee2008/*.vhdl"))))
 
 ;;------------------------------------------------------------------------------
 ;; Mixed Pitch Mode
@@ -505,38 +392,6 @@ char of the language you are editing"
     (sort-code-block ";;")))
 
 ;;------------------------------------------------------------------------------
-;; Ispell
-;;------------------------------------------------------------------------------
-
-;; Save user defined words to the dictionary
-(after! ispell
-  (setq ispell-personal-dictionary "~/.aspell.en.pws")
-  (defun my-save-word ()
-    (interactive)
-    (let ((current-location (point))
-          (word (flyspell-get-word)))
-      (when (consp word)
-        (flyspell-do-correct 'save nil
-                             (car word) current-location (cadr word)
-                             (caddr word) current-location)))))
-
-(add-hook! 'org-mode-hook #'jinx-mode)
-(add-hook! 'markdown-mode-hook #'jinx-mode)
-
-(defun github-package ()
-  (let ((clip (current-kill 0))
-        (repo "")
-        (pkg  "")
-        (host "github"))
-
-    (when (string-match ".*github.com/\\([^/]*\\)/\\(.*\\)" clip)
-      (setq repo (concat (match-string 1 clip) "/" (match-string 2 clip)))
-      (setq pkg  (match-string 2 clip))
-      (setq host "github"))
-
-    (format "(package! %s :recipe (:host %s :repo \"%s\"))" pkg host repo)))
-
-;;------------------------------------------------------------------------------
 ;; Run Vim for reindent
 ;;------------------------------------------------------------------------------
 
@@ -551,3 +406,37 @@ char of the language you are editing"
   (save-excursion
     (query-replace (symbol-name (symbol-at-point)) replace-str
                    t (point-min) (point-max))))
+
+
+(defun github-package ()
+  (let ((clip (current-kill 0))
+        (repo "")
+        (pkg  "")
+        (host "github"))
+
+    (when (string-match ".*github.com/\\([^/]*\\)/\\(.*\\)" clip)
+      (setq repo (concat (match-string 1 clip) "/" (match-string 2 clip)))
+      (setq pkg  (match-string 2 clip))
+      (setq host "github"))
+
+    (format "(package! %s :recipe (:host %s :repo \"%s\"))" pkg host repo)))
+
+;; TODO: should copy the buffer to a temp file.. sometimes e.g. if trying to open a zipped file then
+;; trying to exec gerbv fails
+
+;;  convert gerber to svg
+(defun gerber->svg--file (filename)
+  (let* ((tmp-name
+          (format  "%s.svg" (make-temp-file (concat (file-name-base filename) "-"))))
+         (command
+          (format  "gerbv --dpi=600 --border=0 --export=svg --output=%s %s" tmp-name filename)))
+    (message tmp-name)
+    (shell-command  command) tmp-name))
+
+(defun gerber->svg ()
+  (interactive)
+  (progn
+    (find-file
+     (gerber->svg--file (buffer-file-name)))
+    (revert-buffer)
+    (image-mode)))

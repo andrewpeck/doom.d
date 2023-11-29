@@ -22,9 +22,7 @@
 ;; ;; (use-package! hdl-deps       :defer-incrementally t)
 
 ;; start:sort
-(use-package! backup-each-save  :defer-incrementally t)
 (use-package! gpt               :defer-incrementally t)
-(use-package! hog               :defer-incrementally t)
 (use-package! setup-system      :defer-incrementally t)
 (use-package! system-install    :defer-incrementally t)
 (use-package! ucf-mode          :defer-incrementally t)
@@ -51,26 +49,19 @@
 (load!! "config-core")
 
 (setq doom-scratch-dir doom-user-dir)
-(setq bookmark-default-file (concat doom-user-dir "bookmarks"))
 
 ;; start:sort
 (after! org (load!! "config-org"))
 (load!! "config-align")
 (load!! "config-appearance")
-(load!! "config-completion")
 (load!! "config-dired")
 (load!! "config-doom")
-(load!! "config-eglot")
-(load!! "config-elfeed")
 (load!! "config-flycheck")
-(load!! "config-git")
 (load!! "config-keybinds")
 (load!! "config-langs")
-(load!! "config-lsp")
 (load!! "config-modeline")
+(load!! "config-packages")
 (load!! "config-random")
-(load!! "config-scad")
-(load!! "config-tex.el")
 (load!! "lisp/gerb-view")
 (load!! "lisp/plotting")
 (load!! "lisp/regulator")
