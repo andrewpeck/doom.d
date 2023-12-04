@@ -10,8 +10,8 @@
 module `(file-name-base (buffer-file-name))` # (
     int X = 0
 ) (
-    input clk,
-    input rst
+    input wire clk,
+    input wire rst
 );
 
 endmodule
