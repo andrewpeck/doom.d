@@ -1,4 +1,48 @@
+;;------------------------------------------------------------------------------
+;; Affe
+;;------------------------------------------------------------------------------
+
+(use-package! affe
+
+  :config
+
+  ;; (setq affe-find-command "rg --color=never --files")
+  (setq affe-find-command "fd --color=never -L")
+
+  (defun affe-find-home    () (interactive) (affe-find "~/"))
+  (defun affe-find-work    () (interactive) (affe-find "~/work"))
+  (defun affe-find-project () (interactive) (affe-find (projectile-project-root)))
+  (defun affe-grep-project () (interactive) (affe-grep (projectile-project-root)))
+  (defun affe-find-notes   () (interactive) (affe-find "~/notes"))
+  (defun affe-find-dotfile () (interactive) (affe-find "~/.dotfiles"))
+
+  ;; Affe
+  (after! evil-maps
+    (evil-define-key '(motion normal) 'global
+      (kbd "C-o")   #'affe-find-home
+      (kbd "C-y")   #'affe-find-work
+      (kbd "C-p")   #'affe-find-project
+      (kbd "C-S-p") #'affe-grep-project
+      (kbd "C-n")   #'affe-find-notes
+      (kbd "C-n")   #'affe-find-notes)))
+
+;;------------------------------------------------------------------------------
+;; Awk
+;;------------------------------------------------------------------------------
+
+(use-package! awk 
+
+  :defer-incrementally t
+
+  :config
+
+  (setq-local  comment-start "# ")
+  )
+
+;;------------------------------------------------------------------------------
 ;; Backups
+;;------------------------------------------------------------------------------ 
+
 (use-package! backup-each-save
 
   :config
@@ -311,12 +355,13 @@
                  'cape-file)))
 
   (add-hook! 'verilog-mode-hook
-    (setq-local completion-at-point-functions
-                (list (cape-super-capf
-                       'cape-dabbrev
-                       'complete-tag
-                       'cape-keyword
-                       (cape-company-to-capf #'company-yasnippet)))))
+    (defun set-verilog-capf ()
+      (setq-local completion-at-point-functions
+                  (list (cape-super-capf
+                         'cape-dabbrev
+                         ;; 'complete-tag
+                         'cape-keyword
+                         (cape-company-to-capf #'company-yasnippet))))))
 
   (add-hook! 'vhdl-mode-hook
     (setq-local completion-at-point-functions
@@ -526,6 +571,11 @@
 
   :config
 
+  (setq magit-log-margin
+        '(t
+          "%Y/%m/%d"
+          magit-log-margin-width t 18))
+
   (setq +vc-gutter-in-remote-files t)
 
   ;; set vc-ignore-dir-regexp to the default emacs value; doom overwrites this to
@@ -593,6 +643,14 @@
 
 (use-package! scad-mode
 
+  :init
+
+  (add-hook! 'scad-mode-hook
+    (defun scad--reindent-buffer-hook ()
+      "Reindent buffer on save."
+      (add-hook 'write-contents-functions
+                #'re-indent-buffer nil t)))
+
   :config
 
   (defun open-in-openscad ()
@@ -602,23 +660,473 @@
                    nil "setsid" "openscad" (buffer-file-name)))
 
   (define-key scad-mode-map (kbd "C-c C-p")
-    'open-in-openscad)
+              'open-in-openscad)
 
   (defun scad-cheatshet ()
     "Open the SCAD Cheatsheet in a web browser"
     (interactive)
     (browse-url  "https://openscad.org/cheatsheet/"))
+  )
 
-  (after! flycheck
+;;--------------------------------------------------------------------------------
+;; Verilog
+;;--------------------------------------------------------------------------------
 
-    (flycheck-define-checker openscad
-      "Runs openscad"
-      :command ("openscad"
-                (eval (concat "-o" (flycheck-temp-dir-system) "/scad-tmp.png"))
-                source-inplace)
-      :error-patterns
-      ;; different versions of scad produce slightly different error messages... uhg
-      ((error line-start "ERROR:" (message) " " (file-name)  ", line " line line-end)
-       (error line-start "ERROR:" (message) "\"" (file-name) "\", line " line ": syntax error" line-end))
-      :modes (scad-mode))
-    (add-to-list 'flycheck-checkers 'openscad)))
+(use-package! verilog
+
+  :defer-incrementally t
+
+  :init 
+
+  (add-hook 'verilog-mode-hook
+            (defun verilog--beautify-symbols-hook ()
+              "Beautify Verilog Symbols"
+              (setq prettify-symbols-alist
+                    '(("begin" . "《")
+                      ("end"   . "⟫")
+                      ("function" . "󰡱")))
+              (prettify-symbols-mode)))
+
+  ;; (font-lock-add-keywords
+  ;;  'verilog-mode
+  ;;  '(("\\(always_ff @(posedge \\)"
+  ;;     1 '(face nil display  "󰁥(pos "))))
+
+  ;; (font-lock-add-keywords
+  ;;  'verilog-mode
+  ;;  '(("\\(always_ff @(negedge \\)"
+  ;;     1 '(face nil display  "󰁥(neg "))))
+
+  (add-hook 'verilog-mode-hook
+            (defun verilog--configure-indent-and-comment ()
+              "Wrap verilog-do-indent in a save excursion so it doesn't jump around.... uhg"
+              (setq-local indent-line-function
+                          (lambda () (save-excursion (verilog-indent-line-relative))))
+              (setq-local comment-multi-line t)))
+
+  :config
+
+  (setq verilog-align-ifelse t
+        verilog-tab-always-indent nil
+        ;; verilog-align-typedef-regexp (concat "\\<" verilog-identifier-re "_\\(t\\)\\>")  ;; https://github.com/veripool/verilog-mode/issues/1823
+        verilog-auto-delete-trailing-whitespace t
+        verilog-auto-inst-param-value t
+        verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
+        verilog-auto-inst-vector nil
+        verilog-auto-lineup (quote all)
+        verilog-auto-newline nil
+        verilog-auto-save-policy nil
+        verilog-auto-template-warn-unused t
+        verilog-highlight-grouping-keywords t
+        verilog-highlight-modules t
+        verilog-case-indent 2
+        verilog-cexp-indent 2
+        verilog-indent-level 2
+        verilog-indent-level-behavioral 2
+        verilog-indent-level-declaration 2
+        verilog-indent-level-module 2
+        verilog-tab-to-comment nil)
+
+  )
+
+;;------------------------------------------------------------------------------
+;; VHDL Mode
+;;------------------------------------------------------------------------------
+
+;; vhdl mode will wrap comments after some # of characters
+(use-package! vhdl
+
+  :defer-incrementally t
+
+  :config
+
+  (require 'er-basic-expansions)
+  (require 'flycheck)
+
+  (setq vhdl-end-comment-column 200
+        vhdl-standard '(08)
+        vhdl-platform-spec nil
+        vhdl-prompt-for-comments nil
+        flycheck-ghdl-language-standard "08")
+
+  (defun vhdl-unsigned->slv ()
+    "Convert a VHDL unsigned to standard logic vector."
+    (interactive)
+    (when (not (region-active-p))
+      (er/mark-symbol))
+    (let ((sig (buffer-substring-no-properties (mark) (point))))
+      (delete-region (mark) (point))
+      (insert (format  "std_logic_vector(%s)" sig))
+      (backward-char 1))
+    (when (functionp 'evil-insert)
+      (evil-insert 0)))
+
+  (defun vhdl-int->slv ()
+    "Convert a VHDL integer to standard logic vector."
+    (interactive)
+    (when (not (region-active-p))
+      (er/mark-symbol))
+    (let ((sig (buffer-substring-no-properties (mark) (point))))
+      (delete-region (mark) (point))
+      (insert (format  "std_logic_vector(to_unsigned(%s, ))" sig))
+      (backward-char 2))
+    (when (functionp 'evil-insert)
+      (evil-insert 0)))
+
+  (defun vhdl-slv->int ()
+    "Convert a VHDL standard logic vector to integer."
+    (interactive)
+    (when (not (region-active-p))
+      (er/mark-symbol))
+    (let ((sig (buffer-substring-no-properties (mark) (point))))
+      (delete-region (mark) (point))
+      (insert (format  "to_integer(unsigned(%s))" sig))))
+
+  (defun vhdl-slv->unsigned ()
+    "Convert a VHDL standard logic vector to unsigned."
+    (interactive)
+    (when (not (region-active-p))
+      (er/mark-symbol))
+    (let ((sig (buffer-substring-no-properties (mark) (point))))
+      (delete-region (mark) (point))
+      (insert (format  "unsigned(%s)" sig))
+      (backward-char 1))))
+
+;;------------------------------------------------------------------------------
+;; Tcl
+;;------------------------------------------------------------------------------
+
+(use-package! tcl
+
+  :defer-incrementally t
+
+  :config
+  ;; (dolist (key vivado-builtin-list)
+  ;;   (add-to-list 'tcl-builtin-list key))
+  ;; (dolist (key vivado-keyword-list)
+  ;;   (add-to-list 'tcl-keyword-list key))
+  ;; (dolist (key vivado-constant-list)
+  ;;   (add-to-list 'tcl-constant-list key))
+
+  ;; make $ not part of a symbol in tcl-mode
+
+  (setq-local smartparens-mode t
+              auto-fill-mode nil)
+
+  (setq tcl-help-directory-list '("/usr/share/doc/tclx"))
+
+  (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
+
+;;-----------------------------------------------------------------------------------------
+;; Markdown
+;;------------------------------------------------------------------------------
+
+(use-package! markdown 
+
+  :defer-incrementally t
+
+  :config
+
+  (defun markdown->pdf ()
+    "Export markdown to PDF with Pandoc and open."
+    (interactive)
+    (let* ((base (file-name-base (buffer-file-name)))
+           (md (concat base ".md"))
+           (pdf (concat base ".pdf")))
+
+      (if (not (executable-find "pandoc"))
+          (message "Pandoc not installed!")
+        (progn
+          (message (shell-command-to-string (format "pandoc %s -o %s" md pdf)))
+          (if (f-file-p pdf)
+              (async-shell-command (format "xdg-open %s" pdf))))))))
+
+;;-----------------------------------------------------------------------------------------
+;; C mode
+;;-----------------------------------------------------------------------------------------
+
+(use-package! c
+
+  :defer-incrementally t
+
+  :init
+  ;; double slashes // instead of slash-stars /* ... */
+  (add-hook! 'c-mode-common-hook
+             ;; Preferred comment style
+             (setq comment-start "// " comment-end "")))
+
+;;-----------------------------------------------------------------------------------------
+;; XML
+;;------------------------------------------------------------------------------
+
+(use-package! nxml
+
+  :defer-incrementally t
+
+  :init 
+
+  (add-hook! 'nxml-mode-hook
+    (visual-fill-column-mode -1))
+
+  :config
+  
+  (setq nxml-child-indent 2
+        nxml-attribute-indent 2)
+
+  (defun nxml-pretty-format ()
+    (interactive)
+    (save-excursion
+      (shell-command-on-region (point-min) (point-max)
+                               "xmllint --format -" (buffer-name) t)
+      (nxml-mode)
+      (indent-region begin end))))
+
+;;------------------------------------------------------------------------------
+;; Python
+;;------------------------------------------------------------------------------
+
+(use-package! python
+  
+  :config
+
+  (setq python-shell--interpreter "python3"
+        python-flymake-command '("flake8" "-")
+        py-isort-options '("--combine-as"))
+
+  (after! apheleia
+
+    (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
+    (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
+
+    (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
+    (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
+    ;; (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
+    ;; (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
+
+    ))
+
+;;------------------------------------------------------------------------------
+;; ielm
+;;------------------------------------------------------------------------------ 
+
+(use-package! ielm
+
+  :init
+
+  ;; remember ielm history
+  ;; global copy of the buffer-local variable
+  (defvar ielm-comint-input-ring nil)
+
+  (defun set-ielm-comint-input-ring ()
+    ;; create a buffer-local binding of kill-buffer-hook
+    (make-local-variable 'kill-buffer-hook)
+    ;; save the value of comint-input-ring when this buffer is killed
+    (add-hook 'kill-buffer-hook #'save-ielm-comint-input-ring)
+    ;; restore saved value (if available)
+    (when ielm-comint-input-ring
+      (message "Restoring comint-input-ring...")
+      (setq comint-input-ring ielm-comint-input-ring)))
+
+  (defun save-ielm-comint-input-ring ()
+    (message "Saving comint-input-ring...")
+    (setq ielm-comint-input-ring comint-input-ring))
+
+  (add-hook 'inferior-emacs-lisp-mode-hook
+            #'set-ielm-comint-input-ring))
+
+;;------------------------------------------------------------------------------
+;; Elisp
+;;------------------------------------------------------------------------------
+
+;;  set the tab width for emacs lisp mode to 4 for compatibility with emacs libs
+(add-hook! 'emacs-lisp-mode-hook
+  (setq-local tab-width 4))
+
+;;------------------------------------------------------------------------------
+;; Common Lisp
+;;------------------------------------------------------------------------------
+
+(after! slime
+  (setq inferior-lisp-program "sbcl")
+  (setq org-babel-lisp-eval-fn 'slime-eval))
+
+;;------------------------------------------------------------------------------
+;; Clojure
+;;------------------------------------------------------------------------------
+
+(use-package! flycheck-clj-kondo :defer-incrementally t)
+
+;; cider-edit-jack-in-command
+(setq org-babel-clojure-backend "cider")
+(setq cider-save-file-on-load t)
+
+;;------------------------------------------------------------------------------
+;; Graphviz
+;;------------------------------------------------------------------------------
+
+;; png seems to have a bug right now
+(setq graphviz-dot-preview-extension "jpg")
+
+(defun graphviz--display-preview-buffer (stdout-buffer)
+  "Display STDOUT-BUFFER as the dot preview."
+  (save-excursion
+    (with-current-buffer stdout-buffer
+      (goto-char (point-min))
+      (image-mode)
+      (display-buffer stdout-buffer))))
+
+(use-package! flycheck
+
+  :config
+
+  (setq flycheck-temp-prefix ".flycheck"
+        flycheck-check-syntax-automatically '(save idle-buffer-switch mode-enabled)
+        flycheck-markdown-markdownlint-cli-config (concat doom-user-dir "markdownlint-config.yml")
+        flycheck-yamllintrc (concat doom-user-dir "yamllintrc.yml")
+        flycheck-flake8rc (concat doom-user-dir "flake8.rc")
+        flycheck-pylintrc) (concat doom-user-dir "pylint.rc")
+
+  ;; (flycheck-add-next-checker 'python-flake8 'python-pylint)
+
+  ;;------------------------------------------------------------------------------
+  ;; Tcl Nagelfar
+  ;; modified from the original to add filters and change options
+  ;;------------------------------------------------------------------------------
+
+  (flycheck-define-checker tcl-nagelfar
+    "An extensible tcl syntax checker
+See URL `http://nagelfar.sourceforge.net/'."
+    :command ("nagelfar" "-Wunusedvar" "-filter" "*Unknown command*" "-H" source)
+    :error-patterns
+    ;; foo.tcl: 29: E Wrong number of arguments (4) to "set"
+    ;; foo.tcl: 29: W Expr without braces
+    ((info    line-start (file-name) ": " line ": N " (message) line-end)
+     (warning line-start (file-name) ": " line ": W " (message) line-end)
+     (error   line-start (file-name) ": " line ": E " (message) line-end))
+    :modes tcl-mode)
+
+  ;;------------------------------------------------------------------------------
+  ;; Prose lint
+  ;; https://unconj.ca/blog/linting-prose-in-emacs.html
+  ;;------------------------------------------------------------------------------
+
+  (flycheck-define-checker proselint
+    "A linter for prose."
+    :command ("proselint"
+              ;;
+              ;;            (option-flag "--external-sources" flycheck-shellcheck-follow-sources)
+              "--config" (eval (expand-file-name "~/.doom.d/proselint.rc"))
+              source-inplace)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ":" column ": "
+              (id (one-or-more (not (any " "))))
+              (message) line-end))
+    :modes (text-mode latex-mode markdown-mode gfm-mode org-mode))
+
+  ;; (add-to-list 'flycheck-checkers 'proselint)
+  (setq-default flycheck-disabled-checkers '(proselint))
+  ;; (add-hook! 'org-mode-hook
+  ;;   (lambda ()
+  ;;     (flycheck-disable-checker 'proselint)))
+
+  (flycheck-define-checker
+      hog-src-checker
+    "Checker for Hog source files"
+
+    :command ("emacs" (eval flycheck-emacs-args)
+              "--load" (eval (file-name-sans-extension (locate-library "hog")))
+              "--visit" source-inplace
+              "-f" "hog-check-src-file")
+
+    :error-patterns
+    ((error line-start "Error:" line (one-or-more blank) (message) line-end)
+     (info line-start "Info:" line (one-or-more blank) (message) line-end)
+     (warning line-start "Warning:" (one-or-more blank) line (message) line-end))
+    :modes (hog-src-mode))
+
+  (add-to-list 'flycheck-checkers 'hog-src-checker)
+
+  (flycheck-def-config-file-var flycheck-vhdl-vsg-config vhdl-vsg ".vsgrc")
+
+  (flycheck-define-checker vhdl-vsg
+    "VHDL Style Guide (VSG) provides coding style guide enforcement for VHDL code.
+ https://vhdl-style-guide.readthedocs.io/en/latest/index.html"
+    :command ("vsg" "-f"
+              (config-file "-c" flycheck-vhdl-vsg-config)
+              source)
+    ;; https://vhdl-style-guide.readthedocs.io/en/latest/formatting_terminal_output.html
+    ;; use syntastic format?
+    :error-patterns
+    ((error line-start (zero-or-more blank) (one-or-more (not blank)) (one-or-more blank) "|" (one-or-more blank)
+            "Error"
+            (one-or-more blank) "|" (one-or-more blank) line (one-or-more blank) "|" (one-or-more blank) (message) eol)
+     (warning line-start (zero-or-more blank) (one-or-more (not blank)) (one-or-more blank) "|" (one-or-more blank)
+              "Warning"
+              (one-or-more blank) "|" (one-or-more blank) line (one-or-more blank) "|" (one-or-more blank) (message) eol))
+
+    :modes vhdl-mode)
+
+
+  ;; (flycheck-define-checker tcl-nagelfar
+  ;;   "An extensible tcl syntax checker See URL `http://nagelfar.sourceforge.net/'."
+  ;;   :command ("nagelfar" "-H" source)
+  ;;   :error-patterns
+  ;;   ;; foo.tcl: 29: E Wrong number of arguments (4) to "set"
+  ;;   ;; foo.tcl: 29: W Expr without braces
+  ;;   ((info    line-start (file-name) ": " line ": N " (message) line-end)
+  ;;    (warning line-start (file-name) ": " line ": W " (message) line-end)
+  ;;    (error   line-start (file-name) ": " line ": E " (message) line-end))
+  ;;   :modes tcl-mode)
+  ;; )
+
+  ;; architecture_010          | Error      |        643 | Add *architecture* keyword.
+
+
+  ;; (flycheck-define-checker vhdl-tool
+  ;;   "A VHDL syntax checker, type checker and linter using VHDL-Tool.
+  ;;         See URL `http://vhdltool.com'."
+  ;;   :command ("vhdl-tool" "client" "lint" "--compact" "--stdin" "-f" source
+  ;;             )
+  ;;   :standard-input t
+  ;;   :error-patterns
+  ;;   ((warning line-start (file-name) ":" line ":" column ":w:" (message) line-end)
+  ;;    (error line-start (file-name) ":" line ":" column ":e:" (message) line-end))
+  ;;   :modes (vhdl-mode))
+  ;;
+  ;; (add-to-list 'flycheck-checkers 'vhdl-tool)
+
+
+  ;; redefine the awk checker to have no-ext enabled on the linter "--lint=no-ext"
+  (flycheck-define-checker awk-gawk
+    "GNU awk's built-in --lint checker."
+    :command ("gawk"
+              ;; Avoid code execution.  See https://github.com/w0rp/ale/pull/1411
+              "--source" "'BEGIN{exit} END{exit 1}'"
+              "-f" source
+              "--lint=no-ext"
+              "/dev/null")
+    :standard-input nil
+    :error-patterns
+    ((warning line-start
+              "gawk: "
+              (file-name) ":" line ":" (optional column ":")
+              (message (one-or-more not-newline)
+                       (optional "\n"
+                                 (one-or-more not-newline)
+                                 " ^ "
+                                 (one-or-more not-newline)))
+              line-end))
+    :error-filter flycheck-awk-gawk-error-filter
+    :modes awk-mode)
+
+  (flycheck-define-checker openscad
+    "Runs openscad"
+    :command ("openscad"
+              (eval (concat "-o" (flycheck-temp-dir-system) "/scad-tmp.png"))
+              source-inplace)
+    :error-patterns
+    ;; different versions of scad produce slightly different error messages... uhg
+    ((error line-start "ERROR:" (message) " " (file-name)  ", line " line line-end)
+     (error line-start "ERROR:" (message) "\"" (file-name) "\", line " line ": syntax error" line-end))
+    :modes (scad-mode))
+  (add-to-list 'flycheck-checkers 'openscad))

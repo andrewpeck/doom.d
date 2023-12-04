@@ -56,9 +56,7 @@
 (load!! "config-appearance")
 (load!! "config-dired")
 (load!! "config-doom")
-(load!! "config-flycheck")
 (load!! "config-keybinds")
-(load!! "config-langs")
 (load!! "config-modeline")
 (load!! "config-packages")
 (load!! "config-random")
@@ -75,6 +73,18 @@
 (defun byte-compile-config ()
   (interactive)
   (byte-recompile-directory (expand-file-name "~/.doom.d") 0))
+
+;;------------------------------------------------------------------------------
+;; Mode aliases
+;;------------------------------------------------------------------------------
+
+;; enable syntax highlighting for vimrc files
+(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))   ; vimrc
+(add-to-list 'auto-mode-alist '("\\.xdc\\'"          . vivado-mode))  ; tcl mode for xdc files
+(add-to-list 'auto-mode-alist '("\\.ltx\\'"          . json-mode))    ; json mode for ltx files
+(add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; cpp mode for arduino files
+(add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
+
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)

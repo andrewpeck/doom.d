@@ -38,16 +38,6 @@
    ((thing-at-point 'url) (link-hint-open-link-at-point))
    (t (call-interactively fn))))
 
-;; (setq affe-find-command "rg --color=never --files")
-(setq affe-find-command "fd --color=never -L")
-
-(defun affe-find-home    () (interactive) (affe-find "~/"))
-(defun affe-find-work    () (interactive) (affe-find "~/work"))
-(defun affe-find-project () (interactive) (affe-find (projectile-project-root)))
-(defun affe-grep-project () (interactive) (affe-grep (projectile-project-root)))
-(defun affe-find-notes   () (interactive) (affe-find "~/notes"))
-(defun affe-find-dotfile () (interactive) (affe-find "~/.dotfiles"))
-
 (defun re-indent-buffer ()
   (interactive)
   (evil-indent (point-min) (point-max)))
@@ -239,15 +229,6 @@ between the two most recently open buffers."
   (define-key verilog-mode-map (kbd "<backspace>") nil))
 
 (after! evil-maps
-
-  ;; Affe
-  (evil-define-key '(motion normal) 'global
-    (kbd "C-o")   #'affe-find-home
-    (kbd "C-y")   #'affe-find-work
-    (kbd "C-p")   #'affe-find-project
-    (kbd "C-S-p") #'affe-grep-project
-    (kbd "C-n")   #'affe-find-notes
-    (kbd "C-n")   #'affe-find-notes)
 
   (evil-define-key '(motion normal insert) 'global
     (kbd "C-s") #'save-buffer)

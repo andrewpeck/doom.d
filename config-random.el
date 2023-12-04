@@ -459,3 +459,47 @@ char of the language you are editing"
      (gerber->svg--file (buffer-file-name)))
     (revert-buffer)
     (image-mode)))
+
+;;------------------------------------------------------------------------------
+;; HDL Helpers
+;;------------------------------------------------------------------------------
+
+(defun hdl-self-op (op)
+  (let ((sym (if (region-active-p)
+                 (buffer-substring-no-properties (region-beginning) (region-end))
+               (symbol-at-point))))
+    (save-excursion
+      (when sym
+        (forward-line)
+        (open-line 1)
+        (indent-for-tab-command)
+        (insert (format "%s <= %s %s 1;" sym sym op))))))
+
+(defun hdl-i++ ()
+  "Insert a hdl i++ for either the current selection or symbol at point."
+  (interactive)
+  (hdl-self-op "+"))
+
+(defun hdl-i-- ()
+  "Insert a hdl i-- for either the current selection or symbol at point."
+  (interactive)
+  (hdl-self-op "-"))
+
+(defvar normalize-comment-strings-length 83
+  "Number of characters to normalize comment strings to.")
+
+(defun normalize-comment-strings ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^\\(\s*\\)\\(\/\/\\)\s*\\(-+\\)$" nil t)
+      (let ((whitespace (match-string 1))
+            (comment (match-string 2)))
+        (goto-char (line-beginning-position))
+        (kill-line)
+        (insert whitespace)
+        (insert comment)
+        (insert-char #x2D
+                     (- normalize-comment-strings-length
+                        (length whitespace)
+                        (length comment)))))))
