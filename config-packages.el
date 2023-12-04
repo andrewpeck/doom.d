@@ -71,6 +71,14 @@
     (dwim-shell-command-on-marked-files
      "Archive as zstd"
      "tar -cavf '<<fne>>.tar.gz' '<<f>>'"
+     :utils "tar"))
+
+  (defun my/dwim-shell-command-extract ()
+    "Extract tar archive at point."
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Unarchive."
+     "tar -xavf '<<f>>'"
      :utils "tar")))
 
 ;; (use-package! langtool
