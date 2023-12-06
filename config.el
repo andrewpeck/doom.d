@@ -26,7 +26,6 @@
 (use-package! setup-system      :defer-incrementally t)
 (use-package! system-install    :defer-incrementally t)
 (use-package! ucf-mode          :defer-incrementally t)
-(use-package! verilog-port-copy :defer-incrementally t)
 (use-package! vivado-mode       :defer-incrementally t)
 ;; end:sort
 
