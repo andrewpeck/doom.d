@@ -323,34 +323,53 @@
 ;;------------------------------------------------------------------------------
 ;; Cape
 ;;------------------------------------------------------------------------------
-;;
-;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
-;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
-;; cape-file: Complete file name.
-;; cape-history: Complete from Eshell, Comint or minibuffer history.
-;; cape-keyword: Complete programming language keyword.
-;; cape-symbol: Complete Elisp symbol.
-;; cape-abbrev: Complete abbreviation (add-global-abbrev, add-mode-abbrev).
-;; cape-dict: Complete word from dictionary file.
-;; cape-line: Complete entire line from current buffer.
-;; cape-tex: Complete Unicode char from TeX command, e.g. \hbar.
-;; cape-sgml: Complete Unicode char from SGML entity, e.g., &alpha.
-;; cape-rfc1345: Complete Unicode char using RFC 1345 mnemonics.
 
 (use-package! corfu
 
+  ;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
+  ;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
+  ;; cape-file: Complete file name.
+  ;; cape-history: Complete from Eshell, Comint or minibuffer history.
+  ;; cape-keyword: Complete programming language keyword.
+  ;; cape-symbol: Complete Elisp symbol.
+  ;; cape-abbrev: Complete abbreviation (add-global-abbrev, add-mode-abbrev).
+  ;; cape-dict: Complete word from dictionary file.
+  ;; cape-line: Complete entire line from current buffer.
+  ;; cape-tex: Complete Unicode char from TeX command, e.g. \hbar.
+  ;; cape-sgml: Complete Unicode char from SGML entity, e.g., &alpha.
+  ;; cape-rfc1345: Complete Unicode char using RFC 1345 mnemonics.
+
+
   :config
 
-  (setq corfu-auto-delay 0.3)
+  (setq corfu-auto-delay 0.3
 
-  ;; If t, check all other buffers (subject to dabbrev ignore rules).
-  ;; Any other non-nil value only checks some other buffers, as per
-  ;; dabbrev-select-buffers-function.
-  (setq cape-dabbrev-check-other-buffers nil)
+        ;; If t, check all other buffers (subject to dabbrev ignore rules).
+        ;; Any other non-nil value only checks some other buffers, as per
+        ;; dabbrev-select-buffers-function.
+        cape-dabbrev-check-other-buffers nil)
 
-  (defun cape-add-yasnippet ()
-    (add-to-list 'completion-at-point-functions
-                 (cape-company-to-capf #'company-yasnippet)))
+  :init
+  
+  (add-hook! 'verilog-mode-hook
+    (with-eval-after-load 'cape-keyword
+      (add-to-list 'cape-keyword-list
+                   (append '(verilog-mode) verilog-keywords))))
+
+  (add-hook! 'vhdl-mode-hook
+    (with-eval-after-load 'cape-keyword
+      (add-to-list 'cape-keyword-list
+                   (append '(vhdl-mode)
+                           vhdl-keywords
+                           vhdl-types
+                           vhdl-attributes
+                           vhdl-enum-values
+                           vhdl-constants
+                           vhdl-functions
+                           vhdl-packages
+                           vhdl-directives))))
+
+
 
   (add-hook! 'emacs-lisp-mode-hook
     (setq-local completion-at-point-functions
@@ -416,76 +435,64 @@
 
                            tcl-keyword-list
                            tcl-typeword-list
-                           tcl-builtin-list)))))
-
-(add-hook! 'verilog-mode-hook
-  (with-eval-after-load 'cape-keyword
-    (add-to-list 'cape-keyword-list
-                 (append '(verilog-mode) verilog-keywords))))
-
-(add-hook! 'vhdl-mode-hook
-  (with-eval-after-load 'cape-keyword
-    (add-to-list 'cape-keyword-list
-                 (append '(vhdl-mode)
-                         vhdl-keywords
-                         vhdl-types
-                         vhdl-attributes
-                         vhdl-enum-values
-                         vhdl-constants
-                         vhdl-functions
-                         vhdl-packages
-                         vhdl-directives))))
+                           tcl-builtin-list))))
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Company
 ;;------------------------------------------------------------------------------
 
-(after! company
+;; (after! company
 
-  (setq company-idle-delay 1.0
-        company-minimum-prefix-length 2
-        company-icon-size '(auto-scale . 24)
-        company-backends
-        '(company-bbdb company-semantic company-cmake company-capf company-clang company-files
-          (company-dabbrev-code company-gtags company-etags company-keywords)
-          company-oddmuse company-dabbrev))
+;;   (setq company-idle-delay 1.0
+;;         company-minimum-prefix-length 2
+;;         company-icon-size '(auto-scale . 24)
+;;         company-backends
+;;         '(company-bbdb company-semantic company-cmake company-capf company-clang company-files
+;;           (company-dabbrev-code company-gtags company-etags company-keywords)
+;;           company-oddmuse company-dabbrev))
 
-  ;; (set-company-backend! 'text-mode nil)
+;;   ;; (set-company-backend! 'text-mode nil)
 
-  (after! org
-    (set-company-backend! 'org-mode nil)
-    (set-company-backend! 'org-mode '(company-capf company-files company-yasnippet company-dabbrev)))
+;;   (after! org
+;;     (set-company-backend! 'org-mode nil)
+;;     (set-company-backend! 'org-mode '(company-capf company-files company-yasnippet company-dabbrev)))
 
-  (add-hook! 'tcl-mode-hook
-    (setq company-backends
-          '((:separate company-dabbrev-code company-capf company-keywords
-             :with company-yasnippet company-files))))
+;;   (add-hook! 'tcl-mode-hook
+;;     (setq company-backends
+;;           '((:separate company-dabbrev-code company-capf company-keywords
+;;              :with company-yasnippet company-files))))
 
-  (after! vhdl-mode
-    (set-company-backend! 'vhdl-mode nil)
-    (set-company-backend! 'vhdl-mode
-                          '(company-capf company-keywords company-dabbrev-code company-yasnippet)))
+;;   (after! vhdl-mode
+;;     (set-company-backend! 'vhdl-mode nil)
+;;     (set-company-backend! 'vhdl-mode
+;;                           '(company-capf company-keywords company-dabbrev-code company-yasnippet)))
 
-  (after! hog-src-mode
-    (set-company-backend! 'hog-src-mode nil)
-    (set-company-backend! 'hog-src-mode 'company-files))
+;;   (after! hog-src-mode
+;;     (set-company-backend! 'hog-src-mode nil)
+;;     (set-company-backend! 'hog-src-mode 'company-files))
 
-  (after! clojure-mode
+;;   (after! clojure-mode
 
-    (add-hook! 'cider-repl-mode-hook #'company-mode)
-    (add-hook! 'cider-mode-hook #'company-mode)
-    (add-hook! 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
-    (add-hook! 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
+;;     (add-hook! 'cider-repl-mode-hook #'company-mode)
+;;     (add-hook! 'cider-mode-hook #'company-mode)
+;;     (add-hook! 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
+;;     (add-hook! 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
 
-    (defun my-clojure-mode-hook ()
-      (setq-local company-backends
-                  '((:separate company-capf company-keywords company-dabbrev-code company-yasnippet company-files))))
-    (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
+;;     (defun my-clojure-mode-hook ()
+;;       (setq-local company-backends
+;;                   '((:separate company-capf company-keywords company-dabbrev-code company-yasnippet company-files))))
+;;     (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
 
-  (set-company-backend! 'clojure-mode
-                        '(:separate company-capf company-keywords company-dabbrev-code company-yasnippet)))
+;;   (set-company-backend! 'clojure-mode
+;;                         '(:separate company-capf company-keywords company-dabbrev-code company-yasnippet)))
 
-;;; -*- lexical-binding: t; -*-
+(use-package! verilog-port-copy
+  :after verilog)
+
+;;------------------------------------------------------------------------------
+;; Elfeed
+;;------------------------------------------------------------------------------ 
 
 (use-package! elfeed
 
