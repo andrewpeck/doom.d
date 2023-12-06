@@ -961,19 +961,29 @@
 ;; Common Lisp
 ;;------------------------------------------------------------------------------
 
-(after! slime
-  (setq inferior-lisp-program "sbcl")
-  (setq org-babel-lisp-eval-fn 'slime-eval))
+(use-package! slime
+  :defer-incrementally t
+  :config
+  (setq inferior-lisp-program "sbcl"
+        org-babel-lisp-eval-fn 'slime-eval))
 
 ;;------------------------------------------------------------------------------
 ;; Clojure
 ;;------------------------------------------------------------------------------
 
-(use-package! flycheck-clj-kondo :defer-incrementally t)
+(use-package! clojure
 
-;; cider-edit-jack-in-command
-(setq org-babel-clojure-backend "cider")
-(setq cider-save-file-on-load t)
+  :defer-incrementally t
+
+  :config
+
+  ;; cider-edit-jack-in-command
+  (setq org-babel-clojure-backend "cider")
+  (setq cider-save-file-on-load t))
+
+(use-package! flycheck-clj-kondo
+  :defer-incrementally t
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Graphviz
