@@ -172,7 +172,7 @@
             (lambda () (setq require-final-newline nil))))
 
 (use-package! hog
-  :after (:any verilog vhdl)
+  :after (:any verilog-mode vhdl-mode)
   :config
   (pcase (system-name)
     ("strange" (setq hog-vivado-path "~/Xilinx/Vivado/2021.1"
