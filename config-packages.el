@@ -999,7 +999,7 @@
         flycheck-markdown-markdownlint-cli-config (concat doom-user-dir "markdownlint-config.yml")
         flycheck-yamllintrc (concat doom-user-dir "yamllintrc.yml")
         flycheck-flake8rc (concat doom-user-dir "flake8.rc")
-        flycheck-pylintrc) (concat doom-user-dir "pylint.rc")
+        flycheck-pylintrc (concat doom-user-dir "pylint.rc"))
 
   ;; (flycheck-add-next-checker 'python-flake8 'python-pylint)
 
