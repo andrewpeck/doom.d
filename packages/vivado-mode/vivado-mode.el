@@ -33,6 +33,8 @@
 ;; (add-hook 'vivado-mode-hook '(lambda () (font-lock-mode 1)))
 ;; (autoload 'vivado-mode "vivado-mode")
 
+(require 'tcl)
+
 (setq vivado-keywords
       '(("\\<\\(get_files\\|get_clocks\\|get_cells\\|get_pins\\|get_ports\\|get_nets\\)\\>" . font-lock-builtin-face)
         ("\\<\\(create_generated_clock\\|create_clock\\|set_input_jitter\\|set_input_delay\\|set_output_delay\\)\\>" . font-lock-builtin-face)
