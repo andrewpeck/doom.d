@@ -30,14 +30,8 @@
 ;; Awk
 ;;------------------------------------------------------------------------------
 
-(use-package! awk 
-
-  :defer-incrementally t
-
-  :config
-
-  (setq-local  comment-start "# ")
-  )
+(add-hook! 'awk-mode-hook
+  (setq-local  comment-start "# "))
 
 ;;------------------------------------------------------------------------------
 ;; Backups
