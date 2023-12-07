@@ -48,6 +48,23 @@
 
   (add-hook 'after-save-hook 'backup-each-save))
 
+;;------------------------------------------------------------------------------
+;; Dired
+;;------------------------------------------------------------------------------
+
+(use-package! dired
+  :init
+
+  (add-hook! 'dired-mode-hook
+(dired-hide-details-mode 1))
+
+  (add-hook! 'dired-after-readin-hook
+             (dired-git-info-auto-enable)))
+
+;;------------------------------------------------------------------------------
+;; DWIM Shell
+;;------------------------------------------------------------------------------
+
 (use-package! dwim-shell-command
   :after dired
   :config
