@@ -69,7 +69,7 @@ The callback will be executed asynchronously."
                      :as #'json-read
                      :then (lambda (alist)
                              ;; (message (format  "GPT Response: %s" alist))
-                             (funcall callback alist prompt)))))
+                             (funcall callback alist)))))
 
     ;; (message (format  "GPT Posting: %s %s" post-headers post-body))
     ;; (when response )
@@ -86,7 +86,7 @@ The callback will be executed asynchronously."
       (unless msg
         (error (format "No reponse from GPT query! %s" response))) msg)))
 
-(defun gpt--process-response (json &optional prompt)
+(defun gpt--process-response (json &optional prompt buffer-name buffer-point)
   ""
 
   (save-excursion
@@ -97,27 +97,37 @@ The callback will be executed asynchronously."
             (usage (cdr (assoc 'total_tokens (assoc 'usage json)))))
 
         (when response
-          (doom/open-scratch-buffer)
-          (goto-char (point-min))
-          (insert "* GPT Response\n")
 
-          ;; (when prompt
-          ;;   (insert "** Prompt\n")
-          ;;   (insert "#+begin_src markdown\n")
-          ;;   (insert prompt)
-          ;;   (insert "\n#+end_src\n"))
+          (if buffer-name
 
-          (insert "** Reponse\n")
-          (insert "#+begin_src markdown\n")
-          (insert response)
-          (insert "\n#+end_src\n")
+              (with-current-buffer buffer-name
+                (goto-char buffer-point)
+                (insert (format "\n%s\n" response)))
 
-          (newline)
-          (goto-char (point-min))
+            (progn
+
+              (doom/open-scratch-buffer)
+              (goto-char (point-min))
+              (insert "* GPT Response\n")
+
+              ;; (when prompt
+              ;;   (insert "** Prompt\n")
+              ;;   (insert "#+begin_src markdown\n")
+              ;;   (insert prompt)
+              ;;   (insert "\n#+end_src\n"))
+
+              (insert "** Reponse\n")
+              (insert "#+begin_src markdown\n")
+              (insert response)
+              (insert "\n#+end_src\n")
+
+              (newline)
+              (goto-char (point-min))))
+
           (message (format "Usage: %d tokens (%f cents)" usage
                            (* usage gpt-cost-per-token))))))))
 
-(defun gpt--execute-prompt (prompt)
+(defun gpt--execute-prompt (prompt &optional buffer-name buffer-point)
   "Execute a GPT-based prompt with or without a selection.
 
 PROMPT is a string representing the initial prompt for the GPT
@@ -131,7 +141,7 @@ extension of the prompt."
                        (region-beginning)
                        (region-end))))
     (let* ((query (if selection (format "%s .\\n\\n%s" prompt selection) prompt)))
-      (gpt--api-call query #'gpt--process-response))))
+      (gpt--api-call query (lambda (x) (gpt--process-response x query buffer-name buffer-point))))))
 
 ;;;###autoload
 (defun gpt-prompt ()
@@ -144,6 +154,16 @@ extension of the prompt."
  electronics and FPGA engineer. Please answer concisely. Please describe
  the following code or following the instructions.")))
     (gpt--execute-prompt prompt)))
+
+;;;###autoload
+(defun gpt-inline ()
+  "Dear AI, do something and be concise."
+  (interactive)
+  (let ((prompt
+         (concat "You are a helpful coding assistant for an
+ electronics and FPGA engineer. Please answer only in code and keep it very concise. No explanation, only generate the requested code. Output only plain text. Do not output markdown"
+                 (read-string "Command: "))))
+    (gpt--execute-prompt prompt (buffer-name) (point))))
 
 ;;;###autoload
 (defun gpt-debug ()
