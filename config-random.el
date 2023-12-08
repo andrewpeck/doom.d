@@ -1,5 +1,11 @@
 ;;; -*- lexical-binding: t; -*-
 
+(add-hook 'before-save-hook
+          (defun hook/update-copyright ()
+            "Automatically update copyright on save."
+            (when copyright-names-regexp
+              (copyright-update nil t))))
+
 ;; supress warning of obsolete generalized variable in org-web-tools
 ;; should check this periodically and remove if org-web-tools updates
 ;; for 29.1
@@ -47,23 +53,6 @@
 ;;           (unless (memq major-mode git-gutter:disabled-modes)
 ;;             (git-gutter-mode +1)
 ;;             (remove-hook 'after-save-hook #'+vc-gutter-init-maybe-h 'local)))))))
-
-(apheleia-global-mode)
-
-(use-package! dired-x
-  :config
-  (setq dired-omit-files
-        (concat dired-omit-files
-                "\\|vivado.*\\.jou\\'"
-                "\\|vivado.*\\.backup\\.log\\'"
-                "\\|vivado\\.log\\'"
-                "\\|^\\.Xil\\'"
-                "\\|^\\.mypy_cache\\'"
-                "\\|^__pycache__\\'"
-                "\\|^\\.pytest_cache\\'")))
-
-(after! pdf-view-mode (add-hook! 'pdf-view-mode-hook #'auto-revert-mode))
-(after! image-mode    (add-hook! 'image-mode-hook #'auto-revert-mode))
 
 (setq enable-local-variables t     ;
       auto-revert-mode t           ;
@@ -250,24 +239,6 @@
 ;;------------------------------------------------------------------------------
 ;; Utility Functions
 ;;------------------------------------------------------------------------------
-
-(defun pdf-rotate (dir)
-  "Rotate a pdf using Qpdf. Dir should either be + or -"
-  (if (and (stringp dir) (or (string= "+" dir) (string= "-" dir)))
-      (if (string= "pdf" (file-name-extension (buffer-file-name)))
-          (shell-command (format "qpdf --rotate=%s90 --replace-input %s" dir (buffer-file-name)))
-        (message (format "File %s is not a pdf" (buffer-file-name))))
-    (message (format "Direction \'%s\' is not valid. Please use a direction \'+\' or \'-\'." dir))))
-
-(defun pdf-rotate-clockwise ()
-  "Rotate a pdf clockwise using Qpdf"
-  (interactive)
-  (pdf-rotate "+"))
-
-(defun pdf-rotate-counterclockwise ()
-  "Rotate a pdf counterclockwise using Qpdf"
-  (interactive)
-  (pdf-rotate "-"))
 
 (defun copy-html-to-ohm ()
   (start-process

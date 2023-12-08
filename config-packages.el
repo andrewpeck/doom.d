@@ -1,4 +1,41 @@
 ;;------------------------------------------------------------------------------
+;;
+;;------------------------------------------------------------------------------
+
+(use-package! apheleia
+  :config
+  (apheleia-global-mode))
+
+(use-package! pdf-view-mode
+
+  :init
+
+  (add-hook! 'pdf-view-mode-hook #'auto-revert-mode)
+
+  :config
+
+  (defun pdf-rotate (dir)
+    "Rotate a pdf using Qpdf. Dir should either be + or -"
+    (if (and (stringp dir) (or (string= "+" dir) (string= "-" dir)))
+        (if (string= "pdf" (file-name-extension (buffer-file-name)))
+            (shell-command (format "qpdf --rotate=%s90 --replace-input %s" dir (buffer-file-name)))
+          (message (format "File %s is not a pdf" (buffer-file-name))))
+      (message (format "Direction \'%s\' is not valid. Please use a direction \'+\' or \'-\'." dir))))
+
+  (defun pdf-rotate-clockwise ()
+    "Rotate a pdf clockwise using Qpdf"
+    (interactive)
+    (pdf-rotate "+"))
+
+  (defun pdf-rotate-counterclockwise ()
+    "Rotate a pdf counterclockwise using Qpdf"
+    (interactive)
+    (pdf-rotate "-")))
+
+
+(after! image-mode    (add-hook! 'image-mode-hook #'auto-revert-mode))
+
+;;------------------------------------------------------------------------------
 ;; Affe
 ;;------------------------------------------------------------------------------
 
@@ -51,6 +88,18 @@
 ;;------------------------------------------------------------------------------
 ;; Dired
 ;;------------------------------------------------------------------------------
+
+(use-package! dired-x
+  :config
+  (setq dired-omit-files
+        (concat dired-omit-files
+                "\\|vivado.*\\.jou\\'"
+                "\\|vivado.*\\.backup\\.log\\'"
+                "\\|vivado\\.log\\'"
+                "\\|^\\.Xil\\'"
+                "\\|^\\.mypy_cache\\'"
+                "\\|^__pycache__\\'"
+                "\\|^\\.pytest_cache\\'")))
 
 (use-package! dired
   :init
