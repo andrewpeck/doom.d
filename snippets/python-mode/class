@@ -1,0 +1,30 @@
+# -*- mode: snippet -*-
+# name: class
+# key: class
+# --
+class MyClass:
+    # Class variable shared by all instances
+    class_variable = "I am a class variable"
+
+    # Initializer / Instance attributes
+    def __init__(self, attribute1, attribute2):
+        self.attribute1 = attribute1
+        self.attribute2 = attribute2
+
+    # Instance method
+    def method1(self):
+        return "This is a method"
+
+    # Another instance method
+    def method2(self, parameter):
+        return f"Method with a parameter: {parameter}"
+
+    # Static method (doesn't access instance or class variables)
+    @staticmethod
+    def static_method():
+        return "This is a static method"
+
+    # Class method (accesses class variables but not instance variables)
+    @classmethod
+    def class_method(cls):
+        return f"This is a class method. {cls.class_variable}"
