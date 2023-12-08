@@ -50,7 +50,7 @@
 (setq doom-scratch-dir doom-user-dir)
 
 ;; start:sort
-(after! org (load!! "config-org"))
+(load!! "config-org")
 (load!! "config-align")
 (load!! "config-appearance")
 (load!! "config-dired")

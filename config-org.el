@@ -5,7 +5,6 @@
 ;;------------------------------------------------------------------------------
 
 ;;  Turn on Bullets Mode
-;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 ;; Org mode plain list bullets
 ;; (font-lock-add-keywords
@@ -15,6 +14,17 @@
 
 (use-package! org
   :defer-incrementally t
+
+  :init
+
+  ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (add-hook! 'org-mode-hook (setq-local user-full-name "A.P."))
+  (add-hook! 'org-mode-hook (setq-local scroll-margin 1))
+  (add-hook 'org-mode-hook #'evil-org-mode)
+  (add-hook 'org-mode-hook #'+word-wrap-mode)
+  (add-hook 'org-mode-hook #'+org-enable-auto-reformat-tables-h)
+  (add-hook 'evil-org-agenda-mode-hook #'evil-org-agenda-set-keys)
+
   :config
 
   ;;------------------------------------------------------------------------------
@@ -22,16 +32,9 @@
   ;;------------------------------------------------------------------------------
 
   (setq-default org-mode-hook nil)
-  (add-hook 'org-mode-hook #'evil-org-mode)
-  (add-hook 'org-mode-hook #'+word-wrap-mode)
-  (add-hook 'org-mode-hook #'+org-enable-auto-reformat-tables-h)
 
   ;; Add a hook to automatically encrypt entries before a file is saved to disk.
   (org-crypt-use-before-save-magic)
-
-  (add-hook! 'org-mode-hook
-    (setq-local user-full-name "A.P.")
-    (setq-local scroll-margin 1))       ; why???
 
   (setq org-tags-exclude-from-inheritance (list "crypt")
         org-indent-indentation-per-level 2
@@ -67,13 +70,10 @@
 
         ;; Allow M-Ret to split list items
         org-M-RET-may-split-line t
-        org-log-done 'time)
+        org-log-done 'time
 
-  (add-hook 'evil-org-agenda-mode-hook
-            'evil-org-agenda-set-keys)
-
-  ;; (setq org-hide-emphasis-markers nil)
-  (setq org-link-file-path-type 'relative
+        ;; (setq org-hide-emphasis-markers nil)
+        org-link-file-path-type 'relative
         org-id-locations-file "~/notes/.org-id-locations"
         org-export-with-sub-superscripts nil
         org-directory "~/notes"
@@ -349,7 +349,6 @@ Updates overdue tasks to be due today."
           (?\s . "☐")))
 
 
-;;;###autoload
   (defun org-archive-done ()
     "Interactive wrapper for org-archive-all-done"
     (interactive)
@@ -361,9 +360,8 @@ Updates overdue tasks to be due today."
     (let* ((link (org-element-lineage (org-element-context) '(link) t))
            (url (org-element-property :path link))) url))
 
-;;;###autoload
   (defun org-edit-image ()
-    ""
+    "Open GIMP on the image at point."
     (interactive)
     (let ((link (org-link-get)))
       (when link
@@ -375,6 +373,7 @@ Updates overdue tasks to be due today."
   ;;------------------------------------------------------------------------------
 
   (defun +org-sort-all-org-entries ()
+    ""
     (interactive)
     (let ((fun #'(lambda nil
                    (condition-case nil
@@ -397,7 +396,7 @@ If KEY, use it; otherwise read key interactively."
                                       (sort-tree))
                                     (org-sort-entries nil key))
                                while (moves-p (org-forward-heading-same-level 1))))
-                  (children-p (&optional invisible)
+                  (children-p (&optional _)
                               ;; Return non-nil if entry at point has child headings.
                               ;; Only children are considered, not other descendants.
                               ;; Code from `org-cycle-internal-local'.
@@ -449,6 +448,7 @@ until \\[keyboard-quit] is pressed."
   ;;------------------------------------------------------------------------------
 
   (defun ap/inline-org-inbox-link ()
+    "Should probably remove this."
     (interactive)
     (save-excursion
       (let ((link nil)
@@ -575,7 +575,7 @@ except uses heading titles instead of random numbers."
         ref)))
 
   (defun org-get-linked-files (&optional buffer)
-    "Get all of the 'file' type links in a buffer.
+    "Get all of the `file' type links in a buffer.
 Current buffer is assumed unless specified by BUFFER"
     (with-current-buffer
         (or buffer (current-buffer))
@@ -585,7 +585,7 @@ Current buffer is assumed unless specified by BUFFER"
             (org-element-property :path link))))))
 
   (defun org-get-links (&optional buffer)
-    "Get all of the 'file' type links in a buffer.
+    "Get all of the `file' type links in a buffer.
 Current buffer is assumed unless specified by BUFFER"
     (with-current-buffer
         (or buffer (current-buffer))
@@ -614,7 +614,9 @@ Current buffer is assumed unless specified by BUFFER"
   ;; Publishing
   ;;------------------------------------------------------------------------------
 
-  (setq org-default-publish-dest "nfs:/home/public")
+  (defvar org-default-publish-dest "nfs:/home/public"
+    "Default org publishing destination for `org-publish-this-file'.
+It will be pushed with rsync.")
 
   (defun org-publish-this-file ()
     "Publish this Org mode file.
@@ -639,7 +641,6 @@ local and remote servers."
     (org-html-export-to-html nil)
 
     (message "Publishing...")
-
 
     (let* ((base (file-name-base (buffer-file-name)))
            (outfile (or (org-global-prop-value "DESTFILE")
@@ -744,7 +745,8 @@ local and remote servers."
     (interactive)
     (org-latex-preview '(64)))
 
-  ) ;; end use-package! org
+  ;; end use-package! org
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Org Download
@@ -753,15 +755,14 @@ local and remote servers."
 (use-package! org-download
   :after org
   :config
-  (setq-default
-   org-download-method            'directory
-   org-download-screenshot-method "import %s"
-   org-download-image-dir         "./images/screenshots"
-   org-download-heading-lvl       0
-   org-download-link-format       (concat  "[[file:" org-download-image-dir "/%s]]\n")
-   org-download-annotate-function (lambda (_) "")
-   org-download-image-org-width   500
-   org-download-dir               "download/"))
+  (setq org-download-method            'directory
+        org-download-screenshot-method "import %s"
+        org-download-image-dir         "./images/screenshots"
+        org-download-heading-lvl       0
+        org-download-link-format       (concat  "[[file:" org-download-image-dir "/%s]]\n")
+        org-download-annotate-function (lambda (_) "")
+        org-download-image-org-width   500
+        org-download-dir               "download/"))
 
 ;;------------------------------------------------------------------------------
 ;;  Org web tools + url parsing
@@ -779,11 +780,10 @@ local and remote servers."
   (defun org-capture-url (url)
     (insert (org-insert-link nil url (www-get-page-title url))))
 
-  (defun org-capture-url-from-clipboard (url)
+  (defun org-capture-url-from-clipboard (_)
     "Capture a URL from clipboard and paste it as an org link"
     (interactive)
     (org-capture-url (current-kill 0)))
-
 
   (defun ap/url->org ()
     "Convert the URL at point into an Org mode formatted link. The
@@ -800,7 +800,6 @@ local and remote servers."
         (delete-region start end)
         (org-insert-link nil link description))))
 
-  ;;;###autoload
   (defun ap/url->md ()
     "Convert the URL at point into an md mode formatted link. The
   title of the page is retrieved from the web page"
@@ -808,12 +807,10 @@ local and remote servers."
     (ap/url->org)
     (org-link->markdown))
 
-  ;;;###autoload
   (defun md-shorten-indico-url ()
     (org-shorten-indico-link)
     (org-link->markdown))
 
-  ;;;###autoload
   (defun org-shorten-url-by-title ()
     ""
     (interactive)
@@ -826,7 +823,6 @@ local and remote servers."
         (delete-region beg end)
         (org-insert-link nil url desc))))
 
-  ;;;###autoload
   (defun md-shorten-url-by-title ()
     (interactive)
     (org-shorten-url-by-title)
@@ -939,39 +935,41 @@ and shortens it into an org mode link consisting of just `some file`"
 (use-package! ox-latex
   :after org
   :config
+
+  (setq org-latex-article-header
+    (concat
+     "\\documentclass[11pt]{article}\n"
+     "\\usepackage[utf8]{inputenc}\n"
+     "\\usepackage[T1]{fontenc}\n"
+     "\\usepackage{fixltx2e}\n"
+     "\\usepackage{fullpage}\n"
+     ;; "\\usepackage{graphicx}\n"
+     "\\usepackage{longtable}\n"
+     "\\usepackage{float}\n"
+     "\\usepackage{wrapfig}\n"
+     "\\usepackage{rotating}\n"
+     "\\usepackage[normalem]{ulem}\n"
+     "\\usepackage{amsmath}\n"
+     "\\usepackage{textcomp}\n"
+     "\\usepackage{marvosym}\n"
+     "\\usepackage{wasysym}\n"
+     "\\usepackage{amssymb}\n"
+     "\\usepackage{hyperref}\n"
+     "%\\usepackage{mathpazo}\n"
+     "\\renewcommand{\\familydefault}{\\sfdefault}\n"
+     "\\usepackage{color}\n"
+     "\\usepackage{enumerate}\n"
+     "\\definecolor{bg}{rgb}{0.95,0.95,0.95}\n"
+     "\\tolerance=1000\n"
+     "[NO-DEFAULT-PACKAGES]\n"
+     "[PACKAGES]\n"
+     "[EXTRA]\n"
+     "\\linespread{1.1}\n"
+     "\\hypersetup{pdfborder=0 0 0}"))
+
   (add-to-list
    'org-latex-classes
-   `("article"
-     ,(concat
-       "\\documentclass[11pt]{article}\n"
-       "\\usepackage[utf8]{inputenc}\n"
-       "\\usepackage[T1]{fontenc}\n"
-       "\\usepackage{fixltx2e}\n"
-       "\\usepackage{fullpage}\n"
-       "\\usepackage{graphicx}\n"
-       "\\usepackage{longtable}\n"
-       "\\usepackage{float}\n"
-       "\\usepackage{wrapfig}\n"
-       "\\usepackage{rotating}\n"
-       "\\usepackage[normalem]{ulem}\n"
-       "\\usepackage{amsmath}\n"
-       "\\usepackage{textcomp}\n"
-       "\\usepackage{marvosym}\n"
-       "\\usepackage{wasysym}\n"
-       "\\usepackage{amssymb}\n"
-       "\\usepackage{hyperref}\n"
-       "%\\usepackage{mathpazo}\n"
-       "\\renewcommand{\\familydefault}{\\sfdefault}\n"
-       "\\usepackage{color}\n"
-       "\\usepackage{enumerate}\n"
-       "\\definecolor{bg}{rgb}{0.95,0.95,0.95}\n"
-       "\\tolerance=1000\n"
-       "[NO-DEFAULT-PACKAGES]\n"
-       "[PACKAGES]\n"
-       "[EXTRA]\n"
-       "\\linespread{1.1}\n"
-       "\\hypersetup{pdfborder=0 0 0}")
-
+   `("article" ,org-latex-article-header
      ("\\section{%s}"       . "\\section*{%s}")
      ("\\subsection{%s}"    . "\\subsection*{%s}")
      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
