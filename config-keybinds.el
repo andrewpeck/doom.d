@@ -409,7 +409,11 @@ between the two most recently open buffers."
   (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
   (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)
   (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
+
   (map! :leader :prefix "r" :desc "Replace Symbol"       "s"  #'qrc)
+  (map! :leader :prefix "r" :desc "Replace Query"        "q"  #'query-replace)
+  (map! :leader :prefix "r" :desc "Replace Globally"     "g"  #'replace-string)
+
   (map! :leader :prefix "g" :desc "GPT Prompt"           "pt" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
