@@ -497,8 +497,8 @@
 
                            tcl-keyword-list
                            tcl-typeword-list
-                           tcl-builtin-list))))
-  )
+                           tcl-builtin-list)))))
+
 
 ;;------------------------------------------------------------------------------
 ;; Company
@@ -591,8 +591,8 @@
         ;; eglot-events-buffer-size 0
         eldoc-echo-area-prefer-doc-buffer t
         eldoc-echo-area-use-multiline-p t
-        help-at-pt-display-when-idle t
-        )
+        help-at-pt-display-when-idle t)
+  
 
 
   ;; (add-hook! python-mode-hook
@@ -636,8 +636,8 @@
   ;;            (:disableLinting nil)))))
 
   (add-to-list 'eglot-server-programs
-               '(vhdl-mode . ("ghdl-ls")))
-  )
+               '(vhdl-mode . ("ghdl-ls"))))
+
 
 ;; Magit
 ;;------------------------------------------------------------------------------
@@ -742,8 +742,8 @@
   (defun scad-cheatshet ()
     "Open the SCAD Cheatsheet in a web browser"
     (interactive)
-    (browse-url  "https://openscad.org/cheatsheet/"))
-  )
+    (browse-url  "https://openscad.org/cheatsheet/")))
+
 
 ;;--------------------------------------------------------------------------------
 ;; Verilog
@@ -802,9 +802,9 @@
         verilog-indent-level-behavioral 2
         verilog-indent-level-declaration 2
         verilog-indent-level-module 2
-        verilog-tab-to-comment nil)
+        verilog-tab-to-comment nil))
 
-  )
+
 
 ;;------------------------------------------------------------------------------
 ;; VHDL Mode
@@ -976,11 +976,11 @@
     (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
 
     (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
-    (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
-    ;; (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
-    ;; (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
+    (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))))
+;; (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
+;; (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
 
-    ))
+
 
 ;;------------------------------------------------------------------------------
 ;; ielm
@@ -1044,8 +1044,8 @@
   (setq cider-save-file-on-load t))
 
 (use-package! flycheck-clj-kondo
-  :defer-incrementally t
-  )
+  :defer-incrementally t)
+
 
 ;;------------------------------------------------------------------------------
 ;; Graphviz

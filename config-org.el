@@ -128,7 +128,7 @@
           ("s" "Shopping" item
            (file+headline +org-capture-todo-file "Shopping") "- [ ] %?" :prepend t)))
 
-  ;;
+  ;; Applications for opening file:path items in a document
   (add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
   (add-to-list 'org-file-apps '("\\.odt\\'" . "xdg-open %s"))
 
