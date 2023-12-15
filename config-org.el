@@ -17,6 +17,8 @@
 
   :init
 
+  (require 'evil-org)
+
   ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   (add-hook! 'org-mode-hook (setq-local user-full-name "A.P."))
   (add-hook! 'org-mode-hook (setq-local scroll-margin 1))

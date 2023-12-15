@@ -6,7 +6,9 @@
   :config
   (apheleia-global-mode))
 
-(use-package! pdf-view-mode
+(use-package! pdf-view
+
+  :defer-incrementally t
 
   :init
 
@@ -105,10 +107,10 @@
   :init
 
   (add-hook! 'dired-mode-hook
-(dired-hide-details-mode 1))
+    (dired-hide-details-mode 1))
 
   (add-hook! 'dired-after-readin-hook
-             (dired-git-info-auto-enable)))
+    (dired-git-info-auto-enable)))
 
 ;;------------------------------------------------------------------------------
 ;; DWIM Shell
