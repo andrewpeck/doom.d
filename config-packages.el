@@ -811,7 +811,7 @@
 ;;------------------------------------------------------------------------------
 
 ;; vhdl mode will wrap comments after some # of characters
-(use-package! vhdl
+(use-package! vhdl-mode
 
   :defer-incrementally t
 
