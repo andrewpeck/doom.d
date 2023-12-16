@@ -775,6 +775,17 @@ local and remote servers."
   :after org
   :config
 
+  (defun org-web-tools--html-title (html)
+    "Return title of HTML page, or nil if it has none.
+Uses the `dom' library."
+    ;; Based on `eww-readable'
+    (let* ((dom (with-temp-buffer
+                  (insert html)
+                  (libxml-parse-html-region (point-min) (point-max))))
+           (title (cl-caddr (car (dom-by-tag dom 'title)))))
+      (when title
+        (org-web-tools--cleanup-title title))))
+
   (defun www-get-page-title (url)
     "Gets the title of a webpage at URL"
     (org-web-tools--html-title (org-web-tools--get-url url)))
