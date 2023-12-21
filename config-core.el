@@ -5,10 +5,10 @@
 ;;------------------------------------------------------------------------------
 
 ;; don't show line numbers by default
-;; (setq display-line-numbers t)
+(setq display-line-numbers t)
 
-;; (remove-hook! 'prog-mode-hook
-;;   #'display-line-numbers-mode)
+(add-hook! 'org-mode-hook
+           #'display-line-numbers-mode)
 
 ;; Start emacs in full screen by default
 (add-to-list 'default-frame-alist
