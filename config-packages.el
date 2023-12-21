@@ -414,37 +414,40 @@
   :init
   
   (add-hook! 'verilog-mode-hook
-    (with-eval-after-load 'cape-keyword
-      (add-to-list 'cape-keyword-list
-                   (append '(verilog-mode) verilog-keywords))))
+    (defun hook/add-verilog-keywords ()
+      (with-eval-after-load 'cape-keyword
+        (add-to-list 'cape-keyword-list
+                     (append '(verilog-mode) verilog-keywords)))))
 
   (add-hook! 'vhdl-mode-hook
-    (with-eval-after-load 'cape-keyword
-      (add-to-list 'cape-keyword-list
-                   (append '(vhdl-mode)
-                           vhdl-keywords
-                           vhdl-types
-                           vhdl-attributes
-                           vhdl-enum-values
-                           vhdl-constants
-                           vhdl-functions
-                           vhdl-packages
-                           vhdl-directives))))
+    (defun hook/add-vhdl-keywords ()
+      (with-eval-after-load 'cape-keyword
+        (add-to-list 'cape-keyword-list
+                     (append '(vhdl-mode)
+                             vhdl-keywords
+                             vhdl-types
+                             vhdl-attributes
+                             vhdl-enum-values
+                             vhdl-constants
+                             vhdl-functions
+                             vhdl-packages
+                             vhdl-directives)))))
 
 
 
   (add-hook! 'emacs-lisp-mode-hook
-    (setq-local completion-at-point-functions
-                (list
-                 (cape-company-to-capf #'company-yasnippet)
-                 'cape-symbol
-                 'cape-keyword
-                 'cape-dabbrev
-                 'cape-history
-                 'cape-file)))
+    (defun hook/set-elisp-capf-functions ()
+      (setq-local completion-at-point-functions
+                  (list
+                   (cape-company-to-capf #'company-yasnippet)
+                   'cape-symbol
+                   'cape-keyword
+                   'cape-dabbrev
+                   'cape-history
+                   'cape-file))))
 
   (add-hook! 'verilog-mode-hook
-    (defun set-verilog-capf ()
+    (defun hook/set-verilog-capf ()
       (setq-local completion-at-point-functions
                   (list (cape-super-capf
                          'cape-dabbrev
@@ -453,11 +456,12 @@
                          (cape-company-to-capf #'company-yasnippet))))))
 
   (add-hook! 'vhdl-mode-hook
-    (setq-local completion-at-point-functions
-                (list (cape-super-capf
-                       'cape-dabbrev
-                       'cape-keyword
-                       (cape-company-to-capf #'company-yasnippet)))))
+    (defun hook/set-vhdl-capf ()
+      (setq-local completion-at-point-functions
+                  (list (cape-super-capf
+                         'cape-dabbrev
+                         'cape-keyword
+                         (cape-company-to-capf #'company-yasnippet))))))
 
   (dolist (mode '(python-ts-mode-hook python-mode-hook))
     (add-hook! mode
@@ -550,7 +554,7 @@
 ;;                         '(:separate company-capf company-keywords company-dabbrev-code company-yasnippet)))
 
 (use-package! verilog-port-copy
-  :after verilog)
+  :after verilog-mode)
 
 ;;------------------------------------------------------------------------------
 ;; Elfeed
@@ -749,14 +753,14 @@
 ;; Verilog
 ;;--------------------------------------------------------------------------------
 
-(use-package! verilog
+(use-package! verilog-mode
 
   :defer-incrementally t
 
   :init 
 
   (add-hook 'verilog-mode-hook
-            (defun verilog--beautify-symbols-hook ()
+            (defun hook/verilog-beautify-symbols-hook ()
               "Beautify Verilog Symbols"
               (setq prettify-symbols-alist
                     '(("begin" . "《")
@@ -775,7 +779,7 @@
   ;;     1 '(face nil display  "󰁥(neg "))))
 
   (add-hook 'verilog-mode-hook
-            (defun verilog--configure-indent-and-comment ()
+            (defun hook/verilog-configure-indent-and-comment ()
               "Wrap verilog-do-indent in a save excursion so it doesn't jump around.... uhg"
               (setq-local indent-line-function
                           (lambda () (save-excursion (verilog-indent-line-relative))))
@@ -930,7 +934,8 @@
   ;; double slashes // instead of slash-stars /* ... */
   (add-hook! 'c-mode-common-hook
              ;; Preferred comment style
-             (setq comment-start "// " comment-end "")))
+             (defun hook/set-c-comment-start ()
+               (setq comment-start "// " comment-end ""))))
 
 ;;-----------------------------------------------------------------------------------------
 ;; XML
@@ -943,7 +948,8 @@
   :init 
 
   (add-hook! 'nxml-mode-hook
-    (visual-fill-column-mode -1))
+    (defun hook/disable-visual-fill-column-mode ()
+      (visual-fill-column-mode -1)))
 
   :config
   
@@ -1016,8 +1022,10 @@
 ;;------------------------------------------------------------------------------
 
 ;;  set the tab width for emacs lisp mode to 4 for compatibility with emacs libs
-(add-hook! 'emacs-lisp-mode-hook
-  (setq-local tab-width 4))
+
+  (add-hook! 'emacs-lisp-mode-hook
+    (defun hook/set-elisp-tab-width ()
+      (setq-local tab-width 4))))
 
 ;;------------------------------------------------------------------------------
 ;; Common Lisp
