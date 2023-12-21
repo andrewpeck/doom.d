@@ -120,7 +120,7 @@
         (run-with-timer 0 3600 'synchronize-theme)))
 
 (when (not (boundp 'dark-mode))
-  (setq dark-mode 'auto)) ;; 'auto 'dark 'light
+  (setq dark-mode 'dark)) ;; 'auto 'dark 'light
 
 (synchronize-theme)
 
