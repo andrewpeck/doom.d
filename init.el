@@ -28,7 +28,7 @@
 
  :completion
 
- (corfu +icons +tng +orderless +dbbrev +dict +emoji)
+ (corfu +icons +orderless +dbbrev +dict +emoji)
  (vertico +icons +childframe); the search engine of the future
 
  :ui
@@ -50,7 +50,7 @@
             +diff-hl) ; vcs diff in the fringe
  ;;vi-tilde-fringe    ; fringe tildes to mark beyond EOB
  ;;window-select      ; visually switch windows
- ;;workspaces           ; tab emulation, persistence & separate workspaces
+ workspaces           ; tab emulation, persistence & separate workspaces
  ;;zen                ; distraction-free coding or writing
 
  :editor
@@ -159,7 +159,7 @@
  ;;javascript         ; all(hope(abandon(ye(who(enter(here))))))
 
  ;; a better, faster MATLAB
- ;;(julia + lsp)
+ ;; (julia +lsp +tree-sitter)
 
  ;; writing papers in Emacs has never been so fun
  (latex +fold +lsp +latexmk)

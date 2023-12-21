@@ -1,10 +1,22 @@
 ;;------------------------------------------------------------------------------
 ;;
+;; Apheleia
 ;;------------------------------------------------------------------------------
 
 (use-package! apheleia
   :config
+
+  ;; (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
+  (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
+
+  (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
+  (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
+
   (apheleia-global-mode))
+
+;;------------------------------------------------------------------------------
+;;
+;;------------------------------------------------------------------------------
 
 (use-package! pdf-view
 
@@ -92,6 +104,9 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! dired-x
+
+  :after dired
+
   :config
   (setq dired-omit-files
         (concat dired-omit-files
@@ -104,6 +119,7 @@
                 "\\|^\\.pytest_cache\\'")))
 
 (use-package! dired
+
   :init
 
   (add-hook! 'dired-mode-hook
@@ -982,7 +998,8 @@
     (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
 
     (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
-    (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))))
+    (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
+    ))
 ;; (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
 ;; (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
 
@@ -1014,7 +1031,7 @@
     (message "Saving comint-input-ring...")
     (setq ielm-comint-input-ring comint-input-ring))
 
-  (add-hook 'inferior-emacs-lisp-mode-hook
+  (add-hook 'ielm-mode-hook
             #'set-ielm-comint-input-ring))
 
 ;;------------------------------------------------------------------------------
@@ -1022,6 +1039,15 @@
 ;;------------------------------------------------------------------------------
 
 ;;  set the tab width for emacs lisp mode to 4 for compatibility with emacs libs
+(use-package! elisp-mode
+
+  :init
+  (remove-hook! 'emacs-lisp-mode-hook #'outline-minor-mode)
+  (remove-hook! 'emacs-lisp-mode-hook #'highlight-quoted-mode)
+  (remove-hook! 'emacs-lisp-mode-hook #'embrace-emacs-lisp-mode-hook)
+  (remove-hook! 'emacs-lisp-mode-hook #'doom--setq-tab-width-for-emacs-lisp-mode-h)
+  (remove-hook! 'emacs-lisp-mode-hook #'doom--setq-outline-level-for-emacs-lisp-mode-h)
+  (remove-hook! 'emacs-lisp-mode-hook #'doom--setq-outline-regexp-for-emacs-lisp-mode-h)
 
   (add-hook! 'emacs-lisp-mode-hook
     (defun hook/set-elisp-tab-width ()
@@ -1041,7 +1067,7 @@
 ;; Clojure
 ;;------------------------------------------------------------------------------
 
-(use-package! clojure
+(use-package! clojure-mode
 
   :defer-incrementally t
 
@@ -1052,6 +1078,7 @@
   (setq cider-save-file-on-load t))
 
 (use-package! flycheck-clj-kondo
+  :after clojure-mode
   :defer-incrementally t)
 
 

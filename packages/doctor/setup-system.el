@@ -184,8 +184,11 @@
   ;; graph-easy
   (setup--check-for-exe "graph-easy" :cmd "sudo" :ubuntu "sudo cpan install Graph::Easy")
 
+  ;; rust
+  (setup--check-for-exe "rustc" :noroot t :cmd "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh")
+  (setup--check-for-exe "rust-analyzer" :noroot t :cmd "rustup component add rust-src && mkdir -p ~/.local/bin && curl -L https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer && chmod +x ~/.local/bin/rust-analyzer")
+
   ;; utilities
-  ;;
   (setup--check-for-exe "pushover-cli" :noroot t :cmd "curl -o ~/.local/bin/pushover-cli https://raw.githubusercontent.com/markus-perl/pushover-cli/master/pushover-cli && chmod +x ~/.local/bin/pushover-cli")
   (setup--check-for-exe "kitty" :noroot t :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
   (setup--check-for-exe "act" :cmd "cd ~/ && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash")

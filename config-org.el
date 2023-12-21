@@ -343,12 +343,15 @@ Updates overdue tasks to be due today."
 
   ;; (setq org-startup-indented nil)
   ;; (setq-default org-indent-mode nil)
-  (setq org-modern-table nil)
-  (with-eval-after-load 'org (global-org-modern-mode))
-  (setq org-modern-checkbox
-        '((?X  . "✓")
-          (?-  . "␣")
-          (?\s . "☐")))
+  (with-eval-after-load 'org-modern-mode
+    (progn
+      (setq org-modern-checkbox
+            '((?X  . "✓")
+              (?-  . "␣")
+              (?\s . "☐")))
+      (setq org-modern-table nil)
+      (global-org-modern-mode)))
+
 
 
   (defun org-archive-done ()
