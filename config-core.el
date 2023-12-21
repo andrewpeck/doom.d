@@ -187,6 +187,8 @@
 
 (ap/update-font-list)
 
+(advice-add #'doom/reload-font :before #'ap/update-font-list)
+
 ;; synchronize font periodically since the damn monitor changes so much
 (when (or (not (boundp 'font-timer))
           (not font-timer))
