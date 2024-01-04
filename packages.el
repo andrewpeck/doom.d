@@ -43,6 +43,7 @@
 (package! ox-gfm                :pin "46faa67dbb3fb0cd7a76c3fe518f16e4195c22c7")
 (package! ox-pandoc             :pin "0f758517f512e375825679541b5d905be40342eb")
 (package! plz                   :pin "545ed3c5179dc2432ba25ea06a402a083c0f871b")
+(package! poporg                :pin "2c58d68c81ecca4140bf179f19ed153ec804b65a" :recipe (:host github :repo "QBobWatson/poporg"))
 (package! rainbow-mode          :pin "41f4af40964cdb9d0cc3552eb450540fdc820455")
 (package! scad-mode             :pin "e1af74735ad6113448c99b3ab128a665e6adaaca")
 (package! screenshot            :pin "ddb092d88d61330a3f562f67f051677b8de9ac07" :recipe (:host github :repo "tecosaur/screenshot"))
