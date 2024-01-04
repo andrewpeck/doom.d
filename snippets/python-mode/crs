@@ -1,9 +1,10 @@
 # -*- mode: snippet -*-
-# name: csr
-# key: csr
+# name: crs
+# key: crs
+# expand-env: ((yas-indent-line 'fixed))
 # --
 """
-..  Copyright © 2023 PsiQuantum Corp.  All rights reserved.
+..  Copyright © `(format-time-string "%Y" (current-time))` PsiQuantum Corp.  All rights reserved.
     PSIQUANTUM CORP. CONFIDENTIAL
     This file includes unpublished proprietary source code of PsiQuantum Corp.
     The copyright notice above does not evidence any actual or intended publication

@@ -3,7 +3,7 @@
 # key: crs
 # --
 //---------------------------------------------------------------------------------
-//  Copyright 2023-2023 PsiQuantum Corp.  All rights reserved.
+//  Copyright `(format-time-string "%Y" (current-time))` PsiQuantum Corp.  All rights reserved.
 //
 //  PSIQUANTUM CORP. CONFIDENTIAL
 //
