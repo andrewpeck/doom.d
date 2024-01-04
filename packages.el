@@ -36,6 +36,7 @@
 (package! logview               :pin "9140067afdc2f0d1eb493dc4dfdb53645289dd2b")
 (package! magit-todos           :pin "d0646dbbf46d75d08e3d7b4c665d7d763a468af1")
 (package! markdown-preview-mode :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
+(package! ob-wavedrom           :pin "0c57fdf0cdfd4083921c077ec665fca597b9eb65" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-download          :pin "19e166f0a8c539b4144cfbc614309d47a9b2a9b7" :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-modern            :pin "240026f0bef6dabff1e86ab092a678beddd301c3" :recipe (:host github :repo "minad/org-modern"))
 (package! org-web-tools         :pin "821e6f032f5823e5e3344ea4d1a36870e236aba1")
