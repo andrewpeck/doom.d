@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: state
+# key: state
+# --
+${1:STATE}: begin
+  $2
+end
