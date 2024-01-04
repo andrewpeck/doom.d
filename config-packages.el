@@ -814,6 +814,7 @@
   (setq verilog-align-ifelse t
         verilog-tab-always-indent nil
         ;; verilog-align-typedef-regexp (concat "\\<" verilog-identifier-re "_\\(t\\)\\>")  ;; https://github.com/veripool/verilog-mode/issues/1823
+        fill-prefix "// "
         verilog-auto-delete-trailing-whitespace t
         verilog-auto-inst-param-value t
         verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
