@@ -21,6 +21,7 @@
 (package! company               :pin "9b21604d19696de2c79ee28931620839b3a908b4")
 (package! crontab-mode          :pin "7412f3df0958812bfcacd5875a409fa795fa8ecc")
 (package! delight               :pin "46932bdc4da69072329aec8df052da3e04444899")
+(package! dired-git-info        :pin "1bfcdf139181afc9034a40dd0640e53d95b12f5f" :recipe (:host github :repo "tuh8888/dired-git-info"))
 (package! dwim-shell-command    :pin "e4a139fe181ed1b576302fb36f3761fbf9914580" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! elfeed                :pin "55fb162fa27e71b88effa59a83c57842e262b00f"  :recipe (:host github :repo "skeeto/elfeed"))
 (package! emojify               :pin "1b726412f19896abf5e4857d4c32220e33400b55")
