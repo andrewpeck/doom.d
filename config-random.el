@@ -1,10 +1,13 @@
 ;;; -*- lexical-binding: t; -*-
 
-(add-hook 'before-save-hook
-          (defun hook/update-copyright ()
-            "Automatically update copyright on save."
-            (when copyright-names-regexp
-              (copyright-update nil t))))
+(add-hook! 'before-save-hook
+  (defun hook/update-copyright ()
+    "Automatically update copyright on save."
+    (copyright-update nil t)
+    ;; (when copyright-names-regexp
+    ;;   (copyright-update nil t)
+    ;;   )
+    ))
 
 ;; supress warning of obsolete generalized variable in org-web-tools
 ;; should check this periodically and remove if org-web-tools updates
