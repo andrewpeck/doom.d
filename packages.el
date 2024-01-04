@@ -13,6 +13,7 @@
 ;; start:sort
 (package! affe                  :pin "2f2423effdcec2731ab865f513fd92bb96d0eb03")
 (package! ascii-art-to-unicode  :pin "79a73bd4f623f10135b6b65030f6d5e3070466db")
+(package! backup-each-save      :pin "3c414b9d6b278911c95c5b8b71819e6af6f8a02a" :recipe (:host github :repo "andrewpeck/backup-each-save"))
 (package! benchmark-init        :pin "02435560415bbadbcf5051fb7042880549170e7e")
 (package! browse-at-remote      :pin "76aa27dfd469fcae75ed7031bb73830831aaccbf" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
 (package! cape                  :pin "f9f8e4a1e36b0ee7972c35bc0a635cbed9959aa0" :recipe (:host github :repo "minad/cape"))
