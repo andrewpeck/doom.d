@@ -473,7 +473,7 @@
   (add-hook! 'verilog-mode-hook
     (defun hook/set-verilog-capf ()
       (setq-local completion-at-point-functions
-                  (list (cape-super-capf
+                  (list (cape-capf-super
                          'cape-dabbrev
                          ;; 'complete-tag
                          'cape-keyword
@@ -482,7 +482,7 @@
   (add-hook! 'vhdl-mode-hook
     (defun hook/set-vhdl-capf ()
       (setq-local completion-at-point-functions
-                  (list (cape-super-capf
+                  (list (cape-capf-super
                          'cape-dabbrev
                          'cape-keyword
                          (cape-company-to-capf #'company-yasnippet))))))
@@ -491,7 +491,7 @@
     (add-hook! mode
       (setq-local completion-at-point-functions
                   (list
-                   (cape-super-capf
+                   (cape-capf-super
                     'cape-keyword
                     'cape-file
                     'eglot-completion-at-point
@@ -501,7 +501,7 @@
 
   (add-hook! 'tcl-mode-hook
     (setq-local completion-at-point-functions
-                (list (cape-super-capf
+                (list (cape-capf-super
                        'cape-dabbrev
                        'cape-keyword
                        'cape-file
