@@ -126,6 +126,16 @@
   :select nil
   :ttl 0)
 
+(set-popup-rule! ".*poporg.*"
+  :ignore t
+  :modeline t
+  :side 'right
+  :quit nil
+  :size 1.0
+  ;; :vslot -4
+  :select nil
+  :ttl 0)
+
 (set-popup-rule! ".*cider-repl.*"
   :modeline t
   :side 'right
