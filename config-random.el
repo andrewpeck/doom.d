@@ -315,9 +315,11 @@
   (let ((insertion
          (mapconcat
           (lambda (x) (format "%s%s%s" quote x quote))
-          (split-string (buffer-substring start end)) (concat separator " "))))
+          (split-string (buffer-substring-no-properties start end))
+          (concat separator " "))))
     (delete-region start end)
-    (insert insertion)))
+    (insert insertion)
+    (newline)))
 
 ;; Buffer Mode Histogram
 ;; http://blogs.fluidinfo.com/terry/2011/11/10/emacs-buffer-mode-histogram/
