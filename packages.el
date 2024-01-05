@@ -61,6 +61,7 @@
 (package! vimrc-mode            :pin "13bc150a870d5d4a95f1111e4740e2b22813c30e")
 (package! visual-fill-column    :pin "db7c7c236555c9c684e1294a277efefdc25fa5c4")
 (package! vivado_mode           :pin "75696241bbbe3b31b618d40bf83551f3cfef9572" :recipe (:host github :repo "andrewpeck/vivado_mode"))
+(package! wavedrom-mode         :pin "15718ab8eba8b0fce4ab5387b13421059f1b128f" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
 (package! xr                    :pin "3e38048521f56a1414cb2d9adcd55ef5b270b557")                           ; xr is rx in reverse
 ;; (package! jinx :recipe (:host github :repo "minad/jinx") :pin "b96d4c27e2f7472e923f7c4446c2061f1259819f") problems in snap?
 ;; (package! verilog-ext :recipe (:host github :repo "gmlarumbe/verilog-ext")) ;; brings in too many dependencies... ag aphelia lsp outorg outshine rg :(
