@@ -407,6 +407,7 @@ between the two most recently open buffers."
                  "b" #'vhdl-beautify-buffer
                  "r" #'vhdl-beautify-region))
 
+  (map! :leader :prefix "m" :desc "Dired Filter Mode"    "f"  #'dired-filter-mode :map dired-mode-map)
   (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
   (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)
   (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
@@ -414,6 +415,8 @@ between the two most recently open buffers."
   (map! :leader :prefix "r" :desc "Replace Symbol"       "s"  #'qrc)
   (map! :leader :prefix "r" :desc "Replace Query"        "q"  #'query-replace)
   (map! :leader :prefix "r" :desc "Replace Globally"     "g"  #'replace-string)
+
+  (map! :leader :prefix "e" :desc "Poporg Edit Comment"  "c"  #'poporg-dwim)
 
   (map! :leader :prefix "g" :desc "GPT Prompt"           "pt" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
