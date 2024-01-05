@@ -24,6 +24,7 @@
 (package! dired-git-info        :pin "1bfcdf139181afc9034a40dd0640e53d95b12f5f" :recipe (:host github :repo "tuh8888/dired-git-info"))
 (package! dwim-shell-command    :pin "e4a139fe181ed1b576302fb36f3761fbf9914580" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! elfeed                :pin "55fb162fa27e71b88effa59a83c57842e262b00f"  :recipe (:host github :repo "skeeto/elfeed"))
+(package! emacs-ucf-mode        :pin "cddcbbeae03aea005f3913cfb52ebf72942181eb" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! emojify               :pin "1b726412f19896abf5e4857d4c32220e33400b55")
 (package! evil-collection       :pin "18304d9d9e4243687a7bf915dc7e591a216873c6" :recipe (:host github :repo "emacs-evil/evil-collection"))
 (package! evil-leader           :pin "39f7014bcf8b36463e0c7512c638bda4bac6c2cf")
@@ -33,6 +34,8 @@
 (package! flycheck-clj-kondo    :pin "ff7bed2315755cfe02ef471edf522e27b78cd5ca" :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
 (package! fzf                   :pin "3a55b983921c620fb5a2cc811f42aa4daaad8266" :recipe (:host github :repo "bling/fzf.el"))
 (package! graphviz-dot-mode     :pin "8ff793b13707cb511875f56e167ff7f980a31136")
+(package! hdl_deps              :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
+(package! hog-emacs             :pin "bb877af7a59e2094c705236c5b7e26a9b0ea7330" :recipe (:host github :repo "andrewpeck/hog-emacs"))
 (package! logview               :pin "9140067afdc2f0d1eb493dc4dfdb53645289dd2b")
 (package! magit-todos           :pin "d0646dbbf46d75d08e3d7b4c665d7d763a468af1")
 (package! markdown-preview-mode :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
@@ -49,12 +52,15 @@
 (package! scad-mode             :pin "e1af74735ad6113448c99b3ab128a665e6adaaca")
 (package! screenshot            :pin "ddb092d88d61330a3f562f67f051677b8de9ac07" :recipe (:host github :repo "tecosaur/screenshot"))
 (package! standard-themes       :pin "fba33e81789e33c81e8434aeb4ddddd813a940d7" :recipe (:host github :repo "protesilaos/standard-themes"))
+(package! system-install.el     :pin "df93485695659c7b827d64270ba70d096682b33d" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! systemd               :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org               :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! treesit-auto          :pin "78b38c4ded525311d6fb1130bfa7ef03273033f5" :recipe (:host github :repo "renzmann/treesit-auto"))
 (package! verilog-mode          :pin "9395f121e0214d3ae385a5500e2c5c9edeb11ad6" :recipe (:host github :repo "veripool/verilog-mode"))
+(package! verilog-port-copy     :pin "f86595e50668739f284327ee7ab386479881a26f" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! vimrc-mode            :pin "13bc150a870d5d4a95f1111e4740e2b22813c30e")
 (package! visual-fill-column    :pin "db7c7c236555c9c684e1294a277efefdc25fa5c4")
+(package! vivado_mode           :pin "75696241bbbe3b31b618d40bf83551f3cfef9572" :recipe (:host github :repo "andrewpeck/vivado_mode"))
 (package! xr                    :pin "3e38048521f56a1414cb2d9adcd55ef5b270b557")                           ; xr is rx in reverse
 ;; (package! jinx :recipe (:host github :repo "minad/jinx") :pin "b96d4c27e2f7472e923f7c4446c2061f1259819f") problems in snap?
 ;; (package! verilog-ext :recipe (:host github :repo "gmlarumbe/verilog-ext")) ;; brings in too many dependencies... ag aphelia lsp outorg outshine rg :(
