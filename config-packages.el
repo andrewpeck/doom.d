@@ -133,8 +133,14 @@
   (add-hook! 'dired-mode-hook
     (dired-hide-details-mode 1))
 
+  (add-hook! 'dired-mode-hook
+    (defun hook/enable-dired-git-filter ()
+      ""
+      (dired-filter-mode)
+      (dired-filter-by-git-ignored)))
+
   (add-hook! 'dired-after-readin-hook
-    (dired-git-info-auto-enable)))
+             #'dired-git-info-auto-enable))
 
 ;;------------------------------------------------------------------------------
 ;; DWIM Shell
