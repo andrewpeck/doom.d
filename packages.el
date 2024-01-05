@@ -52,7 +52,7 @@
 (package! scad-mode             :pin "e1af74735ad6113448c99b3ab128a665e6adaaca")
 (package! screenshot            :pin "ddb092d88d61330a3f562f67f051677b8de9ac07" :recipe (:host github :repo "tecosaur/screenshot"))
 (package! standard-themes       :pin "fba33e81789e33c81e8434aeb4ddddd813a940d7" :recipe (:host github :repo "protesilaos/standard-themes"))
-(package! system-install.el     :pin "df93485695659c7b827d64270ba70d096682b33d" :recipe (:host github :repo "andrewpeck/system-install.el"))
+(package! system-install.el     :pin "eb347b45991d62c7287fff6fc1a66b4167bd7a8b" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! systemd               :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org               :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! treesit-auto          :pin "78b38c4ded525311d6fb1130bfa7ef03273033f5" :recipe (:host github :repo "renzmann/treesit-auto"))
