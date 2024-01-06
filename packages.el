@@ -58,7 +58,7 @@
 (package! toc-org               :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! treesit-auto          :pin "78b38c4ded525311d6fb1130bfa7ef03273033f5" :recipe (:host github :repo "renzmann/treesit-auto"))
 (package! verilog-mode          :pin "9395f121e0214d3ae385a5500e2c5c9edeb11ad6" :recipe (:host github :repo "veripool/verilog-mode"))
-(package! verilog-port-copy     :pin "f86595e50668739f284327ee7ab386479881a26f" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
+(package! verilog-port-copy     :pin "e87c7636d440edfadd9f815278bdaa19140a4be0" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! vimrc-mode            :pin "13bc150a870d5d4a95f1111e4740e2b22813c30e")
 (package! visual-fill-column    :pin "db7c7c236555c9c684e1294a277efefdc25fa5c4")
 (package! vivado_mode           :pin "75696241bbbe3b31b618d40bf83551f3cfef9572" :recipe (:host github :repo "andrewpeck/vivado_mode"))
