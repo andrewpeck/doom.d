@@ -37,12 +37,17 @@
   :config
 
   ;; (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
+  ;; (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
+  ;; (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
+
   (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
+  (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
 
   (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
   (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
 
-  (apheleia-global-mode))
+
+  (add-hook! 'python-mode-hook (apheleia-mode)))
 
 ;;------------------------------------------------------------------------------
 ;;
@@ -1029,17 +1034,7 @@
         python-flymake-command '("flake8" "-")
         py-isort-options '("--combine-as"))
 
-  (after! apheleia
-
-    (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
-    (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
-
-    (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
-    (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
-    ))
-;; (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
-;; (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
-
+  )
 
 
 ;;------------------------------------------------------------------------------
@@ -1289,3 +1284,6 @@ See URL `http://nagelfar.sourceforge.net/'."
      (error line-start "ERROR:" (message) "\"" (file-name) "\", line " line ": syntax error" line-end))
     :modes (scad-mode))
   (add-to-list 'flycheck-checkers 'openscad))
+
+;;
+
