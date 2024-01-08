@@ -1,5 +1,29 @@
 ;;; -*- lexical-binding: t; -*-
 
+(defun fix-latex-pasted-text ()
+
+  "Fix text pasted from Latex PDFs.
+
+Text copy pasted from Latex likes to hyphen- ate inappropriately.
+
+This function tries to de hyphenate them."
+
+  (interactive)
+  (require 'expand-region)
+  (unless (region-active-p)
+    (progn
+      (er/mark-paragraph)
+      (goto-char (region-beginning))
+      (when (= (string-match paragraph-separate (thing-at-point 'line)) 0)
+        (forward-line))))
+
+  (join-line nil (region-beginning) (region-end))
+
+  (replace-regexp-in-region "\\([[:word:]]\\)-[[:blank:]]\\([[:word:]]\\)" "\\1\\2")
+
+  (if (eq major-mode #'org-mode)
+      (org-fill-paragraph)
+    (fill-paragraph)))
 
 ;; supress warning of obsolete generalized variable in org-web-tools
 ;; should check this periodically and remove if org-web-tools updates
