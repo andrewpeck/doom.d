@@ -156,8 +156,6 @@
 
   (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
   (setq dired-omit-extensions (remove ".bit" dired-omit-extensions))
-  ;; better dired soring
-  (setq dired-listing-switches "-a1vBhl  --group-directories-first")
 
   (setq dired-omit-files
         (concat dired-omit-files
@@ -170,8 +168,17 @@
                 "\\|^\\.pytest_cache\\'")))
 
 (use-package! dired
+  :config
+
+  ;; better dired soring
+  (setq dired-listing-switches "-a1vBhl  --group-directories-first")
 
   :init
+
+  ;; this breaks sensible dired sorting on remote hosts;
+  ;; it is there for DOS compatibility which I don't care about
+  (remove-hook! 'dired-mode-hook
+    #'+dired-disable-gnu-ls-flags-maybe-h)
 
   (remove-hook! 'dired-mode-hook
     #'diff-hl-dired-mode)
