@@ -26,8 +26,7 @@
 
 (use-package! ob-wavedrom
   :config
-  (setq ob-wavedrom-cli-path "wavedrom")
-  )
+  (setq ob-wavedrom-cli-path "wavedrom"))
 
 ;;------------------------------------------------------------------------------ 
 ;; Apheleia
@@ -132,7 +131,7 @@
   (when (not (file-directory-p backup-each-save-mirror-location))
     (make-directory backup-each-save-mirror-location))
 
-  (add-hook 'after-save-hook 'backup-each-save))
+  (add-hook 'after-save-hook #'backup-each-save))
 
 ;;------------------------------------------------------------------------------
 ;; Dired
@@ -860,6 +859,31 @@
               (setq-local comment-multi-line t)))
 
   :config
+
+  (defun verilog-name-to-port-inst ()
+    "Convert symbol at point into a verilog port instantiation.
+
+e.g. if you place the point at `outcome_cycle_idx_0' in the
+following line and execute this function:
+
+output reg [TBINB-1:0]       outcome_cycle_idx_0,
+
+it will be transformed into:
+
+.outcome_cycle_idx_0 (outcome_cycle_idx_0)
+
+
+This makes for easy conversion of some port list or wire list
+into Verilog ports."
+
+    (interactive)
+    (let ((name (symbol-at-point)))
+      (beginning-of-line)
+      (kill-line)
+      (insert (format ".%s (%s)," name name))
+      (verilog-indent-line)
+      (re-search-forward (format "%s" name))
+      (re-search-forward (format "%s" name))))
 
   (setq-local fill-prefix "// ")
 
