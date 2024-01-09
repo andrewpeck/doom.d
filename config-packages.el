@@ -173,17 +173,25 @@
 
   :init
 
+  (remove-hook! 'dired-mode-hook
+    #'diff-hl-dired-mode)
+
+  (add-hook 'dired-mode-hook
+            #'diff-hl-dired-mode-unless-remote)
+
   (add-hook! 'dired-mode-hook
     (dired-hide-details-mode 1))
 
   (add-hook! 'dired-mode-hook
     (defun hook/enable-dired-git-filter ()
       ""
-      (dired-filter-mode)
-      (dired-filter-by-git-ignored)))
+      (unless (file-remote-p default-directory)
+        (dired-filter-mode)
+        (dired-filter-by-git-ignored))))
 
   (add-hook! 'dired-after-readin-hook
-             #'dired-git-info-auto-enable))
+    (unless (file-remote-p default-directory)
+      #'dired-git-info-auto-enable)))
 
 ;;------------------------------------------------------------------------------
 ;; DWIM Shell
