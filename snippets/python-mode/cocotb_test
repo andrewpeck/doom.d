@@ -4,15 +4,6 @@
 # expand-env: ((yas-indent-line 'fixed))
 # --
 #!/usr/bin/env python3
-"""
-..  Copyright © 2023 PsiQuantum Corp.  All rights reserved.
-    PSIQUANTUM CORP. CONFIDENTIAL
-    This file includes unpublished proprietary source code of PsiQuantum Corp.
-    The copyright notice above does not evidence any actual or intended publication
-    of such source code. Disclosure of this source code or any related proprietary
-    information is strictly prohibited without the express written permission of
-    PsiQuantum Corp.
-"""
 
 import os
 import random
@@ -43,14 +34,14 @@ async def ${1:topname}_test_bench(dut):
 def test_$1():
 
     test_module = os.path.splitext(os.path.basename(__file__))[0]
-    rtl_dir = Path(__file__).parent / "../hdl"
+    repo_dir = Path(__file__).parent / "../.."
     vhdl_sources = []
 
     # --------------------------------------------------------------------------------
     # Custom
     # --------------------------------------------------------------------------------
 
-    verilog_sources: List = [str(rtl_dir / "$1.sv")]
+    verilog_sources: List = [str(rtl_dir / "rsp/hdl/$1.sv")]
 
     hdl_toplevel: str = "$1"
     parameters: Mapping = {}

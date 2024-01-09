@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: org-publish-hook
+# key: org-publish-hook
+# --
+# eval: (make-variable-buffer-local 'after-save-hook)
+# eval: (add-hook 'after-save-hook (lambda () (unless (file-remote-p default-directory) (org-publish-this-file))) nil 'local)
