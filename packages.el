@@ -42,7 +42,6 @@
 (package! markdown-preview-mode :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
 (package! ob-wavedrom           :pin "0c57fdf0cdfd4083921c077ec665fca597b9eb65" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-download          :pin "19e166f0a8c539b4144cfbc614309d47a9b2a9b7" :recipe (:host github :repo "abo-abo/org-download"))
-(package! org-modern            :pin "240026f0bef6dabff1e86ab092a678beddd301c3" :recipe (:host github :repo "minad/org-modern"))
 (package! org-web-tools         :pin "7a6498f442fc7f29504745649948635c7165d847")
 (package! ox-clip               :pin "ff117cf3c619eef12eccc0ccbfa3f11adb73ea68" :recipe (:host github :repo "jkitchin/ox-clip"))
 (package! ox-gfm                :pin "4f774f13d34b3db9ea4ddb0b1edc070b1526ccbb")
@@ -69,6 +68,8 @@
 (package! xr                    :pin "2a225260a747dd3c091f6b02108277ce0b97c566")                           ; xr is rx in reverse
 ;; end:sort
 
+;; (package! tabular :recipe (:host github :repo "andrewpeck/tabular"))
+;; (package! org-modern            :pin "240026f0bef6dabff1e86ab092a678beddd301c3" :recipe (:host github :repo "minad/org-modern"))
 ;; (package! jinx :recipe (:host github :repo "minad/jinx") :pin "b96d4c27e2f7472e923f7c4446c2061f1259819f") problems in snap?
 ;; (package! verilog-ext :recipe (:host github :repo "gmlarumbe/verilog-ext")) ;; brings in too many dependencies... ag aphelia lsp outorg outshine rg :(
 
