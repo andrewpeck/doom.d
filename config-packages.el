@@ -186,8 +186,9 @@
     (defun hook/enable-dired-git-filter ()
       ""
       (unless (file-remote-p default-directory)
-        (dired-filter-mode)
-        (dired-filter-by-git-ignored))))
+        (when (ignore-errors (vc-responsible-backend default-directory))
+          (dired-filter-mode)
+          (dired-filter-by-git-ignored)))))
 
   (add-hook! 'dired-after-readin-hook
     (unless (file-remote-p default-directory)
