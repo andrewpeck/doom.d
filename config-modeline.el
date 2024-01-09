@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (after! minibuffer-line-mode
   (minibuffer-line-mode 1)
   (setq minibuffer-line-format

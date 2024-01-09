@@ -1,3 +1,25 @@
+;;; config-packages.el -*- lexical-binding: t; -*-
+
+;;------------------------------------------------------------------------------
+;; Copyright
+;;------------------------------------------------------------------------------
+
+(use-package! copyright
+
+  :config
+
+  (setq copyright-names-regexp "Andrew Peck")
+  (setq copyright-year-ranges t)
+
+  (add-hook! 'before-save-hook
+    (defun hook/update-copyright ()
+      "Automatically update copyright on save."
+
+      (when copyright-names-regexp
+        (save-excursion
+          (copyright-update nil t)
+          (copyright-fix-years))))))
+
 ;;------------------------------------------------------------------------------
 ;; Wavedrom
 ;;------------------------------------------------------------------------------
