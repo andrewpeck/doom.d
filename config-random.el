@@ -25,11 +25,6 @@ This function tries to de hyphenate them."
       (org-fill-paragraph)
     (fill-paragraph)))
 
-;; supress warning of obsolete generalized variable in org-web-tools
-;; should check this periodically and remove if org-web-tools updates
-;; for 29.1
-(cl-remprop 'buffer-substring 'byte-obsolete-generalized-variable)
-
 
 ;; don't make escape annoyingly close popups UHG
 (advice-remove 'evil-force-normal-state

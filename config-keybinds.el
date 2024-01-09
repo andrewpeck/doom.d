@@ -407,6 +407,9 @@ between the two most recently open buffers."
                  "b" #'vhdl-beautify-buffer
                  "r" #'vhdl-beautify-region))
 
+  (map! :leader :prefix "m" :desc "Latexify"             "lp" #'org-latex-preview-all :map org-mode-map)
+  (map! :leader :prefix "m" :desc "De-latexify"          "lP" #'org-latex-preview-clear :map org-mode-map)
+
   (map! :leader :prefix "m" :desc "Dired Filter Mode"    "f"  #'dired-filter-mode :map dired-mode-map)
   (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
   (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)

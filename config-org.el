@@ -776,6 +776,13 @@ local and remote servers."
 (use-package! org-web-tools
 
   :after org
+  :init
+
+  ;; supress warning of obsolete generalized variable in org-web-tools
+  ;; should check this periodically and remove if org-web-tools updates
+  ;; for 29.1
+  (cl-remprop 'buffer-substring 'byte-obsolete-generalized-variable)
+
   :config
 
   (defun org-web-tools--html-title (html)
