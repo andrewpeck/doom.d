@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;; -*- lexical-binding: t; -*-
 
 (after! minibuffer-line-mode
   (minibuffer-line-mode 1)

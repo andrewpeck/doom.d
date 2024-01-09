@@ -1,4 +1,5 @@
 *.elc
+.undo-fu/*
 __default.el
 .flycheck*
 .DS_Store
