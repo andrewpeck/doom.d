@@ -98,6 +98,7 @@
 
   (princ "* Setup System\n")
   (princ "** Checking for required programs\n")
+
   ;; external programs wanted by my emacs
   (setup--check-for-exe "terminator" :ubuntu "terminator")
   (setup--check-for-exe "bat" :ubuntu "bat")
@@ -105,6 +106,9 @@
   ;; $ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
   ;; $ sudo dpkg -i ripgrep_13.0.0_amd64.deb
   (setup--check-for-exe "ag" :ubuntu "silversearcher-ag" :dnf "the_silver_searcher")
+
+  ;; https://github.com/blahgeek/emacs-lsp-booster
+  (setup--check-for-exe "emacs-lsp-booster" :cmd "cargo install --git https://github.com/blahgeek/emacs-lsp-booster" :noroot t)
 
   ;; python
   (setup--check-for-exe "autopep8" :cmd "pip install autopep8" :noroot t)

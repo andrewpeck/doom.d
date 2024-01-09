@@ -1303,5 +1303,6 @@ See URL `http://nagelfar.sourceforge.net/'."
     :modes (scad-mode))
   (add-to-list 'flycheck-checkers 'openscad))
 
-;;
-
+(use-package! eglot-booster
+  :config
+  (eglot-booster))
