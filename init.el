@@ -69,7 +69,7 @@
 
  :emacs
 
- dired             ; making dired pretty [functional]
+ ;; dired          ; making dired pretty [functional]
  electric          ; smarter, keyword-based electric-indent
  ibuffer           ; interactive buffer management
  vc                ; version-control and Emacs, sitting in a tree

@@ -157,6 +157,8 @@
   (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
   (setq dired-omit-extensions (remove ".bit" dired-omit-extensions))
 
+  (add-to-list 'dired-omit-extensions ".tmp")
+
   (setq dired-omit-files
         (concat dired-omit-files
                 "\\|vivado.*\\.jou\\'"
@@ -186,8 +188,13 @@
   (add-hook 'dired-mode-hook
             #'diff-hl-dired-mode-unless-remote)
 
+  (add-hook 'dired-mode-hook
+            #'dired-omit-mode)
+
   (add-hook! 'dired-mode-hook
-    (dired-hide-details-mode 1))
+    (defun hook/dired-hide-details ()
+      "Hide details by default in dired to reduce line noise."
+      (dired-hide-details-mode 1)))
 
   (add-hook! 'dired-mode-hook
     (defun hook/enable-dired-git-filter ()
@@ -199,7 +206,18 @@
 
   (add-hook! 'dired-after-readin-hook
     (unless (file-remote-p default-directory)
-      #'dired-git-info-auto-enable)))
+      #'dired-git-info-auto-enable))
+
+  ;; Stolen from doom: Disable the prompt about whether I want to kill the Dired
+  ;; buffer for a deleted directory. Of course I do!
+  (setq dired-clean-confirm-killing-deleted-buffers nil)
+
+  (defun my/dired-open()
+    (interactive)
+    (start-process (concat "dired-open-" (uuidgen-1)) nil
+                   "setsid"
+                   "xdg-open"
+                   (dired-get-file-for-visit))))
 
 ;;------------------------------------------------------------------------------
 ;; DWIM Shell
