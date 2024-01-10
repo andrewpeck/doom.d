@@ -1274,7 +1274,7 @@ See URL `http://nagelfar.sourceforge.net/'."
       (setq-local completion-at-point-functions
                   (list
                    (cape-company-to-capf #'company-yasnippet)
-                   'cape-symbol
+                   'cape-elisp-symbol
                    'cape-keyword
                    'cape-dabbrev
                    'cape-history
