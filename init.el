@@ -202,7 +202,7 @@
  ;; (racket +lsp +xp)
 
  ;; Fe2O3.unwrap().unwrap().unwrap().unwrap()
- (rust +lsp +tree-sitter)
+ (rust +tree-sitter)
 
  ;; a fully conniving family of lisps
  ;;scheme
