@@ -664,6 +664,9 @@ local and remote servers."
                               (org-get-linked-files)
                               (list dest))))
 
+        (unless dest
+          (error "No Org publishing destination specified. Provide a value for `org-default-publish-dest' or in the #+DEST: header of your org file."))
+
         (message (mapconcat #'identity args " "))
 
         (message (concat "rsync " (string-join args " ")))
