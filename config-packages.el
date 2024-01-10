@@ -1,6 +1,12 @@
 ;;; config-packages.el -*- lexical-binding: t; -*-
 
 ;;------------------------------------------------------------------------------
+;; Treesitter
+;;------------------------------------------------------------------------------
+
+(use-package! treesit-auto)
+
+;;------------------------------------------------------------------------------
 ;; Copyright
 ;;------------------------------------------------------------------------------
 
@@ -49,7 +55,7 @@
   (add-hook! 'python-mode-hook (apheleia-mode)))
 
 ;;------------------------------------------------------------------------------
-;;
+;; PDF View + Image Mode
 ;;------------------------------------------------------------------------------
 
 (use-package! pdf-view
@@ -80,8 +86,9 @@
     (interactive)
     (pdf-rotate "-")))
 
-
-(after! image-mode    (add-hook! 'image-mode-hook #'auto-revert-mode))
+(use-package! image-mode
+  :config
+  (add-hook! 'image-mode-hook #'auto-revert-mode))
 
 ;;------------------------------------------------------------------------------
 ;; Affe
@@ -136,15 +143,13 @@
 ;;------------------------------------------------------------------------------
 ;; Dired
 ;;------------------------------------------------------------------------------
-;;
-;; Add git commit into into dired
-;; (add-hook 'dired-after-readin-hook
-;; 'dired-git-info-auto-enable)
 
-(after! diredfl
+(use-package! diredfl
+  :config
   (add-to-list 'diredfl-compressed-extensions ".zst"))
 
-(after! dired-aux
+(use-package! dired-aux
+  :config
   (setq dired-compress-file-default-suffix ".zst")
   (setq dired-compress-directory-default-suffix ".tar.zst"))
 
@@ -250,13 +255,12 @@
      "tar -xavf '<<f>>'"
      :utils "tar")))
 
-;; (use-package! langtool
-;;   :config
-;;   (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
-;;   (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
+;;------------------------------------------------------------------------------
+;; Undo
+;;------------------------------------------------------------------------------
 
-;; persistent undo
 (use-package! undo-fu-session
+  ;; persistent undo
   :after undo-fu
   :config
   (setq undo-fu-session-directory (concat doom-user-dir ".undo-fu")))
@@ -267,23 +271,9 @@
   ;; https://codeberg.org/ideasman42/emacs-undo-fu/issues/6
   (setq undo-fu-ignore-keyboard-quit t))
 
-;; ;; persistent undo
-;; (use-package! undo
-;;   :config
-;;   (setq undo-tree-auto-save-history t))
-
-;; (use-package! undo-tree
-;;   :config
-;;   (setq undo-tree-history-directory-alist '(("." . "~/.undo-tree"))))
-
-;; https://github.com/doomemacs/doomemacs/issues/902
-;; ~/.emacs.d/.local/cache/undo-tree-hist
-;; (advice-remove '+undo--append-zst-extension-to-file-name-a
-;;                'undo-tree-make-history-save-file-name)
-
-;; (use-package! emojify-mode
-;;   :config
-;;   (setq global-emojify-mode t))
+;;------------------------------------------------------------------------------
+;; Whitespace
+;;------------------------------------------------------------------------------
 
 (use-package! ws-butler
   :defer-incrementally t
@@ -291,19 +281,31 @@
   (setq ws-butler-global-exempt-modes
         '(special-mode comint-mode term-mode eshell-mode)))
 
+;;------------------------------------------------------------------------------
+;; Highlight Todos
+;;------------------------------------------------------------------------------
+
 (use-package! hl-todo
   :defer-incrementally t
   :config
   (setq global-hl-todo-mode t))
 
-;; save macros and other registers peristently
+;;------------------------------------------------------------------------------
+;; Savehist
+;;------------------------------------------------------------------------------
+
 (use-package! savehist
+  ;; save macros and other registers peristently
   :config
   (add-to-list 'savehist-additional-variables 'register-alist)
   (add-hook! 'savehist-save-hook
     (defun doom-clean-up-registers-h ()
       (setq-local register-alist
                   (cl-remove-if-not #'savehist-printable register-alist)))))
+
+;;------------------------------------------------------------------------------
+;; Tramp
+;;------------------------------------------------------------------------------
 
 (use-package! tramp
   :defer-incrementally t
@@ -323,14 +325,18 @@
   ;; tramp-own-remote-path preserves the path value, which can be used to update tramp-remote-path.
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
+;;------------------------------------------------------------------------------
+;; Projectile
+;;------------------------------------------------------------------------------
+
 (use-package! projectile
   :defer-incrementally t
   :config
   (setq projectile-sort-order 'recently-active))
 
-;; (use-package! writegood
-;;   :config
-;;   (writegood-passive-voice-turn-off))
+;;------------------------------------------------------------------------------
+;; Yasnippet
+;;------------------------------------------------------------------------------
 
 (use-package! yasnippet
   :defer-incrementally t
@@ -340,31 +346,13 @@
   (add-hook 'snippet-mode-hook
             (lambda () (setq require-final-newline nil))))
 
-(use-package! hog
-  :after (:any verilog-mode vhdl-mode)
-  :config
-  (pcase (system-name)
-    ("strange" (setq hog-vivado-path "~/Xilinx/Vivado/2021.1"
-                     hog-number-of-jobs 16))
-    ("larry" (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1"
-                   hog-number-of-jobs 4))
-    ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1")))
-
-  (setq hog-ieee-library
-        '("ieee" ("/usr/local/lib/ghdl/src/synopsys/*.vhdl"
-                  "/usr/local/lib/ghdl/src/std/v08/*.vhdl"
-                  "/usr/local/lib/ghdl/src/ieee2008/*.vhdl"
-                  "/usr/lib/ghdl/src/synopsys/*.vhdl"
-                  "/usr/lib/ghdl/src/std/v08/*.vhdl"
-                  "/usr/lib/ghdl/src/ieee2008/*.vhdl"))))
-
 ;;------------------------------------------------------------------------------
 ;; Ispell
 ;;------------------------------------------------------------------------------
 
-;; Save user defined words to the dictionary
 (use-package! ispell
   :config
+  ;; Save user defined words to the dictionary
   (setq ispell-personal-dictionary "~/.aspell.en.pws")
   (defun my-save-word ()
     (interactive)
@@ -375,6 +363,10 @@
                              (car word) current-location (cadr word)
                              (caddr word) current-location)))))
 
+;;------------------------------------------------------------------------------
+;; Jinx
+;;------------------------------------------------------------------------------
+
 (add-hook! 'org-mode-hook #'jinx-mode)
 (add-hook! 'markdown-mode-hook #'jinx-mode)
 
@@ -384,10 +376,10 @@
 ;; latex-mode-hook is used by Emacs' built-in latex mode.
 ;;------------------------------------------------------------------------------
 
-;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
 (use-package! tex-fold
   :defer-incrementally t
   :config
+  ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
   (setq TeX-fold-macro-spec-list
         (append TeX-fold-macro-spec-list
                 '(("{1}" ("gls"))         ; used in l0mdt
@@ -490,180 +482,6 @@
        'self-insert-command))))
 
 ;;------------------------------------------------------------------------------
-;; Cape
-;;------------------------------------------------------------------------------
-
-(use-package! corfu
-
-  ;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
-  ;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
-  ;; cape-file: Complete file name.
-  ;; cape-history: Complete from Eshell, Comint or minibuffer history.
-  ;; cape-keyword: Complete programming language keyword.
-  ;; cape-symbol: Complete Elisp symbol.
-  ;; cape-abbrev: Complete abbreviation (add-global-abbrev, add-mode-abbrev).
-  ;; cape-dict: Complete word from dictionary file.
-  ;; cape-line: Complete entire line from current buffer.
-  ;; cape-tex: Complete Unicode char from TeX command, e.g. \hbar.
-  ;; cape-sgml: Complete Unicode char from SGML entity, e.g., &alpha.
-  ;; cape-rfc1345: Complete Unicode char using RFC 1345 mnemonics.
-
-
-  :config
-
-  (setq corfu-auto-delay 0.3
-
-        ;; If t, check all other buffers (subject to dabbrev ignore rules).
-        ;; Any other non-nil value only checks some other buffers, as per
-        ;; dabbrev-select-buffers-function.
-        cape-dabbrev-check-other-buffers nil)
-
-  :init
-  
-  (add-hook! 'verilog-mode-hook
-    (defun hook/add-verilog-keywords ()
-      (with-eval-after-load 'cape-keyword
-        (add-to-list 'cape-keyword-list
-                     (append '(verilog-mode) verilog-keywords)))))
-
-  (add-hook! 'vhdl-mode-hook
-    (defun hook/add-vhdl-keywords ()
-      (with-eval-after-load 'cape-keyword
-        (add-to-list 'cape-keyword-list
-                     (append '(vhdl-mode)
-                             vhdl-keywords
-                             vhdl-types
-                             vhdl-attributes
-                             vhdl-enum-values
-                             vhdl-constants
-                             vhdl-functions
-                             vhdl-packages
-                             vhdl-directives)))))
-
-
-
-  (add-hook! 'emacs-lisp-mode-hook
-    (defun hook/set-elisp-capf-functions ()
-      (setq-local completion-at-point-functions
-                  (list
-                   (cape-company-to-capf #'company-yasnippet)
-                   'cape-symbol
-                   'cape-keyword
-                   'cape-dabbrev
-                   'cape-history
-                   'cape-file))))
-
-  (add-hook! 'verilog-mode-hook
-    (defun hook/set-verilog-capf ()
-      (setq-local completion-at-point-functions
-                  (list (cape-capf-super
-                         'cape-dabbrev
-                         ;; 'complete-tag
-                         'cape-keyword
-                         (cape-company-to-capf #'company-yasnippet))))))
-
-  (add-hook! 'vhdl-mode-hook
-    (defun hook/set-vhdl-capf ()
-      (setq-local completion-at-point-functions
-                  (list (cape-capf-super
-                         'cape-dabbrev
-                         'cape-keyword
-                         (cape-company-to-capf #'company-yasnippet))))))
-
-  (dolist (mode '(python-ts-mode-hook python-mode-hook))
-    (add-hook! mode
-      (setq-local completion-at-point-functions
-                  (list
-                   (cape-capf-super
-                    'cape-keyword
-                    'cape-file
-                    'eglot-completion-at-point
-                    'cape-capf-buster
-                    'cape-dabbrev
-                    (cape-company-to-capf #'company-yasnippet))))))
-
-  (add-hook! 'tcl-mode-hook
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       'cape-dabbrev
-                       'cape-keyword
-                       'cape-file
-                       (cape-company-to-capf #'company-yasnippet)))))
-
-  (add-hook! 'tcl-mode-hook
-    (with-eval-after-load 'cape-keyword
-      (add-to-list 'cape-keyword-list
-                   (append '(tcl-mode)
-
-                           ;; vivado
-                           '("set_property" "add_files" "generate_target"
-                             "report_utilization"
-                             "report_timing_summary"
-                             "import_ip" "create_project"
-                             "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
-                             "get_nets" "font-lock-builtin-face" "create_generated_clock"
-                             "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
-                             "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
-                             "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
-
-                           tcl-keyword-list
-                           tcl-typeword-list
-                           tcl-builtin-list)))))
-
-
-;;------------------------------------------------------------------------------
-;; Company
-;;------------------------------------------------------------------------------
-
-;; (after! company
-
-;;   (setq company-idle-delay 1.0
-;;         company-minimum-prefix-length 2
-;;         company-icon-size '(auto-scale . 24)
-;;         company-backends
-;;         '(company-bbdb company-semantic company-cmake company-capf company-clang company-files
-;;           (company-dabbrev-code company-gtags company-etags company-keywords)
-;;           company-oddmuse company-dabbrev))
-
-;;   ;; (set-company-backend! 'text-mode nil)
-
-;;   (after! org
-;;     (set-company-backend! 'org-mode nil)
-;;     (set-company-backend! 'org-mode '(company-capf company-files company-yasnippet company-dabbrev)))
-
-;;   (add-hook! 'tcl-mode-hook
-;;     (setq company-backends
-;;           '((:separate company-dabbrev-code company-capf company-keywords
-;;              :with company-yasnippet company-files))))
-
-;;   (after! vhdl-mode
-;;     (set-company-backend! 'vhdl-mode nil)
-;;     (set-company-backend! 'vhdl-mode
-;;                           '(company-capf company-keywords company-dabbrev-code company-yasnippet)))
-
-;;   (after! hog-src-mode
-;;     (set-company-backend! 'hog-src-mode nil)
-;;     (set-company-backend! 'hog-src-mode 'company-files))
-
-;;   (after! clojure-mode
-
-;;     (add-hook! 'cider-repl-mode-hook #'company-mode)
-;;     (add-hook! 'cider-mode-hook #'company-mode)
-;;     (add-hook! 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
-;;     (add-hook! 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
-
-;;     (defun my-clojure-mode-hook ()
-;;       (setq-local company-backends
-;;                   '((:separate company-capf company-keywords company-dabbrev-code company-yasnippet company-files))))
-;;     (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
-
-;;   (set-company-backend! 'clojure-mode
-;;                         '(:separate company-capf company-keywords company-dabbrev-code company-yasnippet)))
-
-(use-package! verilog-port-copy
-  :after verilog-mode)
-
-;;------------------------------------------------------------------------------
 ;; Elfeed
 ;;------------------------------------------------------------------------------ 
 
@@ -749,7 +567,12 @@
   (add-to-list 'eglot-server-programs
                '(vhdl-mode . ("ghdl-ls"))))
 
+(use-package! eglot-booster
+  :after eglot
+  :config
+  (eglot-booster))
 
+;;------------------------------------------------------------------------------
 ;; Magit
 ;;------------------------------------------------------------------------------
 
@@ -855,10 +678,9 @@
     (interactive)
     (browse-url  "https://openscad.org/cheatsheet/")))
 
-
-;;--------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 ;; Verilog
-;;--------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 
 (use-package! verilog-mode
 
@@ -892,6 +714,11 @@
                           (lambda () (save-excursion (verilog-indent-line-relative))))
               (setq-local comment-multi-line t)))
 
+  (add-hook 'verilog-mode-hook
+            (defun hook/set-fill-prefix ()
+              "Set the verilog fill prefix."
+              (setq-local fill-prefix "// ")))
+
   :config
 
   (defun verilog-name-to-port-inst ()
@@ -918,8 +745,6 @@ into Verilog ports."
       (verilog-indent-line)
       (re-search-forward (format "%s" name))
       (re-search-forward (format "%s" name))))
-
-  (setq-local fill-prefix "// ")
 
   (setq verilog-align-ifelse t
         verilog-tab-always-indent nil
@@ -948,7 +773,6 @@ into Verilog ports."
 ;; VHDL Mode
 ;;------------------------------------------------------------------------------
 
-;; vhdl mode will wrap comments after some # of characters
 (use-package! vhdl-mode
 
   :defer-incrementally t
@@ -958,6 +782,7 @@ into Verilog ports."
   (require 'er-basic-expansions)
   (require 'flycheck)
 
+  ;; vhdl mode will wrap comments after some # of characters
   (setq vhdl-end-comment-column 200
         vhdl-standard '(08)
         vhdl-platform-spec nil
@@ -1032,7 +857,7 @@ into Verilog ports."
 
   (modify-syntax-entry ?$ "'" tcl-mode-syntax-table))
 
-;;-----------------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 ;; Markdown
 ;;------------------------------------------------------------------------------
 
@@ -1056,9 +881,9 @@ into Verilog ports."
           (if (f-file-p pdf)
               (async-shell-command (format "xdg-open %s" pdf))))))))
 
-;;-----------------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 ;; C mode
-;;-----------------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 
 (use-package! c
 
@@ -1071,7 +896,7 @@ into Verilog ports."
              (defun hook/set-c-comment-start ()
                (setq comment-start "// " comment-end ""))))
 
-;;-----------------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
 ;; XML
 ;;------------------------------------------------------------------------------
 
@@ -1194,16 +1019,24 @@ into Verilog ports."
 ;; Graphviz
 ;;------------------------------------------------------------------------------
 
-;; png seems to have a bug right now
-(setq graphviz-dot-preview-extension "jpg")
+(use-package! graphviz-dot-mode
 
-(defun graphviz--display-preview-buffer (stdout-buffer)
-  "Display STDOUT-BUFFER as the dot preview."
-  (save-excursion
-    (with-current-buffer stdout-buffer
-      (goto-char (point-min))
-      (image-mode)
-      (display-buffer stdout-buffer))))
+  :config
+
+  ;; png seems to have a bug right now
+  (setq graphviz-dot-preview-extension "jpg")
+
+  (defun graphviz--display-preview-buffer (stdout-buffer)
+    "Display STDOUT-BUFFER as the dot preview."
+    (save-excursion
+      (with-current-buffer stdout-buffer
+        (goto-char (point-min))
+        (image-mode)
+        (display-buffer stdout-buffer)))))
+
+;;------------------------------------------------------------------------------
+;; Flycheck
+;;------------------------------------------------------------------------------
 
 (use-package! flycheck
 
@@ -1361,6 +1194,234 @@ See URL `http://nagelfar.sourceforge.net/'."
     :modes (scad-mode))
   (add-to-list 'flycheck-checkers 'openscad))
 
-(use-package! eglot-booster
+;;------------------------------------------------------------------------------
+;; Hog
+;;------------------------------------------------------------------------------
+
+(use-package! hog
+  :after (:any verilog-mode vhdl-mode)
   :config
-  (eglot-booster))
+  (pcase (system-name)
+    ("strange" (setq hog-vivado-path "~/Xilinx/Vivado/2021.1"
+                     hog-number-of-jobs 16))
+    ("larry" (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1"
+                   hog-number-of-jobs 4))
+    ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1")))
+
+  (setq hog-ieee-library
+        '("ieee" ("/usr/local/lib/ghdl/src/synopsys/*.vhdl"
+                  "/usr/local/lib/ghdl/src/std/v08/*.vhdl"
+                  "/usr/local/lib/ghdl/src/ieee2008/*.vhdl"
+                  "/usr/lib/ghdl/src/synopsys/*.vhdl"
+                  "/usr/lib/ghdl/src/std/v08/*.vhdl"
+                  "/usr/lib/ghdl/src/ieee2008/*.vhdl"))))
+
+;;------------------------------------------------------------------------------
+;; Cape
+;;------------------------------------------------------------------------------
+
+(use-package! corfu
+
+  ;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
+  ;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
+  ;; cape-file: Complete file name.
+  ;; cape-history: Complete from Eshell, Comint or minibuffer history.
+  ;; cape-keyword: Complete programming language keyword.
+  ;; cape-symbol: Complete Elisp symbol.
+  ;; cape-abbrev: Complete abbreviation (add-global-abbrev, add-mode-abbrev).
+  ;; cape-dict: Complete word from dictionary file.
+  ;; cape-line: Complete entire line from current buffer.
+  ;; cape-tex: Complete Unicode char from TeX command, e.g. \hbar.
+  ;; cape-sgml: Complete Unicode char from SGML entity, e.g., &alpha.
+  ;; cape-rfc1345: Complete Unicode char using RFC 1345 mnemonics.
+
+
+  :config
+
+  (setq corfu-auto-delay 0.3
+
+        ;; If t, check all other buffers (subject to dabbrev ignore rules).
+        ;; Any other non-nil value only checks some other buffers, as per
+        ;; dabbrev-select-buffers-function.
+        cape-dabbrev-check-other-buffers nil)
+
+  :init
+
+  (add-hook! 'verilog-mode-hook
+    (defun hook/add-verilog-keywords ()
+      (with-eval-after-load 'cape-keyword
+        (add-to-list 'cape-keyword-list
+                     (append '(verilog-mode) verilog-keywords)))))
+
+  (add-hook! 'vhdl-mode-hook
+    (defun hook/add-vhdl-keywords ()
+      (with-eval-after-load 'cape-keyword
+        (add-to-list 'cape-keyword-list
+                     (append '(vhdl-mode)
+                             vhdl-keywords
+                             vhdl-types
+                             vhdl-attributes
+                             vhdl-enum-values
+                             vhdl-constants
+                             vhdl-functions
+                             vhdl-packages
+                             vhdl-directives)))))
+
+
+
+  (add-hook! 'emacs-lisp-mode-hook
+    (defun hook/set-elisp-capf-functions ()
+      (setq-local completion-at-point-functions
+                  (list
+                   (cape-company-to-capf #'company-yasnippet)
+                   'cape-symbol
+                   'cape-keyword
+                   'cape-dabbrev
+                   'cape-history
+                   'cape-file))))
+
+  (add-hook! 'verilog-mode-hook
+    (defun hook/set-verilog-capf ()
+      (setq-local completion-at-point-functions
+                  (list (cape-capf-super
+                         'cape-dabbrev
+                         ;; 'complete-tag
+                         'cape-keyword
+                         (cape-company-to-capf #'company-yasnippet))))))
+
+  (add-hook! 'vhdl-mode-hook
+    (defun hook/set-vhdl-capf ()
+      (setq-local completion-at-point-functions
+                  (list (cape-capf-super
+                         'cape-dabbrev
+                         'cape-keyword
+                         (cape-company-to-capf #'company-yasnippet))))))
+
+  (dolist (mode '(python-ts-mode-hook python-mode-hook))
+    (add-hook! mode
+      (setq-local completion-at-point-functions
+                  (list
+                   (cape-capf-super
+                    'cape-keyword
+                    'cape-file
+                    'eglot-completion-at-point
+                    'cape-capf-buster
+                    'cape-dabbrev
+                    (cape-company-to-capf #'company-yasnippet))))))
+
+  (add-hook! 'tcl-mode-hook
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       'cape-dabbrev
+                       'cape-keyword
+                       'cape-file
+                       (cape-company-to-capf #'company-yasnippet)))))
+
+  (add-hook! 'tcl-mode-hook
+    (with-eval-after-load 'cape-keyword
+      (add-to-list 'cape-keyword-list
+                   (append '(tcl-mode)
+
+                           ;; vivado
+                           '("set_property" "add_files" "generate_target"
+                             "report_utilization"
+                             "report_timing_summary"
+                             "import_ip" "create_project"
+                             "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
+                             "get_nets" "font-lock-builtin-face" "create_generated_clock"
+                             "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
+                             "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
+                             "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
+
+                           tcl-keyword-list
+                           tcl-typeword-list
+                           tcl-builtin-list)))))
+
+;;------------------------------------------------------------------------------
+;; Unused
+;;------------------------------------------------------------------------------
+
+;; (use-package! writegood
+;;   :config
+;;   (writegood-passive-voice-turn-off))
+
+;; ;; persistent undo
+;; (use-package! undo
+;;   :config
+;;   (setq undo-tree-auto-save-history t))
+
+;; (use-package! undo-tree
+;;   :config
+;;   (setq undo-tree-history-directory-alist '(("." . "~/.undo-tree"))))
+
+;; https://github.com/doomemacs/doomemacs/issues/902
+;; ~/.emacs.d/.local/cache/undo-tree-hist
+;; (advice-remove '+undo--append-zst-extension-to-file-name-a
+;;                'undo-tree-make-history-save-file-name)
+
+;; (use-package! emojify-mode
+;;   :config
+;;   (setq global-emojify-mode t))
+
+;; (use-package! langtool
+;;   :config
+;;   (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
+;;   (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
+;;
+;;------------------------------------------------------------------------------
+;; Company
+;;------------------------------------------------------------------------------
+
+;; (after! company
+
+;;   (setq company-idle-delay 1.0
+;;         company-minimum-prefix-length 2
+;;         company-icon-size '(auto-scale . 24)
+;;         company-backends
+;;         '(company-bbdb company-semantic company-cmake company-capf company-clang company-files
+;;           (company-dabbrev-code company-gtags company-etags company-keywords)
+;;           company-oddmuse company-dabbrev))
+
+;;   ;; (set-company-backend! 'text-mode nil)
+
+;;   (after! org
+;;     (set-company-backend! 'org-mode nil)
+;;     (set-company-backend! 'org-mode '(company-capf company-files company-yasnippet company-dabbrev)))
+
+;;   (add-hook! 'tcl-mode-hook
+;;     (setq company-backends
+;;           '((:separate company-dabbrev-code company-capf company-keywords
+;;              :with company-yasnippet company-files))))
+
+;;   (after! vhdl-mode
+;;     (set-company-backend! 'vhdl-mode nil)
+;;     (set-company-backend! 'vhdl-mode
+;;                           '(company-capf company-keywords company-dabbrev-code company-yasnippet)))
+
+;;   (after! hog-src-mode
+;;     (set-company-backend! 'hog-src-mode nil)
+;;     (set-company-backend! 'hog-src-mode 'company-files))
+
+;;   (after! clojure-mode
+
+;;     (add-hook! 'cider-repl-mode-hook #'company-mode)
+;;     (add-hook! 'cider-mode-hook #'company-mode)
+;;     (add-hook! 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
+;;     (add-hook! 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
+
+;;     (defun my-clojure-mode-hook ()
+;;       (setq-local company-backends
+;;                   '((:separate company-capf company-keywords company-dabbrev-code company-yasnippet company-files))))
+;;     (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
+
+;;   (set-company-backend! 'clojure-mode
+;;                         '(:separate company-capf company-keywords company-dabbrev-code company-yasnippet)))
+
+;;------------------------------------------------------------------------------
+;; Locals
+;;------------------------------------------------------------------------------
+
+;; Local Variables:
+;; eval: (make-variable-buffer-local 'kill-buffer-hook)
+;; eval: (+fold/close-all)
+;; End:
