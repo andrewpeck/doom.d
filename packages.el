@@ -12,6 +12,7 @@
 ;; Misc packages
 ;; start:sort
 (package! affe                  :pin "1fd5732afa5d68b120fd2e949702b1abde0466d7")
+(package! apheleia              :pin "56651724ad22f2769bbdaccf54cbe75c1cb35c91")
 (package! ascii-art-to-unicode  :pin "79a73bd4f623f10135b6b65030f6d5e3070466db")
 (package! backup-each-save      :pin "282766018efbeb4c4185506e0dd1f0f5a3c0b346" :recipe (:host github :repo "andrewpeck/backup-each-save"))
 (package! benchmark-init        :pin "02435560415bbadbcf5051fb7042880549170e7e")
