@@ -64,6 +64,8 @@
 (package! vivado_mode           :pin "75696241bbbe3b31b618d40bf83551f3cfef9572" :recipe (:host github :repo "andrewpeck/vivado_mode"))
 (package! wavedrom-mode         :pin "15718ab8eba8b0fce4ab5387b13421059f1b128f" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
 (package! xr                    :pin "2a225260a747dd3c091f6b02108277ce0b97c566")                           ; xr is rx in reverse
+(package! yasnippet             :pin "d7f55c7501a67a27f45154a6d4bdc50c2c235623" :recipe (:host github :repo "joaotavora/yasnippet") )
+(package! yasnippet-capf        :pin "a0a6b1c2bb6decdad5cf9b74202f0042f494a6ab" :recipe (:host github :repo "elken/yasnippet-capf") )
 ;; end:sort
 
 ;; (package! tabular :recipe (:host github :repo "andrewpeck/tabular"))

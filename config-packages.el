@@ -1337,6 +1337,15 @@ See URL `http://nagelfar.sourceforge.net/'."
                            tcl-typeword-list
                            tcl-builtin-list)))))
 
+
+(use-package! yasnippet
+
+  :config
+
+  (setq yas-snippet-dirs "~/.doom.d/snippets")
+
+  )
+
 ;;------------------------------------------------------------------------------
 ;; Unused
 ;;------------------------------------------------------------------------------
