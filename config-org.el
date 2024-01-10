@@ -22,10 +22,12 @@
   ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   (add-hook! 'org-mode-hook (setq-local user-full-name "A.P."))
   (add-hook! 'org-mode-hook (setq-local scroll-margin 1))
-  (add-hook 'org-mode-hook #'evil-org-mode)
-  (add-hook 'org-mode-hook #'+word-wrap-mode)
-  (add-hook 'org-mode-hook #'+org-enable-auto-reformat-tables-h)
-  (add-hook 'evil-org-agenda-mode-hook #'evil-org-agenda-set-keys)
+  (add-hook! 'org-mode-hook #'evil-org-mode)
+  (add-hook! 'org-mode-hook #'+word-wrap-mode)
+  (add-hook! 'org-mode-hook #'auto-fill-mode)
+  (add-hook! 'org-mode-hook #'+org-pretty-mode)
+  (add-hook! 'org-mode-hook #'+org-enable-auto-reformat-tables-h)
+  (add-hook! 'evil-org-agenda-mode-hook #'evil-org-agenda-set-keys)
 
   :config
 
