@@ -678,9 +678,10 @@ local and remote servers."
 
          ;; cleanup
          (lambda (_ event)
-           (when (string= event "finished\n")
-             (message "rsync finished, cleaning up...")
-             (delete-file outfile)))))))
+           (if (string= event "finished\n")
+               (message "rsync finished, cleaning up.")
+             (error "rsync FAILED, cleaning up."))
+           (delete-file outfile))))))
 
   ;;------------------------------------------------------------------------------
   ;; Linked File Functions
