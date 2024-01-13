@@ -453,17 +453,26 @@ char of the language you are editing"
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (while (re-search-forward "^\\(\s*\\)\\(\/\/\\)\s*\\(-+\\)$" nil t)
-      (let ((whitespace (match-string 1))
-            (comment (match-string 2)))
-        (goto-char (line-beginning-position))
-        (kill-line)
-        (insert whitespace)
-        (insert comment)
-        (insert-char #x2D
-                     (- normalize-comment-strings-length
-                        (length whitespace)
-                        (length comment)))))))
+
+    (let ((comment-char (pcase major-mode
+                          ('verilog-mode "\/\/")
+                          ('c-mode "\/\/")
+                          ('c++-mode "\/\/")
+                          ('python-mode "#")
+                          ('tcl-mode "#")
+                          ('emacs-lisp-mode ";;"))))
+
+      (while (re-search-forward (format "^\\([[:blank:]]*\\)\\(%s\\)[[:blank:]]*\\(-+\\)[[:blank:]]*$" comment-char) nil t)
+        (let ((whitespace (match-string 1)))
+          (goto-char (line-beginning-position))
+          (kill-line)
+          (insert whitespace)
+          (insert comment-char)
+          (insert-char #x2D
+                       (- normalize-comment-strings-length
+                          (length whitespace)
+                          (length comment-char))))))))
+
 
 (defvar current-date-format "%Y-%m-%d"
   "Format of date to insert with `insert-current-time' func.
