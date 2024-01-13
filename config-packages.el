@@ -205,13 +205,15 @@
     (defun hook/enable-dired-git-filter ()
       ""
       (unless (file-remote-p default-directory)
-        (when (ignore-errors (vc-responsible-backend default-directory))
+        (when (locate-dominating-file "." ".git")
           (dired-filter-mode)
           (dired-filter-by-git-ignored)))))
 
   (add-hook! 'dired-after-readin-hook
-    (unless (file-remote-p default-directory)
-      #'dired-git-info-auto-enable))
+    (defun hook/dired-git-info-mode ()
+      "Enable dired git info on local files."
+      (unless (file-remote-p default-directory)
+         (dired-git-info-auto-enable))))
 
   ;; Stolen from doom: Disable the prompt about whether I want to kill the Dired
   ;; buffer for a deleted directory. Of course I do!
