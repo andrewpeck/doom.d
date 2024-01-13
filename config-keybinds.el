@@ -407,6 +407,7 @@ between the two most recently open buffers."
                  "b" #'vhdl-beautify-buffer
                  "r" #'vhdl-beautify-region))
 
+  (map! :leader :prefix "s" :desc "SVG Tag Mode"         "vg" #'svg-tag-mode)
   (map! :leader :prefix "m" :desc "Latexify"             "lp" #'org-latex-preview-all :map org-mode-map)
   (map! :leader :prefix "m" :desc "De-latexify"          "lP" #'org-latex-preview-clear :map org-mode-map)
 
