@@ -19,7 +19,8 @@ This function tries to de hyphenate them."
 
   (join-line nil (region-beginning) (region-end))
 
-  (replace-regexp-in-region "\\([[:word:]]\\)-[[:blank:]]\\([[:word:]]\\)" "\\1\\2")
+  (replace-regexp-in-region "\\([[:word:]]\\)-[[:blank:]]+\\([[:word:]]\\)" "\\1\\2"
+                            (line-beginning-position) (line-end-position))
 
   (if (eq major-mode #'org-mode)
       (org-fill-paragraph)
