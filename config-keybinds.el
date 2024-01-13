@@ -426,6 +426,9 @@ between the two most recently open buffers."
   (map! :leader :prefix "m" :desc "De-latexify"          "lP" #'org-latex-preview-clear :map org-mode-map)
 
   (map! :leader :prefix "m" :desc "Dired Filter Mode"    "f"  #'dired-filter-mode :map dired-mode-map)
+
+  (map! :leader :prefix "i" :desc "Insert Date"          "d"  #'insert-current-date)
+
   (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
   (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)
   (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)

@@ -464,3 +464,14 @@ char of the language you are editing"
                      (- normalize-comment-strings-length
                         (length whitespace)
                         (length comment)))))))
+
+(defvar current-date-format "%Y-%m-%d"
+  "Format of date to insert with `insert-current-time' func.
+Note the weekly scope of the command's precision.")
+
+(defun insert-current-date ()
+  "insert the current date into the buffer.
+The date will follow the format in `current-date-format'"
+  (interactive)
+  (insert (format-time-string current-date-format (current-time))))
+
