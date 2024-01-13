@@ -1217,6 +1217,27 @@ See URL `http://nagelfar.sourceforge.net/'."
                   "/usr/lib/ghdl/src/ieee2008/*.vhdl"))))
 
 ;;------------------------------------------------------------------------------
+;; svg-tag-mode
+;;------------------------------------------------------------------------------
+
+(use-package! svg-tag-mode
+  ;; https://github.com/rougier/svg-tag-mode
+
+  :init
+
+  ;; Replaces any occurrence of :Xxx: with a dynamic SVG tag displaying Xxx ;;
+  (add-hook! 'org-mode-hook
+
+             (setq-local svg-tag-tags
+                         '(("\\(:[A-z]+:\\)" . ((lambda (tag)
+                                                  (svg-tag-make tag :beg 1 :end -1))))))
+             (svg-tag-mode))
+
+  :config
+
+  )
+
+;;------------------------------------------------------------------------------
 ;; Cape
 ;;------------------------------------------------------------------------------
 

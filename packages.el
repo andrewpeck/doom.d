@@ -53,6 +53,7 @@
 (package! scad-mode             :pin "cd7070569f4ada5469087773e1b542514ed19974")
 (package! screenshot            :pin "ddb092d88d61330a3f562f67f051677b8de9ac07" :recipe (:host github :repo "tecosaur/screenshot"))
 (package! standard-themes       :pin "a98099458a9ab6231fe3f83dd4ce75305fd200fb" :recipe (:host github :repo "protesilaos/standard-themes"))
+(package! svg-tag-mode          :pin "03989f66b45944271faa6dd8eb977d623561de86" :recipe (:host github :repo "rougier/svg-tag-mode"))
 (package! system-install.el     :pin "df93485695659c7b827d64270ba70d096682b33d" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! systemd               :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org               :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
