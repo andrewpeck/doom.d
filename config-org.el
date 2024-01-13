@@ -766,14 +766,25 @@ local and remote servers."
 (use-package! org-download
   :after org
   :config
+
+  (setq-default org-download-image-dir "./images/screenshots")
+
   (setq org-download-method            'directory
         org-download-screenshot-method "import %s"
-        org-download-image-dir         "./images/screenshots"
         org-download-heading-lvl       0
-        org-download-link-format       (concat  "[[file:" org-download-image-dir "/%s]]\n")
-        org-download-annotate-function (lambda (_) "")
-        org-download-image-org-width   500
-        org-download-dir               "download/"))
+
+        ;; annotate the width of the image with the actual width of the screenshot
+        org-download-annotate-function
+        (lambda (s)
+          (let ((width (string-to-number (shell-command-to-string (format "identify -format \"%%w\" %s" s)))))
+            (concat (format "#+ATTR_ORG: :width %spx\n" width)
+                    (format "#+ATTR_HTML: :style max-width:100%%;width:%spx\n" width))))
+
+        org-download-image-org-width 0
+        org-download-image-attr-list nil
+        org-download-link-format "[[file:%s]]\n"
+        org-download-abbreviate-filename-function #'file-relative-name
+        org-download-link-format-function #'org-download-link-format-function-default))
 
 ;;------------------------------------------------------------------------------
 ;;  Org web tools + url parsing
