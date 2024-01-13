@@ -234,6 +234,15 @@ between the two most recently open buffers."
   (evil-define-key '(motion normal insert) 'global
     (kbd "C-s") #'save-buffer)
 
+  (evil-define-key '(motion normal insert) 'global
+    (kbd "C-c C-o")
+    (defun dwim-open-at-point ()
+      (interactive)
+      (cl-case major-mode
+        (org-mode      (org-open-at-point))
+        (hog-mode      (hog-follow-link-at-point))
+        (markdown-mode (markdown-follow-thing-at-point))
+        (t             (browse-url-at-point)))))
   ;; Org
   (evil-define-key nil org-mode-map
     (kbd "TAB") #'org-cycle)
