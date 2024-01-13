@@ -243,6 +243,11 @@ between the two most recently open buffers."
         (hog-mode      (hog-follow-link-at-point))
         (markdown-mode (markdown-follow-thing-at-point))
         (t             (browse-url-at-point)))))
+
+  ;; Dired
+  (evil-define-key '(motion normal) dired-mode-map
+    (kbd ")") #'dired-git-info-mode)
+
   ;; Org
   (evil-define-key nil org-mode-map
     (kbd "TAB") #'org-cycle)
