@@ -475,3 +475,8 @@ The date will follow the format in `current-date-format'"
   (interactive)
   (insert (format-time-string current-date-format (current-time))))
 
+(setq world-clock-list
+      '(("America/Los_Angeles" "Los Angeles")
+        ("America/New_York" "Boston")
+        ("Europe/London" "London")
+        ("Europe/Paris" "Geneva")))
