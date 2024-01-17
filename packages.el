@@ -37,7 +37,7 @@
 (package! fzf                   :pin "3a55b983921c620fb5a2cc811f42aa4daaad8266" :recipe (:host github :repo "bling/fzf.el"))
 (package! graphviz-dot-mode     :pin "8ff793b13707cb511875f56e167ff7f980a31136")
 (package! hdl_deps              :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
-(package! hog-emacs             :pin "bb877af7a59e2094c705236c5b7e26a9b0ea7330" :recipe (:host github :repo "andrewpeck/hog-emacs"))
+(package! hog-emacs             :pin "5c053a8d06085453dcad001c4bd1ee5642ba35c2" :recipe (:host github :repo "andrewpeck/hog-emacs"))
 (package! logview               :pin "9140067afdc2f0d1eb493dc4dfdb53645289dd2b")
 (package! magit-todos           :pin "debb77b3589f2d83c8b43706edc1f8f90bf1ad91")
 (package! markdown-preview-mode :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
