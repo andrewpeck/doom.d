@@ -30,43 +30,55 @@ STATUS defaults to `flycheck-last-status-change' if omitted or
 nil."
   (concat
    (pcase (or status flycheck-last-status-change)
-     (`not-checked "")                 ;∄
-     (`no-checker "")                  ;✗
-     (`running "")                     ; ⟳
-     (`errored "")                     ; ‼
-     (`finished
-      (let-alist (flycheck-count-errors flycheck-current-errors)
-        (if (or .error .warning)
-            (concat
-             "" (propertize (format "%s" (or .error 0) ) 'face '(:inherit error))
-             "|" (propertize (format "%s" (or .warning 0)) 'face '(:inherit warning)))
-          "")))                        ;✓
-     (`interrupted ".")
-     (`suspicious "?"))
-   ;; add some extra padding to keep away from screen edge, seems to look better
-   " "))
+     (`not-checked "  ")
+     (`no-checker "  ")         ;✗
+     (`running "  ")
+     (`errored "  ")           ; ‼
+     (`interrupted " . ")        ;✓
+     (`suspicious " ? ")
+     (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
+                  (if (or .error .warning)
+                      (concat
+                       "" (propertize (format "%s" (or .error 0) ) 'face '(:inherit error))
+                       "|" (propertize (format "%s" (or .warning 0)) 'face '(:inherit warning)))
+                    "  ")))) " "))
+
+;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
+(advice-add #'vc-git-mode-line-string :filter-return #'my-replace-git-status)
+(defun my-replace-git-status (tstr)
+  (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
+         (first-char (substring tstr 0 1)))
+    (cond ((string= ":" first-char) ;;; Modified
+           (replace-regexp-in-string "^:" (propertize "󰊢 " 'face '(:inherit warning)) tstr))
+          ((string= "-" first-char) ;; No change
+           (replace-regexp-in-string "^-" (propertize "󰊢 " 'face '(:inherit match)) tstr))
+          (t tstr))))
 
 (setq mode-line-format
+
       '((:eval (simple-mode-line-render
+
                 ;; Left.
-                `("%e"
-                  evil-mode-line-tag
-                  mode-line-mule-info
-                  "%* "
-                  mode-line-buffer-identification)
+                (list "%e"
+                      evil-mode-line-tag
+                      mode-line-mule-info
+                      "%* "
+                      mode-line-buffer-identification)
 
                 ;; Right.
-                `(,(if (or defining-kbd-macro executing-kbd-macro)
-                       (concat "MACRO(" (char-to-string evil-this-macro) ") · ") "")
+                (list (if (or defining-kbd-macro executing-kbd-macro)
+                          (concat "MACRO(" (char-to-string evil-this-macro) ") ¦ ") "")
 
-                  "L%l⸱C%c⸱%p"
+                      "L%l⸱C%c⸱%p"
 
-                  ,(if vc-mode
-                       (concat " ·" vc-mode " · ") " · ")
+                      (if vc-mode
+                          (concat " ¦" vc-mode " ¦ ") " ¦ ")
 
-                  ,(format "%s" (if (listp mode-name) (car mode-name) mode-name))
-                  " · "
+                      (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
-                  flycheck-mode-line " ")))))
+                      (when flycheck-mode " ¦ ")
+                      (when flycheck-mode flycheck-mode-line)
+
+                      " ")))))
 
 (setq-default mode-line-format mode-line-format)
