@@ -1,16 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
-(after! minibuffer-line-mode
-  (minibuffer-line-mode 1)
-  (setq minibuffer-line-format
-        '(""
-          (:eval system-name)
-          " | "
-          (:eval
-           (format-time-string "%F %R")))))
-
 ;; https://www.emacswiki.org/emacs/ModeLineConfiguration
 ;; https://www.emacswiki.org/emacs/PercentConstruct
+
 (defun simple-mode-line-render (left right)
   "Return a string of `window-width' length.
 Containing LEFT, and RIGHT aligned respectively."
