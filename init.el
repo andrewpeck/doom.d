@@ -29,7 +29,7 @@
  :completion
 
  (corfu +icons +orderless +dbbrev +dict +emoji)
- (vertico +icons +childframe); the search engine of the future
+ (vertico +icons)     ; the search engine of the future
 
  :ui
 
