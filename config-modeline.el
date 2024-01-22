@@ -63,6 +63,9 @@ nil."
                       evil-mode-line-tag
                       mode-line-mule-info
                       "%* "
+                      (let ((host (file-remote-p default-directory 'host)))
+                        (if host
+                          (concat (propertize host 'face '(:inherit warning)) ":") nil))
                       mode-line-buffer-identification)
 
                 ;; Right.
