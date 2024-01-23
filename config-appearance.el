@@ -81,6 +81,10 @@
   '(font-latex-bold-face :inherit default :weight bold)
   )
 
+;; HACK for using nobreak-space in modeline
+(custom-theme-set-faces! 'doom-spacegrey
+  '(nobreak-space :inherit modeline))
+
 (custom-theme-set-faces! 'hima
   '(font-latex-italic-face :inherit default :slant italic)
   '(font-latex-bold-face :inherit default :weight bold)
