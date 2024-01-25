@@ -1296,9 +1296,7 @@ See URL `http://nagelfar.sourceforge.net/'."
              (setq-local svg-tag-tags
                          '(("\\(:[A-z]+:\\)" . ((lambda (tag)
                                                   (svg-tag-make tag :beg 1 :end -1))))))
-             (svg-tag-mode))
-
-  :config
+             (svg-tag-mode t))
 
   )
 
