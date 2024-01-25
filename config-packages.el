@@ -430,8 +430,8 @@
 ;; Jinx
 ;;------------------------------------------------------------------------------
 
-(add-hook! 'org-mode-hook #'jinx-mode)
-(add-hook! 'markdown-mode-hook #'jinx-mode)
+;; (add-hook! 'org-mode-hook #'jinx-mode)
+;; (add-hook! 'markdown-mode-hook #'jinx-mode)
 
 ;;------------------------------------------------------------------------------
 ;; LaTex
