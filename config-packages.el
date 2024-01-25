@@ -1445,24 +1445,26 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;   :config
 ;;   (setq undo-tree-auto-save-history t))
 
-;; (use-package! undo-tree
-;;   :config
-;;   (setq undo-tree-history-directory-alist '(("." . "~/.undo-tree"))))
+(use-package! undo-tree
+  :when (featurep 'undo-tree)
+  :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.undo-tree")))
 
-;; https://github.com/doomemacs/doomemacs/issues/902
-;; ~/.emacs.d/.local/cache/undo-tree-hist
-;; (advice-remove '+undo--append-zst-extension-to-file-name-a
-;;                'undo-tree-make-history-save-file-name)
+  ;; https://github.com/doomemacs/doomemacs/issues/902
+  (advice-remove '+undo--append-zst-extension-to-file-name-a
+                 'undo-tree-make-history-save-file-name))
 
-;; (use-package! emojify-mode
-;;   :config
-;;   (setq global-emojify-mode t))
+(use-package! emojify-mode
+  :when (featurep 'emojify-mode)
+  :config
+  (setq global-emojify-mode t))
 
-;; (use-package! langtool
-;;   :config
-;;   (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
-;;   (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
-;;
+(use-package! langtool
+  :when (featurep 'langtool)
+  :config
+  (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
+  (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
+
 ;;------------------------------------------------------------------------------
 ;; Company
 ;;------------------------------------------------------------------------------
