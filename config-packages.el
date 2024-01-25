@@ -777,10 +777,10 @@
                           (lambda () (save-excursion (verilog-indent-line-relative))))
               (setq-local comment-multi-line t)))
 
-  (add-hook 'verilog-mode-hook
-            (defun hook/set-fill-prefix ()
-              "Set the verilog fill prefix."
-              (setq-local fill-prefix "// ")))
+  ;; (add-hook 'verilog-mode-hook
+  ;;           (defun hook/set-fill-prefix ()
+  ;;             "Set the verilog fill prefix."
+  ;;             (setq-local fill-prefix "// ")))
 
   :config
 
