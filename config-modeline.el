@@ -14,16 +14,6 @@ Containing LEFT, and RIGHT aligned respectively."
             (list (format (format "%%%ds" available-width) ""))
             right)))
 
-(setq mode-line-buffer-identification
-      (propertized-buffer-identification "%b"))
-
-(setq flycheck-mode-line '(:eval (replace-regexp-in-string
-                                  "FlyC" ""
-                                  (flycheck-mode-line-status-text))))
-
-'(:eval (propertize (concat "\t[" mode-name "] %l:%i\t") 'face '(:foreground "black" :height 0.9 :weight normal)
-                    'help-echo (buffer-file-name)))
-
 (defun flycheck-mode-line-status-text (&optional status)
   "Get a text describing STATUS for use in the mode line.
 STATUS defaults to `flycheck-last-status-change' if omitted or
@@ -44,7 +34,7 @@ nil."
                     "  ")))) " "))
 
 ;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
-(advice-add #'vc-git-mode-line-string :filter-return #'my-replace-git-status)
+
 (defun my-replace-git-status (tstr)
   (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
          (first-char (substring tstr 0 1)))
@@ -53,6 +43,8 @@ nil."
           ((string= "-" first-char) ;; No change
            (replace-regexp-in-string "^-" (propertize "󰊢 " 'face '(:inherit match)) tstr))
           (t tstr))))
+
+(advice-add #'vc-git-mode-line-string :filter-return #'my-replace-git-status)
 
 (setq mode-line-format
 
@@ -66,7 +58,8 @@ nil."
                       (let ((host (file-remote-p default-directory 'host)))
                         (if host
                           (concat (propertize host 'face '(:inherit warning)) ":") nil))
-                      mode-line-buffer-identification)
+
+                      (propertized-buffer-identification "%b"))
 
                 ;; Right.
                 (list (if (or defining-kbd-macro executing-kbd-macro)
@@ -79,9 +72,11 @@ nil."
 
                       (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
-                      (when flycheck-mode " ¦ ")
-                      (when flycheck-mode flycheck-mode-line)
+                      (replace-regexp-in-string "FlyC" ""
+                                                (concat " ¦ " 
+                                                         (flycheck-mode-line-status-text)))
 
                       " ")))))
 
-(setq-default mode-line-format mode-line-format)
+(setq-default mode-line-format
+              mode-line-format)
