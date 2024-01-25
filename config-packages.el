@@ -49,6 +49,17 @@
   )
 
 ;;------------------------------------------------------------------------------
+;; Git Gutter
+;;------------------------------------------------------------------------------
+
+(use-package! diff-hl
+  :init
+  (setq diff-hl-global-modes '(not image-mode org-mode markdown-mode))
+  (remove-hook! 'find-file-hook #'diff-hl-mode)
+  (remove-hook! 'find-file-hook #'diff-hl-update-once)
+  (diff-hl--global-turn-on))
+
+;;------------------------------------------------------------------------------
 ;; Treesitter
 ;;------------------------------------------------------------------------------
 
