@@ -241,6 +241,18 @@
   ;; better dired soring
   (setq dired-listing-switches "-a1vBhl  --group-directories-first")
 
+  (defun +dired/quit-all ()
+    "Kill all `dired-mode' buffers."
+    (interactive)
+    (mapc #'kill-buffer (doom-buffers-in-mode 'dired-mode))
+    (message "Killed all dired buffers"))
+
+  (map! :map dired-mode-map
+        ;; Kill all dired buffers on q
+        :ng "q" #'+dired/quit-all
+        ;; To be consistent with ivy/helm+wgrep integration
+        "C-c C-e" #'wdired-change-to-wdired-mode)
+
   :init
 
   ;; this breaks sensible dired sorting on remote hosts;
