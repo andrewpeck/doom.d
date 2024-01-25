@@ -69,8 +69,10 @@
     (defun hook/update-copyright ()
       "Automatically update copyright on save."
 
-      (when copyright-names-regexp
-        (save-excursion
+      (save-excursion
+        (when (and copyright-names-regexp
+                   (progn (goto-char (point-min))
+                          (copyright-re-search copyright-names-regexp)))
           (copyright-update nil t)
           (copyright-fix-years))))))
 
