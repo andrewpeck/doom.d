@@ -1269,7 +1269,9 @@ See URL `http://nagelfar.sourceforge.net/'."
                      hog-number-of-jobs 16))
     ("larry" (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1"
                    hog-number-of-jobs 4))
-    ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1")))
+    ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1"))
+    ("apeck-len01" (setq hog-vivado-path "/opt/Xilinx/Vivado/2022.2"))
+    )
 
   (setq hog-ieee-library
         '("ieee" ("/usr/local/lib/ghdl/src/synopsys/*.vhdl"
