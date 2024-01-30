@@ -407,6 +407,17 @@
 (use-package! projectile
   :defer-incrementally t
   :config
+
+  ;; Due to a very obnoxious bug it seems that if I am on a host system where
+  ;; the fd executable is fdfind but connecting to a remote-system where fd is
+  ;; found as fd, emacs will try to execute fdfind on the remote system;
+  ;;
+  ;; should report this
+  ;; (setq projectile-fd-executable "fdfind")
+  (add-hook! 'find-file-hook
+    (when (file-remote-p default-directory)
+      (setq-local projectile-git-use-fd nil)))
+
   (setq projectile-sort-order 'recently-active))
 
 ;;------------------------------------------------------------------------------
