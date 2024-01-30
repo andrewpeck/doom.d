@@ -54,7 +54,7 @@
         org-display-remote-inline-images 'download
 
         ;; visual-fill-column-mode 1
-        ;; org-ditaa-jar-path "~/.doom.d/ditaa.jar"
+        org-ditaa-jar-path "~/.doom.d/ditaa.jar"
         ;; org-plantuml-jar-path "~/.doom.d/plantuml.jar"
 
         ;; Latex Previews
