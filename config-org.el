@@ -35,6 +35,11 @@
   ;; General
   ;;------------------------------------------------------------------------------
 
+
+  ;; needed for structure templates, e.g. <s
+  ;; https://orgmode.org/manual/Structure-Templates.html
+  (require 'org-tempo)
+
   (setq-default org-mode-hook nil)
 
   ;; Add a hook to automatically encrypt entries before a file is saved to disk.
