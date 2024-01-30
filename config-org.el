@@ -666,9 +666,8 @@ local and remote servers."
              (args
 
               (cl-concatenate 'list
-                              `("-avz" "--relative"
-                                ,outfile)
-                              (org-get-linked-files)
+                              (list "-avz" "--relative" outfile)
+                              (org-get-linked-files) ;; get attachments and publish them also
                               (list dest))))
 
         (unless dest
