@@ -145,11 +145,11 @@
 ;; M-x describe-font
 (defun font-list ()
   ""
-  `(("Julia Mono"       . ,(if (hd?) 21 16))
+  `(("Hack"             . ,(if (hd?) 21 15))
+    ("Julia Mono"       . ,(if (hd?) 21 16))
     ("Inconsolata"      . ,(if (hd?) 19 18))
     ("Comic Code"       . ,(if (hd?) 22 19))
     ("Roboto Mono"      . ,(if (hd?) 22 19))
-    ("Hack"             . ,(if (hd?) 19 15))
     ("Noto Mono"        . ,(if (hd?) 19 15))
     ("DejaVu Sans Mono" . ,(if (hd?) 19 17))
     ("Consolas"         . ,(if (hd?) 20 19))
