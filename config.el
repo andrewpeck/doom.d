@@ -47,6 +47,9 @@
 (load!! "custom")
 (load!! "config-core")
 
+;; Supress `Package cl is deprecated` warnings
+(setq byte-compile-warnings '(not obsolete))
+
 (setq doom-scratch-dir doom-user-dir)
 
 ;; make sure all text-mode buffers (e.g. fundamental mode, messages, etc) use evil
