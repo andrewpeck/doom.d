@@ -83,7 +83,7 @@
       (save-excursion
         (when (and copyright-names-regexp
                    (progn (goto-char (point-min))
-                          (copyright-re-search copyright-names-regexp)))
+                          (copyright-re-search copyright-names-regexp nil t)))
           (copyright-update nil t)
           (copyright-fix-years))))))
 
