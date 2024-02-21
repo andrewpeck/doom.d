@@ -131,6 +131,9 @@
 
   :config
 
+  (evil-define-key '(motion normal) pdf-view-mode-map
+    (kbd "q") #'kill-current-buffer)
+
   (defun pdf-rotate (dir)
     "Rotate a pdf using Qpdf. Dir should either be + or -"
     (if (and (stringp dir) (or (string= "+" dir) (string= "-" dir)))
