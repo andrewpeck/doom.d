@@ -1137,6 +1137,30 @@ into Verilog ports."
   ;; (flycheck-add-next-checker 'python-flake8 'python-pylint)
 
   ;;------------------------------------------------------------------------------
+  ;; Verilator Modifications
+  ;;------------------------------------------------------------------------------
+
+  ;; add --timing opt to verilator
+  (flycheck-define-checker verilog-verilator
+    "A Verilog syntax checker using the Verilator Verilog HDL simulator.
+
+    See URL `https://www.veripool.org/wiki/verilator'."
+    :command ("verilator" "--timing" "--lint-only" "-Wall" "--quiet-exit"
+              (option-list "-I" flycheck-verilator-include-path)
+              source)
+    :error-patterns
+    ((warning line-start "%Warning"
+              (? "-" (id (+ (any "0-9A-Z_")))) ": "
+              (? (file-name) ":" line ":" (? column ":") " ")
+              (message) line-end)
+     (error line-start "%Error"
+            (? "-" (id (+ (any "0-9A-Z_")))) ": "
+            (? (file-name) ":" line ":" (? column ":") " ")
+            (message) line-end))
+    :modes verilog-mode)
+  ;;;
+  ;;;
+  ;;------------------------------------------------------------------------------
   ;; Tcl Nagelfar
   ;; modified from the original to add filters and change options
   ;;------------------------------------------------------------------------------
