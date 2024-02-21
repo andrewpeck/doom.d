@@ -460,11 +460,18 @@ char of the language you are editing"
                           ('c-mode "\/\/")
                           ('c++-mode "\/\/")
                           ('python-mode "#")
+                          ('python-ts-mode "#")
                           ('tcl-mode "#")
                           ('emacs-lisp-mode ";;"))))
 
-      (while (re-search-forward (format "^\\([[:blank:]]*\\)\\(%s\\)[[:blank:]]*\\(-+\\)[[:blank:]]*$" comment-char) nil t)
+      (unless comment-char
+        (error (format "`comment-char' not defined for major mode %s" major-mode)))
+
+      (while (re-search-forward
+              (format "^\\([[:blank:]]*\\)\\(%s\\)[[:blank:]]*\\(-+\\)[[:blank:]]*$" comment-char))
+
         (let ((whitespace (match-string 1)))
+
           (goto-char (line-beginning-position))
           (kill-line)
           (insert whitespace)
