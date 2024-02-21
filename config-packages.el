@@ -720,26 +720,27 @@
   (add-to-list 'browse-at-remote-remote-type-regexps
                '(:host "^gitlab\\.psiquantum\\.com$" :type "gitlab")))
 
-(use-package! forge
+(when nil
+  (use-package! forge
 
-  :defer-incrementally t
+    :defer-incrementally t
 
-  :config
+    :config
 
-  (add-to-list 'auth-sources "~/.authinfo")
+    (add-to-list 'auth-sources "~/.authinfo")
 
-  (add-to-list 'forge-alist
-               '("gitlab.psiquantum.com" "gitlab.psiquantum.com/api/v4" "gitlab.psiquantum.com" forge-gitlab-repository)
-               '("gitlab.cern.ch" "gitlab.cern.ch/api/v4" "gitlab.cern.ch" forge-gitlab-repository))
+    (add-to-list 'forge-alist
+                 '("gitlab.psiquantum.com" "gitlab.psiquantum.com/api/v4" "gitlab.psiquantum.com" forge-gitlab-repository)
+                 '("gitlab.cern.ch" "gitlab.cern.ch/api/v4" "gitlab.cern.ch" forge-gitlab-repository))
 
-  (setq forge-topic-list-limit '(60 . 0)
-        forge-owned-accounts '(("andrewpeck")
-                               ("BU-EDF")
-                               ("atlas-tdaq-phase2-l0mdt-electronics")
-                               ("ucla-gaps-tof")
-                               ("emu")
-                               ("andrewpeck1")
-                               ("apeck"))))
+    (setq forge-topic-list-limit '(60 . 0)
+          forge-owned-accounts '(("andrewpeck")
+                                 ("BU-EDF")
+                                 ("atlas-tdaq-phase2-l0mdt-electronics")
+                                 ("ucla-gaps-tof")
+                                 ("emu")
+                                 ("andrewpeck1")
+                                 ("apeck")))))
 
 ;;------------------------------------------------------------------------------
 ;; OpenSCAD
