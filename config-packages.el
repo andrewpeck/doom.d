@@ -660,8 +660,10 @@
 
 (use-package! eglot-booster
   :after eglot
+  :init
+  (cl-remprop 'buffer-local-value 'byte-obsolete-generalized-variable)
   :config
-  (eglot-booster))
+  (eglot-booster-mode))
 
 ;;------------------------------------------------------------------------------
 ;; Magit
