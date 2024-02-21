@@ -986,12 +986,11 @@ and shortens it into an org mode link consisting of just `some file`"
 
   (setq org-latex-article-header
         (concat
-         "\\documentclass[11pt]{article}\n"
+         "\\documentclass[10pt]{article}\n"
+         "\\usepackage[letterpaper, margin=2.54cm]{geometry}\n"
          "\\usepackage[utf8]{inputenc}\n"
-         "\\usepackage[T1]{fontenc}\n"
          "\\usepackage{fixltx2e}\n"
-         "\\usepackage{fullpage}\n"
-         ;; "\\usepackage{graphicx}\n"
+         "\\usepackage{graphicx}\n"
          "\\usepackage{longtable}\n"
          "\\usepackage{float}\n"
          "\\usepackage{wrapfig}\n"
@@ -1003,7 +1002,7 @@ and shortens it into an org mode link consisting of just `some file`"
          "\\usepackage{wasysym}\n"
          "\\usepackage{amssymb}\n"
          "\\usepackage{hyperref}\n"
-         "%\\usepackage{mathpazo}\n"
+         ;; "\\usepackage{mathpazo}\n"
          "\\renewcommand{\\familydefault}{\\sfdefault}\n"
          "\\usepackage{color}\n"
          "\\usepackage{enumerate}\n"
@@ -1012,7 +1011,7 @@ and shortens it into an org mode link consisting of just `some file`"
          "[NO-DEFAULT-PACKAGES]\n"
          "[PACKAGES]\n"
          "[EXTRA]\n"
-         "\\linespread{1.1}\n"
+         "\\linespread{1.0}\n"
          "\\hypersetup{pdfborder=0 0 0}"))
 
   (add-to-list
