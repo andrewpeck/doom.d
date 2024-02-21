@@ -113,7 +113,9 @@
   (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
 
 
-  (add-hook! 'python-mode-hook (apheleia-mode)))
+  ;; (add-hook! 'python-mode-hook (apheleia-mode))
+
+  )
 
 ;;------------------------------------------------------------------------------
 ;; PDF View + Image Mode
