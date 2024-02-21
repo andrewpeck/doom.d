@@ -21,6 +21,8 @@
 
   ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   (add-hook! 'org-mode-hook (setq-local user-full-name "A.P."))
+  (add-hook! 'org-mode-hook (diff-hl-mode -1)) ;; diff-hl just makes line noise for org mode
+
   (add-hook! 'org-mode-hook (setq-local scroll-margin 1))
   (add-hook! 'org-mode-hook #'evil-org-mode)
   (add-hook! 'org-mode-hook #'+word-wrap-mode)
