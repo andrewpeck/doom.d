@@ -7,6 +7,8 @@
 
 import os
 import random
+import subprocess
+import pytest
 
 from typing import Mapping, List
 from pathlib import Path
@@ -76,6 +78,15 @@ def test_$1():
                 parameters=parameters,
                 test_module=test_module,
                 waves=1)
+
+@pytest.fixture(autouse=True)
+def run_after_test(request):
+    """Fixture to execute asserts before and after a test is run"""
+
+    yield  # this is where the testing happens
+
+    # Teardown : fill with any logic you want
+    subprocess.run(["mv", "sim_build/coverage.dat", f"sim_build/coverage_{request.node.name}.dat"])
 
 if __name__ == "__main__":
     test_$1()

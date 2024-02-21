@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: srl 
+# key: srl 
+# --
+srl #(
+  .N      (), // depth
+  .BYPASS (0)) // 1 == zero delay bypass
+u_srl_autocal (
+  .clk    (clk),
+  .en     (1),
+  .sel    (),
+  .din    (),
+  .dout   ());

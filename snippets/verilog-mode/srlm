@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: srlm 
+# key: srlm 
+# --
+srl_multi #(
+  .N      (), // number of delay elements
+  .W      (), // width of din/dout
+  .BYPASS (0))
+u_${1} (
+  .clk    (clk),
+  .en     (1),
+  .sel    (),
+  .din    (),
+  .dout   ());
