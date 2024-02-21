@@ -30,6 +30,9 @@
   (add-hook! 'org-mode-hook #'+org-pretty-mode)
   (add-hook! 'org-mode-hook #'+org-enable-auto-reformat-tables-h)
   (add-hook! 'evil-org-agenda-mode-hook #'evil-org-agenda-set-keys)
+  (add-hook 'org-mode-hook #'org-tempo-setup)
+
+  (require 'org-tempo)
 
   :config
 
@@ -40,7 +43,6 @@
 
   ;; needed for structure templates, e.g. <s
   ;; https://orgmode.org/manual/Structure-Templates.html
-  (require 'org-tempo)
 
   (setq-default org-mode-hook nil)
 
