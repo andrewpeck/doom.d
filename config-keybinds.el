@@ -421,6 +421,15 @@ between the two most recently open buffers."
                  "b" #'vhdl-beautify-buffer
                  "r" #'vhdl-beautify-region))
 
+  (map! :localleader
+        :map verilog-mode-map
+        :desc "Align Ports"
+        (:prefix ("a" . "align")
+                 "p" #'verilog--align-ports
+                 "d" #'verilog-pretty-declarations
+                 "=" #'verilog-pretty-expr))
+
+
   (map! :leader :prefix "s" :desc "SVG Tag Mode"         "vg" #'svg-tag-mode)
   (map! :localleader :map org-mode-map :prefix "m" :desc "Latexify"             "lp" #'org-latex-preview-all :map org-mode-map)
   (map! :localleader :map org-mode-map :prefix "m" :desc "De-latexify"          "lP" #'org-latex-preview-clear :map org-mode-map)
@@ -448,8 +457,15 @@ between the two most recently open buffers."
   (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
   (map! :leader :prefix "t" :desc "Toggle Dark Mode"     "d"  #'toggle-dark-mode))
 
-(map! :leader
-      :prefix "ma"
+  (map! :leader :prefix "b" :desc "Format Buffer" "f"
+        (lambda ()
+          (interactive)
+          (call-interactively #'apheleia-format-buffer)
+          (message "Formatted buffer...")))
+
+(map! :localleader
+      :map org-mode-map
+      :prefix "a"
       :desc "Download Screenshot" "c" #'org-download-screenshot
       :desc "Download Clipboard" "p" #'org-download-clipboard
       :desc "Download Yank" "P" #'org-download-yank
