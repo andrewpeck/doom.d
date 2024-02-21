@@ -46,6 +46,12 @@ nil."
 
 (advice-add #'vc-git-mode-line-string :filter-return #'my-replace-git-status)
 
+;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
+(unless (functionp 'is-remote?)
+  (require 'memoize)
+  (defmemoize is-remote? (path)
+    (file-remote-p path 'host)))
+
 (setq mode-line-format
 
       '((:eval (simple-mode-line-render
@@ -55,9 +61,9 @@ nil."
                       evil-mode-line-tag
                       mode-line-mule-info
                       "%* "
-                      (let ((host (file-remote-p default-directory 'host)))
+                      (let ((host (is-remote? default-directory)))
                         (if host
-                          (concat (propertize host 'face '(:inherit warning)) ":") nil))
+                            (concat (propertize host 'face '(:inherit warning)) ":") nil))
 
                       (propertized-buffer-identification "%b"))
 
@@ -73,7 +79,7 @@ nil."
                       (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
                       (replace-regexp-in-string "FlyC" ""
-                                                (concat " ⁚ " 
+                                                (concat " ⁚ "
                                                          (flycheck-mode-line-status-text)))
                       )))))
 

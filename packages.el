@@ -27,6 +27,7 @@
 (package! dwim-shell-command    :pin "7a2c298424466d2bff7c050e01fb85b5f882dbc3" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! eglot-booster         :pin "bb05a99385990d738cee4c321cbac6bb13078227" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 (package! elfeed                :pin "55fb162fa27e71b88effa59a83c57842e262b00f" :recipe (:host github :repo "skeeto/elfeed"))
+(package! emacs-memoize :recipe (:host github :repo "skeeto/emacs-memoize"))
 (package! emacs-ucf-mode        :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! emojify               :pin "1b726412f19896abf5e4857d4c32220e33400b55")
 (package! evil-leader           :pin "39f7014bcf8b36463e0c7512c638bda4bac6c2cf")
