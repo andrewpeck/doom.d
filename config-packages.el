@@ -1546,7 +1546,7 @@ See URL `http://nagelfar.sourceforge.net/'."
 
   :config
 
-  (setq yas-snippet-dirs "~/.doom.d/snippets")
+  (setq yas-snippet-dirs '("~/.doom.d/snippets"))
 
   )
 
