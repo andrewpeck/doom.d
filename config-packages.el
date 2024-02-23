@@ -1064,12 +1064,17 @@ into Verilog ports."
   (remove-hook! 'python-mode-local-vars-hook #'lsp!)
   (add-hook! 'python-mode-local-vars-hook
     (defun +python-init-lsp-mode-maybe-h ()
-      (unless (file-remote-p (buffer-file-name)) (lsp!))))
+      (unless (and (buffer-file-name)
+                   (file-remote-p (buffer-file-name)))
+        (lsp!))))
 
   (remove-hook! 'python-mode-local-vars-hook #'tree-sitter!)
   (add-hook! 'python-mode-local-vars-hook
     (defun +python-init-tree-sitter-mode-maybe-h ()
-      (unless (file-remote-p (buffer-file-name)) (tree-sitter!))))
+      (unless
+          (and (buffer-file-name)
+               (file-remote-p (buffer-file-name)))
+        (tree-sitter!))))
 
   ;; modify the hook found in doom;
   ;; activating anaconda on tramp buffers is slow as hell
@@ -1079,12 +1084,11 @@ into Verilog ports."
     (defun +python-init-anaconda-mode-maybe-h ()
       "Enable `anaconda-mode' if `lsp-mode' is absent and
 `python-shell-interpreter' is present and we aren't on a tramp buffer."
-      (unless (or
-               (file-remote-p (buffer-file-name))
-               (bound-and-true-p lsp-mode)
-               (bound-and-true-p eglot--managed-mode)
-               (bound-and-true-p lsp--buffer-deferred)
-               (not (executable-find python-shell-interpreter t)))
+      (unless (or (and (buffer-file-name) (file-remote-p (buffer-file-name)))
+                  (bound-and-true-p lsp-mode)
+                  (bound-and-true-p eglot--managed-mode)
+                  (bound-and-true-p lsp--buffer-deferred)
+                  (not (executable-find python-shell-interpreter t)))
         (anaconda-mode +1))))
   
   :config
