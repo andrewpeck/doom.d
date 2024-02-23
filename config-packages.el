@@ -700,6 +700,7 @@
   :init
   (cl-remprop 'buffer-local-value 'byte-obsolete-generalized-variable)
   :config
+  (setq eglot-booster-no-remote-boost t)
   (eglot-booster-mode))
 
 ;;------------------------------------------------------------------------------
