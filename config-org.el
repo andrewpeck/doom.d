@@ -370,7 +370,64 @@ Updates overdue tasks to be due today."
     (let* ((link (org-element-lineage (org-element-context) '(link) t))
            (url (org-element-property :path link))) url))
 
-  (defun org-edit-image ()
+  (defun org-edit-inkscape ()
+    "Open Inkscape on the image at point."
+    (interactive)
+    (let ((link (or  (org-link-get)
+                     (read-string "Filename: "))))
+
+      (unless (org-link-get)
+        (insert (format "[[%s]]" link)))
+
+      (when link
+        (unless (file-exists-p link)
+          (with-temp-file link
+            (insert
+             (concat  "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
+                      "<!-- Created with Inkscape (http://www.inkscape.org/) -->\n"
+                      "\n"
+                      "<svg\n"
+                      "   width=\"5in\"\n"
+                      "   height=\"3in\"\n"
+                      "   viewBox=\"0 0 279.4 215.9\"\n"
+                      "   version=\"1.1\"\n"
+                      "   id=\"svg5\"\n"
+                      "   inkscape:version=\"1.1.2 (0a00cf5339, 2022-02-04)\"\n"
+                      "   sodipodi:docname=\"template.svg\"\n"
+                      "   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"\n"
+                      "   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"\n"
+                      "   xmlns=\"http://www.w3.org/2000/svg\"\n"
+                      "   xmlns:svg=\"http://www.w3.org/2000/svg\">\n"
+                      "  <sodipodi:namedview\n"
+                      "     id=\"namedview7\"\n"
+                      "     pagecolor=\"#ffffff\"\n"
+                      "     bordercolor=\"#666666\"\n"
+                      "     borderopacity=\"1.0\"\n"
+                      "     inkscape:pageshadow=\"2\"\n"
+                      "     inkscape:pageopacity=\"0.0\"\n"
+                      "     inkscape:pagecheckerboard=\"0\"\n"
+                      "     inkscape:document-units=\"mm\"\n"
+                      "     showgrid=\"false\"\n"
+                      "     units=\"in\"\n"
+                      "     inkscape:zoom=\"0.77771465\"\n"
+                      "     inkscape:cx=\"-109.29459\"\n"
+                      "     inkscape:cy=\"561.25984\"\n"
+                      "     inkscape:window-width=\"3786\"\n"
+                      "     inkscape:window-height=\"2089\"\n"
+                      "     inkscape:window-x=\"54\"\n"
+                      "     inkscape:window-y=\"34\"\n"
+                      "     inkscape:window-maximized=\"1\"\n"
+                      "     inkscape:current-layer=\"layer1\" />\n"
+                      "  <defs\n"
+                      "     id=\"defs2\" />\n"
+                      "  <g\n"
+                      "     inkscape:label=\"Layer 1\"\n"
+                      "     inkscape:groupmode=\"layer\"\n"
+                      "     id=\"layer1\" />\n"
+                      "</svg>"))))
+        (start-process "*inkscape*" nil "setsid" "inkscape" "-g" link))))
+
+  (defun org-edit-gimp ()
     "Open GIMP on the image at point."
     (interactive)
     (let ((link (org-link-get)))
