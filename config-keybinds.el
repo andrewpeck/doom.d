@@ -386,20 +386,6 @@ between the two most recently open buffers."
   (kbd "-")   #'+popup/quit-window)
 
 ;;------------------------------------------------------------------------------
-;; Evil Leader Keys
-;;------------------------------------------------------------------------------
-
-(after! evil-leader
-
-  (evil-leader/set-key "bt" 'org-make-tables-pretty)
-  (evil-leader/set-key "bf" 'xdg-browse-directory)
-  (evil-leader/set-key "ot" 'open-pwd-in-terminal)
-  (evil-leader/set-key "vv" 'open-buffer-in-vim)
-  (evil-leader/set-key "rr" 'projectile-recentf)
-  (evil-leader/set-key "rtw" 'delete-trailing-whitespace)
-  (evil-leader/set-key "pp" 'org-publish-current-project))
-
-;;------------------------------------------------------------------------------
 ;; Doom Binds
 ;;------------------------------------------------------------------------------
 

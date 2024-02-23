@@ -30,7 +30,6 @@
 (package! emacs-memoize         :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
 (package! emacs-ucf-mode        :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! emojify               :pin "1b726412f19896abf5e4857d4c32220e33400b55")
-(package! evil-leader           :pin "39f7014bcf8b36463e0c7512c638bda4bac6c2cf")
 (package! expand-region         :pin "e8f4e0fe9c9a80a6a26e2b438502aba9a799d580" :recipe (:host github :repo "magnars/expand-region.el"))
 (package! flycheck              :pin "eb87e051fb32cc20e892a32229225271c7cecb4c" :recipe (:host github :repo "flycheck/flycheck"))
 (package! flycheck-clj-kondo    :pin "e38c67ba9db1ea1cbe1b61ab39b506c05efdcdbf" :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
