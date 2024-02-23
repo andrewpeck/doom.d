@@ -13,41 +13,24 @@
 ;;     0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
 
 (use-package! org
-  :defer-incrementally t
 
   :init
 
-  (require 'evil-org)
-
-  ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (add-hook! 'org-mode-hook (setq-local user-full-name "A.P."))
-  (add-hook! 'org-mode-hook (diff-hl-mode -1)) ;; diff-hl just makes line noise for org mode
-
-  (add-hook! 'org-mode-hook (setq-local scroll-margin 1))
-  (add-hook! 'org-mode-hook #'evil-org-mode)
-  (add-hook! 'org-mode-hook #'+word-wrap-mode)
-  (add-hook! 'org-mode-hook (lambda () (auto-fill-mode t)))
-  (add-hook! 'org-mode-hook #'+org-pretty-mode)
-  (add-hook! 'org-mode-hook #'+org-enable-auto-reformat-tables-h)
-  (add-hook! 'evil-org-agenda-mode-hook #'evil-org-agenda-set-keys)
-  (add-hook 'org-mode-hook #'org-tempo-setup)
-
-  (require 'org-tempo)
+  (add-hook 'org-mode-hook (defun hook/org-set-user-name () (setq-local user-full-name "A.P.")))
+  (add-hook 'org-mode-hook (defun hook/org-disable-diff-hl-mode () (diff-hl-mode -1))) ;; diff-hl just makes line noise for org mode
+  (add-hook 'org-mode-hook (defun hook/org-set-scroll-margin () (setq-local scroll-margin 1)))
+  (add-hook 'org-mode-hook (defun hook/org-auto-fill-mode () (auto-fill-mode t)))
+  (add-hook 'org-mode-hook (defun hook/org-enable-evil-org-mode () (require 'evil-org) (evil-org-mode)))
+  (add-hook 'org-mode-hook (defun hook/org-enable-word-wrap-mode () (+word-wrap-mode)))
+  (add-hook 'org-mode-hook (defun hook/org-enable-auto-format () (+org-enable-auto-reformat-tables-h)))
+  (add-hook 'org-mode-hook (defun hook/org-latex-text-scale-mode () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))
+  (add-hook 'org-mode-hook (defun hook/org-crypt-before-save-magic () (add-hook 'before-save-hook #'org-encrypt-entries nil t)))
 
   :config
 
   ;;------------------------------------------------------------------------------
   ;; General
   ;;------------------------------------------------------------------------------
-
-
-  ;; needed for structure templates, e.g. <s
-  ;; https://orgmode.org/manual/Structure-Templates.html
-
-  (setq-default org-mode-hook nil)
-
-  ;; Add a hook to automatically encrypt entries before a file is saved to disk.
-  (org-crypt-use-before-save-magic)
 
   (setq org-tags-exclude-from-inheritance (list "crypt")
         org-indent-indentation-per-level 2
@@ -70,7 +53,6 @@
         ;; (setq org-html-htmlize-font-prefix "") ;; default
         org-html-htmlize-output-type 'css
         org-html-htmlize-font-prefix "org-"
-
 
         ;; Toggle Displays
         org-startup-folded 'f
@@ -142,6 +124,18 @@
   ;; Applications for opening file:path items in a document
   (add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
   (add-to-list 'org-file-apps '("\\.odt\\'" . "xdg-open %s"))
+
+
+  ;;------------------------------------------------------------------------------
+  ;; https://www.reddit.com/r/orgmode/comments/165zeuu/delighted_by_org_svg_preview/
+  ;;------------------------------------------------------------------------------
+
+  (defun my/resize-org-latex-overlays ()
+    (cl-loop for o in (car (overlay-lists))
+             if (eq (overlay-get o 'org-overlay-type) 'org-latex-overlay)
+             do (plist-put (cdr (overlay-get o 'display))
+                           :scale (expt text-scale-mode-step
+                                        text-scale-mode-amount))))
 
   ;;------------------------------------------------------------------------------
   ;; Helpers
