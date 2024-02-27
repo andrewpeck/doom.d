@@ -373,11 +373,21 @@ Updates overdue tasks to be due today."
   (defun org-edit-inkscape ()
     "Open Inkscape on the image at point."
     (interactive)
-    (let ((link (or  (org-link-get)
-                     (read-string "Filename: "))))
 
-      (unless (org-link-get)
-        (insert (format "[[%s]]" link)))
+    (unless (or (eq major-mode 'markdown-mode)
+                (eq major-mode 'org-mode))
+      (error "This function is only supported in org-mode and markdown-mode."))
+
+    (let ((link (or (if (eq major-mode 'markdown-mode) (markdown-link-url) (org-link-get))
+                    (read-string "Filename: "))))
+
+      (when (eq major-mode 'org-mode)
+        (unless (org-link-get)
+          (insert (format "[[%s]]" link))))
+
+      (when (eq major-mode 'markdown-mode)
+        (unless (markdown-link-p)
+          (insert (format "[](%s)" link))))
 
       (when link
         (unless (file-exists-p link)
