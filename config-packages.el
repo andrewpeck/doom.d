@@ -491,12 +491,12 @@
                              (car word) current-location (cadr word)
                              (caddr word) current-location)))))
 
-;;------------------------------------------------------------------------------
-;; Jinx
-;;------------------------------------------------------------------------------
+(use-package! jinx
+  :config
+  (global-jinx-mode t)
 
-;; (add-hook! 'org-mode-hook #'jinx-mode)
-;; (add-hook! 'markdown-mode-hook #'jinx-mode)
+  (global-set-key [remap ispell-word] #'jinx-correct-word)
+)
 
 ;;------------------------------------------------------------------------------
 ;; LaTex

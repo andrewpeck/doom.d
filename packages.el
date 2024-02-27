@@ -37,6 +37,7 @@
 (package! graphviz-dot-mode     :pin "8ff793b13707cb511875f56e167ff7f980a31136")
 (package! hdl_deps              :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
 (package! hog-emacs             :pin "6d2184bc6404abe1c96ac36498f57217e8ed2274" :recipe (:host github :repo "andrewpeck/hog-emacs"))
+(package! jinx                  :pin "cd63c27767d655319f89432ed1feae1cae12cdab" :recipe (:host github :repo "minad/jinx")) ;problems in snap?
 (package! logview               :pin "9140067afdc2f0d1eb493dc4dfdb53645289dd2b")
 (package! magit                 :pin "09961f67a403c53b62669f40a088d5720dc77270" :recipe (:host github :repo "magit/magit"))
 (package! magit-todos           :pin "1e9acc0ba63fbc297001bf334d63cb4326be80df")
@@ -72,7 +73,6 @@
 
 ;; (package! tabular :recipe (:host github :repo "andrewpeck/tabular"))
 ;; (package! org-modern            :pin "240026f0bef6dabff1e86ab092a678beddd301c3" :recipe (:host github :repo "minad/org-modern"))
-;; (package! jinx :recipe (:host github :repo "minad/jinx") :pin "b96d4c27e2f7472e923f7c4446c2061f1259819f") problems in snap?
 ;; (package! verilog-ext :recipe (:host github :repo "gmlarumbe/verilog-ext")) ;; brings in too many dependencies... ag aphelia lsp outorg outshine rg :(
 
 ;; Local Variables:
