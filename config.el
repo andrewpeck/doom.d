@@ -3,7 +3,7 @@
 ;; Interesting Packages:
 ;; https://github.com/alphapapa/taxy.el
 ;;
-;; Interesting Emacs Configs:
+;; Interesting Emacs Configurations
 ;;
 ;; Tecosaur: https://github.com/tecosaur/emacs-config/blob/master/config.org
 ;; Karl Fogel: https://svn.red-bean.com/repos/kfogel/trunk/.emacs
@@ -19,14 +19,9 @@
 (let ((default-directory (expand-file-name "packages" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; ;; (use-package! hdl-deps       :defer-incrementally t)
-
 ;; start:sort
 (use-package! gpt               :defer-incrementally t)
 (use-package! setup-system      :defer-incrementally t)
-(use-package! system-install    :defer-incrementally t)
-(use-package! ucf-mode          :defer-incrementally t)
-(use-package! vivado-mode       :defer-incrementally t)
 ;; end:sort
 
 (defun load!! (path) (load! path doom-user-dir t))
@@ -47,7 +42,7 @@
 (load!! "custom")
 (load!! "config-core")
 
-;; Supress `Package cl is deprecated` warnings
+;; Suppress `Package cl is deprecated` warnings
 (setq byte-compile-warnings '(not obsolete))
 
 (setq doom-scratch-dir doom-user-dir)
