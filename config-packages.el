@@ -278,10 +278,18 @@
                 "\\|^\\.pytest_cache\\'")))
 
 (use-package! dired
+
   :config
 
   ;; better dired soring
-  (setq dired-listing-switches "-a1vBhl  --group-directories-first")
+  (setq dired-listing-switches "-a1vBhl  --group-directories-first"
+        dired-dwim-target t  ; suggest a target for moving/copying intelligently
+        dired-hide-details-hide-symlink-targets nil
+        ;; don't prompt to revert, just do it
+        dired-auto-revert-buffer #'dired-buffer-stale-p
+        ;; Always copy/delete recursively
+        dired-recursive-copies  'always
+        dired-recursive-deletes 'top)
 
   (defun +dired/quit-all ()
     "Kill all `dired-mode' buffers."
