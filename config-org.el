@@ -89,6 +89,10 @@
 
           ("t" "TODO" entry
            (file+headline +org-capture-todo-file "To do")
+           "** TODO %?\n"  :prepend t)
+
+          ("d" "DEADLINE" entry
+           (file+headline +org-capture-todo-file "To do")
            "** TODO %?\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \".\"))"  :prepend t)
 
           ("u" "Url" entry
