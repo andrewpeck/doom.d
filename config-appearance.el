@@ -90,3 +90,6 @@
   '(font-latex-bold-face :inherit default :weight bold)
   ;; '(font-lock-type-face :inherit default :family "Courier New" )
   )
+
+(custom-theme-set-faces! 'modus-operandi
+  '(hl-todo :inherit success))
