@@ -223,12 +223,6 @@ between the two most recently open buffers."
   (define-key lispy-mode-map-evilcp (kbd  "M-RET") nil)
   (define-key lispy-mode-map-lispy  (kbd  "M-RET") nil))
 
-(add-hook! 'verilog-mode-hook
-  (defun hook/setup-verilog-keybinds ()
-    (define-key verilog-mode-map (kbd "<RET>") nil)
-    (define-key verilog-mode-map (kbd "TAB") nil)
-    (define-key verilog-mode-map (kbd "<backspace>") nil)))
-
 (after! evil-maps
 
   (evil-define-key '(motion normal insert) 'global

@@ -862,6 +862,10 @@
 
   :config
 
+  (define-key verilog-mode-map (kbd "RET") nil)
+  (define-key verilog-mode-map (kbd "TAB") nil)
+  (define-key verilog-mode-map (kbd "<backspace>") nil)
+
   (defun verilog-name-to-port-inst ()
     "Convert symbol at point into a verilog port instantiation.
 
