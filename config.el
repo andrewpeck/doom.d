@@ -51,13 +51,13 @@
 (add-hook! 'text-mode-hook #'turn-on-evil-mode)
 
 ;; start:sort
-(load!! "config-org")
 (load!! "config-align")
 (load!! "config-appearance")
 (load!! "config-dired")
 (load!! "config-doom")
 (load!! "config-keybinds")
 (load!! "config-modeline")
+(load!! "config-org")
 (load!! "config-packages")
 (load!! "config-random")
 (load!! "lisp/gerb-view")
