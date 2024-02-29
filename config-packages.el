@@ -434,6 +434,7 @@
 
 (use-package! tramp
   :defer-incrementally t
+  :load-path "~/.emacs.d/.local/straight/repos/tramp"
   :config
 
   (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
