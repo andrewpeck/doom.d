@@ -469,6 +469,15 @@
     (when (file-remote-p default-directory)
       (setq-local projectile-git-use-fd nil)))
 
+  ;; https://github.com/bbatsov/projectile/issues/1232
+  ;; don't try to retrieve project name via projectile on remote dirs
+  (advice-add 'projectile-project-root
+              ;; before-while means
+              ;; Call function before the old function and don’t call the old function if function returns nil.
+              :before-while
+              (lambda (&optional dir)
+                (not (file-remote-p (or dir default-directory)))))
+
   (setq projectile-sort-order 'recently-active))
 
 ;;------------------------------------------------------------------------------
