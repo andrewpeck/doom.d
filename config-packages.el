@@ -247,19 +247,16 @@
 ;; Dired
 ;;------------------------------------------------------------------------------
 
-(use-package! diredfl
+(use-package! diredfl :after dired
   :config
   (add-to-list 'diredfl-compressed-extensions ".zst"))
 
-(use-package! dired-aux
+(use-package! dired-aux :after dired
   :config
   (setq dired-compress-file-default-suffix ".zst")
   (setq dired-compress-directory-default-suffix ".tar.zst"))
 
-(use-package! dired-x
-
-  :after dired
-
+(use-package! dired-x :after dired
   :config
 
   (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
@@ -342,12 +339,34 @@
   ;; buffer for a deleted directory. Of course I do!
   (setq dired-clean-confirm-killing-deleted-buffers nil)
 
-  (defun my/dired-open()
+  (advice-add 'dired-find-file
+              :before-while
+              (lambda () (if (and (member (file-name-extension (dired-get-file-for-visit))
+                                          auto-external-handle-extensions)
+                                  (not (file-remote-p (dired-get-file-for-visit))))
+                             (ap/dired-external-open) t)))
+
+  (defun ap/external-open (file)
+    (let* ((ext-handler (cdr (assoc (file-name-extension file) external-program-handlers)))
+           (program (or ext-handler "xdg-open")))
+      (message (format  "Opening %s in %s" file program))
+      (call-process program nil 0 nil file)))
+
+  (defun ap/dired-external-open()
     (interactive)
-    (start-process (concat "dired-open-" (uuidgen-1)) nil
-                   "setsid"
-                   "xdg-open"
-                   (dired-get-file-for-visit))))
+    (ap/external-open (dired-get-file-for-visit)))
+
+  (defvar auto-external-handle-extensions
+    '("drawio")
+    "List of extensions to automatically open via external program.")
+
+  (defvar external-program-handlers
+    '(("drawio" . "drawio"))
+    "alist of extensions and the program which should be used to open them, e.g.
+\\='((\".mp3\" .\"mplayer\")
+   (\".avi\" .\"vlc\")).
+
+If not specified it will default to xdg-open."))
 
 ;;------------------------------------------------------------------------------
 ;; DWIM Shell
