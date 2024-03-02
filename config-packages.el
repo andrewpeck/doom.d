@@ -340,11 +340,11 @@
   (setq dired-clean-confirm-killing-deleted-buffers nil)
 
   (advice-add 'dired-find-file
-              :before-while
-              (lambda () (if (and (member (file-name-extension (dired-get-file-for-visit))
+              :before-until
+              (lambda () (when (and (member (file-name-extension (dired-get-file-for-visit))
                                           auto-external-handle-extensions)
                                   (not (file-remote-p (dired-get-file-for-visit))))
-                             (ap/dired-external-open) t)))
+                             (ap/dired-external-open))))
 
   (defun ap/external-open (file)
     (let* ((ext-handler (cdr (assoc (file-name-extension file) external-program-handlers)))
