@@ -41,11 +41,11 @@
  nav-flash            ; blink the current line after jumping
  ophints              ; highlight the region an operation acts on
  (popup               ; tame sudden yet inevitable temporary windows
-  +all                 ; catch all popups that start with an asterix
-  +defaults)           ; default popup rules
+  +all                ; catch all popups that start with an asterix
+  +defaults)          ; default popup rules
  ;;pretty-code        ; replace bits of code with pretty symbols
  ;;tabs               ; an tab bar for Emacs
- treemacs             ; a project drawer, like neotree but cooler
+ ;;treemacs             ; a project drawer, like neotree but cooler
  ;;unicode            ; extended unicode support for various languages
  (vc-gutter +pretty
             +diff-hl) ; vcs diff in the fringe
@@ -71,7 +71,7 @@
  :emacs
 
  ;; dired          ; making dired pretty [functional]
- electric          ; smarter, keyword-based electric-indent
+ ;; electric       ; smarter, keyword-based electric-indent
  ibuffer           ; interactive buffer management
  vc                ; version-control and Emacs, sitting in a tree
  (undo)            ; persistent, smarter undo for your inevitable mistakes
@@ -85,7 +85,7 @@
 
  :checkers
 
- syntax             ; tasing you for every semicolon you forget
+ syntax               ; tasing you for every semicolon you forget
  ;;(spell +flyspell)  ; tasing you for misspelling mispelling
  ;;grammar            ; tasing grammar mistake every you make
 
@@ -233,15 +233,9 @@
 
  :config
 
- ;;literate
  (default +bindings +smartparens))
 
 (when init-file-debug
   (load "~/.emacs.d/.local/straight/repos/benchmark-init-el/benchmark-init")
   (require 'benchmark-init)
   (add-hook 'doom-first-input-hook #'benchmark-init/deactivate))
-
-;; Local Variables:
-;; eval: (make-variable-buffer-local 'write-contents-functions)
-;; eval: (remove-hook 'write-contents-functions #'re-indent-buffer)
-;; End:
