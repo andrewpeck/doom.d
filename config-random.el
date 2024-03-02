@@ -1,5 +1,10 @@
 ;;; -*- lexical-binding: t; -*-
 
+(defun advice-unadvice (sym)
+  "Remove all advices from symbol SYM."
+  (interactive "aFunction symbol: ")
+  (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
+
 (defun fix-latex-pasted-text ()
 
   "Fix text pasted from Latex PDFs.
