@@ -1677,6 +1677,8 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;; Org Cliplink
 ;;------------------------------------------------------------------------------
 
+;; add a space before cliplink insertion, otherwise the link just runs into the
+;; preceding character e.g. ***[[...]]
 (advice-add 'org-cliplink :before (lambda () (insert " ")))
 
 ;;------------------------------------------------------------------------------
@@ -1684,6 +1686,5 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 
 ;; Local Variables:
-;; eval: (make-variable-buffer-local 'kill-buffer-hook)
 ;; eval: (+fold/close-all)
 ;; End:
