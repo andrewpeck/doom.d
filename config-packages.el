@@ -1137,7 +1137,7 @@ into Verilog ports."
 
   (setq python-shell--interpreter "python3"
         python-flymake-command '("flake8" "-")
-        py-isort-options '("--combine-as")))
+        py-isort-options '("--line-length" "300"))
 
 
 ;;------------------------------------------------------------------------------
