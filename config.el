@@ -47,9 +47,6 @@
 
 (setq doom-scratch-dir doom-user-dir)
 
-;; make sure all text-mode buffers (e.g. fundamental mode, messages, etc) use evil
-(add-hook! 'text-mode-hook #'turn-on-evil-mode)
-
 ;; start:sort
 (load!! "config-align")
 (load!! "config-appearance")

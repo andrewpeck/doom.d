@@ -1098,8 +1098,6 @@ into Verilog ports."
         verilog-indent-level-module 2
         verilog-tab-to-comment nil))
 
-
-
 ;;------------------------------------------------------------------------------
 ;; VHDL Mode
 ;;------------------------------------------------------------------------------
@@ -1330,7 +1328,6 @@ into Verilog ports."
 ;; Elisp
 ;;------------------------------------------------------------------------------
 
-;;  set the tab width for emacs lisp mode to 4 for compatibility with emacs libs
 (use-package! elisp-mode
 
   :init
@@ -1341,6 +1338,7 @@ into Verilog ports."
   (remove-hook! 'emacs-lisp-mode-hook #'doom--setq-outline-level-for-emacs-lisp-mode-h)
   (remove-hook! 'emacs-lisp-mode-hook #'doom--setq-outline-regexp-for-emacs-lisp-mode-h)
 
+  ;; set the tab width for emacs lisp mode to 4 for compatibility with emacs libs
   (add-hook! 'emacs-lisp-mode-hook
     (defun hook/set-elisp-tab-width ()
       (setq-local tab-width 4))))
@@ -1751,15 +1749,6 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 ;; Unused
 ;;------------------------------------------------------------------------------
-
-;; (use-package! writegood
-;;   :config
-;;   (writegood-passive-voice-turn-off))
-
-;; ;; persistent undo
-;; (use-package! undo
-;;   :config
-;;   (setq undo-tree-auto-save-history t))
 
 (use-package! undo-tree
   :when (featurep 'undo-tree)
