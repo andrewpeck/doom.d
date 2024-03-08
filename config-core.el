@@ -134,7 +134,7 @@
 (defun set-font-interactive ()
   "Interactively choose and set a font."
   (interactive)
-  (let ((font   (completing-read "Font: " (font-family-list))))
+  (let ((font (completing-read "Font: " (font-family-list))))
     (when font
       (let ((size (string-to-number (read-string "Size: " (if (hd?) "22" "16")))))
         (when (numberp size)
