@@ -131,6 +131,16 @@
 ;;; FONT
 ;;------------------------------------------------------------------------------
 
+(defun set-font-interactive ()
+  "Interactively choose and set a font."
+  (interactive)
+  (let ((font   (completing-read "Font: " (font-family-list))))
+    (when font
+      (let ((size (string-to-number (read-string "Size: " (if (hd?) "22" "16")))))
+        (when (numberp size)
+          (setq doom-font (font-spec :name font :size size :weight 'regular))
+          (doom/reload-font))))))
+
 (defun font-exists? (font)
   "Check if FONT exists"
   (if (functionp 'doom-font-exists-p)
@@ -170,20 +180,21 @@
 
 (defun ap/update-font-list ()
 
-  (cl-dolist (my-font (font-list))
-    (when (font-exists? (car my-font))
-      (progn
-        (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
-              doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
-              doom-serif-font (font-spec :family (car my-font) :weight 'light))
-        (cl-return t))))
+  (when (interactive-p)
+    (cl-dolist (my-font (font-list))
+      (when (font-exists? (car my-font))
+        (progn
+          (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
+                doom-variable-pitch-font doom-font
+                doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
+                doom-serif-font (font-spec :family (car my-font) :weight 'light))
+          (cl-return t))))
 
-  (cl-dolist (my-font (variable-pitch-font-list))
-    (when (font-exists? (car my-font))
-      (progn
-        (setq doom-variable-pitch-font
-              (font-spec :family (car my-font) :size (cdr my-font)))
-        (cl-return t)))))
+    (cl-dolist (my-font (variable-pitch-font-list))
+      (when (font-exists? (car my-font))
+        (progn
+          (setq doom-variable-pitch-font (font-spec :family (car my-font) :size (cdr my-font)))
+          (cl-return t))))))
 
 (ap/update-font-list)
 
