@@ -367,6 +367,7 @@ Updates overdue tasks to be due today."
   (defun org-archive-done ()
     "Interactive wrapper for org-archive-all-done"
     (interactive)
+    (require 'org-archive)
     (org-archive-all-done))
 
 
