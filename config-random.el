@@ -1,5 +1,13 @@
 ;;; -*- lexical-binding: t; -*-
 
+;; try to make sure that fundamental mode buffers use evil
+;; https://emacs.stackexchange.com/questions/16693/auto-enable-minor-modes-in-fundamental-mode
+(add-hook 'after-change-major-mode-hook
+  (defun hook/turn-on-evil-mode ()
+    "Turn on evil mode in fundamental mode"
+    (when (eq major-mode 'fundamental-mode)
+      (evil-local-mode))))
+
 (defun advice-unadvice (sym)
   "Remove all advices from symbol SYM."
   (interactive "aFunction symbol: ")
