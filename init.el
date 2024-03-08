@@ -222,14 +222,13 @@
  (mu4e +gmail +org)
 
  :app
-
+ everywhere    ; *leave* Emacs!? You must be joking
+ (rss)         ; emacs as an RSS reader
  ;;calendar
- ;;emms              ; This module enables Emacs to be used as a music player
- ;;everywhere        ; *leave* Emacs!? You must be joking
- ;;irc               ; how neckbeards socialize
- ;; (rss +org)        ; emacs as an RSS reader
- (rss)        ; emacs as an RSS reader
- ;;twitter           ; twitter client https://twitter.com/vnought
+ ;;emms        ; This module enables Emacs to be used as a music player
+ ;;irc         ; how neckbeards socialize
+ ;; (rss +org) ; emacs as an RSS reader
+ ;;twitter     ; twitter client https://twitter.com/vnought
 
  :config
 

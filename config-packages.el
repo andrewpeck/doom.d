@@ -1,5 +1,9 @@
 ;;; config-packages.el -*- lexical-binding: t; -*-
 
+(use-package! emacs-everywhere
+  :config
+  (define-key emacs-everywhere-mode-map "\C-c\C-c" #'emacs-everywhere-finish))
+
 ;;------------------------------------------------------------------------------
 ;; Dash Docs
 ;;------------------------------------------------------------------------------
