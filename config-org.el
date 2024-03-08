@@ -204,6 +204,7 @@ Updates overdue tasks to be due today."
       (when (and (> weight 130)
                  (< weight 250))
         (with-temp-buffer
+          (org-mode)
           (insert-file-contents file)
 
           ;; goto weight table
