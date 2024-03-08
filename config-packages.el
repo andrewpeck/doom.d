@@ -5,6 +5,15 @@
   (define-key emacs-everywhere-mode-map "\C-c\C-c" #'emacs-everywhere-finish))
 
 ;;------------------------------------------------------------------------------
+;; Midnight Mode
+;;------------------------------------------------------------------------------
+
+(use-package! midnight
+  :config
+  (add-to-list 'clean-buffer-list-kill-buffer-names "*Native-compile-Log*")
+  (add-to-list 'clean-buffer-list-kill-buffer-names "*Async-native-compile-log*"))
+
+;;------------------------------------------------------------------------------
 ;; Dash Docs
 ;;------------------------------------------------------------------------------
 
