@@ -836,8 +836,9 @@ If not specified it will default to xdg-open."))
   (defun open-in-openscad ()
     "Open the current buffer in openscad"
     (interactive)
-    (start-process (format "*scad-%s*" (file-name-base (buffer-file-name)))
-                   nil "setsid" "openscad" (buffer-file-name)))
+    (call-process
+     "openscad" nil 0 nil
+     (buffer-file-name)))
 
   (define-key scad-mode-map (kbd "C-c C-p")
               'open-in-openscad)

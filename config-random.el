@@ -267,7 +267,7 @@ This function tries to de hyphenate them."
 (defun suspend ()
   "Suspend the system using systemctl syspend"
   (interactive)
-  (start-process "*suspend*" nil "setsid" "systemctl" "suspend"))
+  (call-process "systemctl" nil 0 nil "suspend"))
 
 (defun reload-this-buffer ()
   "Kill and re-open the current buffer"

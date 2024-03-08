@@ -439,14 +439,14 @@ Updates overdue tasks to be due today."
                       "     inkscape:groupmode=\"layer\"\n"
                       "     id=\"layer1\" />\n"
                       "</svg>"))))
-        (start-process "*inkscape*" nil "setsid" "inkscape" "-g" link))))
+        (call-process "inkscape" nil 0 nil "-g" link))))
 
   (defun org-edit-gimp ()
     "Open GIMP on the image at point."
     (interactive)
     (let ((link (org-link-get)))
       (when link
-        (start-process "*gimp*" nil "setsid" "gimp" link))))
+        (call-process "gimp" nil 0 nil link))))
 
 
   ;;------------------------------------------------------------------------------

@@ -76,15 +76,13 @@
 (defun open-pwd-in-terminal ()
   "Opens the present working directory in terminal"
   (interactive)
-  (start-process "*terminal*" nil
-                 "setsid"
-                 (executable-find (car preferred-terminal)) (cadr preferred-terminal) (get-pwd)))
+  (call-process (executable-find (car preferred-terminal)) nil 0 nil
+                (cadr preferred-terminal) (get-pwd)))
 
 (defun open-buffer-in-vim ()
   "Opens the current buffer in gvim."
   (interactive)
-  (start-process "*gvim*" nil "setsid"
-                 (executable-find "gvim") (buffer-file-name)))
+  (call-process (executable-find "gvim") nil 0 nil (buffer-file-name)))
 
 (defun org-make-tables-pretty ()
   "Makes org mode tables pretty in the current buffer."

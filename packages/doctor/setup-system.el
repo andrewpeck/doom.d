@@ -287,7 +287,7 @@
   ;; (shell-command "sudo mkdir -p /usr/local/share/ca-certificates/ && sudo cp ~/.dotfiles/CERN\ Root\ Certification\ Authority\ 2.crt /usr/local/share/ca-certificates/CERN\ Root\ Certification\ Authority\ 2.crt && sudo update-ca-trust")
 
   (princ "** Updating font cache\n")
-  (start-process "*fc-cache*" nil "fc-cache" "-f" "-v")
+  (call-process "fc-cache" nil 0 nil "-f" "-v")
 
   ;; - command: if [ $(hostname) = pepper ]; then ln -sf ~/.dotfiles/equalizerrc_mb42x ~/.config/pulseaudio/equalizerrc
   ;;   description: Setting up MB42X Equalizer for pepper
