@@ -1685,6 +1685,9 @@ See URL `http://nagelfar.sourceforge.net/'."
 
   :config
 
+  ;; PATCH(DOOM): recent version of corfu mode broke C-SPC for orderless
+  (map! (:map corfu-mode-map :i "C-SPC" #'corfu-insert-separator))
+
   (setq corfu-auto-delay 0.3
 
         ;; If t, check all other buffers (subject to dabbrev ignore rules).
