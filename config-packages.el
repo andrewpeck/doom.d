@@ -320,17 +320,13 @@
 
   ;; this breaks sensible dired sorting on remote hosts;
   ;; it is there for DOS compatibility which I don't care about
-  (remove-hook! 'dired-mode-hook
-    #'+dired-disable-gnu-ls-flags-maybe-h)
+  (remove-hook! 'dired-mode-hook #'+dired-disable-gnu-ls-flags-maybe-h)
 
-  (remove-hook! 'dired-mode-hook
-    #'diff-hl-dired-mode)
+  (remove-hook! 'dired-mode-hook #'diff-hl-dired-mode)
 
-  (add-hook 'dired-mode-hook
-            #'diff-hl-dired-mode-unless-remote)
+  (add-hook 'dired-mode-hook #'diff-hl-dired-mode-unless-remote)
 
-  (add-hook 'dired-mode-hook
-            #'dired-omit-mode)
+  (add-hook 'dired-mode-hook #'dired-omit-mode)
 
   (add-hook! 'dired-mode-hook
     (defun hook/dired-hide-details ()
@@ -468,9 +464,10 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! tramp
-  :defer-incrementally t
+
   :load-path "~/.emacs.d/.local/straight/repos/tramp"
   :config
+
 
   (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
         tramp-use-ssh-controlmaster-options t
