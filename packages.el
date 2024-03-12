@@ -19,6 +19,7 @@
 (package! browse-at-remote      :pin "76aa27dfd469fcae75ed7031bb73830831aaccbf" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
 (package! cape                  :pin "c56cd95f6df003f8928f11e8776d3a9a3eca6890" :recipe (:host github :repo "minad/cape"))
 (package! clojure-emacs         :pin "592c4f89efb5112784cbf94c9ea6fdd045771b62" :recipe (:host github :repo "clojure-emacs/squiggly-clojure"))
+(package! code-cells.el         :pin "44546ca256f3da29e3ac884e3d699c8455acbd6e" :recipe (:host github :repo "astoff/code-cells.el"))
 (package! company               :pin "0c0186cca8e7e9a12a44ffe42ad7037ffa6bfac7")
 (package! crontab-mode          :pin "7412f3df0958812bfcacd5875a409fa795fa8ecc")
 (package! delight               :pin "46932bdc4da69072329aec8df052da3e04444899")
