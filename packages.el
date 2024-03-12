@@ -43,6 +43,7 @@
 (package! magit                 :pin "09961f67a403c53b62669f40a088d5720dc77270" :recipe (:host github :repo "magit/magit"))
 (package! magit-todos           :pin "1e9acc0ba63fbc297001bf334d63cb4326be80df")
 (package! markdown-preview-mode :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
+(package! nerd-icons.el         :pin "58db45e003e3c6283db54ace23e3594677ffd050" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
 (package! ob-wavedrom           :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-download          :pin "19e166f0a8c539b4144cfbc614309d47a9b2a9b7" :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-web-tools         :pin "7a6498f442fc7f29504745649948635c7165d847")
