@@ -530,9 +530,9 @@ If not specified it will default to xdg-open."))
   (setq project-find-functions (list #'project-try-vc))
 
   ;; use project.el instead of projectile
-  ;; (advice-add 'projectile-find-file
-  ;;             :override
-  ;;             (lambda (_) (project-find-file)))
+  (advice-add 'projectile-find-file
+              :override
+              (lambda (_) (project-find-file)))
 
   ;; (advice-add 'projectile-find-file :override
   ;;             (lambda (&optional _)
