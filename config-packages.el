@@ -754,7 +754,7 @@ If not specified it will default to xdg-open."))
         eglot-autoshutdown t
         ;; eglot-events-buffer-size 0
         eldoc-echo-area-prefer-doc-buffer t
-        eldoc-echo-area-use-multiline-p t
+        eldoc-echo-area-use-multiline-p nil
         help-at-pt-display-when-idle t)
   
 
