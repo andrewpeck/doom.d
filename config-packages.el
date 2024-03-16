@@ -56,7 +56,7 @@
                     (dash-docs-install-docset docset))))
 
         (dolist (docset dash-docs-my-docsets)
-                 (setup-docset docset))))
+          (setup-docset docset))))
 
     (message "Docsets installed.")))
 
@@ -273,16 +273,19 @@
 ;; Dired
 ;;------------------------------------------------------------------------------
 
-(use-package! diredfl :after dired
+(use-package! diredfl
+  :after dired
   :config
   (add-to-list 'diredfl-compressed-extensions ".zst"))
 
-(use-package! dired-aux :after dired
+(use-package! dired-aux
+  :after dired
   :config
   (setq dired-compress-file-default-suffix ".zst")
   (setq dired-compress-directory-default-suffix ".tar.zst"))
 
-(use-package! dired-x :after dired
+(use-package! dired-x
+  :after dired
   :config
 
   (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
