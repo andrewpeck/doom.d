@@ -1353,6 +1353,29 @@ into Verilog ports."
         py-isort-options '("--line-length" "300")))
 
 ;;------------------------------------------------------------------------------
+;; Comint
+;;------------------------------------------------------------------------------
+
+(use-package! comint-scroll-to-bottom
+
+  :init
+
+  (add-hook 'comint-mode-hook 'comint-add-scroll-to-bottom)
+
+  :config
+
+  (add-hook 'inferior-python-mode-hook
+            (lambda ()
+              (setq comint-move-point-for-output t)))
+
+  (setq comint-move-point-for-output t
+        comint-scroll-to-bottom-on-input t
+        comint-scroll-to-bottom-on-output t
+        comint-scroll-show-maximum-output t)
+
+  )
+
+;;------------------------------------------------------------------------------
 ;; ielm
 ;;------------------------------------------------------------------------------ 
 
