@@ -516,7 +516,8 @@ If not specified it will default to xdg-open."))
 
   )
 
-(use-package! projectile :after project
+(use-package! projectile
+  :after project
   :config
 
   ;; doom overwrites this to ignore tramp uhg damnit
@@ -602,8 +603,7 @@ If not specified it will default to xdg-open."))
   :config
   (global-jinx-mode t)
 
-  (global-set-key [remap ispell-word] #'jinx-correct-word)
-)
+  (global-set-key [remap ispell-word] #'jinx-correct-word))
 
 ;;------------------------------------------------------------------------------
 ;; LaTex
