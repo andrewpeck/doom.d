@@ -1,8 +1,18 @@
 ;;; config-packages.el -*- lexical-binding: t; -*-
 
+
 (use-package! emacs-everywhere
   :config
   (define-key emacs-everywhere-mode-map "\C-c\C-c" #'emacs-everywhere-finish))
+
+(use-package! code-cells
+  :config
+  (map! :localleader
+        :map code-cells-mode-map
+        :prefix "m"
+        (:prefix ("e" . "eval")
+                 "c" #'code-cells-eval
+                 "C" #'code-cells-eval-above)))
 
 ;;------------------------------------------------------------------------------
 ;; Midnight Mode
