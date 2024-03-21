@@ -40,7 +40,6 @@
 (package! hog-emacs             :pin "6d2184bc6404abe1c96ac36498f57217e8ed2274" :recipe (:host github :repo "andrewpeck/hog-emacs"))
 (package! jinx                  :pin "cd63c27767d655319f89432ed1feae1cae12cdab" :recipe (:host github :repo "minad/jinx")) ;problems in snap?
 (package! logview               :pin "9140067afdc2f0d1eb493dc4dfdb53645289dd2b")
-(package! magit                 :pin "09961f67a403c53b62669f40a088d5720dc77270" :recipe (:host github :repo "magit/magit"))
 (package! magit-todos           :pin "1e9acc0ba63fbc297001bf334d63cb4326be80df")
 (package! markdown-preview-mode :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
 (package! nerd-icons.el         :pin "58db45e003e3c6283db54ace23e3594677ffd050" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
@@ -61,7 +60,6 @@
 (package! systemd               :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org               :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! tramp                 :pin "ebcd8a7c7562f23a7631995ccbef0cf3f8a56115")
-(package! transient             :pin "ba37702ab3cf90191865172bd5581fd353ccba63" :recipe (:host github :repo "magit/transient"))
 (package! treesit-auto          :pin "e5a71408d29d3e5796369e3091ecd3f78751c80e" :recipe (:host github :repo "renzmann/treesit-auto"))
 (package! verilog-mode          :pin "6e056e20a7d55d352d981c6630e6c4058536b1de" :recipe (:host github :repo "veripool/verilog-mode"))
 (package! verilog-port-copy     :pin "1801b6d74b0da405534a0ba60ce8de084d6b97da" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
