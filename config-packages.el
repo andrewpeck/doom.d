@@ -531,9 +531,9 @@ If not specified it will default to xdg-open."))
   (setq project-find-functions (list #'project-try-vc))
 
   ;; use project.el instead of projectile
-  (advice-add 'projectile-find-file
-              :override
-              (lambda (_) (project-find-file)))
+  ;; (advice-add 'projectile-find-file
+  ;;             :override
+  ;;             (lambda (_) (project-find-file)))
 
   ;; (advice-add 'projectile-find-file :override
   ;;             (lambda (&optional _)
@@ -550,9 +550,8 @@ If not specified it will default to xdg-open."))
   ;; Due to a very obnoxious bug it seems that if I am on a host system where
   ;; the fd executable is fdfind but connecting to a remote-system where fd is
   ;; found as fd, emacs will try to execute fdfind on the remote system;
-  ;;
   ;; should report this
-  ;; (setq projectile-fd-executable "fdfind")
+  (setq projectile-fd-executable "fdfind")
 
   (add-hook! 'find-file-hook
     (when (file-remote-p default-directory)
