@@ -385,7 +385,6 @@ between the two most recently open buffers."
 
   (map! :localleader
         :map python-mode-map
-        :desc "Expand macro" "m" #'macrostep-expand
         (:prefix ("e" . "eval")
                  "R" #'run-python
                  "b" #'python-shell-send-buffer
