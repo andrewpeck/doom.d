@@ -1715,14 +1715,16 @@ See URL `http://nagelfar.sourceforge.net/'."
   ;; cape-sgml: Complete Unicode char from SGML entity, e.g., &alpha.
   ;; cape-rfc1345: Complete Unicode char using RFC 1345 mnemonics.
 
-
   :config
 
-  ;; PATCH(DOOM): recent version of corfu mode broke C-SPC for orderless
-  (map! (:map corfu-mode-map :i "C-SPC" #'corfu-insert-separator))
-
   (setq corfu-auto-delay 0.3
+        corfu-auto-prefix 5
+        corfu-on-exact-match 'show
+        corfu-preselect 'prompt         ; prompt first valid directory
 
+        corfu-preview-current nil
+        ;; No preview vs Non-inserting preview
+        ;;
         ;; If t, check all other buffers (subject to dabbrev ignore rules).
         ;; Any other non-nil value only checks some other buffers, as per
         ;; dabbrev-select-buffers-function.
@@ -1756,7 +1758,8 @@ See URL `http://nagelfar.sourceforge.net/'."
     (defun hook/set-elisp-capf-functions ()
       (setq-local completion-at-point-functions
                   (list
-                   (cape-company-to-capf #'company-yasnippet)
+                   ;; (cape-company-to-capf #'company-yasnippet)
+                   'yasnippet-capf
                    'cape-elisp-symbol
                    'cape-keyword
                    'cape-dabbrev
@@ -1770,7 +1773,9 @@ See URL `http://nagelfar.sourceforge.net/'."
                          'cape-dabbrev
                          ;; 'complete-tag
                          'cape-keyword
-                         (cape-company-to-capf #'company-yasnippet))))))
+                         'yasnippet-capf
+                         ;; (cape-company-to-capf #'company-yasnippet)
+                         )))))
 
   (add-hook! 'vhdl-mode-hook
     (defun hook/set-vhdl-capf ()
@@ -1778,7 +1783,9 @@ See URL `http://nagelfar.sourceforge.net/'."
                   (list (cape-capf-super
                          'cape-dabbrev
                          'cape-keyword
-                         (cape-company-to-capf #'company-yasnippet))))))
+                         'yasnippet-capf
+                         ;; (cape-company-to-capf #'company-yasnippet)
+                         )))))
 
   (dolist (mode '(python-ts-mode-hook python-mode-hook))
     (add-hook! mode
@@ -1790,7 +1797,9 @@ See URL `http://nagelfar.sourceforge.net/'."
                     'eglot-completion-at-point
                     'cape-capf-buster
                     'cape-dabbrev
-                    (cape-company-to-capf #'company-yasnippet))))))
+                    'yasnippet-capf
+                    ;; (cape-company-to-capf #'company-yasnippet)
+                         )))))
 
   (add-hook! 'tcl-mode-hook
     (setq-local completion-at-point-functions
@@ -1798,7 +1807,9 @@ See URL `http://nagelfar.sourceforge.net/'."
                        'cape-dabbrev
                        'cape-keyword
                        'cape-file
-                       (cape-company-to-capf #'company-yasnippet)))))
+                       'yasnippet-capf
+                       ;; (cape-company-to-capf #'company-yasnippet)
+                       ))))
 
   (add-hook! 'tcl-mode-hook
     (with-eval-after-load 'cape-keyword
@@ -1819,7 +1830,6 @@ See URL `http://nagelfar.sourceforge.net/'."
                            tcl-keyword-list
                            tcl-typeword-list
                            tcl-builtin-list)))))
-
 
 (use-package! yasnippet
 
