@@ -155,6 +155,34 @@ This function tries to de hyphenate them."
   :select t
   :ttl 0)
 
+(defun mult-by (by)
+  ""
+  (when (re-search-forward "\\b[-0-9.]+\\b" nil t)
+    (replace-match (number-to-string (* by (string-to-number (match-string 0)))) nil t) t))
+
+(defun mult-in-rectangle (start end)
+  "Operates on a rectangular region and multiplies all numbers by some coefficient.
+
+FIXME: should support non-rectangular regions
+FIXME: does not work when the region is not rectangular at the end of lines, e.g.
+
+2 + 2
+2
+2
+2 "
+
+  (interactive "r")
+  (let ((coefficient (string-to-number (read-string "Coefficient: "))))
+    (save-excursion
+      (let ((rect (delete-extract-rectangle start end)))
+        (with-temp-buffer
+          (insert-rectangle rect)
+          (goto-char (point-min))
+          (while (mult-by coefficient))
+          (setq rect (split-string (buffer-substring-no-properties (point-min) (point-max)) "\n" t)))
+        (goto-char start)
+        (insert-rectangle rect)))))
+
 (after! +popup
   ;; Completely disable management of the mode-line in popups:
   (remove-hook '+popup-buffer-mode-hook #'+popup-set-modeline-on-enable-h)
