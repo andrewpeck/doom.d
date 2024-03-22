@@ -1336,7 +1336,7 @@ into Verilog ports."
     (defun +python-init-lsp-mode-maybe-h ()
       (unless (and (buffer-file-name)
                    (file-remote-p (buffer-file-name)))
-        (lsp!))))
+        (call-interactively #'lsp!))))
 
   (remove-hook! 'python-mode-local-vars-hook #'tree-sitter!)
   (add-hook! 'python-mode-local-vars-hook
