@@ -1365,7 +1365,14 @@ into Verilog ports."
 
   (setq python-shell--interpreter "python3"
         python-flymake-command '("flake8" "-")
-        py-isort-options '("--line-length" "300")))
+        py-isort-options '("--line-length" "300"))
+
+  (defun python-sort-imports ()
+    "Sort Python imports in the current buffer."
+    (interactive)
+    (if (python--do-isort (string-join py-isort-options " "))
+        (message "Sorted imports")
+      (message "(No changes in Python imports needed)"))))
 
 ;;------------------------------------------------------------------------------
 ;; Comint
