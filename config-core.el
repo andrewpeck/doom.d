@@ -155,7 +155,7 @@
 ;; M-x describe-font
 (defun font-list ()
   ""
-  `(("Hack"             . ,(if (hd?) 21 15))
+  `(("Hack"             . ,(if (hd?) 21 19))
     ("Julia Mono"       . ,(if (hd?) 21 16))
     ("Inconsolata"      . ,(if (hd?) 19 18))
     ("Comic Code"       . ,(if (hd?) 22 19))
@@ -180,21 +180,20 @@
 
 (defun ap/update-font-list ()
 
-  (when (interactive-p)
-    (cl-dolist (my-font (font-list))
-      (when (font-exists? (car my-font))
-        (progn
-          (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
-                doom-variable-pitch-font doom-font
-                doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
-                doom-serif-font (font-spec :family (car my-font) :weight 'light))
-          (cl-return t))))
+  (cl-dolist (my-font (font-list))
+    (when (font-exists? (car my-font))
+      (progn
+        (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
+              doom-variable-pitch-font doom-font
+              doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
+              doom-serif-font (font-spec :family (car my-font) :weight 'light))
+        (cl-return t))))
 
     (cl-dolist (my-font (variable-pitch-font-list))
       (when (font-exists? (car my-font))
         (progn
           (setq doom-variable-pitch-font (font-spec :family (car my-font) :size (cdr my-font)))
-          (cl-return t))))))
+          (cl-return t)))))
 
 (ap/update-font-list)
 
