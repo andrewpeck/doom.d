@@ -743,21 +743,40 @@ If not specified it will default to xdg-open."))
 ;; Eglot
 ;;------------------------------------------------------------------------------
 
+(use-package! eldoc
+  :config
+
+  ;; calling +lookup/documentation annoyingly moves the cursor to the other window
+  ;; just add some advice to move it back
+  (advice-add '+lookup/documentation :around
+              (lambda (orig-fun &rest args)
+                (let ((current (selected-window)))
+                  (apply orig-fun args)
+                  (select-window current))))
+
+  (setq eldoc-echo-area-prefer-doc-buffer t
+        eldoc-idle-delay 1.5
+        eldoc-echo-area-use-multiline-p nil)
+
+  (add-hook! 'python-mode-hook
+    (defun hook/hide-python-eldoc ()
+      (setq-local eldoc-echo-area-use-multiline-p 0))))
+
 (use-package! eglot
 
   :defer-incrementally t
 
+  :init
+
+  (setq eglot-managed-mode-hook
+        (list (lambda () (eldoc-mode -1))))
+
   :config
 
-  (setq eglot-prefer-plaintext t
+  (setq eglot-prefer-plaintext nil
         eglot-autoshutdown t
-        ;; eglot-events-buffer-size 0
-        eldoc-echo-area-prefer-doc-buffer t
-        eldoc-echo-area-use-multiline-p nil
         help-at-pt-display-when-idle t)
   
-
-
   ;; (add-hook! python-mode-hook
   ;;   (setq eglot-workspace-configuration
   ;;         '((pyright
