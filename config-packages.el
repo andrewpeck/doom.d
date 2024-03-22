@@ -1734,10 +1734,10 @@ See URL `http://nagelfar.sourceforge.net/'."
 
   (setq corfu-auto-delay 0.3
         corfu-auto-prefix 5
-        corfu-on-exact-match 'show
-        corfu-preselect 'prompt         ; prompt first valid directory
+        ;; corfu-on-exact-match 'show
+        ;; corfu-preselect 'prompt         ; prompt first valid directory
 
-        corfu-preview-current nil
+        ;; corfu-preview-current nil
         ;; No preview vs Non-inserting preview
         ;;
         ;; If t, check all other buffers (subject to dabbrev ignore rules).
