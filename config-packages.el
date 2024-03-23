@@ -1362,6 +1362,12 @@ into Verilog ports."
   
   :config
 
+  (advice-add 'run-python :around
+              (lambda (orig-fun &rest args)
+                (let ((current (selected-window)))
+                  (apply orig-fun args)
+                  (select-window current))))
+
   (setq python-shell--interpreter "python3"
         python-flymake-command '("flake8" "-")
         py-isort-options '("--line-length" "300"))
