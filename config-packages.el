@@ -1341,9 +1341,8 @@ into Verilog ports."
   (remove-hook! 'python-mode-local-vars-hook #'tree-sitter!)
   (add-hook! 'python-mode-local-vars-hook
     (defun +python-init-tree-sitter-mode-maybe-h ()
-      (unless
-          (and (buffer-file-name)
-               (file-remote-p (buffer-file-name)))
+      (unless (and (buffer-file-name)
+                   (file-remote-p (buffer-file-name)))
         (tree-sitter!))))
 
   ;; modify the hook found in doom;
