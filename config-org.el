@@ -13,7 +13,7 @@
 ;;     0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
 
 (use-package! org
-
+  :defer-incrementally t
   :init
 
   (add-hook 'org-mode-hook (defun hook/org-set-user-name () (setq-local user-full-name "A.P.")))
@@ -839,6 +839,7 @@ local and remote servers."
 ;;------------------------------------------------------------------------------
 
 (use-package! org-download
+  :defer-incrementally t
   :after org
   :config
 
@@ -866,6 +867,7 @@ local and remote servers."
 ;;------------------------------------------------------------------------------
 
 (use-package! org-web-tools
+  :defer-incrementally t
 
   :after org
   :init
@@ -1048,6 +1050,7 @@ and shortens it into an org mode link consisting of just `some file`"
 
 ;; Latex Export Class
 (use-package! ox-latex
+  :defer-incrementally t
   :after org
   :config
 

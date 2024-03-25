@@ -2,10 +2,12 @@
 
 
 (use-package! emacs-everywhere
+  :defer-incrementally t
   :config
   (define-key emacs-everywhere-mode-map "\C-c\C-c" #'emacs-everywhere-finish))
 
 (use-package! code-cells
+  :defer-incrementally t
   :config
   (map! :localleader
         :map code-cells-mode-map
@@ -19,6 +21,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! midnight
+  :defer-incrementally t
   :config
   (add-to-list 'clean-buffer-list-kill-buffer-names "*Native-compile-Log*")
   (add-to-list 'clean-buffer-list-kill-buffer-names "*Async-native-compile-log*"))
@@ -28,6 +31,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! dash-docs
+  :defer-incrementally t
 
   :config
 
@@ -113,6 +117,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! diff-hl
+  :defer-incrementally t
 
   :init
   (remove-hook! 'find-file-hook #'diff-hl-mode)
@@ -133,6 +138,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! copyright
+  :defer-incrementally t
 
   :config
 
@@ -155,6 +161,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! ob-wavedrom
+  :defer-incrementally t
   :config
   (setq ob-wavedrom-cli-path "wavedrom"))
 
@@ -163,6 +170,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! apheleia
+  :defer-incrementally t
   :config
 
   ;; (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
@@ -213,6 +221,7 @@
     (pdf-rotate "-")))
 
 (use-package! image-mode
+  :defer-incrementally t
   :config
   (add-hook! 'image-mode-hook #'auto-revert-mode))
 
@@ -221,6 +230,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! affe
+  :defer-incrementally t
 
   :config
 
@@ -256,6 +266,7 @@
 ;;------------------------------------------------------------------------------ 
 
 (use-package! backup-each-save
+  :defer-incrementally t
 
   :config
 
@@ -271,17 +282,20 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! diredfl
+  :defer-incrementally t
   :after dired
   :config
   (add-to-list 'diredfl-compressed-extensions ".zst"))
 
 (use-package! dired-aux
+  :defer-incrementally t
   :after dired
   :config
   (setq dired-compress-file-default-suffix ".zst")
   (setq dired-compress-directory-default-suffix ".tar.zst"))
 
 (use-package! dired-x
+  :defer-incrementally t
   :after dired
   :config
 
@@ -301,6 +315,7 @@
                 "\\|^\\.pytest_cache\\'")))
 
 (use-package! dired
+  :defer-incrementally t
 
   :config
 
@@ -395,6 +410,7 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! dwim-shell-command
+  :defer-incrementally t
   :after dired
   :config
   (defun my/dwim-shell-command-archive-zstd ()
@@ -426,12 +442,14 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! undo-fu-session
+  :defer-incrementally t
   ;; persistent undo
   :after undo-fu
   :config
   (setq undo-fu-session-directory (concat doom-user-dir ".undo-fu")))
 
 (use-package! undo-fu
+  :defer-incrementally t
   :config
   ;; disable confusing undo-fu behavior
   ;; https://codeberg.org/ideasman42/emacs-undo-fu/issues/6
@@ -461,6 +479,7 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! savehist
+  :defer-incrementally t
   ;; save macros and other registers peristently
   :config
   (add-to-list 'savehist-additional-variables 'register-alist)
@@ -474,6 +493,7 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! tramp
+  :defer-incrementally t
 
   :load-path "~/.emacs.d/.local/straight/repos/tramp"
   :config
@@ -498,6 +518,7 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! project
+  :defer-incrementally t
 
   :config
 
@@ -514,6 +535,7 @@ If not specified it will default to xdg-open."))
   )
 
 (use-package! projectile
+  :defer-incrementally t
   :after project
   :config
 
@@ -583,6 +605,7 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! ispell
+  :defer-incrementally t
   :config
   ;; Save user defined words to the dictionary
   (setq ispell-personal-dictionary "~/.aspell.en.pws")
@@ -596,6 +619,7 @@ If not specified it will default to xdg-open."))
                              (caddr word) current-location)))))
 
 (use-package! jinx
+  :defer-incrementally t
   :config
   (global-jinx-mode t)
 
@@ -741,6 +765,7 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! eldoc
+  :defer-incrementally t
   :config
 
   ;; calling +lookup/documentation annoyingly moves the cursor to the other window
@@ -818,6 +843,7 @@ If not specified it will default to xdg-open."))
                '(vhdl-mode . ("ghdl-ls"))))
 
 (use-package! eglot-booster
+  :defer-incrementally t
   :after eglot
   :init
   (cl-remprop 'buffer-local-value 'byte-obsolete-generalized-variable)
@@ -907,6 +933,7 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! scad-mode
+  :defer-incrementally t
 
   :init
 
@@ -1329,6 +1356,7 @@ into Verilog ports."
 ;;------------------------------------------------------------------------------
 
 (use-package! python
+  :defer-incrementally t
   :init
 
   (remove-hook! 'python-mode-local-vars-hook #'lsp!)
@@ -1384,6 +1412,7 @@ into Verilog ports."
 ;;------------------------------------------------------------------------------
 
 (use-package! comint-scroll-to-bottom
+  :defer-incrementally t
 
   :init
 
@@ -1407,6 +1436,7 @@ into Verilog ports."
 ;;------------------------------------------------------------------------------ 
 
 (use-package! ielm
+  :defer-incrementally t
 
   :init
 
@@ -1436,6 +1466,7 @@ into Verilog ports."
 ;;------------------------------------------------------------------------------
 
 (use-package! elisp-mode
+  :defer-incrementally t
 
   :init
   (remove-hook! 'emacs-lisp-mode-hook #'outline-minor-mode)
@@ -1475,6 +1506,7 @@ into Verilog ports."
   (setq cider-save-file-on-load t))
 
 (use-package! flycheck-clj-kondo
+  :defer-incrementally t
   :after clojure-mode
   :defer-incrementally t)
 
@@ -1483,6 +1515,7 @@ into Verilog ports."
 ;;------------------------------------------------------------------------------
 
 (use-package! graphviz-dot-mode
+  :defer-incrementally t
 
   :config
 
@@ -1502,6 +1535,7 @@ into Verilog ports."
 ;;------------------------------------------------------------------------------
 
 (use-package! flycheck
+  :defer-incrementally t
 
   :config
 
@@ -1689,6 +1723,7 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 
 (use-package! hog
+  :defer-incrementally t
   :after (:any verilog-mode vhdl-mode)
   :config
   (pcase (system-name)
@@ -1713,6 +1748,7 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 
 (use-package! svg-tag-mode
+  :defer-incrementally t
   ;; https://github.com/rougier/svg-tag-mode
 
   :init
@@ -1731,6 +1767,7 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 
 (use-package! corfu
+  :defer-incrementally t
 
   ;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
   ;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
@@ -1862,6 +1899,7 @@ See URL `http://nagelfar.sourceforge.net/'."
                            tcl-builtin-list)))))
 
 (use-package! yasnippet
+  :defer-incrementally t
 
   :config
 
@@ -1874,6 +1912,7 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 
 (use-package! undo-tree
+  :defer-incrementally t
   :when (featurep 'undo-tree)
   :config
   (setq undo-tree-history-directory-alist '(("." . "~/.undo-tree")))
@@ -1883,11 +1922,13 @@ See URL `http://nagelfar.sourceforge.net/'."
                  'undo-tree-make-history-save-file-name))
 
 (use-package! emojify-mode
+  :defer-incrementally t
   :when (featurep 'emojify-mode)
   :config
   (setq global-emojify-mode t))
 
 (use-package! langtool
+  :defer-incrementally t
   :when (featurep 'langtool)
   :config
   (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
