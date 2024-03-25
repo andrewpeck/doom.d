@@ -14,37 +14,35 @@ Containing LEFT, and RIGHT aligned respectively."
             (list (format (format "%%%ds" available-width) ""))
             right)))
 
-(defun flycheck-mode-line-status-text (&optional status)
+(defun my-flycheck-mode-line-status-text (&optional status)
   "Get a text describing STATUS for use in the mode line.
 STATUS defaults to `flycheck-last-status-change' if omitted or
 nil."
   (concat
    (pcase (or status flycheck-last-status-change)
-     (`not-checked "  ")
-     (`no-checker "  ")                ;✗
-     (`running "  ")
-     (`errored "  ")                   ; ‼
-     (`interrupted " . ")               ;✓
-     (`suspicious " ? ")
+     (`not-checked " ")
+     (`no-checker " ")                ;✗
+     (`running " ")
+     (`errored " ")                   ; ‼
+     (`interrupted ". ")               ;✓
+     (`suspicious "? ")
      (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
                   (if (or .error .warning)
                       (concat
                        (propertize (format "%s" (or .error "0") ) 'face '(:inherit error))
-                       "﹢" (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning)))
-                    "  "))))))
+                       "·" (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning))) " "))))  " "))
 
-;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
-
-(defun my-replace-git-status (tstr)
-  (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
-         (first-char (substring tstr 0 1)))
-    (cond ((string= ":" first-char) ;;; Modified
-           (replace-regexp-in-string "^:" (propertize "󰊢 " 'face '(:inherit warning)) tstr))
-          ((string= "-" first-char) ;; No change
-           (replace-regexp-in-string "^-" (propertize "󰊢 " 'face '(:inherit match)) tstr))
-          (t tstr))))
-
-(advice-add #'vc-git-mode-line-string :filter-return #'my-replace-git-status)
+(after! vc-git
+  ;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
+  (advice-add #'vc-git-mode-line-string :filter-return
+              (lambda (tstr)
+                (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
+                       (first-char (substring tstr 0 1)))
+                  (cond ((string= ":" first-char) ;;; Modified
+                         (replace-regexp-in-string "^:" (propertize "󰊢 " 'face '(:foreground "#f90")) tstr))
+                        ((string= "-" first-char) ;; No change
+                         (replace-regexp-in-string "^-" (propertize "󰊢 " 'face '(:foreground "#080")) tstr))
+                        (t tstr))))))
 
 ;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
 (unless (functionp 'memoized-remote-host?)
@@ -52,7 +50,7 @@ nil."
   (defmemoize memoized-remote-host? (path)
     (file-remote-p path 'host)))
 
-(setq mode-line-format
+(setq-default mode-line-format
 
       '((:eval (simple-mode-line-render
 
@@ -69,19 +67,14 @@ nil."
 
                 ;; Right.
                 (list (if (or defining-kbd-macro executing-kbd-macro)
-                          (concat "MACRO(" (char-to-string evil-this-macro) ") ⁚ ") "")
+                          (concat "MACRO(" (char-to-string evil-this-macro) ") ¦ ") "")
 
-                      "L%l⸱C%c⸱%p"
+                      "L%l·C%c·%p"
 
                       (if vc-mode
-                          (concat " ⁚" vc-mode " ⁚ ") " ⁚ ")
+                          (concat " ¦" vc-mode " ¦ ") " ¦ ")
 
                       (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
                       (replace-regexp-in-string "FlyC" ""
-                                                (concat " ⁚ "
-                                                         (flycheck-mode-line-status-text)))
-                      )))))
-
-(setq-default mode-line-format
-              mode-line-format)
+                                                (concat " ¦ " (my-flycheck-mode-line-status-text))) " ")))))
