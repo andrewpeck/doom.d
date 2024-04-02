@@ -1597,9 +1597,6 @@ See URL `http://nagelfar.sourceforge.net/'."
 
   ;; (add-to-list 'flycheck-checkers 'proselint)
   (setq-default flycheck-disabled-checkers '(proselint))
-  ;; (add-hook! 'org-mode-hook
-  ;;   (lambda ()
-  ;;     (flycheck-disable-checker 'proselint)))
 
   (flycheck-define-checker
       hog-src-checker
