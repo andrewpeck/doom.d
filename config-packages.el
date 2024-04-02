@@ -221,7 +221,6 @@
     (pdf-rotate "-")))
 
 (use-package! image-mode
-  :defer-incrementally t
   :config
   (add-hook! 'image-mode-hook #'auto-revert-mode))
 
@@ -230,10 +229,8 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! affe
-  :defer-incrementally t
 
   :config
-
   ;; (setq affe-find-command "rg --color=never --files")
   (setq affe-find-command "fd --color=never -L")
 
@@ -266,8 +263,6 @@
 ;;------------------------------------------------------------------------------ 
 
 (use-package! backup-each-save
-  :defer-incrementally t
-
   :config
 
   (setq backup-each-save-mirror-location
@@ -897,14 +892,10 @@ If not specified it will default to xdg-open."))
 
 (use-package! browse-at-remote
 
-  :defer-incrementally t
-
   :config
 
-  (add-to-list 'browse-at-remote-remote-type-regexps
-               '(:host "^gitlab\\.cern.ch$" :type "gitlab"))
-  (add-to-list 'browse-at-remote-remote-type-regexps
-               '(:host "^gitlab\\.psiquantum\\.com$" :type "gitlab")))
+  (add-to-list 'browse-at-remote-remote-type-regexps '(:host "^gitlab\\.cern.ch$" :type "gitlab"))
+  )
 
 (use-package! forge
 
@@ -1131,7 +1122,7 @@ If QUIET is non-nil, do not print messages showing the progress of line-up."
                     (indent-line-to ind)
 
                     (forward-line 1))
-                   (t           ; Must be comment, white space or syntax error
+                   (t             ; Must be comment, white space or syntax error
                     (goto-char e)
                     (forward-line 1))))
                 ;; Align comments if enabled
@@ -1404,14 +1395,15 @@ into Verilog ports."
 ;; Comint
 ;;------------------------------------------------------------------------------
 
-(use-package! comint-scroll-to-bottom
-  :defer-incrementally t
+(use-package! comint
 
   :init
 
   (add-hook 'comint-mode-hook 'comint-add-scroll-to-bottom)
 
   :config
+
+  (require 'comint-scroll-to-bottom)
 
   (add-hook 'inferior-python-mode-hook
             (lambda ()
@@ -1741,10 +1733,17 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 
 (use-package! svg-tag-mode
-  :defer-incrementally t
+  :after org-mode
   ;; https://github.com/rougier/svg-tag-mode
 
   :init
+
+  (setq svg-tag-tags
+        '(("NOTE" . ((lambda (tag) (svg-tag-make :face 'font-lock-string-face "TODO"))))
+          ("TODO" . ((lambda (tag) (svg-tag-make :face 'org-warning "TODO"))))
+          ("FIXME" . ((lambda (tag) (svg-tag-make :face 'error "FIXME"))))))
+
+  :config
 
   ;; Replaces any occurrence of :Xxx: with a dynamic SVG tag displaying Xxx ;;
   (add-hook 'org-mode-hook
@@ -1752,8 +1751,7 @@ See URL `http://nagelfar.sourceforge.net/'."
               (setq-local svg-tag-tags '(("[[:space:]]\\(:[A-z:]+:\\)" .
                                           ((lambda (tag)
                                              (svg-tag-make tag :beg 1 :end -1))))))
-              (svg-tag-mode t)))
-  )
+              (svg-tag-mode t))))
 
 ;;------------------------------------------------------------------------------
 ;; Cape
