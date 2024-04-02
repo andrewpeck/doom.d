@@ -1387,7 +1387,7 @@ into Verilog ports."
   (defun python-sort-imports ()
     "Sort Python imports in the current buffer."
     (interactive)
-    (if (python--do-isort (string-join py-isort-options " "))
+    (if (apply #'python--do-isort py-isort-options)
         (message "Sorted imports")
       (message "(No changes in Python imports needed)"))))
 
