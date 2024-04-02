@@ -987,6 +987,31 @@ If not specified it will default to xdg-open."))
 
   :config
 
+  (require 'verilog-port-copy)
+
+  (defun yosys-make-schematic ()
+    "Make a yosys schematic from the module at point.
+
+TODO: need to process dependencies.
+TODO: use something less intrusive and focus stealing than shell-command (e.g. comint)
+TODO: catch errors, e.g. if read-module-name fails
+
+"
+
+    (interactive)
+    (let* ((module (verilog-read-module-name))
+           (sources (buffer-file-name))
+           (cmd
+            (concat "yosys -p " "\"plugin -i systemverilog; read_systemverilog "
+                    sources " ; "
+                    "proc; stat; synth -top "
+                    module ";"
+                    " ; write_json -compat-int netlist.json; ltp; stat\""
+                    (format
+                     "&& netlistsvg netlist.json -o %s.svg && xdg-open %s.svg" module module))))
+      (shell-command cmd)))
+
+
   (defun verilog-pretty-expr (&optional quiet)
     "Line up expressions around point.
 If QUIET is non-nil, do not print messages showing the progress of line-up."
