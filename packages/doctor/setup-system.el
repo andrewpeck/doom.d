@@ -246,6 +246,7 @@
   (setup--make-dotfile-symlink "fdignore" "~/.fdignore")
   (setup--make-dotfile-symlink "mutt" "~/.mutt")
   (setup--make-dotfile-symlink "mailcap" "~/.mailcap")
+  (setup--make-dotfile-symlink "pycodestyle" "~/.config/pycodestyle")
 
   (setup--make-symlink "~/Sync/emacs-backups" "~/emacs-backups")
 
