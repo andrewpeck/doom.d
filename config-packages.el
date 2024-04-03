@@ -10,10 +10,18 @@
   :config
   (map! :leader :prefix "e" :desc "Poporg Edit Comment"  "c"  #'poporg-dwim))
 
+;;------------------------------------------------------------------------------
+;; Emacs Everywhere
+;;------------------------------------------------------------------------------
+
 (use-package! emacs-everywhere
   :defer-incrementally t
   :config
   (define-key emacs-everywhere-mode-map "\C-c\C-c" #'emacs-everywhere-finish))
+
+;;------------------------------------------------------------------------------
+;; Jupyter Code Cells
+;;------------------------------------------------------------------------------
 
 (use-package! code-cells
   :defer-incrementally t
