@@ -635,7 +635,10 @@ If not specified it will default to xdg-open."))
 (use-package! jinx
   :defer-incrementally t
   :config
-  (global-jinx-mode t)
+  (global-jinx-mode nil)
+  (add-hook 'org-mode-hook (lambda () (jinx-mode 1)))
+  (add-hook 'tex-mode-hook (lambda () (jinx-mode 1)))
+  (add-hook 'markdown-mode-hook (lambda () (jinx-mode 1)))
 
   (global-set-key [remap ispell-word] #'jinx-correct-word))
 
