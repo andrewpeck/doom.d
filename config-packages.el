@@ -1792,6 +1792,7 @@ See URL `http://nagelfar.sourceforge.net/'."
   ;; Replaces any occurrence of :Xxx: with a dynamic SVG tag displaying Xxx ;;
   (add-hook 'org-mode-hook
             (defun hook/org-configure-svg-tags ()
+              (require 'svg-tag-mode)
               (setq-local svg-tag-tags '(("[[:space:]]\\(:[A-z:]+:\\)" .
                                           ((lambda (tag)
                                              (svg-tag-make tag :beg 1 :end -1))))))
