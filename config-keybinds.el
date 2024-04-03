@@ -423,8 +423,6 @@ between the two most recently open buffers."
   (map! :leader :prefix "r" :desc "Replace Query"        "q"  #'query-replace)
   (map! :leader :prefix "r" :desc "Replace Globally"     "g"  #'replace-string)
 
-  (map! :leader :prefix "e" :desc "Poporg Edit Comment"  "c"  #'poporg-dwim)
-
   (map! :leader :prefix "g" :desc "GPT Prompt"           "pt" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)

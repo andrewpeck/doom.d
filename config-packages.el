@@ -1,6 +1,15 @@
 ;;; config-packages.el -*- lexical-binding: t; -*-
 
 
+;;------------------------------------------------------------------------------
+;; Poporg
+;;------------------------------------------------------------------------------
+
+(use-package! poporg
+  :after org
+  :config
+  (map! :leader :prefix "e" :desc "Poporg Edit Comment"  "c"  #'poporg-dwim))
+
 (use-package! emacs-everywhere
   :defer-incrementally t
   :config
