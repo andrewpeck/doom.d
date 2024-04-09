@@ -241,8 +241,8 @@ between the two most recently open buffers."
     (kbd ")") #'dired-git-info-mode)
 
   ;; Org
-  (evil-define-key nil org-mode-map
-    (kbd "TAB") #'org-cycle)
+  (evil-define-key '(insert) org-mode-map
+    (kbd "<tab>") #'org-cycle)
 
   ;; normal evil-org-end-of-line is broken
   ;; https://github.com/Somelauw/evil-org-mode/issues/50
