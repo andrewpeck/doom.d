@@ -14,7 +14,8 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! code-cells
-  :defer-incrementally t
+  :defer t
+  :mode ("\\.ipynb\\'")
   :config
   (map! :localleader
         :map code-cells-mode-map
@@ -931,7 +932,7 @@ If not specified it will default to xdg-open."))
 
 (use-package! verilog-mode
 
-  :defer-incrementally t
+  :mode ("\\.v\\'" "\\.sv\\'" "\\.svh\\'")
 
   :init 
 

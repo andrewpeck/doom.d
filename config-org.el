@@ -13,7 +13,8 @@
 ;;     0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
 
 (use-package! org
-  :defer-incrementally t
+  :defer t
+  :mode ("\\.org\\'")
   :init
 
   (add-hook 'org-mode-hook (defun hook/org-set-user-name () (setq-local user-full-name "A.P.")))
