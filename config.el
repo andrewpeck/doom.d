@@ -59,11 +59,11 @@
 (load!! "config-org")
 (load!! "config-packages")
 (load!! "config-random")
-(load!! "lisp/gerb-view")
-(load!! "lisp/plotting")
-(load!! "lisp/regulator")
-(load!! "lisp/tracking")
 (load!! "passwords")
+(load!! "psiq")
+;; (load!! "lisp/plotting")
+;; (load!! "lisp/regulator")
+;; (load!! "lisp/tracking")
 ;; end:sort
 
 (make-variable-buffer-local 'after-save-hook)
