@@ -49,9 +49,7 @@
 
 (use-package! dash-docs
   :defer-incrementally t
-
   :config
-
   (defvar dash-docs-my-docsets
     '("Tcl" "Python_3" "C" "C++" "Bash" "Clojure")
     "Docsets to be installed via `dash-docs-install-my-docsets'")
@@ -86,7 +84,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! delight
-  :defer-incrementally t
+  :demand t
   :config
   (delight '+org-pretty-mode         " 🌻"          "org")
   (delight 'better-jumper-local-mode ""             "better-jumper")
@@ -155,12 +153,8 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! copyright
-  :defer-incrementally t
 
-  :config
-
-  (setq copyright-names-regexp "Andrew Peck")
-  (setq copyright-year-ranges t)
+  :init
 
   (add-hook! 'before-save-hook
     (defun hook/update-copyright ()
@@ -171,14 +165,20 @@
                    (progn (goto-char (point-min))
                           (copyright-re-search copyright-names-regexp nil t)))
           (copyright-update nil t)
-          (copyright-fix-years))))))
+          (copyright-fix-years)))))
+
+  :config
+
+  (setq copyright-names-regexp "Andrew Peck")
+  (setq copyright-year-ranges t)
+
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Wavedrom
 ;;------------------------------------------------------------------------------
 
 (use-package! ob-wavedrom
-  :defer-incrementally t
   :config
   (setq ob-wavedrom-cli-path "wavedrom"))
 
@@ -187,7 +187,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! apheleia
-  :defer-incrementally t
   :config
 
   ;; (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
@@ -207,8 +206,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! pdf-view
-
-  :defer-incrementally t
 
   :init
 
@@ -296,20 +293,17 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! diredfl
-  :defer-incrementally t
   :after dired
   :config
   (add-to-list 'diredfl-compressed-extensions ".zst"))
 
 (use-package! dired-aux
-  :defer-incrementally t
   :after dired
   :config
   (setq dired-compress-file-default-suffix ".zst")
   (setq dired-compress-directory-default-suffix ".tar.zst"))
 
 (use-package! dired-x
-  :defer-incrementally t
   :after dired
   :config
 
@@ -329,7 +323,6 @@
                 "\\|^\\.pytest_cache\\'")))
 
 (use-package! dired
-  :defer-incrementally t
 
   :config
 
@@ -424,7 +417,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! dwim-shell-command
-  :defer-incrementally t
   :after dired
   :config
   (defun my/dwim-shell-command-archive-zstd ()
@@ -456,14 +448,12 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! undo-fu-session
-  :defer-incrementally t
   ;; persistent undo
   :after undo-fu
   :config
   (setq undo-fu-session-directory (concat doom-user-dir ".undo-fu")))
 
 (use-package! undo-fu
-  :defer-incrementally t
   :config
   ;; disable confusing undo-fu behavior
   ;; https://codeberg.org/ideasman42/emacs-undo-fu/issues/6
@@ -474,7 +464,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! ws-butler
-  :defer-incrementally t
   :config
   (setq ws-butler-global-exempt-modes
         '(special-mode comint-mode term-mode eshell-mode)))
@@ -484,7 +473,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! hl-todo
-  :defer-incrementally t
   :config
   (setq global-hl-todo-mode t))
 
@@ -493,7 +481,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! savehist
-  :defer-incrementally t
   ;; save macros and other registers peristently
   :config
   (add-to-list 'savehist-additional-variables 'register-alist)
@@ -507,7 +494,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! tramp
-  :defer-incrementally t
 
   :load-path "~/.emacs.d/.local/straight/repos/tramp"
   :config
@@ -532,7 +518,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! project
-  :defer-incrementally t
 
   :config
 
@@ -549,7 +534,6 @@ If not specified it will default to xdg-open."))
   )
 
 (use-package! projectile
-  :defer-incrementally t
   :after project
   :config
 
@@ -607,7 +591,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! yasnippet
-  :defer-incrementally t
   :config
   ;; Don't add newlines to snippet endings
   (setq yas-also-auto-indent-first-line t)
@@ -619,7 +602,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! ispell
-  :defer-incrementally t
   :config
   ;; Save user defined words to the dictionary
   (setq ispell-personal-dictionary "~/.aspell.en.pws")
@@ -633,7 +615,6 @@ If not specified it will default to xdg-open."))
                              (caddr word) current-location)))))
 
 (use-package! jinx
-  :defer-incrementally t
   :config
   (global-jinx-mode nil)
   (add-hook 'org-mode-hook (lambda () (jinx-mode 1)))
@@ -649,7 +630,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! tex-fold
-  :defer-incrementally t
   :config
   ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
   (setq TeX-fold-macro-spec-list
@@ -660,7 +640,6 @@ If not specified it will default to xdg-open."))
                   ("{1}" ("heading")))))) ; used in resume
 
 (use-package! tex
-  :defer-incrementally t
   :config
 
   (setq reftex-toc-split-windows-horizontally t
@@ -759,8 +738,6 @@ If not specified it will default to xdg-open."))
 
 (use-package! elfeed
 
-  :defer-incrementally t
-
   :config
 
   ;; Run `elfeed-update' every 8 hours
@@ -782,7 +759,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! eldoc
-  :defer-incrementally t
   :config
 
   ;; calling +lookup/documentation annoyingly moves the cursor to the other window
@@ -802,8 +778,6 @@ If not specified it will default to xdg-open."))
       (setq-local eldoc-echo-area-use-multiline-p 0))))
 
 (use-package! eglot
-
-  :defer-incrementally t
 
   :init
 
@@ -860,7 +834,6 @@ If not specified it will default to xdg-open."))
                '(vhdl-mode . ("ghdl-ls"))))
 
 (use-package! eglot-booster
-  :defer-incrementally t
   :after eglot
   :init
   (cl-remprop 'buffer-local-value 'byte-obsolete-generalized-variable)
@@ -874,7 +847,6 @@ If not specified it will default to xdg-open."))
 
 (use-package! magit
 
-  :defer-incrementally t
 
   :config
 
@@ -913,15 +885,13 @@ If not specified it will default to xdg-open."))
       '("U" magit-submodule-update-all))))
 
 (use-package! browse-at-remote
-
+  :demand t
   :config
-
-  (add-to-list 'browse-at-remote-remote-type-regexps '(:host "^gitlab\\.cern.ch$" :type "gitlab"))
-  )
+  (add-to-list 'browse-at-remote-remote-type-regexps '(:host "^gitlab\\.cern.ch$" :type "gitlab")))
 
 (use-package! forge
 
-  :defer-incrementally t
+  :after magit
 
   :config
 
@@ -939,7 +909,6 @@ If not specified it will default to xdg-open."))
 ;;------------------------------------------------------------------------------
 
 (use-package! scad-mode
-  :defer-incrementally t
 
   :init
 
@@ -1233,8 +1202,6 @@ into Verilog ports."
 ;;------------------------------------------------------------------------------
 
 (use-package! vhdl-mode
-
-  :defer-incrementally t
 
   :config
 

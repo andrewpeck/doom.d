@@ -16,12 +16,14 @@
 ;; Packages & Loads
 ;;------------------------------------------------------------------------------
 
+(setq use-package-always-defer t)
+
 (let ((default-directory (expand-file-name "packages" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
 ;; start:sort
-(use-package! gpt               :defer-incrementally t)
-(use-package! setup-system      :defer-incrementally t)
+(use-package! gpt)
+(use-package! setup-system)
 ;; end:sort
 
 (defun load!! (path) (load! path doom-user-dir t))
