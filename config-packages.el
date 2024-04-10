@@ -1832,11 +1832,8 @@ See URL `http://nagelfar.sourceforge.net/'."
       (setq-local completion-at-point-functions
                   (list (cape-capf-super
                          'cape-dabbrev
-                         ;; 'complete-tag
                          'cape-keyword
-                         'yasnippet-capf
-                         ;; (cape-company-to-capf #'company-yasnippet)
-                         )))))
+                         'yasnippet-capf)))))
 
   (add-hook! 'vhdl-mode-hook
     (defun hook/set-vhdl-capf ()
@@ -1844,23 +1841,19 @@ See URL `http://nagelfar.sourceforge.net/'."
                   (list (cape-capf-super
                          'cape-dabbrev
                          'cape-keyword
-                         'yasnippet-capf
-                         ;; (cape-company-to-capf #'company-yasnippet)
-                         )))))
+                         'yasnippet-capf)))))
 
   (dolist (mode '(python-ts-mode-hook python-mode-hook))
-    (add-hook! mode
-      (setq-local completion-at-point-functions
-                  (list
-                   (cape-capf-super
-                    'cape-keyword
-                    'cape-file
-                    'eglot-completion-at-point
-                    'cape-capf-buster
-                    'cape-dabbrev
-                    'yasnippet-capf
-                    ;; (cape-company-to-capf #'company-yasnippet)
-                         )))))
+    (add-hook mode
+      (defun hook/set-capf ()
+          (setq-local completion-at-point-functions
+                      (list
+                       (cape-capf-super
+                        'eglot-completion-at-point
+                        'cape-keyword
+                        'cape-file
+                        'cape-dabbrev
+                        'yasnippet-capf))))))
 
   (add-hook! 'tcl-mode-hook
     (setq-local completion-at-point-functions
@@ -1868,9 +1861,7 @@ See URL `http://nagelfar.sourceforge.net/'."
                        'cape-dabbrev
                        'cape-keyword
                        'cape-file
-                       'yasnippet-capf
-                       ;; (cape-company-to-capf #'company-yasnippet)
-                       ))))
+                       'yasnippet-capf))))
 
   (add-hook! 'tcl-mode-hook
     (with-eval-after-load 'cape-keyword
