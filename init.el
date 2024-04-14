@@ -14,6 +14,8 @@
 ;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+(setenv "LSP_USE_PLISTS" "true")
+
 ;; Start emacs in full screen by default
 (add-to-list 'default-frame-alist
              '(fullscreen . maximized))
@@ -100,8 +102,8 @@
  ;; helps you navigate your code and documentation
  (lookup +dictionary +docsets)
 
- (lsp +eglot)
- (magit)             ; a git porcelain for Emacs
+ (lsp)
+ (magit +forge)      ; a git porcelain for Emacs
  make                ; run make tasks from Emacs
  pdf                 ; pdf enhancements
  tmux                ; an API for interacting with tmux
