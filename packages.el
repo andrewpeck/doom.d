@@ -27,7 +27,6 @@
 (package! dired-filter            :pin "a01c126c3b1068655509487c76971895f5459d09" :recipe (:host github :repo "Fuco1/dired-hacks"))
 (package! dired-git-info          :pin "1bfcdf139181afc9034a40dd0640e53d95b12f5f" :recipe (:host github :repo "tuh8888/dired-git-info"))
 (package! dwim-shell-command      :pin "3dc879fa4c473d1f7c0929ebb0cebcbe729553cc" :recipe (:host github :repo "xenodium/dwim-shell-command"))
-(package! eglot-booster           :pin "e19dd7ea81bada84c66e8bdd121408d9c0761fe6" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 (package! elfeed                  :pin "5c05a1eab37bc113ecb158a4d57fe05352fa2c6a" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
@@ -73,6 +72,7 @@
 (package! yasnippet-capf          :pin "9043f8275176a8f198ce8e81fadab1870fa165bb" :recipe (:host github :repo "elken/yasnippet-capf") )
 ;; end:sort
 
+;; (package! eglot-booster           :pin "e19dd7ea81bada84c66e8bdd121408d9c0761fe6" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 ;; (package! tabular :recipe (:host github :repo "andrewpeck/tabular"))
 ;; (package! org-modern            :pin "240026f0bef6dabff1e86ab092a678beddd301c3" :recipe (:host github :repo "minad/org-modern"))
 ;; (package! verilog-ext :recipe (:host github :repo "gmlarumbe/verilog-ext")) ;; brings in too many dependencies... ag aphelia lsp outorg outshine rg :(
