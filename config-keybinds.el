@@ -426,7 +426,6 @@ between the two most recently open buffers."
   (map! :leader :prefix "g" :desc "GPT Prompt"           "pt" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
-  (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile)
   (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo)
   (map! :leader :prefix "y" :desc "Org Link Copy"        "y"  #'org-link-copy)
   (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)

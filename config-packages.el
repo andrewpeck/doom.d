@@ -145,6 +145,7 @@
 
 (use-package! copyright
 
+  :demand t
   :init
 
   (add-hook! 'before-save-hook
@@ -152,6 +153,8 @@
       "Automatically update copyright on save."
 
       (save-excursion
+        (setq copyright-names-regexp "Andrew Peck")
+
         (when (and copyright-names-regexp
                    (progn (goto-char (point-min))
                           (copyright-re-search copyright-names-regexp nil t)))
@@ -160,9 +163,7 @@
 
   :config
 
-  (setq copyright-names-regexp "Andrew Peck")
   (setq copyright-year-ranges t)
-
   )
 
 ;;------------------------------------------------------------------------------
@@ -235,6 +236,7 @@
 
 (use-package! affe
 
+  :demand t
   :config
   ;; (setq affe-find-command "rg --color=never --files")
   (setq affe-find-command (concat (or (executable-find "fd")
@@ -250,6 +252,7 @@
 
   ;; Affe
   (after! evil-maps
+    (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile)
     (evil-define-key '(motion normal) 'global
       (kbd "C-o")   #'affe-find-home
       (kbd "C-y")   #'affe-find-work
@@ -377,9 +380,9 @@
   (advice-add 'dired-find-file
               :before-until
               (lambda () (when (and (member (file-name-extension (dired-get-file-for-visit))
-                                          auto-external-handle-extensions)
-                                  (not (file-remote-p (dired-get-file-for-visit))))
-                             (ap/dired-external-open))))
+                                            auto-external-handle-extensions)
+                                    (not (file-remote-p (dired-get-file-for-visit))))
+                           (ap/dired-external-open))))
 
   (defun ap/external-open (file)
     (let* ((ext-handler (cdr (assoc (file-name-extension file) external-program-handlers)))
@@ -1002,7 +1005,7 @@ If not specified it will default to xdg-open."))
 
   :mode ("\\.v\\'" "\\.sv\\'" "\\.svh\\'")
 
-  :init 
+  :init
 
   (add-hook 'verilog-mode-hook
             (defun hook/verilog-beautify-symbols-hook ()
@@ -1346,7 +1349,7 @@ into Verilog ports."
 ;; Markdown
 ;;------------------------------------------------------------------------------
 
-(use-package! markdown 
+(use-package! markdown
 
   :defer-incrementally t
 
@@ -1389,14 +1392,14 @@ into Verilog ports."
 
   :defer-incrementally t
 
-  :init 
+  :init
 
   (add-hook! 'nxml-mode-hook
     (defun hook/disable-visual-fill-column-mode ()
       (visual-fill-column-mode -1)))
 
   :config
-  
+
   (setq nxml-child-indent 2
         nxml-attribute-indent 2)
 
@@ -1444,7 +1447,7 @@ into Verilog ports."
                   (bound-and-true-p lsp--buffer-deferred)
                   (not (executable-find python-shell-interpreter t)))
         (anaconda-mode +1))))
-  
+
   :config
 
   (advice-add 'run-python :around
@@ -1491,7 +1494,7 @@ into Verilog ports."
 
 ;;------------------------------------------------------------------------------
 ;; ielm
-;;------------------------------------------------------------------------------ 
+;;------------------------------------------------------------------------------
 
 (use-package! ielm
   :defer-incrementally t
@@ -1779,6 +1782,7 @@ See URL `http://nagelfar.sourceforge.net/'."
 
 (use-package! hog
   :defer-incrementally t
+  :mode ("\\.src\\'" "\\.lst\\'"  "\\.lst\\'")
   :after (:any verilog-mode vhdl-mode)
   :config
   (pcase (system-name)
@@ -1913,15 +1917,15 @@ See URL `http://nagelfar.sourceforge.net/'."
 
   (dolist (mode '(python-ts-mode-hook python-mode-hook))
     (add-hook mode
-      (defun hook/set-capf ()
-          (setq-local completion-at-point-functions
-                      (list
-                       (cape-capf-super
-                        'eglot-completion-at-point
-                        'cape-keyword
-                        'cape-file
-                        'cape-dabbrev
-                        'yasnippet-capf))))))
+              (defun hook/set-capf ()
+                (setq-local completion-at-point-functions
+                            (list
+                             (cape-capf-super
+                              'eglot-completion-at-point
+                              'cape-keyword
+                              'cape-file
+                              'cape-dabbrev
+                              'yasnippet-capf))))))
 
   (add-hook! 'tcl-mode-hook
     (setq-local completion-at-point-functions
