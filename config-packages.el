@@ -759,16 +759,13 @@ If not specified it will default to xdg-open."))
   ;;
   ;;------------------------------------------------------------------------------
 
-  (add-to-list 'lsp-disabled-clients 'svlangserver)
-  (add-to-list 'lsp-disabled-clients 'lsp-verilog-verible)
-  ;; (setq lsp-vhdl-server-path "~/.local/bin/hdl_checker") ; only needed if hdl_checker is not already on the PATH
-  (custom-set-variables
-   '(lsp-vhdl-server 'hdl-checker)
-   '(lsp-verilog-server 'hdl-checker)
-   )
-(add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog"))
   (use-package lsp-mode
     :config
+    ;; (setq lsp-vhdl-server-path "~/.local/bin/hdl_checker") ; only needed if hdl_checker is not already on the PATH
+    (setq lsp-vhdl-server 'hdl-checker)
+    (add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog"))
+    (add-to-list 'lsp-disabled-clients 'svlangserver)
+    (add-to-list 'lsp-disabled-clients 'lsp-verilog-verible)
     (add-hook 'verilog-mode-hook 'lsp)
     (add-hook 'vhdl-mode-hook 'lsp))
 
