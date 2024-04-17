@@ -3,11 +3,15 @@
 ;; Disabled packages
 (package! hl-line   :disable t)
 (package! diredfl   :disable t)
+(package! haml-mode  :disable t)
 (package! lsp       :disable t)
 (package! powerline :disable t)
 (package! popwin    :disable t)
 (package! ivy       :disable t)
 (package! swiper    :disable t)
+(package! org-yt    :disable t)
+(package! orgit-forge :disable t)
+(package! org-pdftools :disable t)
 
 ;; Misc packages
 ;; start:sort
