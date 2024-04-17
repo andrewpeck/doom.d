@@ -96,7 +96,7 @@
  ;;debugger          ; FIXME stepping through code, to help you add bugs
  (docker +lsp)
  ;; ein
- tree-sitter
+ ;; tree-sitter
  (eval +overlay)     ; run code, run (also, repls)
 
  ;; helps you navigate your code and documentation
@@ -121,13 +121,16 @@
  ;;assembly           ; assembly for fun or debugging
 
  ;; C/C++/Obj-C madness
- (cc +lsp +tree-sitter)
+ (cc +lsp ;; +tree-sitter
+     )
 
  ;; java with a lisp
- (clojure +lsp +tree-sitter)
+ (clojure +lsp ;; +tree-sitter
+          )
 
  ;; json, uhg
- (json +lsp +tree-sitter)
+ (json +lsp ;; +tree-sitter
+       )
 
  ;; if you've seen one lisp, you've seen them all
  ;; common-lisp
@@ -193,19 +196,22 @@
       )
 
  ;; perl's insecure younger brother
- (php +lsp +tree-sitter)
+ (php +lsp ;; +tree-sitter
+      )
 
  ;;plantuml          ; diagrams for confusing people more
  ;;purescript        ; javascript, but functional
 
  ;; beautiful is better than ugly
- (python +pyright +lsp +pyenv +tree-sitter)
+ (python +pyright +lsp +pyenv ;; +tree-sitter
+         )
 
  ;; a DSL for DSLs
  ;; (racket +lsp +xp)
 
  ;; Fe2O3.unwrap().unwrap().unwrap().unwrap()
- (rust +tree-sitter)
+ (rust ;; +tree-sitter
+  )
 
  ;; a fully conniving family of lisps
  ;;scheme
@@ -214,10 +220,12 @@
  (sh +lsp +treesitter +fish)
 
  ;; the tubes
- (web +lsp +tree-sitter)
+ (web +lsp ;; +tree-sitter
+      )
 
  ;; JSON, but readable
- (yaml +lsp +tree-sitter)
+ (yaml +lsp ;; +tree-sitter
+       )
 
  :email
 
