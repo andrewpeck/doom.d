@@ -40,8 +40,8 @@
 (package! graphviz-dot-mode       :pin "8ff793b13707cb511875f56e167ff7f980a31136")
 (package! hdl_deps                :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
 (package! hog-emacs               :pin "da58d254eb1f45a6ab35544448c93da2e3d7d1ed" :recipe (:host github :repo "andrewpeck/hog-emacs"))
-(package! jinx                    :pin "f4abad42cd0bdcff62ac325a644cb8faad186a4b" :recipe (:host github :repo "minad/jinx")) ;problems in snap?
-(package! logview                 :pin "8eb158ef7af412b0336a10d0273a292adddd4eb0")
+(package! jinx                    :pin "77cac7f240f45d6c4836e844bd68151c7f863298" :recipe (:host github :repo "minad/jinx")) ;problems in snap?
+(package! logview                 :pin "0a266c1c7f356085fa1e42886848168755fc784e")
 (package! magit-todos             :pin "332ce763f7336ea356964b92723678aa1ed4640f")
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
 (package! nerd-icons.el           :pin "fb395120e9de33b276d16caaccaefd98d4340b92" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
