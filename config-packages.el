@@ -755,10 +755,6 @@ If not specified it will default to xdg-open."))
 (when (and (modulep! :tools lsp)
            (not (modulep! :tools lsp +eglot)))
 
-  ;;------------------------------------------------------------------------------
-  ;;
-  ;;------------------------------------------------------------------------------
-
   (use-package lsp-mode
     :config
     ;; (setq lsp-vhdl-server-path "~/.local/bin/hdl_checker") ; only needed if hdl_checker is not already on the PATH

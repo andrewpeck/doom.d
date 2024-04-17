@@ -210,14 +210,6 @@ FIXME: does not work when the region is not rectangular at the end of lines, e.g
   (with-editor-async-shell-command "crontab -e"))
 
 ;;---------------------------------------------------------------------------------
-;; Mixed Pitch Mode
-;;---------------------------------------------------------------------------------
-
-;; (add-hook 'org-mode-hook      #'mixed-pitch-mode)
-;; (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
-;; (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
-
-;;---------------------------------------------------------------------------------
 ;; Line wrapping
 ;;---------------------------------------------------------------------------------
 
