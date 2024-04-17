@@ -1,6 +1,7 @@
 *.elc
 .undo-fu/*
 __default.el
+flycheck_*.el
 .flycheck*
 .DS_Store
 custom.el
@@ -10,3 +11,4 @@ tmp/
 secrets.el
 passwords.el
 undo
+*.egg-info/
