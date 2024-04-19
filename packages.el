@@ -39,7 +39,7 @@
 (package! fzf                     :pin "3a55b983921c620fb5a2cc811f42aa4daaad8266" :recipe (:host github :repo "bling/fzf.el"))
 (package! graphviz-dot-mode       :pin "8ff793b13707cb511875f56e167ff7f980a31136")
 (package! hdl_deps                :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
-(package! hog-emacs               :pin "ebf5211ddcb06950d7661a8c18fa83163868fea7" :recipe (:host github :repo "andrewpeck/hog-emacs"))
+(package! hog-emacs               :pin "4b09448d50cae82166fd3611b90c620c45c4e7a5" :recipe (:host github :repo "andrewpeck/hog-emacs"))
 (package! jinx                    :pin "77cac7f240f45d6c4836e844bd68151c7f863298" :recipe (:host github :repo "minad/jinx")) ;problems in snap?
 (package! logview                 :pin "0a266c1c7f356085fa1e42886848168755fc784e")
 (package! magit-todos             :pin "332ce763f7336ea356964b92723678aa1ed4640f")
