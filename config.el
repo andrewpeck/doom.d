@@ -66,9 +66,6 @@
 ;; (load!! "lisp/tracking")
 ;; end:sort
 
-(make-variable-buffer-local 'after-save-hook)
-(make-variable-buffer-local 'write-contents-functions)
-
 (defun byte-compile-config ()
   (interactive)
   (byte-recompile-directory (expand-file-name "~/.doom.d") 0))
@@ -84,7 +81,6 @@
 (add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; cpp mode for arduino files
 (add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; yaml mode for cheby
 (add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
-
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)
