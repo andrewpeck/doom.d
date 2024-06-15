@@ -364,13 +364,13 @@
       "Hide details by default in dired to reduce line noise."
       (dired-hide-details-mode 1)))
 
-  (add-hook! 'dired-mode-hook
-    (defun hook/enable-dired-git-filter ()
-      ""
-      (unless (file-remote-p default-directory)
-        (when (locate-dominating-file "." ".git")
-          (dired-filter-mode)
-          (dired-filter-by-git-ignored)))))
+  ;; (add-hook! 'dired-mode-hook
+  ;;   (defun hook/enable-dired-git-filter ()
+  ;;     ""
+  ;;     (unless (file-remote-p default-directory)
+  ;;       (when (locate-dominating-file "." ".git")
+  ;;         (dired-filter-mode)
+  ;;         (dired-filter-by-git-ignored)))))
 
   (add-hook! 'dired-after-readin-hook
     (defun hook/dired-git-info-mode ()
