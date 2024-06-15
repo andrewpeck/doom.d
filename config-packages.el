@@ -1,4 +1,4 @@
-;;; config-packages.el -*- lexical-binding: t; -*-
+;; config-packages.el -*- lexical-binding: t; -*-
 
 ;;------------------------------------------------------------------------------
 ;; Emacs Everywhere
