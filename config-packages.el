@@ -636,6 +636,8 @@ If not specified it will default to xdg-open."))
 (use-package! tex
   :config
 
+  (setq-default TeX-master nil) ; Query for master file.
+
   (setq reftex-toc-split-windows-horizontally t
         reftex-toc-split-windows-fraction 0.15
         TeX-master nil
