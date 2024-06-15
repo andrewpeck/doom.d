@@ -407,6 +407,9 @@ between the two most recently open buffers."
                  "=" #'verilog-pretty-expr))
 
 
+  (map! :leader :prefix "n" :desc "Narrow to Region"  "r" #'narrow-to-region)
+  (map! :leader :prefix "n" :desc "Widen (Unnarrow)"  "w" #'widen)
+
   (map! :leader :prefix "s" :desc "SVG Tag Mode"         "vg" #'svg-tag-mode)
   (map! :localleader :map org-mode-map :prefix "m" :desc "Latexify"             "lp" #'org-latex-preview-all :map org-mode-map)
   (map! :localleader :map org-mode-map :prefix "m" :desc "De-latexify"          "lP" #'org-latex-preview-clear :map org-mode-map)
