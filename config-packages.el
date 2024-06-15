@@ -643,16 +643,40 @@ If not specified it will default to xdg-open."))
 
   (setq-default TeX-master nil) ; Query for master file.
 
-  (setq reftex-toc-split-windows-horizontally t
-        reftex-toc-split-windows-fraction 0.15
+  (evil-define-key '(motion normal visual) reftex-toc-mode-map
+    (kbd "<") #'reftex-toc-promote)
+  (evil-define-key '(motion normal visual) reftex-toc-mode-map
+    (kbd ">") #'reftex-toc-demote)
+  (evil-define-key '(motion normal visual) reftex-toc-mode-map
+    (kbd "r") #'reftex-toc-Rescan)
+  (evil-define-key '(motion normal visual) reftex-toc-mode-map
+    (kbd "L") #'reftex-toc-set-max-level)
+
+  (map! :map LaTex-mode-map
+        :localleader
+        :desc "Toggle TeX Folding" "b" #'TeX-fold-mode)
+
+  (defun reftex-toc-set-max-level ()
+    (interactive)
+    (let ((level
+           (read-number "Level: " reftex-toc-max-level)))
+      (setq reftex-toc-max-level level))
+    (reftex-toc-Rescan))
+
+  (setq reftex-toc-max-level 2
+        reftex-toc-split-windows-horizontally t
+        reftex-toc-split-windows-fraction 0.2
         TeX-master nil
         +latex-viewers '(okular atril evince zathura)
         TeX-fold-auto t)
+  (setq-default
+   TeX-command-extra-options " -shell-escape -synctex=1")
 
   (add-hook! 'LaTeX-mode-hook
-    (TeX-fold-mode 1)
+    (TeX-fold-mode -1)
     (reftex-mode 1)
-    (variable-pitch-mode 1)
+    (jinx-mode t)
+    ;; (variable-pitch-mode 1)
 
     ;; (make-variable-buffer-local 'font-lock-type-face)
     ;; (set-face-attribute 'font-lock-type-face nil
