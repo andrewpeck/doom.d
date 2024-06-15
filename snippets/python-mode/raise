@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: raise
+# key: raise
+# --
+raise Exception("$1")
