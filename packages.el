@@ -21,6 +21,7 @@
 (package! backup-each-save        :pin "282766018efbeb4c4185506e0dd1f0f5a3c0b346" :recipe (:host github :repo "andrewpeck/backup-each-save"))
 (package! benchmark-init          :pin "2b34432d79fa0aae8abc3db72db1cb79a28c00b2")
 (package! browse-at-remote        :pin "76aa27dfd469fcae75ed7031bb73830831aaccbf" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
+(package! casual-dired            :pin "ed114d5ca952d8d725a1a2bae8db3ea591b9f67f" :recipe (:host github :repo "kickingvegas/casual-dired"))
 (package! clojure-emacs           :pin "592c4f89efb5112784cbf94c9ea6fdd045771b62" :recipe (:host github :repo "clojure-emacs/squiggly-clojure"))
 (package! code-cells.el           :pin "44546ca256f3da29e3ac884e3d699c8455acbd6e" :recipe (:host github :repo "astoff/code-cells.el"))
 (package! comint-scroll-to-bottom :pin "1cd1471cfca72ac62d330630afe2f2fad44abcf5" :recipe (:host github :repo "jorgenschaefer/comint-scroll-to-bottom"))

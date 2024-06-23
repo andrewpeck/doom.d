@@ -1,6 +1,15 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
 ;;------------------------------------------------------------------------------
+;; Casual Dired
+;;------------------------------------------------------------------------------
+
+(use-package! casual-dired
+  :config
+  (define-key dired-mode-map (kbd "C-o") #'casual-dired-tmenu)
+  (map! :map dired-mode-map :localleader :desc "Casual Dired" "h" #'casual-dired-tmenu))
+
+;;------------------------------------------------------------------------------
 ;; Emacs Everywhere
 ;;------------------------------------------------------------------------------
 
