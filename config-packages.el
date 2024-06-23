@@ -633,15 +633,19 @@ If not specified it will default to xdg-open."))
   ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
   (setq TeX-fold-macro-spec-list
         (append TeX-fold-macro-spec-list
-                '(("{1}" ("gls"))         ; used in l0mdt
-                  ("{1}" ("cite"))        ; used in l0mdt
+                '(("{1}" ("gls"))
+                  ("[r:{1}]" ("autoref"))
+                  ("[l:{1}]" ("label"))
+                  ("[r:{1}]" ("ref"))
+                  ("[c:{1}]" ("cite"))
                   ("{1}" ("yearsago"))    ; used in resume
                   ("{1}" ("heading")))))) ; used in resume
+
 
 (use-package! tex
   :config
 
-  (setq-default TeX-master nil) ; Query for master file.
+  (setq-default TeX-master nil)         ; Query for master file.
 
   (evil-define-key '(motion normal visual) reftex-toc-mode-map
     (kbd "<") #'reftex-toc-promote)
@@ -652,9 +656,28 @@ If not specified it will default to xdg-open."))
   (evil-define-key '(motion normal visual) reftex-toc-mode-map
     (kbd "L") #'reftex-toc-set-max-level)
 
-  (map! :map LaTex-mode-map
-        :localleader
-        :desc "Toggle TeX Folding" "b" #'TeX-fold-mode)
+
+  (setq  reftex-cite-format nil)
+  (setq  reftex-find-reference-format nil)
+  ;; (setq  reftex-ref-style-alist '(("\\ref" t)))
+  (setq  reftex-ref-macro-prompt nil)
+
+  (add-hook 'latex-mode-hook #'outline-minor-mode)
+
+  (define-key global-map (kbd "M-<right>") nil) ; bound by drag-stuff
+
+  (define-key TeX-mode-map (kbd "M-<right>") #'outline-demote)
+  (define-key TeX-mode-map (kbd "M-<left>") #'outline-promote)
+  (define-key TeX-mode-map (kbd "TAB") #'nil)
+
+  (map! :map TeX-mode-map
+        :localleader :desc "Toggle TeX Folding" "b" #'TeX-fold-mode
+        :localleader :desc "TeX Format Bold" "fb" #'tex-bold
+        :localleader :desc "TeX Format Folding" "fi" #'tex-italic
+        :localleader :desc "TeX Format Folding" "ft" #'tex-tt
+        :localleader :desc "Tex Glossarify" "fg" #'tex-glossarify)
+
+  (define-key TeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
   (defun reftex-toc-set-max-level ()
     (interactive)
@@ -662,6 +685,16 @@ If not specified it will default to xdg-open."))
            (read-number "Level: " reftex-toc-max-level)))
       (setq reftex-toc-max-level level))
     (reftex-toc-Rescan))
+
+  (setq pdf-sync-backward-display-action nil)
+  (setq pdf-sync-forward-display-action t)
+
+  (setq TeX-view-program-selection
+        '((output-pdf "PDF Tools")
+          (output-dvi "xdvi")))
+
+  (setq TeX-view-program-list
+        '(("PDF Tools" TeX-pdf-tools-sync-view)))
 
   (setq reftex-toc-max-level 2
         reftex-toc-split-windows-horizontally t
@@ -673,7 +706,6 @@ If not specified it will default to xdg-open."))
    TeX-command-extra-options " -shell-escape -synctex=1")
 
   (add-hook! 'LaTeX-mode-hook
-    (TeX-fold-mode -1)
     (reftex-mode 1)
     (jinx-mode t)
     ;; (variable-pitch-mode 1)
@@ -710,7 +742,7 @@ If not specified it will default to xdg-open."))
             (let ((end (save-excursion
                          (forward-paragraph 1)
                          (backward-sentence)
-                         (point-marker))))  ;; remember where to stop
+                         (point-marker)))) ;; remember where to stop
               (beginning-of-line)
               (while (progn (forward-sentence)
                             (<= (point) (marker-position end)))
@@ -722,25 +754,44 @@ If not specified it will default to xdg-open."))
       ;; otherwise do ordinary fill paragraph
       (fill-paragraph P)))
 
+  (defun tex-glossarify ()
+    "Make the current TeX selection bold."
+    (interactive)
+    (when (not (region-active-p))
+      (mark-word))
+    (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
+      (delete-region (region-beginning) (region-end))
+      (insert (concat "\\gls{" text "}"))))
+
+  ;; treat hyphenated words as one
+  (add-hook 'latex-mode-hook #'(lambda () (modify-syntax-entry ?- "w")))
+
   (defun tex-bold ()
     "Make the current TeX selection bold."
     (interactive)
+    (when (not (region-active-p))
+      (er/mark-word))
     (TeX-font nil 2))
 
   (defun tex-italic ()
     "Make the current TeX selection italic."
     (interactive)
+    (when (not (region-active-p))
+      (er/mark-word))
     (TeX-font nil 9))
 
   (defun tex-tt ()
     "Make the current TeX selection italic."
     (interactive)
-    (TeX-font nil 20))
+    (when (not (region-active-p))
+      (er/mark-word))
+    (TeX-font nil 20)
+    )
 
   ;; Electric Space
   ;;------------------------------------------------------------------------------
 
-  (defun electric-space ()              ; Trying to get Emacs to do semantic linefeeds
+  (defun electric-space ()        ; Trying to get Emacs to do semantic linefeeds
     (interactive)
     (if (looking-back (sentence-end) nil)
         (insert "\n")
