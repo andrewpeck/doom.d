@@ -92,4 +92,7 @@
   )
 
 (custom-theme-set-faces! 'modus-operandi
+  '(nobreak-space :inherit modeline))
+
+(custom-theme-set-faces! 'modus-operandi
   '(hl-todo :inherit success))
