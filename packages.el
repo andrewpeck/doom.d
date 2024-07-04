@@ -1,5 +1,3 @@
-;; -*- lexical-binding: t; no-byte-compile: t;-*-
-
 ;; Disabled packages
 (package! hl-line   :disable t)
 (package! diredfl   :disable t)
