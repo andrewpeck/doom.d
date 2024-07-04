@@ -672,6 +672,7 @@ If not specified it will default to xdg-open."))
   (setq TeX-fold-macro-spec-list
         (append TeX-fold-macro-spec-list
                 '(("{1}" ("gls"))
+                  ("`{1}`" ("texttt"))
                   ("[r:{1}]" ("autoref"))
                   ("[l:{1}]" ("label"))
                   ("[r:{1}]" ("ref"))
