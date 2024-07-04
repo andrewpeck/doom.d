@@ -710,10 +710,10 @@ If not specified it will default to xdg-open."))
 
   (map! :map TeX-mode-map
         :localleader :desc "Toggle TeX Folding" "b" #'TeX-fold-mode
-        :localleader :desc "TeX Format Bold" "fb" #'tex-bold
-        :localleader :desc "TeX Format Folding" "fi" #'tex-italic
-        :localleader :desc "TeX Format Folding" "ft" #'tex-tt
-        :localleader :desc "Tex Glossarify" "fg" #'tex-glossarify)
+        :localleader :desc "TeX Format Bold" "tb" #'tex-bold
+        :localleader :desc "TeX Format Folding" "ti" #'tex-italic
+        :localleader :desc "TeX Format Folding" "tt" #'tex-tt
+        :localleader :desc "Tex Glossarify" "tg" #'tex-glossarify)
 
   (define-key TeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
@@ -738,8 +738,8 @@ If not specified it will default to xdg-open."))
         reftex-toc-split-windows-horizontally t
         reftex-toc-split-windows-fraction 0.2
         TeX-master nil
-        +latex-viewers '(okular atril evince zathura)
-        TeX-fold-auto t)
+        +latex-viewers '(okular atril evince zathura))
+
   (setq-default
    TeX-command-extra-options " -shell-escape -synctex=1")
 
@@ -755,9 +755,12 @@ If not specified it will default to xdg-open."))
     ;;                     :height 120)
 
     ;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
-    (add-hook! 'find-file-hook :local (TeX-fold-region (point-min) (point-max)))
+    ;; (add-hook! 'find-file-hook :local (TeX-fold-region (point-min) (point-max)))
     (add-hook! 'write-contents-functions :local (TeX-fold-region (point-min) (point-max)))
     ;; (add-hook! 'after-change-functions :local 'TeX-fold-paragraph)
+
+    ;; doom has some annoying hooks after macro insertion that cause obnoxious folding
+    (setq TeX-after-insert-macro-hook nil)
 
     (flycheck-add-next-checker 'proselint 'tex-chktex))
 
