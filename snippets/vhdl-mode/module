@@ -18,7 +18,7 @@ entity `(file-name-base (buffer-file-name))` is
     );
 end $1;
 
-architecture rtl of $1 is
+architecture rtl of `(file-name-base (buffer-file-name))` is
 
 begin
 
