@@ -1090,6 +1090,9 @@ and shortens it into an org mode link consisting of just `some file`"
          "\\linespread{1.0}\n"
          "\\hypersetup{pdfborder=0 0 0}"))
 
+  (setq org-latex-pdf-process
+        '("latexmk -shell-escape -f -pdf -%latex -interaction=nonstopmode -output-directory=%o %f"))
+
   (add-to-list
    'org-latex-classes
    `("article" ,org-latex-article-header
