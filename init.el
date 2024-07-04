@@ -104,7 +104,7 @@
  (lookup +dictionary +docsets)
 
  (lsp)
- (magit +forge)      ; a git porcelain for Emacs
+ (magit)      ; a git porcelain for Emacs
  make                ; run make tasks from Emacs
  pdf                 ; pdf enhancements
  tmux                ; an API for interacting with tmux
