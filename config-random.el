@@ -61,7 +61,7 @@ This function tries to de hyphenate them."
 
       ;; place bookmarks in the doom folder for version control
 
-      bookmark-default-file (concat doom-user-dir "bookmarks")
+      bookmark-default-file (concat doom-user-dir "bookmarks" "-" (system-name))
 
       ;; +format-on-save-enabled-modes
       ;; '(not yaml-mode python-mode emacs-lisp-mode
