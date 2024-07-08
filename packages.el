@@ -39,6 +39,7 @@
 (package! graphviz-dot-mode       :pin "8ff793b13707cb511875f56e167ff7f980a31136")
 (package! hdl_deps                :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
 (package! hog-emacs               :pin "14b5fa276dabfb3e737c2fca00a0026c841a0c96" :recipe (:host github :repo "andrewpeck/hog-emacs"))
+(package! hydra                   :pin "317e1de33086637579a7aeb60f77ed0405bf359b")
 (package! jinx                    :pin "271034e9c7addb0d4d5c96c4b0fc7b6265f4dc3b" :recipe (:host github :repo "minad/jinx")) ;problems in snap?
 (package! logview                 :pin "090fd9a5817ccce733d5aa496b6ebb462560a717")
 (package! magit-todos             :pin "501c8db90ab59f8b619618b9d10db2a32a113727")
