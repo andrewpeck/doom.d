@@ -1,23 +1,25 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
-;; from dario https://codingstruggles.com/about/
-(defhydra doom-window-resize-hydra (:hint nil)
-  "
+(use-package hydra
+  :config
+  ;; from dario https://codingstruggles.com/about/
+  (defhydra doom-window-resize-hydra (:hint nil)
+    "
              _k_ increase height
 _h_ decrease width    _l_ increase width
              _j_ decrease height
 "
-  ("h" evil-window-decrease-width)
-  ("j" evil-window-increase-height)
-  ("k" evil-window-decrease-height)
-  ("l" evil-window-increase-width)
+    ("h" evil-window-decrease-width)
+    ("j" evil-window-increase-height)
+    ("k" evil-window-decrease-height)
+    ("l" evil-window-increase-width)
 
-  ("q" nil))
+    ("q" nil))
 
-(map! :leader (:prefix "w" :desc "Hydra resize" :n "SPC" #'doom-window-resize-hydra/body))
+  (map! :leader (:prefix "w" :desc "Hydra resize" :n "SPC" #'doom-window-resize-hydra/body)))
 
 ;;------------------------------------------------------------------------------
-;; Log-view (vc-history)
+;; Evil initial states
 ;;------------------------------------------------------------------------------
 
 (after! log-view
@@ -27,11 +29,9 @@ _h_ decrease width    _l_ increase width
       vc-hg-log-view-mode
       vc-bzr-log-view-mode
       vc-svn-log-view-mode)
-    'normal)
-  (set-evil-initial-state!
-    '(fundamental-mode)
-    'normal)
-  )
+    'normal))
+
+(set-evil-initial-state! '(fundamental-mode) 'normal)
 
 ;;------------------------------------------------------------------------------
 ;; Casual Dired
@@ -41,6 +41,8 @@ _h_ decrease width    _l_ increase width
   :config
   (define-key dired-mode-map (kbd "C-o") #'casual-dired-tmenu)
   (map! :map dired-mode-map :localleader :desc "Casual Dired" "h" #'casual-dired-tmenu))
+
+(sp-local-pair 'verilog-mode "begin" "end")
 
 ;;------------------------------------------------------------------------------
 ;; Emacs Everywhere
