@@ -25,7 +25,7 @@
               (princ (concat pad "#+begin_src bash  :tangle no :results output\n"))
             (princ (concat pad "#+begin_src bash  :tangle no :dir /sudo::~/ :results output\n")))
 
-          (when ubuntu (princ (format "%ssudo apt --yes install %s\n" pad ubuntu)))
+          (when ubuntu (princ (format "%ssudo apt install --yes %s\n" pad ubuntu)))
           (when dnf    (princ (format "%ssudo dnf install -y %s\n" pad dnf)))
           (when pacman (princ (format "%ssudo pacman -Syu %s\n" pad dnf)))
           (when cmd    (princ (format "%s%s\n" pad cmd)))
@@ -111,15 +111,14 @@
   (setup--check-for-exe "emacs-lsp-booster" :cmd "cargo install --git https://github.com/blahgeek/emacs-lsp-booster" :noroot t)
 
   ;; python
-  (setup--check-for-exe "autopep8" :cmd "pip install autopep8" :noroot t)
-  (setup--check-for-exe "isort" :cmd "pip install isort" :noroot t)
+  (setup--check-for-exe "autopep8" :cmd "pipx install autopep8" :noroot t)
+  (setup--check-for-exe "isort" :cmd "pipx install isort" :noroot t)
   (setup--check-for-exe "pip3" :ubuntu "python3-pip" :dnf "python3-pip")
-  (setup--check-for-exe "pyflakes" :cmd "pip install pyflakes" :noroot t)
-  (setup--check-for-exe "pyimport" :cmd "pip install pyimport" :noroot t)
-  (setup--check-for-exe "pyment" :cmd "pip install pyment" :noroot t)
-  (setup--check-for-exe "pyright" :url "https://github.com/microsoft/pyright" :cmd "pip install pyright" :noroot t)
-  (setup--check-for-exe "pytest" :cmd "pip install pytest" :noroot t)
-  (setup--check-for-exe "wordcloud_cli" :cmd "pip install wordcloud" :noroot t)
+  (setup--check-for-exe "pyflakes" :cmd "pipx install pyflakes" :noroot t)
+  (setup--check-for-exe "pyment" :cmd "pipx install pyment" :noroot t)
+  (setup--check-for-exe "pyright" :url "https://github.com/microsoft/pyright" :cmd "pipx install pyright" :noroot t)
+  (setup--check-for-exe "pytest" :cmd "pipx install pytest" :noroot t)
+  (setup--check-for-exe "wordcloud_cli" :cmd "pipx install wordcloud" :noroot t)
 
   ;; clojure
   (setup--check-for-exe "clj-kondo" :noroot t :cmd "cd /tmp && curl -sLO https://raw.githubusercontent.com/clj-kondo/clj-kondo/master/script/install-clj-kondo && chmod +x install-clj-kondo && ./install-clj-kondo --dir ~/.local/bin")
@@ -135,7 +134,7 @@
   (setup--check-for-exe "npm" :ubuntu "npm" :dnf "npm")
 
   ;; proselint
-  (setup--check-for-exe "proselint" :cmd "pip install proselint" :noroot t)
+  (setup--check-for-exe "proselint" :cmd "pipx install proselint" :noroot t)
 
   ;; yamllint
   (setup--check-for-exe "yamllint" :dnf "yamllint" :ubuntu "yamllint")
@@ -147,7 +146,7 @@
   (setup--check-for-exe "markdownlint"
                         :url "https://github.com/igorshubovych/markdownlint-cli"
                         :cmd "sudo npm install -g markdownlint-cli")
-  (setup--check-for-exe "grip" :cmd "pip install grip" :noroot t)
+  (setup--check-for-exe "grip" :cmd "pipx install grip" :noroot t)
 
   ;; c/c++
   (setup--check-for-exe "bear"
@@ -194,7 +193,6 @@
 
   ;; utilities
   (setup--check-for-exe "pushover-cli" :noroot t :cmd "curl -o ~/.local/bin/pushover-cli https://raw.githubusercontent.com/markus-perl/pushover-cli/master/pushover-cli && chmod +x ~/.local/bin/pushover-cli")
-  (setup--check-for-exe "kitty" :noroot t :cmd "cd ~/ && curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
   (setup--check-for-exe "act" :cmd "cd ~/ && curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash")
   (setup--check-for-exe "htop" :dnf "htop" :ubuntu "htop")
   (setup--check-for-exe "aspell" :dnf "aspell" :ubuntu "aspell")
@@ -231,6 +229,8 @@
   ;; symlinks
   (princ "** Creating symlinks\n")
 
+  (shell-command "cd ~/Sync/dotfiles/scripts && find ~+ -exec ln -sf {} ~/.local/bin/ \;")
+
   (setup--make-dotfile-symlink "bin" "~/bin")
 
   (setup--make-dotfile-symlink "org-protocol.desktop" "~/.local/share/applications/org-protocol.desktop")
@@ -249,8 +249,6 @@
   (setup--make-dotfile-symlink "pycodestyle" "~/.config/pycodestyle")
 
   (setup--make-symlink "~/Sync/emacs-backups" "~/emacs-backups")
-
-  (setup--make-symlink "~/.local/kitty.app/bin/kitty" "~/.local/bin/kitty")
 
   ;; systemctl  start --user emacs.service
   (setup--make-dotfile-symlink "emacs.service" "~/.config/systemd/user/emacs.service")
