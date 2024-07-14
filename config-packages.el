@@ -722,6 +722,23 @@ If not specified it will default to xdg-open."))
 
   (define-key TeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
+  (defun tex-link-insert ()
+    "Insert TeX href link"
+    (interactive)
+    (let ((url-at-point (thing-at-point 'url)))
+      (let ((url (read-string "URL: " url-at-point))
+            (text (read-string (format "Text: "))))
+        (when (and url text)
+
+          (when url-at-point
+            (let ((bounds (bounds-of-thing-at-point 'url)))
+              (delete-region (car bounds)
+                             (cdr bounds))))
+
+          (insert (format "\\href{%s}{%s}" url text))))))
+
+  (define-key TeX-mode-map (kbd "C-c C-l") #'tex-link-insert)
+
   (defun reftex-toc-set-max-level ()
     (interactive)
     (let ((level
