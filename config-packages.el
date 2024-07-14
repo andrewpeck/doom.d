@@ -27,7 +27,11 @@ _h_ decrease width    _l_ increase width
       vc-hg-log-view-mode
       vc-bzr-log-view-mode
       vc-svn-log-view-mode)
-    'normal))
+    'normal)
+  (set-evil-initial-state!
+    '(fundamental-mode)
+    'normal)
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Casual Dired
