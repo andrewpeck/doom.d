@@ -1077,6 +1077,8 @@ If not specified it will default to xdg-open."))
 
   :config
 
+  (define-key transient-map (kbd "C-c C-c") #'transient-save)
+
   (setq magit-log-margin
         '(t
           "%Y/%m/%d"
