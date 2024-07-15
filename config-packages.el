@@ -850,7 +850,7 @@ If not specified it will default to xdg-open."))
     "Make the current TeX selection bold."
     (interactive)
     (when (not (region-active-p))
-      (mark-word))
+       (er/mark-word))
     (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
       (delete-region (region-beginning) (region-end))
       (insert (concat "\\gls{" text "}"))))
