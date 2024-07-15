@@ -35,16 +35,16 @@
 
  :ui
 
- doom                         ; what makes DOOM look the way it does
- doom-dashboard
- hl-todo                      ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
- nav-flash                    ; blink the current line after jumping
- ophints                      ; highlight the region an operation acts on
- (popup                       ; tame sudden yet inevitable temporary windows
-  +all                        ; catch all popups that start with an asterix
-  +defaults)                  ; default popup rules
- (vc-gutter +pretty +diff-hl) ; vcs diff in the fringe
- workspaces                   ; tab emulation, persistence & separate workspaces
+ doom                ; what makes DOOM look the way it does
+ doom-dashboard      ;
+ hl-todo             ; highlight TODO / FIXME/NOTE/DEPRECATED/HACK/REVIEW
+ nav-flash           ; blink the current line after jumping
+ ophints             ; highlight the region an operation acts on
+ (popup              ; tame sudden yet inevitable temporary windows
+  +all               ; catch all popups that start with an asterix
+  +defaults)         ; default popup rules
+ (vc-gutter +pretty) ; vcs diff in the fringe
+ workspaces          ; tab emulation, persistence & separate workspaces
 
  ;;emoji              ;
  ;;indent-guides      ; highlighted indent columns
@@ -121,7 +121,7 @@
  (cc +lsp)                     ; C/C++/Obj-C madness
  (clojure +lsp)                ; java with a lisp
  (json +lsp)                   ; json, uhg
- (latex +fold +lsp +latexmk)   ;; writing papers in Emacs has never been so fun
+ (latex +fold +lsp)            ; writing papers in Emacs has never been so fun
  (markdown +grip)              ; writing docs for people to ignore
  data                          ; A dumping ground for data formats (csv, xml)
  emacs-lisp                    ; drown in parentheses
