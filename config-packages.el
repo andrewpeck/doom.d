@@ -2055,10 +2055,12 @@ See URL `http://nagelfar.sourceforge.net/'."
   (add-hook! 'LaTeX-mode-hook
     (defun hook/set-latex-capf-functions ()
       (setq-local completion-at-point-functions
-                  (list 'lsp-completion-at-point
-                        'TeX--completion-at-point
-                        'yasnippet-capf
-                        'LaTeX--arguments-completion-at-point))))
+                  (list
+                   'lsp-completion-at-point
+                   'TeX--completion-at-point
+                   'yasnippet-capf
+                   'LaTeX--arguments-completion-at-point
+                   'cape-file))))
 
   (add-hook! 'emacs-lisp-mode-hook
     (defun hook/set-elisp-capf-functions ()
