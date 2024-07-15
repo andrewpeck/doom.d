@@ -729,12 +729,25 @@ If not specified it will default to xdg-open."))
   (define-key TeX-mode-map (kbd "M-<left>") #'outline-promote)
   (define-key TeX-mode-map (kbd "TAB") #'nil)
 
+  (defun TeX-toggle-folding ()
+    (interactive)
+    (call-interactively #'TeX-fold-mode)
+    (if TeX-fold-mode
+        (TeX-fold-buffer)
+      (TeX-fold-clearout-buffer)))
+
   (map! :map TeX-mode-map
-        :localleader :desc "Toggle TeX Folding" "b" #'TeX-fold-mode
-        :localleader :desc "TeX Format Bold" "tb" #'tex-bold
-        :localleader :desc "TeX Format Folding" "ti" #'tex-italic
-        :localleader :desc "TeX Format Folding" "tt" #'tex-tt
-        :localleader :desc "Tex Glossarify" "tg" #'tex-glossarify)
+        :localleader
+
+        ;; formatting
+        :desc "TeX Format Bold" "tb" #'tex-bold
+        :desc "TeX Format Folding" "ti" #'tex-italic
+        :desc "TeX Format Folding" "tt" #'tex-tt
+        :desc "Tex Glossarify" "tg" #'tex-glossarify
+
+        ;; folding
+        :desc "Toggle TeX Folding" "b" #'TeX-toggle-folding
+        )
 
   (define-key TeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
