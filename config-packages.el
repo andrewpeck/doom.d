@@ -1,5 +1,19 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
+;;------------------------------------------------------------------------------
+;; Olivetti Mode
+;;------------------------------------------------------------------------------
+
+(use-package! olivetti
+  :init
+  (add-hook! 'olivetti-mode-on-hook
+    (setq-local doom--line-number-style nil)
+    (setq-local display-line-numbers nil)))
+
+;;------------------------------------------------------------------------------
+;; Hydra
+;;------------------------------------------------------------------------------
+
 (use-package hydra
   :config
   ;; from dario https://codingstruggles.com/about/

@@ -13,6 +13,7 @@
 
 ;; Misc packages
 ;; start:sort
+(package! olivetti)
 (package! affe                    :pin "a3d094e05e2d1461029920abb971ccd47ff8e5d0")
 (package! apheleia                :pin "61766b50b24fa16be519d77795dc63522e04dce8")
 (package! ascii-art-to-unicode    :pin "d2bb7faba274b0f5e2a86eb723c98a59ef906d8a")
