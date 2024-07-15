@@ -535,6 +535,6 @@ The date will follow the format in `current-date-format'"
 ;; output into some of the child processes that Emacs spawns. Many Emacs
 ;; packages/utilities will choke on this output, causing unpredictable
 ;; issues. To get around this, either:
-(setq shell-file-name (executable-find "bash"))
+(setq-default shell-file-name (executable-find "bash"))
 (setq-default vterm-shell (executable-find "fish"))
 (setq-default explicit-shell-file-name (executable-find "fish"))
