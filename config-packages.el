@@ -972,9 +972,7 @@ If not specified it will default to xdg-open."))
             (cons "emacs-lsp-booster" orig-result))
         orig-result)))
 
-  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-
-  )
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
 
 ;;------------------------------------------------------------------------------
 ;; Eglot
