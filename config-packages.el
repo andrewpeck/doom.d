@@ -757,11 +757,13 @@ If not specified it will default to xdg-open."))
         ;; olivetti
         :desc "Olivetti Mode" "o" #'olivetti-mode
 
-        ;; formatting
-        :desc "TeX Format Bold" "tb" #'tex-bold
-        :desc "TeX Format Folding" "ti" #'tex-italic
-        :desc "TeX Format Folding" "tt" #'tex-tt
-        :desc "Tex Glossarify" "tg" #'tex-glossarify
+        ;; formatting macros
+        :desc "TeX Format Bold"      "tb" #'tex-bold
+        :desc "TeX Format Underline" "tu" #'tex-underline
+        :desc "TeX Format Folding"   "ti" #'tex-italic
+        :desc "TeX Format Folding"   "tt" #'tex-tt
+        :desc "Tex glossarify"       "tg" #'tex-glossarify
+        :desc "Tex Glossarify"       "tG" #'tex-Glossarify
 
         ;; folding
         :desc "Toggle TeX Folding" "b" #'TeX-toggle-folding
@@ -866,39 +868,44 @@ If not specified it will default to xdg-open."))
       ;; otherwise do ordinary fill paragraph
       (fill-paragraph P)))
 
-  (defun tex-glossarify ()
-    "Make the current TeX selection bold."
-    (interactive)
-    (when (not (region-active-p))
-       (er/mark-word))
-    (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
-      (delete-region (region-beginning) (region-end))
-      (insert (concat "\\gls{" text "}"))))
-
   ;; treat hyphenated words as one
   (add-hook 'latex-mode-hook #'(lambda () (modify-syntax-entry ?- "w")))
+
+  (defun tex-expand-and-insert (macro)
+    (interactive)
+    (when (not (region-active-p))
+      (er/mark-word))
+    (TeX-insert-macro macro))
+
+  (defun tex-underline ()
+    "Make the current TeX selection bold."
+    (interactive)
+    (tex-expand-and-insert "underline"))
 
   (defun tex-bold ()
     "Make the current TeX selection bold."
     (interactive)
-    (when (not (region-active-p))
-      (er/mark-word))
-    (TeX-font nil 2))
+    (tex-expand-and-insert "textbf"))
 
   (defun tex-italic ()
     "Make the current TeX selection italic."
     (interactive)
-    (when (not (region-active-p))
-      (er/mark-word))
-    (TeX-font nil 9))
+    (tex-expand-and-insert "textit"))
 
   (defun tex-tt ()
-    "Make the current TeX selection italic."
+    "Make the current TeX selection typewriter."
     (interactive)
-    (when (not (region-active-p))
-      (er/mark-word))
-    (TeX-font nil 20)
-    )
+    (tex-expand-and-insert "texttt"))
+
+  (defun tex-glossarify ()
+    "Make the current TeX selection a glossary entry."
+    (interactive)
+    (tex-expand-and-insert "gls"))
+
+  (defun tex-Glossarify ()
+    "Make the current TeX selection a Glossary entry."
+    (interactive)
+    (tex-expand-and-insert "Gls"))
 
   ;; Electric Space
   ;;------------------------------------------------------------------------------
