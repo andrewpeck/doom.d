@@ -1,0 +1,5 @@
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{$1}
+  \caption{\label{fig:$2}}
+\end{figure}
