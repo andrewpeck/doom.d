@@ -691,17 +691,29 @@ If not specified it will default to xdg-open."))
   ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
   (setq TeX-fold-macro-spec-list
         (append TeX-fold-macro-spec-list
-                '(("{1}" ("gls"))
+                '(
+                  ;; glossary
+                  ((lambda (x) (capitalize x)) ("Gls"))
+                  ("{1}" ("gls"))
+
+                  ;; just put backticks around typewriter font
                   ("`{1}`" ("texttt"))
+
+                  ;; shorten references
                   ("[r:{1}]" ("autoref"))
                   ("[l:{1}]" ("label"))
                   ("[r:{1}]" ("ref"))
                   ("[c:{1}]" ("cite"))
-                  ("{1}" ("yearsago"))    ; used in resume
-                  ("{1}" ("heading")))))) ; used in resume
 
+                  ;; used in resume
+                  ((lambda (x) (concat (number-to-string (- (string-to-number (format-time-string "%Y"))
+                                                            (string-to-number x))) " years")) ("yearsago"))
 
-(use-package! tex
+                  ;; used in resume
+                  ("{1}" ("heading"))))))
+
+;; auctex + tex
+(use-package! latex
   :config
 
   (setq-default TeX-master nil)         ; Query for master file.
@@ -721,6 +733,9 @@ If not specified it will default to xdg-open."))
   ;; (setq  reftex-ref-style-alist '(("\\ref" t)))
   (setq  reftex-ref-macro-prompt nil)
 
+
+  (define-key LaTeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
+
   (add-hook 'latex-mode-hook #'outline-minor-mode)
 
   (define-key global-map (kbd "M-<right>") nil) ; bound by drag-stuff
@@ -739,6 +754,9 @@ If not specified it will default to xdg-open."))
   (map! :map TeX-mode-map
         :localleader
 
+        ;; olivetti
+        :desc "Olivetti Mode" "o" #'olivetti-mode
+
         ;; formatting
         :desc "TeX Format Bold" "tb" #'tex-bold
         :desc "TeX Format Folding" "ti" #'tex-italic
@@ -748,8 +766,6 @@ If not specified it will default to xdg-open."))
         ;; folding
         :desc "Toggle TeX Folding" "b" #'TeX-toggle-folding
         )
-
-  (define-key TeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
   (defun tex-link-insert ()
     "Insert TeX href link"
@@ -767,6 +783,8 @@ If not specified it will default to xdg-open."))
           (insert (format "\\href{%s}{%s}" url text))))))
 
   (define-key TeX-mode-map (kbd "C-c C-l") #'tex-link-insert)
+
+  (define-key TeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
   (defun reftex-toc-set-max-level ()
     (interactive)
@@ -795,6 +813,8 @@ If not specified it will default to xdg-open."))
    TeX-command-extra-options " -shell-escape -synctex=1")
 
   (add-hook! 'LaTeX-mode-hook
+
+    (olivetti-mode)
     (reftex-mode 1)
     (jinx-mode t)
     ;; (variable-pitch-mode 1)
@@ -1581,6 +1601,11 @@ into Verilog ports."
 ;;------------------------------------------------------------------------------
 ;; Python
 ;;------------------------------------------------------------------------------
+
+(use-package! pyenv-mode
+  :config
+  ;; damn pyenv-mode sets C-c C-s and it shows up everywhere (e.g. in latex)
+  (define-key pyenv-mode-map (kbd "C-c C-s") nil))
 
 (use-package! python
   :defer-incrementally t
