@@ -811,31 +811,30 @@ If not specified it will default to xdg-open."))
         TeX-master nil
         +latex-viewers '(okular atril evince zathura))
 
-  (setq-default
-   TeX-command-extra-options " -shell-escape -synctex=1")
+  (setq-default TeX-command-extra-options " -shell-escape -synctex=1")
 
   (add-hook! 'LaTeX-mode-hook
 
-    (olivetti-mode)
-    (reftex-mode 1)
-    (jinx-mode t)
-    ;; (variable-pitch-mode 1)
+             (olivetti-mode)
+             (reftex-mode 1)
+             (jinx-mode t)
+             ;; (variable-pitch-mode 1)
 
-    ;; (make-variable-buffer-local 'font-lock-type-face)
-    ;; (set-face-attribute 'font-lock-type-face nil
-    ;;                     :inherit 'default
-    ;;                     :family "Courier New"
-    ;;                     :height 120)
+             ;; (make-variable-buffer-local 'font-lock-type-face)
+             ;; (set-face-attribute 'font-lock-type-face nil
+             ;;                     :inherit 'default
+             ;;                     :family "Courier New"
+             ;;                     :height 120)
 
-    ;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
-    ;; (add-hook! 'find-file-hook :local (TeX-fold-region (point-min) (point-max)))
-    (add-hook! 'write-contents-functions :local (TeX-fold-region (point-min) (point-max)))
-    ;; (add-hook! 'after-change-functions :local 'TeX-fold-paragraph)
+             ;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
+             ;; (add-hook! 'find-file-hook :local (TeX-fold-region (point-min) (point-max)))
+             ;; (add-hook! 'write-contents-functions :local (TeX-fold-region (point-min) (point-max)))
+             ;; (add-hook! 'after-change-functions :local 'TeX-fold-paragraph)
 
-    ;; doom has some annoying hooks after macro insertion that cause obnoxious folding
-    (setq TeX-after-insert-macro-hook nil)
+             ;; doom has some annoying hooks after macro insertion that cause obnoxious folding
+             ;; (setq TeX-after-insert-macro-hook nil)
 
-    (flycheck-add-next-checker 'proselint 'tex-chktex))
+             (flycheck-add-next-checker 'proselint 'tex-chktex))
 
   ;; Semantic Linefeeds
   ;;------------------------------------------------------------------------------
