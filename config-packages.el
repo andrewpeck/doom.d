@@ -357,8 +357,16 @@ _h_ decrease width    _l_ increase width
 (use-package! dired-aux
   :after dired
   :config
-  (setq dired-compress-file-default-suffix ".zst")
-  (setq dired-compress-directory-default-suffix ".tar.zst"))
+
+  (setq dired-compress-file-default-suffix ".zst"
+        dired-compress-directory-default-suffix ".tar.zst")
+
+
+  (advice-add 'dired-do-rename
+              :after
+              (defun dired-unmark-after-rename-advice (&optional _)
+                (dired-unmark 1 t)
+                (forward-line -1))))
 
 (use-package! dired-x
   :after dired
@@ -388,13 +396,13 @@ _h_ decrease width    _l_ increase width
 
   ;; better dired soring
   (setq dired-listing-switches "-a1vBhl  --group-directories-first"
-        dired-dwim-target t  ; suggest a target for moving/copying intelligently
+        dired-do-revert-buffer t                        ; Automatically revert Dired buffers after dired-do operations.
+        dired-dwim-target t                             ; suggest a target for moving/copying intelligently
         dired-hide-details-hide-symlink-targets nil
-        ;; don't prompt to revert, just do it
-        dired-auto-revert-buffer #'dired-buffer-stale-p
-        ;; Always copy/delete recursively
-        dired-recursive-copies  'always
-        dired-recursive-deletes 'top)
+        dired-auto-revert-buffer #'dired-buffer-stale-p ; don't prompt to revert, just do it
+        dired-recursive-copies  'always                 ; Always copy/delete recursively
+        dired-recursive-deletes 'top                    ; Always copy/delete recursively
+        )
 
   (defun +dired/quit-all ()
     "Kill all `dired-mode' buffers."
