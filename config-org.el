@@ -14,7 +14,6 @@
 
 (use-package! org
   :defer t
-  :mode ("\\.org\\'")
   :init
 
   (add-hook 'org-mode-hook (defun hook/org-set-user-name () (setq-local user-full-name "A.P.")))
