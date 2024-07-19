@@ -15,9 +15,9 @@
                                 'face 'doom-dashboard-banner) " ")
             (insert "\n"))
           '(""
-            "    ↑      "
-            "← h j k l →"
-            "      ↓    "
+            ;; "    ↑      "
+            ;; "← h j k l →"
+            ;; "      ↓    "
             )
           )
 
