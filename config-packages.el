@@ -1,6 +1,28 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
 ;;------------------------------------------------------------------------------
+;; Emacs Pet
+;;------------------------------------------------------------------------------
+
+(use-package pet
+  :config
+  (add-hook 'python-base-mode-hook 'pet-mode -10)
+
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq-local python-shell-interpreter (pet-executable-find "python")
+                          python-shell-virtualenv-root (pet-virtualenv-root))
+
+              (pet-flycheck-setup)
+
+              (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
+                          lsp-pyright-venv-path python-shell-virtualenv-root)
+
+              ;; (setq-local dap-python-executable python-shell-interpreter)
+
+              )))
+
+;;------------------------------------------------------------------------------
 ;; Olivetti Mode
 ;;------------------------------------------------------------------------------
 

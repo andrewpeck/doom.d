@@ -1,4 +1,6 @@
 ;; Disabled packages
+(package! pyenv-mode :disable t)
+(package! pyenv      :disable t)
 (package! hl-line   :disable t)
 (package! diredfl   :disable t)
 (package! haml-mode  :disable t)
@@ -31,6 +33,7 @@
 (package! dwim-shell-command      :pin "a1f34ba0f9ccb76673f6551f0c5e06a24ca9aa2a" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! elfeed                  :pin "5c05a1eab37bc113ecb158a4d57fe05352fa2c6a" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
+(package! emacs-pet               :pin "e5e3f9f0326ea1cc6edef017f0ee34cc42754b08" :recipe (:host github :repo "wyuenho/emacs-pet"))
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! emojify                 :pin "1b726412f19896abf5e4857d4c32220e33400b55")
 (package! expand-region           :pin "e8f4e0fe9c9a80a6a26e2b438502aba9a799d580" :recipe (:host github :repo "magnars/expand-region.el"))
