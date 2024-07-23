@@ -394,22 +394,9 @@ _h_ decrease width    _l_ increase width
   :after dired
   :config
 
-  ;; Dired omit mode is causing errors as of 7/15/24
-  ;; (add-hook 'dired-mode-hook #'dired-omit-mode)
-  ;; (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
-  ;; (setq dired-omit-extensions (remove ".bit" dired-omit-extensions))
-
-  ;; (add-to-list 'dired-omit-extensions ".tmp")
-
-  ;; (setq dired-omit-files
-  ;;       (concat dired-omit-files
-  ;;               "\\|vivado.*\\.jou\\'"
-  ;;               "\\|vivado.*\\.backup\\.log\\'"
-  ;;               "\\|vivado\\.log\\'"
-  ;;               "\\|^\\.Xil\\'"
-  ;;               "\\|^\\.mypy_cache\\'"
-  ;;               "\\|^__pycache__\\'"
-  ;;               "\\|^\\.pytest_cache\\'"))
+  (add-hook 'dired-mode-hook #'dired-omit-mode)
+  (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
+  (setq dired-omit-extensions (remove ".bit" dired-omit-extensions))
   )
 
 (use-package! dired
