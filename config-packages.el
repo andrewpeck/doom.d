@@ -1185,6 +1185,7 @@ If not specified it will default to xdg-open."))
 (use-package! browse-at-remote
   :demand t
   :config
+  (setq browse-at-remote-prefer-symbolic t)
   (add-to-list 'browse-at-remote-remote-type-regexps '(:host "^gitlab\\.cern.ch$" :type "gitlab")))
 
 (use-package! forge
