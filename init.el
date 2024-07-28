@@ -96,6 +96,7 @@
 
  :tools
 
+ biblio                        ; Writes a PhD for you (citation needed)
  (docker +lsp)
  (eval +overlay)               ; run code, run (also, repls)
  (lookup +dictionary +docsets) ; helps you navigate your code and documentation
