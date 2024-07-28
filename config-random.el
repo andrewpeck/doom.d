@@ -1,5 +1,8 @@
 ;;; -*- lexical-binding: t; -*-
 
+(setq mouse-wheel-scroll-amount-horizontal 32)
+(setq mouse-wheel-tilt-scroll t)
+
 ;; try to make sure that fundamental mode buffers use evil
 ;; https://emacs.stackexchange.com/questions/16693/auto-enable-minor-modes-in-fundamental-mode
 (add-hook 'after-change-major-mode-hook
