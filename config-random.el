@@ -1,7 +1,12 @@
 ;;; -*- lexical-binding: t; -*-
 
-(setq mouse-wheel-scroll-amount-horizontal 32)
-(setq mouse-wheel-tilt-scroll t)
+(setopt mouse-wheel-scroll-amount-horizontal 32
+        mouse-wheel-tilt-scroll t)
+
+(setopt auto-revert-avoid-polling t
+        auto-revert-interval 5
+        auto-revert-check-vc-info t)
+
 
 ;; try to make sure that fundamental mode buffers use evil
 ;; https://emacs.stackexchange.com/questions/16693/auto-enable-minor-modes-in-fundamental-mode
