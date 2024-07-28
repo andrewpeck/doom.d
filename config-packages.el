@@ -1137,36 +1137,49 @@ If not specified it will default to xdg-open."))
     )
   )
 
+
+(use-package! vc-hooks
+  :config
+  ;; set vc-ignore-dir-regexp to the default emacs value; doom overwrites this to
+  ;; a value that ignores any remote directories, causing git-gutter etc to not
+  ;; work through tramp
+  (setq vc-ignore-dir-regexp
+        "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'"))
+
 ;;------------------------------------------------------------------------------
 ;; Magit
 ;;------------------------------------------------------------------------------
 
 (use-package! magit
 
-
   :config
+
+  ;; When you initiate a commit, then Magit by default automatically shows a diff
+  ;; of the changes you are about to commit. For large commits this can take a
+  ;; long time, which is especially distracting when you are committing large
+  ;; amounts of generated data which you don’t actually intend to inspect before
+  ;; committing. This behavior can be turned off using:
+
+  (remove-hook 'server-switch-hook 'magit-commit-diff)
+  (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
 
   (define-key transient-map (kbd "C-c C-c") #'transient-save)
 
-  (setq magit-log-margin
-        '(t
-          "%Y/%m/%d"
-          magit-log-margin-width t 18))
+  (setq magit-log-margin '(t "%Y/%m/%d" magit-log-margin-width t 18)
 
-  (setq +vc-gutter-in-remote-files t)
+        ;; List of directories that are or contain Git repositories. ;
+        magit-repository-directories '(("~/work" . 1))
 
-  ;; set vc-ignore-dir-regexp to the default emacs value; doom overwrites this to
-  ;; a value that ignores any remote directories, causing git-gutter etc to not
-  ;; work through tramp
-  (setq vc-ignore-dir-regexp
-        "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'")
+        ;; Whether to show word-granularity differences within diff hunks.
+        magit-diff-refine-hunk 'all
+        )
 
-  ;;(magit-todos-mode)
   (setq-default magit-mode-hook nil)
   (add-hook! 'magit-diff-mode-hook
     (setq-local truncate-lines nil))
-  (setq magit-repository-directories '(("~/work" . 1)))
-  (setq-default magit-diff-refine-hunk 'all)
+
+  ;; wrap in magit status mode
+  (add-hook 'magit-status-mode-hook (lambda () (+word-wrap-mode nil)))
 
   ;; from: https://www.reddit.com/r/emacs/comments/1187mmq/can_magit_update_synce_and_init_all_submodules/
   (unless (condition-case nil
@@ -1186,7 +1199,8 @@ If not specified it will default to xdg-open."))
   :demand t
   :config
   (setq browse-at-remote-prefer-symbolic t)
-  (add-to-list 'browse-at-remote-remote-type-regexps '(:host "^gitlab\\.cern.ch$" :type "gitlab")))
+  (add-to-list 'browse-at-remote-remote-type-regexps
+               '(:host "^gitlab\\.cern.ch$" :type "gitlab")))
 
 (use-package! forge
 
