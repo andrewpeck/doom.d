@@ -729,6 +729,14 @@ If not specified it will default to xdg-open."))
                   ((lambda (x) (capitalize x)) ("Gls"))
                   ("{1}" ("gls"))
 
+                  ;; ((lambda (x y) (propertize y 'font-lock-face '(:background "red")))  ("textcolor"))
+                  ("{2}" ("textcolor"))
+
+                  ("~" ("textasciitilde"))
+                  ("^" ("xor"))
+                  ("^" ("textasciicircum"))
+                  ("×" ("texttimes"))
+
                   ;; just put backticks around typewriter font
                   ("`{1}`" ("texttt"))
 
