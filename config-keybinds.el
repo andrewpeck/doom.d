@@ -330,10 +330,6 @@ between the two most recently open buffers."
   (evil-define-key nil latex-mode-map
     (kbd "M-q") #'ap/line-fill-paragraph)
 
-  ;; Tab in normal mode shouldn't indent
-  (evil-define-key 'insert 'global
-    (kbd "TAB") 'nil)
-
   ;; Backspace to jump to previous buffer
   (evil-define-key '(normal motion) 'global
     (kbd "DEL") 'switch-to-previous-buffer)
