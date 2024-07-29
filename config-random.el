@@ -1,5 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
+(add-hook 'text-mode-hook #'abbrev-mode)
+
 (setopt mouse-wheel-scroll-amount-horizontal 32
         mouse-wheel-tilt-scroll t)
 
