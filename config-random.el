@@ -423,14 +423,22 @@ char of the language you are editing"
   (interactive)
   (shell-command (format "vim --clean -c 'set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab' -c 'normal gg=G' -c 'wq' %s" buffer-file-name)))
 
-(defun qrc (replace-str)
-  "Do query-replace current word with"
-  (interactive (list (read-string (format  "Query-replace %s: " (symbol-at-point))
-                                  (symbol-name (symbol-at-point)))))
-  (save-excursion
-    (query-replace (symbol-name (symbol-at-point)) replace-str
-                   t (point-min) (point-max))))
+;;------------------------------------------------------------------------------
+;; Query Replace
+;;------------------------------------------------------------------------------
 
+(defun qrc ()
+  "Do query-replace current word with"
+
+  (interactive)
+
+  (save-excursion
+    (let* ((active? (region-active-p))
+           (from-string (symbol-name (symbol-at-point)))
+           (to-string (read-string (format  "Query-replace %s with: " from-string) from-string)))
+      (query-replace from-string to-string t
+                     (if active? (region-beginning) (point-min))
+                     (if active? (region-end) (point-max))))))
 
 (defun github-package ()
   (let ((clip (current-kill 0))
