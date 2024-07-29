@@ -718,6 +718,9 @@ If not specified it will default to xdg-open."))
 
 (use-package! tex-fold
   :config
+
+  (setq TeX-fold-auto-reveal t)
+
   ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
   (setq TeX-fold-macro-spec-list
         (append TeX-fold-macro-spec-list
