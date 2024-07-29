@@ -464,7 +464,8 @@ _h_ decrease width    _l_ increase width
     (defun hook/dired-git-info-mode ()
       "Enable dired git info on local files."
       (unless (file-remote-p default-directory)
-         (dired-git-info-auto-enable))))
+        (when (locate-dominating-file "." ".git")
+          (dired-git-info-auto-enable)))))
 
   ;; Stolen from doom: Disable the prompt about whether I want to kill the Dired
   ;; buffer for a deleted directory. Of course I do!
