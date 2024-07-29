@@ -422,7 +422,7 @@ between the two most recently open buffers."
   (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)
   (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
 
-  (map! :leader :prefix "r" :desc "Replace Symbol"       "s"  #'qrc)
+  (map! :leader :prefix "r" :desc "Replace Symbol"       "s"  #'query-replace-symbol)
   (map! :leader :prefix "r" :desc "Replace Query"        "q"  #'query-replace)
   (map! :leader :prefix "r" :desc "Replace Globally"     "g"  #'replace-string)
 

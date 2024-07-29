@@ -427,7 +427,7 @@ char of the language you are editing"
 ;; Query Replace
 ;;------------------------------------------------------------------------------
 
-(defun qrc ()
+(defun query-replace-symbol ()
   "Do query-replace current word with"
 
   (interactive)
