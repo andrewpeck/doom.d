@@ -1,5 +1,15 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
+
+;;------------------------------------------------------------------------------
+;; Citar
+;;------------------------------------------------------------------------------
+
+(use-package citar
+  :hook
+  (LaTeX-mode . citar-capf-setup)
+  (org-mode . citar-capf-setup))
+
 ;;------------------------------------------------------------------------------
 ;; Emacs Pet
 ;;------------------------------------------------------------------------------
@@ -2135,10 +2145,12 @@ See URL `http://nagelfar.sourceforge.net/'."
       (setq-local completion-at-point-functions
                   (list
                    ;; 'lsp-completion-at-point
-                   'TeX--completion-at-point
-                   'LaTeX--arguments-completion-at-point
-                   'yasnippet-capf
+                   'citar-capf
+                   ;; 'TeX--completion-at-point
+                   ;; 'LaTeX--arguments-completion-at-point
                    'cape-tex
+                   'yasnippet-capf
+                   'cape-dabbrev
                    'cape-file))))
 
   (add-hook! 'emacs-lisp-mode-hook
