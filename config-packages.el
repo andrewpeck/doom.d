@@ -472,10 +472,11 @@ _h_ decrease width    _l_ increase width
 
   (advice-add 'dired-find-file
               :before-until
-              (lambda () (when (and (member (file-name-extension (dired-get-file-for-visit))
-                                            auto-external-handle-extensions)
-                                    (not (file-remote-p (dired-get-file-for-visit))))
-                           (ap/dired-external-open))))
+              (lambda () (if (and (member (file-name-extension (dired-get-file-for-visit))
+                                          auto-external-handle-extensions)
+                                  (not (file-remote-p (dired-get-file-for-visit))))
+                             (ap/dired-external-open)
+                           nil)))
 
   (defun ap/external-open (file)
     (let* ((ext-handler (cdr (assoc (file-name-extension file) external-program-handlers)))
@@ -485,7 +486,8 @@ _h_ decrease width    _l_ increase width
 
   (defun ap/dired-external-open()
     (interactive)
-    (ap/external-open (dired-get-file-for-visit)))
+    (ap/external-open (dired-get-file-for-visit))
+    t)
 
   (defvar auto-external-handle-extensions
     '("drawio")
