@@ -857,6 +857,12 @@ If not specified it will default to xdg-open."))
 
   (setq-default TeX-command-extra-options " -shell-escape -synctex=1")
 
+  ;; this isn't working very well and is creating
+  ;;      paragraphs which are
+  ;;      awkwardly indented
+  (remove-hook! 'LaTeX-mode-hook
+    #'adaptive-wrap-prefix-mode)
+
   (add-hook! 'LaTeX-mode-hook
 
              (olivetti-mode)
