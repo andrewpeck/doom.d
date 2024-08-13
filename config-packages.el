@@ -394,11 +394,12 @@ _h_ decrease width    _l_ increase width
         dired-compress-directory-default-suffix ".tar.zst")
 
 
-  (advice-add 'dired-do-rename
-              :after
-              (defun dired-unmark-after-rename-advice (&optional _)
-                (dired-unmark 1 t)
-                (forward-line -1))))
+  (dolist (element (list 'dired-do-rename 'dired-create-directory))
+          (advice-add element
+                      :after
+                      (defun dired-unmark-after-rename-advice (&optional _)
+                        (dired-unmark 1 t)
+                        (forward-line -1)))))
 
 (use-package! dired-x
   :after dired
