@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: local-vars
+# key: local-vars
+# --
+\# Local Variables:
+\# mode: vivado
+\# End:

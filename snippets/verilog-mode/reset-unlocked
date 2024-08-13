@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: reset-unlocked
+# key: reset-unlocked
+# --
+always @(posedge clk or negedge locked) begin
+  if (!locked)
+    rst <= 1;
+  else
+    rst <= 0;
+end

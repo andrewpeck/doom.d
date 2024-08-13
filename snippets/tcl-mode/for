@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name:for
+# key:for
+# --
+for {set ${1:x} 0} {$${1}<${2:max}} {incr ${1}} {
+   $3
+}
