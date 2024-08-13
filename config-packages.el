@@ -628,6 +628,24 @@ If not specified it will default to xdg-open."))
   :after project
   :config
 
+  (defun projectile-vc-browse-at-remote (&optional arg)
+    "Open in browser the VC repository for the selected project."
+    (interactive "P")
+    (let ((projects (projectile-relevant-known-projects)))
+      (if projects
+          (projectile-completing-read
+           "Switch to project: " projects
+           :action (lambda (project)
+                     (progn
+                       (find-file project)
+                       (+vc/browse-at-remote-homepage)
+                       (previous-buffer))))
+        (user-error "There are no known projects"))))
+
+  (map! :leader
+        (:prefix "g" :desc "Browse Projectile Homepage" "oH"
+                 #'projectile-vc-browse-at-remote))
+
   ;; doom overwrites this to ignore tramp uhg damnit
   ;; restore the original value
   ;;
