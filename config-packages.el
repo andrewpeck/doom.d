@@ -736,8 +736,7 @@ If not specified it will default to xdg-open."))
                   ("{2}" ("textcolor"))
 
                   ("~" ("textasciitilde"))
-                  ("^" ("xor"))
-                  ("^" ("textasciicircum"))
+                  ("^" ("textasciicircum" "xor"))
                   ("×" ("texttimes"))
 
                   ;; just put backticks around typewriter font
