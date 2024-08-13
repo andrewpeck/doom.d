@@ -1294,11 +1294,10 @@ If not specified it will default to xdg-open."))
   ;;  '(("\\(always_ff @(negedge \\)"
   ;;     1 '(face nil display  "󰁥(neg "))))
 
+
   (add-hook 'verilog-mode-hook
             (defun hook/verilog-configure-indent-and-comment ()
-              "Wrap verilog-do-indent in a save excursion so it doesn't jump around.... uhg"
-              (setq-local indent-line-function
-                          (lambda () (save-excursion (verilog-indent-line-relative))))
+              (setq-local indent-line-function #'verilog-indent-line)
               (setq-local comment-multi-line t)))
 
   ;; (add-hook 'verilog-mode-hook
@@ -1307,6 +1306,8 @@ If not specified it will default to xdg-open."))
   ;;             (setq-local fill-prefix "// ")))
 
   :config
+
+  (define-key verilog-mode-map (kbd  "<return>") #'electric-verilog-terminate-and-indent)
 
   (require 'verilog-port-copy)
 
