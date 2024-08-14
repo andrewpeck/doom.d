@@ -634,7 +634,7 @@ If not specified it will default to xdg-open."))
     (let ((projects (projectile-relevant-known-projects)))
       (if projects
           (projectile-completing-read
-           "Switch to project: " projects
+           "Open Project Git remote: " projects
            :action (lambda (project)
                      (progn
                        (find-file project)
