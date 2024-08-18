@@ -628,6 +628,13 @@ If not specified it will default to xdg-open."))
   :after project
   :config
 
+  (setq projectile-project-search-path '(("~/work" . 1)))
+
+  ;; re-add projects after clearing
+  (advice-add 'projectile-cleanup-known-projects
+              :after
+              #'projectile-discover-projects-in-search-path)
+
   (defun projectile-vc-browse-at-remote (&optional arg)
     "Open in browser the VC repository for the selected project."
     (interactive "P")
