@@ -90,7 +90,7 @@ This function tries to de hyphenate them."
       frame-title-format
       '(:eval
         (if dired-directory
-            (concat (abbreviate-file-name dired-directory) " - Dired" )
+            (concat (abbreviate-file-name dired-directory) " - Emacs Dired" )
           (concat (abbreviate-file-name (expand-file-name "%b"))
                   (if (buffer-modified-p) " • " " - ")
                   "Emacs" ))))
