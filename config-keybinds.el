@@ -290,10 +290,19 @@ between the two most recently open buffers."
   (evil-define-key '(normal insert motion) 'global
     (kbd "C-t") 'evil-jump-backward)
 
+  ;; unbind these from the global map
+  (evil-define-key '(motion normal visual insert) 'global
+    (kbd "<mouse-8>") nil
+    (kbd "<mouse-9>") nil)
+
   ;; Jump back and forth through files, time, and space with arrow keys
   (evil-define-key nil 'global
     (kbd "<mouse-8>") 'evil-jump-backward
     (kbd "<mouse-9>") 'evil-jump-forward)
+
+  (evil-define-key nil pdf-history-minor-mode-map
+    (kbd "<mouse-8>") #'evil-collection-pdf-jump-backward
+    (kbd "<mouse-9>") #'evil-collection-pdf-jump-forward)
 
   (evil-define-key nil 'global
     (kbd "<mouse-3>") 'context-menu-open)
