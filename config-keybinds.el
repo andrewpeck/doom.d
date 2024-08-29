@@ -54,13 +54,14 @@
      (outline-cycle))))
 
 (setq preferred-terminal
-      (let* ((suffixes '((terminator . "--working-directory")))
+      (let* ((suffixes '((terminator . "--working-directory")
+                         (konsole . "--workdir")))
              (pref-shell (pcase (system-name)
                            ("pepper" 'terminator)
                            ("larry" 'terminator)
                            ("cobweb" 'terminator)
                            ("strange" 'terminator)
-                           (_ 'terminator)))
+                           (_ 'konsole)))
              (assl (assoc pref-shell suffixes)))
         (list (symbol-name (car assl)) (cdr assl))))
 
