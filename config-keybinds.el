@@ -427,6 +427,7 @@ between the two most recently open buffers."
   (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
   (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)
   (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
+  (map! :leader :prefix "o" :desc "Open Terminal Here"   "K"  #'open-pwd-in-terminal)
 
   (map! :leader :prefix "r" :desc "Replace Symbol"       "s"  #'query-replace-symbol)
   (map! :leader :prefix "r" :desc "Replace Query"        "q"  #'query-replace)
