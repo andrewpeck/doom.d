@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: argparse
+# key: argparse
+# --
+if __name__ == '__main__':
+    import argparse
+
+    argParser = argparse.ArgumentParser(description = "Argument parser")
+
+    argParser.add_argument('--cheby',  action='store_true', default=False, help="Generate Cheby Output")
+    argParser.add_argument('--rtl',    action='store_true', default=False, help="Generate RTL Output")
+
+    args = argParser.parse_args()
