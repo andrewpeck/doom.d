@@ -802,6 +802,13 @@ If not specified it will default to xdg-open."))
   ;; (setq  reftex-ref-style-alist '(("\\ref" t)))
   (setq  reftex-ref-macro-prompt nil)
 
+  (defun latex/set-default-tex-master ()
+    (interactive)
+    (let ((master-file
+           (completing-read "Master File: "
+                            (cl-remove-if-not (lambda (f) (string= "tex" (file-name-extension f)))
+                                              (project-files (project-current))))))
+      (add-hook 'latex-mode-hook (setq TeX-master master-file))))
 
   (define-key LaTeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
