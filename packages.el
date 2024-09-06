@@ -15,7 +15,6 @@
 
 ;; Misc packages
 ;; start:sort
-(package! olivetti)
 (package! affe                    :pin "e82be0be353dafe15c5ff617917806bd3728463a")
 (package! apheleia                :pin "3e347cff47eb0072b47c56f6188c4f440e477770")
 (package! ascii-art-to-unicode    :pin "fa3d82ddb531855ad7b8ef871871907861327c9f")
@@ -49,6 +48,7 @@
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
 (package! nerd-icons.el           :pin "c3d641d8e14bd11b5f98372da34ee5313636e363" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
+(package! olivetti                :pin "1a6a521273e70173af6dcf34e3c9f8bb97dd7afc")
 (package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))
 (package! org-download            :pin "19e166f0a8c539b4144cfbc614309d47a9b2a9b7" :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-web-tools           :pin "7a6498f442fc7f29504745649948635c7165d847")
