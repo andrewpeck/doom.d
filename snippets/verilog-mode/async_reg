@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: async_reg
+# key: async_reg
+# --
+(* async_reg="true" *)
