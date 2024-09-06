@@ -63,7 +63,7 @@
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org                 :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! verilog-mode            :pin "b67436bebdc2495c5bda6ab3c3fd7553476d83d9" :recipe (:host github :repo "veripool/verilog-mode"))
-(package! verilog-port-copy       :pin "4bdb806e87c992eefc877a2a0a2083414920187b" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
+(package! verilog-port-copy       :pin "a103f8e2209dde19d26d2151f35fe8e53ab3d336" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! vimrc-mode              :pin "13bc150a870d5d4a95f1111e4740e2b22813c30e")
 (package! visual-fill-column      :pin "e04d3521b6dc2435de4c4a4b9cac5feb194f0d5b")
 (package! vivado_mode             :pin "d0192c2919855bbc96f269f75b49a5a95242eeb1" :recipe (:host github :repo "andrewpeck/vivado_mode"))
