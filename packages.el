@@ -49,6 +49,7 @@
 (package! nerd-icons.el           :pin "c3d641d8e14bd11b5f98372da34ee5313636e363" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! olivetti                :pin "1a6a521273e70173af6dcf34e3c9f8bb97dd7afc")
+(package! treesit-auto            :pin "016bd286a1ba4628f833a626f8b9d497882ecdf3" :recipe (:host github :repo "renzmann/treesit-auto"))
 (package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))
 (package! org-download            :pin "19e166f0a8c539b4144cfbc614309d47a9b2a9b7" :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-web-tools           :pin "7a6498f442fc7f29504745649948635c7165d847")
