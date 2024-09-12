@@ -2285,6 +2285,10 @@ See URL `http://nagelfar.sourceforge.net/'."
                            tcl-typeword-list
                            tcl-builtin-list)))))
 
+;;------------------------------------------------------------------------------
+;; Yasnippet
+;;------------------------------------------------------------------------------
+
 (use-package! yasnippet
   :defer-incrementally t
 
