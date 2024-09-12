@@ -15,7 +15,7 @@
 
 ;; Misc packages
 ;; start:sort
-(package! affe                    :pin "e82be0be353dafe15c5ff617917806bd3728463a")
+(package! affe                    :pin "43a2a081f728f982ce49f150a11e731800408586")
 (package! apheleia                :pin "b3642d18d8dd67a4f9ee2aacaab8966eed4e4733")
 (package! ascii-art-to-unicode    :pin "fa3d82ddb531855ad7b8ef871871907861327c9f")
 (package! backup-each-save        :pin "9d9714be7bf99b2a192587c1454822c69c61915e" :recipe (:host github :repo "andrewpeck/backup-each-save"))
@@ -43,9 +43,9 @@
 (package! hdl_deps                :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
 (package! hog-emacs               :pin "14b5fa276dabfb3e737c2fca00a0026c841a0c96" :recipe (:host github :repo "andrewpeck/hog-emacs"))
 (package! hydra                   :pin "317e1de33086637579a7aeb60f77ed0405bf359b")
-(package! jinx                    :pin "cd827ee199efedc8f5e094001d90206e698f91e8" :recipe (:host github :repo "minad/jinx"))
+(package! jinx                    :pin "d8beafb9b4832dbcc6db5a9c219d11a0a5b59e0c" :recipe (:host github :repo "minad/jinx"))
 (package! logview                 :pin "272e5ccc13c3c058c73f9b89cd90b9832d976dc0")
-(package! magit-todos             :pin "60b6bd9b50cc0839ecd0bf35a7c8b0074e1186c0")
+(package! magit-todos             :pin "f777f26799cb44a36070ef5889022b8a3d6815ee")
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
 (package! nerd-icons.el           :pin "c3d641d8e14bd11b5f98372da34ee5313636e363" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
