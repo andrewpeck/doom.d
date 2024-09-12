@@ -1,5 +1,12 @@
 ;;; -*- lexical-binding: t; -*-
 
+;; Find Local Dictionaries
+(add-hook 'text-mode-hook
+          (defun hook/set-ispell-dict ()
+            (setq-local ispell-personal-dictionary
+                        (let ((local (concat (vc-root-dir) ".aspell.en.pws")))
+                          (if (file-exists-p local) local "~/.aspell.en.pws")))))
+
 (add-hook 'text-mode-hook #'abbrev-mode)
 
 (setopt mouse-wheel-scroll-amount-horizontal 32
