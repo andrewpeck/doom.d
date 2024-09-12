@@ -163,6 +163,15 @@ This function tries to de hyphenate them."
   :select t
   :ttl 0)
 
+(set-popup-rule! ".*toc.*"
+  :modeline nil
+  :side 'left
+  :quit nil
+  :size 0.6
+  :slot -4
+  :select t
+  :ttl 0)
+
 (set-popup-rule! ".*mu4e-headers.*"
   :modeline t
   :side 'right
