@@ -819,11 +819,11 @@ If not specified it will default to xdg-open."))
            (completing-read "Master File: "
                             (cl-remove-if-not (lambda (f) (string= "tex" (file-name-extension f)))
                                               (project-files (project-current))))))
-      (add-hook 'latex-mode-hook (setq TeX-master master-file))))
+      (add-hook 'LaTeX-mode-hook (setq TeX-master master-file))))
 
   (define-key LaTeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
-  (add-hook 'latex-mode-hook #'outline-minor-mode)
+  (add-hook 'LaTeX-mode-hook #'outline-minor-mode)
 
   (define-key global-map (kbd "M-<right>") nil) ; bound by drag-stuff
 
