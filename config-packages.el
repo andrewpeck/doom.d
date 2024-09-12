@@ -406,11 +406,11 @@ _h_ decrease width    _l_ increase width
 
 
   (dolist (element (list 'dired-do-rename 'dired-create-directory))
-          (advice-add element
-                      :after
-                      (defun dired-unmark-after-rename-advice (&optional _)
-                        (dired-unmark 1 t)
-                        (forward-line -1)))))
+    (advice-add element
+                :after
+                (defun dired-unmark-after-rename-advice (&optional _)
+                  (dired-unmark 1 t)
+                  (forward-line -1)))))
 
 (use-package! dired-x
   :after dired
