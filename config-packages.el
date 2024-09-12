@@ -1051,10 +1051,13 @@ If not specified it will default to xdg-open."))
   (use-package lsp-mode
     :config
 
-    (setq lsp-enable-symbol-highlighting nil
-          lsp-vhdl-server 'hdl-checker
-          ;; lsp-vhdl-server-path "~/.local/bin/hdl_checker"; only needed if hdl_checker is not already on the PATH
-          )
+    (setopt lsp-file-watch-threshold 2000)
+    (setopt lsp-warn-no-matched-clients nil)
+
+    (setopt lsp-enable-symbol-highlighting nil
+            lsp-vhdl-server 'hdl-checker
+            ;; lsp-vhdl-server-path "~/.local/bin/hdl_checker"; only needed if hdl_checker is not already on the PATH
+            )
 
     (add-to-list 'lsp-file-watch-ignored (expand-file-name "~/.pyenv"))
     (add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog"))
