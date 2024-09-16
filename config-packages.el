@@ -1350,6 +1350,15 @@ If not specified it will default to xdg-open."))
 
   :config
 
+  (defun verilog-indent-line ()
+    "Indent for special part of code."
+    (interactive)
+
+    (let ((pt (point)))
+      (beginning-of-line)
+      (verilog-do-indent (verilog-calculate-indent))
+      (goto-char pt)))
+
   (define-key verilog-mode-map (kbd  "<return>") #'electric-verilog-terminate-and-indent)
 
   (require 'verilog-port-copy)
