@@ -1354,10 +1354,15 @@ If not specified it will default to xdg-open."))
     "Indent for special part of code."
     (interactive)
 
-    (let ((pt (point)))
-      (beginning-of-line)
+    (let ((pt (point))
+          (at-beginning (equal (current-column) 0)))
+      (when (not at-beginning)
+        (beginning-of-line))
       (verilog-do-indent (verilog-calculate-indent))
-      (goto-char pt)))
+      (when (not at-beginning)
+        (goto-char pt)))
+
+    nil)
 
   (define-key verilog-mode-map (kbd  "<return>") #'electric-verilog-terminate-and-indent)
 
