@@ -1,4 +1,9 @@
 ;;; -*- lexical-binding: t; -*-
+;;; package --- Summary
+
+;;; package --- Commentary
+
+;;; package --- Code
 
 (require 'cl-lib)
 
@@ -22,8 +27,8 @@
         (let ((pad "      "))
 
           (if noroot
-              (princ (concat pad "#+begin_src bash  :tangle no :results output\n"))
-            (princ (concat pad "#+begin_src bash  :tangle no :dir /sudo::~/ :results output\n")))
+              (princ (concat pad "#+begin_src bash :async :tangle no :results output\n"))
+            (princ (concat pad "#+begin_src bash :async :tangle no :dir /sudo::~/ :results output\n")))
 
           (when ubuntu (princ (format "%ssudo apt install --yes %s\n" pad ubuntu)))
           (when dnf    (princ (format "%ssudo dnf install -y %s\n" pad dnf)))
@@ -317,3 +322,4 @@ Make sure they are installed and the computer is set up ok"
   (setup--create-org-buffer #'setup--check-functions))
 
 (provide 'setup-system)
+;;; setup-system.el ends here
