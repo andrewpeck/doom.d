@@ -1350,6 +1350,9 @@ If not specified it will default to xdg-open."))
 
   :config
 
+  (evil-define-key '(motion normal) 'verilog-mode-map
+    (kbd "=") #'indent-for-tab-command)
+
   (defun verilog-indent-line ()
     "Indent for special part of code."
     (interactive)
