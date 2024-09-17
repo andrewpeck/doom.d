@@ -2,6 +2,7 @@
 ;;
 ;; Interesting Packages:
 ;; https://github.com/alphapapa/taxy.el
+;; https://github.com/alphapapa/activities.el
 ;;
 ;; Interesting Emacs Configurations
 ;;
@@ -59,11 +60,11 @@
 (load!! "config-org")
 (load!! "config-packages")
 (load!! "config-random")
+(load!! "lisp/plotting")
+(load!! "lisp/regulator")
+(load!! "lisp/tracking")
 (load!! "passwords")
 (load!! "psiq")
-;; (load!! "lisp/plotting")
-;; (load!! "lisp/regulator")
-;; (load!! "lisp/tracking")
 ;; end:sort
 
 (defun byte-compile-config ()

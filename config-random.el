@@ -569,6 +569,34 @@ The date will follow the format in `current-date-format'"
 ;; output into some of the child processes that Emacs spawns. Many Emacs
 ;; packages/utilities will choke on this output, causing unpredictable
 ;; issues. To get around this, either:
-(setq-default shell-file-name (executable-find "bash"))
-(setq-default vterm-shell (executable-find "fish"))
-(setq-default explicit-shell-file-name (executable-find "fish"))
+(setq shell-file-name (executable-find "bash"))
+(setq vterm-shell (executable-find "fish"))
+(setq explicit-shell-file-name (executable-find "fish"))
+
+
+(defun copy-buffer-as-string ()
+  "Yank / Copy the current buffer as a string."
+  (interactive)
+  ;; prin1-to-string ? no
+  (kill-new
+   (buffer-substring-no-properties (point-min) (point-max))))
+
+(defun selected-window-number ()
+  (let ((win (format "%s" (selected-window))))
+    (if (string-match "#<window \\([[:digit:]]+\\) on .*>" win)
+        (string-to-number (match-string-no-properties 1 win)) nil)))
+
+;; (defvar window-list-hash-table
+;;   (make-hash-table)
+;;   "docs")
+
+;; (defun switch-to-previous-buffer-with-hashtable ()
+;;   "Switch to previously open buffer. Repeated invocations toggle
+;; between the two most recently open buffers."
+;;   (interactive)
+;;   ;; (evil-switch-to-windows-last-buffer)
+;;   (let* ((current (current-buffer))
+;;          (other (other-buffer current 1)))
+;;     (when (and  (buffer-file-name other)
+;;                 (buffer-file-name current))
+;;       (switch-to-buffer other))))
