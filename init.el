@@ -96,15 +96,15 @@
 
  :tools
 
- biblio                        ; Writes a PhD for you (citation needed)
+ biblio                                 ; Writes a PhD for you (citation needed)
  (docker +lsp)
- (eval +overlay)               ; run code, run (also, repls)
- (lookup +dictionary +docsets) ; helps you navigate your code and documentation
- (lsp)                         ;
- (magit)                       ; a git porcelain for Emacs
- make                          ; run make tasks from Emacs
- pdf                           ; pdf enhancements
- tmux                          ; an API for interacting with tmux
+ (eval +overlay)                        ; run code, run (also, repls)
+ (lookup +dictionary +docsets +offline) ; helps you navigate your code and documentation
+ (lsp)                                  ;
+ (magit)                                ; a git porcelain for Emacs
+ make                                   ; run make tasks from Emacs
+ pdf                                    ; pdf enhancements
+ tmux                                   ; an API for interacting with tmux
 
  ;;debugger          ; FIXME stepping through code, to help you add bugs
  ;; ein
