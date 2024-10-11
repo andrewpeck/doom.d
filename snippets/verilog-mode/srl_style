@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: srl_style
+# key: srl_style
+# --
+// srl: The tool infers an SRL without any registers before or after.
+// srl_reg: The tool infers an SRL and leaves one register after the SRL.
+// reg_srl: The tool infers an SRL and leaves one register before the SRL.
+// reg_srl_reg: The tool infers an SRL and leaves one register before and one register
+after the SRL.
+// block: The tool infers the SRL inside a block RAM.
+(* srl_style = "reg_srl" *)
+register: The tool does not infer an SRL, but instead only uses registers.
