@@ -413,6 +413,7 @@ between the two most recently open buffers."
                  "=" #'verilog-pretty-expr))
 
 
+  (map! :leader :prefix "o" :desc "Vterm Here"  "T" (lambda () (interactive) (+vterm/here t)))
   (map! :leader :prefix "n" :desc "Narrow to Region"  "r" #'narrow-to-region)
   (map! :leader :prefix "n" :desc "Widen (Unnarrow)"  "w" #'widen)
 
