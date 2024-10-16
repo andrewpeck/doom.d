@@ -1217,6 +1217,33 @@ If not specified it will default to xdg-open."))
 
   :config
 
+  ;; (add-to-list 'magit-status-sections-hook
+  ;;              #'magit-insert-local-branches)
+  (setq magit-status-sections-hook
+        (list
+         #'magit-insert-status-headers
+         #'magit-insert-merge-log
+         #'magit-insert-rebase-sequence
+         #'magit-insert-am-sequence
+         #'magit-insert-sequencer-sequence
+         #'magit-insert-bisect-output
+         #'magit-insert-bisect-rest
+         #'magit-insert-bisect-log
+         #'magit-insert-untracked-files
+         #'magit-insert-unstaged-changes
+         #'magit-insert-staged-changes
+         #'magit-insert-unpushed-to-pushremote
+         #'magit-insert-unpushed-to-upstream-or-recent
+         #'magit-insert-unpulled-from-pushremote
+         #'magit-insert-unpulled-from-upstream
+         #'magit-insert-stashes
+         #'magit-insert-local-branches
+         ))
+
+  ;; magit-describe-section-briefly
+  (setq magit-section-initial-visibility-alist '((stashes . hide)
+                                                 (local . hide)))
+
   ;; When you initiate a commit, then Magit by default automatically shows a diff
   ;; of the changes you are about to commit. For large commits this can take a
   ;; long time, which is especially distracting when you are committing large
