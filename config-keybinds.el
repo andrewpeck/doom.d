@@ -20,7 +20,8 @@
   ;; (evil-select-search-module 'evil-search-module 'isearch)
 
   ;; for some reason this makes org tables really really slow
-  (advice-remove 'set-window-buffer #'ad-Advice-set-window-buffer)
+  ;; but for some reason now if I am removing this advice then git time machine breaks!!
+  ;; (advice-remove 'set-window-buffer #'ad-Advice-set-window-buffer)
 
   ;; only substitute the 1st match by default (reverse vim behavior)
   (setq evil-ex-substitute-global t)
