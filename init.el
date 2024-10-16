@@ -77,7 +77,8 @@
  vc                ; version-control and Emacs, sitting in a tree
  (undo)            ; persistent, smarter undo for your inevitable mistakes
 
- ;; dired          ; making dired pretty [functional]
+ (dired +dirvish +icons) ; making dired pretty [functional]
+
  ;; electric       ; smarter, keyword-based electric-indent
 
  :term
