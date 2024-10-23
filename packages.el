@@ -16,6 +16,7 @@
 ;; Misc packages
 ;; start:sort
 (package! affe                    :pin "569c661aa2333502759aee2d4c7c87a046b09d33")
+(package! almost-mono-themes      :pin "0641bf565c113caef8d5c2a93f38cff32ebb62b7" :recipe (:host github :repo "cryon/almost-mono-themes"))
 (package! apheleia                :pin "d6f520752a77923a420f2ef894a6f2d26d29d7d0")
 (package! ascii-art-to-unicode    :pin "fa3d82ddb531855ad7b8ef871871907861327c9f")
 (package! backup-each-save        :pin "9d9714be7bf99b2a192587c1454822c69c61915e" :recipe (:host github :repo "andrewpeck/backup-each-save"))
