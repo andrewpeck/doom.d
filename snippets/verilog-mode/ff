@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ff
+# key: ff
+# --
+always_ff @(posedge clk)
+  $1
