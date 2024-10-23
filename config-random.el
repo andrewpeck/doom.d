@@ -600,3 +600,13 @@ The date will follow the format in `current-date-format'"
 ;;     (when (and  (buffer-file-name other)
 ;;                 (buffer-file-name current))
 ;;       (switch-to-buffer other))))
+
+(defun file-browse-backups ()
+  "Browse the directory of backup-each-save files for the currently open buffer."
+  (interactive)
+  (let* ((b-f-n (buffer-file-name))
+         (dir (file-name-directory (concat backup-each-save-mirror-location b-f-n)))
+         (pat (concat  (file-name-nondirectory b-f-n) "*")))
+    (if (fboundp 'dirvish-fd)
+        (dirvish-fd dir pat)
+      (find-name-dired dir pat))))
