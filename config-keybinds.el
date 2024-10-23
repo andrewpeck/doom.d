@@ -286,6 +286,10 @@ between the two most recently open buffers."
     (kbd "C-S-t") #'open-todo
     (kbd "C-S-b") #'open-timesheet)
 
+  (map! :leader
+        :desc "Org Capture TODO"
+        "T" (lambda () (interactive) (org-capture nil "t")))
+
   ;; Jump back and forth through files, time, and space with arrow keys
 
   (evil-define-key '(normal insert motion) 'global
