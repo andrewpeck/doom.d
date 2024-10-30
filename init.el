@@ -130,7 +130,7 @@
  (php +lsp)                    ; perl's insecure younger brother
  (python +pyright +lsp +pyenv) ; beautiful is better than ugly
  (rust)                        ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
- (sh +lsp +fish)               ; she sells {ba,z,fi}sh shells on the C xor
+ (sh +fish)                    ; she sells {ba,z,fi}sh shells on the C xor
  (web +lsp)                    ; the tubes
  (yaml +lsp)                   ; JSON, but readable
 
