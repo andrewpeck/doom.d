@@ -645,13 +645,19 @@ _h_ decrease width    _l_ increase width
   ;; (setq  reftex-ref-style-alist '(("\\ref" t)))
   (setq  reftex-ref-macro-prompt nil)
 
+  (defvar default-tex-master nil)
+  (defun hook/set-default-tex-master ()
+    (when (not TeX-master)
+      (setq TeX-master default-tex-master)))
+
   (defun latex/set-default-tex-master ()
     (interactive)
     (let ((master-file
            (completing-read "Master File: "
                             (cl-remove-if-not (lambda (f) (string= "tex" (file-name-extension f)))
                                               (project-files (project-current))))))
-      (add-hook 'LaTeX-mode-hook (setq TeX-master master-file))))
+      (setq default-tex-master master-file)
+      (add-hook 'LaTeX-mode-hook #'hook/set-default-tex-master)))
 
   (define-key LaTeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
