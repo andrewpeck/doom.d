@@ -63,6 +63,7 @@
 (load!! "lisp/tracking")
 (load!! "lisp/setup-org")
 (load!! "lisp/setup-verilog")
+(load!! "lisp/setup-lsp")
 (load!! "lisp/setup-git")
 (load!! "lisp/setup-dired")
 (load!! "passwords")
