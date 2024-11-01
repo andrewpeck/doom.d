@@ -47,6 +47,22 @@
 (use-package! latex
   :config
 
+  (require 'expand-region)
+
+  (defun tex-follow-link-at-point ()
+    (interactive)
+
+    (let ((f (thing-at-point 'filename t)))
+      (string-match "\\(.*\\)\{\\(.*\\)}" f)
+      (let ((f (concat (vc-root-dir) (match-string 2 f))))
+        (when (and (not (string= f (vc-root-dir)))
+                   (file-exists-p f))
+          (find-file f)))))
+
+  (evil-define-key '(motion normal) TeX-mode-map
+    (kbd "RET") #'tex-follow-link-at-point)
+
+
   (setq-default TeX-master nil)         ; Query for master file.
 
   (evil-define-key '(motion normal visual) reftex-toc-mode-map
