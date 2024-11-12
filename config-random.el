@@ -21,8 +21,10 @@
 (setopt mouse-wheel-scroll-amount-horizontal 32
         mouse-wheel-tilt-scroll t)
 
-(setopt auto-revert-avoid-polling t
-        auto-revert-interval 5
+(global-auto-revert-mode t)
+(setopt auto-revert-avoid-polling nil
+        auto-revert-interval 1
+        auto-revert-use-notify nil
         auto-revert-check-vc-info t)
 
 
