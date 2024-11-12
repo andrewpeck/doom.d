@@ -1762,7 +1762,6 @@
     ("gaurentee" "guarantee" nil :count 0)
     ("gaurenteed" "guaranteed" nil :count 0)
     ("gaurentees" "guarantees" nil :count 0)
-    ("gen0a" "Gen0A" nil :count 0)
     ("geneological" "genealogical" nil :count 0)
     ("geneologies" "genealogies" nil :count 0)
     ("geneology" "genealogy" nil :count 0)
