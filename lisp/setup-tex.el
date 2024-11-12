@@ -83,7 +83,7 @@
   (defvar default-tex-master nil)
   (defun hook/set-default-tex-master ()
     (when (not TeX-master)
-      (setq TeX-master default-tex-master)))
+      (setq-local TeX-master default-tex-master)))
 
   (defun latex/set-default-tex-master ()
     (interactive)
@@ -92,7 +92,10 @@
                             (cl-remove-if-not (lambda (f) (string= "tex" (file-name-extension f)))
                                               (project-files (project-current))))))
       (setq default-tex-master master-file)
-      (add-hook 'LaTeX-mode-hook #'hook/set-default-tex-master)))
+      (hook/set-default-tex-master) ; execute now to take effect immediately
+      )) ; add a hook for future files
+
+  (add-hook 'LaTeX-mode-hook #'hook/set-default-tex-master)
 
   (define-key LaTeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
 
