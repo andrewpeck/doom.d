@@ -12,3 +12,4 @@ secrets.el
 passwords.el
 undo
 *.egg-info/
+crs
