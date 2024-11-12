@@ -98,7 +98,7 @@
  :tools
 
  biblio                                 ; Writes a PhD for you (citation needed)
- (docker +lsp)
+ (docker)
  (eval +overlay)                        ; run code, run (also, repls)
  (lookup +dictionary +docsets +offline) ; helps you navigate your code and documentation
  (lsp)                                  ;
@@ -122,17 +122,17 @@
 
  (cc +lsp)                     ; C/C++/Obj-C madness
  (clojure +lsp)                ; java with a lisp
- (json +lsp)                   ; json, uhg
+ (json)                        ; json, uhg
  (latex +fold +lsp)            ; writing papers in Emacs has never been so fun
  (markdown +grip)              ; writing docs for people to ignore
  data                          ; A dumping ground for data formats (csv, xml)
  emacs-lisp                    ; drown in parentheses
- (php +lsp)                    ; perl's insecure younger brother
+ (php)                         ; perl's insecure younger brother
  (python +pyright +lsp +pyenv) ; beautiful is better than ugly
  (rust)                        ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
  (sh +fish)                    ; she sells {ba,z,fi}sh shells on the C xor
- (web +lsp)                    ; the tubes
- (yaml +lsp)                   ; JSON, but readable
+ (web)                         ; the tubes
+ (yaml)                        ; JSON, but readable
 
  ;; organize your plain life in plain text
  (org +dragndrop +gnuplot +pandoc
