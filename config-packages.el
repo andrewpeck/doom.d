@@ -844,12 +844,11 @@ _h_ decrease width    _l_ increase width
   :init
 
   ;; Initialize LSP unless the python file is remote
-  (remove-hook! 'python-mode-local-vars-hook #'lsp!)
   (defun +python-init-lsp-mode-maybe-h ()
     "Initialize LSP unless the python file is remote."
     (unless (and (buffer-file-name)
                  (file-remote-p (buffer-file-name)))
-      (call-interactively #'lsp!)))
+      (call-interactively #'lsp)))
   (add-hook! 'python-mode-local-vars-hook #'+python-init-lsp-mode-maybe-h)
 
   (remove-hook! 'python-mode-local-vars-hook #'tree-sitter!)
