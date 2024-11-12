@@ -1,5 +1,11 @@
 ;;; -*- lexical-binding: t; -*-
 
+;; Sibling File Rules
+(add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.c\\'" "\\1.h")) ;; c to h
+(add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.h\\'" "\\1.c")) ;; h to c
+(add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.drawio\\'" "\\1.pdf")) ;; drawio to pdf
+(add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.pdf\\'" "\\1.drawio")) ;; pdf to drawio
+
 ;; Find Local Dictionaries
 (add-hook 'text-mode-hook
           (defun hook/set-ispell-dict ()
