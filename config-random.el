@@ -1,5 +1,8 @@
 ;;; -*- lexical-binding: t; -*-
 
+;; once an hour, clean the recent file list
+(run-with-timer 0 3600 'recentf-cleanup)
+
 ;; Sibling File Rules
 (add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.c\\'" "\\1.h")) ;; c to h
 (add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.h\\'" "\\1.c")) ;; h to c
