@@ -151,6 +151,14 @@ If not specified it will default to xdg-open."))
      "tar -cavf '<<fne>>.tar.zst' '<<f>>'"
      :utils "tar"))
 
+  (defun my/dwim-svg-to-pdf ()
+    "Convert SVG to PDF"
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Convert SVG to PDF"
+     "inkscape '<<f>>' --export-area-drawing --batch-process --export-type=pdf --export-filename='<<fne>>.pdf'"
+     :utils "inkscape"))
+
   (defun my/dwim-shell-command-archive-gz ()
     "Tar marked files as gz"
     (interactive)
