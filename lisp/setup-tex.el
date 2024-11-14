@@ -83,6 +83,8 @@
   (defvar default-tex-master nil)
   (defun hook/set-default-tex-master ()
     (when (not TeX-master)
+      (unless default-tex-master
+        (latex/set-default-tex-master))
       (setq-local TeX-master default-tex-master)))
 
   (defun latex/set-default-tex-master ()
