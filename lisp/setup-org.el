@@ -29,6 +29,10 @@
 
   :config
 
+  ;; org should open html with a browser
+  ;; don't know why this isn't the default
+  (add-to-list 'org-file-apps '("\\.x?html?\\'" . "xdg-open %s"))
+
   (setq org-appear-autoemphasis t
         org-appear-inside-latex t
         org-appear-autolinks t
