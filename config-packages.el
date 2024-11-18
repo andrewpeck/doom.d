@@ -230,6 +230,30 @@ _h_ decrease width    _l_ increase width
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+(use-package! org-excalidraw
+  :config
+
+  (defun org-excalidraw--shell-cmd-to-svg (path)
+    "Construct shell cmd for converting excalidraw file with PATH to svg."
+    (concat "excalidraw_export " (format "\"%s\"" path)))
+
+  ;; https://github.com/wdavew/org-excalidraw/issues/7
+  (defun org-excalidraw--handle-file-change (event)
+    "Handle file update EVENT to convert files to svg."
+    ;; (cadr event) can be 'changed or 'renamed
+    ;; e.g. for changed (10 changed /some/where/ID.excalidraw)
+    ;; e.g. for renamed (10 renamed /some/where/ID.excalidraw.crswap /some/where/ID.excalidraw)
+    ;; note we use memq, because comparing symbols
+    (when (memq (cadr event) '(changed renamed))
+      ;; use eq because comparing symbols
+      (let ((filename (if (eq (cadr event) 'changed)
+                          (caddr event)
+                        (cadddr event))))
+        (when (string-suffix-p ".excalidraw" filename)
+          (shell-command (org-excalidraw--shell-cmd-to-svg filename))))))
+
+  )
+
 ;;------------------------------------------------------------------------------
 ;; Copyright
 ;;------------------------------------------------------------------------------
