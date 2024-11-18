@@ -111,7 +111,11 @@ This function tries to de hyphenate them."
             (concat (abbreviate-file-name dired-directory) " - Emacs Dired" )
           (concat (abbreviate-file-name (expand-file-name "%b"))
                   (if (buffer-modified-p) " • " " - ")
-                  "Emacs" ))))
+                  "Emacs" )))
+
+      ;; window title when minimzed--- just make it the same
+      (setq icon-title-format frame-title-format)
+      )
 
 (setq-default fill-column 80
               tab-width 2
