@@ -167,7 +167,7 @@
  ;;hy                 ; readability of scheme w/ speed of python
  ;;idris              ; A language you can depend on
  ;;(java +meghanada)  ; the poster child for carpal tunnel syndrome
- ;;javascript         ; all(hope(abandon(ye(who(enter(here))))))
+ (javascript +lsp +treesitter) ; all(hope(abandon(ye(who(enter(here))))))
  ;;(julia +lsp)       ; a better, faster MATLAB
  ;;lean               ; For folks with too much to prove
  ;;factor             ;
