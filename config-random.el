@@ -624,3 +624,43 @@ The date will follow the format in `current-date-format'"
     (if (fboundp 'dirvish-fd)
         (dirvish-fd dir pat)
       (find-name-dired dir pat))))
+
+;;------------------------------------------------------------------------------
+;; Mime type register
+;;------------------------------------------------------------------------------
+
+(defun register-new-mime-type (handler extension &optional executable logo comment)
+
+  (when logo
+    (shell-command (format "xdg-icon-resource install --context mimetypes --size 48 %s application-x-%s" logo handler)))
+
+
+  (unless (and handler extension)
+    (error "Must define handler (program to open files with) and extensions"))
+
+  (unless executable
+    (setq executable handler))
+
+  (unless comment
+    (setq comment ""))
+
+  (let ((xml  (format "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<mime-info xmlns=\"http://www.freedesktop.org/standards/shared-mime-info\">
+    <mime-type type=\"application/x-%s\">
+        <comment>\"%s\"</comment>
+        <icon name=\"application-x-%s\"/>
+        <glob pattern=\"*.%s\"/>
+    </mime-type>
+</mime-info>" handler comment handler extension)))
+
+    (make-directory "~/.local/share/mime/packages" t)
+    (write-region xml nil (format  "~/.local/share/mime/packages/%s.xml" handler)))
+
+  (shell-command (format  "xdg-mime default %s.desktop application/x-%s" handler handler))
+  (shell-command "update-mime-database ~/.local/share/mime")
+  (shell-command "update-desktop-database ~/.local/share/applications"))
+
+(defun ap/register-mime-types ()
+  (interactive)
+  (register-new-mime-type "drawio" "drawio" "drawio")
+  (register-new-mime-type "excalidraw" "excalidraw" "excalidraw"))
