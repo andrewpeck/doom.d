@@ -134,7 +134,17 @@
 \\='((\".mp3\" .\"mplayer\")
    (\".avi\" .\"vlc\")).
 
-If not specified it will default to xdg-open."))
+If not specified it will default to xdg-open.")
+  )
+
+(defun drawio ()
+  (interactive)
+  (let* ((file (buffer-file-name))
+         (ext-handler (cdr (assoc (file-name-extension file) external-program-handlers)))
+         (program (or ext-handler "xdg-open")))
+    (message (format  "Opening %s in %s" file program))
+    (call-process program nil 0 nil file)))
+
 
 ;;------------------------------------------------------------------------------
 ;; DWIM Shell
