@@ -114,8 +114,7 @@ This function tries to de hyphenate them."
                   "Emacs" )))
 
       ;; window title when minimzed--- just make it the same
-      (setq icon-title-format frame-title-format)
-      )
+      icon-title-format frame-title-format)
 
 (setq-default fill-column 80
               tab-width 2
