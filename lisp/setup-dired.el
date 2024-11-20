@@ -46,6 +46,9 @@
 
   :config
 
+  (evil-define-key 'normal dired-mode-map
+    (kbd "E") #'dired-do-open)
+
   ;; better dired soring
   (setq dired-listing-switches "-a1vBhl  --group-directories-first"
         dired-mouse-drag-files t
