@@ -487,7 +487,14 @@ _h_ decrease width    _l_ increase width
   ;; apparently tries to create tramp connections? UHG
   (setq vc-ignore-dir-regexp "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'")
 
-;; doom has project.el calling projectile, just revert to original value
+  ;; doom has project.el calling projectile, just revert to original value
+  (setq project-find-functions (list #'project-try-vc))
+
+  ;; use project find file instead of projectile;
+  ;; caching is more trouble than it is worth
+  (map! :leader :desc "Find file in project" "SPC" #'project-find-file)
+
+  ;; doom has project.el calling projectile, just revert to original value
   (setq project-find-functions (list #'project-try-vc))
 
   )
@@ -520,9 +527,6 @@ _h_ decrease width    _l_ increase width
   (map! :leader
         (:prefix "g" :desc "Browse Projectile Homepage" "oH"
                  #'projectile-vc-browse-at-remote))
-
-  ;; doom has project.el calling projectile, just revert to original value
-  (setq project-find-functions (list #'project-try-vc))
 
   ;; use project.el instead of projectile
   ;; (advice-add 'projectile-find-file
