@@ -60,17 +60,14 @@
 (load!! "config-random")
 (load!! "lisp/plotting")
 (load!! "lisp/regulator")
-(load!! "lisp/setup-dired")
-(load!! "lisp/setup-git")
-(load!! "lisp/setup-tramp")
-(load!! "lisp/setup-lsp")
-(load!! "lisp/setup-org")
-(load!! "lisp/setup-tex")
-(load!! "lisp/setup-verilog")
 (load!! "lisp/tracking")
 (load!! "passwords")
 (load!! "psiq")
 ;; end:sort
+
+;; Load setup files
+(dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
+        (load!! (file-name-sans-extension file)))
 
 (defun byte-compile-config ()
   (interactive)
