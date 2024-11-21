@@ -62,6 +62,7 @@
 (load!! "lisp/regulator")
 (load!! "lisp/setup-dired")
 (load!! "lisp/setup-git")
+(load!! "lisp/setup-tramp")
 (load!! "lisp/setup-lsp")
 (load!! "lisp/setup-org")
 (load!! "lisp/setup-tex")

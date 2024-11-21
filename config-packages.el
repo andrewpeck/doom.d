@@ -1,5 +1,15 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
+;; was getting this error for some reason:
+;; (2 nil)
+;; (let nil (* 2 (symbol-value +word-wrap--major-mode-indent-var)))
+;; (cond ((eq +word-wrap-extra-indent 'double) (let nil (* 2 (symbol-value +word-wrap--major-mode-indent-var)))) ((eq +word-wrap-extra-indent 'single) (let nil (symbol-value +word-wrap--major-mode-indent-var))) ((integerp +word-wrap-extra-indent) (let ((fixed +word-wrap-extra-indent)) fixed)) (t (let nil 0)))
+;; (if (not (or +word-wrap--major-mode-is-text (doom-point-in-string-or-comment-p p))) (cond ((eq +word-wrap-extra-indent 'double) (let nil (* 2 (symbol-value +word-wrap--major-mode-indent-var)))) ((eq +word-wrap-extra-indent 'single) (let nil (symbol-value +word-wrap--major-mode-indent-var))) ((integerp +word-wrap-extra-indent) (let ((fixed +word-wrap-extra-indent)) fixed)) (t (let nil 0))) 0)
+;; +word-wrap--calc-extra-indent(1)
+;; (let ((adaptive-wrap-extra-indent (+word-wrap--calc-extra-indent beg))) (funcall fn beg end))
+;; +word-wrap--adjust-extra-indent-a(#<subr adaptive-wrap-fill-context-prefix> 1 22)
+;; apply(+word-wrap--adjust-extra-indent-a #<subr adaptive-wrap-fill-context-prefix> (1 22))
+(setq-default +word-wrap--major-mode-indent-var 'standard-indent)
 
 ;;------------------------------------------------------------------------------
 ;; Citar
@@ -447,30 +457,6 @@ _h_ decrease width    _l_ increase width
     (defun doom-clean-up-registers-h ()
       (setq-local register-alist
                   (cl-remove-if-not #'savehist-printable register-alist)))))
-
-;;------------------------------------------------------------------------------
-;; Tramp
-;;------------------------------------------------------------------------------
-
-(use-package! tramp
-
-  :load-path "~/.emacs.d/.local/straight/repos/tramp"
-  :config
-
-
-  (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
-        tramp-use-ssh-controlmaster-options t
-        tramp-histfile-override "~/.tramp_history"
-        tramp-inline-compress-start-size 1000
-        tramp-copy-size-limit 10000
-        vc-handled-backends '(Git)
-        tramp-verbose 1
-        tramp-default-method "ssh")
-
-  ;; Another way to find the remote path is to use the path assigned to the remote user by the
-  ;; remote host. TRAMP does not normally retain this remote path after login. However,
-  ;; tramp-own-remote-path preserves the path value, which can be used to update tramp-remote-path.
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
 ;;------------------------------------------------------------------------------
 ;; Projectile
