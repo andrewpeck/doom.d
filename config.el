@@ -84,6 +84,8 @@
 (add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; cpp mode for arduino files
 (add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; yaml mode for cheby
 (add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
+(add-to-list 'auto-mode-alist '("\\.drawio\\'"       . image-mode))
+(add-to-list 'auto-mode-alist '("\\.excalidraw\\'"   . image-mode))
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)
