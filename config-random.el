@@ -100,9 +100,6 @@ This function tries to de hyphenate them."
       ;; of the language server responses are in 800k - 3M range.
       read-process-output-max (* 1024 1024) ;; 1mb
 
-      ;; Etags search depth
-      etags-table-search-up-depth 10
-
       ;; Window Title
       ;; https://www.emacswiki.org/emacs/FrameTitle
       frame-title-format
