@@ -1,11 +1,17 @@
+;; -*- lexical-binding: t; -*-
+
 ;;------------------------------------------------------------------------------
-;; Python
+;; pyenv mode
 ;;------------------------------------------------------------------------------
 
 (use-package! pyenv-mode
   :config
   ;; damn pyenv-mode sets C-c C-s and it shows up everywhere (e.g. in latex)
   (define-key pyenv-mode-map (kbd "C-c C-s") nil))
+
+;;------------------------------------------------------------------------------
+;; Python
+;;------------------------------------------------------------------------------
 
 (use-package! python
   :defer-incrementally t
@@ -131,13 +137,9 @@
 ;; Jupyter Code Cells
 ;;------------------------------------------------------------------------------
 
-(use-package! code-cells
-  :defer t
-  :mode ("\\.ipynb\\'")
+(use-package code-cells
   :config
-  (map! :localleader
-        :map code-cells-mode-map
-        :prefix "m"
-        (:prefix ("e" . "eval")
-                 "c" #'code-cells-eval
-                 "C" #'code-cells-eval-above)))
+  (map! :localleader :map code-cells-mode-map
+        (:prefix-map ("e" . "eval")
+         :desc "Eval code cell." "c" #'code-cells-eval
+         :desc "Eval code cells above." "C" #'code-cells-eval-above)))
