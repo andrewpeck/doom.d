@@ -59,16 +59,17 @@
   ;;     1 '(face nil display  "󰁥(neg "))))
 
 
-  (add-hook 'verilog-mode-hook
-            (defun hook/verilog-configure-indent-and-comment ()
-              "Wrap verilog-do-indent in a save excursion so it doesn't jump around.... uhg"
-              (setq-local indent-line-function
-                          (lambda ()
-                            (if (eq evil-state 'normal)
-                                (verilog-indent-line)
-                              (save-excursion (verilog-indent-line-relative)))))
-              ;; (setq-local indent-line-function #'verilog-indent-line)
-              (setq-local comment-multi-line t)))
+  ;; this breaks verilog indenting --- figure out some better way to do this
+  ;; (add-hook 'verilog-mode-hook
+  ;;           (defun hook/verilog-configure-indent-and-comment ()
+  ;;             "Wrap verilog-do-indent in a save excursion so it doesn't jump around.... uhg"
+  ;;             (setq-local indent-line-function
+  ;;                         (lambda ()
+  ;;                           (if (eq evil-state 'normal)
+  ;;                               (verilog-indent-line)
+  ;;                             (save-excursion (verilog-indent-line-relative)))))
+  ;;             ;; (setq-local indent-line-function #'verilog-indent-line)
+  ;;             (setq-local comment-multi-line t)))
 
   ;; (add-hook 'verilog-mode-hook
   ;;           (defun hook/set-fill-prefix ()
