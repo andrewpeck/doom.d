@@ -67,7 +67,6 @@
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org                 :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! treesit-auto            :pin "016bd286a1ba4628f833a626f8b9d497882ecdf3" :recipe (:host github :repo "renzmann/treesit-auto"))
-;; (package! verilog-ext             :pin "d504f59eac2fa04f1d627d7acab639f79a2356fe" :recipe (:host github :repo "gmlarumbe/verilog-ext"))
 (package! verilog-mode            :pin "85d8429b6b662760b252f8ffbfe21683816032fb" :recipe (:host github :repo "veripool/verilog-mode"))
 (package! verilog-port-copy       :pin "a103f8e2209dde19d26d2151f35fe8e53ab3d336" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! vimrc-mode              :pin "13bc150a870d5d4a95f1111e4740e2b22813c30e")
