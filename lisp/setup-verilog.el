@@ -49,29 +49,6 @@
                       ("function" . "󰡱")))
               (prettify-symbols-mode)))
 
-  ;; (font-lock-add-keywords
-  ;;  'verilog-mode
-  ;;  '(("\\(always_ff @(posedge \\)"
-  ;;     1 '(face nil display  "󰁥(pos "))))
-
-  ;; (font-lock-add-keywords
-  ;;  'verilog-mode
-  ;;  '(("\\(always_ff @(negedge \\)"
-  ;;     1 '(face nil display  "󰁥(neg "))))
-
-
-  ;; this breaks verilog indenting --- figure out some better way to do this
-  ;; (add-hook 'verilog-mode-hook
-  ;;           (defun hook/verilog-configure-indent-and-comment ()
-  ;;             "Wrap verilog-do-indent in a save excursion so it doesn't jump around.... uhg"
-  ;;             (setq-local indent-line-function
-  ;;                         (lambda ()
-  ;;                           (if (eq evil-state 'normal)
-  ;;                               (verilog-indent-line)
-  ;;                             (save-excursion (verilog-indent-line-relative)))))
-  ;;             ;; (setq-local indent-line-function #'verilog-indent-line)
-  ;;             (setq-local comment-multi-line t)))
-
   ;; (add-hook 'verilog-mode-hook
   ;;           (defun hook/set-fill-prefix ()
   ;;             "Set the verilog fill prefix."
@@ -79,32 +56,44 @@
 
   :config
 
-  (evil-define-key '(motion normal) 'verilog-mode-map
-    (kbd "=") #'indent-for-tab-command)
+  (require 'verilog-port-copy)
 
-  (defun verilog-indent-line ()
-    "Indent for special part of code."
+  (setopt verilog-align-ifelse t
+          verilog-tab-always-indent nil
+          ;; Regexp that matches user typedefs for declaration alignment.
+          verilog-align-typedef-regexp (concat "\\<" verilog-identifier-re "_\\(t\\)\\>")
+          verilog-auto-delete-trailing-whitespace t
+          verilog-auto-inst-param-value t
+          verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
+          verilog-auto-inst-vector nil
+          verilog-auto-lineup (quote all)
+          verilog-auto-newline nil
+          verilog-auto-save-policy nil
+          verilog-auto-template-warn-unused t
+          verilog-highlight-grouping-keywords t
+          verilog-highlight-modules t
+          verilog-case-indent 2
+          verilog-cexp-indent 2
+          verilog-indent-level 2
+          verilog-indent-level-behavioral 2
+          verilog-indent-level-declaration 2
+          verilog-indent-level-module 2
+          verilog-tab-to-comment nil)
+
+  (defun verilog-indent-for-tab-command ()
     (interactive)
+    (let ((pt (point)))
+      (indent-for-tab-command)
+      (goto-char pt)))
 
-    (let ((pt (point))
-          (at-beginning (equal (current-column) 0)))
-      (when (not at-beginning)
-        (beginning-of-line))
-      (verilog-do-indent (verilog-calculate-indent))
-      (when (not at-beginning)
-        (goto-char pt)))
+  (evil-define-key '(motion normal) 'verilog-mode-map
+    (kbd "=") #'verilog-indent-for-tab-command)
 
-    nil)
+  (define-key verilog-mode-map (kbd "TAB") #'verilog-indent-for-tab-command)
+  (evil-define-key '(motion normal insert) 'verilog-mode-map
+    (kbd "TAB") #'verilog-indent-for-tab-command)
 
   (define-key verilog-mode-map (kbd  "<return>") #'electric-verilog-terminate-and-indent)
-  (define-key verilog-mode-map (kbd "TAB") nil)
-  (define-key verilog-mode-map (kbd "TAB") (lambda () nil))
-  (define-key verilog-mode-map (kbd "<backspace>") nil)
-
-  (evil-define-key '(motion normal insert visual) verilog-mode-map
-    (kbd "TAB") (lambda () (interactive) nil))
-
-  (require 'verilog-port-copy)
 
   (defun yosys-make-schematic ()
     "Make a yosys schematic from the module at point. "
@@ -271,10 +260,6 @@ If QUIET is non-nil, do not print messages showing the progress of line-up."
                 (unless quiet
                   (message "")))))))))
 
-  (define-key verilog-mode-map (kbd "RET") nil)
-  (define-key verilog-mode-map (kbd "TAB") nil)
-  (define-key verilog-mode-map (kbd "<backspace>") nil)
-
   (defun verilog-name-to-port-inst ()
     "Convert symbol at point into a verilog port instantiation.
 
@@ -298,29 +283,7 @@ into Verilog ports."
       (insert (format ".%s (%s)," name name))
       (verilog-indent-line)
       (re-search-forward (format "%s" name))
-      (re-search-forward (format "%s" name))))
-
-  (setq verilog-align-ifelse t
-        verilog-tab-always-indent nil
-        ;; Regexp that matches user typedefs for declaration alignment.
-        verilog-align-typedef-regexp (concat "\\<" verilog-identifier-re "_\\(t\\)\\>")
-        verilog-auto-delete-trailing-whitespace t
-        verilog-auto-inst-param-value t
-        verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
-        verilog-auto-inst-vector nil
-        verilog-auto-lineup (quote all)
-        verilog-auto-newline nil
-        verilog-auto-save-policy nil
-        verilog-auto-template-warn-unused t
-        verilog-highlight-grouping-keywords t
-        verilog-highlight-modules t
-        verilog-case-indent 2
-        verilog-cexp-indent 2
-        verilog-indent-level 2
-        verilog-indent-level-behavioral 2
-        verilog-indent-level-declaration 2
-        verilog-indent-level-module 2
-        verilog-tab-to-comment nil))
+      (re-search-forward (format "%s" name)))))
 
 ;;------------------------------------------------------------------------------
 ;; VHDL Mode
