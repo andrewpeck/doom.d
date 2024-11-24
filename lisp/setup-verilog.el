@@ -115,7 +115,7 @@
       ;; (async-shell-command cmd)
       (call-process "bash" nil 0 nil "-c" cmd)))
 
-
+  ;; copy in an old version of verilog-pretty-expr before things got broken
   (defun verilog-pretty-expr (&optional quiet)
     "Line up expressions around point.
 If QUIET is non-nil, do not print messages showing the progress of line-up."
