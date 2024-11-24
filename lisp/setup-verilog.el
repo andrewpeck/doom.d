@@ -107,13 +107,10 @@
   (require 'verilog-port-copy)
 
   (defun yosys-make-schematic ()
-    "Make a yosys schematic from the module at point.
+    "Make a yosys schematic from the module at point. "
 
-TODO: need to process dependencies.
-TODO: use something less intrusive and focus stealing than shell-command (e.g. comint)
-TODO: catch errors, e.g. if read-module-name fails
-
-"
+    ;; TODO: need to process dependencies.
+    ;; TODO: catch errors, e.g. if read-module-name fails
 
     (interactive)
     (let* ((module (verilog-read-module-name))
@@ -125,8 +122,9 @@ TODO: catch errors, e.g. if read-module-name fails
                     module ";"
                     " ; write_json -compat-int netlist.json; ltp; stat\""
                     (format
-                     "&& netlistsvg netlist.json -o %s.svg && xdg-open %s.svg" module module))))
-      (shell-command cmd)))
+                     "&& netlistsvg netlist.json -o %s.svg && xdg-open %s.svg 2>&1" module module))))
+      ;; (async-shell-command cmd)
+      (call-process "bash" nil 0 nil "-c" cmd)))
 
 
   (defun verilog-pretty-expr (&optional quiet)
