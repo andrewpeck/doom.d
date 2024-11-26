@@ -54,7 +54,7 @@
 (package! olivetti                :pin "1a6a521273e70173af6dcf34e3c9f8bb97dd7afc")
 (package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))
 (package! org-download            :pin "19e166f0a8c539b4144cfbc614309d47a9b2a9b7" :recipe (:host github :repo "abo-abo/org-download"))
-(package! org-excalidraw          :pin "9750463dfda28b9ca70df048761c131aa94d6c12" :recipe (:host github :repo "wdavew/org-excalidraw") )
+(package! org-excalidraw          :pin "edbae1b1d002e7d93a45a741c2b55b3b0d0b79d3" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
 (package! org-web-tools           :pin "7a6498f442fc7f29504745649948635c7165d847")
 (package! plz                     :pin "4eeff1323bc3d9d5cb67d922341d3b2f68fa075a")
 (package! poporg                  :pin "2c58d68c81ecca4140bf179f19ed153ec804b65a" :recipe (:host github :repo "QBobWatson/poporg"))
