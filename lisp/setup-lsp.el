@@ -62,3 +62,76 @@
         orig-result)))
 
   (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
+
+;;------------------------------------------------------------------------------
+;; Eglot
+;;------------------------------------------------------------------------------
+
+(when (modulep! :tools lsp +eglot)
+      (use-package! eglot
+
+        :init
+
+        (setq eglot-managed-mode-hook
+              (list (lambda () (eldoc-mode -1))))
+
+        :config
+
+        (setq eglot-prefer-plaintext nil
+              eglot-autoshutdown t
+              help-at-pt-display-when-idle t)
+
+        ;; (add-to-list 'eglot-server-programs '(python-mode . ("ruff-lsp")))
+        ;; (add-to-list 'eglot-server-programs '(python-ts-mode . ("ruff-lsp")))
+        ;; (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+        ;; (add-to-list 'eglot-server-programs '(python-ts-mode . ("pyright-langserver" "--stdio")))
+
+        ;; (add-hook! python-mode-hook
+        ;;   (setq eglot-workspace-configuration
+        ;;         '((pyright
+        ;;            (plugins
+        ;;             (mccabe (enabled . t))    ; Remove this if you want mccabe.
+        ;;             (pycodestyle (enabled . nil))
+        ;;             (flake8 (enabled . t)))))))
+
+        ;; (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+        ;; (add-to-list 'eglot-server-programs '(python-ts-mode . ("pyright-langserver" "--stdio")))
+
+                                        ; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=61373
+        ;; pyright generates html :(
+        ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=61373
+
+        ;; (dolist (provider '(:hoverProvider :documentHighlightProvider))
+        ;;   (add-to-list 'eglot-ignored-server-capabilities provider))
+
+
+        ;; (add-to-list 'eglot-workspace-configuration
+        ;;              '(:svlangserver (:settings (:systemverilog.launchConfiguration: "verilator -sv -Wall --lint-only",
+        ;;                                          :systemverilog.formatCommand: "verible-verilog-format"))))
+
+        ;; (add-to-list 'eglot-server-programs
+        ;;              '(verilog-mode . ("svls")))
+
+        ;; (add-hook! verilog-mode-hook
+        ;;   (setq eglot-workspace-configuration
+        ;;         `((:systemverilog
+        ;;            (:includeIndexing '["**/*.{sv,svh}"])
+        ;;            (:excludeIndexing '["test/**/*.{sv,svh}"])
+        ;;            (:defines nil)
+        ;;            (:launchConfiguration "verilator -sv --lint-only -Wall")
+        ;;            (:lintOnUnsaved t)
+        ;;            (:formatCommand "verible-verilog-format")
+        ;;            (:disableCompletionProvider nil)
+        ;;            (:disableHoverProvider nil)
+        ;;            (:disableSignatureHelpProvider nil)
+        ;;            (:disableLinting nil)))))
+
+        (add-to-list 'eglot-server-programs
+                     '(vhdl-mode . ("ghdl-ls"))))
+
+      (use-package! eglot-booster
+        :after eglot
+        :init
+        (cl-remprop 'buffer-local-value 'byte-obsolete-generalized-variable)
+        :config
+        (setq eglot-booster-no-remote-boost t)))
