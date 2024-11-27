@@ -338,6 +338,12 @@ FIXME: does not work when the region is not rectangular at the end of lines, e.g
           (princ (format "%2d %20s %s\n" count key
                          (make-string count ?+))))))))
 
+(defun reindent-buffer-with-vim ()
+  "Reindent buffer file with vim."
+  (interactive)
+  ;; TODO: use a call process for this, use buffer contents and replace buffer
+  (shell-command (format "vim --clean -c 'set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab' -c 'normal gg=G' -c 'wq' %s" buffer-file-name)))
+
 ;;---------------------------------------------------------------------------------
 ;; Functions for alphabetically sorting items
 ;;---------------------------------------------------------------------------------
@@ -368,17 +374,14 @@ char of the language you are editing"
   nil)
 
 (defun sort-elisp-block ()
+  "Alphabetically sort a block of elisp code.
+
+The block should be encased by
+;; start:sort
+;; end:sort"
   (interactive)
   (save-excursion
     (sort-code-block ";;")))
-
-;;---------------------------------------------------------------------------------
-;; Run Vim for reindent
-;;---------------------------------------------------------------------------------
-
-(defun reindent-buffer-with-vim ()
-  (interactive)
-  (shell-command (format "vim --clean -c 'set tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab' -c 'normal gg=G' -c 'wq' %s" buffer-file-name)))
 
 ;;------------------------------------------------------------------------------
 ;; Query Replace
