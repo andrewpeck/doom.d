@@ -86,6 +86,8 @@
   (interactive)
   (call-process (executable-find "gvim") nil 0 nil (buffer-file-name)))
 
+(defalias 'gvim #'open-buffer-in-vim)
+
 (defun org-make-tables-pretty ()
   "Makes org mode tables pretty in the current buffer."
   (interactive)
