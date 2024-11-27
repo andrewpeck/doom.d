@@ -172,6 +172,14 @@ If not specified it will default to xdg-open.")
      "inkscape '<<f>>' --export-area-drawing --batch-process --export-type=pdf --export-filename='<<fne>>.pdf'"
      :utils "inkscape"))
 
+  (defun my/gerber-to-svg ()
+    "Convert Gerber to SVG"
+    (interactive)
+    (dwim-shell-command-on-marked-files
+     "Convert Gerber to SVG"
+     "gerbv --dpi=600 --border=0 --export=svg --output='<<fne>>'.svg '<<f>>'"
+     :utils "gerbv"))
+
   (defun my/dwim-shell-command-archive-gz ()
     "Tar marked files as gz"
     (interactive)
