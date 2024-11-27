@@ -123,21 +123,6 @@ _h_ decrease width    _l_ increase width
     (message "Docsets installed.")))
 
 ;;------------------------------------------------------------------------------
-;; Git Gutter
-;;------------------------------------------------------------------------------
-
-(use-package! diff-hl
-  :defer-incrementally t
-
-  :init
-  (remove-hook! 'find-file-hook #'diff-hl-mode)
-  (remove-hook! 'find-file-hook #'diff-hl-update-once)
-  (add-hook! 'prog-mode-hook #'diff-hl-mode)
-
-  :config
-  (setq diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode)))
-
-;;------------------------------------------------------------------------------
 ;; Treesitter
 ;;------------------------------------------------------------------------------
 

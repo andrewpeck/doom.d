@@ -99,3 +99,18 @@
         forge-owned-accounts '(("andrewpeck")
                                ("andrewpeck1")
                                ("apeck"))))
+
+;;------------------------------------------------------------------------------
+;; Git Gutter
+;;------------------------------------------------------------------------------
+
+(use-package! diff-hl
+  :defer-incrementally t
+
+  :init
+  (remove-hook! 'find-file-hook #'diff-hl-mode)
+  (remove-hook! 'find-file-hook #'diff-hl-update-once)
+  (add-hook! 'prog-mode-hook #'diff-hl-mode)
+
+  :config
+  (setq diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode)))
