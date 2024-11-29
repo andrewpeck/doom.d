@@ -136,10 +136,15 @@ Used by font-lock for dynamic highlighting."
           verilog-tab-to-comment nil)
 
   (defun verilog-indent-for-tab-command ()
+    "More sane wrapper around verilog indent."
     (interactive)
     (let ((pt (point)))
+      (beginning-of-line)
       (indent-for-tab-command)
-      (goto-char pt)))
+
+      ;; don't let the saved point go to the next line
+      (when (<= pt (progn (end-of-line) (point)))
+        (goto-char pt))))
 
   (evil-define-key '(motion normal) 'verilog-mode-map
     (kbd "=") #'verilog-indent-for-tab-command)
