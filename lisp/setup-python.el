@@ -20,9 +20,10 @@
   ;; Initialize LSP unless the python file is remote
   (defun +python-init-lsp-mode-maybe-h ()
     "Initialize LSP unless the python file is remote."
-    (unless (and (buffer-file-name)
-                 (file-remote-p (buffer-file-name)))
-      (call-interactively #'lsp)))
+    (when (fboundp 'lsp)
+      (unless (and (buffer-file-name)
+                   (file-remote-p (buffer-file-name)))
+        (call-interactively #'lsp))))
   (add-hook! 'python-mode-local-vars-hook #'+python-init-lsp-mode-maybe-h)
 
   (remove-hook! 'python-mode-local-vars-hook #'tree-sitter!)
