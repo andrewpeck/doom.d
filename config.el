@@ -62,7 +62,6 @@
 (load!! "config-align")
 (load!! "config-appearance")
 (load!! "config-doom")
-(load!! "config-keybinds")
 (load!! "config-modeline")
 (load!! "config-packages")
 (load!! "config-random")
@@ -77,9 +76,8 @@
 (dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
         (load!! (file-name-sans-extension file)))
 
-(defun byte-compile-config ()
-  (interactive)
-  (byte-recompile-directory (expand-file-name "~/.doom.d") 0))
+;; load keybinds after everything else
+(load!! "config-keybinds")
 
 ;;------------------------------------------------------------------------------
 ;; Mode aliases

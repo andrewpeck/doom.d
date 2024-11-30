@@ -27,18 +27,6 @@
         auto-revert-use-notify nil
         auto-revert-check-vc-info t)
 
-;; try to make sure that fundamental mode buffers use evil
-;; https://emacs.stackexchange.com/questions/16693/auto-enable-minor-modes-in-fundamental-mode
-(add-hook 'after-change-major-mode-hook
-  (defun hook/turn-on-evil-mode ()
-    "Turn on evil mode in fundamental mode"
-    (when (eq major-mode 'fundamental-mode)
-      (evil-local-mode))))
-
-;; don't make escape annoyingly close popups UHG
-(advice-remove 'evil-force-normal-state
-               '+evil-escape-a)
-
 (add-to-list 'warning-suppress-types '(iedit))
 
 (setq enable-local-variables t     ;
