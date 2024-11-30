@@ -27,7 +27,6 @@
         auto-revert-use-notify nil
         auto-revert-check-vc-info t)
 
-
 ;; try to make sure that fundamental mode buffers use evil
 ;; https://emacs.stackexchange.com/questions/16693/auto-enable-minor-modes-in-fundamental-mode
 (add-hook 'after-change-major-mode-hook

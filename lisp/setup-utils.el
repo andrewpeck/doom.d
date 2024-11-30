@@ -1,3 +1,25 @@
+;;------------------------------------------------------------------------------
+;; Crontab
+;;------------------------------------------------------------------------------
+
+(defun crontab-e ()
+  "Run `crontab -e' in a emacs buffer."
+  (interactive)
+  (with-editor-async-shell-command "crontab -e"))
+
+;;------------------------------------------------------------------------------
+;; Remove all advice from symbol
+;;------------------------------------------------------------------------------
+
+(defun advice-unadvice (sym)
+  "Remove all advices from symbol SYM."
+  (interactive "aFunction symbol: ")
+  (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
+
+;;------------------------------------------------------------------------------
+;; Multiplication in Region
+;;------------------------------------------------------------------------------
+
 (defun mult-by (by)
   ""
   (when (re-search-forward "\\b[-0-9.]+\\b" nil t)
@@ -25,11 +47,6 @@ FIXME: does not work when the region is not rectangular at the end of lines, e.g
           (setq rect (split-string (buffer-substring-no-properties (point-min) (point-max)) "\n" t)))
         (goto-char start)
         (insert-rectangle rect)))))
-
-(defun crontab-e ()
-  "Run `crontab -e' in a emacs buffer."
-  (interactive)
-  (with-editor-async-shell-command "crontab -e"))
 
 ;;---------------------------------------------------------------------------------
 ;; Line wrapping
@@ -293,6 +310,10 @@ The block should be encased by
   (interactive)
   (hdl-self-op "-"))
 
+;;------------------------------------------------------------------------------
+;; Comment Block Helper
+;;------------------------------------------------------------------------------
+
 (defvar normalize-comment-strings-length 83
   "Number of characters to normalize comment strings to.")
 
@@ -327,6 +348,9 @@ The block should be encased by
                           (length whitespace)
                           (length comment-char))))))))
 
+;;------------------------------------------------------------------------------
+;; Date Format
+;;------------------------------------------------------------------------------
 
 (defvar current-date-format "%Y-%m-%d"
   "Format of date to insert with `insert-current-time' func.
@@ -343,33 +367,6 @@ The date will follow the format in `current-date-format'"
         ("America/New_York" "Boston")
         ("Europe/London" "London")
         ("Europe/Paris" "Geneva")))
-
-(defun copy-buffer-as-string ()
-  "Yank / Copy the current buffer as a string."
-  (interactive)
-  ;; prin1-to-string ? no
-  (kill-new
-   (buffer-substring-no-properties (point-min) (point-max))))
-
-(defun selected-window-number ()
-  (let ((win (format "%s" (selected-window))))
-    (if (string-match "#<window \\([[:digit:]]+\\) on .*>" win)
-        (string-to-number (match-string-no-properties 1 win)) nil)))
-
-;; (defvar window-list-hash-table
-;;   (make-hash-table)
-;;   "docs")
-
-;; (defun switch-to-previous-buffer-with-hashtable ()
-;;   "Switch to previously open buffer. Repeated invocations toggle
-;; between the two most recently open buffers."
-;;   (interactive)
-;;   ;; (evil-switch-to-windows-last-buffer)
-;;   (let* ((current (current-buffer))
-;;          (other (other-buffer current 1)))
-;;     (when (and  (buffer-file-name other)
-;;                 (buffer-file-name current))
-;;       (switch-to-buffer other))))
 
 ;;------------------------------------------------------------------------------
 ;; Mime type register
@@ -411,24 +408,9 @@ The date will follow the format in `current-date-format'"
   (register-new-mime-type "drawio" "drawio" "drawio")
   (register-new-mime-type "excalidraw" "excalidraw" "excalidraw"))
 
-
-
-
-
-
-
-;; (let ((desktop-entry (format
-;;                         "[Desktop Entry]
-;; Name=%s
-;; Exec=%s %%U
-;; MimeType=application/x-%s
-;; Icon=application-x-%s
-;; Terminal=false
-;; Type=Application
-;; Categories=
-;; Comment=%s" handler executable handler handler comment)))
-;;     (write-region desktop-entry nil (format "~/.local/share/applications/%s.desktop" handler))
-;;     )
+;;------------------------------------------------------------------------------
+;; De-latexify helper
+;;------------------------------------------------------------------------------
 
 (defun fix-latex-pasted-text ()
 
@@ -455,8 +437,3 @@ This function tries to de hyphenate them."
   (if (eq major-mode #'org-mode)
       (org-fill-paragraph)
     (fill-paragraph)))
-
-(defun advice-unadvice (sym)
-  "Remove all advices from symbol SYM."
-  (interactive "aFunction symbol: ")
-  (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))

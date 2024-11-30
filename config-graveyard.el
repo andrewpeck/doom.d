@@ -1226,3 +1226,60 @@ lines are selected, or the NxM dimensions of a block selection.")
 
 ;;   (set-company-backend! 'clojure-mode
 ;;                         '(:separate company-capf company-keywords company-dabbrev-code company-yasnippet)))
+
+;;------------------------------------------------------------------------------
+;; Stuff that doesn't work
+;;------------------------------------------------------------------------------
+
+(defun copy-buffer-as-string ()
+  "Yank / Copy the current buffer as a string."
+  (interactive)
+  ;; prin1-to-string ? no
+  (kill-new
+   (buffer-substring-no-properties (point-min) (point-max))))
+
+(defun selected-window-number ()
+  (let ((win (format "%s" (selected-window))))
+    (if (string-match "#<window \\([[:digit:]]+\\) on .*>" win)
+        (string-to-number (match-string-no-properties 1 win)) nil)))
+
+;; (defvar window-list-hash-table
+;;   (make-hash-table)
+;;   "docs")
+
+;; (defun switch-to-previous-buffer-with-hashtable ()
+;;   "Switch to previously open buffer. Repeated invocations toggle
+;; between the two most recently open buffers."
+;;   (interactive)
+;;   ;; (evil-switch-to-windows-last-buffer)
+;;   (let* ((current (current-buffer))
+;;          (other (other-buffer current 1)))
+;;     (when (and  (buffer-file-name other)
+;;                 (buffer-file-name current))
+;;       (switch-to-buffer other))))
+
+
+;;------------------------------------------------------------------------------
+;; Desktop files
+;;------------------------------------------------------------------------------
+
+;; (let ((desktop-entry (format
+;;                         "[Desktop Entry]
+;; Name=%s
+;; Exec=%s %%U
+;; MimeType=application/x-%s
+;; Icon=application-x-%s
+;; Terminal=false
+;; Type=Application
+;; Categories=
+;; Comment=%s" handler executable handler handler comment)))
+;;     (write-region desktop-entry nil (format "~/.local/share/applications/%s.desktop" handler))
+;;     )
+
+
+(defun kill-buffer-if (name)
+  (when (get-buffer name)
+    (kill-buffer name)))
+
+(kill-buffer-if "*Native-compile-Log*")
+(kill-buffer-if "*Async-native-compile-log*")
