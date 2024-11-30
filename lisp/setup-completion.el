@@ -24,16 +24,7 @@
 
   (setopt +corfu-want-tab-prefer-navigating-org-tables nil)
 
-  (add-hook! 'TeX-mode-hook
-    (setq-local cape-file-directory (vc-root-dir)
-                cape-file-prefix "file:"))
-
-  (add-hook! 'hog-src-mode-hook
-    (setq-local cape-file-prefix nil)
-    (setq-local cape-file-directory (vc-root-dir))
-    (setq-local completion-at-point-functions (list 'cape-file 'cape-dabbrev)))
-
-  (setq corfu-auto-delay 0.3
+  (setq corfu-auto-delay 0.2
         corfu-auto-prefix 5
         ;; corfu-on-exact-match 'show
         ;; corfu-preselect 'prompt         ; prompt first valid directory
@@ -48,11 +39,36 @@
 
   :init
 
+  ;;------------------------------------------------------------------------------
+  ;; Hog
+  ;;------------------------------------------------------------------------------
+
+  (add-hook! 'hog-src-mode-hook
+    (setq-local cape-file-prefix nil)
+    (setq-local cape-file-directory (vc-root-dir))
+    (setq-local completion-at-point-functions (list 'cape-file 'cape-dabbrev)))
+
+  ;;------------------------------------------------------------------------------
+  ;; Verilog
+  ;;------------------------------------------------------------------------------
+
   (add-hook! 'verilog-mode-hook
     (defun hook/add-verilog-keywords ()
       (with-eval-after-load 'cape-keyword
         (add-to-list 'cape-keyword-list
                      (append '(verilog-mode) verilog-keywords)))))
+
+  (add-hook! 'verilog-mode-hook
+    (defun hook/set-verilog-capf ()
+      (setq-local completion-at-point-functions
+                  (list (cape-capf-super
+                         'cape-dabbrev
+                         'cape-keyword
+                         'yasnippet-capf)))))
+
+  ;;------------------------------------------------------------------------------
+  ;; VHDL
+  ;;------------------------------------------------------------------------------
 
   (add-hook! 'vhdl-mode-hook
     (defun hook/add-vhdl-keywords ()
@@ -68,6 +84,22 @@
                              vhdl-packages
                              vhdl-directives)))))
 
+  (add-hook! 'vhdl-mode-hook
+    (defun hook/set-vhdl-capf ()
+      (setq-local completion-at-point-functions
+                  (list (cape-capf-super
+                         'cape-dabbrev
+                         'cape-keyword
+                         'yasnippet-capf)))))
+
+  ;;------------------------------------------------------------------------------
+  ;; Tex
+  ;;------------------------------------------------------------------------------
+
+  (add-hook! 'TeX-mode-hook
+    (setq-local cape-file-directory (vc-root-dir)
+                cape-file-prefix "file:"))
+
   (add-hook! 'LaTeX-mode-hook
     (defun hook/set-latex-capf-functions ()
       (setq-local completion-at-point-functions
@@ -81,6 +113,10 @@
                    'cape-dabbrev
                    'cape-file))))
 
+  ;;------------------------------------------------------------------------------
+  ;; Elisp
+  ;;------------------------------------------------------------------------------
+
   (add-hook! 'emacs-lisp-mode-hook
     (defun hook/set-elisp-capf-functions ()
       (setq-local completion-at-point-functions
@@ -93,33 +129,23 @@
                    'cape-history
                    'cape-file))))
 
-  (add-hook! 'verilog-mode-hook
-    (defun hook/set-verilog-capf ()
-      (setq-local completion-at-point-functions
-                  (list (cape-capf-super
-                         'cape-dabbrev
-                         'cape-keyword
-                         'yasnippet-capf)))))
+  ;;------------------------------------------------------------------------------
+  ;; Python
+  ;;------------------------------------------------------------------------------
 
-  (add-hook! 'vhdl-mode-hook
-    (defun hook/set-vhdl-capf ()
-      (setq-local completion-at-point-functions
-                  (list (cape-capf-super
-                         'cape-dabbrev
-                         'cape-keyword
-                         'yasnippet-capf)))))
+  ;; (dolist (mode '(python-ts-mode-hook python-mode-hook))
+  ;;   (add-hook mode
+  ;;             (defun hook/set-capf ()
+  ;;               (setq-local completion-at-point-functions
+  ;;                           (list
+  ;;                            (cape-capf-super
+  ;;                             'python-completion-at-point
+  ;;                             'cape-file
+  ;;                             'yasnippet-capf))))))
 
-  (dolist (mode '(python-ts-mode-hook python-mode-hook))
-    (add-hook mode
-              (defun hook/set-capf ()
-                (setq-local completion-at-point-functions
-                            (list
-                             (cape-capf-super
-                              'eglot-completion-at-point
-                              'cape-keyword
-                              'cape-file
-                              'cape-dabbrev
-                              'yasnippet-capf))))))
+  ;;------------------------------------------------------------------------------
+  ;; TCL
+  ;;------------------------------------------------------------------------------
 
   (add-hook! 'tcl-mode-hook
     (setq-local completion-at-point-functions
