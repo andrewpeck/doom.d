@@ -50,9 +50,12 @@
         ;; List of directories that are or contain Git repositories. ;
         magit-repository-directories '(("~/work" . 1))
 
+        ;; we've seen the warnings about long lines,
+        ;; don't need to keep showing them
+        magit-show-long-lines-warning nil
+
         ;; Whether to show word-granularity differences within diff hunks.
-        magit-diff-refine-hunk 'all
-        )
+        magit-diff-refine-hunk 'all)
 
   (setq-default magit-mode-hook nil)
   (add-hook! 'magit-diff-mode-hook
