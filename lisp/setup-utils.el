@@ -344,15 +344,6 @@ The date will follow the format in `current-date-format'"
         ("Europe/London" "London")
         ("Europe/Paris" "Geneva")))
 
-;; Fish (and possibly other non-POSIX shells) is known to inject garbage
-;; output into some of the child processes that Emacs spawns. Many Emacs
-;; packages/utilities will choke on this output, causing unpredictable
-;; issues. To get around this, either:
-(setq shell-file-name (executable-find "bash"))
-(setq vterm-shell (executable-find "fish"))
-(setq explicit-shell-file-name (executable-find "fish"))
-
-
 (defun copy-buffer-as-string ()
   "Yank / Copy the current buffer as a string."
   (interactive)
