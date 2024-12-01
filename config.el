@@ -50,14 +50,6 @@
 
 (setq doom-scratch-dir doom-user-dir)
 
-;; Fish (and possibly other non-POSIX shells) is known to inject garbage
-;; output into some of the child processes that Emacs spawns. Many Emacs
-;; packages/utilities will choke on this output, causing unpredictable
-;; issues. To get around this, either:
-(setq shell-file-name (executable-find "bash"))
-(setq-default vterm-shell (executable-find "fish"))
-(setq-default explicit-shell-file-name (executable-find "fish"))
-
 ;; start:sort
 (load!! "config-align")
 (load!! "config-appearance")
@@ -78,20 +70,6 @@
 
 ;; load keybinds after everything else
 (load!! "config-keybinds")
-
-;;------------------------------------------------------------------------------
-;; Mode aliases
-;;------------------------------------------------------------------------------
-
-;; enable syntax highlighting for vimrc files
-(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))   ; vimrc
-(add-to-list 'auto-mode-alist '("\\.xdc\\'"          . vivado-mode))  ; tcl mode for xdc files
-(add-to-list 'auto-mode-alist '("\\.ltx\\'"          . json-mode))    ; json mode for ltx files
-(add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; cpp mode for arduino files
-(add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; yaml mode for cheby
-(add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
-(add-to-list 'auto-mode-alist '("\\.drawio\\'"       . image-mode))
-(add-to-list 'auto-mode-alist '("\\.excalidraw\\'"   . image-mode))
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)

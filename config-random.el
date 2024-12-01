@@ -1,7 +1,37 @@
 ;;; -*- lexical-binding: t; -*-
-;;;
+
+;;------------------------------------------------------------------------------
+;; Shell Config
+;;------------------------------------------------------------------------------
+
+;; Fish (and possibly other non-POSIX shells) is known to inject garbage
+;; output into some of the child processes that Emacs spawns. Many Emacs
+;; packages/utilities will choke on this output, causing unpredictable
+;; issues. To get around this, either:
+(setq shell-file-name (executable-find "bash"))
+(setq-default vterm-shell (executable-find "fish"))
+(setq-default explicit-shell-file-name (executable-find "fish"))
+
+;;------------------------------------------------------------------------------
+;; Auto Cleanup
+;;------------------------------------------------------------------------------
+
 ;; once an hour, clean the recent file list
 (run-with-timer 60 3600 'recentf-cleanup)
+
+;;------------------------------------------------------------------------------
+;; Mode aliases
+;;------------------------------------------------------------------------------
+
+;; enable syntax highlighting for vimrc files
+(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))   ; vimrc
+(add-to-list 'auto-mode-alist '("\\.xdc\\'"          . vivado-mode))  ; tcl mode for xdc files
+(add-to-list 'auto-mode-alist '("\\.ltx\\'"          . json-mode))    ; json mode for ltx files
+(add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; cpp mode for arduino files
+(add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; yaml mode for cheby
+(add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
+(add-to-list 'auto-mode-alist '("\\.drawio\\'"       . image-mode))
+(add-to-list 'auto-mode-alist '("\\.excalidraw\\'"   . image-mode))
 
 ;; Sibling File Rules
 (add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.c\\'" "\\1.h")) ;; c to h
