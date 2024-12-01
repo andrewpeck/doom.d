@@ -77,6 +77,13 @@
 
         :config
 
+        (defun emacs-lsp-booster-install ()
+          (interactive)
+          (compile "cargo install --git https://github.com/blahgeek/emacs-lsp-booster"))
+
+        (unless (executable-find "emacs-lsp-booster")
+          (error "emacs-lsp booster not found! install with emacs-lsp-booster-install"))
+
         (setq eglot-prefer-plaintext nil
               eglot-autoshutdown t
               help-at-pt-display-when-idle t)
