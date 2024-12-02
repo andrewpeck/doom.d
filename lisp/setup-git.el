@@ -113,4 +113,8 @@
   (add-hook! 'prog-mode-hook #'diff-hl-mode)
 
   :config
-  (setq diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode)))
+  (setq diff-hl-disable-on-remote t)
+  (setq diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode))
+
+  (advice-add 'diff-hl-update-once :before-until
+              (lambda () (remote-host? default-directory))))
