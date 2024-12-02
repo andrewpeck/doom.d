@@ -10,6 +10,7 @@
 
   (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
         tramp-use-ssh-controlmaster-options t
+        tramp-chunksize 5000
         tramp-histfile-override "~/.tramp_history"
         tramp-inline-compress-start-size 1000
         tramp-copy-size-limit 10000
