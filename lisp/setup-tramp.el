@@ -49,6 +49,13 @@
   (advice-add 'vc-refresh-state :before-while
               (lambda () (not (remote-host? default-directory))))
 
+  ;; HACK: https://www.reddit.com/r/emacs/comments/yw3gpx/magit_autorevert_and_tramp/
+  (defun my-magit-auto-revert-mode-advice (orig-fun &rest args)
+    (unless (and buffer-file-name (remote-host? buffer-file-name))
+      (apply orig-fun args)))
+
+  (advice-add 'magit-turn-on-auto-revert-mode-if-desired :around #'my-magit-auto-revert-mode-advice)
+
   ;; HACK: tramp-get-home-directory gets called a lot and takes up a lot of CPU
   ;; time... memoizing it seems to result in a pretty significant speedup and it
   ;; doesn't seem like this is something that should change ever
