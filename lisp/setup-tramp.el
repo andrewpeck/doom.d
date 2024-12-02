@@ -26,3 +26,21 @@
   ;; remote host. TRAMP does not normally retain this remote path after login. However,
   ;; tramp-own-remote-path preserves the path value, which can be used to update tramp-remote-path.
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+  ;; HACK: tramp-get-home-directory gets called a lot and takes up a lot of CPU
+  ;; time... memoizing it seems to result in a pretty significant speedup and it
+  ;; doesn't seem like this is something that should change ever
+
+  (unless (functionp 'm/tramp-get-home-directory)
+    (require 'memoize)
+
+    (defmemoize m/tramp-get-home-directory (vec &optional user)
+      "The remote home directory for connection VEC as local file name.
+If USER is a string, return its home directory instead of the
+user identified by VEC.  If there is no user specified in either
+VEC or USER, or if there is no home directory, return nil."
+      (and (tramp-file-name-p vec)
+           (with-tramp-connection-property vec (concat "~" user)
+             (tramp-file-name-handler #'tramp-get-home-directory vec user)))))
+
+  (advice-add 'tramp-get-home-directory :override
+              #'m/tramp-get-home-directory))
