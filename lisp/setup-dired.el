@@ -92,7 +92,7 @@
   ;; (add-hook! 'dired-mode-hook
   ;;   (defun hook/enable-dired-git-filter ()
   ;;     ""
-  ;;     (unless (file-remote-p default-directory)
+  ;;     (unless (remote-host? default-directory)
   ;;       (when (locate-dominating-file "." ".git")
   ;;         (dired-filter-mode)
   ;;         (dired-filter-by-git-ignored)))))
@@ -100,7 +100,7 @@
   (add-hook! 'dired-after-readin-hook
     (defun hook/dired-git-info-mode ()
       "Enable dired git info on local files."
-      (unless (file-remote-p default-directory)
+      (unless (memoize (remote-host? default-directory))
         (when (locate-dominating-file "." ".git")
           (dired-git-info-auto-enable)))))
 
@@ -112,7 +112,7 @@
               :before-until
               (lambda () (if (and (member (file-name-extension (dired-get-file-for-visit))
                                           auto-external-handle-extensions)
-                                  (not (file-remote-p (dired-get-file-for-visit))))
+                                  (not (remote-host? (dired-get-file-for-visit))))
                              (ap/dired-external-open)
                            nil)))
 

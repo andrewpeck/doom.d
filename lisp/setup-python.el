@@ -22,7 +22,7 @@
     "Initialize LSP unless the python file is remote."
     (when (fboundp 'lsp)
       (unless (and (buffer-file-name)
-                   (file-remote-p (buffer-file-name)))
+                   (remote-host? (buffer-file-name)))
         (call-interactively #'lsp))))
   (add-hook! 'python-mode-local-vars-hook #'+python-init-lsp-mode-maybe-h)
 
@@ -30,7 +30,7 @@
   (add-hook! 'python-mode-local-vars-hook
     (defun +python-init-tree-sitter-mode-maybe-h ()
       (unless (and (buffer-file-name)
-                   (file-remote-p (buffer-file-name)))
+                   (remote-host? (buffer-file-name)))
         (tree-sitter!))))
 
   ;; modify the hook found in doom;
@@ -41,7 +41,7 @@
     (defun +python-init-anaconda-mode-maybe-h ()
       "Enable `anaconda-mode' if `lsp-mode' is absent and
 `python-shell-interpreter' is present and we aren't on a tramp buffer."
-      (unless (or (and (buffer-file-name) (file-remote-p (buffer-file-name)))
+      (unless (or (and (buffer-file-name) (remote-host? (buffer-file-name)))
                   (bound-and-true-p lsp-mode)
                   (bound-and-true-p eglot--managed-mode)
                   (bound-and-true-p lsp--buffer-deferred)

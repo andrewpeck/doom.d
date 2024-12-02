@@ -50,6 +50,12 @@
 
 (setq doom-scratch-dir doom-user-dir)
 
+;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
+(unless (functionp 'remote-host?)
+  (require 'memoize)
+  (defmemoize remote-host? (path)
+    (file-remote-p path 'host)))
+
 ;; start:sort
 (load!! "config-align")
 (load!! "config-appearance")

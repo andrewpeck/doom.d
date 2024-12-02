@@ -44,12 +44,6 @@ nil."
                          (replace-regexp-in-string "^-" (propertize "󰊢 " 'face '(:foreground "#080")) tstr))
                         (t tstr))))))
 
-;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
-(unless (functionp 'memoized-remote-host?)
-  (require 'memoize)
-  (defmemoize memoized-remote-host? (path)
-    (file-remote-p path 'host)))
-
 (setq-default mode-line-format
 
       '((:eval (simple-mode-line-render
@@ -59,7 +53,7 @@ nil."
                       evil-mode-line-tag
                       mode-line-mule-info
                       "%* "
-                      (let ((host (memoized-remote-host? default-directory)))
+                      (let ((host (remote-host? default-directory)))
                         (if host
                             (concat (propertize host 'face '(:inherit warning)) ":") nil))
 

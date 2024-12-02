@@ -25,7 +25,23 @@
   ;; Another way to find the remote path is to use the path assigned to the remote user by the
   ;; remote host. TRAMP does not normally retain this remote path after login. However,
   ;; tramp-own-remote-path preserves the path value, which can be used to update tramp-remote-path.
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+  ;; https://github.com/bbatsov/projectile/issues/1232
+  ;; don't try to retrieve project name via projectile on remote dirs
+  ;; slows down tramp really hard
+  ;; (advice-add 'projectile-project-root
+  ;;             :before-until
+  ;;             (lambda (&optional _)
+  ;;               (if (remote-host? default-directory)
+  ;;                   (let ((pc (project-current)))
+  ;;                     (if pc
+  ;;                         (project-root pc))))))
+
+  (advice-add 'projectile-project-root :before-while
+              (lambda (&optional dir)
+                (not (remote-host? (or dir default-directory)))))
+
   ;; HACK: tramp-get-home-directory gets called a lot and takes up a lot of CPU
   ;; time... memoizing it seems to result in a pretty significant speedup and it
   ;; doesn't seem like this is something that should change ever

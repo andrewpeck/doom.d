@@ -22,7 +22,6 @@
 
   ;; doom has project.el calling projectile, just revert to original value
   (setq project-find-functions (list #'project-try-vc))
-
   )
 
 (use-package! projectile
@@ -78,17 +77,7 @@
   (setq projectile-fd-executable "fdfind")
 
   (add-hook! 'find-file-hook
-    (when (file-remote-p default-directory)
+    (when (remote-host? default-directory)
       (setq-local projectile-git-use-fd nil)))
-
-  ;; https://github.com/bbatsov/projectile/issues/1232
-  ;; don't try to retrieve project name via projectile on remote dirs
-  (advice-add 'projectile-project-root
-              :before-until
-              (lambda (&optional _)
-                (if (file-remote-p default-directory)
-                    (let ((pc (project-current)))
-                      (if pc
-                          (project-root pc))))))
 
   (setq projectile-sort-order 'recently-active))
