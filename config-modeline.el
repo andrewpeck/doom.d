@@ -65,7 +65,7 @@ nil."
 
                       "L%l·C%c·%p"
 
-                      (if vc-mode
+                      (if (and (not (remote-host? default-directory)) vc-mode)
                           (concat " ¦" vc-mode " ¦ ") " ¦ ")
 
                       (format "%s" (if (listp mode-name) (car mode-name) mode-name))
