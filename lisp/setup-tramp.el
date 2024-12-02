@@ -17,6 +17,9 @@
         tramp-verbose 1
         tramp-default-method "ssh")
 
+  (setq auto-revert-check-vc-info nil)
+  (setq auto-revert-remote-files nil)
+
   ;; https://www.gnu.org/software/tramp/#Remote-shell-setup
   (add-to-list 'tramp-connection-properties
                (list (regexp-quote "/sshx:user@host:")
