@@ -42,6 +42,10 @@
               (lambda (&optional dir)
                 (not (remote-host? (or dir default-directory)))))
 
+  ;; HACK: avoid vc-refresh when on tramp
+  (advice-add 'vc-refresh-state :before-while
+              (lambda () (not (remote-host? default-directory))))
+
   ;; HACK: tramp-get-home-directory gets called a lot and takes up a lot of CPU
   ;; time... memoizing it seems to result in a pretty significant speedup and it
   ;; doesn't seem like this is something that should change ever
