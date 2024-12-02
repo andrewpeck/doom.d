@@ -100,7 +100,7 @@
   (add-hook! 'dired-after-readin-hook
     (defun hook/dired-git-info-mode ()
       "Enable dired git info on local files."
-      (unless (memoize (remote-host? default-directory))
+      (unless (remote-host? default-directory)
         (when (locate-dominating-file "." ".git")
           (dired-git-info-auto-enable)))))
 
