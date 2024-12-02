@@ -22,9 +22,22 @@
   (setq auto-revert-remote-files nil)
 
   ;; https://www.gnu.org/software/tramp/#Remote-shell-setup
-  (add-to-list 'tramp-connection-properties
-               (list (regexp-quote "/sshx:user@host:")
-                     "remote-shell" "/usr/bin/sh"))
+
+  (connection-local-set-profile-variables
+   'remote-direct-async-process
+   '((tramp-direct-async-process . t)))
+
+  (connection-local-set-profiles
+   '(:application tramp :machine "lab143")
+   'remote-direct-async-process)
+
+  (connection-local-set-profiles
+   '(:application tramp :machine "strange")
+   'remote-direct-async-process)
+
+  (connection-local-set-profiles
+   '(:application tramp :machine "larry")
+   'remote-direct-async-process)
 
   ;; Another way to find the remote path is to use the path assigned to the remote user by the
   ;; remote host. TRAMP does not normally retain this remote path after login. However,
