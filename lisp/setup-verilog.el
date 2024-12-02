@@ -57,32 +57,32 @@ Used by font-lock for dynamic highlighting."
 
     (interactive)
     (when (eq major-mode 'verilog-mode)
-        (goto-char (point-min))
-        (let* ((depth 0)
-               (end (point-max)))
+      (goto-char (point-min))
+      (let* ((depth 0)
+             (end (point-max)))
 
-          ;; find begin-end pairs in the whole doc
-          ;; should probably operate on a range in case the document is large :(
-          ;; but for now this works...
-          (while (re-search-forward "\\<begin\\>\\|\\<end\\>" nil t)
+        ;; find begin-end pairs in the whole doc
+        ;; should probably operate on a range in case the document is large :(
+        ;; but for now this works...
+        (while (re-search-forward "\\<begin\\>\\|\\<end\\>" nil t)
 
-            ;; skip if we are in a comment
-            (unless (nth 4 (syntax-ppss))
+          ;; skip if we are in a comment
+          (unless (nth 4 (syntax-ppss))
 
-              (let* ((delim-start (match-beginning 0))
-                     (delim-end (match-end 0))
-                     (delim-word (match-string-no-properties 0)))
+            (let* ((delim-start (match-beginning 0))
+                   (delim-end (match-end 0))
+                   (delim-word (match-string-no-properties 0)))
 
-                (when (string= delim-word "begin")
-                  (setq depth (1+ depth)))
+              (when (string= delim-word "begin")
+                (setq depth (1+ depth)))
 
-                (rainbow-delimiters--apply-color-range delim-start delim-end depth (> depth 0))
+              (rainbow-delimiters--apply-color-range delim-start delim-end depth (> depth 0))
 
-                (when (string= delim-word "end")
-                  (setq depth (1- depth)))
+              (when (string= delim-word "end")
+                (setq depth (1- depth)))
 
-                (when (= depth -1)
-                  (setq depth 0)))))))
+              (when (= depth -1)
+                (setq depth 0)))))))
     ;; We already fontified the delimiters, tell font-lock there's nothing more
     ;; to do.
     nil)
