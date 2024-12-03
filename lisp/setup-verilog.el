@@ -135,23 +135,18 @@ Used by font-lock for dynamic highlighting."
           verilog-indent-level-module 2
           verilog-tab-to-comment nil)
 
-  (defun verilog-indent-for-tab-command ()
+  (defun advise-indent-for-tab-command (orig-fun &rest args)
     "More sane wrapper around verilog indent."
-    (interactive)
-    (let ((pt (point)))
-      (beginning-of-line)
-      (indent-for-tab-command)
+    (if (eq 'verilog-mode major-mode)
+        (let ((pt (point)))
+          (beginning-of-line)
+          (apply orig-fun args)
+          (when (<= pt (progn (end-of-line) (point)))
+            (goto-char pt)))
 
-      ;; don't let the saved point go to the next line
-      (when (<= pt (progn (end-of-line) (point)))
-        (goto-char pt))))
+      (apply orig-fun args)))
 
-  (evil-define-key '(motion normal) 'verilog-mode-map
-    (kbd "=") #'verilog-indent-for-tab-command)
-
-  (define-key verilog-mode-map (kbd "TAB") #'verilog-indent-for-tab-command)
-  (evil-define-key '(motion normal insert) 'verilog-mode-map
-    (kbd "TAB") #'verilog-indent-for-tab-command)
+  (advice-add 'indent-for-tab-command :around #'advise-indent-for-tab-command)
 
   (define-key verilog-mode-map (kbd  "<return>") #'electric-verilog-terminate-and-indent)
   (define-key verilog-mode-map (kbd "<backspace>") nil) ; unbind verilog electric backspace
