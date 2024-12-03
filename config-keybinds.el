@@ -14,6 +14,8 @@
 
 (after! evil-maps
 
+  (define-key global-map (kbd "C-/") #'embrace-commander)
+
   (evil-define-key '(motion normal insert) 'global
     (kbd "C-s") #'save-buffer)
 
