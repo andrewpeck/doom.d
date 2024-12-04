@@ -320,6 +320,3 @@ Make sure they are installed and the computer is set up ok"
 
   (interactive)
   (setup--create-org-buffer #'setup--check-functions))
-
-(provide 'setup-system)
-;;; setup-system.el ends here

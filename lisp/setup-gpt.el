@@ -1,34 +1,3 @@
-;;; gpt.el --- Functions for interacting with GPT-3 -*- lexical-binding: t; -*-
-;;
-;; Copyright (C) 2023 Andrew Peck
-
-;; Author: Andrew Peck <andrew.peck@cern.ch>
-;; Version: 0.0.0
-;; Url: https://github.com/andrewpeck/doom.d
-;; Package-Requires: ((emacs "27.1") (plz "0.4-pre"))
-;; Keywords: gpt3 openai
-;;
-;; This file is not part of GNU Emacs.
-;;
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 3, or (at your option)
-;; any later version.
-;;
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-;;
-;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>
-
-;;; Commentary:
-;;
-;; This extension allows the use of the OpenAI through Emacs
-
-;;; Code:
-
 (require 'plz)
 (require 'json)
 (require 'dash)
@@ -218,6 +187,3 @@ extension of the prompt."
   "Dear AI, refactor please!!"
   (interactive)
   (gpt--execute-prompt "Please refactor the following code and describe what you changed. Answer formatted in in markdown."))
-
-(provide 'gpt)
-;;; gpt.el ends here
