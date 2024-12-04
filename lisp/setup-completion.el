@@ -25,7 +25,7 @@
   (setopt +corfu-want-tab-prefer-navigating-org-tables nil)
 
   (setq corfu-auto-delay 0.2
-        corfu-auto-prefix 5
+        corfu-auto-prefix 3
         ;; corfu-on-exact-match 'show
         ;; corfu-preselect 'prompt         ; prompt first valid directory
 
