@@ -152,7 +152,8 @@
 ;; M-x describe-font
 (defun font-list ()
   ""
-  `(("Hack"             . ,(if (hd?) 21 19))
+  `(("JetBrains Mono"   . ,(if (hd?) 22 19))
+    ("Hack"             . ,(if (hd?) 21 19))
     ("Julia Mono"       . ,(if (hd?) 21 16))
     ("Inconsolata"      . ,(if (hd?) 19 18))
     ("Comic Code"       . ,(if (hd?) 22 19))
@@ -161,7 +162,6 @@
     ("DejaVu Sans Mono" . ,(if (hd?) 19 17))
     ("Consolas"         . ,(if (hd?) 20 19))
     ("Source Code Pro"  . ,(if (hd?) 16 19))
-    ("JetBrains Mono"   . ,(if (hd?) 16 19))
     ("Terminus"         . ,(if (hd?) 16 19))
     ("Fira Code"        . ,(if (hd?) 14 19))
     ("IBM Plex Mono"    . ,(if (hd?) 16 19))
