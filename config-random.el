@@ -17,7 +17,11 @@
 ;;------------------------------------------------------------------------------
 
 ;; once an hour, clean the recent file list
-(run-with-timer 60 3600 'recentf-cleanup)
+(run-with-timer 60 3600
+                (lambda ()
+                  (async-start
+                   (lambda () (progn (require 'recentf) (recentf-cleanup)))
+                   (lambda (_) (message "Cleaned recentf")))))
 
 ;;------------------------------------------------------------------------------
 ;; Mode aliases
