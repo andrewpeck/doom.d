@@ -104,3 +104,8 @@
 
 (custom-theme-set-faces! 'modus-operandi
   '(hl-todo :inherit success))
+
+(custom-theme-set-faces! 'standard-light
+  '(fringe :inherit background)
+  '(mode-line :background "#ddd")
+  )
