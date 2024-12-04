@@ -165,20 +165,6 @@ This function is almost a duplicate of a part of `org-display-inline-images'."
 
   (add-hook 'org-mode-hook #'org-excalidraw-initialize)
 
-  ;; https://github.com/wdavew/org-excalidraw/issues/2
-  (push '("\\.excalidraw.svg\\'" . "echo '%s' | sed 's/.svg//' | xargs open") org-file-apps)
-  (defun org-excalidraw-create-drawing ()
-    "Create an excalidraw drawing and insert an 'org-mode' link to it at Point."
-    (interactive)
-    (let* ((filename (format "%s.excalidraw" (org-id-uuid)))
-           (path (expand-file-name filename org-excalidraw-directory))
-           (link (format "[[file:%s.svg]]" path)))
-      (org-excalidraw--validate-excalidraw-file path)
-      (insert link)
-      (with-temp-file path (insert org-excalidraw-base))
-      (shell-command (org-excalidraw--shell-cmd-open path system-type))))
-
-
   ;; org should open html with a browser
   ;; don't know why this isn't the default
   (add-to-list 'org-file-apps '("\\.x?html?\\'" . "xdg-open %s"))
