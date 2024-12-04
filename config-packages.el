@@ -87,42 +87,6 @@ _h_ decrease width    _l_ increase width
   (add-to-list 'clean-buffer-list-kill-buffer-names "*Async-native-compile-log*"))
 
 ;;------------------------------------------------------------------------------
-;; Dash Docs
-;;------------------------------------------------------------------------------
-
-(use-package! dash-docs
-  :defer-incrementally t
-  :config
-  (defvar dash-docs-my-docsets
-    '("Tcl" "Python_3" "C" "C++" "Bash" "Clojure")
-    "Docsets to be installed via `dash-docs-install-my-docsets'")
-
-  (defun dash-docs-install-my-docsets ()
-
-    "Install docsets specified by the list `dash-docs-my-docsets'"
-
-    (interactive)
-
-    (require 'dash-docs)
-
-    (let ((dash-docs--ensure-created-docsets-path
-           (lambda (docset-path) (mkdir docset-path t)))
-          (dash-docs-use-workaround-for-emacs-bug nil))
-
-      (cl-flet ((setup-docset
-                  (docset)
-                  (when (not (file-exists-p (concat  dash-docs-docsets-path
-                                                     (string-replace "_" " " docset) ".docset")))
-
-                    (message (concat "Installing " docset "..."))
-                    (dash-docs-install-docset docset))))
-
-        (dolist (docset dash-docs-my-docsets)
-          (setup-docset docset))))
-
-    (message "Docsets installed.")))
-
-;;------------------------------------------------------------------------------
 ;; Treesitter
 ;;------------------------------------------------------------------------------
 
