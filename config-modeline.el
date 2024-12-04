@@ -33,16 +33,16 @@ nil."
                        "·" (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning))) " "))))  " "))
 
 (after! vc-git
+  (defun advice/vc-mode-line-transform (tstr)
+    (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
+           (first-char (substring tstr 0 1)))
+      (cond ((string= ":" first-char) ;;; Modified
+             (replace-regexp-in-string "^:" (propertize "󰊢 " 'face 'magit-diffstat-removed) tstr))
+            ((string= "-" first-char) ;; No change
+             (replace-regexp-in-string "^-" (propertize "󰊢 " 'face 'magit-diffstat-added) tstr))
+            (t tstr))))
   ;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
-  (advice-add #'vc-git-mode-line-string :filter-return
-              (lambda (tstr)
-                (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
-                       (first-char (substring tstr 0 1)))
-                  (cond ((string= ":" first-char) ;;; Modified
-                         (replace-regexp-in-string "^:" (propertize "󰊢 " 'face '(:foreground "#f90")) tstr))
-                        ((string= "-" first-char) ;; No change
-                         (replace-regexp-in-string "^-" (propertize "󰊢 " 'face '(:foreground "#080")) tstr))
-                        (t tstr))))))
+  (advice-add #'vc-git-mode-line-string :filter-return #'advice/vc-mode-line-transform))
 
 (setq-default mode-line-format
 
