@@ -20,31 +20,6 @@
 
 (setq use-package-always-defer t)
 
-(let ((default-directory (expand-file-name "packages" doom-user-dir)))
-  (normal-top-level-add-subdirs-to-load-path))
-
-;; start:sort
-(use-package! gpt)
-(use-package! setup-system)
-;; end:sort
-
-(defun load!! (path) (load! path doom-user-dir t))
-
-(defun load-timer (pkg &optional timer)
-  "Load package on a timer."
-  (let ((timer (if timer timer 1.5)))
-    (run-with-timer timer nil #'load!! pkg)))
-
-(defun load-idle (pkg &optional timer)
-  "Load package on idle."
-  (let ((timer (if timer timer 1.5)))
-    (run-with-idle-timer timer nil #'load!! pkg)))
-
-(defun doom-load-idle (path) (load-idle (concat doom-user-dir path)))
-(defun doom-load-timer (path) (load-timer (concat doom-user-dir path)))
-
-(load!! "custom")
-
 ;; Suppress `Package cl is deprecated` warnings
 (setq byte-compile-warnings '(not obsolete))
 
@@ -168,14 +143,28 @@
 ;; (modify-syntax-entry ?_ "w")     ; Treat underscore as part of a word to match vim behavior
 ;; (modify-syntax-entry ?- "w")     ; Treat dash as part of a word
 
-;; use mouse forward/backward to jump between buffers
-(map! :n [mouse-8] #'previous-buffer
-      :n [mouse-9] #'next-buffer)
-
-;;
-(remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
-
 (setq pdf-sync-backward-display-action t)
+
+;;------------------------------------------------------------------------------
+;; Config Loading
+;;------------------------------------------------------------------------------
+
+(defun load!! (path) (load! path doom-user-dir t))
+
+(defun load-timer (pkg &optional timer)
+  "Load package on a timer."
+  (let ((timer (if timer timer 1.5)))
+    (run-with-timer timer nil #'load!! pkg)))
+
+(defun load-idle (pkg &optional timer)
+  "Load package on idle."
+  (let ((timer (if timer timer 1.5)))
+    (run-with-idle-timer timer nil #'load!! pkg)))
+
+(defun doom-load-idle (path) (load-idle (concat doom-user-dir path)))
+(defun doom-load-timer (path) (load-timer (concat doom-user-dir path)))
+
+(load!! "custom")
 
 ;; start:sort
 (load!! "lisp/plotting")
@@ -187,10 +176,7 @@
 
 ;; Load setup files
 (dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
-        (load!! (file-name-sans-extension file)))
-
-;; load keybinds after everything else
-(load!! "config-keybinds")
+  (load (file-name-sans-extension file)))
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)

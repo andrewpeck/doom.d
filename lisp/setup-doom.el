@@ -55,6 +55,10 @@ If RETURN-P, return the message as a string instead of displaying it."
         ;; doom-dashboard-widget-footer
         ))
 
+;;
+(remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
+
+(setq doom-scratch-dir doom-user-dir)
 
 ;; (remove-hook
 ;;  '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)

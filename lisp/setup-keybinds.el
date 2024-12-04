@@ -4,6 +4,10 @@
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 
+;; use mouse forward/backward to jump between buffers
+(map! :n [mouse-8] #'previous-buffer
+      :n [mouse-9] #'next-buffer)
+
 (after! lispy
   (define-key lispy-mode-map        (kbd  "M-<return>") nil)
   (define-key lispy-mode-map-evilcp (kbd  "M-<return>") nil)
@@ -135,6 +139,11 @@
     (kbd "M-q") #'org-fill-paragraph-t)
   (evil-define-key nil latex-mode-map
     (kbd "M-q") #'ap/line-fill-paragraph)
+
+  ;; Tab in normal mode shouldn't indent
+  (evil-define-key '(insert motion normal visual) 'global
+    (kbd "TAB") 'nil)
+  (define-key global-map (kbd "TAB") nil)
 
   ;; Backspace to jump to previous buffer
   (evil-define-key '(normal motion) 'global
