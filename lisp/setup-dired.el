@@ -47,7 +47,8 @@
   :config
 
   ;; https://github.com/jwiegley/emacs-async
-  (dired-async-mode 1)
+  ;; dired async mode somehow seems even slower...
+  ;; (dired-async-mode 1)
 
   (evil-define-key 'normal dired-mode-map
     (kbd "E") #'dired-do-open)
