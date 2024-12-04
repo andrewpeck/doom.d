@@ -3,8 +3,15 @@
 ;;------------------------------------------------------------------------------
 
 (use-package image-mode
+  :init
+
+  (add-to-list 'auto-mode-alist '("\\.drawio\\'"       . image-mode))
+  (add-to-list 'auto-mode-alist '("\\.excalidraw\\'"   . image-mode))
+  (add-to-list 'auto-mode-alist '("\\.gbr\\'"          . image-mode))
+  (add-to-list 'auto-mode-alist '("\\.art\\'"          . image-mode))
 
   :config
+
   (defun gbr-to-png (file data-p)
     (if data-p
         (error "Can't decode non-files")
