@@ -16,12 +16,8 @@
 ;; Auto Cleanup
 ;;------------------------------------------------------------------------------
 
-;; once an hour, clean the recent file list
-(run-with-timer 60 3600
-                (lambda ()
-                  (async-start
-                   (lambda () (progn (require 'recentf) (recentf-cleanup)))
-                   (lambda (_) (message "Cleaned recentf")))))
+;; clean the recent file list on idle
+(run-with-idle-timer 600 t #'recentf-cleanup)
 
 ;;------------------------------------------------------------------------------
 ;; Mode aliases
