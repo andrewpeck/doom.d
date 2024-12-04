@@ -43,7 +43,6 @@
 (defun doom-load-timer (path) (load-timer (concat doom-user-dir path)))
 
 (load!! "custom")
-(load!! "config-core")
 
 ;; Suppress `Package cl is deprecated` warnings
 (setq byte-compile-warnings '(not obsolete))
@@ -62,7 +61,6 @@
 
 ;; start:sort
 (load!! "config-align")
-(load!! "config-appearance")
 (load!! "config-doom")
 (load!! "config-modeline")
 (load!! "config-packages")
