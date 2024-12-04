@@ -61,8 +61,6 @@
 
 ;; start:sort
 (load!! "config-align")
-(load!! "config-doom")
-(load!! "config-modeline")
 (load!! "config-packages")
 (load!! "config-random")
 (load!! "lisp/plotting")
