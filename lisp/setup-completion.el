@@ -46,7 +46,7 @@
   (add-hook! 'hog-src-mode-hook
     (setq-local cape-file-prefix nil)
     (setq-local cape-file-directory (vc-root-dir))
-    (setq-local completion-at-point-functions (list 'cape-file 'cape-dabbrev)))
+    (setq-local completion-at-point-functions (list #'cape-file #'cape-dabbrev)))
 
   ;;------------------------------------------------------------------------------
   ;; Verilog
@@ -62,9 +62,9 @@
     (defun hook/set-verilog-capf ()
       (setq-local completion-at-point-functions
                   (list (cape-capf-super
-                         'cape-dabbrev
-                         'cape-keyword
-                         'yasnippet-capf)))))
+                         #'cape-dabbrev
+                         #'cape-keyword
+                         #'yasnippet-capf)))))
 
   ;;------------------------------------------------------------------------------
   ;; VHDL
@@ -88,9 +88,9 @@
     (defun hook/set-vhdl-capf ()
       (setq-local completion-at-point-functions
                   (list (cape-capf-super
-                         'cape-dabbrev
-                         'cape-keyword
-                         'yasnippet-capf)))))
+                         #'cape-dabbrev
+                         #'cape-keyword
+                         #'yasnippet-capf)))))
 
   ;;------------------------------------------------------------------------------
   ;; Tex
@@ -105,13 +105,13 @@
       (setq-local completion-at-point-functions
                   (list
                    ;; 'lsp-completion-at-point
-                   'citar-capf
+                   #'citar-capf
                    ;; 'TeX--completion-at-point
                    ;; 'LaTeX--arguments-completion-at-point
-                   'cape-tex
-                   'yasnippet-capf
-                   'cape-dabbrev
-                   'cape-file))))
+                   #'cape-tex
+                   #'yasnippet-capf
+                   #'cape-dabbrev
+                   #'cape-file))))
 
   ;;------------------------------------------------------------------------------
   ;; Elisp
@@ -122,12 +122,12 @@
       (setq-local completion-at-point-functions
                   (list
                    ;; (cape-company-to-capf #'company-yasnippet)
-                   'yasnippet-capf
-                   'cape-elisp-symbol
-                   'cape-keyword
-                   'cape-dabbrev
-                   'cape-history
-                   'cape-file))))
+                   #'yasnippet-capf
+                   #'cape-elisp-symbol
+                   #'cape-keyword
+                   #'cape-dabbrev
+                   #'cape-history
+                   #'cape-file))))
 
   ;;------------------------------------------------------------------------------
   ;; Python
@@ -139,9 +139,9 @@
   ;;               (setq-local completion-at-point-functions
   ;;                           (list
   ;;                            (cape-capf-super
-  ;;                             'python-completion-at-point
-  ;;                             'cape-file
-  ;;                             'yasnippet-capf))))))
+  ;;                             #'python-completion-at-point
+  ;;                             #'cape-file
+  ;;                             #'yasnippet-capf))))))
 
   ;;------------------------------------------------------------------------------
   ;; TCL
@@ -150,10 +150,10 @@
   (add-hook! 'tcl-mode-hook
     (setq-local completion-at-point-functions
                 (list (cape-capf-super
-                       'cape-dabbrev
-                       'cape-keyword
-                       'cape-file
-                       'yasnippet-capf))))
+                       #'cape-dabbrev
+                       #'cape-keyword
+                       #'cape-file
+                       #'yasnippet-capf))))
 
   (add-hook! 'tcl-mode-hook
     (with-eval-after-load 'cape-keyword
