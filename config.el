@@ -23,8 +23,6 @@
 ;; Suppress `Package cl is deprecated` warnings
 (setq byte-compile-warnings '(not obsolete))
 
-(setq doom-scratch-dir doom-user-dir)
-
 ;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
 (unless (functionp 'file-remote-p-memo)
   (require 'memoize)
