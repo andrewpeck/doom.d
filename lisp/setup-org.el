@@ -601,6 +601,12 @@ Updates overdue tasks to be due today."
       (when link
         (call-process "gimp" nil 0 nil link))))
 
+  (defun org-edit-pinta ()
+    "Open Pinta on the image at point."
+    (interactive)
+    (let ((link (org-link-get)))
+      (when link
+        (call-process "pinta" nil 0 nil link))))
 
   ;;------------------------------------------------------------------------------
   ;; Sorting
