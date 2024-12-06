@@ -44,6 +44,9 @@ nil."
   ;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
   (advice-add #'vc-git-mode-line-string :filter-return #'advice/vc-mode-line-transform))
 
+(setq eglot-menu-string "⌁")
+(custom-set-faces '(eglot-mode-line ((t))))
+
 (setq-default mode-line-format
 
       '((:eval (simple-mode-line-render
@@ -63,7 +66,11 @@ nil."
                 (list (if (or defining-kbd-macro executing-kbd-macro)
                           (concat "MACRO(" (char-to-string evil-this-macro) ") ¦ ") "")
 
-                      "L%l·C%c·%p"
+                      (when (fboundp #'eglot--mode-line-format)
+                        (when (eglot-managed-p)
+                          (eglot--mode-line-format)))
+
+                      "  L%l·C%c·%p"
 
                       (if (and (not (remote-host? default-directory)) vc-mode)
                           (concat " ¦" vc-mode " ¦ ") " ¦ ")
