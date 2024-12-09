@@ -185,6 +185,7 @@ This function is almost a duplicate of a part of `org-display-inline-images'."
 
   (setq org-tags-exclude-from-inheritance (list "crypt")
         org-indent-indentation-per-level 2
+        org-startup-numerated t
         org-crypt-key nil
         org-crypt-disable-auto-save t
         org-export-in-background nil
