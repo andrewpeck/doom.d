@@ -68,7 +68,7 @@
   (org-table-map-tables 'org-table-align))
 
 (defun xdg-do (x)
-  (call-process (executable-find "xdg-open") nil nil nil x))
+  (call-process (executable-find "xdg-open") nil 0 nil x))
 
 (defun xdg-browse-directory ()
   "Open the current file's directory however the OS would."

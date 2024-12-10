@@ -120,15 +120,9 @@
                              (ap/dired-external-open)
                            nil)))
 
-  (defun ap/external-open (file)
-    (let* ((ext-handler (cdr (assoc (file-name-extension file) external-program-handlers)))
-           (program (or ext-handler "xdg-open")))
-      (message (format  "Opening %s in %s" file program))
-      (call-process program nil 0 nil file)))
-
   (defun ap/dired-external-open()
     (interactive)
-    (ap/external-open (dired-get-file-for-visit))
+    (xdg-open-file (dired-get-file-for-visit))
     t)
 
   (defvar auto-external-handle-extensions
