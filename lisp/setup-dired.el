@@ -122,8 +122,24 @@
 
   (defun ap/dired-external-open()
     (interactive)
-    (xdg-open-file (dired-get-file-for-visit))
-    t)
+    (xdg-open-file (dired-get-file-for-visit)) t)
+
+  (defun my/dired-convert-marked-image-files-to-pdf ()
+    (interactive)
+    (let* ((ofile (read-string "Output File: ")))
+
+      (when (string-empty-p ofile)
+        (error "No output file specified!"))
+
+      ;; stick on pdf extension if it isn't there
+      (when (not (string= "pdf" (file-name-extension "ofile")))
+        (setq ofile (concat ofile ".pdf")))
+
+      (let ((args (append '("convert" nil t nil)
+                          (dired-get-marked-files)
+                          (list ofile))))
+
+        (apply #'call-process args))))
 
   (defvar auto-external-handle-extensions
     '("drawio")
