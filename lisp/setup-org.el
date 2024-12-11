@@ -1076,12 +1076,11 @@ local and remote servers."
   ;; HACK: patch issue with eldoc help
   ;; sometimes what gets passed into this function has nil values, e.g.
   ;; org-babel-merge-params(((:session . "none") (:results . "replace") (:exports . "code") (:cache . "no") (:noweb . "no") (:hlines . "no") (:tangle . "no")) nil nil nil ((:session . "test") (:resulhk))) ;;
-  (add-advice 'org-babel-merge-params :around
-              (lambda (orig-fun alists)
-                (funcall orig-fun
-                         (mapcar (lambda (x)
-                                   (-filter #'-cons-pair? x))
-                                 (-filter #'-non-nil alists)))))
+  (advice-add 'org-babel-merge-params :around
+              (lambda (orig-fun &rest alists)
+                (apply orig-fun
+                       (mapcar (lambda (x) (-filter #'-cons-pair? x))
+                               (-filter #'-non-nil alists)))))
 
   ) ;; end use-package! org
 
