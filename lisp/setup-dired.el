@@ -132,7 +132,7 @@
         (error "No output file specified!"))
 
       ;; stick on pdf extension if it isn't there
-      (when (not (string= "pdf" (file-name-extension "ofile")))
+      (when (not (string= "pdf" (file-name-extension ofile)))
         (setq ofile (concat ofile ".pdf")))
 
       (let ((args (append '("convert" nil t nil)
