@@ -595,19 +595,22 @@ Updates overdue tasks to be due today."
                       "</svg>"))))
         (call-process "inkscape" nil 0 nil "-g" link))))
 
-  (defun org-edit-gimp ()
+  (defun my/edit-image-helper (helper)
+    (let ((link (pcase major-mode
+                  ('org-mode (org-link-get))
+                  ('image-mode (buffer-file-name))
+                  (t nil))))
+      (when link (call-process helper nil 0 nil link))))
+
+  (defun my/edit-gimp ()
     "Open GIMP on the image at point."
     (interactive)
-    (let ((link (org-link-get)))
-      (when link
-        (call-process "gimp" nil 0 nil link))))
+    (my/edit-image-helper "gimp"))
 
-  (defun org-edit-pinta ()
+  (defun my/edit-pinta ()
     "Open Pinta on the image at point."
     (interactive)
-    (let ((link (org-link-get)))
-      (when link
-        (call-process "pinta" nil 0 nil link))))
+    (my/edit-image-helper "pinta"))
 
   ;;------------------------------------------------------------------------------
   ;; Sorting
