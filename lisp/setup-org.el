@@ -1134,6 +1134,44 @@ Uses the `dom' library."
       (when title
         (org-web-tools--cleanup-title title))))
 
+  (defun org-web-tools--get-url (url)
+    "Return content for URL as string.
+This uses `url-retrieve-synchronously' to make a request with the
+URL, then returns the response body.  Since that function returns
+the entire response, including headers, we must remove the
+headers ourselves."
+    (let* ((response-buffer (url-retrieve-synchronously url nil t))
+           (encoded-html (with-current-buffer response-buffer
+                           ;; Skip HTTP headers.
+                           ;; FIXME: Byte-compiling says that `url-http-end-of-headers' is a free
+                           ;; variable, which seems to be because it's not declared by url.el with
+                           ;; `defvar'.  Yet this seems to work fine...
+                           (delete-region (point-min) url-http-end-of-headers)
+                           (buffer-string))))
+      ;; NOTE: Be careful to kill the buffer, because `url' doesn't close it automatically.
+      (kill-buffer response-buffer)
+      (with-temp-buffer
+        ;; For some reason, running `decode-coding-region' in the
+        ;; response buffer has no effect, so we have to do it in a
+        ;; temp buffer.
+        (insert encoded-html)
+        (condition-case nil
+            ;; Fix undecoded text
+            (decode-coding-region (point-min) (point-max) 'utf-8)
+          (coding-system-error nil))
+        (buffer-string))))
+
+  (defun org-web-tools--html-title (html)
+    "Return title of HTML page, or nil if it has none.
+Uses the `dom' library."
+    ;; Based on `eww-readable'
+    (let* ((dom (with-temp-buffer
+                  (insert html)
+                  (libxml-parse-html-region (point-min) (point-max))))
+           (title (cl-caddr (car (dom-by-tag dom 'title)))))
+      (when title
+        (org-web-tools--cleanup-title title))))
+
   (defun www-get-page-title (url)
     "Gets the title of a webpage at URL"
     (org-web-tools--html-title (org-web-tools--get-url url)))
