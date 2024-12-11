@@ -9,6 +9,12 @@
       :n [mouse-9] #'next-buffer)
 
 (after! lispy
+  (define-key lispy-mode-map        (kbd  "C-e") nil)
+  (define-key lispy-mode-map-base   (kbd  "C-e") nil)
+  (define-key lispy-mode-map-evilcp   (kbd  "C-e") nil)
+  (define-key lispy-mode-map-lispy   (kbd  "C-e") nil)
+  (define-key lispy-mode-map-paredit   (kbd  "C-e") nil)
+  (define-key lispy-mode-map-parinfer   (kbd  "C-e") nil)
   (define-key lispy-mode-map        (kbd  "M-<return>") nil)
   (define-key lispy-mode-map-evilcp (kbd  "M-<return>") nil)
   (define-key lispy-mode-map-lispy  (kbd  "M-<return>") nil)
@@ -106,6 +112,9 @@
 
   (evil-define-key nil 'global
     (kbd "<mouse-3>") 'context-menu-open)
+
+  (define-key evil-motion-state-map (kbd "C-e") nil)
+  (define-key emacs-lisp-mode-map (kbd "C-e") #'eval-print-last-sexp)
 
   (evil-define-key 'visual 'global
     (kbd "C-i") nil)
