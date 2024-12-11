@@ -29,6 +29,13 @@
 
   :config
 
+  (setq org-todo-keywords
+        '((sequence "MEET" "MET")
+          (sequence "NOTE" "NOTED")
+          (sequence "TODO(t)" "|" "DONE(d)" "KILL(k)")
+          (sequence  "LOOP(r)" "PROJ(p)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
+          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 
   ;; taken directly from org-yt
   (defun org-display-user-inline-images (&optional _include-linked _refresh beg end)
