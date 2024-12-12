@@ -116,22 +116,25 @@
 ;;------------------------------------------------------------------------------
 
 (use-package pet
-  :config
+  :init
   (add-hook 'python-base-mode-hook 'pet-mode -10)
 
-  (add-hook 'python-mode-hook
+  (add-hook 'python-base-mode-hook
             (lambda ()
+              (pet-mode)
+
               (setq-local python-shell-interpreter (pet-executable-find "python")
                           python-shell-virtualenv-root (pet-virtualenv-root))
-
-              (pet-flycheck-setup)
 
               (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
                           lsp-pyright-venv-path python-shell-virtualenv-root)
 
-              ;; (setq-local dap-python-executable python-shell-interpreter)
+              (setq-local dap-python-executable python-shell-interpreter)
 
-              )))
+              (setq-local python-pytest-executable (pet-executable-find "pytest"))
+
+              (pet-flycheck-setup)
+              (flycheck-mode))))
 
 
 ;;------------------------------------------------------------------------------
