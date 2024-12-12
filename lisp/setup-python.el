@@ -17,6 +17,21 @@
   :defer-incrementally t
   :init
 
+  (defun advice/close-lookup-maybe (_id &rest _arg)
+    "Repeated invotations of +lookup/documentation will simply toggle the
+help instead of keeping it open."
+    (let ((buffers (seq-filter (lambda (buf)
+                                 (or (string-prefix-p "*eglot-help" (buffer-name buf))
+                                     (string-prefix-p "*helpful " (buffer-name buf))))
+                               (buffer-list))))
+      (when buffers
+        (mapc #'kill-buffer buffers))
+
+      buffers))
+
+  (advice-add #'+lookup/documentation :before-until
+              #'advice/close-lookup-maybe)
+
   ;; Initialize LSP unless the python file is remote
   (defun +python-init-lsp-mode-maybe-h ()
     "Initialize LSP unless the python file is remote."
