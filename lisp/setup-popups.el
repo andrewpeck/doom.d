@@ -13,35 +13,9 @@
   (evil-define-key
     'motion +popup-buffer-mode-map (kbd "C-<up>") #'+popup/raise)
 
-  ;; (set-popup-rules!
-  ;;  '(("^ \\*" :slot -1) ; fallback rule for special buffers
-  ;;    ("^\\*" :select t)
-  ;;    ("^\\*Completions" :slot -1 :ttl 0)
-  ;;    ("^\\*\\(?:scratch\\|Messages\\)" :ttl t)
-  ;;    ("^\\*Help" :slot -1 :size 0.2 :select t)
-  ;;    ("^\\*doom:"
-  ;;     :size 0.35 :select t :modeline t :quit t :ttl t)))
-
-  ;; display-buffer-alist
-  (set-popup-rule! ".*eww.*"
-    :ignore t
-    :modeline t
-    :side 'right
-    :quit nil
-    :size 1.0
-    ;; :vslot -4
-    :select nil
-    :ttl 0)
-
-  (set-popup-rule! ".*poporg.*"
-    :ignore t
-    :modeline t
-    :side 'right
-    :quit nil
-    :size 1.0
-    ;; :vslot -4
-    :select nil
-    :ttl 0)
+  (set-popup-rule! ".*eww.*" :ignore t)
+  (set-popup-rule! ".*poporg.*" :ignore t)
+  (set-popup-rule! ".*notmuch.*" :ignore t)
 
   (set-popup-rule! ".*cider-repl.*"
     :modeline t
