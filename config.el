@@ -18,6 +18,8 @@
 ;; Packages & Loads
 ;;------------------------------------------------------------------------------
 
+(add-load-path! "lisp/")
+
 (setq use-package-always-defer t)
 
 ;; Suppress `Package cl is deprecated` warnings

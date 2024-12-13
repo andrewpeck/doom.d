@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;------------------------------------------------------------------------------
 ;; Tramp
 ;;------------------------------------------------------------------------------
@@ -68,7 +70,7 @@
     (unless (and buffer-file-name (remote-host? buffer-file-name))
       (apply orig-fun args)))
 
-  (advice-add 'magit-turn-on-auto-revert-mode-if-desired :around #'my-magit-auto-revert-mode-advice)
+  (advice-add 'magit-turn-on-auto-revert-mode-if-desired :around 'my-magit-auto-revert-mode-advice)
 
   ;; HACK: tramp-get-home-directory gets called a lot and takes up a lot of CPU
   ;; time... memoizing it seems to result in a pretty significant speedup and it
@@ -84,7 +86,7 @@ user identified by VEC.  If there is no user specified in either
 VEC or USER, or if there is no home directory, return nil."
       (and (tramp-file-name-p vec)
            (with-tramp-connection-property vec (concat "~" user)
-             (tramp-file-name-handler #'tramp-get-home-directory vec user)))))
+             (tramp-file-name-handler 'tramp-get-home-directory vec user)))))
 
   (advice-add 'tramp-get-home-directory :override
-              #'m/tramp-get-home-directory))
+              'm/tramp-get-home-directory))

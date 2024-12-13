@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;;------------------------------------------------------------------------------
 ;; Casual Dired
 ;;------------------------------------------------------------------------------
@@ -39,8 +40,7 @@
 
   (add-hook 'dired-mode-hook #'dired-omit-mode)
   (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
-  (setq dired-omit-extensions (remove ".bit" dired-omit-extensions))
-  )
+  (setq dired-omit-extensions (remove ".bit" dired-omit-extensions)))
 
 (use-package! dired
 

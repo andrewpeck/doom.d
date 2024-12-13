@@ -105,7 +105,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! diff-hl
-  :defer-incrementally t
 
   :init
   (remove-hook! 'find-file-hook #'diff-hl-mode)

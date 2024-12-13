@@ -14,6 +14,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! python
+  :functions (python--do-isort)
   :defer-incrementally t
   :init
 
@@ -76,48 +77,8 @@ help instead of keeping it open."
   ;; dedicated to the current buffer or its project (if one is found).
   (setq python-shell-dedicated 'buffer)
 
-  ;; (defun save-window (&rest args)
-  ;;   (lambda (orig-fun &rest args)
-  ;;     (let ((current (selected-window)))
-  ;;       (apply orig-fun args)
-  ;;       (select-window current)))
-  ;;   )
-
-  ;;   (advice-add 'python-shell-send-buffer :around
-  ;;               (lambda (orig-fun &rest args)
-
-  ;;                 (call-interactively #'run-python)
-  ;;                 ;; (call-interactively #'run-python)
-
-  ;;                   (apply orig-fun args)
-  ;; ))
-
-  ;; (defun run-python-unless (&rest _)
-  ;;     "Run python (unless it is already running)"
-  ;;     (interactive)
-
-  ;;     (unless (python-shell-get-buffer)
-  ;;       (python-shell-make-comint
-  ;;        (python-shell-calculate-command)
-  ;;        (python-shell-get-process-name t) t)
-
-  ;; ))
-
-
-  ;; (advice-add 'python-shell-send-buffer
-  ;;             :before
-  ;;             (lambda (&rest _)
-  ;;               (call-interactively #'run-python)))
-
-  ;; (advice-add 'python-shell-send-region
-  ;;             :before
-  ;;             (lambda (&rest _)
-  ;;               (interactive)
-  ;;               (call-interactively #'run-python)))
-
-  (setq python-shell--interpreter "python3"
-        python-flymake-command '("flake8" "-")
-        py-isort-options '("--line-length" "300"))
+  (defvar py-isort-options '("--line-length" "300") "List of arguments to apply in `python-sort-imports")
+  (setopt python-flymake-command '("flake8" "-"))
 
   (defun python-sort-imports ()
     "Sort Python imports in the current buffer."
