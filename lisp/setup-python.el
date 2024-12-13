@@ -64,6 +64,16 @@ help instead of keeping it open."
                   (not (executable-find python-shell-interpreter t)))
         (anaconda-mode +1))))
 
+  (defun my/check-python-tooling ()
+    (unless (executable-find "ruff")
+      (warn "ruff not found! please install it"))
+    (unless (executable-find "pyright")
+      (warn "pyright not found! please install it"))
+    (unless (executable-find "mypy")
+      (warn "mypy not found! please install it")))
+
+  (add-hook 'python-base-mode-hook #'my/check-python-tooling)
+
   :config
 
   (advice-add 'run-python :around
