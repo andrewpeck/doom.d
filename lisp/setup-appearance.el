@@ -145,7 +145,7 @@
 (defun ap/get-dark-theme ()
   (if (not (or (daemonp)
                (display-graphic-p)))
-      'doom-gruvbox
+      'modus-vivendi-tinted
     (pcase (downcase (system-name))
       ;; doom-laserwave doom-one doom-gruvbox
       ("pepper"      'doom-laserwave)
