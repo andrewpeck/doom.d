@@ -40,6 +40,7 @@
 (package! emojify                 :pin "1b726412f19896abf5e4857d4c32220e33400b55")
 (package! expand-region           :pin "541d971f7c77ca5c0f66c88bcbfeb0d165883023" :recipe (:host github :repo "magnars/expand-region.el"))
 (package! flycheck-clj-kondo      :pin "e38c67ba9db1ea1cbe1b61ab39b506c05efdcdbf" :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
+(package! flycheck-pycheckers     :pin "1bd9b7a7d4009a81ebd34515a72a3a94c313ad76" :recipe (:host github :repo "msherry/flycheck-pycheckers"))
 (package! fzf                     :pin "641aef33c88df3733f13d559bcb2acc548a4a0c3" :recipe (:host github :repo "bling/fzf.el"))
 (package! gptel)
 (package! graphviz-dot-mode       :pin "8ff793b13707cb511875f56e167ff7f980a31136")

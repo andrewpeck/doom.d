@@ -103,24 +103,39 @@ help instead of keeping it open."
 
 (use-package pet
   :init
+
+  (with-eval-after-load 'flycheck
+    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
+
   (add-hook 'python-base-mode-hook 'pet-mode -10)
 
-  (add-hook 'python-base-mode-hook
-            (lambda ()
-              (pet-mode)
+  (defun ap/setup-pet ()
 
-              (setq-local python-shell-interpreter (pet-executable-find "python")
-                          python-shell-virtualenv-root (pet-virtualenv-root))
+    (when-let ((env (getenv "VIRTUAL_ENV")))
+      (warn (concat "VIRTUAL_ENV already set to " env ". It is probably set in doom env and should be removed."))
+      (setenv "VIRTUAL_ENV" nil))
 
-              (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
-                          lsp-pyright-venv-path python-shell-virtualenv-root)
+    (pet-mode)
 
-              (setq-local dap-python-executable python-shell-interpreter)
+    (setq-local python-shell-interpreter (pet-executable-find "python")
+                python-shell-virtualenv-root (pet-virtualenv-root)
 
-              (setq-local python-pytest-executable (pet-executable-find "pytest"))
+                flycheck-python-mypy-python-executable python-shell-interpreter
+                flycheck-python-mypy-executable (concat python-shell-virtualenv-root "/bin/pet")
 
-              (pet-flycheck-setup)
-              (flycheck-mode))))
+                flycheck-pycheckers-venv-root python-shell-virtualenv-root)
+
+    (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
+                lsp-pyright-venv-path python-shell-virtualenv-root)
+
+    (setq-local dap-python-executable python-shell-interpreter)
+
+    (setq-local python-pytest-executable (pet-executable-find "pytest"))
+
+    (pet-flycheck-setup)
+    (flycheck-mode))
+
+  (add-hook 'python-base-mode-hook 'ap/setup-pet))
 
 
 ;;------------------------------------------------------------------------------
