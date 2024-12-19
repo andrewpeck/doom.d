@@ -1,10 +1,12 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'plz)
 (require 'json)
 (require 'dash)
 
 (defvar gpt-api-key "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" "A key for openai.")
 (defvar gpt-cost-per-token (/ 2.0 1000.0) "Cost for single GPT token.")
-(defvar gpt-text-model "gpt-4-1106-preview" "Model used by gpt.")
+(defvar gpt-text-model "gpt-4o" "Model used by gpt.")
 
 (defvar gpt-max-tokens 1024 "Max number of tokens.")
 (defvar gpt-temperature 0.7 "GPT Temperature.")
@@ -37,7 +39,6 @@ The callback will be executed asynchronously."
                      :body post-body
                      :as #'json-read
                      :then (lambda (alist)
-                             ;; (message (format  "GPT Response: %s" alist))
                              (funcall callback alist)))))
 
     ;; (message (format  "GPT Posting: %s %s" post-headers post-body))
@@ -55,7 +56,7 @@ The callback will be executed asynchronously."
       (unless msg
         (error (format "No reponse from GPT query! %s" response))) msg)))
 
-(defun gpt--process-response (json &optional prompt buffer-name buffer-point)
+(defun gpt--process-response (json &optional _prompt buffer-name buffer-point)
   ""
 
   (save-excursion
@@ -67,6 +68,10 @@ The callback will be executed asynchronously."
 
         (when response
 
+          (when usage
+            (message "Usage: %d tokens (%f cents)" usage
+                     (* usage gpt-cost-per-token)))
+
           (if buffer-name
 
               (with-current-buffer buffer-name
@@ -75,7 +80,9 @@ The callback will be executed asynchronously."
 
             (progn
 
-              (doom/open-scratch-buffer)
+              (pop-to-buffer (get-buffer-create "*gpt*"))
+              (org-mode)
+
               (goto-char (point-min))
               (insert "* GPT Response\n")
 
@@ -91,10 +98,7 @@ The callback will be executed asynchronously."
               (insert "\n#+end_src\n")
 
               (newline)
-              (goto-char (point-min))))
-
-          (message (format "Usage: %d tokens (%f cents)" usage
-                           (* usage gpt-cost-per-token))))))))
+              (goto-char (point-min)))))))))
 
 (defun gpt--execute-prompt (prompt &optional buffer-name buffer-point)
   "Execute a GPT-based prompt with or without a selection.
