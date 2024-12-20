@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: lexical
+# key: lexical
+# condition: t
+# --
+;; -*- lexical-binding: t; -*-
