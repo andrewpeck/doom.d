@@ -32,8 +32,11 @@
     (file-remote-p path 'host)))
 
 (defun remote-host? (path)
-  (or (string-match-p tramp-remote-file-name-spec-regexp path)
-      (file-remote-p-memo path)))
+  ;; this is just tramp-remote-file-name-spec-regexp
+  ;; have a copy here so we don't need
+  (let ((remote-name-regexp "\\(-\\|[[:alnum:]]\\{2,\\}\\)\\(?::\\)\\(?:\\([^/:|[:blank:]]+\\)\\(?:@\\)\\)?\\(\\(?:[%._[:alnum:]-]+\\|\\(?:\\[\\)\\(?:\\(?:[[:alnum:]]*:\\)+[.[:alnum:]]*\\)?\\(?:]\\)\\)\\(?:\\(?:#\\)\\(?:[[:digit:]]+\\)\\)?\\)?"))
+    (or (string-match-p remote-name-regexp path)
+        (file-remote-p-memo path))))
 
 ;;------------------------------------------------------------------------------
 ;; Shell Config
