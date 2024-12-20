@@ -105,7 +105,7 @@ help instead of keeping it open."
   :init
 
   (with-eval-after-load 'flycheck
-    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
+    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
 
   (add-hook 'python-base-mode-hook 'pet-mode -10)
 
