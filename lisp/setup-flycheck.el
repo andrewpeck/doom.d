@@ -18,9 +18,6 @@
         flycheck-flake8rc (concat doom-user-dir "flake8.rc")
         flycheck-pylintrc (concat doom-user-dir "pylint.rc"))
 
-  ;; i hate mypy
-  (setq flycheck-checkers (delete 'python-mypy flycheck-checkers))
-
   ;; (flycheck-add-next-checker 'python-flake8 'python-pylint)
 
   ;;------------------------------------------------------------------------------
