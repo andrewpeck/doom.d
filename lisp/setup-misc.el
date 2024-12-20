@@ -332,9 +332,19 @@ _h_ decrease width    _l_ increase width
 ;;------------------------------------------------------------------------------
 
 (use-package! ispell
+  :init
+
+  ;; Find Local Dictionaries
+  (defun hook/set-ispell-dict ()
+    (when-let*
+        ((buf (buffer-file-name))
+         (dict (locate-dominating-file buf ".aspell.en.pws")))
+      (setq-local ispell-personal-dictionary
+                  (concat dict ".aspell.en.pws"))))
+  (add-hook 'flycheck-mode-hook 'hook/set-ispell-dict)
+
   :config
   ;; Save user defined words to the dictionary
-  (setq ispell-personal-dictionary "~/.aspell.en.pws")
   (defun my-save-word ()
     (interactive)
     (let ((current-location (point))
