@@ -24,10 +24,36 @@
 
 (after! evil-maps
 
+  ;;------------------------------------------------------------------------------
+  ;; Embrace
+  ;;------------------------------------------------------------------------------
+
   (define-key global-map (kbd "C-/") #'embrace-commander)
+
+  ;;------------------------------------------------------------------------------
+  ;; Tabs
+  ;;------------------------------------------------------------------------------
+
+  (define-key evil-normal-state-map (kbd "C-<tab>") nil)
+  (define-key evil-motion-state-map (kbd "C-<tab>") nil)
+  (evil-define-key '(motion normal insert) 'global
+    (kbd "C-<tab>") #'tab-next)
+
+  (evil-define-key '(motion normal insert) 'global
+    (kbd "C-S-<tab>") #'tab-previous)
+
+  (evil-define-key '(motion normal insert) 'global
+    (kbd "C-M-<tab>") #'tab-new)
+
+  ;;------------------------------------------------------------------------------
+  ;; CUA
+  ;;------------------------------------------------------------------------------
 
   (evil-define-key '(motion normal insert) 'global
     (kbd "C-s") #'save-buffer)
+  ;;------------------------------------------------------------------------------
+  ;;
+  ;;------------------------------------------------------------------------------
 
   (evil-define-key '(motion normal insert) 'global
     (kbd "C-c C-o")
