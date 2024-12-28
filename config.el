@@ -90,6 +90,7 @@
 
 (setq enable-local-variables t     ;
       auto-revert-mode t           ;
+      compilation-scroll-output t
       scroll-margin 30             ; add a margin while scrolling
       auto-revert-remote-files t   ;
       so-long-threshold 800        ; so-long-threshold can increase
