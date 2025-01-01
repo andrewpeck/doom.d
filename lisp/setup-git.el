@@ -79,7 +79,6 @@
       '("U" magit-submodule-update-all))))
 
 (use-package! browse-at-remote
-  :demand t
   :config
   (setq browse-at-remote-prefer-symbolic t)
   (add-to-list 'browse-at-remote-remote-type-regexps

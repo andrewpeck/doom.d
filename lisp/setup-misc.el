@@ -118,7 +118,6 @@ _h_ decrease width    _l_ increase width
 
 (use-package! copyright
 
-  :demand t
   :init
 
   (add-hook! 'before-save-hook
@@ -209,8 +208,10 @@ _h_ decrease width    _l_ increase width
 
 (use-package! affe
 
-  :demand t
-  :config
+  :commands (affe-find affe-grep)
+
+  :init
+
   ;; (setq affe-find-command "rg --color=never --files")
   (setq affe-find-command (concat (or (executable-find "fd")
                                       (executable-find "fdfind"))

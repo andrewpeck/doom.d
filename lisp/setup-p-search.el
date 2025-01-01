@@ -3,7 +3,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package p-search
-  :demand t
+  :commands (p-search)
   :config
 
   (evil-define-key '(normal) p-search-mode-map "a" #'p-search-add-dwim)

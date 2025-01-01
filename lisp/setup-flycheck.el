@@ -5,8 +5,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! flycheck
-  :defer-incrementally t
-
   :config
 
   (setq-default flycheck-ghdl-language-standard "08")

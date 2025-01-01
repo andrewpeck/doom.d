@@ -201,7 +201,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! hog
-  :demand t
   :config
   (pcase (system-name)
     ("strange" (setq hog-vivado-path "~/Xilinx/Vivado/2021.1"
