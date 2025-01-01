@@ -129,7 +129,7 @@
  emacs-lisp                    ; drown in parentheses
  (php)                         ; perl's insecure younger brother
  (python +pyright +lsp +pyenv) ; beautiful is better than ugly
- (rust)                        ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+ (rust +lsp)                   ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
  (sh +fish)                    ; she sells {ba,z,fi}sh shells on the C xor
  (web)                         ; the tubes
  (yaml)                        ; JSON, but readable
