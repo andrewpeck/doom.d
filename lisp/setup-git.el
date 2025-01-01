@@ -12,6 +12,25 @@
 
   :config
 
+  ;; https://gist.github.com/danielmartin/34bc36dafd8f900de483394087230f48
+  (defun my/change-commit-author (arg)
+    "Change the commit author during an interactive rebase in Magit.
+With a prefix argument, insert a new change commit author command
+even when there is already another rebase command on the current
+line.  With empty input, remove the change commit author action
+on the current line, if any."
+    (interactive "P")
+    (let ((author (magit-transient-read-person
+                   "Select a new author for this commit"
+                   nil
+                   nil)))
+      (git-rebase-set-noncommit-action
+       "exec"
+       (lambda (_) (if author (format "git commit --amend --author='%s'" author) "")) arg)))
+
+  (with-eval-after-load 'git-rebase
+    (define-key git-rebase-mode-map (kbd "A") #'my/change-commit-author))
+
   ;; (add-to-list 'magit-status-sections-hook
   ;;              #'magit-insert-local-branches)
   (setq magit-status-sections-hook
