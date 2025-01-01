@@ -9,7 +9,7 @@
   (defvar dash-docs-my-docsets nil
     "Docsets to be installed via `dash-docs-install-my-docsets'")
 
-  (setq dash-docs-my-docsets '("Tcl" "Python_3" "C" "C++" "Bash" "Clojure" "LaTeX"))
+  (setq dash-docs-my-docsets '("Tcl" "Python_3" "C" "C++" "Bash" "Clojure" "LaTeX" "Rust"))
 
   (defun my/dash-docs-install-docsets ()
 
