@@ -2,6 +2,12 @@
 ;; Magit
 ;;------------------------------------------------------------------------------
 
+(defun my/setup-git-author ()
+  "Setup git author in this pwd."
+  (interactive)
+  (shell-command "git config user.name \"Andrew Peck\"")
+  (shell-command "git config user.email peckandrew@gmail.com"))
+
 (use-package! magit
 
   :config
