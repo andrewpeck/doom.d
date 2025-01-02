@@ -117,6 +117,11 @@ help instead of keeping it open."
 
     (pet-mode)
 
+    (defun pet-use-poetry-p () nil)
+    (defun pet-use-conda-p () nil)
+    (defun pet-use-pipenv-p () nil)
+    (defun pet-use-pyenv-p () nil)
+
     (setq-local python-shell-interpreter (pet-executable-find "python")
                 python-shell-virtualenv-root (pet-virtualenv-root)
 
