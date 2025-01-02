@@ -1,4 +1,5 @@
-;;------------------------------------------------------------------------------
+;; -*- lexical-binding: t; -*-
+;;------------------------------------------------------------------------------ 
 ;; Image Handlers
 ;;------------------------------------------------------------------------------
 
@@ -37,7 +38,7 @@
         (delete-file png))))
 
   (setq image-use-external-converter t)
-  (image-converter-add-handler "art" #'gbr-to-png)
-  (image-converter-add-handler "gbr" #'gbr-to-png)
-  (image-converter-add-handler "drawio" #'drawio-to-png)
-  (image-converter-add-handler "excalidraw" #'excalidraw-to-png))
+  (image-converter-add-handler "art" 'gbr-to-png)
+  (image-converter-add-handler "gbr" 'gbr-to-png)
+  (image-converter-add-handler "drawio" 'drawio-to-png)
+  (image-converter-add-handler "excalidraw" 'excalidraw-to-png))
