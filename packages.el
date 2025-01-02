@@ -64,7 +64,7 @@
 (package! rainbow-mode            :pin "2e6b18609c2fdd1a2dc513937a64d276fd6cf24c")
 (package! scad-mode               :pin "2dc2457650d56d7b495a3db1926acdfb57ad430a")
 (package! screenshot              :pin "2770c0cfefe1cc09d55585f4f2f336a1b26e610e" :recipe (:host github :repo "tecosaur/screenshot"))
-(package! standard-themes         :pin "956f4d34fe637af3301db4307e79616358fdd2fb" :recipe (:host github :repo "protesilaos/standard-themes"))
+(package! standard-themes         :pin "8f9b5c6ff8b697d822655431cfcfc034eaea5132" :recipe (:host github :repo "protesilaos/standard-themes"))
 (package! svg-tag-mode            :pin "91179d9576850312b00583910a55c798ba615382" :recipe (:host github :repo "rougier/svg-tag-mode"))
 (package! system-install.el       :pin "df93485695659c7b827d64270ba70d096682b33d" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
