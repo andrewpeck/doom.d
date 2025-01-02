@@ -329,26 +329,51 @@ _h_ decrease width    _l_ increase width
   (global-set-key [remap ispell-word] #'jinx-correct-word))
 
 ;;------------------------------------------------------------------------------
+;; Lookup
+;;------------------------------------------------------------------------------
+
+;; calling +lookup/documentation annoyingly moves the cursor to the other window
+;; just add some advice to move it back
+(advice-add '+lookup/documentation :around
+            (lambda (orig-fun &rest args)
+              (let ((current (selected-window)))
+                (apply orig-fun args)
+                (select-window current))))
+
+(defun advice/close-lookup-maybe (_id &rest _arg)
+  "Repeated invotations of +lookup/documentation will simply toggle the
+help instead of keeping it open."
+  (let ((buffers (seq-filter (lambda (buf)
+                               (or (string-prefix-p "*eglot-help" (buffer-name buf))
+                                   (string-prefix-p "*helpful " (buffer-name buf))))
+                             (buffer-list))))
+    (when buffers
+      (mapc #'kill-buffer buffers))
+
+    buffers))
+
+(advice-add #'+lookup/documentation :before-until
+            #'advice/close-lookup-maybe)
+
+;;------------------------------------------------------------------------------
 ;; Eldoc
 ;;------------------------------------------------------------------------------
 
 (use-package! eldoc
+  :init
+
+  (add-hook 'eglot-managed-mode-hook #'eglot-inlay-hints-mode t)
+  ;; (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode nil)) t)
+  ;; (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
+
   :config
 
-  ;; calling +lookup/documentation annoyingly moves the cursor to the other window
-  ;; just add some advice to move it back
-  (advice-add '+lookup/documentation :around
-              (lambda (orig-fun &rest args)
-                (let ((current (selected-window)))
-                  (apply orig-fun args)
-                  (select-window current))))
+  (map! :leader :desc "Eldoc Help at Point" "kk" 'eldoc-box-help-at-point)
+  (map! :leader :desc "Eldoc Help at Point" "kh" 'eldoc-box-hover-at-point-mode)
 
   (setq eldoc-echo-area-prefer-doc-buffer t
-        eldoc-idle-delay 1.5
-        eldoc-echo-area-use-multiline-p nil)
-
-  (add-hook! 'python-mode-hook
-    (defun hook/hide-python-eldoc ())))
+        eldoc-idle-delay 0.5
+        eldoc-echo-area-use-multiline-p t))
 
 ;;------------------------------------------------------------------------------
 ;; Vc hooks

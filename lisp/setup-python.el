@@ -15,23 +15,9 @@
 
 (use-package! python
   :functions (python--do-isort)
-  :defer-incrementally t
   :init
 
-  (defun advice/close-lookup-maybe (_id &rest _arg)
-    "Repeated invotations of +lookup/documentation will simply toggle the
-help instead of keeping it open."
-    (let ((buffers (seq-filter (lambda (buf)
-                                 (or (string-prefix-p "*eglot-help" (buffer-name buf))
-                                     (string-prefix-p "*helpful " (buffer-name buf))))
-                               (buffer-list))))
-      (when buffers
-        (mapc #'kill-buffer buffers))
-
-      buffers))
-
-  (advice-add #'+lookup/documentation :before-until
-              #'advice/close-lookup-maybe)
+  (add-hook 'python-base-mode-hook (lambda () (eldoc-mode nil)))
 
   ;; Initialize LSP unless the python file is remote
   (defun +python-init-lsp-mode-maybe-h ()
@@ -65,6 +51,8 @@ help instead of keeping it open."
         (anaconda-mode +1))))
 
   (defun my/check-python-tooling ()
+    "Check if python tooling is installed."
+    (interactive)
     (unless (executable-find "ruff")
       (warn "ruff not found! please install it"))
     (unless (executable-find "pyright")
