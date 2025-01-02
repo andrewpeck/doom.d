@@ -151,7 +151,7 @@
       ("pepper"      'doom-laserwave)
       ("larry"       'doom-spacegrey)
       ("strange"     'doom-spacegrey)
-      ("apeck-len01" 'doom-spacegrey)
+      ("apeck-len01" 'doom-gruvbox)
       (_             'doom-spacegrey))))
 
 (defun ap/get-light-theme ()
@@ -220,11 +220,11 @@
                    (symbol-name dark-mode)
                    (symbol-name doom-theme))))
 
-(when (or (not (boundp 'theme-timer))
-          (not theme-timer))
-  ;; (cancel-function-timers #'synchronize-theme)
-  (setq theme-timer
-        (run-with-timer 0 3600 'synchronize-theme)))
+;; (when (or (not (boundp 'theme-timer))
+;;           (not theme-timer))
+;;   ;; (cancel-function-timers #'synchronize-theme)
+;;   (setq theme-timer
+;;         (run-with-timer 0 3600 'synchronize-theme)))
 
 (when (not (boundp 'dark-mode))
   (setq dark-mode 'dark)) ;; 'auto 'dark 'light
