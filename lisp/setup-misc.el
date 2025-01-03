@@ -222,7 +222,7 @@ _h_ decrease width    _l_ increase width
   (defun affe-find-project () (interactive) (affe-find (projectile-project-root)))
   (defun affe-grep-project () (interactive) (affe-grep (projectile-project-root)))
   (defun affe-find-notes   () (interactive) (affe-find "~/notes"))
-  (defun affe-find-dotfile () (interactive) (affe-find "~/.dotfiles"))
+  (defun affe-find-dotfile () (interactive) (affe-find "~/dotfiles"))
 
   ;; Affe
   (after! evil-maps
