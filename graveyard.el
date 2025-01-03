@@ -525,22 +525,22 @@ If the new path's directories does not exist, create them."
 ;;       lsp-vhdl-server-path (executable-find "ghdl-ls")
 ;;       lsp-vhdl--params nil)
 
-(defun ap/toggle-theme ()
-  (interactive)
-  (if (eq doom-theme 'summerfruit)
-      (progn
-        (setq highlight-indent-guides-auto-enabled nil)
-        (setq highlight-indent-guides-responsive "stack")
-        (setq doom-theme 'doom-gruvbox)
-        (load-theme 'doom-gruvbox t)
-        (set-face-foreground 'highlight-indent-guides-character-face "#375c3c644822"))
+;; (defun ap/toggle-theme ()
+;;   (interactive)
+;;   (if (eq doom-theme 'summerfruit)
+;;       (progn
+;;         (setq highlight-indent-guides-auto-enabled nil)
+;;         (setq highlight-indent-guides-responsive "stack")
+;;         (setq doom-theme 'doom-gruvbox)
+;;         (load-theme 'doom-gruvbox t)
+;;         (set-face-foreground 'highlight-indent-guides-character-face "#375c3c644822"))
 
-    (progn
-      (setq highlight-indent-guides-auto-enabled nil)
-      (setq highlight-indent-guides-responsive "stack")
-      (setq doom-theme 'summerfruit)
-      (load-theme 'summerfruit t)
-      (set-face-foreground 'highlight-indent-guides-character-face "#efefef"))))
+;;     (progn
+;;       (setq highlight-indent-guides-auto-enabled nil)
+;;       (setq highlight-indent-guides-responsive "stack")
+;;       (setq doom-theme 'summerfruit)
+;;       (load-theme 'summerfruit t)
+;;       (set-face-foreground 'highlight-indent-guides-character-face "#efefef"))))
 
 (map! :leader :desc "Toggle Themes" "t t" #'ap/toggle-theme)
 
@@ -1283,3 +1283,42 @@ lines are selected, or the NxM dimensions of a block selection.")
 
 (kill-buffer-if "*Native-compile-Log*")
 (kill-buffer-if "*Async-native-compile-log*")
+
+;; (defun save-window (&rest args)
+;;   (lambda (orig-fun &rest args)
+;;     (let ((current (selected-window)))
+;;       (apply orig-fun args)
+;;       (select-window current)))
+;;   )
+
+;;   (advice-add 'python-shell-send-buffer :around
+;;               (lambda (orig-fun &rest args)
+
+;;                 (call-interactively #'run-python)
+;;                 ;; (call-interactively #'run-python)
+
+;;                   (apply orig-fun args)
+;; ))
+
+;; (defun run-python-unless (&rest _)
+;;     "Run python (unless it is already running)"
+;;     (interactive)
+
+;;     (unless (python-shell-get-buffer)
+;;       (python-shell-make-comint
+;;        (python-shell-calculate-command)
+;;        (python-shell-get-process-name t) t)
+
+;; ))
+
+
+;; (advice-add 'python-shell-send-buffer
+;;             :before
+;;             (lambda (&rest _)
+;;               (call-interactively #'run-python)))
+
+;; (advice-add 'python-shell-send-region
+;;             :before
+;;             (lambda (&rest _)
+;;               (interactive)
+;;               (call-interactively #'run-python)))
