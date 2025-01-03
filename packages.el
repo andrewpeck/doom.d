@@ -58,6 +58,7 @@
 (package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))
 (package! org-download            :pin "c8be2611786d1d8d666b7b4f73582de1093f25ac" :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-excalidraw          :pin "edbae1b1d002e7d93a45a741c2b55b3b0d0b79d3" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
+(package! org-mode                :pin "36347c6230a5a79f858b59102ca49ecee7b720ed" :recipe (:host github :repo "emacs-straight/org-mode"))
 (package! org-web-tools           :pin "7a6498f442fc7f29504745649948635c7165d847")
 (package! p-search                :pin "e82bbf0e0d8837bb1f138344c527e853c972de9f" :recipe (:host github :repo "zkry/p-search"))
 (package! plz                     :pin "4eeff1323bc3d9d5cb67d922341d3b2f68fa075a")
