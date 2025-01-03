@@ -518,7 +518,7 @@ Updates overdue tasks to be due today."
     (let ((link (pcase major-mode
                   ('org-mode (org-link-get))
                   ('image-mode (buffer-file-name))
-                  (t nil))))
+                  (_ nil))))
       (when link (call-process helper nil 0 nil link))))
 
   (defun my/edit-gimp ()
