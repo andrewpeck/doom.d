@@ -120,23 +120,23 @@ _h_ decrease width    _l_ increase width
 
   :init
 
-  (add-hook! 'before-save-hook
-    (defun hook/update-copyright ()
-      "Automatically update copyright on save."
+  (defun my/update-copyright ()
+    "Update copyright on save."
+    (interactive)
+    (require 'copyright)
+    (save-excursion
+      (when (and copyright-names-regexp
+                 (progn (goto-char (point-min))
+                        (copyright-re-search copyright-names-regexp nil t)))
+        (copyright-update nil t)
+        (copyright-fix-years))))
 
-      (save-excursion
-        (setq copyright-names-regexp "Andrew Peck")
-
-        (when (and copyright-names-regexp
-                   (progn (goto-char (point-min))
-                          (copyright-re-search copyright-names-regexp nil t)))
-          (copyright-update nil t)
-          (copyright-fix-years)))))
+  (add-to-list 'before-save-hook t)
+  (add-hook 'before-save-hook 'my/update-copyright)
 
   :config
 
-  (setq copyright-year-ranges t)
-  )
+  (setq copyright-year-ranges t))
 
 ;;------------------------------------------------------------------------------
 ;; Wavedrom
