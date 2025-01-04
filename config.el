@@ -18,6 +18,8 @@
 ;; Packages & Loads
 ;;------------------------------------------------------------------------------
 
+(setq copyright-names-regexp ".*Andrew Peck*")
+
 (add-load-path! "lisp/")
 
 (setq use-package-always-defer t)
