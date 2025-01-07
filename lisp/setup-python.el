@@ -10,12 +10,54 @@
   (define-key pyenv-mode-map (kbd "C-c C-s") nil))
 
 ;;------------------------------------------------------------------------------
+;; Emacs Pet
+;;------------------------------------------------------------------------------
+
+(defun ap/setup-pet ()
+
+  (interactive)
+
+  (require 'pet)
+
+  (when-let ((env (getenv "VIRTUAL_ENV")))
+    (warn (concat "VIRTUAL_ENV already set to " env ". It is probably set in doom env and should be removed."))
+    (setenv "VIRTUAL_ENV" nil))
+
+  (pet-mode)
+
+  (defun pet-use-poetry-p () nil)
+  (defun pet-use-conda-p () nil)
+  (defun pet-use-pipenv-p () nil)
+  (defun pet-use-pyenv-p () nil)
+
+  (setq-local python-shell-interpreter (pet-executable-find "python")
+              python-shell-virtualenv-root (pet-virtualenv-root)
+
+              flycheck-python-mypy-python-executable python-shell-interpreter
+              flycheck-python-mypy-executable (concat python-shell-virtualenv-root "/bin/pet")
+
+              flycheck-pycheckers-venv-root python-shell-virtualenv-root)
+
+  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
+              lsp-pyright-venv-path python-shell-virtualenv-root)
+
+  (setq-local dap-python-executable python-shell-interpreter)
+
+  (setq-local python-pytest-executable (pet-executable-find "pytest"))
+
+  (pet-flycheck-setup)
+  (flycheck-mode))
+
+
+;;------------------------------------------------------------------------------
 ;; Python
 ;;------------------------------------------------------------------------------
 
 (use-package! python
   :functions (python--do-isort)
   :init
+
+  (add-hook 'python-base-mode-hook 'ap/setup-pet)
 
   (add-hook 'python-base-mode-hook (lambda () (eldoc-mode nil)))
 
@@ -55,14 +97,19 @@
     (interactive)
     (unless (executable-find "ruff")
       (warn "ruff not found! please install it"))
-    (unless (executable-find "pyright")
-      (warn "pyright not found! please install it"))
+    (unless (or (executable-find "basedpyright")
+                (executable-find "pyright"))
+      (warn "pyright/basedpyright not found! please install it"))
     (unless (executable-find "mypy")
       (warn "mypy not found! please install it")))
 
-  (add-hook 'python-base-mode-hook #'my/check-python-tooling)
+  (add-hook 'python-base-mode-hook 'my/check-python-tooling)
 
   :config
+
+  (add-to-list 'eglot-server-programs
+               '((python-mode python-ts-mode)
+                 "basedpyright-langserver" "--stdio"))
 
   (advice-add 'run-python :around
               (lambda (orig-fun &rest args)
@@ -84,52 +131,6 @@
     (if (apply #'python--do-isort py-isort-options)
         (message "Sorted imports")
       (message "(No changes in Python imports needed)"))))
-
-;;------------------------------------------------------------------------------
-;; Emacs Pet
-;;------------------------------------------------------------------------------
-
-(use-package pet
-  :init
-
-  (with-eval-after-load 'flycheck
-    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
-
-  (add-hook 'python-base-mode-hook 'pet-mode -10)
-
-  (defun ap/setup-pet ()
-
-    (when-let ((env (getenv "VIRTUAL_ENV")))
-      (warn (concat "VIRTUAL_ENV already set to " env ". It is probably set in doom env and should be removed."))
-      (setenv "VIRTUAL_ENV" nil))
-
-    (pet-mode)
-
-    (defun pet-use-poetry-p () nil)
-    (defun pet-use-conda-p () nil)
-    (defun pet-use-pipenv-p () nil)
-    (defun pet-use-pyenv-p () nil)
-
-    (setq-local python-shell-interpreter (pet-executable-find "python")
-                python-shell-virtualenv-root (pet-virtualenv-root)
-
-                flycheck-python-mypy-python-executable python-shell-interpreter
-                flycheck-python-mypy-executable (concat python-shell-virtualenv-root "/bin/pet")
-
-                flycheck-pycheckers-venv-root python-shell-virtualenv-root)
-
-    (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
-                lsp-pyright-venv-path python-shell-virtualenv-root)
-
-    (setq-local dap-python-executable python-shell-interpreter)
-
-    (setq-local python-pytest-executable (pet-executable-find "pytest"))
-
-    (pet-flycheck-setup)
-    (flycheck-mode))
-
-  (add-hook 'python-base-mode-hook 'ap/setup-pet))
-
 
 ;;------------------------------------------------------------------------------
 ;; Jupyter Code Cells
