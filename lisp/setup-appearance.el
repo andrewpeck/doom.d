@@ -151,13 +151,13 @@
       ("pepper"      'doom-laserwave)
       ("larry"       'doom-spacegrey)
       ("strange"     'doom-spacegrey)
-      ("apeck-len01" 'doom-gruvbox)
+      ("apeck-len01" 'standard-dark-tinted)
       (_             'doom-spacegrey))))
 
 (defun ap/get-light-theme ()
   (if (not (display-graphic-p)) 'summerfruit
     (pcase (downcase (system-name))
-      ("apeck-len01"  'modus-operandi)
+      ("apeck-len01"  'standard-light)
       ("pepper"       'doom-one-light)
       ("larry"        'summerfruit)
       ("strange"      'summerfruit)
