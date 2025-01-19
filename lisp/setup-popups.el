@@ -17,6 +17,14 @@
   (set-popup-rule! ".*poporg.*" :ignore t)
   (set-popup-rule! ".*notmuch.*" :ignore t)
 
+  (set-popup-rule! "*info*"
+    :modeline t
+    :side 'right
+    :quit nil
+    :size 0.5
+    :select t
+    :ttl 0)
+
   (set-popup-rule! ".*cider-repl.*"
     :modeline t
     :side 'right
