@@ -139,6 +139,28 @@ _h_ decrease width    _l_ increase width
   (setq copyright-year-ranges t))
 
 ;;------------------------------------------------------------------------------
+;; Large Table Edition
+;;------------------------------------------------------------------------------
+
+(use-package! lte
+  :init
+  (add-hook 'org-mode-hook #'lte-truncate-table-mode)
+  (add-hook 'markdown-mode-hook #'lte-truncate-table-mode)
+
+  (defun my/org-dwim-edit-at-point ()
+    "Try to edit the thing at point in some sensible way."
+    (interactive)
+    (cond
+     ((string= "TBLFM" (cdr (org-thing-at-point))) (org-edit-special))
+     ((org-at-table-p) (lte-edit-table))
+     ((org--link-at-point) (org-insert-link))
+     ((org-in-src-block-p) (org-edit-src-code))
+     ((org-inside-LaTeX-fragment-p) (org-edit-latex-fragment))))
+
+  (define-key org-mode-map  (kbd  "C-c C-e") #'my/org-dwim-edit-at-point)
+  (define-key markdown-mode-map  (kbd  "C-c C-e") #'lte-edit-table))
+
+;;------------------------------------------------------------------------------
 ;; Wavedrom
 ;;------------------------------------------------------------------------------
 
