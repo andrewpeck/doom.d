@@ -266,7 +266,6 @@
   (map! :leader :prefix "i" :desc "Insert Date"          "d"  #'insert-current-date)
 
   (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
-  (map! :leader :prefix "g" :desc "Magit Amend"          "A"  #'magit-commit-amend)
   (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
   (map! :leader :prefix "o" :desc "Open Terminal Here"   "K"  #'open-pwd-in-terminal)
   (map! :leader :prefix "o" :desc "XDG Open File"        "o"  #'xdg-open-file)

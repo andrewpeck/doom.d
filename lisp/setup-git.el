@@ -50,6 +50,8 @@ on the current line, if any."
          #'magit-insert-unpushed-to-upstream-or-recent
          #'magit-insert-unpulled-from-pushremote
          #'magit-insert-unpulled-from-upstream
+         #'forge-insert-issues
+         #'forge-insert-pullreqs
          #'magit-insert-stashes
          #'magit-insert-local-branches
          ))
@@ -69,6 +71,9 @@ on the current line, if any."
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
 
   (define-key transient-map (kbd "C-c C-c") #'transient-save)
+
+  (map! :leader :prefix "g" :desc "Magit Amend" "A"  #'magit-commit-amend)
+  (map! :leader :prefix "g" :desc "Magit Push" "P"  #'magit-push)
 
   (setq magit-log-margin '(t "%Y/%m/%d" magit-log-margin-width t 18)
 
