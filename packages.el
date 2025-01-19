@@ -50,6 +50,7 @@
 (package! hydra                   :pin "317e1de33086637579a7aeb60f77ed0405bf359b")
 (package! jinx                    :pin "8407ed958001f6a4718f225737665e50e6666dbf" :recipe (:host github :repo "minad/jinx"))
 (package! logview                 :pin "034c240c816188bf8be7441c9b0925abb92e861c")
+(package! lorem-ipsum)
 (package! lte.el :recipe (:host github :repo "fredericgiquel/lte.el"))
 (package! magit-todos             :pin "bd27c57eada0fda1cc0a813db04731a9bcc51b7b")
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
