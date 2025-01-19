@@ -155,7 +155,8 @@ _h_ decrease width    _l_ increase width
      ((org-at-table-p) (lte-edit-table))
      ((org--link-at-point) (org-insert-link))
      ((org-in-src-block-p) (org-edit-src-code))
-     ((org-inside-LaTeX-fragment-p) (org-edit-latex-fragment))))
+     ((org-inside-LaTeX-fragment-p) (org-edit-latex-fragment))
+     ((org-footnote-at-reference-p) (org-edit-footnote-reference))))
 
   (define-key org-mode-map  (kbd  "C-c C-e") #'my/org-dwim-edit-at-point)
   (define-key markdown-mode-map  (kbd  "C-c C-e") #'lte-edit-table))
