@@ -60,7 +60,7 @@
 (package! org-excalidraw          :pin "a6e57489a5a171869ca0ec57c481f19d4e957f6e" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
 (package! org-mode                :pin "405787dfbcbd4ae5e1d2227ce5aa7d4d20938388" :recipe (:host github :repo "emacs-straight/org-mode"))
 (package! org-web-tools           :pin "7a6498f442fc7f29504745649948635c7165d847")
-(package! p-search                :pin "8d4c63b50674e64fef87a326c4f2029b772e6e00" :recipe (:host github :repo "zkry/p-search"))
+(package! p-search                :pin "9ab409b4cf44817eb93e9c248e8c1b592ee28e40" :recipe (:host github :repo "zkry/p-search"))
 (package! plz                     :pin "4eeff1323bc3d9d5cb67d922341d3b2f68fa075a")
 (package! poporg                  :pin "2c58d68c81ecca4140bf179f19ed153ec804b65a" :recipe (:host github :repo "QBobWatson/poporg"))
 (package! rainbow-mode            :pin "2e6b18609c2fdd1a2dc513937a64d276fd6cf24c")
