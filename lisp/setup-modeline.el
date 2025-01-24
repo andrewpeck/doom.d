@@ -37,9 +37,11 @@ nil."
     (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
            (first-char (substring tstr 0 1)))
       (cond ((string= ":" first-char) ;;; Modified
-             (replace-regexp-in-string "^:" (propertize "󰊢 " 'face 'magit-diffstat-removed) tstr))
+             (replace-regexp-in-string "^:"
+                                       (propertize "󰊢 " 'face `(:foreground ,(face-attribute 'diff-removed :foreground)))
+                                       tstr))
             ((string= "-" first-char) ;; No change
-             (replace-regexp-in-string "^-" (propertize "󰊢 " 'face 'magit-diffstat-added) tstr))
+             (replace-regexp-in-string "^-" (propertize "󰊢 " 'face `(:foreground ,(face-attribute 'diff-added :foreground))) tstr))
             (t tstr))))
   ;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
   (advice-add #'vc-git-mode-line-string :filter-return #'advice/vc-mode-line-transform))
