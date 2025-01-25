@@ -55,6 +55,7 @@
 (package! magit-todos             :pin "bd27c57eada0fda1cc0a813db04731a9bcc51b7b")
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
 (package! nerd-icons.el           :pin "546ee20caf825e65da4c5435d31f13d269ed2a81" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
+(package! ob-mermaid              :pin "0e7abc14f887e7da6914caf6aaa3226d00d590f7" :recipe (:host github :repo "arnm/ob-mermaid"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! olivetti                :pin "845eb7a95a3ca3325f1120c654d761b91683f598")
 (package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))

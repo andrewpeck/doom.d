@@ -98,6 +98,8 @@
   (require 'poporg)
   (map! :leader :prefix "e" :desc "Poporg Edit Comment"  "c"  #'poporg-dwim)
 
+  (setq ob-mermaid-cli-path "aa-exec --profile=chrome mmdc")
+
   ;;------------------------------------------------------------------------------
   ;; General
   ;;------------------------------------------------------------------------------
