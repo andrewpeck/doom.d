@@ -31,6 +31,8 @@ on the current line, if any."
   (with-eval-after-load 'git-rebase
     (define-key git-rebase-mode-map (kbd "A") #'my/change-commit-author))
 
+  (evil-define-key '(normal) magit-status-mode-map (kbd "G") #'forge-pull)
+
   ;; (add-to-list 'magit-status-sections-hook
   ;;              #'magit-insert-local-branches)
   (setq magit-status-sections-hook
