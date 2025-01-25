@@ -102,7 +102,7 @@
  (eval +overlay)                        ; run code, run (also, repls)
  (lookup +dictionary +docsets +offline) ; helps you navigate your code and documentation
  (lsp +eglot)                           ;
- (magit)                                ; a git porcelain for Emacs
+ (magit +forge)                         ; a git porcelain for Emacs
  make                                   ; run make tasks from Emacs
  pdf                                    ; pdf enhancements
  tmux                                   ; an API for interacting with tmux
