@@ -2,7 +2,7 @@
 ;; Magit
 ;;------------------------------------------------------------------------------
 
-(defun my/setup-git-author ()
+(defun my/setup-git-author-peckandrew ()
   "Setup git author in this pwd."
   (interactive)
   (shell-command "git config user.name \"Andrew Peck\"")
