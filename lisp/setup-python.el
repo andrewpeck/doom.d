@@ -107,10 +107,6 @@
 
   :config
 
-  (add-to-list 'eglot-server-programs
-               '((python-mode python-ts-mode)
-                 "basedpyright-langserver" "--stdio"))
-
   (advice-add 'run-python :around
               (lambda (orig-fun &rest args)
                 (let ((current (selected-window)))

@@ -76,6 +76,10 @@
               (list (lambda () (eldoc-mode -1))))
 
         :config
+ 
+        (add-to-list 'eglot-server-programs
+                     '((python-mode python-ts-mode)
+                       "basedpyright-langserver" "--stdio"))
 
         (defun emacs-lsp-booster-install ()
           (interactive)
