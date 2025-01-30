@@ -158,8 +158,8 @@ _h_ decrease width    _l_ increase width
      ((org-inside-LaTeX-fragment-p) (org-edit-latex-fragment))
      ((org-footnote-at-reference-p) (org-edit-footnote-reference))))
 
-  (define-key org-mode-map  (kbd  "C-c C-e") #'my/org-dwim-edit-at-point)
-  (define-key markdown-mode-map  (kbd  "C-c C-e") #'lte-edit-table))
+  (after! org (define-key org-mode-map  (kbd  "C-c C-e") #'my/org-dwim-edit-at-point))
+  (after! markdown-mode (define-key markdown-mode-map  (kbd  "C-c C-e") #'lte-edit-table)))
 
 ;;------------------------------------------------------------------------------
 ;; Wavedrom
