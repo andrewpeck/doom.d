@@ -114,8 +114,6 @@
 ;;; Appearance
 ;;------------------------------------------------------------------------------
 
-;; don't show line numbers by default
-(setq display-line-numbers t)
 
 ;; Start emacs in full screen by default
 (add-to-list 'default-frame-alist
