@@ -104,6 +104,9 @@
   ;; General
   ;;------------------------------------------------------------------------------
 
+  (after! ob-ditaa
+    (setopt org-ditaa-jar-path "~/.doom.d/ditaa.jar"))
+
   (setq org-tags-exclude-from-inheritance (list "crypt")
         org-indent-indentation-per-level 2
         org-startup-numerated t
@@ -114,7 +117,7 @@
         org-display-remote-inline-images 'download
 
         ;; visual-fill-column-mode 1
-        org-ditaa-jar-path "~/.doom.d/ditaa.jar"
+
         ;; org-plantuml-jar-path "~/.doom.d/plantuml.jar"
 
         ;; Latex Previews
