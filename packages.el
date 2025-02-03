@@ -12,6 +12,7 @@
 (package! org-yt    :disable t)
 (package! orgit-forge :disable t)
 (package! org-pdftools :disable t)
+(package! doom-themes :disable t)
 
 ;; Misc packages
 ;; start:sort
