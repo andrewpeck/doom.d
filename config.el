@@ -40,6 +40,11 @@
     (or (string-match-p remote-name-regexp path)
         (file-remote-p-memo path))))
 
+(defun home-manager-switch ()
+  "Reload home manager configuration."
+  (interactive)
+  (async-shell-command "home-manager switch"))
+
 ;;------------------------------------------------------------------------------
 ;; Shell Config
 ;;------------------------------------------------------------------------------
