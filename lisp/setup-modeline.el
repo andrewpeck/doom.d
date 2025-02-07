@@ -66,7 +66,7 @@ nil."
 
                 ;; Right.
                 (list (if (or defining-kbd-macro executing-kbd-macro)
-                          (concat "MACRO(" (char-to-string evil-this-macro) ") ¦ ") "")
+                          (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
                       (when (and (fboundp #'eglot-managed-p)
                                  (eglot-managed-p))
@@ -74,12 +74,12 @@ nil."
                                    (lambda (_) "lsp ⋅")))
                           (eglot--mode-line-format)))
 
-                      "  L%l·C%c·%p"
+                      " L%l·C%c·%p"
 
                       (if (and (not (remote-host? default-directory)) vc-mode)
-                          (concat " ¦" vc-mode " ¦ ") " ¦ ")
+                          (concat " ⋅" vc-mode " ⋅ ") " ⋅ ")
 
                       (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
                       (replace-regexp-in-string "FlyC" ""
-                                                (concat " ¦ " (my-flycheck-mode-line-status-text))) " ")))))
+                                                (concat " ⋅ " (my-flycheck-mode-line-status-text))) " ")))))
