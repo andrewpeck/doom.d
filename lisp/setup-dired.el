@@ -168,8 +168,10 @@ If not specified it will default to xdg-open.")
 ;;------------------------------------------------------------------------------
 
 (use-package! dwim-shell-command
+
+  :commands (dwim-shell-command-on-marked-files)
   :after dired
-  :config
+  :init
   (defun my/dwim-shell-command-archive-zstd ()
     "Tar marked files as zst"
     (interactive)
