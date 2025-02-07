@@ -16,7 +16,7 @@
 
 ;; Misc packages
 ;; start:sort
-(package! affe                    :pin "649daaa9087446d14f11af9d52268cfb930e4a08")
+(package! affe                    :pin "a9ed2407f2edf1421b2ca55946dfba190f39b034")
 (package! almost-mono-themes      :pin "0641bf565c113caef8d5c2a93f38cff32ebb62b7" :recipe (:host github :repo "cryon/almost-mono-themes"))
 (package! apheleia                :pin "fa50cb3a3c7cb8f2b4216760c05f8a885a3ce906")
 (package! ascii-art-to-unicode    :pin "fa3d82ddb531855ad7b8ef871871907861327c9f")
