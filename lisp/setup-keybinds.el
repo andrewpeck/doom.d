@@ -51,6 +51,9 @@
 
   (evil-define-key '(motion normal insert) 'global
     (kbd "C-s") #'save-buffer)
+  (evil-define-key '(insert) 'minibuffer-mode-map
+    (kbd "C-v") #'yank)
+
   ;;------------------------------------------------------------------------------
   ;;
   ;;------------------------------------------------------------------------------
