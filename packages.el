@@ -53,6 +53,7 @@
 (package! logview                 :pin "034c240c816188bf8be7441c9b0925abb92e861c")
 (package! lorem-ipsum)
 (package! lte.el :recipe (:host github :repo "fredericgiquel/lte.el"))
+(package! magit                   :pin "f52dfada8fa0fa6cd70886819868d84e198773a3")
 (package! magit-todos             :pin "bd27c57eada0fda1cc0a813db04731a9bcc51b7b")
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
 (package! nerd-icons.el           :pin "546ee20caf825e65da4c5435d31f13d269ed2a81" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
