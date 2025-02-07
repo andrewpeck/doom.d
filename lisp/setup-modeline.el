@@ -70,7 +70,9 @@ nil."
 
                       (when (and (fboundp #'eglot-managed-p)
                                  (eglot-managed-p))
-                        (eglot--mode-line-format))
+                        (cl-letf (((symbol-function 'eglot-project-nickname)
+                                   (lambda (_) "lsp ⋅")))
+                          (eglot--mode-line-format)))
 
                       "  L%l·C%c·%p"
 
