@@ -47,7 +47,7 @@
 (package! gptel                   :pin "447a37e715323bc447bbb37e045e0dbacd8e7bad")
 (package! graphviz-dot-mode       :pin "8ff793b13707cb511875f56e167ff7f980a31136")
 (package! hdl_deps                :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
-(package! hog-emacs               :pin "16900610b7517c03537d7c2f2eab0b26cfac984a" :recipe (:host github :repo "andrewpeck/hog-emacs"))
+(package! hog-emacs               :pin "de62173b633648f9d3c3f7df29462c95e4a85176" :recipe (:host github :repo "andrewpeck/hog-emacs"))
 (package! hydra                   :pin "317e1de33086637579a7aeb60f77ed0405bf359b")
 (package! jinx                    :pin "8407ed958001f6a4718f225737665e50e6666dbf" :recipe (:host github :repo "minad/jinx"))
 (package! logview                 :pin "034c240c816188bf8be7441c9b0925abb92e861c")
