@@ -76,6 +76,7 @@
 (add-to-list 'auto-mode-alist '("\\.xdc\\'"          . vivado-mode))  ; tcl mode for xdc files
 (add-to-list 'auto-mode-alist '("\\.ltx\\'"          . json-mode))    ; json mode for ltx files
 (add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; cpp mode for arduino files
+(add-to-list 'auto-mode-alist '("\\.src\\'"          . hog-src-mode)) ;
 (add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; yaml mode for cheby
 (add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
 
