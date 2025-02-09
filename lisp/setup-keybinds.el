@@ -58,15 +58,16 @@
   ;;
   ;;------------------------------------------------------------------------------
 
+  (defun dwim-open-at-point ()
+    (interactive)
+    (cl-case major-mode
+      (org-mode      (org-open-at-point))
+      (hog-src-mode  (hog-follow-link-at-point))
+      (markdown-mode (markdown-follow-thing-at-point))
+      (t             (browse-url-at-point))))
+
   (evil-define-key '(motion normal insert) 'global
-    (kbd "C-c C-o")
-    (defun dwim-open-at-point ()
-      (interactive)
-      (cl-case major-mode
-        (org-mode      (org-open-at-point))
-        (hog-mode      (hog-follow-link-at-point))
-        (markdown-mode (markdown-follow-thing-at-point))
-        (t             (browse-url-at-point)))))
+    (kbd "C-c C-o") #'dwim-open-at-point)
 
   ;; Dired
   (evil-define-key '(motion normal) dired-mode-map
