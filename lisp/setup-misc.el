@@ -11,6 +11,16 @@
 ;; apply(+word-wrap--adjust-extra-indent-a #<subr adaptive-wrap-fill-context-prefix> (1 22))
 (setq-default +word-wrap--major-mode-indent-var 'standard-indent)
 
+(defun copy-file-name-to-kill ()
+  "Copy the current buffer file name to the clipboard."
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (kill-new filename)
+      (message "Copied buffer file name '%s' to the clipboard." filename))))
+
 ;;------------------------------------------------------------------------------
 ;; GPTel
 ;;------------------------------------------------------------------------------
@@ -158,7 +168,9 @@ _h_ decrease width    _l_ increase width
      ((org-inside-LaTeX-fragment-p) (org-edit-latex-fragment))
      ((org-footnote-at-reference-p) (org-edit-footnote-reference))))
 
+
   (after! org (define-key org-mode-map  (kbd  "C-c C-e") #'my/org-dwim-edit-at-point))
+
   (after! markdown-mode (define-key markdown-mode-map  (kbd  "C-c C-e") #'lte-edit-table)))
 
 ;;------------------------------------------------------------------------------
