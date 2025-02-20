@@ -211,14 +211,14 @@
 
   (pcase dark-mode
 
-    ;; auto -> dark
-    ('auto (set-dark-mode))
+    ;; ;; auto -> dark
+    ;; ('auto (set-dark-mode))
 
     ;; dark -> light
     ('dark (set-light-mode))
 
     ;; light -> auto
-    ('light (set-auto-dark-mode))
+    ('light (set-dark-mode))
 
     (_ (error "Invalid dark mode!")))
 
