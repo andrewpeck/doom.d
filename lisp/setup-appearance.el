@@ -140,6 +140,14 @@
 ;; doom-material, doom-manegarm, doom-one, doom-spacegray, doom-material
 ;; doom-gruvbox, doom-oceanic-next, doom-tomorrow-night
 
+(defun my/disable-all-active-themes ()
+  "Disable all currently active themes."
+  (interactive)
+  (dolist (theme custom-enabled-themes)
+    (disable-theme theme)))
+
+(advice-add 'load-theme :before (lambda (&rest _) (my/disable-all-active-themes)))
+
 (defun ap/get-dark-theme ()
   (if (not (or (daemonp)
                (display-graphic-p)))
