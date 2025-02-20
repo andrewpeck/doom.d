@@ -54,7 +54,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! python
-  :functions (python--do-isort)
+  :commands (python--do-isort)
   :init
 
   (add-hook 'python-base-mode-hook 'ap/setup-pet)

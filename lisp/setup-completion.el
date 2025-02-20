@@ -6,7 +6,7 @@
 
 (use-package! corfu
 
-  :functions (corfu-complete)
+  :commands (corfu-complete)
 
   ;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
   ;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
