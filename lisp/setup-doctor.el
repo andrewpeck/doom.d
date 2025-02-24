@@ -49,6 +49,7 @@
   (and (setup--shell-command-nil "chmod o-w ~/")
        (setup--shell-command-nil "chmod 700 ~/.ssh > /dev/null 2>&1")
        (setup--shell-command-nil "chmod 644 ~/.ssh/id_rsa.pub > /dev/null 2>&1")
+       (setup--shell-command-nil "chmod 644 ~/.ssh/config")
        (setup--shell-command-nil "chmod 600 ~/.ssh/id_rsa > /dev/null 2>&1")
        (setup--shell-command-nil "chmod 600 ~/.ssh/authorized_keys > /dev/null 2>&1")))
 
