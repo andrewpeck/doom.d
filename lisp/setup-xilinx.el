@@ -18,7 +18,8 @@
           ("Xilinx ⟶ Ultrascale ⟶ Kintex UltraScale Plus FPGAs Data Sheet: DC/Switching" . "https://docs.xilinx.com/v/u/en-US/ds922-kintex-ultrascale-plus")
           ("Xilinx ⟶ Ultrascale+ ⟶ Product Table" . "https://docs.xilinx.com/v/u/en-US/ultrascale-plus-fpga-product-selection-guide")
           ("Xilinx ⟶ Ultrascale ⟶ Product Table" . "https://docs.amd.com/v/u/en-US/ultrascale-fpga-product-selection-guide")
-          ("Xilinx ⟶ Versal Premium ⟶ Product Table" . "https://docs.amd.com/v/u/en-US/versal-premium-psg")))
+          ("Xilinx ⟶ Versal Premium ⟶ Product Table" . "https://docs.amd.com/v/u/en-US/versal-premium-psg")
+          ("Xilinx ⟶ Spartan Ultrascale+ ⟶ DC/Switching" . "https://docs.amd.com/viewer/book-attachment/5Biy7JjLbd8wMxkBl9RAMg/eVwjxEWpG_~jIEXJUxYg0w-5Biy7JjLbd8wMxkBl9RAMg")))
 
 (dolist (doc xilinx-docs-list)
   (make-link-fn (car doc) (cdr doc)))
