@@ -12,6 +12,7 @@
 
   (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
         tramp-use-ssh-controlmaster-options t
+        remote-file-name-access-timeout 1.0
         tramp-chunksize 5000
         tramp-histfile-override "~/.tramp_history"
         tramp-inline-compress-start-size 1000
