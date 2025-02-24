@@ -562,6 +562,14 @@ help instead of keeping it open."
 ;; preceding character e.g. ***[[...]]
 (advice-add 'org-cliplink :before (lambda () (insert " ")))
 
+;;---------------------------------------------------------------------------------
+;; Mixed Pitch Mode
+;;---------------------------------------------------------------------------------
+
+;; (add-hook 'org-mode-hook      #'mixed-pitch-mode)
+;; (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+;; (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
+
 ;;------------------------------------------------------------------------------
 ;; Drag-Stuff
 ;;------------------------------------------------------------------------------
