@@ -1,5 +1,5 @@
 ;;------------------------------------------------------------------------------
-;;; FONT
+;; * FONT
 ;;------------------------------------------------------------------------------
 
 (defun set-font-interactive ()
@@ -26,20 +26,22 @@
 ;; M-x describe-font
 (defun font-list ()
   ""
-  `(("JetBrains Mono"   . ,(if (hd?) 22 19))
-    ("Hack"             . ,(if (hd?) 21 19))
-    ("Julia Mono"       . ,(if (hd?) 21 16))
-    ("Inconsolata"      . ,(if (hd?) 19 18))
-    ("Comic Code"       . ,(if (hd?) 22 19))
-    ("Roboto Mono"      . ,(if (hd?) 22 19))
-    ("Noto Mono"        . ,(if (hd?) 19 15))
-    ("DejaVu Sans Mono" . ,(if (hd?) 19 17))
-    ("Consolas"         . ,(if (hd?) 20 19))
-    ("Source Code Pro"  . ,(if (hd?) 16 19))
-    ("Terminus"         . ,(if (hd?) 16 19))
-    ("Fira Code"        . ,(if (hd?) 14 19))
-    ("IBM Plex Mono"    . ,(if (hd?) 16 19))
-    ("Ubuntu Mono"      . ,(if (hd?) 21 19))))
+  `(("InconsolataGo Nerd Font"  . ,(if (hd?) 26 19))
+    ("JetBrains Mono"           . ,(if (hd?) 23 20))
+    ("Berkeley Mono"            . ,(if (hd?) 24 20))
+    ("Julia Mono"               . ,(if (hd?) 21 16))
+    ("Hack"                     . ,(if (hd?) 21 14))
+    ("Comic Code"               . ,(if (hd?) 22 14))
+    ("Inconsolata"              . ,(if (hd?) 19 18))
+    ("Roboto Mono"              . ,(if (hd?) 22 19))
+    ("Noto Mono"                . ,(if (hd?) 19 15))
+    ("DejaVu Sans Mono"         . ,(if (hd?) 19 17))
+    ("Consolas"                 . ,(if (hd?) 20 19))
+    ("Source Code Pro"          . ,(if (hd?) 16 19))
+    ("Terminus"                 . ,(if (hd?) 16 19))
+    ("Fira Code"                . ,(if (hd?) 14 19))
+    ("IBM Plex Mono"            . ,(if (hd?) 16 19))
+    ("Ubuntu Mono"              . ,(if (hd?) 21 19))))
 
 (defun variable-pitch-font-list ()
   ""
