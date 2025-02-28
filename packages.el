@@ -12,11 +12,10 @@
 (package! org-yt    :disable t)
 (package! orgit-forge :disable t)
 (package! org-pdftools :disable t)
-(package! doom-themes :disable t)
 
 ;; Misc packages
 ;; start:sort
-(package! affe                    :pin "a9ed2407f2edf1421b2ca55946dfba190f39b034")
+(package! affe                    :pin "a1607fbc66789408128e12c9224b6a6c51d12bcb")
 (package! almost-mono-themes      :pin "0641bf565c113caef8d5c2a93f38cff32ebb62b7" :recipe (:host github :repo "cryon/almost-mono-themes"))
 (package! apheleia                :pin "fa50cb3a3c7cb8f2b4216760c05f8a885a3ce906")
 (package! ascii-art-to-unicode    :pin "fa3d82ddb531855ad7b8ef871871907861327c9f")
