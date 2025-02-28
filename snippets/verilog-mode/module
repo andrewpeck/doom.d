@@ -1,13 +1,12 @@
 # -*- mode: snippet -*-
 # name: module
 # key: module
-
 # --
 \`resetall
 \`timescale 1ns / 1ps
 \`default_nettype none
 
-module `(file-name-base (buffer-file-name))` # (
+module `(file-name-base (or (buffer-file-name) "module_name"))` # (
     int X = 0
 ) (
     input wire clk,
