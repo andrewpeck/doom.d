@@ -1,0 +1,5 @@
+# name: sli
+# key: sli
+# group: verilog
+# --
+input wire ${1:signal_name},

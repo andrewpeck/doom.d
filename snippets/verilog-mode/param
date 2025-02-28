@@ -1,0 +1,5 @@
+# name: param
+# key: param
+# group: verilog
+# --
+parameter int ${1:NAME} = ${2:DEFAULT}, //

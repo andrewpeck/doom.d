@@ -1,0 +1,5 @@
+# name: slvo
+# key: slvo
+# group: verilog
+# --
+output wire [${1:MSB}:0] ${2:signal_name},

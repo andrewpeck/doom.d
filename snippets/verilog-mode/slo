@@ -1,0 +1,5 @@
+# name: slo
+# key: slo
+# group: verilog
+# --
+output wire ${1:signal_name},
