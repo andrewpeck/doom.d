@@ -121,7 +121,7 @@ Used by font-lock for dynamic highlighting."
           verilog-auto-inst-param-value t
           verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
           verilog-auto-inst-vector nil
-          verilog-auto-lineup (quote all)
+          verilog-auto-lineup (lambda () nil)
           verilog-auto-newline nil
           verilog-auto-save-policy nil
           verilog-auto-template-warn-unused t
