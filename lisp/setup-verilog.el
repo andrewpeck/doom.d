@@ -150,6 +150,7 @@ Used by font-lock for dynamic highlighting."
 
   (define-key verilog-mode-map (kbd  "<return>") #'electric-verilog-terminate-and-indent)
   (define-key verilog-mode-map (kbd "<backspace>") nil) ; unbind verilog electric backspace
+  (define-key verilog-mode-map (kbd "TAB") #'indent-for-tab-command)
 
   (defun yosys-make-schematic ()
     "Make a yosys schematic from the module at point. "
