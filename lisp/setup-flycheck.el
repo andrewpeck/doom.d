@@ -49,7 +49,7 @@
   (flycheck-define-checker tcl-nagelfar
     "An extensible tcl syntax checker
 See URL `http://nagelfar.sourceforge.net/'."
-    :command ("nagelfar" "-Wunusedvar" "-filter" "*Unknown command*" "-H" source)
+    :command ("nagelfar" "-s" "~/.tclsyntaxdb" "-Wunusedvar" "-filter" "*Unknown command*" "-H" source)
     :error-patterns
     ;; foo.tcl: 29: E Wrong number of arguments (4) to "set"
     ;; foo.tcl: 29: W Expr without braces
