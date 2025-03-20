@@ -79,7 +79,7 @@
 (package! verilog-mode            :pin "50702561784f7cc6b52b8f0c12d904a4db994d29" :recipe (:host github :repo "veripool/verilog-mode"))
 (package! verilog-port-copy       :pin "a103f8e2209dde19d26d2151f35fe8e53ab3d336" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! vimrc-mode              :pin "f594392a0834193a1fe1522d007e1c8ce5b68e43")
-(package! visual-fill-column      :pin "d4464130a21733671a53f915a697dea65888473f")
+(package! visual-fill-column      :pin "d4464130a21733671a53f915a697dea65888473f" :recipe (:host codeberg :repo "joostkremers/visual-fill-column"))
 (package! vivado_mode             :pin "d0192c2919855bbc96f269f75b49a5a95242eeb1" :recipe (:host github :repo "andrewpeck/vivado_mode"))
 (package! wavedrom-mode           :pin "93c463a5650482a3072742a13156b284b01e49b6" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
 (package! xr                      :pin "cbcb51d5ba2a28c47264ddd17ac4ff0c89b0451e")                           ; xr is rx in reverse
