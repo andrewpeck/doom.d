@@ -20,6 +20,9 @@
 (add-to-list 'default-frame-alist
              '(fullscreen . maximized))
 
+(add-to-list 'default-frame-alist
+             '(background-color . "#17191a"))
+
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist
              '(inhibit-double-buffering . t))
