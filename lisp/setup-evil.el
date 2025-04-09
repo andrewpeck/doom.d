@@ -39,6 +39,9 @@
     (when (eq major-mode 'fundamental-mode)
       (evil-local-mode))))
 
+(after! evil-escape
+  (setq evil-escape-key-sequence "jk"))
+
 ;; don't make escape annoyingly close popups UHG
 (advice-remove 'evil-force-normal-state
                '+evil-escape-a)
