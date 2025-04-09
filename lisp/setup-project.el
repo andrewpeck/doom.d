@@ -54,9 +54,10 @@
                  #'projectile-vc-browse-at-remote))
 
   ;; use project.el instead of projectile
-  ;; (advice-add 'projectile-find-file
-  ;;             :override
-  ;;             (lambda (_) (project-find-file)))
+  ;; avoid caching pain
+  (advice-add 'projectile-find-file
+              :override
+              (lambda (_) (project-find-file)))
 
   ;; (advice-add 'projectile-find-file :override
   ;;             (lambda (&optional _)
