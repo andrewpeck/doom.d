@@ -266,7 +266,7 @@ _h_ decrease width    _l_ increase width
     (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile)
     (evil-define-key '(motion normal) 'global
       (kbd "C-o")   #'affe-find-home
-      (kbd "C-y")   #'affe-find-work
+      (kbd "C-S-Y") #'affe-find-work
       (kbd "C-p")   #'affe-find-project
       (kbd "C-S-p") #'affe-grep-project
       (kbd "C-n")   #'affe-find-notes
