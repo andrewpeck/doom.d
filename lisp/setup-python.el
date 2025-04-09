@@ -77,21 +77,6 @@
                    (remote-host? (buffer-file-name)))
         (tree-sitter!))))
 
-  ;; modify the hook found in doom;
-  ;; activating anaconda on tramp buffers is slow as hell
-  (remove-hook! 'python-mode-local-vars-hook
-    #'+python-init-anaconda-mode-maybe-h)
-  (add-hook! 'python-mode-local-vars-hook :append
-    (defun +python-init-anaconda-mode-maybe-h ()
-      "Enable `anaconda-mode' if `lsp-mode' is absent and
-`python-shell-interpreter' is present and we aren't on a tramp buffer."
-      (unless (or (and (buffer-file-name) (remote-host? (buffer-file-name)))
-                  (bound-and-true-p lsp-mode)
-                  (bound-and-true-p eglot--managed-mode)
-                  (bound-and-true-p lsp--buffer-deferred)
-                  (not (executable-find python-shell-interpreter t)))
-        (anaconda-mode +1))))
-
   (defun my/check-python-tooling ()
     "Check if python tooling is installed."
     (interactive)
