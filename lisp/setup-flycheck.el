@@ -29,8 +29,11 @@
     "A Verilog syntax checker using the Verilator Verilog HDL simulator.
 
     See URL `https://www.veripool.org/wiki/verilator'."
-    :command ("verilator" "--timing" "--lint-only" "-Wall" "--quiet-exit"
+    :command ("verilator" "--timing" "--lint-only" "-Wall" "-Wno-PINCONNECTEMPTY" "-Wno-MULTITOP" "--quiet-exit"
               (option-list "-I" flycheck-verilator-include-path)
+              "-I."
+              "-I../tb"
+              "-I../../utils/hdl"
               source)
     :error-patterns
     ((warning line-start "%Warning"
