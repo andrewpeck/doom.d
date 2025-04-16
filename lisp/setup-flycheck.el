@@ -9,6 +9,8 @@
 
   (setq-default flycheck-ghdl-language-standard "08")
 
+  (setq-default flycheck-disabled-checkers '(proselint python-mypy))
+
   (setq flycheck-temp-prefix ".flycheck"
         flycheck-check-syntax-automatically '(save idle-buffer-switch mode-enabled)
         flycheck-markdown-markdownlint-cli-config (concat doom-user-dir "markdownlint-config.yml")
@@ -75,9 +77,6 @@ See URL `http://nagelfar.sourceforge.net/'."
               (id (one-or-more (not (any " "))))
               (message) line-end))
     :modes (text-mode latex-mode markdown-mode gfm-mode org-mode))
-
-  ;; (add-to-list 'flycheck-checkers 'proselint)
-  (setq-default flycheck-disabled-checkers '(proselint))
 
   ;;------------------------------------------------------------------------------
   ;; HOG
