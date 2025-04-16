@@ -1,55 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
 ;;------------------------------------------------------------------------------
-;; pyenv mode
-;;------------------------------------------------------------------------------
-
-(use-package! pyenv-mode
-  :config
-  ;; damn pyenv-mode sets C-c C-s and it shows up everywhere (e.g. in latex)
-  (define-key pyenv-mode-map (kbd "C-c C-s") nil))
-
-;;------------------------------------------------------------------------------
-;; Emacs Pet
-;;------------------------------------------------------------------------------
-
-(defun ap/setup-pet ()
-
-  (interactive)
-
-  (require 'pet)
-
-  (when-let ((env (getenv "VIRTUAL_ENV")))
-    (warn (concat "VIRTUAL_ENV already set to " env ". It is probably set in doom env and should be removed."))
-    (setenv "VIRTUAL_ENV" nil))
-
-  (pet-mode)
-
-  (defun pet-use-poetry-p () nil)
-  (defun pet-use-conda-p () nil)
-  (defun pet-use-pipenv-p () nil)
-  (defun pet-use-pyenv-p () nil)
-
-  (setq-local python-shell-interpreter (pet-executable-find "python")
-              python-shell-virtualenv-root (pet-virtualenv-root)
-
-              flycheck-python-mypy-python-executable python-shell-interpreter
-              flycheck-python-mypy-executable (concat python-shell-virtualenv-root "/bin/pet")
-
-              flycheck-pycheckers-venv-root python-shell-virtualenv-root)
-
-  (setq-local lsp-pyright-python-executable-cmd python-shell-interpreter
-              lsp-pyright-venv-path python-shell-virtualenv-root)
-
-  (setq-local dap-python-executable python-shell-interpreter)
-
-  (setq-local python-pytest-executable (pet-executable-find "pytest"))
-
-  (pet-flycheck-setup)
-  (flycheck-mode))
-
-
-;;------------------------------------------------------------------------------
 ;; Python
 ;;------------------------------------------------------------------------------
 
@@ -57,25 +8,15 @@
   :commands (python--do-isort)
   :init
 
-  (add-hook 'python-base-mode-hook 'ap/setup-pet)
-
   (add-hook 'python-base-mode-hook (lambda () (eldoc-mode nil)))
 
-  ;; Initialize LSP unless the python file is remote
-  (defun +python-init-lsp-mode-maybe-h ()
-    "Initialize LSP unless the python file is remote."
-    (when (fboundp 'lsp)
-      (unless (and (buffer-file-name)
-                   (remote-host? (buffer-file-name)))
-        (call-interactively #'lsp))))
-  (add-hook! 'python-mode-local-vars-hook #'+python-init-lsp-mode-maybe-h)
+  (add-hook 'python-base-mode-hook
+            (lambda ()
+              (when-let* ((name (buffer-file-name)))
+                (when (string=  (file-name-extension name) "ipynb")
+                  (flycheck-mode 0)))))
 
-  (remove-hook! 'python-mode-local-vars-hook #'tree-sitter!)
-  (add-hook! 'python-mode-local-vars-hook
-    (defun +python-init-tree-sitter-mode-maybe-h ()
-      (unless (and (buffer-file-name)
-                   (remote-host? (buffer-file-name)))
-        (tree-sitter!))))
+  (add-hook 'python-base-mode-hook #'uv-mode-auto-activate-hook)
 
   (defun my/check-python-tooling ()
     "Check if python tooling is installed."

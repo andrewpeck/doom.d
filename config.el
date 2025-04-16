@@ -18,6 +18,10 @@
 ;; Packages & Loads
 ;;------------------------------------------------------------------------------
 
+(when-let ((env (getenv "VIRTUAL_ENV")))
+  (warn (concat "VIRTUAL_ENV already set to " env ". It is probably set in doom env and should be removed."))
+  (setenv "VIRTUAL_ENV" nil))
+
 (setq copyright-names-regexp ".*Andrew Peck*")
 
 (add-load-path! "lisp/")
