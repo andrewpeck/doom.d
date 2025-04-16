@@ -68,11 +68,9 @@ nil."
                 (list (if (or defining-kbd-macro executing-kbd-macro)
                           (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
+                      ;; replace (eglot--mode-line-format)
                       (when (and (fboundp #'eglot-managed-p)
-                                 (eglot-managed-p))
-                        (cl-letf (((symbol-function 'eglot-project-nickname)
-                                   (lambda (_) "lsp ⋅")))
-                          (eglot--mode-line-format)))
+                                 (eglot-managed-p)) "🕷")
 
                       " L%l·C%c·%p"
 
