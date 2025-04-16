@@ -209,6 +209,7 @@ _h_ decrease width    _l_ increase width
   :init
 
   (add-hook! 'pdf-view-mode-hook #'auto-revert-mode)
+  (add-hook! 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode)
 
   :config
 
