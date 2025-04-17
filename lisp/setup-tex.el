@@ -196,7 +196,7 @@
              (olivetti-mode)
              (reftex-mode 1)
              (jinx-mode t)
-             ;; (variable-pitch-mode 1)
+             (variable-pitch-mode 1)
 
              ;; (make-variable-buffer-local 'font-lock-type-face)
              ;; (set-face-attribute 'font-lock-type-face nil

@@ -45,8 +45,8 @@
 
 (defun variable-pitch-font-list ()
   ""
-  `(("Cantarell"  . ,(if (hd?) 24 16))
-    ("Comic Code" . 18)
+  `(("Comic Code" . ,(if (hd?) 24 16))
+    ("Cantarell"  . ,(if (hd?) 24 16))
     ("Fira Code"  . 17)
     ("Calibri"    . 18)
     ("Arial"      . 17)))
@@ -57,7 +57,6 @@
     (when (font-exists? (car my-font))
       (progn
         (setq doom-font (font-spec :family (car my-font) :size (cdr my-font) :weight 'regular)
-              doom-variable-pitch-font doom-font
               doom-big-font (font-spec :family (car my-font) :size (+ 4 (cdr my-font)))
               doom-serif-font (font-spec :family (car my-font) :weight 'light))
         (cl-return t))))
