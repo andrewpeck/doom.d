@@ -37,7 +37,7 @@
 ;;------------------------------------------------------------------------------
 
 (defun pdf-view-midnight-update-colors ()
-  "Sync pdf view midnight colors to curretnly selected theme."
+  "Sync pdf view midnight colors to currently selected theme."
   (interactive)
   (setq pdf-view-midnight-colors
         `(,(face-attribute 'default :foreground) .
