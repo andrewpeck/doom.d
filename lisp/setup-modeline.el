@@ -21,10 +21,10 @@ nil."
   (concat
    (pcase (or status flycheck-last-status-change)
      (`not-checked " ")
-     (`no-checker " ")                ;✗
+     (`no-checker " ")
      (`running " ")
-     (`errored " ")                   ; ‼
-     (`interrupted ". ")               ;✓
+     (`errored " ")
+     (`interrupted ". ")
      (`suspicious "? ")
      (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
                   (if (or .error .warning)
@@ -81,5 +81,8 @@ nil."
 
                       (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
-                      (replace-regexp-in-string "FlyC" ""
-                                                (concat " ⋅ " (my-flycheck-mode-line-status-text))) " ")))))
+                      (if flycheck-mode
+                          (replace-regexp-in-string "FlyC" ""
+                                                    (concat " ⋅ " (my-flycheck-mode-line-status-text)))
+                        "  ")
+                      "​")))))
