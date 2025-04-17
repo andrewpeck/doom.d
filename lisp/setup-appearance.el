@@ -47,7 +47,8 @@
       (when pdf-view-midnight-minor-mode
         (pdf-view-midnight-minor-mode 1)))))
 
-(add-hook 'doom-load-theme-hook #'pdf-view-midnight-update-colors)
+(after! pdf-view
+  (add-hook 'doom-load-theme-hook #'pdf-view-midnight-update-colors))
 
 ;;------------------------------------------------------------------------------
 ;;; Appearance
