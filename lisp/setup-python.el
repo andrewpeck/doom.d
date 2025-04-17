@@ -31,6 +31,13 @@
 
   (add-hook 'python-base-mode-hook 'my/check-python-tooling)
 
+  ;; for some reason the magit+mark-stale-buffers-h hook reverts the formatting
+  ;; used by code-cells.el. It makes it so that any time you switch away (via
+  ;; doom-switch-frame-hook) or open Magit code cells reverts from a python file
+  ;; back into a JSON file. I'm not sure how to fix it yet but this is an easy workaround.
+  (defun +magit-mark-stale-buffers-h () nil)
+  ;; (remove-hook 'doom-switch-frame-hook '+magit-mark-stale-buffers-h)
+
   :config
 
   (advice-add 'run-python :around
