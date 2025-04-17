@@ -94,6 +94,10 @@
 
 (add-hook 'text-mode-hook #'abbrev-mode)
 
+;; Start emacs in full screen by default
+(add-to-list 'default-frame-alist
+             '(fullscreen . maximized))
+
 (setopt mouse-wheel-scroll-amount-horizontal 32
         mouse-wheel-tilt-scroll t)
 
