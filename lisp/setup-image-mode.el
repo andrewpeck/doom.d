@@ -11,6 +11,12 @@
   (add-to-list 'auto-mode-alist '("\\.gbr\\'"          . image-mode))
   (add-to-list 'auto-mode-alist '("\\.art\\'"          . image-mode))
 
+  (setq image-use-external-converter t)
+  (image-converter-add-handler "art" 'gbr-to-png)
+  (image-converter-add-handler "gbr" 'gbr-to-png)
+  (image-converter-add-handler "drawio" 'drawio-to-png)
+  (image-converter-add-handler "excalidraw" 'excalidraw-to-png)
+
   :config
 
   (defun gbr-to-png (file data-p)
@@ -36,9 +42,4 @@
         (call-process "inkscape" nil nil nil svg "--export-area-drawing" "--export-type=png" (concat "--export-filename=" png))
         (call-process "cat" nil t nil png)
         (delete-file png))))
-
-  (setq image-use-external-converter t)
-  (image-converter-add-handler "art" 'gbr-to-png)
-  (image-converter-add-handler "gbr" 'gbr-to-png)
-  (image-converter-add-handler "drawio" 'drawio-to-png)
-  (image-converter-add-handler "excalidraw" 'excalidraw-to-png))
+)
