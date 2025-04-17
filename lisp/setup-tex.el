@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;;------------------------------------------------------------------------------
 ;; LaTex
 ;; LaTeX-mode-hook is used by AUCTeX's LaTeX mode.
@@ -5,53 +6,114 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! tex-fold
-  :config
-
-  (setq TeX-fold-auto-reveal t)
+  :after latex
+  :custom
+  (TeX-fold-auto-reveal t)
 
   ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
-  (setq TeX-fold-macro-spec-list
-        (append TeX-fold-macro-spec-list
-                '(
-                  ;; glossary
-                  ((lambda (x) (capitalize x)) ("Gls"))
-                  ("{1}" ("gls"))
+  (TeX-fold-macro-spec-list
+   (append TeX-fold-macro-spec-list
+           '(
+             ;; glossary
+             ((lambda (x) (capitalize x)) ("Gls"))
+             ("{1}" ("gls"))
 
-                  ;; ((lambda (x y) (propertize y 'font-lock-face '(:background "red")))  ("textcolor"))
-                  ("{2}" ("textcolor"))
+             ;; ((lambda (x y) (propertize y 'font-lock-face '(:background "red")))  ("textcolor"))
+             ("{2}" ("textcolor"))
 
-                  ("~" ("textasciitilde"))
-                  ("^" ("textasciicircum" "xor"))
-                  ("×" ("texttimes"))
+             ("~" ("textasciitilde"))
+             ("^" ("textasciicircum" "xor"))
+             ("×" ("texttimes"))
 
-                  ;; just put backticks around typewriter font
-                  ("`{1}`" ("texttt"))
+             ;; just put backticks around typewriter font
+             ("`{1}`" ("texttt"))
 
-                  ;; shorten references
-                  ("[r:{1}]" ("autoref"))
-                  ("[l:{1}]" ("label"))
-                  ("[r:{1}]" ("ref"))
-                  ("[c:{1}]" ("cite"))
+             ;; just show the short link text
+             ("{2}" ("href"))
 
-                  ;; used in resume
-                  ((lambda (x) (concat (number-to-string (- (string-to-number (format-time-string "%Y"))
-                                                            (string-to-number x))) " years")) ("yearsago"))
+             ;; shorten references
+             ("[r:{1}]" ("autoref"))
+             ("[l:{1}]" ("label"))
+             ("[r:{1}]" ("ref"))
+             ("[c:{1}]" ("cite"))
 
-                  ;; used in resume
-                  ("{1}" ("heading"))))))
+             ;; used in resume
+             ((lambda (x) (concat (number-to-string (- (string-to-number (format-time-string "%Y"))
+                                                       (string-to-number x))) " years")) ("yearsago"))
+
+             ;; used in resume
+             ("{1}" ("heading"))))))
 
 ;;------------------------------------------------------------------------------
 ;; auctex + tex
 ;;------------------------------------------------------------------------------
 
 (use-package! latex
+
+  :defer t
+
+  :custom
+
+  (reftex-cite-format nil)
+  (reftex-find-reference-format nil)
+  (reftex-ref-macro-prompt nil)
+
+  (pdf-sync-backward-display-action nil)
+  (pdf-sync-forward-display-action t)
+
+  (TeX-view-program-selection
+        '((output-pdf "PDF Tools")
+          (output-dvi "xdvi")))
+
+  (TeX-view-program-list
+        '(("PDF Tools" TeX-pdf-tools-sync-view)))
+
+  (reftex-toc-max-level 2)
+  (reftex-toc-split-windows-horizontally t)
+  (reftex-toc-split-windows-fraction 0.2)
+  (TeX-master nil)
+  (+latex-viewers '(okular atril evince zathura))
+
+  :bind
+
+  ("TAB" . nil)
+  ("M-<right>" . outline-demote)
+  ("M-<left>" . outline-promote)
+  ("C-c C-l" . tex-link-insert)
+  ("C-c C-s" . LaTeX-section)
+
+  :hook
+
+  (LaTeX-mode-hook . outline-minor-mode)
+  (LaTeX-mode-hook . olivetti-mode)
+  (LaTeX-mode-hook . variable-pitch-mode)
+  (LaTeX-mode-hook . jinx-mode)
+  (LaTeX-mode-hook . reftex-mode)
+  (LaTeX-mode-hook . hook/set-default-tex-master)
+  (LaTeX-mode-hook . hook/modify-latex-hyphen-syntax)
+
+  ;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
+  ;; (add-hook! 'find-file-hook :local (TeX-fold-region (point-min) (point-max)))
+  ;; (add-hook! 'write-contents-functions :local (TeX-fold-region (point-min) (point-max)))
+  ;; (add-hook! 'after-change-functions :local 'TeX-fold-paragraph)
+
+  ;; doom has some annoying hooks after macro insertion that cause obnoxious folding
+  ;; (setq TeX-after-insert-macro-hook nil)
+
   :config
 
-  (require 'expand-region)
+  (defun hook/modify-latex-hyphen-syntax ()
+    "treat hyphenated words as one"
+    (modify-syntax-entry ?- "w"))
+
+  (flycheck-add-next-checker 'proselint 'tex-chktex)
+
+  (setq-default TeX-master nil)         ; Query for master file.
+
+  (setq-default TeX-command-extra-options " -shell-escape -synctex=1")
 
   (defun tex-follow-link-at-point ()
     (interactive)
-
     (let ((f (thing-at-point 'filename t)))
       (string-match "\\(.*\\)\{\\(.*\\)}" f)
       (let ((f (concat (vc-root-dir) (match-string 2 f))))
@@ -60,25 +122,15 @@
           (find-file f)))))
 
   (evil-define-key '(motion normal) TeX-mode-map
-    (kbd "RET") #'tex-follow-link-at-point)
-
-
-  (setq-default TeX-master nil)         ; Query for master file.
-
+    (kbd "RET") 'tex-follow-link-at-point)
   (evil-define-key '(motion normal visual) reftex-toc-mode-map
-    (kbd "<") #'reftex-toc-promote)
+    (kbd "<") 'reftex-toc-promote)
   (evil-define-key '(motion normal visual) reftex-toc-mode-map
-    (kbd ">") #'reftex-toc-demote)
+    (kbd ">") 'reftex-toc-demote)
   (evil-define-key '(motion normal visual) reftex-toc-mode-map
-    (kbd "r") #'reftex-toc-Rescan)
+    (kbd "r") 'reftex-toc-Rescan)
   (evil-define-key '(motion normal visual) reftex-toc-mode-map
-    (kbd "L") #'reftex-toc-set-max-level)
-
-
-  (setq  reftex-cite-format nil)
-  (setq  reftex-find-reference-format nil)
-  ;; (setq  reftex-ref-style-alist '(("\\ref" t)))
-  (setq  reftex-ref-macro-prompt nil)
+    (kbd "L") 'reftex-toc-set-max-level)
 
   (defvar default-tex-master nil)
   (defun hook/set-default-tex-master ()
@@ -96,18 +148,6 @@
       (setq default-tex-master master-file)
       (hook/set-default-tex-master) ; execute now to take effect immediately
       )) ; add a hook for future files
-
-  (add-hook 'LaTeX-mode-hook #'hook/set-default-tex-master)
-
-  (define-key LaTeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
-
-  (add-hook 'LaTeX-mode-hook #'outline-minor-mode)
-
-  (define-key global-map (kbd "M-<right>") nil) ; bound by drag-stuff
-
-  (define-key TeX-mode-map (kbd "M-<right>") #'outline-demote)
-  (define-key TeX-mode-map (kbd "M-<left>") #'outline-promote)
-  (define-key TeX-mode-map (kbd "TAB") #'nil)
 
   (defun TeX-toggle-folding ()
     (interactive)
@@ -131,8 +171,7 @@
         :desc "Tex Glossarify"       "tG" #'tex-Glossarify
 
         ;; folding
-        :desc "Toggle TeX Folding" "b" #'TeX-toggle-folding
-        )
+        :desc "Toggle TeX Folding" "b" #'TeX-toggle-folding)
 
   (defun tex-link-insert ()
     "Insert TeX href link"
@@ -149,34 +188,12 @@
 
           (insert (format "\\href{%s}{%s}" url text))))))
 
-  (define-key TeX-mode-map (kbd "C-c C-l") #'tex-link-insert)
-
-  (define-key TeX-mode-map (kbd "C-c C-s") #'LaTeX-section)
-
   (defun reftex-toc-set-max-level ()
     (interactive)
     (let ((level
            (read-number "Level: " reftex-toc-max-level)))
       (setq reftex-toc-max-level level))
     (reftex-toc-Rescan))
-
-  (setq pdf-sync-backward-display-action nil)
-  (setq pdf-sync-forward-display-action t)
-
-  (setq TeX-view-program-selection
-        '((output-pdf "PDF Tools")
-          (output-dvi "xdvi")))
-
-  (setq TeX-view-program-list
-        '(("PDF Tools" TeX-pdf-tools-sync-view)))
-
-  (setq reftex-toc-max-level 2
-        reftex-toc-split-windows-horizontally t
-        reftex-toc-split-windows-fraction 0.2
-        TeX-master nil
-        +latex-viewers '(okular atril evince zathura))
-
-  (setq-default TeX-command-extra-options " -shell-escape -synctex=1")
 
   ;; this isn't working very well and is creating
   ;;      paragraphs which are
@@ -191,31 +208,8 @@
              (equal name (buffer-name (window-buffer window))))
            (window-list-1 nil 0 t))) nil nil "10"))
 
-  (add-hook! 'LaTeX-mode-hook
-
-             (olivetti-mode)
-             (reftex-mode 1)
-             (jinx-mode t)
-             (variable-pitch-mode 1)
-
-             ;; (make-variable-buffer-local 'font-lock-type-face)
-             ;; (set-face-attribute 'font-lock-type-face nil
-             ;;                     :inherit 'default
-             ;;                     :family "Courier New"
-             ;;                     :height 120)
-
-             ;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
-             ;; (add-hook! 'find-file-hook :local (TeX-fold-region (point-min) (point-max)))
-             ;; (add-hook! 'write-contents-functions :local (TeX-fold-region (point-min) (point-max)))
-             ;; (add-hook! 'after-change-functions :local 'TeX-fold-paragraph)
-
-             ;; doom has some annoying hooks after macro insertion that cause obnoxious folding
-             ;; (setq TeX-after-insert-macro-hook nil)
-
-             (flycheck-add-next-checker 'proselint 'tex-chktex))
-
-  ;; Semantic Linefeeds
   ;;------------------------------------------------------------------------------
+  ;; Semantic Linefeeds
   ;; https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
   ;; TODO: check for common things at end of line:
   ;; c.f. e.g. i.e.
@@ -244,9 +238,6 @@
 
       ;; otherwise do ordinary fill paragraph
       (fill-paragraph P)))
-
-  ;; treat hyphenated words as one
-  (add-hook 'latex-mode-hook #'(lambda () (modify-syntax-entry ?- "w")))
 
   (defun tex-expand-and-insert (macro)
     (interactive)
