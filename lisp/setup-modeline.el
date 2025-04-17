@@ -72,7 +72,9 @@ nil."
                       (when (and (fboundp #'eglot-managed-p)
                                  (eglot-managed-p)) "🕷")
 
-                      " L%l·C%c·%p"
+                      (if (eq major-mode 'pdf-view-mode)
+                          (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages))
+                        " L%l·C%c·%p")
 
                       (if (and (not (remote-host? default-directory)) vc-mode)
                           (concat " ⋅" vc-mode " ⋅ ") " ⋅ ")
