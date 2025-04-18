@@ -2,6 +2,9 @@
 
 ;; Disabled packages
 (package! pyenv-mode   :disable t)
+(package! pipenv        :disable t)
+(package! pip-requirements :disable t)
+(package! pyvenv       :disable t)
 (package! pyenv        :disable t)
 (package! hl-line      :disable t)
 (package! diredfl      :disable t)
@@ -38,6 +41,7 @@
 (package! eldoc-box               :pin "ebc0e2c13791f5a22cf81be050b32f0ebf726855" :recipe (:host github :repo "casouri/eldoc-box"))
 (package! elfeed                  :pin "a39fb78e34ee25dc8baea83376f929d7c128344f" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
+(package! emacs-pet               :pin "e5c963b38d9eedf4b01bf4843c8c9261514c58bb" :recipe (:host github :repo "wyuenho/emacs-pet"))
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! emojify                 :pin "1b726412f19896abf5e4857d4c32220e33400b55")
 (package! expand-region           :pin "351279272330cae6cecea941b0033a8dd8bcc4e8" :recipe (:host github :repo "magnars/expand-region.el"))
@@ -75,7 +79,6 @@
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org                 :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! treesit-auto            :pin "016bd286a1ba4628f833a626f8b9d497882ecdf3" :recipe (:host github :repo "renzmann/treesit-auto"))
-(package! uv-mode                 :pin "cc5ba6e560fdad565f108b769cb77d4bc5046da5" :recipe (:host github :repo "z80dev/uv-mode"))
 (package! verilog-mode            :pin "50702561784f7cc6b52b8f0c12d904a4db994d29" :recipe (:host github :repo "veripool/verilog-mode"))
 (package! verilog-port-copy       :pin "a103f8e2209dde19d26d2151f35fe8e53ab3d336" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! vimrc-mode              :pin "f594392a0834193a1fe1522d007e1c8ce5b68e43")

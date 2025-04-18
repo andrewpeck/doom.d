@@ -5,18 +5,36 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! python
+
+  :defer t
+
   :commands (python--do-isort)
+
+  :custom
+
+  ;; This option influences run-python when called without a prefix
+  ;; argument.  If buffer or project, create a Python shell
+  ;; dedicated to the current buffer or its project (if one is found).
+  (python-shell-dedicated 'buffer)
+
+  (python-flymake-command '("flake8" "-"))
+
   :init
+
+  (add-hook 'python-base-mode-hook
+            (defun hook/setup-pet ()
+              (pet-mode)
+              (setq-local python-shell-interpreter (pet-executable-find "python")
+                          python-shell-virtualenv-root (pet-virtualenv-root))
+              (pet-flycheck-setup)))
 
   (add-hook 'python-base-mode-hook (lambda () (eldoc-mode nil)))
 
   (add-hook 'python-base-mode-hook
-            (lambda ()
+            (defun hook/disable-flycheck-for-ipynb ()
               (when-let* ((name (buffer-file-name)))
                 (when (string=  (file-name-extension name) "ipynb")
                   (flycheck-mode 0)))))
-
-  (add-hook 'python-base-mode-hook #'uv-mode-auto-activate-hook)
 
   (defun my/check-python-tooling ()
     "Check if python tooling is installed."
@@ -29,16 +47,15 @@
     (unless (executable-find "mypy")
       (warn "mypy not found! please install it")))
 
-  (add-hook 'python-base-mode-hook 'my/check-python-tooling)
+  :config
+
+  (my/check-python-tooling)
 
   ;; for some reason the magit+mark-stale-buffers-h hook reverts the formatting
   ;; used by code-cells.el. It makes it so that any time you switch away (via
   ;; doom-switch-frame-hook) or open Magit code cells reverts from a python file
   ;; back into a JSON file. I'm not sure how to fix it yet but this is an easy workaround.
   (defun +magit-mark-stale-buffers-h () nil)
-  ;; (remove-hook 'doom-switch-frame-hook '+magit-mark-stale-buffers-h)
-
-  :config
 
   (advice-add 'run-python :around
               (lambda (orig-fun &rest args)
@@ -46,13 +63,8 @@
                   (apply orig-fun args)
                   (select-window current))))
 
-  ;; This option influences run-python when called without a prefix
-  ;; argument.  If buffer or project, create a Python shell
-  ;; dedicated to the current buffer or its project (if one is found).
-  (setq python-shell-dedicated 'buffer)
-
-  (defvar py-isort-options '("--line-length" "300") "List of arguments to apply in `python-sort-imports")
-  (setopt python-flymake-command '("flake8" "-"))
+  (defvar py-isort-options '("--line-length" "300")
+    "List of arguments to apply in `python-sort-imports")
 
   (defun python-sort-imports ()
     "Sort Python imports in the current buffer."
