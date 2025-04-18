@@ -8,6 +8,39 @@
 
   :commands (corfu-complete)
 
+  :custom
+
+  (corfu-auto-delay 0.5)
+  (corfu-auto-prefix 5)
+  (corfu-auto nil)
+
+  (corfu-preselect 'first)
+
+  (corfu-preview-current t)             ; No preview vs Non-inserting preview
+
+  (+corfu-want-tab-prefer-navigating-org-tables t)
+  (+corfu-want-tab-prefer-expand-snippets nil)
+  (+corfu-want-ret-to-confirm t)
+
+  :init
+
+  (map! (:map corfu-map "SPC" #'corfu-insert-separator)))
+
+(use-package! cape
+
+  :after corfu
+
+  :custom
+
+  ;; If t, check all other buffers (subject to dabbrev ignore rules).
+  ;; Any other non-nil value only checks some other buffers, as per
+  ;; dabbrev-select-buffers-function.
+  (cape-dabbrev-check-other-buffers nil)
+
+  :init
+
+  (require 'cape-keyword)
+
   ;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
   ;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
   ;; cape-file: Complete file name.
@@ -20,31 +53,6 @@
   ;; cape-tex: Complete Unicode char from TeX command, e.g. \hbar.
   ;; cape-sgml: Complete Unicode char from SGML entity, e.g., &alpha.
   ;; cape-rfc1345: Complete Unicode char using RFC 1345 mnemonics.
-
-  :config
-
-  (define-key global-map (kbd "TAB") #'corfu-complete)
-  (define-key corfu-map (kbd "TAB") #'corfu-complete)
-
-  (setopt +corfu-want-tab-prefer-navigating-org-tables nil)
-
-  (setq corfu-auto-delay 0.2
-        corfu-auto-prefix 3
-        ;; corfu-on-exact-match 'show
-        ;; corfu-preselect 'prompt         ; prompt first valid directory
-
-        ;; corfu-preview-current nil
-        ;; No preview vs Non-inserting preview
-        ;;
-        ;; If t, check all other buffers (subject to dabbrev ignore rules).
-        ;; Any other non-nil value only checks some other buffers, as per
-        ;; dabbrev-select-buffers-function.
-        cape-dabbrev-check-other-buffers nil))
-
-(use-package! cape
-  :init
-
-  (require 'cape-keyword)
 
   ;;------------------------------------------------------------------------------
   ;; Hog
@@ -138,20 +146,6 @@
                            #'cape-dabbrev
                            #'cape-history
                            #'cape-file))))
-
-  ;;------------------------------------------------------------------------------
-  ;; Python
-  ;;------------------------------------------------------------------------------
-
-  ;; (dolist (mode '(python-ts-mode-hook python-mode-hook))
-  ;;   (add-hook mode
-  ;;             (defun hook/set-capf ()
-  ;;               (setq-local completion-at-point-functions
-  ;;                           (list
-  ;;                            (cape-capf-super
-  ;;                             #'python-completion-at-point
-  ;;                             #'cape-file
-  ;;                             #'yasnippet-capf))))))
 
   ;;------------------------------------------------------------------------------
   ;; TCL
