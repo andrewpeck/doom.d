@@ -34,6 +34,7 @@
          (when (byte-code-function-p bytecode)
            (funcall bytecode))))
      (apply old-fn args)))
+
   (advice-add (if (progn (require 'json)
                          (fboundp 'json-parse-buffer))
                   'json-parse-buffer
@@ -88,9 +89,15 @@
   (add-to-list 'eglot-server-programs
                '(vhdl-mode . ("ghdl-ls"))))
 
+;;------------------------------------------------------------------------------
+;; Eglot Booster
+;;------------------------------------------------------------------------------
+
 (use-package! eglot-booster
   :after eglot
+  :custom
+  (eglot-booster-no-remote-boost t)
   :init
   (cl-remprop 'buffer-local-value 'byte-obsolete-generalized-variable)
-  :custom
-  (eglot-booster-no-remote-boost t))
+  :config
+  (eglot-booster-mode))

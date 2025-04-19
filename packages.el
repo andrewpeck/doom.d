@@ -38,6 +38,7 @@
 (package! drag-stuff              :pin "6d06d846cd37c052d79acd0f372c13006aa7e7c8")
 (package! dwim-shell-command      :pin "4b077432a94873e5f505c8f569743cfd984eebb1" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! ebib                    :pin "7a11f676401434623bf3a6e24b1e0b07d78ce0d6" :recipe (:host github :repo "joostkremers/ebib"))
+(package! eglot-booster           :pin "e6daa6bcaf4aceee29c8a5a949b43eb1b89900ed" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 (package! eldoc-box               :pin "ebc0e2c13791f5a22cf81be050b32f0ebf726855" :recipe (:host github :repo "casouri/eldoc-box"))
 (package! elfeed                  :pin "a39fb78e34ee25dc8baea83376f929d7c128344f" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
