@@ -97,6 +97,7 @@
   :after eglot
   :custom
   (eglot-booster-no-remote-boost t)
+  (eglot-booster-io-only t)
   :init
   (cl-remprop 'buffer-local-value 'byte-obsolete-generalized-variable)
   :config
