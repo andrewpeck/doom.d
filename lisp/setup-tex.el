@@ -9,9 +9,9 @@
   :after latex
   :custom
   (TeX-fold-auto-reveal t)
-
+  :config
   ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
-  (TeX-fold-macro-spec-list
+  (setq TeX-fold-macro-spec-list
    (append TeX-fold-macro-spec-list
            '(
              ;; glossary
