@@ -28,7 +28,8 @@
                           python-shell-virtualenv-root (pet-virtualenv-root))
               (pet-flycheck-setup)))
 
-  (add-hook 'python-base-mode-hook (lambda () (eldoc-mode nil)))
+  (add-hook 'python-base-mode-hook
+            (defun hook/disable-eldoc-mode () (eldoc-mode nil)))
 
   (add-hook 'python-base-mode-hook
             (defun hook/disable-flycheck-for-ipynb ()
