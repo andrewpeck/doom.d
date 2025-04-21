@@ -94,7 +94,6 @@
 ;; (package! cdlatex                 :pin "fac070f0164ac9f5859cb4cccba7d29a65c337f3" :recipe (:host github :repo "cdominik/cdlatex"))
 ;; (package! lazytab                 :pin "a6eafad3cd796a662a59dcb3e0ada8175e9fa216" :recipe (:host github :repo "karthink/lazytab"))
 ;; (package! verilog-ext             :pin "d504f59eac2fa04f1d627d7acab639f79a2356fe" :recipe (:host github :repo "gmlarumbe/verilog-ext"))
-;; (package! eglot-booster           :pin "e19dd7ea81bada84c66e8bdd121408d9c0761fe6" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 ;; (package! tabular :recipe (:host github :repo "andrewpeck/tabular"))
 ;; (package! org-modern            :pin "240026f0bef6dabff1e86ab092a678beddd301c3" :recipe (:host github :repo "minad/org-modern"))
 ;; (package! verilog-ext :recipe (:host github :repo "gmlarumbe/verilog-ext")) ;; brings in too many dependencies... ag aphelia lsp outorg outshine rg :(

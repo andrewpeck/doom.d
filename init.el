@@ -131,7 +131,7 @@
  data                          ; A dumping ground for data formats (csv, xml)
  emacs-lisp                    ; drown in parentheses
  (php)                         ; perl's insecure younger brother
- (python +pyright +lsp +pyenv) ; beautiful is better than ugly
+ (python +pyright +lsp)        ; beautiful is better than ugly
  (rust +lsp)                   ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
  (sh +fish)                    ; she sells {ba,z,fi}sh shells on the C xor
  (web)                         ; the tubes
