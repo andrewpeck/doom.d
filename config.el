@@ -111,6 +111,7 @@
 
 (setq enable-local-variables t       ;
       display-line-numbers 'nil      ;
+      help-at-pt-display-when-idle nil  ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
       auto-revert-mode t             ;
       compilation-scroll-output t
       scroll-margin 30               ; add a margin while scrolling
