@@ -210,9 +210,16 @@
   '(org-level-3 :height 1.0 :weight bold)
   '(org-level-4 :height 1.0 :weight bold))
 
+(custom-theme-set-faces! 'standard-light
+  '(font-latex-sectioning-0-face :height 2.0 :weight bold)
+  '(font-latex-sectioning-1-face :height 1.8 :weight bold)
+  '(font-latex-sectioning-2-face :height 1.3 :weight bold)
+  '(font-latex-sectioning-3-face :height 1.1 :weight bold)
+  '(font-latex-sectioning-4-face :height 1.0 :weight bold))
+
 (custom-theme-set-faces! 'modus-operandi
   '(font-latex-sectioning-0-face :height 2.0 :weight bold)
-  '(font-latex-sectioning-1-face :height 1.6 :weight bold)
+  '(font-latex-sectioning-1-face :height 1.8 :weight bold)
   '(font-latex-sectioning-2-face :height 1.4 :weight bold)
   '(font-latex-sectioning-3-face :height 1.2 :weight bold)
   '(font-latex-sectioning-4-face :height 1.0 :weight bold))
