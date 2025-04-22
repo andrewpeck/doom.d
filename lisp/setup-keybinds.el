@@ -278,7 +278,7 @@
   (map! :leader :prefix "r" :desc "Replace Query"        "q"  #'query-replace)
   (map! :leader :prefix "r" :desc "Replace Globally"     "g"  #'replace-string)
 
-  (map! :leader :prefix "g" :desc "GPT Prompt"           "pt" #'gpt-prompt)
+  (map! :leader :prefix "o" :desc "GPT Prompt"           "ai" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
   (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo)

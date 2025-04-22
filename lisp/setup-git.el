@@ -75,7 +75,21 @@ on the current line, if any."
   (define-key transient-map (kbd "C-c C-c") #'transient-save)
 
   (map! :leader :prefix "g" :desc "Magit Amend" "A"  #'magit-commit-amend)
-  (map! :leader :prefix "g" :desc "Magit Push" "P"  #'magit-push)
+  (map! :leader :prefix "g" :desc "Magit Push" "p"  #'magit-push)
+  (map! :leader :prefix "g" :desc "Magit Push Current" "P"  #'magit-push-current-to-pushremote)
+  (map! :leader :prefix "g" (:prefix ("z" . "Stash"))
+        :desc "Stash Apply" "za"  #'magit-stash-apply
+        :desc "Stash Pop" "zp"  #'magit-stash-pop
+        :desc "Stash Delete" "zd"  #'magit-stash-drop
+        :desc "Stash Keep Index" "zx"  #'magit-stash-keep-index
+        :desc "Stash Both" "zz"  #'magit-stash-both
+        :desc "Stash Index" "zi"  #'magit-stash-index
+        :desc "Stash Worktree" "zw"  #'magit-stash-worktree
+        :desc "Snapshot Both" "zZ"  #'magit-snapshot-both
+        :desc "Snapshot Index" "zI"  #'magit-snapshot-index
+        :desc "Snapshot Worktree" "zW"  #'magit-snapshot-worktree
+        :desc "Stash List" "zl"  #'magit-stash-list
+        :desc "Stash Show" "zv"  #'magit-stash-show)
 
   (setq magit-log-margin '(t "%Y/%m/%d" magit-log-margin-width t 18)
 
