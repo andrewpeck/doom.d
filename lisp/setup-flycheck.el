@@ -1,24 +1,29 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package! flymake
+  :config
+  (map! :leader :prefix "o" :desc "List flymake errors" "l"  #'flymake-show-diagnostics-buffer))
+
 ;;------------------------------------------------------------------------------
 ;; Flycheck
 ;;------------------------------------------------------------------------------
 
 (use-package! flycheck
+
+  :defer t
+
+  :custom
+
+  (flycheck-checker-error-threshold 1000)
+  (flycheck-temp-prefix ".flycheck")
+  (flycheck-check-syntax-automatically '(save idle-buffer-switch mode-enabled))
+
   :config
 
+  (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
+
   (setq-default flycheck-ghdl-language-standard "08")
-
-  (setq-default flycheck-disabled-checkers '(proselint python-mypy))
-
-  (setq flycheck-temp-prefix ".flycheck"
-        flycheck-check-syntax-automatically '(save idle-buffer-switch mode-enabled)
-        flycheck-markdown-markdownlint-cli-config (concat doom-user-dir "markdownlint-config.yml")
-        flycheck-yamllintrc (concat doom-user-dir "yamllintrc.yml")
-        flycheck-flake8rc (concat doom-user-dir "flake8.rc")
-        flycheck-pylintrc (concat doom-user-dir "pylint.rc"))
-
-  ;; (flycheck-add-next-checker 'python-flake8 'python-pylint)
+  (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
 
   ;;------------------------------------------------------------------------------
   ;; Verilator Modifications

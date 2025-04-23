@@ -280,7 +280,6 @@
 
   (map! :leader :prefix "o" :desc "GPT Prompt"           "ai" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
-  (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
   (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo)
   (map! :leader :prefix "y" :desc "Org Link Copy"        "y"  #'org-link-copy)
   (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
