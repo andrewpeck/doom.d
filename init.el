@@ -201,7 +201,9 @@
 
  (default +bindings +smartparens))
 
+;; start emacs with `emacs --debug-init`
+;; load with `benchmark-init/show-durations-tree'
 (when init-file-debug
-  (load "~/.emacs.d/.local/straight/repos/benchmark-init-el/benchmark-init")
+  (load (concat doom-emacs-dir ".local/straight/repos/benchmark-init-el/benchmark-init"))
   (require 'benchmark-init)
   (add-hook 'doom-first-input-hook #'benchmark-init/deactivate))
