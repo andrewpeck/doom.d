@@ -6,6 +6,8 @@
 
 (use-package! corfu
 
+  :defer t
+
   :commands (corfu-complete)
 
   :custom
@@ -28,6 +30,8 @@
 
 (use-package! cape
 
+  :defer t
+
   :after corfu
 
   :custom
@@ -37,9 +41,7 @@
   ;; dabbrev-select-buffers-function.
   (cape-dabbrev-check-other-buffers nil)
 
-  :init
-
-  (require 'cape-keyword)
+  :config
 
   ;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
   ;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
