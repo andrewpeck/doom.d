@@ -29,6 +29,13 @@
   ;; Verilator Modifications
   ;;------------------------------------------------------------------------------
 
+  (defvar flycheck-verilator-file-list nil "List of additional source files to be checked by verilator.")
+
+  (add-hook 'verilog-mode-hook
+    (defun hook/set-verilator-file-list ()
+      (setq-local flycheck-verilator-file-list
+                  (split-string (shell-command-to-string "git ls-files :/\"*.sv\" :/\"*.svh\":/ \"*.s\"")))))
+
   ;; add --timing opt to verilator
   (flycheck-define-checker verilog-verilator
     "A Verilog syntax checker using the Verilator Verilog HDL simulator.
@@ -36,9 +43,13 @@
     See URL `https://www.veripool.org/wiki/verilator'."
     :command ("verilator" "--timing" "--lint-only" "-Wall" "-Wno-PINCONNECTEMPTY" "-Wno-MULTITOP" "--quiet-exit"
               (option-list "-I" flycheck-verilator-include-path)
+              "-Wno-fatal"
+              "--bbox-unsup" ; Blackbox unsupported language features to avoid errors on verification sources
+              "--bbox-sys"  ;  Blackbox unknown $system calls
               "-I."
               "-I../tb"
               "-I../../utils/hdl"
+              (eval (remove buffer-file-name flycheck-verilator-file-list))
               source)
     :error-patterns
     ((warning line-start "%Warning"
