@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: subfigure
+# key: subfigure
+# --
+% from \usepackage{subcaption}
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[scale=1.0]{image.pdf}
+        \caption{\label{fig:4-ghz-resource-state}Example of the formation of a 4-GHZ resource state formed from the fusion of two 3-GHZ Seed States.}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[scale=1.0]{image.pdf}
+        \caption{\label{fig:rsg-exmaple}Example of a more complicated resource state requiring several fusions to build.}
+    \end{subfigure}
+\end{figure}
