@@ -103,19 +103,19 @@
 
 (add-to-list 'warning-suppress-types '(iedit))
 
-(setq enable-local-variables t       ;
-      display-line-numbers 'nil      ;
-      help-at-pt-display-when-idle nil  ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
-      auto-revert-mode t             ;
+(setq enable-local-variables t            ;
+      display-line-numbers 'nil           ;
+      help-at-pt-display-when-idle 'never ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
+      auto-revert-mode t                  ;
       compilation-scroll-output t
-      scroll-margin 30               ; add a margin while scrolling
-      auto-revert-remote-files t     ;
-      so-long-threshold 800          ; so-long-threshold can increase
-      smartparens-global-mode nil    ; disable smartparens/automatic parentheses completion
-      smartparens-mode nil           ; disable smartparens/automatic parentheses completion
-      undo-limit 80000000            ; Raise undo-limit to 80Mb
-      auto-save-default t            ; Nobody likes to loose work, I certainly don't
-      truncate-string-ellipsis "…"   ; Unicode ellispis are nicer than "...", and also save /precious/ space
+      scroll-margin 30                    ; add a margin while scrolling
+      auto-revert-remote-files t          ;
+      so-long-threshold 800               ; so-long-threshold can increase
+      smartparens-global-mode nil         ; disable smartparens/automatic parentheses completion
+      smartparens-mode nil                ; disable smartparens/automatic parentheses completion
+      undo-limit 80000000                 ; Raise undo-limit to 80Mb
+      auto-save-default t                 ; Nobody likes to loose work, I certainly don't
+      truncate-string-ellipsis "…"        ; Unicode ellispis are nicer than "...", and also save /precious/ space
 
       abbrev-file-name (concat doom-user-dir "abbrev_defs")
 
