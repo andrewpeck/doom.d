@@ -22,6 +22,19 @@
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
 ;;------------------------------------------------------------------------------
+;; Auto revert
+;;------------------------------------------------------------------------------
+
+(use-package autorevert
+  :init
+  (global-auto-revert-mode t)
+  :custom
+  (auto-revert-avoid-polling nil)
+  (auto-revert-interval 1)
+  (auto-revert-use-notify nil)
+  (auto-revert-check-vc-info t))
+
+;;------------------------------------------------------------------------------
 ;; GPTel
 ;;------------------------------------------------------------------------------
 
