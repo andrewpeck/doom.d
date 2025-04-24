@@ -71,7 +71,6 @@
   (eglot-events-buffer-config '(:size 2000000 :format full))
   (eglot-prefer-plaintext nil)
   (eglot-autoshutdown t)
-  (help-at-pt-display-when-idle t)
 
   :config
 
