@@ -92,6 +92,10 @@
 (add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.drawio\\'" "\\1.pdf")) ;; drawio to pdf
 (add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.pdf\\'" "\\1.drawio")) ;; pdf to drawio
 
+;;------------------------------------------------------------------------------
+;; Misc
+;;------------------------------------------------------------------------------
+
 (add-hook 'text-mode-hook #'abbrev-mode)
 
 ;; Start emacs in full screen by default
@@ -111,17 +115,11 @@
       scroll-margin 30                    ; add a margin while scrolling
       auto-revert-remote-files t          ;
       so-long-threshold 800               ; so-long-threshold can increase
-      smartparens-global-mode nil         ; disable smartparens/automatic parentheses completion
-      smartparens-mode nil                ; disable smartparens/automatic parentheses completion
       undo-limit 80000000                 ; Raise undo-limit to 80Mb
       auto-save-default t                 ; Nobody likes to loose work, I certainly don't
       truncate-string-ellipsis "…"        ; Unicode ellispis are nicer than "...", and also save /precious/ space
 
       abbrev-file-name (concat doom-user-dir "abbrev_defs")
-
-      ;; place bookmarks in the doom folder for version control
-      bookmark-default-file (concat doom-user-dir "bookmarks" "-" (system-name))
-      bookmark-save-flag 1 ;; save bookmarks after every op, not on kill
 
       ;; +format-on-save-enabled-modes
       ;; '(not yaml-mode python-mode emacs-lisp-mode
@@ -154,10 +152,6 @@
 (midnight-mode)                     ; Clear buffers at midnight
 (display-time-mode 1)               ; Enable time in the mode-line
 (global-subword-mode 0)             ; Separate CamelCase words?
-;; (modify-syntax-entry ?_ "w")     ; Treat underscore as part of a word to match vim behavior
-;; (modify-syntax-entry ?- "w")     ; Treat dash as part of a word
-
-(setq pdf-sync-backward-display-action t)
 
 ;;------------------------------------------------------------------------------
 ;; Config Loading

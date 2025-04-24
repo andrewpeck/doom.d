@@ -22,6 +22,16 @@
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
 ;;------------------------------------------------------------------------------
+;; Bookmark
+;;------------------------------------------------------------------------------
+
+(use-package bookmark
+  :custom
+  ;; place bookmarks in the doom folder for version control
+  (bookmark-default-file (concat doom-user-dir "bookmarks" "-" (system-name)))
+  (bookmark-save-flag 1)) ;; save bookmarks after every op, not on kill
+
+;;------------------------------------------------------------------------------
 ;; Auto revert
 ;;------------------------------------------------------------------------------
 
@@ -157,9 +167,9 @@ _h_ decrease width    _l_ increase width
   (add-to-list 'before-save-hook t)
   (add-hook 'before-save-hook 'my/update-copyright)
 
-  :config
+  :custom
 
-  (setq copyright-year-ranges t))
+  (copyright-year-ranges t))
 
 ;;------------------------------------------------------------------------------
 ;; Large Table Edition
@@ -185,6 +195,16 @@ _h_ decrease width    _l_ increase width
   (after! org (define-key org-mode-map  (kbd  "C-c C-e") #'my/org-dwim-edit-at-point))
 
   (after! markdown-mode (define-key markdown-mode-map  (kbd  "C-c C-e") #'lte-edit-table)))
+
+;;------------------------------------------------------------------------------
+;; Smartparens
+;;------------------------------------------------------------------------------
+
+(use-package smartparens
+  :custom
+  ; disable smartparens/automatic parentheses completion
+  (smartparens-global-mode nil)
+  (smartparens-mode nil))
 
 ;;------------------------------------------------------------------------------
 ;; Wavedrom
@@ -216,6 +236,10 @@ _h_ decrease width    _l_ increase width
 ;;------------------------------------------------------------------------------
 ;; PDF View + Image Mode
 ;;------------------------------------------------------------------------------
+
+(use-package pdf-sync
+  :custom
+  (pdf-sync-backward-display-action t))
 
 (use-package! pdf-view
 
