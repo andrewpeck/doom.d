@@ -164,6 +164,7 @@
 
   (add-hook 'tcl-mode-hook
             (defun hook/set-tcl-cape-keywords ()
+              (require 'cape-keyword)
               (add-to-list 'cape-keyword-list
                            (append '(tcl-mode)
 
