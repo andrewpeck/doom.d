@@ -72,6 +72,32 @@ on the current line, if any."
   (remove-hook 'server-switch-hook 'magit-commit-diff)
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
 
+  (defun remove-and-sum-files (files confirm)
+    (when (or (not confirm)
+              (yes-or-no-p (concat "Ok to remove the following files? " (string-join files " "))))
+      (let ((file-size 0)
+            (file-count 0))
+        (dolist (file files)
+          (setq file-count
+                (+ file-count
+                   (if (not (file-directory-p file)) 1
+                     (string-to-number (shell-command-to-string (format "find %s | wc -l" file))))))
+          (setq file-size (+ file-size
+                             (string-to-number (shell-command-to-string (concat "du -d0 " file " | awk '{print $1}'")))))
+          (if (file-directory-p file)
+              (delete-directory file t t)
+            (delete-file file t)))
+        (message "Removed %d files totaling %d kb" file-count file-size))))
+
+  (defun clean-git-ignored-with-whitelist ()
+    "Clean all files in gitignore except those filtered by a Whitelist."
+    (interactive)
+    (let* ((whitelist '(".venv/"))
+           (ignored-files (split-string (shell-command-to-string (format "git clean -ndX -- %s | awk '{print $3}'" (vc-root-dir)))))
+           (files-to-rm (-remove (lambda (x) (-contains? whitelist x)) ignored-files)))
+      (if files-to-rm (remove-and-sum-files files-to-rm t)
+        (message "No files to remove."))))
+
   (define-key transient-map (kbd "C-c C-c") #'transient-save)
 
   (map! :leader :prefix "g" :desc "Magit Amend" "A"  #'magit-commit-amend)
