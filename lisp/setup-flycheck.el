@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package! flymake
+  :when (modulep! :checkers syntax +flymake)
   :config
   (map! :leader :prefix "o" :desc "List flymake errors" "l"  #'flymake-show-diagnostics-buffer))
 
@@ -9,7 +10,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! flycheck
-
+  :when (modulep! :checkers syntax -flymake)
   :defer t
 
   :custom
