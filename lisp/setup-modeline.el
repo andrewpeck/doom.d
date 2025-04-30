@@ -27,10 +27,13 @@ nil."
      (`interrupted ". ")
      (`suspicious "? ")
      (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
-                  (if (or .error .warning)
+                  (if (not (or .error .warning))
+                      ;; no errors or warnings
+                      " "
+                      ;; else
                       (concat
                        (propertize (format "%s" (or .error "0") ) 'face '(:inherit error))
-                       "·" (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning))) " "))))  " "))
+                       "·" (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning)) " ")))))  " "))
 
 (after! vc-git
   (defun advice/vc-mode-line-transform (tstr)
