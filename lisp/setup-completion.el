@@ -8,23 +8,22 @@
 
   :when (modulep! :completion corfu)
 
-  :defer t
-
   :commands (corfu-complete)
 
   :custom
 
   (corfu-auto-delay 0.5)
-  (corfu-auto-prefix 5)
+  (corfu-auto-prefix 3)
   (corfu-auto nil)
-
-  (corfu-preselect 'first)
-
   (corfu-preview-current t)             ; No preview vs Non-inserting preview
 
   (+corfu-want-tab-prefer-navigating-org-tables t)
   (+corfu-want-tab-prefer-expand-snippets nil)
   (+corfu-want-ret-to-confirm t)
+
+  :config
+
+  (setq corfu-preselect 'first)
 
   :init
 
