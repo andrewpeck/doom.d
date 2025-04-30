@@ -6,6 +6,8 @@
 
 (use-package! corfu
 
+  :when (modulep! :completion corfu)
+
   :defer t
 
   :commands (corfu-complete)
