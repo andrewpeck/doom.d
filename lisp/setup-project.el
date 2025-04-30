@@ -28,7 +28,7 @@
   :after project
   :config
 
-  (setq projectile-project-search-path '(("~/work" . 1)))
+  (setq projectile-project-search-path '(("~/work" . 2)))
 
   ;; re-add projects after clearing
   (advice-add 'projectile-cleanup-known-projects
