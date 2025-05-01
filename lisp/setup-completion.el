@@ -116,23 +116,37 @@
   ;; Tex
   ;;------------------------------------------------------------------------------
 
-  (add-hook 'TeX-mode-hook
-            (defun hook/set-cape-tex-file-completion ()
-              (setq-local cape-file-directory (vc-root-dir)
-                          cape-file-prefix "file:")))
+  (defun hook/setup-tex-with-corfu ()
 
-  (add-hook 'LaTeX-mode-hook
-            (defun hook/set-latex-capf-functions ()
-              (setq-local completion-at-point-functions
-                          (list
-                           ;; 'lsp-completion-at-point
-                           #'citar-capf
-                           ;; 'TeX--completion-at-point
-                           ;; 'LaTeX--arguments-completion-at-point
-                           #'cape-tex
-                           #'yasnippet-capf
-                           #'cape-dabbrev
-                           #'cape-file))))
+    (require 'corfu)
+    (require 'cape)
+
+    (setq-local cape-file-directory (locate-dominating-file (directory-file-name (buffer-file-name)) ".git"))
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       ;; 'TeX--completion-at-point
+                       ;; 'LaTeX--arguments-completion-at-point
+                       #'citar-capf
+                       #'yasnippet-capf
+                       #'cape-tex
+                       #'yasnippet-capf
+                       #'cape-dabbrev
+                       #'cape-file))))
+
+  (add-hook 'LaTeX-mode-hook 'hook/setup-tex-with-corfu)
+
+  ;; HACK: eglot screws with completion-at-point-functions... usually might not
+  ;; care but with latex the eglot completion at point errors so NONE of the
+  ;; capfs work when eglot is active. So just remove the eglot capf then re-configure corfu.
+  ;;
+  ;; This seemingly can't be in the LaTeX mode hook since eglot mode hook is run
+  ;; *after* latex mode, so anything in the latex mode hook just get overwritten
+  ;; by what happens in eglot setup
+  (add-hook 'eglot-managed-mode-hook
+            (defun hook/remove-tex-eglot-completion ()
+              (when (eq major-mode 'LaTeX-mode)
+                (remove-hook 'completion-at-point-functions 'eglot-completion-at-point t)
+                (hook/setup-tex-with-corfu))))
 
   ;;------------------------------------------------------------------------------
   ;; Elisp
