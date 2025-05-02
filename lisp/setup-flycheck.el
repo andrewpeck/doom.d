@@ -43,16 +43,21 @@
     "A Verilog syntax checker using the Verilator Verilog HDL simulator.
 
     See URL `https://www.veripool.org/wiki/verilator'."
-    :command ("verilator" "--timing" "--lint-only" "-Wall" "-Wno-PINCONNECTEMPTY" "-Wno-MULTITOP" "--quiet-exit"
-              (option-list "-I" flycheck-verilator-include-path)
+    :command ("verilator" "--timing" "--lint-only"
+              "-Wall"
+              "-Wno-PINCONNECTEMPTY"
+              "-Wno-MULTITOP"
               "-Wno-fatal"
+              "--quiet-exit"
               "--bbox-unsup" ; Blackbox unsupported language features to avoid errors on verification sources
-              "--bbox-sys"  ;  Blackbox unknown $system calls
+              "--bbox-sys"   ;  Blackbox unknown $system calls
+              (option-list "-I" flycheck-verilator-include-path)
               "-I."
               "-I../tb"
               "-I../../utils/hdl"
-              (eval (remove buffer-file-name flycheck-verilator-file-list))
-              source)
+              source
+              (eval (remove buffer-file-name flycheck-verilator-file-list)))
+
     :error-patterns
     ((warning line-start "%Warning"
               (? "-" (id (+ (any "0-9A-Z_")))) ": "
