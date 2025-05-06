@@ -66,10 +66,7 @@
 ;;------------------------------------------------------------------------------
 
 ;; clean the recent file list on idle
-(run-with-idle-timer 600 t
-                     (lambda ()
-                       (let ((inhibit-message t))
-                         (recentf-cleanup) nil)))
+(setq recentf-auto-cleanup 120)
 
 ;;------------------------------------------------------------------------------
 ;; Mode aliases
