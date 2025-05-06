@@ -3,6 +3,9 @@
 ;; https://www.emacswiki.org/emacs/ModeLineConfiguration
 ;; https://www.emacswiki.org/emacs/PercentConstruct
 
+(display-battery-mode)
+(setq battery-mode-line-format "%b%p%%")
+
 (defun simple-mode-line-render (left right)
   "Return a string of `window-width' length.
 Containing LEFT, and RIGHT aligned respectively."
@@ -71,6 +74,10 @@ nil."
                 (list (if (or defining-kbd-macro executing-kbd-macro)
                           (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
+                      ;; mode-line-misc-info
+                      ;; global-mode-string
+                      '("" battery-mode-line-string)
+
                       ;; replace (eglot--mode-line-format)
                       (when (and (fboundp #'eglot-managed-p)
                                  (eglot-managed-p)) "🕷")
@@ -88,4 +95,5 @@ nil."
                           (replace-regexp-in-string "FlyC" ""
                                                     (concat " ⋅ " (my-flycheck-mode-line-status-text)))
                         "  ")
+                      mode-line-end-spaces
                       "​")))))
