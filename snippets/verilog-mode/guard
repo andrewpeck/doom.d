@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: guard
+# key: guard
+# expand-env: ((yas-indent-line 'fixed))
+# --
+\`ifndef `(upcase (file-name-base (buffer-file-name)))`
+\`define `(upcase (file-name-base (buffer-file-name)))`
+
+\`endif
