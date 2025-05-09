@@ -263,6 +263,7 @@
   (map! :leader :prefix "o" :desc "Vterm Toggle Root" "T" '+vterm/toggle)
 
   (map! :leader :prefix "n" :desc "Narrow to Region"  "r" #'narrow-to-region)
+  (map! :leader :prefix "n" :desc "Narrow to Defun"   "f" #'narrow-to-defun)
   (map! :leader :prefix "n" :desc "Widen (Unnarrow)"  "w" #'widen)
 
   (map! :leader :prefix "s" :desc "SVG Tag Mode"         "vg" #'svg-tag-mode)
