@@ -259,7 +259,9 @@
                  "=" #'verilog-pretty-expr))
 
 
-  (map! :leader :prefix "o" :desc "Vterm Here"  "T" (lambda () (interactive) (+vterm/here t)))
+  (map! :leader :prefix "o" :desc "Vterm Toggle"      "t" (lambda () (interactive) (+vterm/toggle t)))
+  (map! :leader :prefix "o" :desc "Vterm Toggle Root" "T" '+vterm/toggle)
+
   (map! :leader :prefix "n" :desc "Narrow to Region"  "r" #'narrow-to-region)
   (map! :leader :prefix "n" :desc "Widen (Unnarrow)"  "w" #'widen)
 
