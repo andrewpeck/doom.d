@@ -58,6 +58,7 @@
 (package! magit-todos             :pin "bd27c57eada0fda1cc0a813db04731a9bcc51b7b")
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
 (package! nerd-icons.el           :pin "14f7278dd7eb5eca762a6ff32467c72c661c0aae" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
+(package! nyan-mode               :pin "09904af23adb839c6a9c1175349a1fb67f5b4370" :recipe (:host github :repo "TeMPOraL/nyan-mode") )
 (package! ob-mermaid              :pin "9cffa17625aab01cb7b0d8ba87691eba5d96e8d3" :recipe (:host github :repo "arnm/ob-mermaid"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! olivetti                :pin "845eb7a95a3ca3325f1120c654d761b91683f598")

@@ -6,6 +6,11 @@
 (display-battery-mode)
 (setq battery-mode-line-format "%b%p%%")
 
+(setq nyan-animate-nyancat t
+      nyan-animation-frame-interval 0.1
+      nyan-bar-length 16
+      nyan-wavy-trail t)
+
 (defun simple-mode-line-render (left right)
   "Return a string of `window-width' length.
 Containing LEFT, and RIGHT aligned respectively."
@@ -68,7 +73,10 @@ nil."
                         (if host
                             (concat (propertize host 'face '(:inherit warning)) ":") nil))
 
-                      (propertized-buffer-identification "%b"))
+                      (propertized-buffer-identification "%b")
+
+                 (when nyan-mode
+                   (concat "  " (nyan-create))))
 
                 ;; Right.
                 (list (if (or defining-kbd-macro executing-kbd-macro)
