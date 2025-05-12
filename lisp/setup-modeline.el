@@ -79,29 +79,31 @@ nil."
                    (concat "  " (nyan-create))))
 
                 ;; Right.
-                (list (if (or defining-kbd-macro executing-kbd-macro)
-                          (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
+                (list
 
-                      ;; mode-line-misc-info
-                      ;; global-mode-string
-                      '("" battery-mode-line-string)
+                 (if (or defining-kbd-macro executing-kbd-macro)
+                     (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
-                      ;; replace (eglot--mode-line-format)
-                      (when (and (fboundp #'eglot-managed-p)
-                                 (eglot-managed-p)) "🕷")
+                 ;; mode-line-misc-info
+                 ;; global-mode-string
+                 '("" battery-mode-line-string)
 
-                      (if (eq major-mode 'pdf-view-mode)
-                          (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages))
-                        " L%l·C%c·%p")
+                 ;; replace (eglot--mode-line-format)
+                 (when (and (fboundp #'eglot-managed-p)
+                            (eglot-managed-p)) "🕷")
 
-                      (if (and (not (remote-host? default-directory)) vc-mode)
-                          (concat " ⋅" vc-mode " ⋅ ") " ⋅ ")
+                 (if (eq major-mode 'pdf-view-mode)
+                     (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages))
+                   " L%l·C%c·%p")
 
-                      (format "%s" (if (listp mode-name) (car mode-name) mode-name))
+                 (if (and (not (remote-host? default-directory)) vc-mode)
+                     (concat " ⋅" vc-mode " ⋅ ") " ⋅ ")
 
-                      (if flycheck-mode
-                          (replace-regexp-in-string "FlyC" ""
-                                                    (concat " ⋅ " (my-flycheck-mode-line-status-text)))
-                        "  ")
-                      mode-line-end-spaces
-                      "​")))))
+                 (format "%s" (if (listp mode-name) (car mode-name) mode-name))
+
+                 (if flycheck-mode
+                     (replace-regexp-in-string "FlyC" ""
+                                               (concat " ⋅ " (my-flycheck-mode-line-status-text)))
+                   "  ")
+                 mode-line-end-spaces
+                 "​")))))
