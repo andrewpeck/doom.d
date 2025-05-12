@@ -26,11 +26,11 @@
 ;; M-x describe-font
 (defun font-list ()
   ""
-  `(("InconsolataGo Nerd Font"  . ,(if (hd?) 26 19))
-    ("JetBrains Mono"           . ,(if (hd?) 23 20))
+  `(("Hack Nerd Font"           . ,(if (hd?) 21 19))
     ("Berkeley Mono"            . ,(if (hd?) 24 20))
+    ("InconsolataGo Nerd Font"  . ,(if (hd?) 26 19))
     ("Julia Mono"               . ,(if (hd?) 21 16))
-    ("Hack"                     . ,(if (hd?) 21 14))
+    ("JetBrains Mono"           . ,(if (hd?) 23 20))
     ("Comic Code"               . ,(if (hd?) 22 14))
     ("Inconsolata"              . ,(if (hd?) 19 18))
     ("Roboto Mono"              . ,(if (hd?) 22 19))
