@@ -28,23 +28,25 @@
      (print "Outline Cycle")
      (outline-cycle))))
 
-(setq preferred-terminal
-      (let* ((suffixes '((terminator . "--working-directory")
-                         (konsole . "--workdir")))
-             (pref-shell (pcase (system-name)
-                           ("pepper" 'terminator)
-                           ("larry" 'terminator)
-                           ("cobweb" 'terminator)
-                           ("strange" 'terminator)
-                           (_ 'konsole)))
-             (assl (assoc pref-shell suffixes)))
-        (list (symbol-name (car assl)) (cdr assl))))
+;; (setq preferred-terminal
+;;       (let* ((suffixes '((terminator . "--working-directory")
+;;                          (konsole . "--workdir")
+;;                          (ghostty . "--working-directory=")
+;;                          ))
+;;              (pref-shell (pcase (system-name)
+;;                            ("pepper" 'terminator)
+;;                            ("larry" 'terminator)
+;;                            ("cobweb" 'terminator)
+;;                            ("strange" 'terminator)
+;;                            ("apeck-len01" 'ghostty)
+;;                            (_ 'konsole)))
+;;              (assl (assoc pref-shell suffixes)))
+;;         (list (symbol-name (car assl)) (cdr assl))))
 
 (defun open-pwd-in-terminal ()
   "Opens the present working directory in terminal"
   (interactive)
-  (call-process (executable-find (car preferred-terminal)) nil 0 nil
-                (cadr preferred-terminal) default-directory))
+  (call-process "ghostty" nil 0 nil (concat "--working-directory=" default-directory)))
 
 (defun open-buffer-in-vim ()
   "Opens the current buffer in gvim."
