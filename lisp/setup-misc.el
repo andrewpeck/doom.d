@@ -136,7 +136,7 @@ _h_ decrease width    _l_ increase width
              treesit-auto-install-all
              treesit-auto-add-to-auto-mode-alist)
   :custom
-  (setopt treesit-font-lock-level 5)
+  (treesit-font-lock-level 5)
   (treesit-auto-install 'prompt)
   :config
   (delete 'janet treesit-auto-langs)
