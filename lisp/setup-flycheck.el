@@ -27,6 +27,8 @@
   (setq-default flycheck-ghdl-language-standard "08")
   (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
 
+  (setq-default flycheck-python-ruff-config "~/.ruff-toml")
+
   ;;------------------------------------------------------------------------------
   ;; Verilator Modifications
   ;;------------------------------------------------------------------------------
