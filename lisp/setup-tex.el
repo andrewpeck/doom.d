@@ -61,18 +61,11 @@
   (pdf-sync-backward-display-action nil)
   (pdf-sync-forward-display-action t)
 
-  (TeX-view-program-selection
-        '((output-pdf "PDF Tools")
-          (output-dvi "xdvi")))
-
-  (TeX-view-program-list
-        '(("PDF Tools" TeX-pdf-tools-sync-view)))
-
   (reftex-toc-max-level 2)
   (reftex-toc-split-windows-horizontally t)
   (reftex-toc-split-windows-fraction 0.2)
   (TeX-master nil)
-  (+latex-viewers '(okular atril evince zathura))
+  (+latex-viewers '(pdf-tools okular atril evince zathura))
 
   :bind
 
