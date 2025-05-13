@@ -36,9 +36,9 @@
   (defvar flycheck-verilator-file-list nil "List of additional source files to be checked by verilator.")
 
   (add-hook 'verilog-mode-hook
-    (defun hook/set-verilator-file-list ()
-      (setq-local flycheck-verilator-file-list
-                  (split-string (shell-command-to-string "git ls-files :/\"*.sv\" :/\"*.svh\":/ \"*.s\"")))))
+            (defun hook/set-verilator-file-list ()
+              (setq-local flycheck-verilator-file-list
+                          (split-string (shell-command-to-string "git ls-files :/\"*.sv\" :/\"*.svh\":/ \"*.s\"")))))
 
   ;; add --timing opt to verilator
   (flycheck-define-checker verilog-verilator

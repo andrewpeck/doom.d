@@ -542,12 +542,6 @@ help instead of keeping it open."
                                           ((lambda (tag)
                                              (svg-tag-make tag :beg 1 :end -1))))))
               (svg-tag-mode t))))
-
-(use-package! pdf-sync
-  :config
-  (pop-to-buffer (or (find-buffer-visiting "~/.doom.d/config-packages.el")
-                     (find-file-noselect  "~/.doom.d/config-packages.el"))))
-
 ;;------------------------------------------------------------------------------
 ;; Yasnippet
 ;;------------------------------------------------------------------------------
