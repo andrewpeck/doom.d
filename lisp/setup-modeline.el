@@ -4,7 +4,7 @@
 ;; https://www.emacswiki.org/emacs/PercentConstruct
 
 (display-battery-mode)
-(setq battery-mode-line-format "%b%p%%")
+(setq battery-mode-line-format "%b%p%% · ")
 
 (setq nyan-animate-nyancat t
       nyan-animation-frame-interval 0.1
@@ -84,17 +84,17 @@ nil."
                  (if (or defining-kbd-macro executing-kbd-macro)
                      (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
+                 ;; replace (eglot--mode-line-format)
+                 (when (and (fboundp #'eglot-managed-p)
+                            (eglot-managed-p)) "🕷 ")
+
                  ;; mode-line-misc-info
                  ;; global-mode-string
                  '("" battery-mode-line-string)
 
-                 ;; replace (eglot--mode-line-format)
-                 (when (and (fboundp #'eglot-managed-p)
-                            (eglot-managed-p)) "🕷")
-
                  (if (eq major-mode 'pdf-view-mode)
                      (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages))
-                   " L%l·C%c·%p")
+                   "L%l·C%c·%p")
 
                  (if (and (not (remote-host? default-directory)) vc-mode)
                      (concat " ⋅" vc-mode " ⋅ ") " ⋅ ")
