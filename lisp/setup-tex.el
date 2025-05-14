@@ -95,6 +95,11 @@
 
   :config
 
+  (advice-add 'TeX-view :before
+              (lambda ()
+                (when TeX-master
+                  (setq TeX-current-process-region-p nil))))
+
   (defun hook/modify-latex-hyphen-syntax ()
     "treat hyphenated words as one"
     (modify-syntax-entry ?- "w"))
