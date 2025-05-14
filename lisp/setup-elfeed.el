@@ -15,7 +15,8 @@
   (setq elfeed-feeds
         '("https://www.evalapply.org/index.xml"
           ;; "https://hackaday.com/blog/feed/"
-          "https://planet.emacslife.com/atom.xml"
+          ;; "https://planet.emacslife.com/atom.xml"
+          "http://yummymelon.com/devnull/feeds/all.atom.xml"
           "https://karl-voit.at/feeds/lazyblorg-all.atom_1.0.links-only.xml"
           "https://nullprogram.com/feed/"
           "https://tracker.orgmode.org/bugs.rss"
