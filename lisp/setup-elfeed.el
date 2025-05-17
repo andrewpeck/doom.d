@@ -12,11 +12,22 @@
   (evil-define-key 'normal elfeed-search-mode-map
     (kbd "U") #'elfeed-update)
 
+  (setq elfeed-db-directory (concat doom-user-dir "elfeed"))
+
   (setq elfeed-feeds
         '("https://www.evalapply.org/index.xml"
           ;; "https://hackaday.com/blog/feed/"
-          ;; "https://planet.emacslife.com/atom.xml"
           "http://yummymelon.com/devnull/feeds/all.atom.xml"
+          "https://simonwillison.net/atom/everything/"
+          "https://krebsonsecurity.com/feed/"
+          "https://ciechanow.ski/atom.xml"
+          "https://danluu.com/atom.xml"
+          "https://www.righto.com/feeds/posts/default"
+          "https://jvns.ca/atom.xml"
+          "https://devblogs.microsoft.com/oldnewthing/feed/"
+          "https://www.jeffgeerling.com/blog.xml"
+          "https://daniel.haxx.se/blog/feed/"
+          ;; "https://planet.emacslife.com/atom.xml"
           "https://karl-voit.at/feeds/lazyblorg-all.atom_1.0.links-only.xml"
           "https://nullprogram.com/feed/"
           "https://tracker.orgmode.org/bugs.rss"
