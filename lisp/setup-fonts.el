@@ -21,12 +21,14 @@
           nil t))))
 
 (defun hd? ()
-  (> (display-pixel-width) 1920))
+  ;; larry has wayland scaling... should figure out a better way to do this
+  (if (string= (system-name) "larry") nil
+    (> (display-pixel-width) 1920)))
 
 ;; M-x describe-font
 (defun font-list ()
   ""
-  `(("Hack Nerd Font"           . ,(if (hd?) 21 19))
+  `(("Hack Nerd Font"           . ,(if (hd?) 21 16))
     ("Berkeley Mono"            . ,(if (hd?) 24 20))
     ("InconsolataGo Nerd Font"  . ,(if (hd?) 26 19))
     ("Julia Mono"               . ,(if (hd?) 21 16))
