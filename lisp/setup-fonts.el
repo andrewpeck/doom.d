@@ -21,9 +21,7 @@
           nil t))))
 
 (defun hd? ()
-  ;; larry has wayland scaling... should figure out a better way to do this
-  (if (string= (system-name) "larry") nil
-    (> (display-pixel-width) 1920)))
+  (> (display-pixel-width) 1920))
 
 ;; M-x describe-font
 (defun font-list ()
