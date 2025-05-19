@@ -174,10 +174,19 @@
   (defun tex-link-insert ()
     "Insert TeX href link"
     (interactive)
-    (let ((url-at-point (thing-at-point 'url)))
+    (let* ((url-at-point (thing-at-point 'url))
+           (text-at-point (when (and (region-active-p)
+                                     (not url-at-point))
+                            (buffer-substring-no-properties
+                             (region-beginning)
+                             (region-end)))))
       (let ((url (read-string "URL: " url-at-point))
-            (text (read-string (format "Text: "))))
+            (text (read-string (format "Text: ") text-at-point)))
         (when (and url text)
+
+          (when (region-active-p)
+            (delete-region (region-beginning)
+                           (region-end)))
 
           (when url-at-point
             (let ((bounds (bounds-of-thing-at-point 'url)))
