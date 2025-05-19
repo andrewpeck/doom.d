@@ -62,22 +62,20 @@ sudo dnf install -y \
         ImageMagick-devel \
         libwebp-devel
 
+# openSuse
+sudo zypper install make automake  gcc  gcc-c++  kernel-devel  gtk3-devel  libjpeg-devel  libXpm-devel  giflib-devel  libtiff-devel  gnutls-devel  ncurses-devel  texinfo  libgccjit   jansson-devel  librsvg2-devel  libgccjit-devel  libXaw-devel  ImageMagick-devel  libwebp-devel
+
 sudo dnf builddep emacs
 
 git clone https://github.com/emacs-mirror/emacs
 
-export EMACS_OPTIONS='--with-native-compilation --with-json --with-rsvg --with-xft --with-xml2 --without-compress-install --with-webp  --with-jpeg --with-png --with-x-toolkit=lucid --without-dbus --with-tree-sitter --with-x-toolkit=lucid'
-
 git clean -xdf
 ./autogen.sh
 
-# local install
-./configure --prefix=/home/andrew/emacs --bindir=/home/andrew/bin $EMACS_OPTIONS
+./configure --with-native-compilation --with-rsvg --with-xft --with-xml2 --without-compress-install --with-webp  --with-jpeg --with-png --with-x-toolkit=lucid --without-dbus --with-tree-sitter --with-sqlite3
+#./configure --prefix=/home/andrew/emacs --bindir=/home/andrew/bin $EMACS_OPTIONS # or for a local install
 
-# system install
-./configure $EMACS_OPTIONS
 
-#make -C lisp autoloads-force
 make bootstrap
 make -j6
 sudo make install
