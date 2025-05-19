@@ -13,3 +13,5 @@ passwords.el
 undo
 *.egg-info/
 crs
+*.eld
+elfeed
