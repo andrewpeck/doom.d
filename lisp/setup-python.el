@@ -70,6 +70,12 @@
   (defun python-sort-imports ()
     "Sort Python imports in the current buffer."
     (interactive)
+
+    (when (= 1 (call-process "python" nil nil nil "-m" "isort"))
+      (when (getenv "VIRTUAL_ENV")
+        (message "Installing isort into virtual environment")
+        (call-process "uv" nil nil nil "pip" "install" "isort")))
+
     (if (apply #'python--do-isort py-isort-options)
         (message "Sorted imports")
       (message "(No changes in Python imports needed)"))))
