@@ -259,8 +259,14 @@
                  "=" #'verilog-pretty-expr))
 
 
-  (map! :leader :prefix "o" :desc "Vterm Toggle"      "t" (lambda () (interactive) (+vterm/toggle t)))
-  (map! :leader :prefix "o" :desc "Vterm Toggle Root" "T" '+vterm/toggle)
+  ;; modify +vterm/toggle to open in pwd instead of project root
+  (map! :leader :prefix "o" :desc "Vterm Toggle"      "t"
+        (lambda () (interactive)
+          (cl-letf (((symbol-function 'doom-project-root)
+                     (lambda () nil)))
+            (+vterm/toggle nil))))
+
+  (map! :leader :prefix "o" :desc "Vterm Toggle Root" "T" '+vterm/here)
 
   (map! :leader :prefix "n" :desc "Narrow to Region"  "r" #'narrow-to-region)
   (map! :leader :prefix "n" :desc "Narrow to Defun"   "f" #'narrow-to-defun)
