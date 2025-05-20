@@ -1,5 +1,12 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package buffer-env
+  :init
+  (add-hook 'hack-local-variables-hook #'buffer-env-update)
+  (add-hook 'comint-mode-hook #'buffer-env-update)
+  :custom
+  (buffer-env-script-name '(".venv/bin/activate" ".env" ".envrc")))
+
 ;;------------------------------------------------------------------------------
 ;; Python
 ;;------------------------------------------------------------------------------
@@ -20,15 +27,6 @@
   (python-flymake-command '("flake8" "-"))
 
   :init
-
-  (add-hook 'python-base-mode-hook
-            (defun hook/setup-pet ()
-              (pet-mode)
-              (setq-local
-               python-interpreter (pet-executable-find "python")
-               python-shell-interpreter (pet-executable-find "python")
-               python-shell-virtualenv-root (pet-virtualenv-root))
-              (pet-flycheck-setup)))
 
   (add-hook 'python-base-mode-hook
             (defun hook/disable-eldoc-mode () (eldoc-mode nil)))
