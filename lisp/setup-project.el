@@ -22,7 +22,11 @@
 
   ;; doom has project.el calling projectile, just revert to original value
   (setq project-find-functions (list #'project-try-vc))
-  )
+
+  (setq project-switch-commands 'project-find-file)
+
+  (map! :leader (:prefix "p" :desc "Open Project" "p" #'project-switch-project))
+  (map! :leader :desc "Project Find File" "SPC" #'project-find-file))
 
 (use-package! projectile
   :after project
@@ -48,6 +52,7 @@
                        (+vc/browse-at-remote-homepage)
                        (previous-buffer))))
         (user-error "There are no known projects"))))
+
 
   (map! :leader
         (:prefix "g" :desc "Browse Projectile Homepage" "oH"
