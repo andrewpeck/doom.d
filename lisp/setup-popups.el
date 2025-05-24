@@ -16,6 +16,12 @@
 (set-popup-rule! ".*poporg.*" :ignore t)
 (set-popup-rule! ".*notmuch.*" :ignore t)
 
+(set-popup-rule! "*devdocs*"
+  :side 'right
+  :size 0.5
+  :select t
+  :quit nil)
+
 (set-popup-rule! ".*HN.*"
   :side 'right
   :size 0.5
