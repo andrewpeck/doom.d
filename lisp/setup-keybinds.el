@@ -271,6 +271,7 @@
   (map! :leader :prefix "n" :desc "Narrow to Region"  "r" #'narrow-to-region)
   (map! :leader :prefix "n" :desc "Narrow to Defun"   "f" #'narrow-to-defun)
   (map! :leader :prefix "n" :desc "Widen (Unnarrow)"  "w" #'widen)
+  (map! :leader :prefix "n" :desc "Narrow to Lines"   "l" #'consult-focus-lines)
 
   (map! :leader :prefix "s" :desc "SVG Tag Mode"         "vg" #'svg-tag-mode)
   (map! :localleader :map org-mode-map :prefix "m" :desc "Latexify"             "lp" #'org-latex-preview-all :map org-mode-map)
