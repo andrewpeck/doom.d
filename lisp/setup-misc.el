@@ -21,6 +21,23 @@
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
+(use-package! devdocs
+
+  :config
+
+  (define-key prog-mode-map (kbd "C-k")
+              (defun devdocs-lookup-at-pt ()
+                (interactive)
+                (devdocs-lookup nil (symbol-name (symbol-at-point)))))
+
+  (add-hook 'python-base-mode-hook
+            (lambda () (setq-local devdocs-current-docs '("python~3.12"))))
+
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda () (setq-local devdocs-current-docs '("elisp"))))
+
+  )
+
 ;;------------------------------------------------------------------------------
 ;; Bookmark
 ;;------------------------------------------------------------------------------
