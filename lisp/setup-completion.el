@@ -111,6 +111,8 @@
                                  #'cape-keyword
                                  #'yasnippet-capf)))))
 
+  (add-hook 'makefile-mode-hook
+            (lambda () (call-interactively 'makefile-pickup-everything)))
   ;;------------------------------------------------------------------------------
   ;; Tex
   ;;------------------------------------------------------------------------------
