@@ -3,21 +3,22 @@
 ;; Image Handlers
 ;;------------------------------------------------------------------------------
 
-(use-package image-mode
+;; (use-package image-mode
+;;   :init
+
+(use-package image
+  :custom
+  (image-use-external-converter t))
+
+(use-package image-converter
+
   :init
 
   (add-to-list 'auto-mode-alist '("\\.drawio\\'"       . image-mode))
   (add-to-list 'auto-mode-alist '("\\.excalidraw\\'"   . image-mode))
   (add-to-list 'auto-mode-alist '("\\.gbr\\'"          . image-mode))
   (add-to-list 'auto-mode-alist '("\\.art\\'"          . image-mode))
-
-  (setq image-use-external-converter t)
-  (image-converter-add-handler "art" 'gbr-to-png)
-  (image-converter-add-handler "gbr" 'gbr-to-png)
-  (image-converter-add-handler "drawio" 'drawio-to-png)
-  (image-converter-add-handler "excalidraw" 'excalidraw-to-png)
-
-  :config
+  (add-to-list 'auto-mode-alist '("\\.kra\\'"          . image-mode))
 
   (defun gbr-to-png (file data-p)
     (if data-p
@@ -42,4 +43,18 @@
         (call-process "inkscape" nil nil nil svg "--export-area-drawing" "--export-type=png" (concat "--export-filename=" png))
         (call-process "cat" nil t nil png)
         (delete-file png))))
-)
+
+  ;; https://ayatakesi.github.io/emacs/29.1/html/Image-Mode.html
+  (defun krita-to-png (file data-p)
+    (if data-p
+        (error "Can't decode non-files")
+      (call-process "unzip" nil t nil
+                    "-qq" "-c" "-x" file "mergedimage.png")))
+
+  :config
+  (image-converter-initialize)
+  (image-converter-add-handler "art" 'gbr-to-png)
+  (image-converter-add-handler "gbr" 'gbr-to-png)
+  (image-converter-add-handler "drawio" 'drawio-to-png)
+  (image-converter-add-handler "excalidraw" 'excalidraw-to-png)
+  (image-converter-add-handler "kra" 'krita-to-png))
