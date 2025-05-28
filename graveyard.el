@@ -1322,3 +1322,81 @@ lines are selected, or the NxM dimensions of a block selection.")
 ;;             (lambda (&rest _)
 ;;               (interactive)
 ;;               (call-interactively #'run-python)))
+
+  ;; (add-to-list 'eglot-server-programs '(python-mode . ("ruff-lsp")))
+  ;; (add-to-list 'eglot-server-programs '(python-ts-mode . ("ruff-lsp")))
+  ;; (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+  ;; (add-to-list 'eglot-server-programs '(python-ts-mode . ("pyright-langserver" "--stdio")))
+
+  ;; (add-hook! python-mode-hook
+  ;;   (setq eglot-workspace-configuration
+  ;;         '((pyright
+  ;;            (plugins
+  ;;             (mccabe (enabled . t))    ; Remove this if you want mccabe.
+  ;;             (pycodestyle (enabled . nil))
+  ;;             (flake8 (enabled . t)))))))
+
+  ;; (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+  ;; (add-to-list 'eglot-server-programs '(python-ts-mode . ("pyright-langserver" "--stdio")))
+
+                                        ; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=61373
+  ;; pyright generates html :(
+  ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=61373
+
+  ;; (dolist (provider '(:hoverProvider :documentHighlightProvider))
+  ;;   (add-to-list 'eglot-ignored-server-capabilities provider))
+
+
+  ;; (add-to-list 'eglot-workspace-configuration
+  ;;              '(:svlangserver (:settings (:systemverilog.launchConfiguration: "verilator -sv -Wall --lint-only",
+  ;;                                          :systemverilog.formatCommand: "verible-verilog-format"))))
+
+  ;; (add-to-list 'eglot-server-programs
+  ;;              '(verilog-mode . ("svls")))
+
+  ;; (add-hook! verilog-mode-hook
+  ;;   (setq eglot-workspace-configuration
+  ;;         `((:systemverilog
+  ;;            (:includeIndexing '["**/*.{sv,svh}"])
+  ;;            (:excludeIndexing '["test/**/*.{sv,svh}"])
+  ;;            (:defines nil)
+  ;;            (:launchConfiguration "verilator -sv --lint-only -Wall")
+  ;;            (:lintOnUnsaved t)
+  ;;            (:formatCommand "verible-verilog-format")
+  ;;            (:disableCompletionProvider nil)
+  ;;            (:disableHoverProvider nil)
+  ;;            (:disableSignatureHelpProvider nil)
+  ;;            (:disableLinting nil)))))
+
+  ;; (defun ap/dired-external-open()
+  ;;   (interactive)
+  ;;   (xdg-open-file (dired-get-file-for-visit)) t)
+
+
+  ;; (advice-add 'dired-find-file
+  ;;             :before-until
+  ;;             (lambda () (if (and (member (file-name-extension (dired-get-file-for-visit))
+  ;;                                         auto-external-handle-extensions)
+  ;;                                 (not (remote-host? (dired-get-file-for-visit))))
+  ;;                            (ap/dired-external-open)
+  ;;                          nil)))
+
+
+  ;; (defvar auto-external-handle-extensions
+  ;;   '("drawio")
+  ;;   "List of extensions to automatically open via external program.")
+
+  ;; (defvar external-program-handlers
+  ;;     '(("drawio" . "drawio"))
+  ;;     "alist of extensions and the program which should be used to open them, e.g.
+  ;; \\='((\".mp3\" .\"mplayer\")
+  ;;    (\".avi\" .\"vlc\")).
+
+  ;; If not specified it will default to xdg-open.")
+;; (defun drawio ()
+;;   (interactive)
+;;   (let* ((file (buffer-file-name))
+;;          (ext-handler (cdr (assoc (file-name-extension file) external-program-handlers)))
+;;          (program (or ext-handler "xdg-open")))
+;;     (message (format  "Opening %s in %s" file program))
+;;     (call-process program nil 0 nil file)))

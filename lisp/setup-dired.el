@@ -112,18 +112,6 @@
   ;; buffer for a deleted directory. Of course I do!
   (setq dired-clean-confirm-killing-deleted-buffers nil)
 
-  (advice-add 'dired-find-file
-              :before-until
-              (lambda () (if (and (member (file-name-extension (dired-get-file-for-visit))
-                                          auto-external-handle-extensions)
-                                  (not (remote-host? (dired-get-file-for-visit))))
-                             (ap/dired-external-open)
-                           nil)))
-
-  (defun ap/dired-external-open()
-    (interactive)
-    (xdg-open-file (dired-get-file-for-visit)) t)
-
   (defun my/dired-convert-marked-image-files-to-pdf ()
     (interactive)
     (let* ((ofile (read-string "Output File: ")))
@@ -139,29 +127,7 @@
                           (dired-get-marked-files)
                           (list ofile))))
 
-        (apply #'call-process args))))
-
-  (defvar auto-external-handle-extensions
-    '("drawio")
-    "List of extensions to automatically open via external program.")
-
-  (defvar external-program-handlers
-    '(("drawio" . "drawio"))
-    "alist of extensions and the program which should be used to open them, e.g.
-\\='((\".mp3\" .\"mplayer\")
-   (\".avi\" .\"vlc\")).
-
-If not specified it will default to xdg-open.")
-  )
-
-(defun drawio ()
-  (interactive)
-  (let* ((file (buffer-file-name))
-         (ext-handler (cdr (assoc (file-name-extension file) external-program-handlers)))
-         (program (or ext-handler "xdg-open")))
-    (message (format  "Opening %s in %s" file program))
-    (call-process program nil 0 nil file)))
-
+        (apply #'call-process args)))))
 
 ;;------------------------------------------------------------------------------
 ;; DWIM Shell
