@@ -99,22 +99,30 @@
 (add-to-list 'default-frame-alist
              '(fullscreen . maximized))
 
-(setopt mouse-wheel-scroll-amount-horizontal 32
-        mouse-wheel-tilt-scroll t)
-
 (add-to-list 'warning-suppress-types '(iedit))
 
-(setq enable-local-variables t            ;
-      display-line-numbers 'nil           ;
-      help-at-pt-display-when-idle 'never ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
+;; buffer-local variables
+(setq-default display-line-numbers nil
+              fill-column 80
+              tab-width 2
+              delete-by-moving-to-trash t ; Delete files to trash
+              window-combination-resize t) ; take new window space from all other windows (not just current)
+
+;; something is overriding these
+(setq compilation-scroll-output t
       auto-revert-mode t                  ;
-      compilation-scroll-output t
+      auto-revert-remote-files t             ;
+      undo-limit 80000000)                 ; Raise undo-limit to 80Mb
+
+(setq mouse-wheel-scroll-amount-horizontal 32
+      mouse-wheel-tilt-scroll t
+      enable-local-variables t               ;
+      help-at-pt-display-when-idle 'never ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
       scroll-margin 30                    ; add a margin while scrolling
-      auto-revert-remote-files t          ;
       so-long-threshold 800               ; so-long-threshold can increase
-      undo-limit 80000000                 ; Raise undo-limit to 80Mb
-      auto-save-default t                 ; Nobody likes to loose work, I certainly don't
-      truncate-string-ellipsis "…"        ; Unicode ellispis are nicer than "...", and also save /precious/ space
+      auto-save-default t             ; Nobody likes to loose work, I certainly don't
+      truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
+      x-stretch-cursor t           ; Stretch cursor to the glyph width
 
       abbrev-file-name (concat doom-user-dir "abbrev_defs")
 
@@ -139,11 +147,11 @@
       ;; window title when minimzed--- just make it the same
       icon-title-format frame-title-format)
 
-(setq-default fill-column 80
-              tab-width 2
-              delete-by-moving-to-trash t ; Delete files to trash
-              window-combination-resize t ; take new window space from all other windows (not just current)
-              x-stretch-cursor t)         ; Stretch cursor to the glyph width
+(defun xclip ()
+  (interactive)
+  (let* ((buffer (buffer-file-name))
+         (mimetype (shell-command-to-string (concat "mimetype " buffer))))
+    (shell-command (concat "xclip -sel c -target " mimetype " " (buffer-file-name)))))
 
 (midnight-mode)                     ; Clear buffers at midnight
 (display-time-mode 1)               ; Enable time in the mode-line
