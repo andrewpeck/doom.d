@@ -138,12 +138,14 @@
       (setq-local TeX-master default-tex-master)))
 
   (defun latex/set-default-tex-master ()
+    "Set the master tex file for the current project."
     (interactive)
     (let ((master-file
            (completing-read "Master File: "
                             (cl-remove-if-not (lambda (f) (string= "tex" (file-name-extension f)))
                                               (project-files (project-current))))))
       (setq default-tex-master master-file)
+      (setq TeX-master master-file)
       (hook/set-default-tex-master) ; execute now to take effect immediately
       )) ; add a hook for future files
 
