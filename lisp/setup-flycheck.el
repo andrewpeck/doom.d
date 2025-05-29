@@ -22,7 +22,7 @@
 
   :config
 
-  (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'flycheck-list-errors)
+  (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'consult-flycheck)
 
   (setq-default flycheck-ghdl-language-standard "08")
   (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
