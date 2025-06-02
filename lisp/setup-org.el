@@ -181,7 +181,7 @@
 
           ("w" "Waiting" entry
            (file+headline +org-capture-todo-file "To do")
-           "** WAIT %?\n %U")
+           "** WAIT %?\n %U" :prepend t)
 
           ("i" "Idea" entry
            (file+headline +org-capture-todo-file "Ideas")
