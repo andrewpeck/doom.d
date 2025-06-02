@@ -254,7 +254,7 @@
         :map verilog-mode-map
         :desc "Align Ports"
         (:prefix ("a" . "align")
-                 "p" #'verilog--align-ports
+                 "p" #'verilog-align-ports
                  "d" #'verilog-pretty-declarations
                  "=" #'verilog-pretty-expr))
 
