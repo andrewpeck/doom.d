@@ -174,22 +174,20 @@
   (let ((timer (if timer timer 1.5)))
     (run-with-idle-timer timer nil #'load!! pkg)))
 
-(defun doom-load-idle (path) (load-idle (concat doom-user-dir path)))
-(defun doom-load-timer (path) (load-timer (concat doom-user-dir path)))
+(defun user-load-idle (path) (load-idle (concat doom-user-dir path)))
+(defun user-load-timer (path) (load-timer (concat doom-user-dir path)))
 
 (load!! "custom")
 
-;; start:sort
+;; Load setup files
+(dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
+  (load (file-name-sans-extension file) 0.1))
+
 (load!! "lisp/plotting")
 (load!! "lisp/regulator")
 (load!! "lisp/tracking")
 (load!! "passwords")
 (load!! "psiq")
-;; end:sort
-
-;; Load setup files
-(dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
-  (load (file-name-sans-extension file)))
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)
