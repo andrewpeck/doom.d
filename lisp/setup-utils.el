@@ -162,6 +162,7 @@ between the two most recently open buffers."
 (defun open-todo ()
   "Open my todo file"
   (interactive)
+  (require 'org)
   (find-file +org-capture-todo-file))
 
 (defun org-agenda-and-todo ()
