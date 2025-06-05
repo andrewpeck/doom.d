@@ -379,6 +379,21 @@ _h_ decrease width    _l_ increase width
 
 (use-package! yasnippet
   :config
+
+  ;; HACK: for some unknown reason yasnippet has started producing duplicate
+  ;; templates managed to remove them just by applying this advice but it really
+  ;; should be fixed properly
+  (defun advice/remove-duplicate-snippets (orig-fun &rest args)
+    (let ((templates (apply orig-fun args)))
+      (when (car templates)
+        ;; (debug)
+        (cl-callf
+            (lambda (tmpl) (cl-remove-duplicates tmpl :test (lambda (x y) (string= (car x) (car y)))))
+            (car templates)) templates)))
+
+  (advice-add 'yas--templates-for-key-at-point :around
+              'advice/remove-duplicate-snippets)
+
   ;; Don't add newlines to snippet endings
   (setq yas-also-auto-indent-first-line t)
   (add-hook 'snippet-mode-hook
