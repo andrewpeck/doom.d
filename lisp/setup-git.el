@@ -12,6 +12,9 @@
 
   :config
 
+  ;; copy short hashes only
+  (setopt magit-copy-revision-abbreviated t)
+
   ;; https://gist.github.com/danielmartin/34bc36dafd8f900de483394087230f48
   (defun my/change-commit-author (arg)
     "Change the commit author during an interactive rebase in Magit.
