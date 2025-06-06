@@ -28,25 +28,18 @@
      (print "Outline Cycle")
      (outline-cycle))))
 
-;; (setq preferred-terminal
-;;       (let* ((suffixes '((terminator . "--working-directory")
-;;                          (konsole . "--workdir")
-;;                          (ghostty . "--working-directory=")
-;;                          ))
-;;              (pref-shell (pcase (system-name)
-;;                            ("pepper" 'terminator)
-;;                            ("larry" 'terminator)
-;;                            ("cobweb" 'terminator)
-;;                            ("strange" 'terminator)
-;;                            ("apeck-len01" 'ghostty)
-;;                            (_ 'konsole)))
-;;              (assl (assoc pref-shell suffixes)))
-;;         (list (symbol-name (car assl)) (cdr assl))))
+(defvar preferred-terminal 'wezterm "Default terminal used by `open-pwd-in-terminal'")
 
 (defun open-pwd-in-terminal ()
-  "Opens the present working directory in terminal"
+  "Opens the present working directory in external terminal."
   (interactive)
-  (call-process "ghostty" nil 0 nil (concat "--working-directory=" default-directory)))
+  (pcase preferred-terminal
+    ('ghostty (call-process "ghostty" nil 0 nil (concat "--working-directory=" default-directory)))
+    ('wezterm (call-process "wezterm" nil 0 nil "start" "--always-new-process" "--cwd" default-directory))
+    ('konsole (call-process "konsole" nil 0 nil "--workdir" default-directory))
+    ('terminator (call-process "terminator" nil 0 nil "--working-directory" default-directory))
+    ('nil (error "`preferred-terminal' not set."))
+    (_ (error (format  "`preferred-terminal' %s not recognized" preferred-terminal)))))
 
 (defun open-buffer-in-vim ()
   "Opens the current buffer in gvim."
