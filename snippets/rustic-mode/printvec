@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: printvec
+# key: printvec
+# --
+println!("{}", $1.iter().ft("\n"));

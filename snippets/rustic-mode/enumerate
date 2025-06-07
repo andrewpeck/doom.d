@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: enumerate
+# key: enumerate
+# --
+for (index, value) in $1.iter().enumerate() {
+}

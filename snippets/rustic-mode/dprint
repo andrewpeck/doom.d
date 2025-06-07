@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: dprint
+# key: dprint
+# --
+println!("{:?}", $1);
