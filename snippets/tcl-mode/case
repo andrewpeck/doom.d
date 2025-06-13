@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: case
+# key: case
+# --
+switch \${${1:var}} {
+    default {
+        error "some message"
+    }
+    a {
+        return a
+    }
+    b {
+        return b
+    }
+}

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: empty?
+# key: empty?
+# --
+if {\$${1:mystr} eq ""} {
+    $2
+}

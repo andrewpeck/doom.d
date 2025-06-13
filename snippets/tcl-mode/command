@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: pipeline
+# key: pipeline
+# --
+set pipeline [open |[list ls -l]]
+while {[gets $pipeline line] >= 0} {
+    puts " > $line"
+}

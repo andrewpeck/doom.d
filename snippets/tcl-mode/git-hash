@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: git-hash
+# key: git-hash
+# --
+proc current_git_hash {} {
+    return [string range [exec git rev-parse HEAD] 0 6]
+}
