@@ -175,7 +175,7 @@
  ;;lean               ; For folks with too much to prove
  ;;factor             ;
  ;;ledger             ; an accounting system in Emacs
- lua                  ; one-based indices? one-based indices
+ (lua +fennel +lsp)   ; one-based indices? one-based indices
  ;;nim                ; python + lisp at the speed of c
  (nix +lsp)           ; I hereby declare "nix geht mehr!"
  ;;ocaml              ; an objective camel
