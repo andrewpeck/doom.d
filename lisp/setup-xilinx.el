@@ -9,7 +9,7 @@
 
 (setq xilinx-docs-list
         '(("Xilinx ⟶ 7 Series ⟶ Clocking" . "https://docs.xilinx.com/v/u/en-US/ug472_7Series_Clocking")
-          ("Xilinx ⟶ 7 Series ⟶ Product Table" . "https://docs.xilinx.com/v/u/en-US/cost-optimized-product-selection-guide")
+          ("Xilinx ⟶ 7 Series ⟶ Product Table" ."https://docs.amd.com/v/u/en-US/7-series-product-selection-guide")
           ("Xilinx ⟶ 7 Series ⟶ Configuration Guide" . "https://docs.amd.com/v/u/en-US/ug470_7Series_Config")
           ("Xilinx ⟶ 7 Series ⟶ FPGAs SelectIO Resources" . "https://docs.amd.com/v/u/en-US/ug471_7Series_SelectIO")
           ("Xilinx ⟶ 7 Series ⟶ Artix 7/Data Sheet: DC/Switching" . "https://docs.xilinx.com/v/u/en-US/ds181_Artix_7_Data_Sheet")
@@ -35,5 +35,4 @@
       ;; (:prefix ("p" . "PsiQuantum")
       ;;          "l" #'psi/sysarch-logic
       ;;          "m" #'psi/sysarch-models)
-      (:prefix ("X" . "Xilinx")
-               (:desc "Documentation" "X" #'xilinx/open-doc)))
+     (:desc "Xilinx Documentation" "X" #'xilinx/open-doc))
