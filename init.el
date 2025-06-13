@@ -112,7 +112,7 @@
 
  ;;debugger          ; FIXME stepping through code, to help you add bugs
  ;; ein
- ;; tree-sitter
+ tree-sitter
  ;;pass              ; password manager for nerds
  ;;upload            ; map local to remote projects via ssh/ftp
 
