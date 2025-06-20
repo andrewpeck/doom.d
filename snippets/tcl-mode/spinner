@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# name: spinner
+# key: spinner
+# --
+proc start_spinner {msg} {
+
+    set spinner_sequence [list "|" "/" "-" "\\"]
+
+    set spinner_length [llength $spinner_sequence]
+
+    # Initialize spinner position
+    set index 0
+
+    # Simulate a long-running task
+    for {set i 0} {$i < 50} {incr i} {
+        # Update spinner
+        set spinner_char [lindex $spinner_sequence $index]
+        # Print spinner with carriage return to overwrite the line
+        puts -nonewline "\r$msg $spinner_char"
+        # Flush stdout to ensure immediate output
+        flush stdout
+
+        # Increment and wrap index for spinner sequence
+        incr index
+        set index [expr {$index % $spinner_length}]
+
+        # Simulate task delay
+        after 100
+        update
+    }
+}
