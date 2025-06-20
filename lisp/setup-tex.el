@@ -221,31 +221,49 @@
 
   ;;------------------------------------------------------------------------------
   ;; Semantic Linefeeds
-  ;; https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
-  ;; TODO: check for common things at end of line:
-  ;; c.f. e.g. i.e.
+  ;; based on https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
+
+  (defvar line-fill-paragraph-non-separators
+    (append
+     (list "n.b." "i.e." "e.g." "c.f." "viz." "eg." "ie.")
+     ;; single letter initials such as A. B. C.
+     (mapcar (lambda (x) (concat (upcase (char-to-string x)) ".")) (number-sequence ?a ?z))))
 
   (defun ap/line-fill-paragraph (&optional P)
     "When called with prefix argument call `fill-paragraph'.
    Otherwise split the current paragraph into one sentence per line."
     (interactive "P")
     (if (not P)
-        (save-excursion
-          (let ((fill-column 12345678)) ;; relies on dynamic binding
-            (fill-paragraph) ;; this will not work correctly if the paragraph is
-            ;; longer than 12345678 characters (in which case the
-            ;; file must be at least 12MB long. This is unlikely.)
-            (let ((end (save-excursion
-                         (forward-paragraph 1)
-                         (backward-sentence)
-                         (point-marker)))) ;; remember where to stop
-              (beginning-of-line)
-              (while (progn (forward-sentence)
-                            (<= (point) (marker-position end)))
-                (just-one-space) ;; leaves only one space, point is after it
-                (delete-char -1) ;; delete the space
-                (newline)        ;; and insert a newline
-                (evil-indent-line (line-beginning-position) (line-end-position))))))
+        (let ((regexp (concat "\s+\\(" (string-join line-fill-paragraph-non-separators "\\|") "\\)\\.")))
+          (save-excursion
+            (let ((fill-column 12345678)) ;; relies on dynamic binding
+              (fill-paragraph) ;; this will not work correctly if the paragraph is
+              ;; longer than 12345678 characters (in which case the
+              ;; file must be at least 12MB long. This is unlikely.)
+              (let ((end (save-excursion
+                           (forward-paragraph 1)
+                           (backward-sentence)
+                           (point-marker)))) ;; remember where to stop
+                (beginning-of-line)
+                (while (progn (forward-sentence)
+                              (<= (point) (marker-position end)))
+
+                  ;; handle i.e. e.g. etc
+                  (let ((s (point))
+                        (e nil))
+                    (save-excursion
+                      (re-search-backward " ")
+                      (setq e (point)))
+                    (let ((last-word (buffer-substring-no-properties s e)))
+                      (when (string-match regexp last-word)
+                        (debug)
+                        (forward-sentence))))
+
+                  (when (<= (point) (marker-position end))
+                    (just-one-space) ;; leaves only one space, point is after it
+                    (delete-char -1) ;; delete the space
+                    (newline)        ;; and insert a newline
+                    (evil-indent-line (line-beginning-position) (line-end-position))))))))
 
       ;; otherwise do ordinary fill paragraph
       (fill-paragraph P)))
