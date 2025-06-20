@@ -96,7 +96,18 @@
   :init
   (add-hook! 'olivetti-mode-on-hook
     (setq-local doom--line-number-style nil)
-    (setq-local display-line-numbers nil)))
+    (setq-local display-line-numbers nil))
+  :custom
+
+  (advice-add #'olivetti-mode :after
+              (lambda (&rest _)
+                (if (not olivetti-mode)
+                    (progn
+                      (toggle-truncate-lines 0)
+                      (visual-line-mode 0))
+                  (progn
+                    (toggle-truncate-lines 1)
+                    (visual-line-mode 1))))))
 
 ;;------------------------------------------------------------------------------
 ;; Hydra
