@@ -95,6 +95,8 @@
 
   :config
 
+  (define-key TeX-mode-map (kbd "M-q") 'ap/line-fill-paragraph)
+
   (define-key TeX-mode-map (kbd "C-c C-l") #'tex-link-insert)
 
   (advice-add 'TeX-view :before
