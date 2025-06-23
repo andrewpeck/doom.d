@@ -18,6 +18,8 @@
 (package! orgit-forge  :disable t)
 (package! org-pdftools :disable t)
 
+(package! forge                    :pin "c498fed98a6df8adca33e87433b4084c0340fb4a")
+
 ;; Misc packages
 ;; start:sort
 (package! affe                    :pin "a1607fbc66789408128e12c9224b6a6c51d12bcb")
