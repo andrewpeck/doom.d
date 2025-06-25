@@ -300,8 +300,7 @@
   (map! :leader :prefix "b" :desc "Format Buffer" "f"
         (lambda ()
           (interactive)
-          (call-interactively #'apheleia-format-buffer)
-          (message "Formatted buffer...")))
+          (call-interactively #'apheleia-format-buffer)))
 
 (map! :localleader
       :map org-mode-map

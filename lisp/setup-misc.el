@@ -263,6 +263,18 @@ _h_ decrease width    _l_ increase width
   ;; (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
   ;; (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
 
+  (advice-add #'apheleia-format-buffer :before-until
+              (defun file-has-conflict-markers (&rest _)
+                (let ((is-conflict (save-excursion
+                                     (goto-char (point-min))
+                                     (re-search-forward "^<<<<<<< [A-z]+$" nil t))))
+                  (if is-conflict
+                      (message "File has conflict markers; not formatting.")
+                    (message "Formatting buffer..."))
+
+                  is-conflict)))
+
+    (member (buffer-file-name) )
   (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
   (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
 
