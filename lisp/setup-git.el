@@ -105,6 +105,7 @@ on the current line, if any."
 
   (map! :leader :prefix "g" :desc "Magit Amend" "A"  #'magit-commit-amend)
   (map! :leader :prefix "g" :desc "Magit Push" "p"  #'magit-push)
+  (map! :leader :prefix "g" :desc "Magit Pull" "u"  #'magit-pull-from-pushremote)
   (map! :leader :prefix "g" :desc "Magit Push Current" "P"  #'magit-push-current-to-pushremote)
   (map! :leader :prefix "g" :desc "Instant Fixup" "cF"  #'magit-commit-instant-fixup)
   (map! :leader :prefix "g" (:prefix ("z" . "Stash"))
