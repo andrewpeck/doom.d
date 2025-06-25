@@ -498,31 +498,33 @@ The block should be encased by
   (save-excursion
     (goto-char (point-min))
 
-    (let ((comment-char (pcase major-mode
-                          ('verilog-mode "\/\/")
-                          ('c-mode "\/\/")
-                          ('c++-mode "\/\/")
-                          ('python-mode "#")
-                          ('python-ts-mode "#")
-                          ('tcl-mode "#")
-                          ('emacs-lisp-mode ";;"))))
+    (let* ((comment-char (pcase major-mode
+                           ('verilog-mode "\/\/")
+                           ('c-mode "\/\/")
+                           ('c++-mode "\/\/")
+                           ('python-mode "#")
+                           ('python-ts-mode "#")
+                           ('tcl-mode "#")
+                           ('emacs-lisp-mode ";;")))
+           (re (format "^\\([[:blank:]]*\\)\\(%s[[:blank:]]*\\)\\(-+\\)[[:blank:]]*$" comment-char)))
 
       (unless comment-char
         (error (format "`comment-char' not defined for major mode %s" major-mode)))
 
-      (while (re-search-forward
-              (format "^\\([[:blank:]]*\\)\\(%s\\)[[:blank:]]*\\(-+\\)[[:blank:]]*$" comment-char))
+      (while (re-search-forward re nil t)
 
-        (let ((whitespace (match-string 1)))
+        (let ((whitespace (match-string 1))
+              (comment (match-string 2))
+              )
 
           (goto-char (line-beginning-position))
           (kill-line)
           (insert whitespace)
-          (insert comment-char)
+          (insert comment)
           (insert-char #x2D
                        (- normalize-comment-strings-length
                           (length whitespace)
-                          (length comment-char))))))))
+                          (length comment))))))))
 
 ;;------------------------------------------------------------------------------
 ;; Date Format
