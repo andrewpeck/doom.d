@@ -259,10 +259,9 @@ _h_ decrease width    _l_ increase width
 (use-package! apheleia
   :config
 
-  ;; (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
-  ;; (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
-  ;; (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8))
-
+  ;; don't want to apply autoformatter for files with conflict markers in them
+  ;; just add some simple advice to look for conflict markers and skip the
+  ;; formatter, issuing a message along the way.
   (advice-add #'apheleia-format-buffer :before-until
               (defun file-has-conflict-markers (&rest _)
                 (let ((is-conflict (save-excursion
