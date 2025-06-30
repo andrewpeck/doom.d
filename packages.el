@@ -50,7 +50,7 @@
 (package! flycheck-clj-kondo      :pin "e38c67ba9db1ea1cbe1b61ab39b506c05efdcdbf" :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
 (package! flycheck-pycheckers     :pin "1bd9b7a7d4009a81ebd34515a72a3a94c313ad76" :recipe (:host github :repo "msherry/flycheck-pycheckers"))
 (package! gptel                   :pin "35d53cada3e1fc323b6a18739368e85a82a9e419")
-(package! graphviz-dot-mode       :pin "8ff793b13707cb511875f56e167ff7f980a31136")
+(package! graphviz-dot-mode       :pin "45338857d0ad62c0f9dee392c23b9ba341225c7f")
 (package! hdl_deps                :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
 (package! hog-emacs               :pin "893dc124ce3e48f99e995749788f329fa36adc6c" :recipe (:host github :repo "andrewpeck/hog-emacs"))
 (package! hydra                   :pin "59a2a45a35027948476d1d7751b0f0215b1e61aa")
