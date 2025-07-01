@@ -148,6 +148,10 @@
       ;; window title when minimzed--- just make it the same
       icon-title-format frame-title-format)
 
+(defun sudo-shell-command (command)
+  (shell-command (concat "echo " (shell-quote-argument (read-passwd "Password? "))
+           " | sudo -S " command)))
+
 (defun xclip ()
   (interactive)
   (let* ((buffer (buffer-file-name))
