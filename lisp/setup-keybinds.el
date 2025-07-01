@@ -24,7 +24,11 @@
 
 (after! evil-maps
 
-  (define-key minibuffer-mode-map (kbd "C-k") #'kill-line)
+  (define-key global-map (kbd "C-S-t") #'tab-new)
+  (define-key global-map (kbd "C-S-k") #'tab-close)
+  (define-key global-map (kbd "C-<next>") #'tab-next)
+  (define-key global-map (kbd "C-<prior>") #'tab-previous)
+
 
   ;;------------------------------------------------------------------------------
   ;; Embrace
@@ -113,15 +117,6 @@
     (kbd "<C-tab>") (lambda () (interactive) (outline-cycle)))
   (evil-define-key '(motion normal) 'global
     (kbd "C-<iso-lefttab>") (lambda () (interactive) (outline-hide-body)))
-
-  ;; Bindings to open files
-  (evil-define-key '(normal motion) 'global
-    (kbd "C-S-t") #'open-todo
-    (kbd "C-S-b") #'open-timesheet)
-
-  (map! :leader
-        :desc "Org Capture TODO"
-        "T" (lambda () (interactive) (org-capture nil "t")))
 
   ;; Jump back and forth through files, time, and space with arrow keys
 
@@ -293,6 +288,13 @@
   (map! :leader :prefix "o" :desc "GPT Prompt"           "ai" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo)
+
+  (map! :leader             :desc "Org Capture TODO"     "T" (lambda () (interactive) (org-capture nil "t")))
+
+  (map! :leader :prefix "t" :desc "Open org TODOs"       "t" #'open-todo)
+
+  ;; (map! :leader :prefix "o" :desc "Open billing"         "b" #'open-timesheet)
+
   (map! :leader :prefix "y" :desc "Org Link Copy"        "y"  #'org-link-copy)
   (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
   (map! :leader :prefix "t" :desc "Toggle Dark Mode"     "d"  #'toggle-dark-mode))
