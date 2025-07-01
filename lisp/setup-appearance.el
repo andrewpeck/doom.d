@@ -36,18 +36,18 @@
 ;; PDF View Mode
 ;;------------------------------------------------------------------------------
 
-(defun pdf-view-midnight-update-colors ()
-  "Sync pdf view midnight colors to currently selected theme."
-  (interactive)
-  (setq pdf-view-midnight-colors
-        `(,(face-attribute 'default :foreground) .
-          ,(face-attribute 'default :background)))
-  (dolist (buf (buffer-list (current-buffer)))
-    (with-current-buffer buf
-      (when pdf-view-midnight-minor-mode
-        (pdf-view-midnight-minor-mode 1)))))
-
 (after! pdf-view
+  (defun pdf-view-midnight-update-colors ()
+    "Sync pdf view midnight colors to currently selected theme."
+    (interactive)
+    (setq pdf-view-midnight-colors
+          `(,(face-attribute 'default :foreground) .
+            ,(face-attribute 'default :background)))
+    (dolist (buf (buffer-list (current-buffer)))
+      (with-current-buffer buf
+        (when pdf-view-midnight-minor-mode
+          (pdf-view-midnight-minor-mode 1)))))
+
   (add-hook 'doom-load-theme-hook #'pdf-view-midnight-update-colors))
 
 ;;------------------------------------------------------------------------------
