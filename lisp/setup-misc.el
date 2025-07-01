@@ -273,7 +273,6 @@ _h_ decrease width    _l_ increase width
 
                   is-conflict)))
 
-    (member (buffer-file-name) )
   (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
   (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
 
