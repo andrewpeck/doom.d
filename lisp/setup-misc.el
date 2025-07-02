@@ -21,6 +21,10 @@
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
+;;------------------------------------------------------------------------------
+;; Devdocs
+;;------------------------------------------------------------------------------
+
 (use-package! devdocs
 
   :config
@@ -37,6 +41,14 @@
             (lambda () (setq-local devdocs-current-docs '("elisp"))))
 
   )
+
+;;------------------------------------------------------------------------------
+;; gptel magit
+;;------------------------------------------------------------------------------
+
+(use-package gptel-magit
+  :hook (magit-mode . gptel-magit-install)
+  :commands (gptel-magit-commit-generate))
 
 ;;------------------------------------------------------------------------------
 ;; Calc
