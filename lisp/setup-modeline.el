@@ -75,8 +75,8 @@ nil."
 
                       (propertized-buffer-identification "%b")
 
-                 (when nyan-mode
-                   (concat "  " (nyan-create))))
+                      (when nyan-mode
+                        (concat "  " (nyan-create))))
 
                 ;; Right.
                 (list
@@ -84,7 +84,7 @@ nil."
                  (if (or defining-kbd-macro executing-kbd-macro)
                      (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
-                 (when buffer-env-active " ")
+                 (when buffer-env-active "ׯ ")
 
                  ;; replace (eglot--mode-line-format)
                  (when (and (fboundp #'eglot-managed-p)
