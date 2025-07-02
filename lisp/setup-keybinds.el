@@ -177,9 +177,10 @@
     (kbd "M-q") #'ap/line-fill-paragraph)
 
   ;; Tab in normal mode shouldn't indent
-  (evil-define-key '(insert motion normal visual) 'global
-    (kbd "TAB") 'nil)
-  (define-key global-map (kbd "TAB") nil)
+  (evil-define-key '(motion normal visual) 'global (kbd "TAB") 'nil)
+  (evil-define-key '(insert)               'global (kbd "TAB") 'indent-for-tab-command)
+
+  ;; (define-key global-map (kbd "TAB") nil)
 
   ;; Backspace to jump to previous buffer
   (evil-define-key '(normal motion) 'global
@@ -286,6 +287,7 @@
   (map! :leader :prefix "r" :desc "Replace Globally"     "g"  #'replace-string)
 
   (map! :leader :prefix "o" :desc "GPT Prompt"           "ai" #'gpt-prompt)
+  (map! :leader :prefix "o" :desc "GPTel"                "g"  #'gptel)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo)
 
@@ -297,33 +299,43 @@
 
   (map! :leader :prefix "y" :desc "Org Link Copy"        "y"  #'org-link-copy)
   (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
-  (map! :leader :prefix "t" :desc "Toggle Dark Mode"     "d"  #'toggle-dark-mode))
+  (map! :leader :prefix "t" :desc "Toggle Dark Mode"     "d"  #'toggle-dark-mode)
 
   (map! :leader :prefix "b" :desc "Format Buffer" "f"
         (lambda ()
           (interactive)
           (call-interactively #'apheleia-format-buffer)))
 
-(map! :localleader
-      :map org-mode-map
-      :prefix "a"
-      :desc "Download Screenshot" "c" #'org-download-screenshot
-      :desc "Download Clipboard" "p" #'org-download-clipboard
-      :desc "Download Yank" "P" #'org-download-yank
-      :desc "Edit Image" "e" #'org-download-edit
-      :desc "Delete Image" "d" #'org-download-delete
-      :desc "Move Image" "m" #'org-download-rename)
+  (map! :leader :prefix "o" :desc "Calculator" "c"  #'calc)
+  (map! :leader :prefix "o" :desc "Quick Calc" "C"  #'quick-calc)
+  (after! calc
+    (define-key calc-mode-map (kbd "?") nil)
+
+    (evil-define-key '(normal) calc-mode-map (kbd "?") #'casual-calc-tmenu)
+
+    )
+
+  (map! :localleader
+        :map org-mode-map
+        :prefix "a"
+        :desc "Download Screenshot" "c" #'org-download-screenshot
+        :desc "Download Clipboard" "p" #'org-download-clipboard
+        :desc "Download Yank" "P" #'org-download-yank
+        :desc "Edit Image" "e" #'org-download-edit
+        :desc "Delete Image" "d" #'org-download-delete
+        :desc "Move Image" "m" #'org-download-rename)
 
 
-(map! :leader
-      :prefix "o"
-      :desc "Mu4e Inbox"  "i"
-      (lambda () (interactive) (mu4e~headers-jump-to-maildir "/INBOX")))
+  (map! :leader
+        :prefix "o"
+        :desc "Mu4e Inbox"  "i"
+        (lambda () (interactive) (mu4e~headers-jump-to-maildir "/INBOX")))
 
 
-;; (map! :leader
-;;       :prefix "n"
-;;       :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
-;;       :desc "Org-Roam-Find"       "/" #'org-roam-find-file
-;;       :desc "Org-Roam-Buffer"     "r" #'org-roam
-;;       :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph)
+  ;; (map! :leader
+  ;;       :prefix "n"
+  ;;       :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
+  ;;       :desc "Org-Roam-Find"       "/" #'org-roam-find-file
+  ;;       :desc "Org-Roam-Buffer"     "r" #'org-roam
+  ;;       :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph)
+  )
