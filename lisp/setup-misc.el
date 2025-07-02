@@ -96,7 +96,12 @@
 
 (use-package! gptel
   :config
-  (setq gptel-model 'gpt-4o))
+  (after! org (define-key org-mode-map (kbd "C-c <return>") #'gptel-send))
+  (after! markdown-mode (define-key markdown-mode-map (kbd "C-c <return>") #'gptel-send))
+
+  :custom
+  (gptel-model 'gpt-4o)
+  (gptel-default-mode 'org-mode))
 
 ;;------------------------------------------------------------------------------
 ;; Citar
