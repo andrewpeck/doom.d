@@ -176,8 +176,12 @@
            "** %a :website:\n\n%U %?\n\n%:initial" :unnarrowed t)
 
           ("m" "Meeting" entry
-           (file+headline +org-capture-todo-file "Meetings")
-           "** MEET %?\n %U")
+           (file+headline "~/work/psiq/meetings.org" "Meetings")
+           "** %t %?\n - [ ] " :prepend t)
+
+          ("l" "Log" entry
+           (file+headline "~/work/todo/log.org" "Log")
+           "** %t %?\n- last week\n    - \n- this week\n    - " :prepend t)
 
           ("w" "Waiting" entry
            (file+headline +org-capture-todo-file "To do")
