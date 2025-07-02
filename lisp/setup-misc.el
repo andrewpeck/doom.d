@@ -123,8 +123,8 @@ _h_ decrease width    _l_ increase width
              _j_ decrease height
 "
     ("h" evil-window-decrease-width)
-    ("j" evil-window-increase-height)
-    ("k" evil-window-decrease-height)
+    ("j" evil-window-decrease-height)
+    ("k" evil-window-increase-height)
     ("l" evil-window-increase-width)
 
     ("q" nil))
