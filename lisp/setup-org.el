@@ -456,6 +456,32 @@ Updates overdue tasks to be due today."
     (let* ((link (org-element-lineage (org-element-context) '(link) t))
            (url (org-element-property :path link))) url))
 
+
+  (defun org-edit-drawio ()
+    "Open Drawio on the image at point."
+    (interactive)
+
+    (unless (or (eq major-mode 'markdown-mode)
+                (eq major-mode 'org-mode))
+      (error "This function is only supported in org-mode and markdown-mode."))
+
+    (let ((link (or (if (eq major-mode 'markdown-mode) (markdown-link-url) (org-link-get))
+                    (read-string "Filename: "))))
+
+      (when (eq major-mode 'org-mode)
+        (unless (org-link-get)
+          (insert (format "[[%s]]" link))))
+
+      (when (eq major-mode 'markdown-mode)
+        (unless (markdown-link-p)
+          (insert (format "[](%s)" link))))
+
+      (when link
+        (unless (file-exists-p link)
+          (copy-file org-drawio-template link))
+        ;; (call-process "drawio" nil 0 nil "-g" link)
+        (call-process "flatpak" nil 0 nil "run" "com.jgraph.drawio.desktop" (concat (file-name-directory (buffer-file-name)) link)))))
+
   (defun org-edit-inkscape ()
     "Open Inkscape on the image at point."
     (interactive)
