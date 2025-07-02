@@ -100,6 +100,7 @@
 
  :tools
 
+ llm
  biblio                                 ; Writes a PhD for you (citation needed)
  (docker)
  (eval +overlay)                        ; run code, run (also, repls)
