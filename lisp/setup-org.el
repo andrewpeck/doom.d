@@ -456,6 +456,7 @@ Updates overdue tasks to be due today."
     (let* ((link (org-element-lineage (org-element-context) '(link) t))
            (url (org-element-property :path link))) url))
 
+  (defvar org-drawio-template "~/.doom.d/template.drawio.svg")
 
   (defun org-edit-drawio ()
     "Open Drawio on the image at point."
