@@ -287,7 +287,6 @@
   (map! :leader :prefix "r" :desc "Replace Globally"     "g"  #'replace-string)
 
   (map! :leader :prefix "o" :desc "GPT Prompt"           "ai" #'gpt-prompt)
-  (map! :leader :prefix "o" :desc "GPTel"                "g"  #'gptel)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo)
 

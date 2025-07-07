@@ -99,7 +99,12 @@
   (after! org (define-key org-mode-map (kbd "C-c <return>") #'gptel-send))
   (after! markdown-mode (define-key markdown-mode-map (kbd "C-c <return>") #'gptel-send))
 
+  (map! :leader :prefix "o" :desc "GPTel" "g"  #'gptel)
+  (map! :leader :prefix "o" :desc "GPTel Rewrite" "G"  #'gptel-rewrite)
+  (map! :mode git-commit-mode :leader :prefix "m" :desc "GPTel Magit Commit Generate" "g"  #'gptel-magit-commit-generate)
+
   :custom
+
   (gptel-model 'gpt-4o)
   (gptel-default-mode 'org-mode))
 
