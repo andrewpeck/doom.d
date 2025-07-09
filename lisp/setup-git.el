@@ -12,6 +12,9 @@
 
   :config
 
+  (setq magit-buffer-log-args
+        '("-n256" "--follow" "--graph" "--decorate"))
+
   ;; copy short hashes only
   (setopt magit-copy-revision-abbreviated t)
 
