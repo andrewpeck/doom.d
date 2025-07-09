@@ -45,6 +45,7 @@
 (package! eglot-booster           :pin "e6daa6bcaf4aceee29c8a5a949b43eb1b89900ed" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 (package! eldoc-box               :pin "ebc0e2c13791f5a22cf81be050b32f0ebf726855" :recipe (:host github :repo "casouri/eldoc-box"))
 (package! elfeed                  :pin "a39fb78e34ee25dc8baea83376f929d7c128344f" :recipe (:host github :repo "skeeto/elfeed"))
+(package! emacs-colorpicker       :pin "3acee0fc0e35e130fb049ab69f99544a1ca9d11f" :recipe (:host github :repo "syohex/emacs-colorpicker"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! expand-region           :pin "351279272330cae6cecea941b0033a8dd8bcc4e8" :recipe (:host github :repo "magnars/expand-region.el"))

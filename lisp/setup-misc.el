@@ -239,6 +239,14 @@ _h_ decrease width    _l_ increase width
   (copyright-year-ranges t))
 
 ;;------------------------------------------------------------------------------
+;; Colorpicker
+;;------------------------------------------------------------------------------
+
+(use-package colorpicker
+  :config
+  (setq colorpicker--script "~/.config/emacs/.local/straight/repos/emacs-colorpicker/script/colorpicker.py"))
+
+;;------------------------------------------------------------------------------
 ;; Large Table Edition
 ;;------------------------------------------------------------------------------
 
