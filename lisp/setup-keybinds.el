@@ -280,7 +280,8 @@
   (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
   (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
   (map! :leader :prefix "o" :desc "Open Terminal Here"   "K"  #'open-pwd-in-terminal)
-  (map! :leader :prefix "o" :desc "XDG Open File"        "o"  #'xdg-open-file)
+  (map! :leader :prefix "o" :desc "Open File"            "o"  #'xdg-open-file)
+  (map! :leader :prefix "o" :desc "Open Directory"       "O"  #'xdg-browse-directory)
 
   (map! :leader :prefix "r" :desc "Replace Symbol"       "s"  #'query-replace-symbol)
   (map! :leader :prefix "r" :desc "Replace Query"        "q"  #'query-replace)
