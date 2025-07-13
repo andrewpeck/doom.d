@@ -23,5 +23,5 @@
         ("Xilinx ⟶ Versal Premium ⟶ Product Table" . "https://docs.amd.com/v/u/en-US/versal-premium-psg")
         ("Xilinx ⟶ Spartan Ultrascale+ ⟶ DC/Switching" . "https://docs.amd.com/viewer/book-attachment/5Biy7JjLbd8wMxkBl9RAMg/eVwjxEWpG_~jIEXJUxYg0w-5Biy7JjLbd8wMxkBl9RAMg")))
 
-(bookmark-url-setup 'xilinx/open-doc 'xilinx-docs-list :name "Xilinx Datasheets")
+(bookmark-url-create 'xilinx/open-doc 'xilinx-docs-list :name "Xilinx Datasheets")
 (map! :leader :prefix "o" (:desc "Xilinx Documentation" "X" #'xilinx/open-doc))

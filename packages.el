@@ -29,7 +29,7 @@
 (package! ascii-art-to-unicode    :pin "fa3d82ddb531855ad7b8ef871871907861327c9f")
 (package! backup-each-save        :pin "9d9714be7bf99b2a192587c1454822c69c61915e" :recipe (:host github :repo "andrewpeck/backup-each-save"))
 (package! benchmark-init          :pin "6507caa3c4cb2a6c9b85c771c5e9e5aeb7d745bc")
-(package! bookmark-url.el         :pin "99cd4bdb11d75d2610e0b8acd1d3a8db05094c3f" :recipe (:host github :repo "andrewpeck/bookmark-url.el"))
+(package! bookmark-url.el         :pin "cecd0347098e5ef9d82dcdccb02a7cddcca76013" :recipe (:host github :repo "andrewpeck/bookmark-url.el"))
 (package! browse-at-remote        :pin "76aa27dfd469fcae75ed7031bb73830831aaccbf" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
 (package! buffer-env              :pin "fc5cab4db55f0b95c4b97fbe3104e394da34b91a" :recipe (:host github :repo "astoff/buffer-env"))
 (package! casual                  :pin "9c476ea12cdff376f508b1199373257d7e9b8715" :recipe (:host github :repo "kickingvegas/casual"))
