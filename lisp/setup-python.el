@@ -66,7 +66,7 @@
                   (apply orig-fun args)
                   (select-window current))))
 
-  (defvar py-isort-options '("--line-length" "300")
+  (defvar py-isort-options '("--line-length" "300" "-sl")
     "List of arguments to apply in `python-sort-imports")
 
   (defun python-sort-imports ()
