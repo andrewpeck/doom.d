@@ -113,7 +113,7 @@
 
  ;;debugger          ; FIXME stepping through code, to help you add bugs
  ;; ein
- tree-sitter
+ ;; tree-sitter
  ;;pass              ; password manager for nerds
  ;;upload            ; map local to remote projects via ssh/ftp
 
@@ -132,7 +132,7 @@
  data                          ; A dumping ground for data formats (csv, xml)
  emacs-lisp                    ; drown in parentheses
  (php)                         ; perl's insecure younger brother
- (python +tree-sitter +pyright +lsp)        ; beautiful is better than ugly
+ (python +pyright +lsp)        ; beautiful is better than ugly
  (rust +lsp)                   ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
  (sh +fish)                    ; she sells {ba,z,fi}sh shells on the C xor
  (web)                         ; the tubes
@@ -171,7 +171,7 @@
  ;;hy                 ; readability of scheme w/ speed of python
  ;;idris              ; A language you can depend on
  ;;(java +meghanada)  ; the poster child for carpal tunnel syndrome
- (javascript +lsp +treesitter) ; all(hope(abandon(ye(who(enter(here))))))
+ (javascript +lsp) ; all(hope(abandon(ye(who(enter(here))))))
  ;;(julia +lsp)       ; a better, faster MATLAB
  ;;lean               ; For folks with too much to prove
  ;;factor             ;
