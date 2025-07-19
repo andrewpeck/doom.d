@@ -2,4 +2,4 @@
 # name: clk
 # key: clk
 # --
-await RisingEdge(dut.clk)
+await dut.Clock()
