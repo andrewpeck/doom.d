@@ -198,19 +198,20 @@ _h_ decrease width    _l_ increase width
 ;; Treesitter
 ;;------------------------------------------------------------------------------
 
-(use-package! treesit-auto
-  :commands (global-treesit-auto-mode
-             treesit-auto-install-all
-             treesit-auto-add-to-auto-mode-alist)
-  :custom
-  (treesit-font-lock-level 5)
-  (treesit-auto-install 'prompt)
-  :config
-  (delete 'janet treesit-auto-langs)
-  (delete 'markdown treesit-auto-langs)
-  (delete 'latex treesit-auto-langs)
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
+(comment
+ (use-package! treesit-auto
+   :commands (global-treesit-auto-mode
+              treesit-auto-install-all
+              treesit-auto-add-to-auto-mode-alist)
+   :custom
+   (treesit-font-lock-level 5)
+   (treesit-auto-install 'prompt)
+   :config
+   (delete 'janet treesit-auto-langs)
+   (delete 'markdown treesit-auto-langs)
+   (delete 'latex treesit-auto-langs)
+   (treesit-auto-add-to-auto-mode-alist 'all)
+   (global-treesit-auto-mode)))
 
 ;;------------------------------------------------------------------------------
 ;; Copyright

@@ -96,6 +96,7 @@
 (package! xr                      :pin "cbcb51d5ba2a28c47264ddd17ac4ff0c89b0451e")                           ; xr is rx in reverse
 ;; end:sort
 
+;; (package! treesit-auto            :pin "016bd286a1ba4628f833a626f8b9d497882ecdf3" :recipe (:host github :repo "renzmann/treesit-auto"))
 ;; (package! org-mode                :pin "5cfc857c66e3ad7d4b70bb4a61f641c059994170" :recipe (:host github :repo "emacs-straight/org-mode"))
 ;; (package! headlice                :pin "c659acd65d0d52a68c58fa3cda307018144839e1" :recipe (:host nil :repo "https://code.tecosaur.net/tec/headlice"))
 ;; (package! cdlatex                 :pin "fac070f0164ac9f5859cb4cccba7d29a65c337f3" :recipe (:host github :repo "cdominik/cdlatex"))
