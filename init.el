@@ -16,6 +16,8 @@
 
 (setenv "LSP_USE_PLISTS" "true")
 
+(defmacro comment (&rest _) nil)
+
 ;; Start emacs in full screen by default
 (add-to-list 'default-frame-alist
              '(fullscreen . maximized))
