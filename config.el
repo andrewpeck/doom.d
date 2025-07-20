@@ -142,11 +142,12 @@
       ;; https://www.emacswiki.org/emacs/FrameTitle
       frame-title-format
       '(:eval
-        (if dired-directory
-            (concat (abbreviate-file-name dired-directory) " - Dired" )
-          (concat (abbreviate-file-name (expand-file-name "%b"))
-                  (when (buffer-modified-p) " * "))))
-
+        (cond
+         (dired-directory (concat (abbreviate-file-name dired-directory) " - Dired" ))
+         (buffer-file-name (concat
+                            (abbreviate-file-name buffer-file-name)
+                            (when (buffer-modified-p) " * ")))
+         (t (buffer-name))))
       ;; window title when minimzed--- just make it the same
       icon-title-format frame-title-format)
 
