@@ -92,7 +92,7 @@
       ("pepper"      'doom-laserwave)
       ("larry"       'doom-spacegrey)
       ("strange"     'doom-spacegrey)
-      ("apeck-len01" 'doom-spacegrey)
+      ("apeck-len01" 'doom-gruvbox)
       (_             'doom-spacegrey))))
 
 (defun ap/get-light-theme ()
