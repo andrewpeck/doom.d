@@ -109,6 +109,8 @@
               delete-by-moving-to-trash t ; Delete files to trash
               window-combination-resize t) ; take new window space from all other windows (not just current)
 
+(global-completion-preview-mode)
+
 ;; something is overriding these
 (setq compilation-scroll-output t
       auto-revert-mode t                  ;
