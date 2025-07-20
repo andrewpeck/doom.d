@@ -287,6 +287,13 @@
   (map! :leader :prefix "r" :desc "Replace Query"        "q"  #'query-replace)
   (map! :leader :prefix "r" :desc "Replace Globally"     "g"  #'replace-string)
 
+  (map!
+   :leader
+   (:prefix-map ("d" . "do")
+    (:prefix-map ("p" . "package")
+     :desc "Package Install" "i" #'system-install
+     :desc "Package Remove"  "r" #'system-install-remove-package)))
+
   (map! :leader :prefix "o" :desc "GPT Prompt"           "ai" #'gpt-prompt)
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
   (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo)
