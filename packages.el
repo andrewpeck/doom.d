@@ -9,6 +9,7 @@
 (package! pyenv        :disable t)
 (package! hl-line      :disable t)
 (package! diredfl      :disable t)
+(package! nose         :disable t)
 (package! haml-mode    :disable t)
 (package! lsp          :disable t)
 (package! powerline    :disable t)

@@ -26,6 +26,10 @@
 
   (python-flymake-command '("flake8" "-"))
 
+  (map! :localleader :map python-base-mode-map
+        (:prefix-map ("t" . "test")
+         :desc "Test File" "f" #'python-pytest-file))
+
   :init
 
   (comment
