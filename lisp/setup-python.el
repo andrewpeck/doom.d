@@ -25,11 +25,6 @@
   (python-shell-dedicated 'buffer)
 
   (python-flymake-command '("flake8" "-"))
-
-  (map! :localleader :map python-base-mode-map
-        (:prefix-map ("t" . "test")
-         :desc "Test File" "f" #'python-pytest-file))
-
   :init
 
   (comment
@@ -58,6 +53,10 @@
       (warn "mypy not found! please install it")))
 
   :config
+
+  (map! :localleader :map (python-mode-map python-ts-mode-map)
+        (:prefix ("t" . "test")
+         :desc "Test File" "f" #'python-pytest-file))
 
   (my/check-python-tooling)
 
