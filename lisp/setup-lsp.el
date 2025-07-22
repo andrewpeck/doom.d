@@ -74,6 +74,8 @@
 
   :config
 
+  (add-hook 'python-ts-mode-hook 'eglot-ensure)
+
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode)
                  "basedpyright-langserver" "--stdio"))
