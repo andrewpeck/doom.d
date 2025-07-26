@@ -746,7 +746,6 @@ help instead of keeping it open."
 ;;------------------------------------------------------------------------------
 
 (use-package vim-tab-bar
-  :ensure t
   :commands vim-tab-bar-mode
   :init
   (vim-tab-bar-mode))
