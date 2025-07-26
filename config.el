@@ -67,7 +67,8 @@
 ;;------------------------------------------------------------------------------
 
 ;; clean the recent file list on idle
-(setq recentf-auto-cleanup 120)
+(after! recentf
+  (setq recentf-auto-cleanup 120))
 
 ;;------------------------------------------------------------------------------
 ;; Mode aliases
