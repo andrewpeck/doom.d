@@ -92,7 +92,7 @@ nil."
 
                  ;; mode-line-misc-info
                  ;; global-mode-string
-                 '("" battery-mode-line-string)
+                 ;; '("" battery-mode-line-string)
 
                  (if (eq major-mode 'pdf-view-mode)
                      (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages))
