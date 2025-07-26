@@ -1,9 +1,4 @@
 ;;; -*- lexical-binding: t; -*-
-;;; package --- Summary
-
-;;; package --- Commentary
-
-;;; package --- Code
 
 (require 'cl-lib)
 
