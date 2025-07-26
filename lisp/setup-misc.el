@@ -51,9 +51,7 @@
             (lambda () (setq-local devdocs-current-docs '("python~3.12"))))
 
   (add-hook 'emacs-lisp-mode-hook
-            (lambda () (setq-local devdocs-current-docs '("elisp"))))
-
-  )
+            (lambda () (setq-local devdocs-current-docs '("elisp")))))
 
 ;;------------------------------------------------------------------------------
 ;; gptel magit
