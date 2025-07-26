@@ -73,6 +73,19 @@
     (setq-local completion-at-point-functions (list #'cape-file #'cape-dabbrev)))
 
   ;;------------------------------------------------------------------------------
+  ;; Python
+  ;;------------------------------------------------------------------------------
+
+  (add-hook 'python-ts-mode-hook
+            (defun hook/set-python-base-capf ()
+              (setq-local completion-at-point-functions
+                          (list (cape-capf-super
+                                 'eglot-completion-at-point
+                                 'python-completion-at-point
+                                 'yasnippet-capf
+                                 'cape-dabbrev)))))
+
+  ;;------------------------------------------------------------------------------
   ;; Verilog
   ;;------------------------------------------------------------------------------
 
