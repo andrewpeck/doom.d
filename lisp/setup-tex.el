@@ -69,7 +69,6 @@
 
   :bind
 
-  ("TAB" . nil)
   ("M-<right>" . outline-demote)
   ("M-<left>" . outline-promote)
   ("C-c C-l" . tex-link-insert)
@@ -95,8 +94,8 @@
 
   :config
 
-  (define-key TeX-mode-map (kbd "M-q") 'ap/line-fill-paragraph)
 
+  (define-key TeX-mode-map (kbd "M-q") 'ap/line-fill-paragraph)
   (define-key TeX-mode-map (kbd "C-c C-l") #'tex-link-insert)
 
   (advice-add 'TeX-view :before
