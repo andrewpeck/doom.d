@@ -112,11 +112,14 @@
   (evil-define-key '(motion normal) 'global
     (kbd "C-M-=") #'re-indent-buffer)
 
+
   ;; ???
-  (evil-define-key '(motion normal) 'global
-    (kbd "<C-tab>") (lambda () (interactive) (outline-cycle)))
-  (evil-define-key '(motion normal) 'global
-    (kbd "C-<iso-lefttab>") (lambda () (interactive) (outline-hide-body)))
+  ;; (evil-define-key '(motion normal) 'global
+  ;;   (kbd "<C-tab>") (lambda () (interactive) (outline-cycle)))
+  ;; (evil-define-key '(motion normal) 'global
+  ;;   (kbd "<C-tab>") (lambda () (interactive) (outline-cycle)))
+  ;; (evil-define-key '(motion normal) 'global
+  ;;   (kbd "C-<iso-lefttab>") (lambda () (interactive) (outline-hide-body)))
 
   ;; Jump back and forth through files, time, and space with arrow keys
 
@@ -178,7 +181,8 @@
 
   ;; Tab in normal mode shouldn't indent
   (evil-define-key '(motion normal visual) 'global (kbd "TAB") 'nil)
-  (evil-define-key '(insert)               'global (kbd "TAB") 'indent-for-tab-command)
+
+  ;; (evil-define-key '(insert)               'global (kbd "TAB") 'indent-for-tab-command)
 
   ;; (define-key global-map (kbd "TAB") nil)
 
