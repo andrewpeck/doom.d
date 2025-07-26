@@ -49,7 +49,7 @@
   +all               ; catch all popups that start with an asterix
   +defaults)         ; default popup rules
  (vc-gutter +pretty) ; vcs diff in the fringe
- workspaces          ; tab emulation, persistence & separate workspaces
+ ;; workspaces          ; tab emulation, persistence & separate workspaces
 
  ;;emoji              ;
  ;;indent-guides      ; highlighted indent columns
