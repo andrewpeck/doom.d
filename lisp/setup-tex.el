@@ -81,7 +81,6 @@
   (LaTeX-mode-hook . variable-pitch-mode)
   (LaTeX-mode-hook . jinx-mode)
   (LaTeX-mode-hook . reftex-mode)
-  (LaTeX-mode-hook . hook/set-default-tex-master)
   (LaTeX-mode-hook . hook/modify-latex-hyphen-syntax)
 
   ;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
@@ -134,7 +133,7 @@
     (kbd "L") 'reftex-toc-set-max-level)
 
   (defvar default-tex-master nil)
-  (defun hook/set-default-tex-master ()
+  (defun my/set-default-tex-master ()
     (when (not TeX-master)
       (unless default-tex-master
         (latex/set-default-tex-master))
