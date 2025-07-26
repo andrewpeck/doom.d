@@ -1,4 +1,20 @@
 ;; -*- lexical-binding: t; -*-
+
+(use-package dired-preview
+  :after dired
+  ;; :init
+  ;; (dired-preview-global-mode nil)
+  :custom
+  (dired-preview-delay 0.01)
+  (dired-preview-ignored-extensions-regexp
+      (concat "\\."
+              "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a\\|flac\\|wav"
+              "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
+              "\\|iso\\|epub\\|pdf\\)\\'")))
+
+(use-package! dired-dragon
+  :after dired)
+
 ;;------------------------------------------------------------------------------
 ;; Casual Dired
 ;;------------------------------------------------------------------------------
@@ -93,6 +109,8 @@
       "Hide details by default in dired to reduce line noise."
       (dired-hide-details-mode 1)))
 
+  ;; (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
+
   ;; (add-hook! 'dired-mode-hook
   ;;   (defun hook/enable-dired-git-filter ()
   ;;     ""
@@ -101,12 +119,12 @@
   ;;         (dired-filter-mode)
   ;;         (dired-filter-by-git-ignored)))))
 
-  (add-hook! 'dired-after-readin-hook
-    (defun hook/dired-git-info-mode ()
-      "Enable dired git info on local files."
-      (unless (remote-host? default-directory)
-        (when (locate-dominating-file "." ".git")
-          (dired-git-info-auto-enable)))))
+  ;; (add-hook! 'dired-after-readin-hook
+  ;;   (defun hook/dired-git-info-mode ()
+  ;;     "Enable dired git info on local files."
+  ;;     (unless (remote-host? default-directory)
+  ;;       (when (locate-dominating-file "." ".git")
+  ;;         (dired-git-info-auto-enable)))))
 
   ;; Stolen from doom: Disable the prompt about whether I want to kill the Dired
   ;; buffer for a deleted directory. Of course I do!
