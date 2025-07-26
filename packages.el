@@ -79,6 +79,7 @@
 (package! p-search                :pin "38a66610a094d4026aaf7733148582375387fd99" :recipe (:host github :repo "zkry/p-search"))
 (package! plz                     :pin "981a4d09521ef59439713624702efcad996840a0")
 (package! poporg                  :pin "2c58d68c81ecca4140bf179f19ed153ec804b65a" :recipe (:host github :repo "QBobWatson/poporg"))
+(package! rainbow-delimiters      :pin "f40ece58df8b2f0fb6c8576b527755a552a5e763")
 (package! rainbow-mode            :pin "2e6b18609c2fdd1a2dc513937a64d276fd6cf24c")
 (package! scad-mode               :pin "1f5a2dd4d602aca0f4ceb3230f8d11107a9187fe")
 (package! screenshot              :pin "2770c0cfefe1cc09d55585f4f2f336a1b26e610e" :recipe (:host github :repo "tecosaur/screenshot"))
