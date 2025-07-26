@@ -177,7 +177,7 @@
 
           ("m" "Meeting" entry
            (file+headline "~/work/psiq/meetings.org" "Meetings")
-           "** %t %?\n - [ ] " :prepend t)
+           "** %t %?\n- [ ] " :prepend t)
 
           ("l" "Log" entry
            (file+headline "~/work/todo/log.org" "Log")
