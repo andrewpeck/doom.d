@@ -27,10 +27,20 @@
   (python-flymake-command '("flake8" "-"))
   :init
 
-  (comment
-   (add-hook 'python-base-mode-hook #'apheleia-mode))
+  ;;; turn on apheleia
+  (comment (add-hook 'python-base-mode-hook #'apheleia-mode))
 
+  ;;; invoke python ts mode
   (add-hook 'python-mode-hook #'python-ts-mode)
+
+  ;;; python + eglot
+  (add-hook 'python-ts-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook 'eglot-ensure)
+
+  (add-hook 'python-base-mode-hook
+            (defun hook/configure-checkers ()
+              (setq-local flycheck-enabled-checkers
+                          '(python-ruff python-pyright) )))
 
   (add-hook 'python-base-mode-hook
             (defun hook/disable-eldoc-mode () (eldoc-mode nil)))
@@ -53,6 +63,8 @@
       (warn "mypy not found! please install it")))
 
   :config
+
+  (define-key python-ts-mode-map (kbd "C-c C-e") nil)
 
   (map! :localleader :map (python-mode-map python-ts-mode-map)
         (:prefix ("t" . "test")
