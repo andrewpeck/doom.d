@@ -16,6 +16,12 @@
   ;; doom has project.el calling projectile, just revert to original value
   (setq project-find-functions (list #'project-try-vc))
 
+  (defun my/project-discover-all ()
+    "Search the work dir and reregister all directories."
+    (interactive)
+    (project-forget-zombie-projects)
+    (project-remember-projects-under "~/work"))
+
   ;; use project find file instead of projectile;
   ;; caching is more trouble than it is worth
   (map! :leader :desc "Find file in project" "SPC" #'project-find-file)
