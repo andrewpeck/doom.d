@@ -3,6 +3,11 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! project
+  :init
+
+  ;; use project find file instead of projectile;
+  ;; caching is more trouble than it is worth
+  (map! :leader :desc "Find file in project" "SPC" #'project-find-file)
 
   :config
 
@@ -21,10 +26,6 @@
     (interactive)
     (project-forget-zombie-projects)
     (project-remember-projects-under "~/work"))
-
-  ;; use project find file instead of projectile;
-  ;; caching is more trouble than it is worth
-  (map! :leader :desc "Find file in project" "SPC" #'project-find-file)
 
   ;; doom has project.el calling projectile, just revert to original value
   (setq project-find-functions (list #'project-try-vc))
@@ -63,12 +64,6 @@
   (map! :leader
         (:prefix "g" :desc "Browse Projectile Homepage" "oH"
                  'project-vc-browse-at-remote))
-
-  ;; use project.el instead of projectile
-  ;; avoid caching pain
-  (advice-add 'projectile-find-file
-              :override
-              (lambda (_) (project-find-file)))
 
   ;; (advice-add 'projectile-find-file :override
   ;;             (lambda (&optional _)
