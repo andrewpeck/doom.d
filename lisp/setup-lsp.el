@@ -79,6 +79,7 @@
                  "basedpyright-langserver" "--stdio"))
 
   (defun emacs-lsp-booster-install ()
+    "Install LSP booster with cargo."
     (interactive)
     (compile "cargo install --git https://github.com/blahgeek/emacs-lsp-booster"))
 
