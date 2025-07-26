@@ -126,6 +126,7 @@
 
  :lang
 
+ common-lisp
  (cc +lsp)                     ; C/C++/Obj-C madness
  (clojure +lsp)                ; java with a lisp
  (json)                        ; json, uhg
