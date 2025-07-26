@@ -45,10 +45,10 @@
               :after
               #'projectile-discover-projects-in-search-path)
 
-  (defun projectile-vc-browse-at-remote (&optional arg)
+  (defun project-vc-browse-at-remote (&optional arg)
     "Open in browser the VC repository for the selected project."
     (interactive "P")
-    (let ((projects (projectile-relevant-known-projects)))
+    (let ((projects (project-known-project-roots)))
       (if projects
           (projectile-completing-read
            "Open Project Git remote: " projects
@@ -62,7 +62,7 @@
 
   (map! :leader
         (:prefix "g" :desc "Browse Projectile Homepage" "oH"
-                 #'projectile-vc-browse-at-remote))
+                 'project-vc-browse-at-remote))
 
   ;; use project.el instead of projectile
   ;; avoid caching pain
