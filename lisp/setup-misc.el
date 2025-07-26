@@ -736,6 +736,7 @@ help instead of keeping it open."
 ;;------------------------------------------------------------------------------
 
 (use-package! drag-stuff
+  :after (:any text-mode prog-mode)
   :commands (drag-stuff-define-keys)
   :init
   (drag-stuff-define-keys))
