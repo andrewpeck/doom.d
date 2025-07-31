@@ -336,14 +336,14 @@ _h_ decrease width    _l_ increase width
 
                   is-conflict)))
 
-  ;; (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
-  ;; (add-to-list 'apheleia-formatters '(isort "isort"  "-ca" "--stdout" "-"))
+  (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
+  (add-to-list 'apheleia-formatters '(python-mode isort "isort"  "-ca" "--stdout" "-"))
 
-  ;; (add-to-list 'apheleia-mode-alist '(python-mode ruff))
-  ;; (add-to-list 'apheleia-mode-alist '(python-ts-mode ruff))
+  (add-to-list 'apheleia-mode-alist '(python-mode . ruff))
+  (add-to-list 'apheleia-mode-alist '(python-ts-mode . ruff))
 
-  (add-to-list 'apheleia-mode-alist '(python-mode autopep8))
-  (add-to-list 'apheleia-mode-alist '(python-ts-mode autopep8)))
+  (add-to-list 'apheleia-mode-alist '(python-mode . autopep8))
+  (add-to-list 'apheleia-mode-alist '(python-ts-mode . autopep8)))
 
 ;;------------------------------------------------------------------------------
 ;; PDF View + Image Mode
