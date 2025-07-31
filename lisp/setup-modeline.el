@@ -84,7 +84,7 @@ nil."
                  (if (or defining-kbd-macro executing-kbd-macro)
                      (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
-                 (when buffer-env-active "ׯ ")
+                 (when buffer-env-active " ")
 
                  ;; replace (eglot--mode-line-format)
                  (when (and (fboundp #'eglot-managed-p)
