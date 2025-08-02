@@ -40,7 +40,14 @@
   (add-hook 'python-base-mode-hook
             (defun hook/configure-checkers ()
               (setq-local flycheck-enabled-checkers
-                          '(python-ruff python-pyright) )))
+                          '(python-ruff python-flake8 python-mypy))
+              (setq-local flycheck-disabled-checkers
+                          '(python-pylint))))
+
+  (flycheck-add-next-checker 'python-flake8 (cons t 'python-ruff))
+  (flycheck-add-next-checker 'python-ruff (cons t 'python-mypy))
+
+  ;; (flycheck-add-next-checker 'python-ruff (cons t 'python-pyright))
 
   (add-hook 'python-base-mode-hook
             (defun hook/disable-eldoc-mode () (eldoc-mode nil)))
@@ -61,6 +68,24 @@
       (warn "pyright/basedpyright not found! please install it"))
     (unless (executable-find "mypy")
       (warn "mypy not found! please install it")))
+
+  (defun uv-install (packages)
+    "Use uv pip to install a list of PACKAGES or a single package.
+
+e.g. (uv-install \\='(\"mypy\" \"flake8\"))
+
+or for a single package (uv-install \"mypy\")
+"
+    (let ((pkg-str
+           (cond
+            ((stringp packages) packages)
+            ((listp packages) (string-join packages " "))
+            (t (error "Unrecognized input to uv-install.")))))
+      (compile (concat "uv pip install " pkg-str))))
+
+  (defun my/setup-python-tooling ()
+    (interactive)
+    (uv-install '("mypy" "flake8")))
 
   :config
 
