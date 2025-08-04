@@ -13,14 +13,13 @@
 ;;     0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
 
 (use-package! org
-  :defer t
   :init
 
   (add-hook 'org-mode-hook 'org-appear-mode)
   (add-hook 'org-mode-hook (defun hook/org-set-user-name () (setq-local user-full-name "A.P.")))
   (add-hook 'org-mode-hook (defun hook/org-disable-diff-hl-mode () (diff-hl-mode -1))) ;; diff-hl just makes line noise for org mode
   (add-hook 'org-mode-hook (defun hook/org-set-scroll-margin () (setq-local scroll-margin 1)))
-  (add-hook 'org-mode-hook (defun hook/org-auto-fill-mode () (auto-fill-mode t)))
+  ;; (add-hook 'org-mode-hook (defun hook/org-auto-fill-mode () (auto-fill-mode t)))
   (add-hook 'org-mode-hook (defun hook/org-enable-evil-org-mode () (evil-org-mode)))
   (add-hook 'org-mode-hook (defun hook/org-enable-word-wrap-mode () (+word-wrap-mode)))
   ;; (add-hook 'org-mode-hook (defun hook/org-enable-auto-format () (+org-enable-auto-reformat-tables-h)))
@@ -571,7 +570,7 @@ Updates overdue tasks to be due today."
   ;; Sorting
   ;;------------------------------------------------------------------------------
 
-  (defun +org-sort-all-org-entries ()
+  (defun my/org-sort-all-org-entries ()
     ""
     (interactive)
     (let ((fun #'(lambda nil
@@ -585,25 +584,25 @@ Updates overdue tasks to be due today."
 If KEY, use it; otherwise read key interactively."
     (interactive)
     (cl-macrolet ((moves-p (form)
-                           `(let ((pos-before (point)))
-                              ,form
-                              (/= pos-before (point)))))
+                    `(let ((pos-before (point)))
+                       ,form
+                       (/= pos-before (point)))))
       (cl-labels ((sort-tree
-                   () (cl-loop do (when (children-p)
-                                    (save-excursion
-                                      (outline-next-heading)
-                                      (sort-tree))
-                                    (org-sort-entries nil key))
-                               while (moves-p (org-forward-heading-same-level 1))))
+                    () (cl-loop do (when (children-p)
+                                     (save-excursion
+                                       (outline-next-heading)
+                                       (sort-tree))
+                                     (org-sort-entries nil key))
+                                while (moves-p (org-forward-heading-same-level 1))))
                   (children-p (&optional _)
-                              ;; Return non-nil if entry at point has child headings.
-                              ;; Only children are considered, not other descendants.
-                              ;; Code from `org-cycle-internal-local'.
-                              (save-excursion
-                                (let ((level (funcall outline-level)))
-                                  (outline-next-heading)
-                                  (and (org-at-heading-p t)
-                                       (> (funcall outline-level) level))))))
+                    ;; Return non-nil if entry at point has child headings.
+                    ;; Only children are considered, not other descendants.
+                    ;; Code from `org-cycle-internal-local'.
+                    (save-excursion
+                      (let ((level (funcall outline-level)))
+                        (outline-next-heading)
+                        (and (org-at-heading-p t)
+                             (> (funcall outline-level) level))))))
         (save-excursion
           (save-restriction
             (widen)
@@ -744,19 +743,19 @@ except uses heading titles instead of random numbers."
     "Return new reference for DATUM that is unique in CACHE."
     (cl-macrolet
         ((inc-suffixf (place)
-                      `(progn
-                         (string-match (rx bos
-                                           (minimal-match (group (1+ anything)))
-                                           (optional "--" (group (1+ digit)))
-                                           eos)
-                                       ,place)
-                         ;; HACK: `s1' instead of a gensym.
-                         (-let* (((s1 suffix) (list (match-string 1 ,place)
-                                                    (match-string 2 ,place)))
-                                 (suffix (if suffix
-                                             (string-to-number suffix)
-                                           0)))
-                           (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
+           `(progn
+              (string-match (rx bos
+                                (minimal-match (group (1+ anything)))
+                                (optional "--" (group (1+ digit)))
+                                eos)
+                            ,place)
+              ;; HACK: `s1' instead of a gensym.
+              (-let* (((s1 suffix) (list (match-string 1 ,place)
+                                         (match-string 2 ,place)))
+                      (suffix (if suffix
+                                  (string-to-number suffix)
+                                0)))
+                (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
       (let* ((title (org-element-property :raw-value datum))
              (ref (url-hexify-string (substring-no-properties title)))
              (parent (org-element-property :parent datum)))
@@ -1065,9 +1064,14 @@ local and remote servers."
 ;;------------------------------------------------------------------------------
 
 (use-package! org-web-tools
-  :defer-incrementally t
-
   :after org
+  :commands (org-web-tools--get-url
+             www-get-page-title
+             org-capture-url
+             org-link-parse
+             org-web-tools--html-title
+             www-get-page-title org-capture-url
+             org-link->markdown)
   :init
 
   ;; supress warning of obsolete generalized variable in org-web-tools
@@ -1075,18 +1079,141 @@ local and remote servers."
   ;; for 29.1
   (cl-remprop 'buffer-substring 'byte-obsolete-generalized-variable)
 
-  :config
+  (defun org-shorten-url-by-title ()
+    "Use title of URL at point as link name."
+    (interactive)
+    (let* ((org-link-pos (org-in-regexp org-link-any-re))
+           (beg (car org-link-pos))
+           (end (cdr org-link-pos))
+           (url (buffer-substring-no-properties beg end))
+           (desc (www-get-page-title url)))
+      (when desc
+        (delete-region beg end)
+        (org-insert-link nil url desc))))
 
-  (defun org-web-tools--html-title (html)
-    "Return title of HTML page, or nil if it has none.
-Uses the `dom' library."
-    ;; Based on `eww-readable'
-    (let* ((dom (with-temp-buffer
-                  (insert html)
-                  (libxml-parse-html-region (point-min) (point-max))))
-           (title (cl-caddr (car (dom-by-tag dom 'title)))))
-      (when title
-        (org-web-tools--cleanup-title title))))
+  (defun md-shorten-url-by-title ()
+    (interactive)
+    (org-shorten-url-by-title)
+    (org-link->markdown))
+
+  (defun org-capture-url-from-clipboard (_)
+    "Capture a URL from clipboard and paste it as an org link"
+    (interactive)
+    (org-capture-url (current-kill 0)))
+
+  (defun my/url->org ()
+    "Convert the URL at point into an Org mode formatted link. The
+  title of the page is retrieved from the web page"
+    (interactive)
+    (let* ((link (thing-at-point 'url))
+           (bounds (bounds-of-thing-at-point 'url))
+           (start (car bounds))
+           (end   (cdr bounds))
+           (description
+            (if (org-url-p link)
+                (www-get-page-title link) link)))
+      (when (and link description start end)
+        (delete-region start end)
+        (org-insert-link nil link description))))
+
+  (defun my/url->md ()
+    "Convert the URL at point into an md mode formatted link. The
+  title of the page is retrieved from the web page"
+    (interactive)
+    (ap/url->org)
+    (org-link->markdown))
+
+  (defun org-shorten-indico-url ()
+    "Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
+and shortens it into an org mode link consisting of just `some file`"
+    (interactive)
+    (let* ((org-link-pos (org-in-regexp org-link-any-re))
+           (beg (car org-link-pos))
+           (end (cdr org-link-pos))
+           (url (buffer-substring-no-properties beg end))
+           (desc (unless (string-blank-p url) url))
+           (desc (replace-regexp-in-string  "^.*\/" "" desc))
+           (desc (replace-regexp-in-string  "_" " " desc))
+           (desc (replace-regexp-in-string  "\%20" " " desc))
+           (desc (replace-regexp-in-string  "\s+" " " desc))
+           (desc (file-name-sans-extension desc)))
+
+      (when desc
+        (delete-region beg end)
+        (org-insert-link nil url desc))))
+
+  (defun md-shorten-indico-url ()
+    (interactive)
+    (org-shorten-indico-link)
+    (org-link->markdown))
+
+  ;; Functions to Convert to/from org / markdown links
+
+  (defun org-link->markdown ()
+    (interactive)
+    (let* ((ctx (org-in-regexp org-link-any-re))
+           (beg (car ctx)) (end (cdr ctx))
+           (link-txt (buffer-substring beg end))
+           (parsed (unless (string-blank-p link-txt)
+                     (seq-map
+                      ;; escape square brackets and parens, see:
+                      ;; https://emacs.stackexchange.com/questions/68814/escape-all-square-brackets-with-replace-regexp-in-string
+                      (lambda (m)
+                        (replace-regexp-in-string "\\[\\|\\]\\|(\\|)" "\\\\\\&" m))
+                      (org-link-parse link-txt)))))
+      (when parsed
+        (delete-region beg end)
+        (insert (apply 'format "[%s](%s)" (reverse parsed))))))
+
+  (defun markdown-link->org ()
+    (interactive)
+    (require 'markdown)
+    (when (markdown-link-p)
+      (let* ((l (markdown-link-at-pos (point)))
+             (desc (nth 2 l))
+             (url (nth 3 l)))
+        (markdown-kill-thing-at-point)
+        (org-insert-link nil url desc))))
+
+  ;; from
+  ;; (https://github.com/SqrtMinusOne/dotfiles/blob/4b176a5bb1a5e20a7fdd7398b74df79701267a7e/.emacs.d/init.el)
+  (defun org-link-copy (&optional arg)
+    "Extract URL from org-mode link and add it to kill ring."
+    (interactive "P")
+    (let* ((link (org-element-lineage (org-element-context) '(link) t))
+           (type (org-element-property :type link))
+           (url (org-element-property :path link))
+           (url (concat type ":" url)))
+      (kill-new url)
+      (message (concat "Copied URL: " url))))
+
+  (defun org-remove-link-and-trash-linked-file ()
+    "Remove `org-mode' link at point and trash linked file."
+    (interactive)
+    (let* ((link (org-element-context))
+           (path (org-element-property :path link)))
+      (move-file-to-trash path)
+      (delete-region (org-element-property :begin link)
+                     (org-element-property :end link))))
+
+  ;;------------------------------------------------------------------------------
+  ;; conversions
+  ;;------------------------------------------------------------------------------
+
+  ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
+  (defun org-copy-region-as-markdown ()
+    "Copy the region (in Org) to the system clipboard as Markdown."
+    (interactive)
+    (if (use-region-p)
+        (let* ((region
+                (buffer-substring-no-properties
+                 (region-beginning)
+                 (region-end)))
+               (markdown
+                (org-export-string-as region 'md t '(:with-toc nil))))
+          (gui-set-selection 'CLIPBOARD markdown))))
+
+  :config
 
   (defun org-web-tools--get-url (url)
     "Return content for URL as string.
@@ -1133,78 +1260,6 @@ Uses the `dom' library."
   (defun org-capture-url (url)
     (insert (org-insert-link nil url (www-get-page-title url))))
 
-  (defun org-capture-url-from-clipboard (_)
-    "Capture a URL from clipboard and paste it as an org link"
-    (interactive)
-    (org-capture-url (current-kill 0)))
-
-  (defun ap/url->org ()
-    "Convert the URL at point into an Org mode formatted link. The
-  title of the page is retrieved from the web page"
-    (interactive)
-    (let* ((link (thing-at-point 'url))
-           (bounds (bounds-of-thing-at-point 'url))
-           (start (car bounds))
-           (end   (cdr bounds))
-           (description
-            (if (org-url-p link)
-                (www-get-page-title link) link)))
-      (when (and link description start end)
-        (delete-region start end)
-        (org-insert-link nil link description))))
-
-  (defun ap/url->md ()
-    "Convert the URL at point into an md mode formatted link. The
-  title of the page is retrieved from the web page"
-    (interactive)
-    (ap/url->org)
-    (org-link->markdown))
-
-  (defun md-shorten-indico-url ()
-    (org-shorten-indico-link)
-    (org-link->markdown))
-
-  (defun org-shorten-url-by-title ()
-    ""
-    (interactive)
-    (let* ((org-link-pos (org-in-regexp org-link-any-re))
-           (beg (car org-link-pos))
-           (end (cdr org-link-pos))
-           (url (buffer-substring-no-properties beg end))
-           (desc (www-get-page-title url)))
-      (when desc
-        (delete-region beg end)
-        (org-insert-link nil url desc))))
-
-  (defun md-shorten-url-by-title ()
-    (interactive)
-    (org-shorten-url-by-title)
-    (org-link->markdown))
-
-  ;;;###autoload
-  (defun org-shorten-indico-url ()
-    "Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
-and shortens it into an org mode link consisting of just `some file`"
-
-    (interactive)
-
-    (let* ((org-link-pos (org-in-regexp org-link-any-re))
-           (beg (car org-link-pos))
-           (end (cdr org-link-pos))
-           (url (buffer-substring-no-properties beg end))
-           (desc (unless (string-blank-p url) url))
-           (desc (replace-regexp-in-string  "^.*\/" "" desc))
-           (desc (replace-regexp-in-string  "_" " " desc))
-           (desc (replace-regexp-in-string  "\%20" " " desc))
-           (desc (replace-regexp-in-string  "\s+" " " desc))
-           (desc (file-name-sans-extension desc)))
-
-      (when desc
-        (delete-region beg end)
-        (org-insert-link nil url desc))))
-
-  ;; Functions to Convert to/from org / markdown links
-
   ;; taken from:
   ;; https://github.com/agzam/.doom.d/blob/main/modules/custom/org/autoload/custom.el#L181-L214
   (defun org-link-parse (link)
@@ -1215,70 +1270,7 @@ and shortens it into an org mode link consisting of just `some file`"
          link)
         (list (match-string 1 link)
               (match-string 2 link))
-      (error "Cannot parse %s as Org link" link)))
-
-  (defun org-link->markdown ()
-    (interactive)
-    (let* ((ctx (org-in-regexp org-link-any-re))
-           (beg (car ctx)) (end (cdr ctx))
-           (link-txt (buffer-substring beg end))
-           (parsed (unless (string-blank-p link-txt)
-                     (seq-map
-                      ;; escape square brackets and parens, see:
-                      ;; https://emacs.stackexchange.com/questions/68814/escape-all-square-brackets-with-replace-regexp-in-string
-                      (lambda (m)
-                        (replace-regexp-in-string "\\[\\|\\]\\|(\\|)" "\\\\\\&" m))
-                      (org-link-parse link-txt)))))
-      (when parsed
-        (delete-region beg end)
-        (insert (apply 'format "[%s](%s)" (reverse parsed))))))
-
-  (defun markdown-link->org ()
-    (interactive)
-    (when (markdown-link-p)
-      (let* ((l (markdown-link-at-pos (point)))
-             (desc (nth 2 l))
-             (url (nth 3 l)))
-        (markdown-kill-thing-at-point)
-        (org-insert-link nil url desc))))
-
-  ;; from
-  ;; (https://github.com/SqrtMinusOne/dotfiles/blob/4b176a5bb1a5e20a7fdd7398b74df79701267a7e/.emacs.d/init.el)
-  (defun org-link-copy (&optional arg)
-    "Extract URL from org-mode link and add it to kill ring."
-    (interactive "P")
-    (let* ((link (org-element-lineage (org-element-context) '(link) t))
-           (type (org-element-property :type link))
-           (url (org-element-property :path link))
-           (url (concat type ":" url)))
-      (kill-new url)
-      (message (concat "Copied URL: " url))))
-
-  (defun org-remove-link-and-trash-linked-file ()
-    "Remove `org-mode' link at point and trash linked file."
-    (interactive)
-    (let* ((link (org-element-context))
-           (path (org-element-property :path link)))
-      (move-file-to-trash path)
-      (delete-region (org-element-property :begin link)
-                     (org-element-property :end link))))
-
-  ;;------------------------------------------------------------------------------
-  ;; conversions
-  ;;------------------------------------------------------------------------------
-
-  ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
-  (defun org-copy-region-as-markdown ()
-    "Copy the region (in Org) to the system clipboard as Markdown."
-    (interactive)
-    (if (use-region-p)
-        (let* ((region
-                (buffer-substring-no-properties
-                 (region-beginning)
-                 (region-end)))
-               (markdown
-                (org-export-string-as region 'md t '(:with-toc nil))))
-          (gui-set-selection 'CLIPBOARD markdown)))))
+      (error "Cannot parse %s as Org link" link))))
 
 ;;------------------------------------------------------------------------------
 ;; Latex
