@@ -4,6 +4,15 @@
 ;; Utility Functions
 ;;------------------------------------------------------------------------------
 
+
+(defun scratch-new ()
+  "Create a new empty scratch buffer."
+  (interactive)
+  (tab-new)
+  (let ((xbuf (generate-new-buffer "scratch")))
+    (switch-to-buffer xbuf)
+    (funcall initial-major-mode) xbuf))
+
 (defun byte-compile-config ()
   (interactive)
   (byte-recompile-directory (expand-file-name "~/.doom.d") 0))
