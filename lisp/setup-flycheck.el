@@ -3,7 +3,11 @@
 (use-package! flymake
   :when (modulep! :checkers syntax +flymake)
   :config
-  (map! :leader :prefix "o" :desc "List flymake errors" "l"  #'flymake-show-diagnostics-buffer))
+  (map! :leader :prefix "o" :desc "List flymake errors" "l"  #'consult-flymake)
+
+  :custom
+
+  (setq flymake-margin-indicator-position 'right-margin))
 
 ;;------------------------------------------------------------------------------
 ;; Flycheck
