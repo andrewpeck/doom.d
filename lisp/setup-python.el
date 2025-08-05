@@ -40,7 +40,9 @@
   (add-hook 'python-base-mode-hook
             (defun hook/configure-checkers ()
               (setq-local flycheck-enabled-checkers
-                          '(python-ruff python-flake8 python-mypy))
+                          (list (when (executable-find "ruff") 'python-ruff)
+                                (when (executable-find "flake8") 'python-flake8)
+                                (when (executable-find "mypy") 'python-mypy)))
               (setq-local flycheck-disabled-checkers
                           '(python-pylint))))
 
@@ -85,7 +87,16 @@ or for a single package (uv-install \"mypy\")
 
   (defun my/setup-python-tooling ()
     (interactive)
-    (uv-install '("mypy" "flake8")))
+
+    (unless (getenv "VIRTUAL_ENV")
+      (when (yes-or-no-p "Virtual environment not active. Do you want to create want at project root?")
+        (when (shell-command (concat "uv venv --python 3.12 " (doom-project-root) ".venv"))
+          (buffer-env-update))))
+
+    (when (getenv "VIRTUAL_ENV")
+      (uv-install '("mypy" "flake8")))
+
+    (my/check-python-tooling))
 
   :config
 
