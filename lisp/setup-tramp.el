@@ -54,9 +54,9 @@
   ;;                     (if pc
   ;;                         (project-root pc))))))
 
-  (advice-add 'projectile-project-root :before-while
-              (lambda (&optional dir)
-                (not (remote-host? (or dir default-directory)))))
+  ;; (advice-add 'projectile-project-root :before-while
+  ;;             (lambda (&optional dir)
+  ;;               (not (remote-host? (or dir default-directory)))))
 
   ;; HACK: avoid vc-refresh when on tramp
   (advice-add 'vc-refresh-state :before-while

@@ -406,8 +406,8 @@ _h_ decrease width    _l_ increase width
 
   (defun affe-find-home    () (interactive) (affe-find "~/"))
   (defun affe-find-work    () (interactive) (affe-find "~/work"))
-  (defun affe-find-project () (interactive) (affe-find (projectile-project-root)))
-  (defun affe-grep-project () (interactive) (affe-grep (projectile-project-root)))
+  (defun affe-find-project () (interactive) (affe-find (project-root-dir)))
+  (defun affe-grep-project () (interactive) (affe-grep (project-root-dir)))
   (defun affe-find-notes   () (interactive) (affe-find "~/notes"))
   (defun affe-find-dotfile () (interactive) (affe-find "~/dotfiles"))
 

@@ -4,6 +4,7 @@
 (package! pyenv-mode   :disable t)
 (package! gptel-quick   :disable t)
 (package! pipenv        :disable t)
+(package! projectile   :disable t)
 (package! pip-requirements :disable t)
 (package! pyvenv       :disable t)
 (package! pyenv        :disable t)

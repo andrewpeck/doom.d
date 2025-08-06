@@ -14,6 +14,18 @@
 ;; https://github.com/danilevy1212/doom
 ;; https://github.com/jishnusen/emacs-config
 
+(defun project-root-dir (&rest _)
+  "Returns root directory of current project."
+  (when-let ((proj (project-current)))
+    (project-root proj)))
+
+(defun projectile-project-root (&rest _)
+  (project-root-dir))
+
+(defun doom-project-root (&rest _)
+  (project-root-dir))
+
+
 ;;------------------------------------------------------------------------------
 ;; Packages & Loads
 ;;------------------------------------------------------------------------------

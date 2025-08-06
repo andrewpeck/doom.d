@@ -1400,3 +1400,58 @@ lines are selected, or the NxM dimensions of a block selection.")
 ;;          (program (or ext-handler "xdg-open")))
 ;;     (message (format  "Opening %s in %s" file program))
 ;;     (call-process program nil 0 nil file)))
+
+
+(comment
+ (use-package! projectile
+   :after project
+   :config
+
+   (setq projectile-project-search-path '(("~/work" . 2)))
+   (add-to-list 'projectile-ignored-projects "~/Downloads")
+
+   ;; re-add projects after clearing
+   (advice-add 'projectile-cleanup-known-projects
+               :after
+               #'projectile-discover-projects-in-search-path)
+
+   ;; (advice-add 'projectile-find-file :override
+   ;;             (lambda (&optional _)
+   ;;               (call-interactively #'project-find-file)))
+
+   ;; (defun projectile-project-root (&optional _)
+   ;;   (let ((pc (project-current)))
+   ;;     (when pc (project-root pc))))
+
+   ;; (defun projectile-switch-project (&optional _)
+   ;;   (interactive)
+   ;;   (call-interactively #'project-switch-project))
+
+   ;; Due to a very obnoxious bug it seems that if I am on a host system where
+   ;; the fd executable is fdfind but connecting to a remote-system where fd is
+   ;; found as fd, emacs will try to execute fdfind on the remote system;
+   ;; should report this
+   (setq projectile-fd-executable "fdfind")
+
+   (add-hook! 'find-file-hook
+     (when (remote-host? default-directory)
+       (setq-local projectile-git-use-fd nil)))
+
+   (setq projectile-sort-order 'recently-active)
+
+  ;; https://github.com/bbatsov/projectile/issues/1232
+  ;; don't try to retrieve project name via projectile on remote dirs
+  ;; slows down tramp really hard
+  ;; (advice-add 'projectile-project-root
+  ;;             :before-until
+  ;;             (lambda (&optional _)
+  ;;               (if (remote-host? default-directory)
+  ;;                   (let ((pc (project-current)))
+  ;;                     (if pc
+  ;;                         (project-root pc))))))
+
+  ;; (advice-add 'projectile-project-root :before-while
+  ;;             (lambda (&optional dir)
+  ;;               (not (remote-host? (or dir default-directory)))))
+
+   ))
