@@ -35,6 +35,9 @@
                    ". It is probably set in doom env and should be removed."))
   (setenv "VIRTUAL_ENV" nil))
 
+;; something was setting this to C
+(setq current-locale-environment "en_US.UTF-8")
+
 (setq copyright-names-regexp ".*Andrew Peck*")
 
 (add-load-path! "lisp/")
