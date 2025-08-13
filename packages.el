@@ -86,7 +86,7 @@
 (package! screenshot              :pin "2770c0cfefe1cc09d55585f4f2f336a1b26e610e" :recipe (:host github :repo "tecosaur/screenshot"))
 (package! standard-themes         :pin "bf3a0a48443118dbb95596b987c22a5a5796685f" :recipe (:host github :repo "protesilaos/standard-themes"))
 (package! svg-tag-mode            :pin "13e888b8bd9a0664d060149a44a751b2113331b6" :recipe (:host github :repo "rougier/svg-tag-mode"))
-(package! system-install.el       :pin "04412b40c23a926162006c01a3d668c66e1ca098" :recipe (:host github :repo "andrewpeck/system-install.el"))
+(package! system-install.el       :pin "b9ce1426f76d0deaff455b486a6b66516cb9adb3" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org                 :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! uniline                 :pin "ad2c970cb1b5fcfca477b74ece597ca674d31f4f" :recipe (:host github :repo "tbanel/uniline"))
