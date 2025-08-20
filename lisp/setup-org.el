@@ -1020,6 +1020,15 @@ local and remote servers."
   (define-key org-mode-map (kbd "RET")
               'scimax/org-return)
 
+  (defun org-toggle-checkbox-presence ()
+    "Toggle the presence of org list checkboxes."
+    (interactive)
+    (let ((current-prefix-arg '(4)))
+      (call-interactively #'org-toggle-checkbox)))
+
+  (define-key org-mode-map (kbd "C-c x")
+              'org-toggle-checkbox-presence)
+
   ;; HACK: patch issue with eldoc help
   ;; sometimes what gets passed into this function has nil values, e.g.
   ;; org-babel-merge-params(((:session . "none") (:results . "replace") (:exports . "code") (:cache . "no") (:noweb . "no") (:hlines . "no") (:tangle . "no")) nil nil nil ((:session . "test") (:resulhk))) ;;
