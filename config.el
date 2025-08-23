@@ -25,6 +25,23 @@
 (defun doom-project-root (&rest _)
   (project-root-dir))
 
+;;------------------------------------------------------------------------------
+;; Shhh...
+;;------------------------------------------------------------------------------
+
+(defun advise-inhibit-messages (fn)
+  "Pass in a function name, that function will be advised to supress its output.
+Useful if you have an noisy command you want to keep quiet.
+
+Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
+
+  (advice-add fn :around
+              (lambda (orig-fun &rest args)
+                (let ((inhibit-message t))
+                  (apply orig-fun args)))))
+
+(advise-inhibit-messages 'recentf-cleanup)
+(advise-inhibit-messages 'eglot)
 
 ;;------------------------------------------------------------------------------
 ;; Packages & Loads
