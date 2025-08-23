@@ -73,7 +73,10 @@
 (defun xdg-open-file ()
   "Open the current file however the OS would."
   (interactive)
-  (xdg-do (buffer-file-name)))
+  (when (buffer-file-name)
+    (xdg-do (buffer-file-name)))
+  (when (eq major-mode 'dired-mode)
+    (xdg-do default-directory)))
 
 (defun org-fill-paragraph-t ()
   (interactive)
