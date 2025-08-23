@@ -14,8 +14,6 @@
 ;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
-(setenv "LSP_USE_PLISTS" "true")
-
 (defmacro comment (&rest _) nil)
 
 ;; Start emacs in full screen by default
