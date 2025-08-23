@@ -273,8 +273,8 @@
   (map! :leader :prefix "n" :desc "Narrow to Lines"   "l" #'consult-focus-lines)
 
   (map! :leader :prefix "s" :desc "SVG Tag Mode"         "vg" #'svg-tag-mode)
-  (map! :localleader :map org-mode-map :prefix "m" :desc "Latexify"             "lp" #'org-latex-preview-all :map org-mode-map)
-  (map! :localleader :map org-mode-map :prefix "m" :desc "De-latexify"          "lP" #'org-latex-preview-clear :map org-mode-map)
+  (map! :localleader :map org-mode-map :desc "Latexify"    "lp" #'org-latex-preview-all :map org-mode-map)
+  (map! :localleader :map org-mode-map :desc "De-latexify" "lP" #'org-latex-preview-clear :map org-mode-map)
 
   (map! :localleader :map dired-mode-map :prefix "m" :desc "Dired Filter Mode"    "f"  #'dired-filter-mode :map dired-mode-map)
 
