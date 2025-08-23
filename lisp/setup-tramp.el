@@ -43,21 +43,6 @@
   ;; tramp-own-remote-path preserves the path value, which can be used to update tramp-remote-path.
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
-  ;; https://github.com/bbatsov/projectile/issues/1232
-  ;; don't try to retrieve project name via projectile on remote dirs
-  ;; slows down tramp really hard
-  ;; (advice-add 'projectile-project-root
-  ;;             :before-until
-  ;;             (lambda (&optional _)
-  ;;               (if (remote-host? default-directory)
-  ;;                   (let ((pc (project-current)))
-  ;;                     (if pc
-  ;;                         (project-root pc))))))
-
-  ;; (advice-add 'projectile-project-root :before-while
-  ;;             (lambda (&optional dir)
-  ;;               (not (remote-host? (or dir default-directory)))))
-
   ;; HACK: avoid vc-refresh when on tramp
   (advice-add 'vc-refresh-state :before-while
               (lambda () (not (remote-host? default-directory))))
