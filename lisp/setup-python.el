@@ -37,14 +37,16 @@
   (add-hook 'python-ts-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
 
-  (add-hook 'python-base-mode-hook
-            (defun hook/configure-checkers ()
-              (setq-local flycheck-enabled-checkers
-                          (list (when (executable-find "ruff") 'python-ruff)
-                                (when (executable-find "flake8") 'python-flake8)
-                                (when (executable-find "mypy") 'python-mypy)))
-              (setq-local flycheck-disabled-checkers
-                          '(python-pylint))))
+  (add-hook 'flycheck-mode-hook
+            (defun hook/configure-python-checkers ()
+              (when (or (equal major-mode 'python-ts-mode)
+                        (equal major-mode 'python-mode))
+                (setq flycheck--automatically-enabled-checkers
+                      (remove nil
+                              (list (when (executable-find "ruff") 'python-ruff)
+                                    (when (executable-find "flake8") 'python-flake8)
+                                    (when (executable-find "mypy") 'python-mypy))))
+                (setq-local flycheck-disabled-checkers '(python-pylint)))))
 
   (flycheck-add-next-checker 'python-flake8 (cons t 'python-ruff))
   (flycheck-add-next-checker 'python-ruff (cons t 'python-mypy))
@@ -105,8 +107,6 @@ or for a single package (uv-install \"mypy\")
   (map! :localleader :map (python-mode-map python-ts-mode-map)
         (:prefix ("t" . "test")
          :desc "Test File" "f" #'python-pytest-file))
-
-  (my/check-python-tooling)
 
   ;; for some reason the magit+mark-stale-buffers-h hook reverts the formatting
   ;; used by code-cells.el. It makes it so that any time you switch away (via
