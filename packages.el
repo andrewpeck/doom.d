@@ -1,27 +1,25 @@
 ;; -*- lexical-binding: t; -*-
 
 ;; Disabled packages
-(package! pyenv-mode   :disable t)
-(package! gptel-quick   :disable t)
-(package! pipenv        :disable t)
-(package! projectile   :disable t)
-(package! pip-requirements :disable t)
-(package! pyvenv       :disable t)
-(package! pyenv        :disable t)
-(package! hl-line      :disable t)
 (package! diredfl      :disable t)
-(package! nose         :disable t)
+(package! gptel-quick  :disable t)
 (package! haml-mode    :disable t)
-(package! lsp          :disable t)
-(package! powerline    :disable t)
-(package! popwin       :disable t)
+(package! hl-line      :disable t)
 (package! ivy          :disable t)
-(package! swiper       :disable t)
+(package! lsp          :disable t)
+(package! nose         :disable t)
+(package! org-pdftools :disable t)
 (package! org-yt       :disable t)
 (package! orgit-forge  :disable t)
-(package! org-pdftools :disable t)
-
-(package! forge                    :pin "c498fed98a6df8adca33e87433b4084c0340fb4a")
+(package! pip-requirements :disable t)
+(package! pipenv       :disable t)
+(package! popwin       :disable t)
+(package! powerline    :disable t)
+(package! projectile   :disable t)
+(package! pyenv        :disable t)
+(package! pyenv-mode   :disable t)
+(package! pyvenv       :disable t)
+(package! swiper       :disable t)
 
 ;; Misc packages
 ;; start:sort
