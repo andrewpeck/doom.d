@@ -16,6 +16,9 @@
   (setq magit-buffer-log-args
         '("-n256" "--follow" "--graph" "--decorate"))
 
+  ;; I don't use projectile anymore
+  (remove-hook 'magit-refresh-buffer-hook '+magit-invalidate-projectile-cache-h)
+
   ;; copy short hashes only
   (setopt magit-copy-revision-abbreviated t)
 
