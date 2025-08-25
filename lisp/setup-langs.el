@@ -42,8 +42,6 @@
 
 (use-package! tcl
 
-  :defer-incrementally t
-
   :config
   ;; (dolist (key vivado-builtin-list)
   ;;   (add-to-list 'tcl-builtin-list key))
@@ -67,8 +65,6 @@
 
 (use-package! markdown
 
-  :defer-incrementally t
-
   :config
 
   (defun markdown->pdf ()
@@ -91,8 +87,6 @@
 
 (use-package! c
 
-  :defer-incrementally t
-
   :init
   ;; double slashes // instead of slash-stars /* ... */
   (add-hook! 'c-mode-common-hook
@@ -105,8 +99,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! nxml
-
-  :defer-incrementally t
 
   :init
 
@@ -132,8 +124,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! elisp-mode
-  :defer-incrementally t
-
   :init
   (remove-hook! 'emacs-lisp-mode-hook #'outline-minor-mode)
   (remove-hook! 'emacs-lisp-mode-hook #'highlight-quoted-mode)
@@ -152,7 +142,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! slime
-  :defer-incrementally t
   :config
   (setq inferior-lisp-program "sbcl"
         org-babel-lisp-eval-fn 'slime-eval))
@@ -163,8 +152,6 @@
 
 (use-package! clojure-mode
 
-  :defer-incrementally t
-
   :config
 
   ;; cider-edit-jack-in-command
@@ -172,16 +159,13 @@
   (setq cider-save-file-on-load t))
 
 (use-package! flycheck-clj-kondo
-  :defer-incrementally t
-  :after clojure-mode
-  :defer-incrementally t)
+  :after clojure-mode)
 
 ;;------------------------------------------------------------------------------
 ;; Graphviz
 ;;------------------------------------------------------------------------------
 
 (use-package! graphviz-dot-mode
-  :defer-incrementally t
 
   :config
 
