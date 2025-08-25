@@ -26,12 +26,14 @@
 
   :config
 
+  ;;------------------------------------------------------------------------------
+  ;;
+  ;;------------------------------------------------------------------------------
+
+
   (map! :leader :prefix "o" :desc "List flycheck errors" "l"  #'consult-flycheck)
 
   (setq-default flycheck-ghdl-language-standard "08")
-  (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
-
-  (setq-default flycheck-python-ruff-config "~/.ruff-toml")
 
   ;;------------------------------------------------------------------------------
   ;; Verilator Modifications
@@ -210,4 +212,26 @@ See URL `http://nagelfar.sourceforge.net/'."
     ((error line-start "ERROR:" (message) " " (file-name)  ", line " line line-end)
      (error line-start "ERROR:" (message) "\"" (file-name) "\", line " line ": syntax error" line-end))
     :modes (scad-mode))
-  (add-to-list 'flycheck-checkers 'openscad))
+  (add-to-list 'flycheck-checkers 'openscad)
+
+  ;;------------------------------------------------------------------------------
+  ;; Python
+  ;;------------------------------------------------------------------------------
+
+  (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
+
+  (add-hook 'flycheck-mode-hook
+            (defun hook/configure-python-checkers ()
+              (when (or (equal major-mode 'python-ts-mode)
+                        (equal major-mode 'python-mode))
+                (setq flycheck--automatically-enabled-checkers
+                      (remove nil
+                              (list (when (executable-find "ruff") 'python-ruff)
+                                    (when (executable-find "flake8") 'python-flake8)
+                                    (when (executable-find "mypy") 'python-mypy))))
+                (setq-local flycheck-disabled-checkers '(python-pylint)))))
+
+  (flycheck-add-next-checker 'python-flake8 (cons t 'python-ruff))
+  (flycheck-add-next-checker 'python-ruff (cons t 'python-mypy))
+
+  (setq-default flycheck-python-ruff-config "~/.ruff-toml"))

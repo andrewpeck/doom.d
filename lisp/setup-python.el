@@ -37,20 +37,6 @@
   (add-hook 'python-ts-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
 
-  (add-hook 'flycheck-mode-hook
-            (defun hook/configure-python-checkers ()
-              (when (or (equal major-mode 'python-ts-mode)
-                        (equal major-mode 'python-mode))
-                (setq flycheck--automatically-enabled-checkers
-                      (remove nil
-                              (list (when (executable-find "ruff") 'python-ruff)
-                                    (when (executable-find "flake8") 'python-flake8)
-                                    (when (executable-find "mypy") 'python-mypy))))
-                (setq-local flycheck-disabled-checkers '(python-pylint)))))
-
-  (flycheck-add-next-checker 'python-flake8 (cons t 'python-ruff))
-  (flycheck-add-next-checker 'python-ruff (cons t 'python-mypy))
-
   ;; (flycheck-add-next-checker 'python-ruff (cons t 'python-pyright))
 
   (add-hook 'python-base-mode-hook
