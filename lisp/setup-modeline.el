@@ -84,6 +84,11 @@ nil."
                  (if (or defining-kbd-macro executing-kbd-macro)
                      (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
+                 (when flycheck-mode
+                   (concat
+                    (string-join
+                     (mapcar 'symbol-name flycheck-enabled-checkers) " ") " "))
+
                  (when buffer-env-active " ")
 
                  ;; replace (eglot--mode-line-format)
