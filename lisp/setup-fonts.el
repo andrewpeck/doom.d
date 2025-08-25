@@ -53,7 +53,6 @@
     ("Arial"      . 17)))
 
 (defun ap/update-font-list ()
-
   (cl-dolist (my-font (font-list))
     (when (font-exists? (car my-font))
       (progn
@@ -62,11 +61,11 @@
               doom-serif-font (font-spec :family (car my-font) :weight 'light))
         (cl-return t))))
 
-    (cl-dolist (my-font (variable-pitch-font-list))
-      (when (font-exists? (car my-font))
-        (progn
-          (setq doom-variable-pitch-font (font-spec :family (car my-font) :size (cdr my-font)))
-          (cl-return t)))))
+  (cl-dolist (my-font (variable-pitch-font-list))
+    (when (font-exists? (car my-font))
+      (progn
+        (setq doom-variable-pitch-font (font-spec :family (car my-font) :size (cdr my-font)))
+        (cl-return t)))))
 
 (ap/update-font-list)
 
