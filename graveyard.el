@@ -1455,3 +1455,12 @@ lines are selected, or the NxM dimensions of a block selection.")
   ;;               (not (remote-host? (or dir default-directory)))))
 
    ))
+
+
+;; synchronize font periodically since the damn monitor changes so much
+(comment
+ (when (or (not (boundp 'font-timer))
+           (not font-timer))
+   (setq font-timer
+         (run-with-timer 0 60
+                         (lambda () (progn (ap/update-font-list) (doom/reload-font)))))))
