@@ -25,7 +25,7 @@
 
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist
-             '(inhibit-double-buffering . t))
+             '(inhibit-double-buffering . nil))
 
 (menu-bar-mode 0)                   ; Turn off menu bar
 
