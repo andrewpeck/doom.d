@@ -109,7 +109,7 @@
  (magit +forge)                         ; a git porcelain for Emacs
  make                                   ; run make tasks from Emacs
  pdf                                    ; pdf enhancements
- tmux                                   ; an API for interacting with tmux
+ ;; tmux                                   ; an API for interacting with tmux
 
  ;;debugger          ; FIXME stepping through code, to help you add bugs
  ;; ein
