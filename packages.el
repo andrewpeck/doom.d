@@ -21,6 +21,10 @@
 (package! pyvenv       :disable t)
 (package! swiper       :disable t)
 
+(package! corfu :recipe (:host github :repo "minad/corfu"))
+(package! cape :recipe (:host github :repo "minad/cape"))
+(package! yasnippet-capf :recipe (:host github :repo "elken/yasnippet-capf"))
+
 ;; Misc packages
 ;; start:sort
 (package! affe                    :pin "a1607fbc66789408128e12c9224b6a6c51d12bcb")

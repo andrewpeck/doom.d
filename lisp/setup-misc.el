@@ -22,19 +22,6 @@
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
 ;;------------------------------------------------------------------------------
-;; Completion Preview
-;;------------------------------------------------------------------------------
-
-(use-package completion-preview-mode
-  :init
-  (global-completion-preview-mode)
-  :config
-  (evil-define-key '(insert) completion-preview-active-mode-map (kbd "TAB")
-    'completion-preview-insert)
-  ;; Org mode has a custom `self-insert-command'
-  (push 'org-self-insert-command completion-preview-commands))
-
-;;------------------------------------------------------------------------------
 ;; Devdocs
 ;;------------------------------------------------------------------------------
 

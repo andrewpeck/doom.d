@@ -33,7 +33,7 @@
 
  :completion
 
- (corfu +icons +orderless +dbbrev)
+ ;; (corfu +icons +orderless +dbbrev)
  (vertico +icons)     ; the search engine of the future
 
  :ui
