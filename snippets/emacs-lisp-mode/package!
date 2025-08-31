@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: package!
-# key: package!
+# name: pkg!
+# key: pkg!
 # --
 `(github-package)`
