@@ -111,14 +111,15 @@
   ;; Python
   ;;------------------------------------------------------------------------------
 
-  (add-hook 'python-mode-hook
+  (add-hook 'python-ts-mode-hook
             (defun hook/set-python-base-capf ()
+              (setq-local cape-file-prefix '("\"" "'"))
               (setq-local completion-at-point-functions
-                          (list (cape-capf-super
-                                 'eglot-completion-at-point
+                          (list 'eglot-completion-at-point
+                                 'cape-file
                                  'python-completion-at-point
                                  'yasnippet-capf
-                                 'cape-dabbrev)))))
+                                 'cape-dabbrev))))
 
   ;;------------------------------------------------------------------------------
   ;; Verilog
@@ -177,17 +178,23 @@
     (require 'corfu)
     (require 'cape)
 
+    (setq-local cape-file-prefix
+                '("{"
+                  "\\input{"
+                  "\\includegraphics{"))
+
     (setq-local cape-file-directory (locate-dominating-file (directory-file-name (buffer-file-name)) ".git"))
     (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       ;; 'TeX--completion-at-point
-                       ;; 'LaTeX--arguments-completion-at-point
-                       #'citar-capf
-                       #'yasnippet-capf
-                       #'cape-tex
-                       #'yasnippet-capf
-                       #'cape-dabbrev
-                       #'cape-file))))
+                (list
+                 ;; 'TeX--completion-at-point
+                 ;; 'LaTeX--arguments-completion-at-point
+                 #'cape-file
+                 #'cape-dabbrev
+                 #'yasnippet-capf
+                 #'cape-tex
+                 #'cape-dict
+                 #'citar-capf
+                 #'yasnippet-capf)))
 
   (add-hook 'LaTeX-mode-hook 'hook/setup-tex-with-corfu)
 
