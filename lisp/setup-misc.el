@@ -125,7 +125,7 @@
 
   (gptel-use-tools nil)
   (gptel-log-level 1)
-  (gptel-model 'gpt-4o)
+  (gptel-model 'gpt-5)
   (gptel-default-mode 'org-mode))
 
 (use-package! gptel-org
