@@ -2,6 +2,8 @@
 
   :config
 
+  (setq treesit-font-lock-level 4)
+
   (defun treesit-explore-start ()
     (interactive)
 
