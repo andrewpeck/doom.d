@@ -465,7 +465,21 @@ _h_ decrease width    _l_ increase width
 ;; Yasnippet
 ;;------------------------------------------------------------------------------
 
+(use-package yasnippet-capf
+  :after cape
+  :config
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
 (use-package! yasnippet
+
+  :init
+
+  (yas-global-mode 1)
+
+  :custom
+
+  (yas-snippet-dirs '("~/.doom.d/snippets"))
+
   :config
 
   ;; HACK: for some unknown reason yasnippet has started producing duplicate
@@ -662,16 +676,6 @@ help instead of keeping it open."
                                           ((lambda (tag)
                                              (svg-tag-make tag :beg 1 :end -1))))))
               (svg-tag-mode t))))
-;;------------------------------------------------------------------------------
-;; Yasnippet
-;;------------------------------------------------------------------------------
-
-(use-package! yasnippet
-  :defer-incrementally t
-
-  :config
-
-  (setq yas-snippet-dirs '("~/.doom.d/snippets")))
 
 ;;------------------------------------------------------------------------------
 ;;
