@@ -2,7 +2,12 @@
 ;; Verilog
 ;;------------------------------------------------------------------------------
 
-(when nil
+(map! :map verilog-mode-map :after verilog-mode
+      "<return>" #'electric-verilog-terminate-and-indent
+      "<backspace>" nil                 ; unbind verilog electric backspace
+      "TAB" #'indent-for-tab-command)
+
+(comment
   (use-package verilog-ext
     :hook ((verilog-mode . verilog-ext-mode))
     :init
@@ -147,10 +152,6 @@ Used by font-lock for dynamic highlighting."
       (apply orig-fun args)))
 
   (advice-add 'indent-for-tab-command :around #'advise/indent-for-tab-command)
-
-  (define-key verilog-mode-map (kbd  "<return>") #'electric-verilog-terminate-and-indent)
-  (define-key verilog-mode-map (kbd "<backspace>") nil) ; unbind verilog electric backspace
-  (define-key verilog-mode-map (kbd "TAB") #'indent-for-tab-command)
 
   (defun yosys-make-schematic ()
     "Make a yosys schematic from the module at point. "

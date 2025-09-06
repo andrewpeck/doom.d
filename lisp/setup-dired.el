@@ -1,5 +1,16 @@
 ;; -*- lexical-binding: t; -*-
 
+;;------------------------------------------------------------------------------
+;; Keybindings
+;;------------------------------------------------------------------------------
+
+(map! :map dired-mode-map
+      :n "E" #'dired-do-open)
+
+;;------------------------------------------------------------------------------
+;; Dired Preview
+;;------------------------------------------------------------------------------
+
 (use-package dired-preview
   :after dired
   ;; :init
@@ -7,24 +18,10 @@
   :custom
   (dired-preview-delay 0.01)
   (dired-preview-ignored-extensions-regexp
-      (concat "\\."
-              "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a\\|flac\\|wav"
-              "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
-              "\\|iso\\|epub\\|pdf\\)\\'")))
-
-(use-package! dired-dragon
-  :after dired)
-
-;;------------------------------------------------------------------------------
-;; Casual Dired
-;;------------------------------------------------------------------------------
-
-(use-package! casual-dired
-  :config
-  (define-key dired-mode-map (kbd "C-o") #'casual-dired-tmenu)
-  (map! :map dired-mode-map :localleader :desc "Casual Dired" "h" #'casual-dired-tmenu))
-
-(sp-local-pair 'verilog-mode "begin" "end")
+   (concat "\\."
+           "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a\\|flac\\|wav"
+           "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
+           "\\|iso\\|epub\\|pdf\\)\\'")))
 
 ;;------------------------------------------------------------------------------
 ;; Dired
@@ -65,9 +62,6 @@
   ;; https://github.com/jwiegley/emacs-async
   ;; dired async mode somehow seems even slower...
   ;; (dired-async-mode 1)
-
-  (evil-define-key 'normal dired-mode-map
-    (kbd "E") #'dired-do-open)
 
   ;; better dired soring
   (setq dired-listing-switches "-a1vBhl  --group-directories-first"

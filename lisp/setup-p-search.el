@@ -7,30 +7,34 @@
   :commands (p-search)
   :config
 
-  (evil-define-key '(normal) p-search-mode-map "a" #'p-search-add-dwim)
-  (evil-define-key '(normal) p-search-mode-map "e" #'p-search-edit-dwim)
-  (evil-define-key '(normal) p-search-mode-map "C" #'p-search-add-candidate-generator)
-  (evil-define-key '(normal) p-search-mode-map "r" #'p-search-refresh-buffer)
-  (evil-define-key '(normal) p-search-mode-map "R" #'p-search-hard-refresh-buffer)
-  (evil-define-key '(normal) p-search-mode-map "D" #'p-search-kill-entity-at-point)
-  (evil-define-key '(normal) p-search-mode-map "j" #'p-search-next-item)
-  (evil-define-key '(normal) p-search-mode-map "k" #'p-search-prev-item)
-  (evil-define-key '(normal) p-search-mode-map "o" #'p-search-observe)
-  (evil-define-key '(normal) p-search-mode-map "P" #'p-search-add-prior)
-  (evil-define-key '(normal) p-search-mode-map "+" #'p-search-increase-preview-size)
-  (evil-define-key '(normal) p-search-mode-map "-" #'p-search-decrease-preview-size)
-  (evil-define-key '(normal) p-search-mode-map "<tab>" #'p-search-toggle-section)
-  (evil-define-key '(normal) p-search-mode-map "<return>" #'p-search-find-document)
-  (evil-define-key '(normal) p-search-mode-map "v" #'p-search-view-document)
-  (evil-define-key '(normal) p-search-mode-map "q" #'p-search-quit)
-  (evil-define-key '(normal) p-search-mode-map "\C-o" #'p-search-display-document)
-  ;; (evil-define-key '(normal) p-search-mode-map "i" #'p-search-importance)
-  ;; (evil-define-key '(normal) p-search-mode-map "r" #'p-search-reinstantiate-prior)
-  ;; (evil-define-key '(normal) p-search-mode-map "C-o" #'p-search-display-file)
-  ;; (evil-define-key '(normal) p-search-mode-map "1" #'p-search-show-level-1)
-  ;; (evil-define-key '(normal) p-search-mode-map "2" #'p-search-show-level-2)
-  ;; (evil-define-key '(normal) p-search-mode-map "3" #'p-search-show-level-3)
-  ;; (evil-define-key '(normal) p-search-mode-map "j g"  #'p-search-jump-candidate-generators)
-  ;; (evil-define-key '(normal) p-search-mode-map "j p"  #'p-search-jump-priors)
-  ;; (evil-define-key '(normal) p-search-mode-map "j r"  #'p-search-jump-results)
-  )
+  (load (concat (file-name-directory (file-truename (find-library-name "p-search" ))) "extensions/p-search-x-info.el"))
+
+  (require 'p-search-x-info)
+
+  (defun my/p-search-emacs (search-query)
+    (interactive "sSearchs Term: ")
+    (p-search-setup-buffer
+     `(:group ((:prior-template p-search-prior-query
+                :args ((query-string . ,search-query) (importance . medium)))
+               (:candidate-generator psx-info-candidate-generator :args ((info-node . emacs)))
+               (:candidate-generator psx-info-candidate-generator :args ((info-node . elisp)))))))
+
+  (map! :after p-search
+        :map p-search-mode-map
+        :n "a"        #'p-search-add-dwim
+        :n "e"        #'p-search-edit-dwim
+        :n "C"        #'p-search-add-candidate-generator
+        :n "r"        #'p-search-refresh-buffer
+        :n "R"        #'p-search-hard-refresh-buffer
+        :n "D"        #'p-search-kill-entity-at-point
+        :n "j"        #'p-search-next-item
+        :n "k"        #'p-search-prev-item
+        :n "o"        #'p-search-observe
+        :n "P"        #'p-search-add-prior
+        :n "+"        #'p-search-increase-preview-size
+        :n "-"        #'p-search-decrease-preview-size
+        :n "<tab>"    #'p-search-toggle-section
+        :n "<return>" #'p-search-find-document
+        :n "v"        #'p-search-view-document
+        :n "q"        #'p-search-quit
+        :n "\C-o"     #'p-search-display-document))

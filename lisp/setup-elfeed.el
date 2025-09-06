@@ -10,11 +10,20 @@
   ;; Run `elfeed-update' every 8 hours
   (run-at-time nil (* 8 60 60) #'elfeed-update)
 
-  (evil-define-key 'normal elfeed-search-mode-map
-    (kbd "U") #'elfeed-update)
+  (map! (:after elfeed-search
+         :map 'elfeed-search-mode-map
+         :n "q" #'elfeed-kill-buffer
+         :n "r" #'elfeed-search-update--force
+         :n "M-RET" #'elfeed-search-browse-url)
+         :n "U" #'elfeed-update)
 
   (setq elfeed-db-directory (concat doom-user-dir "elfeed"))
 
+  ;; Chips and chese
+  ;; More than Moore
+  ;; Irrational analysis
+  ;; Vik's newsletter
+  ;; Chip insights
   (setq elfeed-feeds
         '("https://www.evalapply.org/index.xml"
           ;; "https://hackaday.com/blog/feed/"

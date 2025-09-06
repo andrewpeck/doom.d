@@ -3,6 +3,41 @@
 ;; Magit
 ;;------------------------------------------------------------------------------
 
+(map! :after transient :map transient-map "C-c C-c" #'transient-save)
+
+(map! :after magit
+
+      ;;------------------------------------------------------------------------------
+      ;; Git rebase mode
+      ;;------------------------------------------------------------------------------
+
+      (:map git-rebase-mode-map
+            "A" #'my/change-commit-author)
+
+      ;;------------------------------------------------------------------------------
+      ;; Magit Leader Commands
+      ;;------------------------------------------------------------------------------
+
+      (:leader :prefix "g"
+       :desc "Magit Amend" "A" #'magit-commit-amend
+       :desc "Magit Push" "p" #'magit-push
+       :desc "Magit Pull" "u" #'magit-pull-from-pushremote
+       :desc "Magit Push Current" "P" #'magit-push-current-to-pushremote
+       :desc "Instant Fixup" "cF" #'magit-commit-instant-fixup
+       (:prefix ("z" . "Stash")
+        :desc "Stash Apply" "a" #'magit-stash-apply
+        :desc "Stash Pop" "p" #'magit-stash-pop
+        :desc "Stash Delete" "d" #'magit-stash-drop
+        :desc "Stash Keep Index" "x" #'magit-stash-keep-index
+        :desc "Stash Both" "z" #'magit-stash-both
+        :desc "Stash Index" "i" #'magit-stash-index
+        :desc "Stash Worktree" "w" #'magit-stash-worktree
+        :desc "Snapshot Both" "Z" #'magit-snapshot-both
+        :desc "Snapshot Index" "I" #'magit-snapshot-index
+        :desc "Snapshot Worktree" "W" #'magit-snapshot-worktree
+        :desc "Stash List" "l" #'magit-stash-list
+        :desc "Stash Show" "v" #'magit-stash-show)))
+
 (defun my/setup-git-author-peckandrew ()
   "Setup git author in this pwd."
   (interactive)
@@ -38,10 +73,12 @@ on the current line, if any."
        "exec"
        (lambda (_) (if author (format "git commit --amend --author='%s'" author) "")) arg)))
 
-  (with-eval-after-load 'git-rebase
-    (define-key git-rebase-mode-map (kbd "A") #'my/change-commit-author))
+  (setopt magit-list-refs-sortby "-creatordate")
 
-  (evil-define-key '(normal) magit-status-mode-map (kbd "G") #'forge-pull)
+  (setopt magit-prefer-remote-upstream t)
+  ;; (setopt magit-branch-prefer-remote-upstream nil)
+  (setopt magit-branch-adjust-remote-upstream-alist
+          '(("origin/master" . ".*")))
 
   ;; (add-to-list 'magit-status-sections-hook
   ;;              #'magit-insert-local-branches)
@@ -107,27 +144,6 @@ on the current line, if any."
            (files-to-rm (-remove (lambda (x) (-contains? whitelist x)) ignored-files)))
       (if files-to-rm (remove-and-sum-files files-to-rm t)
         (message "No files to remove."))))
-
-  (define-key transient-map (kbd "C-c C-c") #'transient-save)
-
-  (map! :leader :prefix "g" :desc "Magit Amend" "A"  #'magit-commit-amend)
-  (map! :leader :prefix "g" :desc "Magit Push" "p"  #'magit-push)
-  (map! :leader :prefix "g" :desc "Magit Pull" "u"  #'magit-pull-from-pushremote)
-  (map! :leader :prefix "g" :desc "Magit Push Current" "P"  #'magit-push-current-to-pushremote)
-  (map! :leader :prefix "g" :desc "Instant Fixup" "cF"  #'magit-commit-instant-fixup)
-  (map! :leader :prefix "g" (:prefix ("z" . "Stash"))
-        :desc "Stash Apply" "za"  #'magit-stash-apply
-        :desc "Stash Pop" "zp"  #'magit-stash-pop
-        :desc "Stash Delete" "zd"  #'magit-stash-drop
-        :desc "Stash Keep Index" "zx"  #'magit-stash-keep-index
-        :desc "Stash Both" "zz"  #'magit-stash-both
-        :desc "Stash Index" "zi"  #'magit-stash-index
-        :desc "Stash Worktree" "zw"  #'magit-stash-worktree
-        :desc "Snapshot Both" "zZ"  #'magit-snapshot-both
-        :desc "Snapshot Index" "zI"  #'magit-snapshot-index
-        :desc "Snapshot Worktree" "zW"  #'magit-snapshot-worktree
-        :desc "Stash List" "zl"  #'magit-stash-list
-        :desc "Stash Show" "zv"  #'magit-stash-show)
 
   (setq magit-log-margin '(t "%Y/%m/%d" magit-log-margin-width t 18)
 
@@ -195,8 +211,9 @@ on the current line, if any."
   (add-hook! 'prog-mode-hook #'diff-hl-mode)
 
   :config
-  (setq diff-hl-disable-on-remote t)
-  (setq diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode))
+
+  (setq diff-hl-disable-on-remote t
+        diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode))
 
   (advice-add 'diff-hl-update-once :before-until
               (lambda () (remote-host? default-directory))))

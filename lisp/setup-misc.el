@@ -22,6 +22,16 @@
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
 ;;------------------------------------------------------------------------------
+;; Casual
+;;------------------------------------------------------------------------------
+
+(use-package casual
+  :config
+  (map! :map calc-mode-map :n "?" #'casual-calc-tmenu
+        :map dired-mode-map :n "?" #'casual-dired-tmenu
+        :map reb-mode-map :n "?" #'casual-re-builder-tmenu))
+
+;;------------------------------------------------------------------------------
 ;; Devdocs
 ;;------------------------------------------------------------------------------
 
@@ -29,8 +39,8 @@
 
   :config
 
-  (define-key prog-mode-map (kbd "C-k")
-              (defun devdocs-lookup-at-pt ()
+  (map! :map prog-mode-map
+        "C-k" (defun devdocs-lookup-at-pt ()
                 (interactive)
                 (devdocs-lookup nil (symbol-name (symbol-at-point)))))
 
@@ -60,10 +70,8 @@
 ;;------------------------------------------------------------------------------
 
 (use-package uniline
-
   :config
-  (define-key uniline-mode-map
-    (kbd "I") #'uniline-launch-interface))
+  (map! :map uniline-mode-map "I" #'uniline-launch-interface))
 
 ;;------------------------------------------------------------------------------
 ;; Bookmark
@@ -96,17 +104,22 @@
 
   :init
 
-  (map! :leader :prefix "o" :desc "GPTel" "g"  #'gptel)
-  (map! :leader :prefix "o" :desc "GPTel Rewrite" "G"  #'gptel-rewrite)
-  (map! :mode git-commit-mode :leader :prefix "m" :desc "GPTel Magit Commit Generate" "g"  #'gptel-magit-commit-generate)
+  (map! :leader :prefix "o"
+        (:desc "GPTel" "g" #'gptel
+         :desc "GPTel Rewrite" "G"  #'gptel-rewrite))
+
+  (map! :mode git-commit-mode :leader :prefix "m"
+        :desc "GPTel Magit Commit Generate" "g"  #'gptel-magit-commit-generate)
+
+  (map! :map org-mode-map      "C-c <return>" #'gptel-send
+        :map markdown-mode-map "C-c <return>" #'gptel-send)
+
   (after! org-mode
     (require 'gptel)
     (require 'gptel-org))
 
   :config
 
-  (after! org (define-key org-mode-map (kbd "C-c <return>") #'gptel-send))
-  (after! markdown-mode (define-key markdown-mode-map (kbd "C-c <return>") #'gptel-send))
 
   :custom
 
@@ -191,10 +204,9 @@ _h_ decrease width    _l_ increase width
 ;; Emacs Everywhere
 ;;------------------------------------------------------------------------------
 
-(use-package! emacs-everywhere
-  :defer-incrementally t
-  :config
-  (define-key emacs-everywhere-mode-map "\C-c\C-c" #'emacs-everywhere-finish))
+(map! :after emacs-everywhere
+      :map emacs-everywhere-mode-map
+      "\C-c\C-c" #'emacs-everywhere-finish)
 
 ;;------------------------------------------------------------------------------
 ;; Midnight Mode
@@ -279,10 +291,9 @@ _h_ decrease width    _l_ increase width
      ((org-inside-LaTeX-fragment-p) (org-edit-latex-fragment))
      ((org-footnote-at-reference-p) (org-edit-footnote-reference))))
 
-
-  (after! org (define-key org-mode-map  (kbd  "C-c C-e") #'my/org-dwim-edit-at-point))
-
-  (after! markdown-mode (define-key markdown-mode-map  (kbd  "C-c C-e") #'lte-edit-table)))
+  (map!
+   (:map org-mode-map      "C-c C-e" #'my/org-dwim-edit-at-point)
+   (:map markdown-mode-map "C-c C-e" #'lte-edit-table)))
 
 ;;------------------------------------------------------------------------------
 ;; Smartparens
@@ -349,9 +360,6 @@ _h_ decrease width    _l_ increase width
 
   :config
 
-  (evil-define-key '(motion normal) pdf-view-mode-map
-    (kbd "q") #'kill-current-buffer)
-
   (defun pdf-rotate (dir)
     "Rotate a pdf using Qpdf. Dir should either be + or -"
     (if (and (stringp dir) (or (string= "+" dir) (string= "-" dir)))
@@ -399,15 +407,13 @@ _h_ decrease width    _l_ increase width
   (defun affe-find-dotfile () (interactive) (affe-find "~/dotfiles"))
 
   ;; Affe
-  (after! evil-maps
-    (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile)
-    (evil-define-key '(motion normal) 'global
-      (kbd "C-o")   #'affe-find-home
-      (kbd "C-S-Y") #'affe-find-work
-      (kbd "C-p")   #'affe-find-project
-      (kbd "C-S-p") #'affe-grep-project
-      (kbd "C-n")   #'affe-find-notes
-      (kbd "C-n")   #'affe-find-notes)))
+  (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile)
+  (map! :mn "C-o"   #'affe-find-home
+        :mn "C-S-Y" #'affe-find-work
+        :mn "C-p"   #'affe-find-project
+        :mn "C-S-p" #'affe-grep-project
+        :mn "C-S-n" #'affe-find-notes
+        :mn "C-n"   #'affe-find-psiq))
 
 ;;------------------------------------------------------------------------------
 ;; Undo

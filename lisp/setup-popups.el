@@ -7,10 +7,8 @@
 ;; Make sure evil is on in popups
 (add-hook '+popup-buffer-mode-hook #'turn-on-evil-mode)
 
-;; (evil-define-key
-;;   'motion +popup-buffer-mode-map "q" #'bury-buffer)
-(evil-define-key
-  'motion +popup-buffer-mode-map (kbd "C-<up>") #'+popup/raise)
+(map! :map +popup-buffer-mode-map
+      :m "C-<up>" #'+popup/raise)
 
 (set-popup-rule! ".*eww.*" :ignore t)
 (set-popup-rule! ".*poporg.*" :ignore t)

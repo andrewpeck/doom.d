@@ -12,37 +12,37 @@
   :config
   ;; https://emacs.stackexchange.com/questions/33663/in-auctex-how-could-i-fold-acronyms
   (setq TeX-fold-macro-spec-list
-   (append TeX-fold-macro-spec-list
-           '(
-             ;; glossary
-             ((lambda (x) (capitalize x)) ("Gls"))
-             ("{1}" ("gls"))
+        (append TeX-fold-macro-spec-list
+                '(
+                  ;; glossary
+                  ((lambda (x) (capitalize x)) ("Gls"))
+                  ("{1}" ("gls"))
 
-             ;; ((lambda (x y) (propertize y 'font-lock-face '(:background "red")))  ("textcolor"))
-             ("{2}" ("textcolor"))
+                  ;; ((lambda (x y) (propertize y 'font-lock-face '(:background "red")))  ("textcolor"))
+                  ("{2}" ("textcolor"))
 
-             ("~" ("textasciitilde"))
-             ("^" ("textasciicircum" "xor"))
-             ("×" ("texttimes"))
+                  ("~" ("textasciitilde"))
+                  ("^" ("textasciicircum" "xor"))
+                  ("×" ("texttimes"))
 
-             ;; just put backticks around typewriter font
-             ("`{1}`" ("texttt"))
+                  ;; just put backticks around typewriter font
+                  ("`{1}`" ("texttt"))
 
-             ;; just show the short link text
-             ("{2}" ("href"))
+                  ;; just show the short link text
+                  ("{2}" ("href"))
 
-             ;; shorten references
-             ("[r:{1}]" ("autoref"))
-             ("[l:{1}]" ("label"))
-             ("[r:{1}]" ("ref"))
-             ("[c:{1}]" ("cite"))
+                  ;; shorten references
+                  ("[r:{1}]" ("autoref"))
+                  ("[l:{1}]" ("label"))
+                  ("[r:{1}]" ("ref"))
+                  ("[c:{1}]" ("cite"))
 
-             ;; used in resume
-             ((lambda (x) (concat (number-to-string (- (string-to-number (format-time-string "%Y"))
-                                                       (string-to-number x))) " years")) ("yearsago"))
+                  ;; used in resume
+                  ((lambda (x) (concat (number-to-string (- (string-to-number (format-time-string "%Y"))
+                                                            (string-to-number x))) " years")) ("yearsago"))
 
-             ;; used in resume
-             ("{1}" ("heading"))))))
+                  ;; used in resume
+                  ("{1}" ("heading"))))))
 
 ;;------------------------------------------------------------------------------
 ;; auctex + tex
@@ -67,13 +67,6 @@
   (TeX-master nil)
   (+latex-viewers '(pdf-tools okular atril evince zathura))
 
-  :bind
-
-  ("M-<right>" . outline-demote)
-  ("M-<left>" . outline-promote)
-  ("C-c C-l" . tex-link-insert)
-  ("C-c C-s" . LaTeX-section)
-
   :hook
 
   (LaTeX-mode-hook . outline-minor-mode)
@@ -93,9 +86,64 @@
 
   :config
 
+  ;;------------------------------------------------------------------------------
+  ;; Keybinds
+  ;;------------------------------------------------------------------------------
 
-  (define-key TeX-mode-map (kbd "M-q") 'ap/line-fill-paragraph)
-  (define-key TeX-mode-map (kbd "C-c C-l") #'tex-link-insert)
+  (map! (:map TeX-mode-map
+              "M-q" 'ap/line-fill-paragraph
+              "C-c C-l" 'tex-link-insert
+              "M-<right>" 'outline-demote
+              "M-<left>" 'outline-promote
+              "C-c C-l" 'tex-link-insert
+              "C-c C-s" 'LaTeX-section
+              "RET" 'tex-follow-link-at-point)
+
+        (:map reftex-toc-mode-map
+         :after reftex-toc-mode
+         "<" 'reftex-toc-promote
+         ">" 'reftex-toc-demote
+         "r" 'reftex-toc-Rescan
+         "L" 'reftex-toc-set-max-level)
+
+        (:map TeX-mode-map
+         :localleader
+
+         ;; olivetti
+         :desc "Olivetti Mode" "o" #'olivetti-mode
+
+         ;; formatting macros
+         :desc "TeX Format Bold" "tb" #'tex-bold
+         :desc "TeX Format Underline" "tu" #'tex-underline
+         :desc "TeX Format Folding" "ti" #'tex-italic
+         :desc "TeX Format Folding" "tt" #'tex-tt
+         :desc "Tex glossarify" "tg" #'tex-glossarify
+         :desc "Tex Glossarify" "tG" #'tex-Glossarify
+
+         ;; folding
+         :desc "Toggle TeX Folding" "b" #'TeX-toggle-folding))
+
+  ;;------------------------------------------------------------------------------
+  ;; Config
+  ;;------------------------------------------------------------------------------
+
+  (setq TeX-outline-extra
+        '(("%chapter" 1)
+          ("%section" 2)
+          ("%subsection" 3)
+          ("%subsubsection" 4)
+          ("%paragraph" 5)))
+
+  ;; add font locking to the headers
+  (font-lock-add-keywords
+   'latex-mode
+   '(("^%\\(chapter\\|\\(sub\\|subsub\\)?section\\|paragraph\\)"
+      0 'font-lock-keyword-face t)
+     ("^%chapter{\\(.*\\)}"       1 'font-latex-sectioning-1-face t)
+     ("^%section{\\(.*\\)}"       1 'font-latex-sectioning-2-face t)
+     ("^%subsection{\\(.*\\)}"    1 'font-latex-sectioning-3-face t)
+     ("^%subsubsection{\\(.*\\)}" 1 'font-latex-sectioning-4-face t)
+     ("^%paragraph{\\(.*\\)}"     1 'font-latex-sectioning-5-face t)))
 
   (advice-add 'TeX-view :before
               (lambda ()
@@ -121,17 +169,6 @@
                    (file-exists-p f))
           (find-file f)))))
 
-  (evil-define-key '(motion normal) TeX-mode-map
-    (kbd "RET") 'tex-follow-link-at-point)
-  (evil-define-key '(motion normal visual) reftex-toc-mode-map
-    (kbd "<") 'reftex-toc-promote)
-  (evil-define-key '(motion normal visual) reftex-toc-mode-map
-    (kbd ">") 'reftex-toc-demote)
-  (evil-define-key '(motion normal visual) reftex-toc-mode-map
-    (kbd "r") 'reftex-toc-Rescan)
-  (evil-define-key '(motion normal visual) reftex-toc-mode-map
-    (kbd "L") 'reftex-toc-set-max-level)
-
   (defvar default-tex-master nil)
   (defun my/set-default-tex-master ()
     (when (not TeX-master)
@@ -148,8 +185,7 @@
                                               (project-files (project-current))))))
       (setq default-tex-master master-file)
       (setq TeX-master master-file)
-      (hook/set-default-tex-master) ; execute now to take effect immediately
-      )) ; add a hook for future files
+      (my/set-default-tex-master))) ; execute now to take effect immediately
 
   (defun TeX-toggle-folding ()
     (interactive)
@@ -157,23 +193,6 @@
     (if TeX-fold-mode
         (TeX-fold-buffer)
       (TeX-fold-clearout-buffer)))
-
-  (map! :map TeX-mode-map
-        :localleader
-
-        ;; olivetti
-        :desc "Olivetti Mode" "o" #'olivetti-mode
-
-        ;; formatting macros
-        :desc "TeX Format Bold"      "tb" #'tex-bold
-        :desc "TeX Format Underline" "tu" #'tex-underline
-        :desc "TeX Format Folding"   "ti" #'tex-italic
-        :desc "TeX Format Folding"   "tt" #'tex-tt
-        :desc "Tex glossarify"       "tg" #'tex-glossarify
-        :desc "Tex Glossarify"       "tG" #'tex-Glossarify
-
-        ;; folding
-        :desc "Toggle TeX Folding" "b" #'TeX-toggle-folding)
 
   (defun tex-link-insert ()
     "Insert TeX href link"

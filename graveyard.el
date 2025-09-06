@@ -16,15 +16,6 @@
 ;;(setq company-frontends '(company-box-frontend company-echo-metadata-frontend))
 ;;(add-to-list 'company-backends 'company-irony)
 
-;;(define-key company-active-map (kbd "<return>") nil)
-;;(define-key company-active-map (kbd "<tab>") #'company-complete-selection )
-
-;;   (set-company-backend! '(company-tabnine company-yasnippet  company-files))
-;;                                         ;(set-company-backend! 'org-mode '(company-roam company-files company-dabbrev))
-;;   ;;(set-company-backend! '(tcl-mode) '(company-tabnine company-yasnippet))
-;;   (set-company-backend! '(prog-mode) '(company-tabnine company-yasnippet))
-;;   )
-
 ;;; "Recycle Bin"
 
 ;; Scrolling.
@@ -382,15 +373,6 @@ If the new path's directories does not exist, create them."
 
 
 ;;(require 'org-download)
-
-
-;;
-;; (setq org-roam-backlinks-mode-hook
-;;       '(
-;;         (flyspell-mode)
-;;         (define-key evil-motion-state-map (kbd "RET") 'org-roam-open-at-point)
-;;         )
-;;       )
 
 ;; (setq org-roam-completion-system 'ivy)
 

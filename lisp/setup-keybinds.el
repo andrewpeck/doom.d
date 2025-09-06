@@ -1,241 +1,156 @@
 ;; -*- lexical-binding: t; -*-
-;;
-;;------------------------------------------------------------------------------
-;; Keybindings
-;;------------------------------------------------------------------------------
 
-;; use mouse forward/backward to jump between buffers
-(map! :n [mouse-8] #'previous-buffer
-      :n [mouse-9] #'next-buffer)
+(defun dwim-open-at-point ()
+  (interactive)
+  (cl-case major-mode
+    (org-mode      (org-open-at-point))
+    (hog-src-mode  (hog-follow-link-at-point))
+    (markdown-mode (markdown-follow-thing-at-point))
+    (t             (browse-url-at-point))))
 
-(after! lispy
-  (define-key lispy-mode-map        (kbd  "C-e") nil)
-  (define-key lispy-mode-map-base   (kbd  "C-e") nil)
-  (define-key lispy-mode-map-evilcp   (kbd  "C-e") nil)
-  (define-key lispy-mode-map-lispy   (kbd  "C-e") nil)
-  (define-key lispy-mode-map-paredit   (kbd  "C-e") nil)
-  (define-key lispy-mode-map-parinfer   (kbd  "C-e") nil)
-  (define-key lispy-mode-map        (kbd  "M-<return>") nil)
-  (define-key lispy-mode-map-evilcp (kbd  "M-<return>") nil)
-  (define-key lispy-mode-map-lispy  (kbd  "M-<return>") nil)
-  (define-key lispy-mode-map        (kbd  "M-RET") nil)
-  (define-key lispy-mode-map-evilcp (kbd  "M-RET") nil)
-  (define-key lispy-mode-map-lispy  (kbd  "M-RET") nil))
+;; modify +vterm/toggle to open in pwd instead of project root
+(defun my/vterm-here ()
+  (interactive)
+  (cl-letf (((symbol-function 'doom-project-root)
+             (lambda () nil)))
+    (vterm)))
 
-(after! evil-maps
+(defun my/mu4e-open-inbox ()
+  (interactive)
+  (mu4e~headers-jump-to-maildir "/INBOX"))
 
-  (define-key global-map (kbd "C-S-t") #'tab-new)
-  (define-key global-map (kbd "C-S-k") #'tab-close)
-  (define-key global-map (kbd "C-<next>") #'tab-next)
-  (define-key global-map (kbd "C-<prior>") #'tab-previous)
-
-  ;;------------------------------------------------------------------------------
-  ;; Embrace
-  ;;------------------------------------------------------------------------------
-
-  (define-key global-map (kbd "C-/") #'embrace-commander)
+(after! doom-keybinds
 
   ;;------------------------------------------------------------------------------
   ;; Tabs
   ;;------------------------------------------------------------------------------
 
-  (define-key evil-normal-state-map (kbd "C-<tab>") nil)
-  (define-key evil-motion-state-map (kbd "C-<tab>") nil)
-  (evil-define-key '(motion normal insert) 'global
-    (kbd "C-<tab>") #'tab-next)
-
-  (evil-define-key '(motion normal insert) 'global
-    (kbd "C-S-<tab>") #'tab-previous)
-
-  (evil-define-key '(motion normal insert) 'global
-    (kbd "C-M-<tab>") #'tab-new)
+  (map! "C-<tab>"   #'tab-next
+        "C-S-<tab>" #'tab-previous
+        "C-M-<tab>" #'tab-new
+        "C-S-t"     #'tab-new
+        "C-S-k"     #'tab-close
+        "C-<next>"  #'tab-next
+        "C-<prior>" #'tab-previous)
 
   ;;------------------------------------------------------------------------------
   ;; CUA
   ;;------------------------------------------------------------------------------
 
-  (evil-define-key '(motion normal insert) 'global
-    (kbd "C-s") #'save-buffer)
-  (evil-define-key '(insert) 'minibuffer-mode-map
-    (kbd "C-v") #'yank)
+  (map! :nmi "C-s" #'save-buffer)
+  (map! :map 'minibuffer-mode-map :i "C-v" #'yank)
 
   ;;------------------------------------------------------------------------------
   ;;
   ;;------------------------------------------------------------------------------
 
-  (defun dwim-open-at-point ()
-    (interactive)
-    (cl-case major-mode
-      (org-mode      (org-open-at-point))
-      (hog-src-mode  (hog-follow-link-at-point))
-      (markdown-mode (markdown-follow-thing-at-point))
-      (t             (browse-url-at-point))))
-
-  (evil-define-key '(motion normal insert) 'global
-    (kbd "C-c C-o") #'dwim-open-at-point)
+  (map! "C-c C-o" #'dwim-open-at-point)
 
   ;; Dired
-  (evil-define-key '(motion normal) dired-mode-map
-    (kbd ")") #'dired-git-info-mode)
+  (map! :map dired-mode-map :nm ")" #'dired-git-info-mode)
 
   ;; Org
-  (evil-define-key '(insert) org-mode-map
-    (kbd "<tab>") #'org-cycle)
-
-  ;; normal evil-org-end-of-line is broken
-  ;; https://github.com/Somelauw/evil-org-mode/issues/50
-  ;; just use the regular evil mode.. there doesn't seem to be any downside
-  (evil-define-key 'visual org-mode-map
-    (kbd "$") #'evil-end-of-line)
-  ;; (add-hook 'org-mode-hook (lambda () (define-key evil-visual-state-map "$" #'evil-end-of-line)))
-
-  (evil-define-key 'normal org-mode-map
-    (kbd "zs") #'org-toggle-link-display)
-
-  (evil-define-key 'normal org-mode-map
-    (kbd "o") #'evil-org-open-below)
-  (evil-define-key 'normal org-mode-map
-    (kbd "O") #'evil-org-open-above)
-
-  ;; (evil-define-key nil org-mode-map
-  ;;   (kbd "M-RET")
-  ;;   (lambda ()
-  ;;     (interactive)
-  ;;     (org-meta-return t)))
+  (map! :map org-mode-map
+        :i "<tab>" #'org-cycle
+        :n "o" #'evil-org-open-below
+        :n "O" #'evil-org-open-above
+        ;; normal evil-org-end-of-line is broken
+        ;; https://github.com/Somelauw/evil-org-mode/issues/50
+        ;; just use the regular evil mode.. there doesn't seem to be any downside
+        :v "$" #'evil-end-of-line
+        :n "zs" #'org-toggle-link-display)
 
   ;; Hog
-  (evil-define-key '(motion normal) hog-src-mode-map
-    (kbd "M-RET") #'hog-follow-link-at-point)
+  (map! :mode hog-src-mode-map
+        :nm "M-RET" #'hog-follow-link-at-point)
 
   ;; Ctrl + Alt + equal to re-indent buffer
-  (evil-define-key '(motion normal) 'global
-    (kbd "C-M-=") #'re-indent-buffer)
+  (map! :nm "C-M-=" #'re-indent-buffer)
 
+  ;; Jump back and forth through files, time, and space
+  (map! "C-t" 'evil-jump-backward
 
-  ;; ???
-  ;; (evil-define-key '(motion normal) 'global
-  ;;   (kbd "<C-tab>") (lambda () (interactive) (outline-cycle)))
-  ;; (evil-define-key '(motion normal) 'global
-  ;;   (kbd "<C-tab>") (lambda () (interactive) (outline-cycle)))
-  ;; (evil-define-key '(motion normal) 'global
-  ;;   (kbd "C-<iso-lefttab>") (lambda () (interactive) (outline-hide-body)))
+        "<mouse-8>" 'evil-jump-backward
+        "<mouse-9>" 'evil-jump-forward
 
-  ;; Jump back and forth through files, time, and space with arrow keys
+        (:map pdf-history-minor-mode-map
+         :after pdf-view-mode
+         "<mouse-8>" #'evil-collection-pdf-jump-backward
+         "<mouse-9>" #'evil-collection-pdf-jump-forward))
 
-  (evil-define-key '(normal insert motion) 'global
-    (kbd "C-t") 'evil-jump-backward)
+  (map! "<mouse-3>" 'context-menu-open)
 
-  ;; unbind these from the global map
-  (evil-define-key '(motion normal visual insert) 'global
-    (kbd "<mouse-8>") nil
-    (kbd "<mouse-9>") nil)
+  (map! :v "C-i" nil)
 
-  ;; Jump back and forth through files, time, and space with arrow keys
-  (evil-define-key nil 'global
-    (kbd "<mouse-8>") 'evil-jump-backward
-    (kbd "<mouse-9>") 'evil-jump-forward)
+  (map! :after lispy
+        :map lispy-mode-map "C-e" nil
+        :map lispy-mode-map-base "C-e" nil
+        :map lispy-mode-map-evilcp "C-e" nil
+        :map lispy-mode-map-lispy "C-e" nil
+        :map lispy-mode-map-paredit "C-e" nil
+        :map lispy-mode-map-parinfer "C-e" nil
+        :map lispy-mode-map "M-<return>" nil
+        :map lispy-mode-map-evilcp "M-<return>" nil
+        :map lispy-mode-map-lispy "M-<return>" nil
+        :map lispy-mode-map "M-RET" nil
+        :map lispy-mode-map-evilcp "M-RET" nil
+        :map lispy-mode-map-lispy "M-RET" nil)
 
-  (evil-define-key nil pdf-history-minor-mode-map
-    (kbd "<mouse-8>") #'evil-collection-pdf-jump-backward
-    (kbd "<mouse-9>") #'evil-collection-pdf-jump-forward)
-
-  (evil-define-key nil 'global
-    (kbd "<mouse-3>") 'context-menu-open)
-
-  (define-key evil-motion-state-map (kbd "C-e") nil)
-  (define-key emacs-lisp-mode-map (kbd "C-e") #'eval-print-last-sexp)
-
-  (evil-define-key 'visual 'global
-    (kbd "C-i") nil)
+  (map! :map emacs-lisp-mode-map "C-e" #'eval-print-last-sexp)
 
   ;; middle click to paste
-  (evil-define-key nil 'global
-    (kbd "<mouse-2>") 'evil-paste-after
-    (kbd "M-p")       'evil-paste-after)
+  (map! "<mouse-2>" 'evil-paste-after
+        "M-p"       'evil-paste-after
 
-  ;; C-p to paste in the minibuffer
-  (evil-define-key nil minibuffer-mode-map
-    (kbd "C-p") #'evil-paste-after)
+        ;; C-p to paste in the minibuffer
+        :map minibuffer-mode-map "C-p" #'evil-paste-after)
 
-  ;; Make evil-mode up/down operate in screen lines instead of logical lines
-  (evil-define-key '(motion normal) 'global
-    "j" 'evil-next-visual-line
-    "k" 'evil-previous-visual-line)
+  (map!
+   ;; Make evil-mode up/down operate in screen lines instead of logical lines
+   :nm "j" 'evil-next-visual-line
+   :nm "k" 'evil-previous-visual-line
 
-  ;; Addition / Subtraction
-  (evil-define-key '(motion normal) 'global
-    (kbd "C-a") 'evil-numbers/inc-at-pt
-    (kbd "C-x") 'evil-numbers/dec-at-pt)
-  (evil-define-key '(visual) 'global
-    (kbd "C-a") 'evil-numbers/inc-at-pt-incremental
-    (kbd "C-x") 'evil-numbers/dec-at-pt-incremental)
+   ;; Addition / Subtraction
+   :v  "C-a" 'evil-numbers/inc-at-pt-incremental
+   :v  "C-x" 'evil-numbers/dec-at-pt-incremental
+   :nm "C-a" 'evil-numbers/inc-at-pt
+   :nm "C-x" 'evil-numbers/dec-at-pt)
 
   ;; Fill Paragraph
-  (evil-define-key nil text-mode-map
-    (kbd "M-q") #'fill-paragraph)
-  (evil-define-key nil org-mode-map
-    (kbd "M-q") #'org-fill-paragraph-t)
-  (evil-define-key nil latex-mode-map
-    (kbd "M-q") #'ap/line-fill-paragraph)
+  (map! :map text-mode-map "M-q" #'fill-paragraph)
+  (map! :after org :map org-mode-map "M-q" #'org-fill-paragraph-t)
+  (map! :after latex :map latex-mode-map "M-q" #'ap/line-fill-paragraph)
 
   ;; Tab in normal mode shouldn't indent
-  (evil-define-key '(motion normal visual) 'global (kbd "TAB") 'nil)
-
-  ;; (evil-define-key '(insert)               'global (kbd "TAB") 'indent-for-tab-command)
-
-  ;; (define-key global-map (kbd "TAB") nil)
+  (map! :nmv "TAB" 'nil)
 
   ;; Backspace to jump to previous buffer
-  (evil-define-key '(normal motion) 'global
-    (kbd "DEL") 'switch-to-previous-buffer)
+  (map! :nm "DEL" 'evil-switch-to-windows-last-buffer)
 
-  (evil-define-key '(normal motion) python-mode-map
-    (kbd "C-c C-b") #'py-black)
+  (map! :map emacs-lisp-mode-map
+        :nm "RET"  (lambda () (interactive) (open-link-or #'eval-defun))
+        :nm "M-RET" #'eval-buffer)
 
-  (evil-define-key '(normal motion) emacs-lisp-mode-map
-    (kbd "RET") (lambda () (interactive) (open-link-or #'eval-defun))
-    (kbd "M-RET") #'eval-buffer)
+  (map! :map clojure-mode-map
+        :after cider-mode
+        :m "RET" (lambda () (interactive) (open-link-or #'cider-eval-defun-at-point))
+        :m "M-RET" #'cider-eval-buffer)
 
-  (evil-define-key 'motion clojure-mode-map
-    (kbd "RET") (lambda () (interactive) (open-link-or #'cider-eval-defun-at-point))
-    (kbd "M-RET") #'cider-eval-buffer)
+  (map! :map python-mode-map
+        :m "RET" (lambda () (interactive) (open-link-or #'python-shell-send-defun))
+        :m "M-RET" #'python-shell-send-buffer)
 
-  (evil-define-key 'motion python-mode-map
-    (kbd "RET") (lambda () (interactive) (open-link-or #'python-shell-send-defun))
-    (kbd "M-RET") #'python-shell-send-buffer)
+  (map! :map system-install-run-minor-mode-map
+        :after system-install
+        :n "q" #'bury-buffer)
 
-  (evil-define-key 'normal system-install-run-minor-mode-map
-    "q" #'bury-buffer)
+  (map! :after reftex :map reftex-toc-mode-map "<return>" #'reftex-toc-goto-line)
 
-  (evil-define-key 'normal elfeed-search-mode-map
-    (kbd  "q")    #'elfeed-kill-buffer
-    (kbd  "r")    #'elfeed-search-update--force
-    (kbd "M-RET") #'elfeed-search-browse-url)
-
-  ;; (define-key evil-visual-state-map "\C-b" nil)
-  ;; (define-key evil-normal-state-map "\C-b" nil)
-  ;; (define-key evil-insert-state-map "\C-b" nil)
-  ;; (evil-define-key 'motion
-  ;;   latex-mode-map  "\C-b" nil)
-  ;; (evil-define-key nil
-  ;;   'latex-mode  "\C-b" 'tex-bold)
-  ;; (evil-define-key 'visual 'latex-mode  "\C-b" 'tex-bold)
-  ;; (evil-define-key 'visual 'latex-mode  "\C-i" 'tex-italic)
-
-  (evil-define-key nil reftex-toc-mode-map
-    (kbd "<return>") #'reftex-toc-goto-line))
-
-(evil-define-key nil archive-mode-map
-  (kbd "-")   #'+popup/quit-window)
-
-;;------------------------------------------------------------------------------
-;; Doom Binds
-;;------------------------------------------------------------------------------
-
-(after! doom-keybinds
+  (map! :after archive-mode :map archive-mode-map "-" #'popup/quit-window)
 
   (map! :localleader
         :map python-mode-map
+        :after python
         (:prefix ("e" . "eval")
                  "R" #'run-python
                  "b" #'python-shell-send-buffer
@@ -244,6 +159,7 @@
 
   (map! :localleader
         :map vhdl-mode-map
+        :after vhdl-mode
         :desc "Beautify"
         (:prefix ("b" . "Beautify")
                  "b" #'vhdl-beautify-buffer
@@ -251,6 +167,7 @@
 
   (map! :localleader
         :map verilog-mode-map
+        :after verilog-mode
         :desc "Align Ports"
         (:prefix ("a" . "align")
                  "p" #'verilog-align-ports
@@ -258,94 +175,49 @@
                  "=" #'verilog-pretty-expr))
 
 
-  ;; modify +vterm/toggle to open in pwd instead of project root
-  (map! :leader :prefix "o" :desc "Vterm Toggle"      "t"
-        (lambda () (interactive)
-          (cl-letf (((symbol-function 'doom-project-root)
-                     (lambda () nil)))
-            (+vterm/toggle nil))))
-
-  (map! :leader :prefix "o" :desc "Vterm Toggle Root" "T" '+vterm/here)
-
   (map! :leader :prefix "n" :desc "Narrow to Region"  "r" #'narrow-to-region)
   (map! :leader :prefix "n" :desc "Narrow to Defun"   "f" #'narrow-to-defun)
   (map! :leader :prefix "n" :desc "Widen (Unnarrow)"  "w" #'widen)
   (map! :leader :prefix "n" :desc "Narrow to Lines"   "l" #'consult-focus-lines)
 
   (map! :leader :prefix "s" :desc "SVG Tag Mode"         "vg" #'svg-tag-mode)
-  (map! :localleader :map org-mode-map :desc "Latexify"    "lp" #'org-latex-preview-all :map org-mode-map)
-  (map! :localleader :map org-mode-map :desc "De-latexify" "lP" #'org-latex-preview-clear :map org-mode-map)
 
   (map! :localleader :map dired-mode-map :prefix "m" :desc "Dired Filter Mode"    "f"  #'dired-filter-mode :map dired-mode-map)
 
   (map! :leader :prefix "i" :desc "Insert Date"          "d"  #'insert-current-date)
 
-  (map! :leader             :desc "Open Dired"           "E"  #'dired-jump)
-  (map! :leader :prefix "o" :desc "Open Elfeed"          "e"  #'elfeed)
-  (map! :leader :prefix "o" :desc "Open Terminal Here"   "K"  #'open-pwd-in-terminal)
-  (map! :leader :prefix "o" :desc "Open File"            "o"  #'xdg-open-file)
-  (map! :leader :prefix "o" :desc "Open Directory"       "O"  #'xdg-browse-directory)
+  (map! :leader :desc "Open Dired"           "E"  #'dired-jump)
 
-  (map! :leader :prefix "r" :desc "Replace Symbol"       "s"  #'query-replace-symbol)
-  (map! :leader :prefix "r" :desc "Replace Query"        "q"  #'query-replace)
-  (map! :leader :prefix "r" :desc "Replace Globally"     "g"  #'replace-string)
+  (map! :leader (:prefix "o"
+                 :desc "Open Elfeed"          "e"  #'elfeed
+                 :desc "Open Terminal Here"   "K"  #'open-pwd-in-terminal
+                 :desc "Open File"            "o"  #'xdg-open-file
+                 :desc "Open Directory"       "O"  #'xdg-browse-directory
+                 :desc "Open org agenda"      "x"  #'org-agenda-and-todo
+                 :desc "GPT Prompt"           "ai" #'gpt-prompt
+                 :desc "Calculator"           "c"  #'calc
+                 :desc "Vterm Toggle"         "t"  #'my/vterm-here
+                 :desc "Vterm Toggle Root"    "T"  #'+vterm/here
+                 :desc "Mu4e Inbox"           "i"  #'my/mu4e-open-inbox
+                 :desc "Quick Calc"           "C"  #'quick-calc))
 
-  (map!
-   :leader
-   (:prefix-map ("d" . "do")
-    (:prefix-map ("p" . "package")
-     :desc "Package Install" "i" #'system-install
-     :desc "Package Remove"  "r" #'system-install-remove-package)))
+  (map! :leader
+        (:prefix-map ("r" . "replace")
+         :desc "Replace Symbol"   "s" #'query-replace-symbol
+         :desc "Replace Query"    "q" #'query-replace
+         :desc "Replace Globally" "g" #'replace-string))
 
-  (map! :leader :prefix "o" :desc "GPT Prompt"           "ai" #'gpt-prompt)
+  (map! :leader
+        (:prefix-map ("d" . "do")
+                     (:prefix-map ("p" . "package")
+                      :desc "Package Install" "i" #'system-install
+                      :desc "Package Remove"  "r" #'system-install-remove-package)))
+
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
-  (map! :leader :prefix "o" :desc "Open org agenda"      "x"  #'org-agenda-and-todo)
-
-  (map! :leader             :desc "Org Capture TODO"     "T" (lambda () (interactive) (org-capture nil "t")))
-
-  (map! :leader :prefix "t" :desc "Open org TODOs"       "t" #'open-todo)
-
-  ;; (map! :leader :prefix "o" :desc "Open billing"         "b" #'open-timesheet)
-
-  (map! :leader :prefix "y" :desc "Org Link Copy"        "y"  #'org-link-copy)
   (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
   (map! :leader :prefix "t" :desc "Toggle Dark Mode"     "d"  #'toggle-dark-mode)
 
   (map! :leader :prefix "b" :desc "Format Buffer" "f"
         (lambda ()
           (interactive)
-          (call-interactively #'apheleia-format-buffer)))
-
-  (map! :leader :prefix "o" :desc "Calculator" "c"  #'calc)
-  (map! :leader :prefix "o" :desc "Quick Calc" "C"  #'quick-calc)
-  (after! calc
-    (define-key calc-mode-map (kbd "?") nil)
-
-    (evil-define-key '(normal) calc-mode-map (kbd "?") #'casual-calc-tmenu)
-
-    )
-
-  (map! :localleader
-        :map org-mode-map
-        :prefix "a"
-        :desc "Download Screenshot" "c" #'org-download-screenshot
-        :desc "Download Clipboard" "p" #'org-download-clipboard
-        :desc "Download Yank" "P" #'org-download-yank
-        :desc "Edit Image" "e" #'org-download-edit
-        :desc "Delete Image" "d" #'org-download-delete
-        :desc "Move Image" "m" #'org-download-rename)
-
-
-  (map! :leader
-        :prefix "o"
-        :desc "Mu4e Inbox"  "i"
-        (lambda () (interactive) (mu4e~headers-jump-to-maildir "/INBOX")))
-
-
-  ;; (map! :leader
-  ;;       :prefix "n"
-  ;;       :desc "Org-Roam-Insert"     "i" #'org-roam-node-insert
-  ;;       :desc "Org-Roam-Find"       "/" #'org-roam-find-file
-  ;;       :desc "Org-Roam-Buffer"     "r" #'org-roam
-  ;;       :desc "Org-Roam-Show-Graph" "g" #'org-roam-graph)
-  )
+          (call-interactively #'apheleia-format-buffer))))

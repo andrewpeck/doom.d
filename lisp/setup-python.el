@@ -88,11 +88,19 @@ or for a single package (uv-install \"mypy\")
 
   :config
 
-  (define-key python-ts-mode-map (kbd "C-c C-e") nil)
+  ;;------------------------------------------------------------------------------
+  ;; Keybindings
+  ;;------------------------------------------------------------------------------
+
+  (map! :map python-ts-mode-map "C-c C-e" nil)
 
   (map! :localleader :map (python-mode-map python-ts-mode-map)
         (:prefix ("t" . "test")
          :desc "Test File" "f" #'python-pytest-file))
+
+  ;;------------------------------------------------------------------------------
+  ;; Hacks
+  ;;------------------------------------------------------------------------------
 
   ;; for some reason the magit+mark-stale-buffers-h hook reverts the formatting
   ;; used by code-cells.el. It makes it so that any time you switch away (via
@@ -105,6 +113,10 @@ or for a single package (uv-install \"mypy\")
                 (let ((current (selected-window)))
                   (apply orig-fun args)
                   (select-window current))))
+
+  ;;------------------------------------------------------------------------------
+  ;; Sorting
+  ;;------------------------------------------------------------------------------
 
   (defvar py-isort-options '("--line-length" "300" "-sl")
     "List of arguments to apply in `python-sort-imports")

@@ -4,13 +4,9 @@
 ;; Appearance
 ;;------------------------------------------------------------------------------
 
-;;  Turn on Bullets Mode
-
-;; Org mode plain list bullets
-;; (font-lock-add-keywords
-;;  'org-mode
-;;  '(("^[[:space:]]*\\(-\\) "
-;;     0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "  ⚫ ")))))
+(use-package! poporg
+  :config
+  (map! :leader :prefix "e" :desc "Poporg Edit Comment"  "c"  #'poporg-dwim))
 
 (use-package! org
   :init
@@ -27,6 +23,36 @@
   (add-hook 'org-mode-hook (defun hook/org-crypt-before-save-magic () (add-hook 'before-save-hook #'org-encrypt-entries nil t)))
 
   :config
+
+  ;;------------------------------------------------------------------------------
+  ;; keybindings
+  ;;------------------------------------------------------------------------------
+
+  (map! :leader             :desc "Org Capture TODO"     "T" (lambda () (interactive) (org-capture nil "t")))
+  (map! :leader :prefix "t" :desc "Open org TODOs"       "t" #'open-todo)
+  (map! :leader :prefix "y" :desc "Org Link Copy"        "y"  #'org-link-copy)
+  (map! :localleader :map org-mode-map :desc "Latexify"    "lp" #'org-latex-preview-all :map org-mode-map)
+  (map! :localleader :map org-mode-map :desc "De-latexify" "lP" #'org-latex-preview-clear :map org-mode-map)
+
+  (map! :map org-mode-map "RET" #'scimax/org-return)
+
+  (map! :localleader
+        :map org-mode-map
+        :prefix "a" ;; Actions
+        :after org-download
+        :desc "Download Screenshot" "c" #'org-download-screenshot
+        :desc "Download Clipboard" "p" #'org-download-clipboard
+        :desc "Download Yank" "P" #'org-download-yank
+        :desc "Edit Image" "e" #'org-download-edit
+        :desc "Delete Image" "d" #'org-download-delete
+        :desc "Move Image" "m" #'org-download-rename-at-point)
+
+  (map! :map org-mode-map
+        "C-c x" #'org-toggle-checkbox-presence)
+
+  ;;------------------------------------------------------------------------------
+  ;; config
+  ;;------------------------------------------------------------------------------
 
   (setq org-todo-keywords
         '((sequence "MEET" "MET")
@@ -93,9 +119,6 @@
         org-appear-delay 0.1)
 
   (require 'evil-org)
-
-  (require 'poporg)
-  (map! :leader :prefix "e" :desc "Poporg Edit Comment"  "c"  #'poporg-dwim)
 
   (setq ob-mermaid-cli-path "aa-exec --profile=chrome mmdc")
 
@@ -1017,17 +1040,11 @@ local and remote servers."
        (t
         (org-return)))))
 
-  (define-key org-mode-map (kbd "RET")
-              'scimax/org-return)
-
   (defun org-toggle-checkbox-presence ()
     "Toggle the presence of org list checkboxes."
     (interactive)
     (let ((current-prefix-arg '(4)))
       (call-interactively #'org-toggle-checkbox)))
-
-  (define-key org-mode-map (kbd "C-c x")
-              'org-toggle-checkbox-presence)
 
   ;; HACK: patch issue with eldoc help
   ;; sometimes what gets passed into this function has nil values, e.g.

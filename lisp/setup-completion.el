@@ -1,6 +1,14 @@
 ;; -*- lexical-binding: t; -*-
 
 ;;------------------------------------------------------------------------------
+;; Keybindings
+;;------------------------------------------------------------------------------
+
+(map! :after corfu
+      (:map corfu-map "SPC" #'corfu-insert-separator)
+      (:map corfu-mode-map "C-<SPC>" #'completion-at-point))
+
+;;------------------------------------------------------------------------------
 ;; Completion Preview
 ;;------------------------------------------------------------------------------
 
@@ -9,8 +17,6 @@
   (global-completion-preview-mode)
   :config
   (unbind-key (kbd "TAB") completion-preview-active-mode-map)
-  ;; (evil-define-key '(insert) completion-preview-active-mode-map (kbd "TAB")
-  ;;   'completion-preview-insert)
   ;; Org mode has a custom `self-insert-command'
   (push 'org-self-insert-command completion-preview-commands))
 
@@ -46,10 +52,8 @@
   (global-corfu-mode)
   (corfu-history-mode)
   (corfu-popupinfo-mode)
-  (map! (:map corfu-map "SPC" #'corfu-insert-separator))
 
-  ;; (unbind-key (kbd "C-<SPC>") global-map)
-  (define-key corfu-mode-map (kbd "C-<SPC>") #'completion-at-point))
+  )
 
 ;; A few more useful configurations...
 (use-package emacs

@@ -28,8 +28,7 @@
      "openscad" nil 0 nil
      (buffer-file-name)))
 
-  (define-key scad-mode-map (kbd "C-c C-p")
-              'open-in-openscad)
+  (map! :map scad-mode-map "C-c C-p" 'open-in-openscad)
 
   (defun scad-cheatshet ()
     "Open the SCAD Cheatsheet in a web browser"
