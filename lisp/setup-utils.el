@@ -37,7 +37,9 @@
      (print "Outline Cycle")
      (outline-cycle))))
 
-(defvar preferred-terminal 'wezterm "Default terminal used by `open-pwd-in-terminal'")
+(defvar preferred-terminal
+  'wezterm
+  "Default terminal used by `open-pwd-in-terminal'")
 
 (defun open-pwd-in-terminal ()
   "Opens the present working directory in external terminal."
@@ -50,10 +52,16 @@
     ('nil (error "`preferred-terminal' not set."))
     (_ (error (format  "`preferred-terminal' %s not recognized" preferred-terminal)))))
 
+(defun run-in-terminal (cmd)
+  (pcase preferred-terminal
+    ('wezterm (apply #'call-process (nconc (list "wezterm" nil 0 nil "-e") (if (listp cmd) cmd (list cmd)))))
+    ('nil (error "`preferred-terminal' not set."))
+    (_ (error (format  "`preferred-terminal' %s not recognized" preferred-terminal)))))
+
 (defun open-buffer-in-vim ()
   "Opens the current buffer in gvim."
   (interactive)
-  (call-process (executable-find "gvim") nil 0 nil (buffer-file-name)))
+  (run-in-terminal (list "nvim" (buffer-file-name))))
 
 (defalias 'gvim #'open-buffer-in-vim)
 
