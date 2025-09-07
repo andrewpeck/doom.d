@@ -134,7 +134,7 @@
 (use-package! gptel-org
   :after gptel
   :custom
-  (gptel-org-branching-context t))
+  (gptel-org-branching-context nil))
 
 ;;------------------------------------------------------------------------------
 ;; Citar
