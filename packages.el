@@ -39,7 +39,7 @@
 (package! buffer-env              :pin "fc5cab4db55f0b95c4b97fbe3104e394da34b91a" :recipe (:host github :repo "astoff/buffer-env"))
 (package! casual                  :pin "5e004a06eef3b66865b785bca51512cdb89ff6a9" :recipe (:host github :repo "kickingvegas/casual"))
 (package! clojure-emacs           :pin "592c4f89efb5112784cbf94c9ea6fdd045771b62" :recipe (:host github :repo "clojure-emacs/squiggly-clojure"))
-(package! code-cells.el           :pin "caffb420be106cebbdfe4474ed0507a601603f83" :recipe (:host github :repo "astoff/code-cells.el"))
+(package! code-cells.el           :pin "b99013b81712edbb94fdb57cce083d32ad06fbb8" :recipe (:host github :repo "astoff/code-cells.el"))
 (package! comint-scroll-to-bottom :pin "1cd1471cfca72ac62d330630afe2f2fad44abcf5" :recipe (:host github :repo "jorgenschaefer/comint-scroll-to-bottom"))
 (package! crontab-mode            :pin "7412f3df0958812bfcacd5875a409fa795fa8ecc")
 (package! delight                 :pin "15acb0f0ba400c470e378f9984b315f9e02c1122")
