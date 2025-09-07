@@ -73,7 +73,7 @@
 (package! nerd-icons.el           :pin "3774e0578b1023bd2ae10735e28c0cd1ccf46889" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
 (package! nix-mode                :pin "719feb7868fb567ecfe5578f6119892c771ac5e5" :recipe (:host github :repo "NixOS/nix-mode"))
 (package! nyan-mode               :pin "09904af23adb839c6a9c1175349a1fb67f5b4370" :recipe (:host github :repo "TeMPOraL/nyan-mode") )
-(package! ob-mermaid              :pin "9cffa17625aab01cb7b0d8ba87691eba5d96e8d3" :recipe (:host github :repo "arnm/ob-mermaid"))
+(package! ob-mermaid              :pin "372c2d91d3cdba5da9f7ac23e7bce7a0b3b46862" :recipe (:host github :repo "arnm/ob-mermaid"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! olivetti                :pin "845eb7a95a3ca3325f1120c654d761b91683f598")
 (package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))
