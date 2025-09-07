@@ -651,3 +651,12 @@ This function tries to de hyphenate them."
   (if (eq major-mode #'org-mode)
       (org-fill-paragraph)
     (fill-paragraph)))
+
+;;------------------------------------------------------------------------------
+;; Calc with modified title for i3
+;;------------------------------------------------------------------------------
+
+(defun calc-popup ()
+  (calc nil t)
+  (setq-local frame-title-format "Calc Popup")
+  (calc-big-language))
