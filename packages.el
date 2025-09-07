@@ -70,7 +70,7 @@
 (package! lte.el                  :pin "011c86d9fb72d00105293efabef4756274d851b4" :recipe (:host github :repo "fredericgiquel/lte.el"))
 (package! magit-todos             :pin "bd27c57eada0fda1cc0a813db04731a9bcc51b7b")
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
-(package! nerd-icons.el           :pin "14f7278dd7eb5eca762a6ff32467c72c661c0aae" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
+(package! nerd-icons.el           :pin "3774e0578b1023bd2ae10735e28c0cd1ccf46889" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
 (package! nix-mode                :pin "719feb7868fb567ecfe5578f6119892c771ac5e5" :recipe (:host github :repo "NixOS/nix-mode"))
 (package! nyan-mode               :pin "09904af23adb839c6a9c1175349a1fb67f5b4370" :recipe (:host github :repo "TeMPOraL/nyan-mode") )
 (package! ob-mermaid              :pin "9cffa17625aab01cb7b0d8ba87691eba5d96e8d3" :recipe (:host github :repo "arnm/ob-mermaid"))
