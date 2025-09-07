@@ -1,13 +1,14 @@
 ;;; -*- lexical-binding: t; -*-
 
-(require 'cl-lib)
+(eval-when-compile
+  (require 'cl-lib))
 
 (cl-defun setup--check-for-exe (exe &key url noroot cmd ubuntu dnf pacman)
   ""
   (if  (executable-find exe)
       (progn (princ (format "- [X] Found %s\n" exe)))
     (progn
-      (princ (format "- [ ] Couldn't find %s\n" exe url))
+      (princ (format "- [ ] Couldn't find %s (%s)\n" exe url))
       (when url
         (princ (format "  -  %s\n"  url)))
 

@@ -1,9 +1,25 @@
 ;; -*- lexical-binding: t; -*-
 
+(eval-when-compile
+  (require 'outline)
+  (require 'org-table)
+  (require 'org-fold)
+  (require 'org)
+  (require 'the-org-mode-expansions))
+
 ;;------------------------------------------------------------------------------
 ;; Utility Functions
 ;;------------------------------------------------------------------------------
 
+(defun make-declare ()
+  "Make a function declaration from the symbol at point."
+  (interactive)
+  (let* ((function (symbol-at-point))
+         (file (file-name-base (symbol-file function)))
+         (args (or (help-function-arglist function) "()")))
+    (save-excursion
+      (evil-open-above 1)
+      (insert (format "(declare-function %s \"%s\" %s)" function file args)))))
 
 (defun scratch-new ()
   "Create a new empty scratch buffer."
@@ -85,10 +101,6 @@
     (xdg-do (buffer-file-name)))
   (when (eq major-mode 'dired-mode)
     (xdg-do default-directory)))
-
-(defun org-fill-paragraph-t ()
-  (interactive)
-  (org-fill-paragraph t))
 
 (defun py-black ()
   "Format python file with black."
@@ -222,10 +234,12 @@ between the two most recently open buffers."
     (replace-match (number-to-string (* by (string-to-number (match-string 0)))) nil t) t))
 
 (defun mult-in-rectangle (start end)
-  "Operates on a rectangular region and multiplies all numbers by some coefficient.
+  "Multiplies all numbers in region by some coefficient.
 
 FIXME: should support non-rectangular regions
-FIXME: does not work when the region is not rectangular at the end of lines, e.g.
+
+FIXME: does not work when the region is not rectangular at the end of
+lines, e.g.
 
 2 + 2
 2
@@ -247,6 +261,8 @@ FIXME: does not work when the region is not rectangular at the end of lines, e.g
 ;;---------------------------------------------------------------------------------
 ;; Line wrapping
 ;;---------------------------------------------------------------------------------
+
+(defvar ap/is-wrapped nil)
 
 (defun ap/no-wrap ()
   (interactive)
@@ -619,7 +635,7 @@ Text copy pasted from Latex likes to hyphen- ate inappropriately.
 This function tries to de hyphenate them."
 
   (interactive)
-  (require 'expand-region)
+
   (unless (region-active-p)
     (progn
       (er/mark-paragraph)

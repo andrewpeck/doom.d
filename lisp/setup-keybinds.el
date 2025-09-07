@@ -1,11 +1,14 @@
 ;; -*- lexical-binding: t; -*-
 
+(eval-when-compile
+  (require 'markdown-mode))
+
 (defun dwim-open-at-point ()
   (interactive)
   (cl-case major-mode
     (org-mode      (org-open-at-point))
     (hog-src-mode  (hog-follow-link-at-point))
-    (markdown-mode (markdown-follow-thing-at-point))
+    (markdown-mode (call-interactively #'markdown-follow-thing-at-point))
     (t             (browse-url-at-point))))
 
 ;; modify +vterm/toggle to open in pwd instead of project root
@@ -144,8 +147,7 @@
         :after system-install
         :n "q" #'bury-buffer)
 
-  (map! :after reftex :map reftex-toc-mode-map "<return>" #'reftex-toc-goto-line)
-
+  (declare-function popup/quit-window "+hacks" (args))
   (map! :after archive-mode :map archive-mode-map "-" #'popup/quit-window)
 
   (map! :localleader

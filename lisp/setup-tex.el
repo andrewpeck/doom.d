@@ -5,6 +5,11 @@
 ;; latex-mode-hook is used by Emacs' built-in latex mode.
 ;;------------------------------------------------------------------------------
 
+(eval-when-compile
+  (require 'reftex-toc)
+  (require 'reftex-vars)
+  (require 'tex-fold))
+
 (use-package! tex-fold
   :after latex
   :custom
@@ -101,27 +106,28 @@
 
         (:map reftex-toc-mode-map
          :after reftex-toc-mode
-         "<" 'reftex-toc-promote
-         ">" 'reftex-toc-demote
-         "r" 'reftex-toc-Rescan
-         "L" 'reftex-toc-set-max-level)
+         "<return>" 'reftex-toc-goto-line
+         "<"        'reftex-toc-promote
+         ">"        'reftex-toc-demote
+         "r"        'reftex-toc-Rescan
+         "L"        'reftex-toc-set-max-level)
 
         (:map TeX-mode-map
          :localleader
 
          ;; olivetti
-         :desc "Olivetti Mode" "o" #'olivetti-mode
+         :desc "Olivetti Mode" "o" 'olivetti-mode
 
          ;; formatting macros
-         :desc "TeX Format Bold" "tb" #'tex-bold
-         :desc "TeX Format Underline" "tu" #'tex-underline
-         :desc "TeX Format Folding" "ti" #'tex-italic
-         :desc "TeX Format Folding" "tt" #'tex-tt
-         :desc "Tex glossarify" "tg" #'tex-glossarify
-         :desc "Tex Glossarify" "tG" #'tex-Glossarify
+         :desc "TeX Format Bold" "tb" 'tex-bold
+         :desc "TeX Format Underline" "tu" 'tex-underline
+         :desc "TeX Format Folding" "ti" 'tex-italic
+         :desc "TeX Format Folding" "tt" 'tex-tt
+         :desc "Tex glossarify" "tg" 'tex-glossarify
+         :desc "Tex Glossarify" "tG" 'tex-Glossarify
 
          ;; folding
-         :desc "Toggle TeX Folding" "b" #'TeX-toggle-folding))
+         :desc "Toggle TeX Folding" "b" 'TeX-toggle-folding))
 
   ;;------------------------------------------------------------------------------
   ;; Config
@@ -170,22 +176,17 @@
           (find-file f)))))
 
   (defvar default-tex-master nil)
-  (defun my/set-default-tex-master ()
-    (when (not TeX-master)
-      (unless default-tex-master
-        (latex/set-default-tex-master))
-      (setq-local TeX-master default-tex-master)))
 
-  (defun latex/set-default-tex-master ()
+  (defun my/set-default-tex-master ()
     "Set the master tex file for the current project."
     (interactive)
+    ;; get master file from user
     (let ((master-file
            (completing-read "Master File: "
                             (cl-remove-if-not (lambda (f) (string= "tex" (file-name-extension f)))
                                               (project-files (project-current))))))
       (setq default-tex-master master-file)
-      (setq TeX-master master-file)
-      (my/set-default-tex-master))) ; execute now to take effect immediately
+      (setq TeX-master master-file))) ; execute now to take effect immediately
 
   (defun TeX-toggle-folding ()
     (interactive)
@@ -286,6 +287,8 @@
 
       ;; otherwise do ordinary fill paragraph
       (fill-paragraph P)))
+
+  (declare-function tex-expand-and-insert "setup-tex" t) ;; supress byte compile warning
 
   (defun tex-expand-and-insert (macro)
     (interactive)

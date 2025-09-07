@@ -69,6 +69,9 @@
 ;; Uniline
 ;;------------------------------------------------------------------------------
 
+(eval-when-compile
+  (require 'uniline))
+
 (use-package uniline
   :config
   (map! :map uniline-mode-map "I" #'uniline-launch-interface))
@@ -241,6 +244,9 @@ _h_ decrease width    _l_ increase width
 ;; Copyright
 ;;------------------------------------------------------------------------------
 
+(eval-when-compile
+  (require 'copyright))
+
 (use-package! copyright
 
   :init
@@ -351,6 +357,9 @@ _h_ decrease width    _l_ increase width
   :custom
   (pdf-sync-backward-display-action t))
 
+(eval-when-compile
+  (require 'pdf-view))
+
 (use-package! pdf-view
 
   :init
@@ -456,10 +465,10 @@ _h_ decrease width    _l_ increase width
   ;; save macros and other registers peristently
   :config
   (add-to-list 'savehist-additional-variables 'register-alist)
-  (add-hook! 'savehist-save-hook
-    (defun doom-clean-up-registers-h ()
-      (setq-local register-alist
-                  (cl-remove-if-not #'savehist-printable register-alist)))))
+
+  (defun doom-clean-up-registers-h ()
+    (setq-local register-alist (cl-remove-if-not 'savehist-printable register-alist)))
+  (add-hook! 'savehist-save-hook 'doom-clean-up-registers-h))
 
 ;;------------------------------------------------------------------------------
 ;; Yasnippet
@@ -505,21 +514,13 @@ _h_ decrease width    _l_ increase width
 ;; Ispell
 ;;------------------------------------------------------------------------------
 
-(use-package! ispell
-  :init
+(eval-when-compile
+  (require 'flyspell))
 
-  ;; Find Local Dictionaries
-  (defun hook/set-ispell-dict ()
-    (when-let*
-        ((buf (buffer-file-name))
-         (dict (locate-dominating-file buf ".aspell.en.pws")))
-      (setq-local ispell-personal-dictionary
-                  (concat dict ".aspell.en.pws"))))
-  (add-hook 'flycheck-mode-hook 'hook/set-ispell-dict)
-
+(use-package! flyspell
   :config
-  ;; Save user defined words to the dictionary
   (defun my-save-word ()
+    "Save user defined words to the dictionary"
     (interactive)
     (let ((current-location (point))
           (word (flyspell-get-word)))
@@ -527,6 +528,16 @@ _h_ decrease width    _l_ increase width
         (flyspell-do-correct 'save nil
                              (car word) current-location (cadr word)
                              (caddr word) current-location)))))
+
+(use-package! ispell
+  :init
+  ;; Find Local Dictionaries
+  (defun hook/set-ispell-dict ()
+    (when-let* ((buf (buffer-file-name))
+                (dict (locate-dominating-file buf ".aspell.en.pws")))
+      (setq-local ispell-personal-dictionary
+                  (concat dict ".aspell.en.pws"))))
+  (add-hook 'flycheck-mode-hook 'hook/set-ispell-dict))
 
 (use-package! jinx
   :config
@@ -569,12 +580,6 @@ help instead of keeping it open."
 ;;------------------------------------------------------------------------------
 
 (use-package! eldoc
-  :init
-
-  (add-hook 'eglot-managed-mode-hook #'eglot-inlay-hints-mode t)
-  ;; (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode nil)) t)
-  ;; (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
-
   :config
 
   (map! :leader :desc "Eldoc Help at Point" "kk" 'eldoc-box-help-at-point)

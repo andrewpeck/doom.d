@@ -3,9 +3,10 @@
 ;; Doom
 ;;------------------------------------------------------------------------------
 
-(defun doom/package-under-review () (interactive)
-       "Open the doom packages under review Github page"
-       (browse-url "https://github.com/orgs/doomemacs/projects/5/views/1"))
+(defun doom/package-under-review ()
+  "Open the doom packages under review Github page"
+  (interactive)
+  (browse-url "https://github.com/orgs/doomemacs/projects/5/views/1"))
 
 ;; Dashboard
 (defun ap/dashboard-widget-banner ()

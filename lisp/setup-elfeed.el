@@ -7,15 +7,23 @@
 
   :config
 
+  (eval-when-compile
+    (require 'elfeed-lib))
+
   ;; Run `elfeed-update' every 8 hours
   (run-at-time nil (* 8 60 60) #'elfeed-update)
 
   (map! (:after elfeed-search
          :map 'elfeed-search-mode-map
-         :n "q" #'elfeed-kill-buffer
          :n "r" #'elfeed-search-update--force
          :n "M-RET" #'elfeed-search-browse-url)
-         :n "U" #'elfeed-update)
+
+        (:after elfeed-lib
+         :map 'elfeed-search-mode-map
+         :n "q" #'elfeed-kill-buffer)
+
+        (:map elfeed-show-mode-map
+         :n "U" #'elfeed-update))
 
   (setq elfeed-db-directory (concat doom-user-dir "elfeed"))
 

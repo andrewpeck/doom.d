@@ -1,6 +1,7 @@
-;;------------------------------------------------------------------------------
-;; Projectile
-;;------------------------------------------------------------------------------
+;; -*- lexical-binding: t; -*-
+
+(eval-when-compile
+  (require 'project))
 
 (use-package! project
   :init
@@ -33,7 +34,7 @@
 
   (setq project-switch-commands 'project-find-file)
 
-  (defun project-vc-browse-at-remote (&optional arg)
+  (defun project-vc-browse-at-remote (&optional _)
     "Open in browser the VC repository for the selected project."
     (interactive "P")
     (let ((projects (project-known-project-roots)))

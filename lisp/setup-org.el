@@ -54,6 +54,10 @@
   ;; config
   ;;------------------------------------------------------------------------------
 
+  (defun org-fill-paragraph-t ()
+    (interactive)
+    (org-fill-paragraph t))
+
   (setq org-todo-keywords
         '((sequence "MEET" "MET")
           (sequence "NOTE" "NOTED")

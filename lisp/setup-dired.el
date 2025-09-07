@@ -4,7 +4,8 @@
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 
-(map! :map dired-mode-map
+(map! :after dired-aux
+      :map dired-mode-map
       :n "E" #'dired-do-open)
 
 ;;------------------------------------------------------------------------------
@@ -87,10 +88,6 @@
         "C-c C-e" #'wdired-change-to-wdired-mode)
 
   :init
-
-  ;; this breaks sensible dired sorting on remote hosts;
-  ;; it is there for DOS compatibility which I don't care about
-  (remove-hook! 'dired-mode-hook #'+dired-disable-gnu-ls-flags-maybe-h)
 
   (remove-hook! 'dired-mode-hook #'diff-hl-dired-mode)
 

@@ -1,14 +1,11 @@
 ;; -*- lexical-binding: t; -*-
-;;------------------------------------------------------------------------------ 
-;; Image Handlers
-;;------------------------------------------------------------------------------
-
-;; (use-package image-mode
-;;   :init
 
 (use-package image
   :custom
   (image-use-external-converter t))
+
+(eval-when-compile
+  (require 'image-converter))
 
 (use-package image-converter
 

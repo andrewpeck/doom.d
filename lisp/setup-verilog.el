@@ -1,6 +1,7 @@
-;;------------------------------------------------------------------------------
-;; Verilog
-;;------------------------------------------------------------------------------
+;; -*- lexical-binding: t; -*-
+
+(eval-when-compile
+  (require 'rainbow-delimiters))
 
 (map! :map verilog-mode-map :after verilog-mode
       "<return>" #'electric-verilog-terminate-and-indent
@@ -45,6 +46,11 @@
 
   :init
 
+  (when (modulep! +tree-sitter)
+    (set-tree-sitter! 'verilog-mode 'verilog-ts-mode
+                      '((verilog :url "https://github.com/tree-sitter/tree-sitter-verilog"
+                         :commit "227d277b6a1a5e2bf818d6206935722a7503de08"))))
+
   (defun rainbow-delimiters--apply-color-range (start end depth match)
     "Highlight a single delimiter at LOC according to DEPTH.
 
@@ -55,7 +61,7 @@ MATCH is nil iff it's a mismatched closing delimiter."
       (when face
         (font-lock-prepend-text-property start end 'font-lock-face face))))
 
-  (defun rainbow-delimiters--propertize-verilog (end)
+  (defun rainbow-delimiters--propertize-verilog (_)
     "Highlight delimiters in region between point and END.
 
 Used by font-lock for dynamic highlighting."
@@ -64,7 +70,7 @@ Used by font-lock for dynamic highlighting."
     (when (eq major-mode 'verilog-mode)
       (goto-char (point-min))
       (let* ((depth 0)
-             (end (point-max)))
+             (_ (point-max)))
 
         ;; find begin-end pairs in the whole doc
         ;; should probably operate on a range in case the document is large :(

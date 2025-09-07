@@ -1,5 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 
+(eval-when-compile
+  (require 'cape)
+  (require 'cape-keyword)
+  (require 'tcl))
+
 ;;------------------------------------------------------------------------------
 ;; Keybindings
 ;;------------------------------------------------------------------------------
@@ -89,6 +94,8 @@
 
   :config
 
+  (require 'cape-keyword)
+
   ;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
   ;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
   ;; cape-file: Complete file name.
@@ -120,10 +127,10 @@
               (setq-local cape-file-prefix '("\"" "'"))
               (setq-local completion-at-point-functions
                           (list 'eglot-completion-at-point
-                                 'cape-file
-                                 'python-completion-at-point
-                                 'yasnippet-capf
-                                 'cape-dabbrev))))
+                                'cape-file
+                                'python-completion-at-point
+                                'yasnippet-capf
+                                'cape-dabbrev))))
 
   ;;------------------------------------------------------------------------------
   ;; Verilog

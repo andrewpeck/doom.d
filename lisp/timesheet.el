@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+;;
 ;; W = ( d + floor (2.6m - 0.2) - 2C + Y + floor(Y/4) + floor (C/4) ) mod 7
 ;; https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
 ;; k is day (1 to 31)
@@ -5,6 +7,10 @@
 ;; C is century (1987 has C = 19)
 ;; Y is year (1987 has Y = 87 except Y = 86 for Jan & Feb)
 ;; W is week day (0 = Sunday, ..., 6 = Saturday)
+
+(eval-when-compile
+  (declare-function calendar-iso-to-absolute "cal-iso" (date))
+  (require 'cal-iso))
 
 (defun ymd-to-weekday (C Y m d)
 
@@ -127,7 +133,7 @@ to a float amount of time (1.5)"
   "Simple function to plot an ascii bar chart.
 
 It accepts DATA in the form of an alist of the form
-'((KEY . VAL) (KEY . VAL) (KEY . VAL)) and will
+\='((KEY . VAL) (KEY . VAL) (KEY . VAL)) and will
 produce a bar chart where for each key val is summed.
 
 NORMALIZE will normalize the bar chart to some number of ASCII symbols.
@@ -277,7 +283,7 @@ SORT to non-nill will sort the list. "
               ;; (princ (format "%04d-%02d-%02d\n" year month day))
               (let ((key (format "%04d-%02d" year week)))
                 (puthash key (+ hours (gethash key sums 0)) sums)
-                (add-to-list 'keys key)))))))
+                (push key keys)))))))
 
     (dolist (key (reverse keys))
       (let* ((annual-goal 1200)

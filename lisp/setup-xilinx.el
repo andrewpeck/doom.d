@@ -1,6 +1,4 @@
 ;; -*- lexical-binding: t; -*-
-;;
-(require 'bookmark-url)
 
 (defun make-link-fn (name link)
   "Macro to create a Open Link Command"
