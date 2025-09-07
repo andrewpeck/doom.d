@@ -20,6 +20,7 @@
 (package! pyenv-mode   :disable t)
 (package! pyvenv       :disable t)
 (package! swiper       :disable t)
+(package! string-inflection :disable t)
 
 (package! corfu :recipe (:host github :repo "minad/corfu"))
 (package! cape :recipe (:host github :repo "minad/cape"))
