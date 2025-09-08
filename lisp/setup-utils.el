@@ -297,7 +297,9 @@ lines, e.g.
 
 ;; Don't wrap text modes unless we really want it
 (remove-hook 'text-mode-hook #'+word-wrap-mode)
-(add-hook! 'latex-mode-hook #'+word-wrap-mode)
+(remove-hook! 'latex-mode-hook #'+word-wrap-mode)
+(remove-hook! 'latex-mode-hook #'visual-fill-column-mode)
+(add-hook! 'latex-mode-hook (lambda () (toggle-truncate-lines 0)))
 (add-hook! 'markdown-mode-hook #'+word-wrap-mode)
 
 ;; (defun fix-visual-fill-column-mode (&optional ARG)
