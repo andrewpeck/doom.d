@@ -1,21 +1,26 @@
 ;; -*- lexical-binding: t; -*-
 
+(eval-when-compile
+  (require 'image-converter))
+
 (use-package image
   :custom
   (image-use-external-converter t))
 
-(eval-when-compile
-  (require 'image-converter))
-
 (use-package image-converter
-
   :init
-
   (add-to-list 'auto-mode-alist '("\\.drawio\\'"       . image-mode))
   (add-to-list 'auto-mode-alist '("\\.excalidraw\\'"   . image-mode))
   (add-to-list 'auto-mode-alist '("\\.gbr\\'"          . image-mode))
   (add-to-list 'auto-mode-alist '("\\.art\\'"          . image-mode))
   (add-to-list 'auto-mode-alist '("\\.kra\\'"          . image-mode))
+
+  (declare-function gbr-to-png "setup-image-mode" (file data-p))
+  (declare-function drawio-to-png "setup-image-mode" (file data-p))
+  (declare-function excalidraw-to-png "setup-image-mode" (file data-p))
+  (declare-function krita-to-png "setup-image-mode" (file data-p))
+
+  :config
 
   (defun gbr-to-png (file data-p)
     (if data-p
@@ -48,10 +53,11 @@
       (call-process "unzip" nil t nil
                     "-qq" "-c" "-x" file "mergedimage.png")))
 
-  :config
-  (image-converter-initialize)
-  (image-converter-add-handler "art" 'gbr-to-png)
-  (image-converter-add-handler "gbr" 'gbr-to-png)
-  (image-converter-add-handler "drawio" 'drawio-to-png)
-  (image-converter-add-handler "excalidraw" 'excalidraw-to-png)
-  (image-converter-add-handler "kra" 'krita-to-png))
+  (run-with-timer 3 nil
+                  (lambda ()
+                    (image-converter-initialize)
+                    (image-converter-add-handler "art" 'gbr-to-png)
+                    (image-converter-add-handler "gbr" 'gbr-to-png)
+                    (image-converter-add-handler "drawio" 'drawio-to-png)
+                    (image-converter-add-handler "excalidraw" 'excalidraw-to-png)
+                    (image-converter-add-handler "kra" 'krita-to-png))))
