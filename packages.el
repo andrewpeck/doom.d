@@ -46,7 +46,7 @@
 (package! devdocs.el              :pin "4023409017d37dc2d6c230fe010fadb917b4395b" :recipe (:host github :repo "astoff/devdocs.el"))
 (package! dired-filter            :pin "de9336f4b47ef901799fe95315fa080fa6d77b48" :recipe (:host github :repo "Fuco1/dired-hacks"))
 (package! dired-git-info          :pin "1bfcdf139181afc9034a40dd0640e53d95b12f5f" :recipe (:host github :repo "tuh8888/dired-git-info"))
-(package! dired-preview           :pin "64e3759612c932f59499a455d22fc14d7a7d67bb" :recipe (:host github :repo "protesilaos/dired-preview"))
+(package! dired-preview           :pin "3e3780a3becb53009593cb3dbfbef987ea286a2f" :recipe (:host github :repo "protesilaos/dired-preview"))
 (package! drag-stuff              :pin "6d06d846cd37c052d79acd0f372c13006aa7e7c8")
 (package! dwim-shell-command      :pin "4b077432a94873e5f505c8f569743cfd984eebb1" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! eldoc-box               :pin "ebc0e2c13791f5a22cf81be050b32f0ebf726855" :recipe (:host github :repo "casouri/eldoc-box"))
