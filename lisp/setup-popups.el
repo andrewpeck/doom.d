@@ -22,6 +22,12 @@
   :select t
   :quit nil)
 
+(set-popup-rule! "*tree-sitter explorer for*"
+  :side 'right
+  :size 0.5
+  :select t
+  :quit nil)
+
 (set-popup-rule! ".*HN.*"
   :side 'right
   :size 0.5
