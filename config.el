@@ -25,6 +25,9 @@
 (defun doom-project-root (&rest _)
   (project-root-dir))
 
+(setq use-package-hook-name-suffix nil
+      use-package-compute-statistics t)
+
 ;;------------------------------------------------------------------------------
 ;; Shhh...
 ;;------------------------------------------------------------------------------
