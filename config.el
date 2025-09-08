@@ -14,6 +14,9 @@
 ;; https://github.com/danilevy1212/doom
 ;; https://github.com/jishnusen/emacs-config
 
+;; If non-nil, display instructions on how to exit the client on connection.
+(setq server-client-instructions nil)
+
 (defun project-root-dir (&rest _)
   "Returns root directory of current project."
   (when-let ((proj (project-current)))
