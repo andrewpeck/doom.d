@@ -757,5 +757,5 @@ help instead of keeping it open."
 ;;------------------------------------------------------------------------------
 
 ;; Local Variables:
-;; eval: (+fold/close-all)
+;; eval: (when nil (+fold/close-all))
 ;; End:
