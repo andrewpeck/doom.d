@@ -474,7 +474,7 @@ _h_ decrease width    _l_ increase width
 ;; Yasnippet
 ;;------------------------------------------------------------------------------
 
-(use-package yasnippet-capf
+(use-package! yasnippet-capf
   :after cape
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
@@ -488,6 +488,7 @@ _h_ decrease width    _l_ increase width
   :custom
 
   (yas-snippet-dirs '("~/.doom.d/snippets"))
+  (yas-also-auto-indent-first-line t)
 
   :config
 
@@ -506,7 +507,6 @@ _h_ decrease width    _l_ increase width
               'advice/remove-duplicate-snippets)
 
   ;; Don't add newlines to snippet endings
-  (setq yas-also-auto-indent-first-line t)
   (add-hook 'snippet-mode-hook
             (lambda () (setq require-final-newline nil))))
 
