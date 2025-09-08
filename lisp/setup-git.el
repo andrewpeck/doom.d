@@ -42,6 +42,13 @@
         :desc "Stash List" "l" #'magit-stash-list
         :desc "Stash Show" "v" #'magit-stash-show)))
 
+(defun my/git-set-file-mode ()
+  "Set git file mode to false.
+
+Useful for working on NAS where permissions don't make sense."
+  (interactive)
+  (shell-command "git config core.fileMode false"))
+
 (defun my/setup-git-author-peckandrew ()
   "Setup git author in this pwd."
   (interactive)
