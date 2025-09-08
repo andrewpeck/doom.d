@@ -64,7 +64,7 @@
  lispy
  (evil +everywhere)  ; come to the dark side, we have cookies
  fold                ; (nigh) universal code folding
- snippets            ; my elves. They type so I don't have to
+ ;; snippets            ; my elves. They type so I don't have to
  word-wrap           ; soft wrapping with language-aware indent
 
  ;;file-templates    ; auto-snippets for empty files
