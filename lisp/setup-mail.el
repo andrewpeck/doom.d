@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
+(setq +notmuch-sync-backend 'offlineimap)
+
 (when (string= (system-name) "larry")
 
   ;; mu4e
