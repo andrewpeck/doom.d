@@ -29,6 +29,7 @@
   :config
   (map! :map calc-mode-map :n "?" #'casual-calc-tmenu
         :map dired-mode-map :n "?" #'casual-dired-tmenu
+        :map calendar-mode-map :n "?" #'casual-calendar-tmenu
         :map reb-mode-map :n "?" #'casual-re-builder-tmenu))
 
 ;;------------------------------------------------------------------------------
