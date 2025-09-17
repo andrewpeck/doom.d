@@ -156,6 +156,18 @@
                 (when TeX-master
                   (setq TeX-current-process-region-p nil))))
 
+  (defun texify-quotation-marks ()
+    (interactive)
+    (let ((opening t))
+      (goto-char (point-min))
+      (while (re-search-forward "\"" nil t)
+        ;; show some context around the quote at point
+        (let ((start (if opening (- (point) 1) (- (point) 20)))
+              (end (if opening (+ (point) 20) (+ (point) 1))))
+          (when (yes-or-no-p (format "Replace? %s" (buffer-substring-no-properties start end)))
+            (replace-match (if opening "``" "''"))
+            (setq opening (not opening)))))))
+
   (defun hook/modify-latex-hyphen-syntax ()
     "treat hyphenated words as one"
     (modify-syntax-entry ?- "w"))
