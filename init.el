@@ -76,6 +76,7 @@
 
  :emacs
 
+ tramp
  ibuffer           ; interactive buffer management
  vc                ; version-control and Emacs, sitting in a tree
  (undo)            ; persistent, smarter undo for your inevitable mistakes
