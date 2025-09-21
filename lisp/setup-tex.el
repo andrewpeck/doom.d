@@ -155,18 +155,46 @@
               (lambda ()
                 (when TeX-master
                   (setq TeX-current-process-region-p nil))))
-
   (defun texify-quotation-marks ()
     (interactive)
-    (let ((opening t))
+    ;; TODO: should add some feature to skip forward?
+
+    (save-excursion
       (goto-char (point-min))
+
+      "find a quote mark"
       (while (re-search-forward "\"" nil t)
-        ;; show some context around the quote at point
-        (let ((start (if opening (- (point) 1) (- (point) 20)))
-              (end (if opening (+ (point) 20) (+ (point) 1))))
-          (when (yes-or-no-p (format "Replace? %s" (buffer-substring-no-properties start end)))
-            (replace-match (if opening "``" "''"))
-            (setq opening (not opening)))))))
+
+        (let* ((quote-pos (- (point) 1))
+               (next-quote-pos nil))
+
+          (save-excursion
+            (when (re-search-forward "\"" nil t)
+              (setq next-quote-pos (point))))
+
+          (when (and quote-pos next-quote-pos)
+
+            (lazy-highlight-cleanup)
+            (let ((overlay (make-overlay quote-pos next-quote-pos)))
+              (overlay-put overlay 'face '(ffap bold)))
+
+            (unwind-protect
+                (progn
+
+                  ;; Opening quote
+                  (goto-char quote-pos)
+                  (overlay-put (make-overlay (point) (1+ (point)))'face '(isearch))
+                  (when (yes-or-no-p "Replace opening quote?")
+                    (delete-char 1)
+                    (insert "``")
+
+                    (goto-char next-quote-pos)
+                    (overlay-put (make-overlay (point) (1+ (point)))'face '(isearch))
+                    (when (yes-or-no-p "Replace closing quote?")
+                      (delete-char 1)
+                      (insert "''"))))
+
+              (remove-overlays quote-pos next-quote-pos)))))))
 
   (defun hook/modify-latex-hyphen-syntax ()
     "treat hyphenated words as one"
@@ -198,7 +226,7 @@
                             (cl-remove-if-not (lambda (f) (string= "tex" (file-name-extension f)))
                                               (project-files (project-current))))))
       (setq default-tex-master master-file)
-      (setq TeX-master master-file))) ; execute now to take effect immediately
+      (setq TeX-master master-file)))   ; execute now to take effect immediately
 
   (defun TeX-toggle-folding ()
     (interactive)
