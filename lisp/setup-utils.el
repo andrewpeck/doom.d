@@ -585,46 +585,6 @@ The date will follow the format in `current-date-format'"
         ("Europe/Paris" "Geneva")))
 
 ;;------------------------------------------------------------------------------
-;; Mime type register
-;;------------------------------------------------------------------------------
-
-(defun register-new-mime-type (handler extension &optional executable logo comment)
-
-  (when logo
-    (shell-command (format "xdg-icon-resource install --context mimetypes --size 48 %s application-x-%s" logo handler)))
-
-
-  (unless (and handler extension)
-    (error "Must define handler (program to open files with) and extensions"))
-
-  (unless executable
-    (setq executable handler))
-
-  (unless comment
-    (setq comment ""))
-
-  (let ((xml  (format "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<mime-info xmlns=\"http://www.freedesktop.org/standards/shared-mime-info\">
-    <mime-type type=\"application/x-%s\">
-        <comment>\"%s\"</comment>
-        <icon name=\"application-x-%s\"/>
-        <glob pattern=\"*.%s\"/>
-    </mime-type>
-</mime-info>" handler comment handler extension)))
-
-    (make-directory "~/.local/share/mime/packages" t)
-    (write-region xml nil (format  "~/.local/share/mime/packages/%s.xml" handler)))
-
-  (shell-command (format  "xdg-mime default %s.desktop application/x-%s" handler handler))
-  (shell-command "update-mime-database ~/.local/share/mime")
-  (shell-command "update-desktop-database ~/.local/share/applications"))
-
-(defun ap/register-mime-types ()
-  (interactive)
-  (register-new-mime-type "drawio" "drawio" "drawio")
-  (register-new-mime-type "excalidraw" "excalidraw" "excalidraw"))
-
-;;------------------------------------------------------------------------------
 ;; De-latexify helper
 ;;------------------------------------------------------------------------------
 
@@ -662,3 +622,92 @@ This function tries to de hyphenate them."
   (calc nil t)
   (setq-local frame-title-format "Calc Popup")
   (calc-big-language))
+
+(defvar my/xdg-data-dirs
+  (mapcar (lambda (dir) (expand-file-name "applications" dir))
+          (cons (xdg-data-home)
+                (xdg-data-dirs)))
+  "Directories in which to search for applications (.desktop files).")
+
+(defun my/list-desktop-files ()
+  "Return an alist of all Linux applications.
+Each list entry is a pair of (desktop-name . desktop-file).
+This function always returns its elements in a stable order."
+  (let ((hash (make-hash-table :test #'equal))
+        result)
+    (dolist (dir my/xdg-data-dirs)
+      (when (file-exists-p dir)
+        (let ((dir (file-name-as-directory dir)))
+          (dolist (file (directory-files-recursively dir ".*\\.desktop$"))
+            (let ((id (subst-char-in-string ?/ ?- (file-relative-name file dir))))
+              (when (and (not (gethash id hash)) (file-readable-p file))
+                (push (cons id file) result)
+                (puthash id file hash)))))))
+    result))
+
+(defun my/mime-get-mime-type ()
+  (string-trim
+   (shell-command-to-string
+    (format "xdg-mime query filetype %s" buffer-file-name))))
+
+(defun my/mime-set-mime-type (mime-type handler)
+  (when-let* ((cmd (format "xdg-mime default %s %s" handler mime-type)))
+    (shell-command-to-string cmd)
+    (message (format "Mime type for \"%s\" is \"%s\"" mime-type
+                     (string-trim (shell-command-to-string (format "xdg-mime query default %s" mime-type)))))))
+
+(defun my/update-mime-type ()
+  "Update the mime association of the current file."
+  (interactive)
+  (when-let* ((mime-type (my/mime-get-mime-type))
+              (handler (completing-read "Handler: " (mapcar #'car (my/list-desktop-files)))))
+    (when (yes-or-no-p (format "Update %s to be handled by %s?" mime-type handler))
+      (my/mime-set-mime-type mime-type handler))))
+
+;;------------------------------------------------------------------------------
+;; Mime type register
+;;------------------------------------------------------------------------------
+
+(defun register-new-mime-type (handler extension &optional executable logo comment)
+
+  (when logo
+    (shell-command (format "xdg-icon-resource install --context mimetypes --size 48 %s application-x-%s" logo handler)))
+
+
+  (unless (and handler extension)
+    (error "Must define handler (program to open files with) and extensions"))
+
+  (unless executable
+    (setq executable handler))
+
+  (unless comment
+    (setq comment ""))
+
+  (let* ((filename (format  "~/.local/share/mime/packages/application-x-%s.xml" handler))
+         (xml  (format "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<mime-info xmlns=\"http://www.freedesktop.org/standards/shared-mime-info\">
+    <mime-type type=\"application/x-%s\">
+        <comment>\"%s\"</comment>
+        <icon name=\"application-x-%s\"/>
+        <glob-deleteall/>
+        <glob pattern=\"*.%s\"/>
+    </mime-type>
+</mime-info>" handler comment handler extension))
+         )
+
+    (make-directory "~/.local/share/mime/packages" t)
+    (write-region xml nil filename)
+
+    (shell-command (format  "xdg-mime default %s.desktop application/x-%s" handler handler))
+    (shell-command "update-mime-database ~/.local/share/mime")
+    (shell-command "update-desktop-database ~/.local/share/applications")
+    (shell-command (format "xdg-mime install %s" filename))))
+
+(defun my/register-mime-types ()
+  "Register a few mimetypes that are useful for me.
+
+Make sure perl-file-mimeinfo is installed."
+  (interactive)
+  (register-new-mime-type "drawio" "drawio" "drawio")
+  (register-new-mime-type "emacs" "el" "emacs")
+  (register-new-mime-type "excalidraw" "excalidraw" "excalidraw"))
