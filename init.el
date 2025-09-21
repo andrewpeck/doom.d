@@ -114,7 +114,7 @@
 
  ;;debugger          ; FIXME stepping through code, to help you add bugs
  ;; ein
- ;; tree-sitter
+ tree-sitter
  ;;pass              ; password manager for nerds
  ;;upload            ; map local to remote projects via ssh/ftp
 
@@ -126,19 +126,19 @@
  :lang
 
  common-lisp
- (cc +lsp)                     ; C/C++/Obj-C madness
- (clojure +lsp)                ; java with a lisp
- (json)                        ; json, uhg
- (latex +fold +lsp)            ; writing papers in Emacs has never been so fun
- (markdown +grip)              ; writing docs for people to ignore
- data                          ; A dumping ground for data formats (csv, xml)
- emacs-lisp                    ; drown in parentheses
- (php)                         ; perl's insecure younger brother
- (python +pyright +lsp)        ; beautiful is better than ugly
- (rust +lsp)                   ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
- (sh +fish)                    ; she sells {ba,z,fi}sh shells on the C xor
- (web)                         ; the tubes
- (yaml)                        ; JSON, but readable
+ (cc +lsp +tree-sitter)              ; C/C++/Obj-C madness
+ (clojure +lsp +tree-sitter)         ; java with a lisp
+ (json +tree-sitter)                 ; json, uhg
+ (latex +fold +lsp +tree-sitter)     ; writing papers in Emacs has never been so fun
+ (markdown +grip +tree-sitter)       ; writing docs for people to ignore
+ data                                ; A dumping ground for data formats (csv, xml)
+ emacs-lisp                          ; drown in parentheses
+ (php +tree-sitter +lsp)             ; perl's insecure younger brother
+ (python +pyright +lsp +tree-sitter) ; beautiful is better than ugly
+ (rust +lsp +tree-sitter)            ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+ (sh +fish +tree-sitter)             ; she sells {ba,z,fi}sh shells on the C xor
+ (web +tree-sitter)                  ; the tubes
+ (yaml +tree-sitter)                 ; JSON, but readable
 
  ;; organize your plain life in plain text
  (org +dragndrop +gnuplot +pandoc
@@ -156,36 +156,36 @@
       ;;+roam2
       )
 
- ;;assembly           ; assembly for fun or debugging
- ;;common-lisp        ; if you've seen one lisp, you've seen them all
- ;;coq                ; proofs-as-programs
- ;;crystal            ; ruby at the speed of c
- ;;csharp             ; unity, .NET, and mono shenanigans
- ;;elixir             ; erlang done right
- ;;elm                ; care for a cup of TEA?
- ;;erlang             ; an elegant language for a more civilized age
- ;;ess                ; emacs speaks statistics
- ;;faust              ; dsp, but you get to keep your soul
- ;;fsharp             ; ML stands for Microsoft's Language
- ;;fstar              ; (dependent) types and (monadic) effects and Z3
- ;;(go +lsp)          ; the hipster dialect
- ;;(haskell +lsp)     ; a language that's lazier than I am
- ;;hy                 ; readability of scheme w/ speed of python
- ;;idris              ; A language you can depend on
- ;;(java +meghanada)  ; the poster child for carpal tunnel syndrome
- (javascript +lsp) ; all(hope(abandon(ye(who(enter(here))))))
- ;;(julia +lsp)       ; a better, faster MATLAB
- ;;lean               ; For folks with too much to prove
- ;;factor             ;
- ;;ledger             ; an accounting system in Emacs
- (lua +fennel +lsp)   ; one-based indices? one-based indices
- ;;nim                ; python + lisp at the speed of c
- (nix +lsp)           ; I hereby declare "nix geht mehr!"
- ;;ocaml              ; an objective camel
- ;;plantuml           ; diagrams for confusing people more
- ;;purescript         ; javascript, but functional
- ;;(racket +lsp +xp)  ; a DSL for DSLs
- ;;scheme             ; a fully conniving family of lisps
+ ;;assembly                      ; assembly for fun or debugging
+ ;;common-lisp                   ; if you've seen one lisp, you've seen them all
+ ;;coq                           ; proofs-as-programs
+ ;;crystal                       ; ruby at the speed of c
+ ;;csharp                        ; unity, .NET, and mono shenanigans
+ ;;elixir                        ; erlang done right
+ ;;elm                           ; care for a cup of TEA?
+ ;;erlang                        ; an elegant language for a more civilized age
+ ;;ess                           ; emacs speaks statistics
+ ;;faust                         ; dsp, but you get to keep your soul
+ ;;fsharp                        ; ML stands for Microsoft's Language
+ ;;fstar                         ; (dependent) types and (monadic) effects and Z3
+ ;;(go +lsp)                     ; the hipster dialect
+ ;;(haskell +lsp)                ; a language that's lazier than I am
+ ;;hy                            ; readability of scheme w/ speed of python
+ ;;idris                         ; A language you can depend on
+ ;;(java +meghanada)             ; the poster child for carpal tunnel syndrome
+ (javascript +lsp +tree-sitter)  ; all(hope(abandon(ye(who(enter(here))))))
+ ;;(julia +lsp)                  ; a better, faster MATLAB
+ ;;lean                          ; For folks with too much to prove
+ ;;factor                        ;
+ ;;ledger                        ; an accounting system in Emacs
+ (lua +fennel +lsp +tree-sitter) ; one-based indices? one-based indices
+ ;;nim                           ; python + lisp at the speed of c
+ (nix +lsp +tree-sitter)         ; I hereby declare "nix geht mehr!"
+ ;;ocaml                         ; an objective camel
+ ;;plantuml                      ; diagrams for confusing people more
+ ;;purescript                    ; javascript, but functional
+ ;;(racket +lsp +xp)             ; a DSL for DSLs
+ ;;scheme                        ; a fully conniving family of lisps
 
  :email
 
