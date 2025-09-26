@@ -103,7 +103,7 @@
 
  llm
  biblio                                 ; Writes a PhD for you (citation needed)
- (docker)
+ (docker +lsp +tree-sitter)
  (eval +overlay)                        ; run code, run (also, repls)
  (lookup +dictionary +docsets +offline) ; helps you navigate your code and documentation
  (lsp +eglot)                           ;
