@@ -619,9 +619,15 @@ This function tries to de hyphenate them."
 ;;------------------------------------------------------------------------------
 
 (defun calc-popup ()
-  (calc nil t)
-  (setq-local frame-title-format "Calc Popup")
-  (calc-big-language))
+  (interactive)
+  (switch-to-buffer (generate-new-buffer "Calc Popup"))
+  (calc-mode)
+  (calc-big-language)
+  (set-frame-width (selected-frame) 100)  
+  (set-frame-height (selected-frame) 80)  
+  (with-current-buffer (calc-trail-buffer)
+    (and calc-display-trail
+         (calc-trail-display nil t))))
 
 (defvar my/xdg-data-dirs
   (mapcar (lambda (dir) (expand-file-name "applications" dir))
