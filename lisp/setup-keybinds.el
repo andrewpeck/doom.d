@@ -99,7 +99,8 @@
         :map lispy-mode-map-evilcp "M-RET" nil
         :map lispy-mode-map-lispy "M-RET" nil)
 
-  (map! :map emacs-lisp-mode-map "C-e" #'eval-print-last-sexp)
+  (map! :map evil-motion-state-map "C-e" nil)
+  (map! :map emacs-lisp-mode-map   "C-e" #'eval-print-last-sexp)
 
   ;; middle click to paste
   (map! "<mouse-2>" 'evil-paste-after
