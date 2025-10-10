@@ -28,16 +28,16 @@ STATUS defaults to `flycheck-last-status-change' if omitted or
 nil."
   (concat
    (pcase (or status flycheck-last-status-change)
-     (`not-checked " ")
-     (`no-checker " ")
-     (`running " ")
-     (`errored " ")
-     (`interrupted ". ")
-     (`suspicious "? ")
+     (`not-checked "")
+     (`no-checker  "")
+     (`running     "")
+     (`errored     "")
+     (`interrupted "")
+     (`suspicious  "")
      (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
                   (if (not (or .error .warning))
                       ;; no errors or warnings
-                      " "
+                      ""
                       ;; else
                       (concat
                        (propertize (format "%s" (or .error "0") ) 'face '(:inherit error))
@@ -84,16 +84,10 @@ nil."
                  (if (or defining-kbd-macro executing-kbd-macro)
                      (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
-                 (when flycheck-mode
-                   (concat
-                    (string-join
-                     (mapcar 'symbol-name flycheck-enabled-checkers) " ") " "))
-
-                 (when buffer-env-active " ")
-
-                 ;; replace (eglot--mode-line-format)
-                 (when (and (fboundp #'eglot-managed-p)
-                            (eglot-managed-p)) " ")
+                 (when (and flycheck-mode flycheck-enabled-checkers)
+                   (concat "("
+                           (string-join
+                            (mapcar 'symbol-name flycheck-enabled-checkers) " ") ") "))
 
                  ;; mode-line-misc-info
                  ;; global-mode-string
@@ -101,16 +95,24 @@ nil."
 
                  (if (eq major-mode 'pdf-view-mode)
                      (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages))
-                   "L%l·C%c·%p")
+                   "(L%l C%c %p)")
 
-                 (if (and (not (remote-host? default-directory)) vc-mode)
-                     (concat " ⋅" vc-mode " ⋅ ") " ⋅ ")
+                 (and (not (remote-host? default-directory))
+                      (when-let ((m (vc-mode)))
+                        (concat " (" (string-trim m) ") ")))
 
-                 (format "%s" (if (listp mode-name) (car mode-name) mode-name))
+                 ;; (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
-                 (if flycheck-mode
-                     (replace-regexp-in-string "FlyC" ""
-                                               (concat " ⋅ " (my-flycheck-mode-line-status-text)))
-                   "  ")
-                 mode-line-end-spaces
-                 "​")))))
+                 (when buffer-env-active " ")
+
+                 ;; replace (eglot--mode-line-format)
+                 (when (and (fboundp #'eglot-managed-p)
+                            (eglot-managed-p)) " ")
+
+                 (when flycheck-mode
+                   (concat " "
+                    (replace-regexp-in-string
+                     "FlyC" ""
+                     (my-flycheck-mode-line-status-text))))
+
+                 mode-line-end-spaces)))))
