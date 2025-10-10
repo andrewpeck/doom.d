@@ -27,7 +27,8 @@
 ;; M-x describe-font
 (defun font-list ()
   ""
-  `(("Hack Nerd Font"           . ,(if (hd?) 21 16))
+  `(("Adwaita Mono"             . ,(if (hd?) 24 16))
+    ("Hack Nerd Font"           . ,(if (hd?) 21 16))
     ("Berkeley Mono"            . ,(if (hd?) 24 20))
     ("InconsolataGo Nerd Font"  . ,(if (hd?) 26 19))
     ("Julia Mono"               . ,(if (hd?) 21 16))
@@ -46,11 +47,11 @@
 
 (defun variable-pitch-font-list ()
   ""
-  `(("Comic Code" . ,(if (hd?) 24 16))
+  `(("Adwaita Sans" . 18)
+    ("Comic Code" . ,(if (hd?) 24 16))
     ("Cantarell"  . ,(if (hd?) 24 16))
     ("Fira Code"  . 17)
-    ("Calibri"    . 18)
-    ("Arial"      . 17)))
+    ("Calibri"    . 18)))
 
 (defun ap/update-font-list ()
   (cl-dolist (my-font (font-list))

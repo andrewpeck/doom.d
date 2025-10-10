@@ -76,7 +76,7 @@
 
   (LaTeX-mode-hook . outline-minor-mode)
   (LaTeX-mode-hook . olivetti-mode)
-  (LaTeX-mode-hook . variable-pitch-mode)
+  ;; (LaTeX-mode-hook . variable-pitch-mode)
   (LaTeX-mode-hook . jinx-mode)
   (LaTeX-mode-hook . reftex-mode)
   (LaTeX-mode-hook . hook/modify-latex-hyphen-syntax)
