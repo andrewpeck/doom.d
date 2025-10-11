@@ -623,11 +623,11 @@ This function tries to de hyphenate them."
   (switch-to-buffer (generate-new-buffer "Calc Popup"))
   (calc-mode)
   (calc-big-language)
-  (set-frame-width (selected-frame) 100)  
-  (set-frame-height (selected-frame) 80)  
   (with-current-buffer (calc-trail-buffer)
     (and calc-display-trail
-         (calc-trail-display nil t))))
+         (calc-trail-display nil t)))
+  (set-frame-width (selected-frame) 75)  
+  (set-frame-height (selected-frame) 30))
 
 (defvar my/xdg-data-dirs
   (mapcar (lambda (dir) (expand-file-name "applications" dir))
