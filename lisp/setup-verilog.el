@@ -48,8 +48,8 @@
 
   (when (modulep! +tree-sitter)
     (set-tree-sitter! 'verilog-mode 'verilog-ts-mode
-                      '((verilog :url "https://github.com/tree-sitter/tree-sitter-verilog"
-                         :commit "227d277b6a1a5e2bf818d6206935722a7503de08"))))
+      '((verilog :url "https://github.com/tree-sitter/tree-sitter-verilog"
+         :commit "227d277b6a1a5e2bf818d6206935722a7503de08"))))
 
   (defun rainbow-delimiters--apply-color-range (start end depth match)
     "Highlight a single delimiter at LOC according to DEPTH.
