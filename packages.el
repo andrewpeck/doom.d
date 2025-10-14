@@ -86,7 +86,7 @@
 (package! rainbow-delimiters      :pin "f40ece58df8b2f0fb6c8576b527755a552a5e763")
 (package! rainbow-mode            :pin "2e6b18609c2fdd1a2dc513937a64d276fd6cf24c")
 (package! resume.el               :pin "40ba4f9334f62cffc8c94eaa384897c29b58ab5c" :recipe (:host github :repo "andrewpeck/resume.el"))
-(package! scad-mode               :pin "44b4ac086bd01791ff2ccb25234b4e5d701bc10a")
+(package! scad-mode               :pin "b130730a3123387e69c85cf10633701ea447fa2a")
 (package! screenshot              :pin "2770c0cfefe1cc09d55585f4f2f336a1b26e610e" :recipe (:host github :repo "tecosaur/screenshot"))
 (package! standard-themes         :pin "0e94cf4e05a86fb0393fb7113986a105e6e469ea" :recipe (:host github :repo "protesilaos/standard-themes"))
 (package! svg-tag-mode            :pin "13e888b8bd9a0664d060149a44a751b2113331b6" :recipe (:host github :repo "rougier/svg-tag-mode"))
