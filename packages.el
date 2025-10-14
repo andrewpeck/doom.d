@@ -93,7 +93,7 @@
 (package! system-install.el       :pin "f8f3751cf72975f6289d03bf65f4d0bc8ab35516" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org                 :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
-(package! uniline                 :pin "ad2c970cb1b5fcfca477b74ece597ca674d31f4f" :recipe (:host github :repo "tbanel/uniline"))
+(package! uniline                 :pin "cc53c929af7b52e38afdc793321e87049ccb043c" :recipe (:host github :repo "tbanel/uniline"))
 (package! verilog-mode            :pin "2be535c1eb276fc449e8c89357b37d691112b3f8" :recipe (:host github :repo "veripool/verilog-mode"))
 (package! verilog-port-copy       :pin "b83145b1106d12d0d258cb44c2ed39126be0dca1" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! vim-tab-bar.el          :pin "d5bd8624320e2311b8feb40971488e29cdf7f57f" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
