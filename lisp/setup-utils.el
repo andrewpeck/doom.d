@@ -258,59 +258,9 @@ lines, e.g.
         (goto-char start)
         (insert-rectangle rect)))))
 
-;;---------------------------------------------------------------------------------
-;; Line wrapping
-;;---------------------------------------------------------------------------------
-
-(defvar ap/is-wrapped nil)
-
-(defun ap/no-wrap ()
-  (interactive)
-  (let ((inhibit-message t))
-    (setq ap/is-wrapped nil)
-    (visual-line-mode 0)
-    (toggle-truncate-lines 1)
-    (visual-fill-column-mode 0))
-
-  (message "Unwraping lines..."))
-
-(defun ap/wrap ()
-  (interactive)
-  (let ((inhibit-message t))
-    (setq ap/is-wrapped 1)
-    (visual-line-mode 1)
-    (toggle-truncate-lines 0)
-    (visual-fill-column-mode 1))
-
-  (message "Wrapping lines..."))
-
-(defun ap/toggle-wrap ()
-  (interactive)
-  (if (and (boundp 'ap/is-wrapped) ap/is-wrapped)
-      (ap/no-wrap)
-    (ap/wrap)))
-
-;; (add-hook 'text-mode-hook #'visual-fill-column-mode)
-
 ;; Disable auto fill mode in text modes
 ;; (remove-hook 'text-mode-hook #'auto-fill-mode)
-
-;; Don't wrap text modes unless we really want it
-(remove-hook 'text-mode-hook #'+word-wrap-mode)
-(remove-hook! 'latex-mode-hook #'+word-wrap-mode)
-(remove-hook! 'latex-mode-hook #'visual-fill-column-mode)
-(add-hook! 'latex-mode-hook (lambda () (toggle-truncate-lines 0)))
-(add-hook! 'markdown-mode-hook #'+word-wrap-mode)
-
-;; (defun fix-visual-fill-column-mode (&optional ARG)
-;;   (setq visual-fill-column-mode visual-line-mode))
-
-;; toggle visual-fill column mode when chaing word wrap settings
-;; (advice-add '+word-wrap-mode
-;;             :after 'fix-visual-fill-column-mode)
-;;
-;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
-
+;; 
 ;;---------------------------------------------------------------------------------
 ;; Utility Functions
 ;;---------------------------------------------------------------------------------

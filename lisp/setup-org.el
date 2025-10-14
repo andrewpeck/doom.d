@@ -144,8 +144,6 @@
         org-confirm-babel-evaluate nil
         org-display-remote-inline-images 'download
 
-        ;; visual-fill-column-mode 1
-
         ;; org-plantuml-jar-path "~/.doom.d/plantuml.jar"
 
         ;; Latex Previews

@@ -101,12 +101,6 @@
 
 (use-package! nxml
 
-  :init
-
-  (add-hook! 'nxml-mode-hook
-    (defun hook/disable-visual-fill-column-mode ()
-      (visual-fill-column-mode -1)))
-
   :config
 
   (setq nxml-child-indent 2

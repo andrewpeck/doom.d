@@ -25,6 +25,82 @@
 ;; Casual
 ;;------------------------------------------------------------------------------
 
+(remove-hook! 'text-mode-hook #'+word-wrap-mode)
+(remove-hook! 'latex-mode-hook #'+word-wrap-mode)
+(remove-hook! 'latex-mode-hook #'visual-fill-column-mode)
+
+(use-package visual-fill-column
+  :commands (visual-fill-column-adjust)
+  :config
+
+  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
+  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "c"  #'ap/toggle-wrap)
+
+  ;; Don't wrap text modes unless we really want it
+  (add-hook! 'latex-mode-hook (lambda () (toggle-truncate-lines 0)))
+  (add-hook! 'markdown-mode-hook #'+word-wrap-mode)
+
+  (defvar-local ap/is-wrapped nil "Store the state of line wrapping in the current buffer.")
+  (defvar-local ap/is-wrapped-linum-state (list display-line-numbers
+                                                doom--line-number-style))
+
+  (declare-function ap/no-wrap "setup-utils" ())
+  (declare-function ap/wrap "setup-utils" ())
+  (declare-function ap/wrap-and-center "setup-utils" ())
+
+  ;; TODO: should rewrite this based around word-wrap-mode
+  (defun ap/wrap ()
+    (interactive)
+    (let ((inhibit-message t))
+      (setq ap/is-wrapped 1)
+      (visual-line-mode 1)
+      (toggle-truncate-lines 0)
+      (visual-fill-column-mode 1))
+
+    (message "Wrapping lines..."))
+
+  (defun ap/no-wrap ()
+    (interactive)
+    (let ((inhibit-message t))
+      (setq ap/is-wrapped nil)
+      (setq display-line-numbers (car ap/is-wrapped-linum-state))
+      (setq doom--line-number-style (cadr ap/is-wrapped-linum-state))
+      (visual-line-mode 0)
+      (toggle-truncate-lines 1)
+      (visual-fill-column-mode 0))
+
+    (message "Unwraping lines..."))
+
+  (defun ap/wrap-and-center ()
+    (interactive)
+    (ap/wrap)
+
+    (setq visual-fill-column-center-text t)
+    (visual-fill-column-adjust)
+
+    (setq doom--line-number-style nil)
+    (setq display-line-numbers nil))
+
+  (defun ap/toggle-wrap ()
+    (interactive)
+    (if ap/is-wrapped (ap/no-wrap) (ap/wrap)))
+
+  (defun ap/toggle-wrap-and-center ()
+    (interactive)
+    (if ap/is-wrapped (ap/no-wrap) (ap/wrap-and-center)))
+
+  :init
+
+  (declare-function hook/disable-visual-fill-column-mode "setup-misc" ())
+
+  (add-hook! 'nxml-mode-hook
+    (defun hook/disable-visual-fill-column-mode ()
+      (visual-fill-column-mode -1))))
+
+;;------------------------------------------------------------------------------
+;; Casual
+;;------------------------------------------------------------------------------
+
 (use-package casual
   :config
   (map! :map calc-mode-map :n "?" #'casual-calc-tmenu

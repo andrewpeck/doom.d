@@ -983,10 +983,6 @@ lines are selected, or the NxM dimensions of a block selection.")
 (add-hook 'circe-mode-hook #'set-special-modeline)
 (add-hook 'pdf-tools-enabled-hook #'set-pdf-modeline)
 
-;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
-;; (setq-default visual-fill-column-center-text nil)
-
-
 ;; Doom
 (after! doom-todo-ivy
   (setq doom/ivy-task-tags

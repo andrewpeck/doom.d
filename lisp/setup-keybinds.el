@@ -217,7 +217,6 @@
                       :desc "Package Remove"  "r" #'system-install-remove-package)))
 
   (map! :leader :prefix "c" :desc "Make"                 "m"  #'+make/run)
-  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
   (map! :leader :prefix "t" :desc "Toggle Dark Mode"     "d"  #'toggle-dark-mode)
 
   (map! :leader :prefix "b" :desc "Format Buffer" "f"
