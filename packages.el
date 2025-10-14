@@ -60,7 +60,7 @@
 (package! flycheck-pycheckers     :pin "1bd9b7a7d4009a81ebd34515a72a3a94c313ad76" :recipe (:host github :repo "msherry/flycheck-pycheckers"))
 (package! gptel                   :pin "054f59c38a73e52cf179f5866ef07f5dd23512e0")
 (package! gptel-quick             :pin "495b5e0b5348dbced1448bd12cbf8847e30b5175" :recipe (:host github :repo "karthink/gptel-quick"))
-(package! graphviz-dot-mode       :pin "2c7ba85d19cbed4984d0cab31aa33800ffa89f78")
+(package! graphviz-dot-mode       :pin "516c151b845a3eb2da73eb4ee648ad99172087ac")
 (package! hdl_deps                :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
 (package! hog-emacs               :pin "893dc124ce3e48f99e995749788f329fa36adc6c" :recipe (:host github :repo "andrewpeck/hog-emacs"))
 (package! hydra                   :pin "59a2a45a35027948476d1d7751b0f0215b1e61aa")
