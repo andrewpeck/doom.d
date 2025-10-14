@@ -27,7 +27,7 @@
 ;; M-x describe-font
 (defun font-list ()
   ""
-  `(("Adwaita Mono"             . ,(if (hd?) 24 16))
+  `(("Adwaita Mono"             . ,(if (hd?) 22 16))
     ("Hack Nerd Font"           . ,(if (hd?) 21 16))
     ("Berkeley Mono"            . ,(if (hd?) 24 20))
     ("InconsolataGo Nerd Font"  . ,(if (hd?) 26 19))
