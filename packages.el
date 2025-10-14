@@ -43,7 +43,7 @@
 (package! comint-scroll-to-bottom :pin "1cd1471cfca72ac62d330630afe2f2fad44abcf5" :recipe (:host github :repo "jorgenschaefer/comint-scroll-to-bottom"))
 (package! crontab-mode            :pin "7412f3df0958812bfcacd5875a409fa795fa8ecc")
 (package! delight                 :pin "15acb0f0ba400c470e378f9984b315f9e02c1122")
-(package! devdocs.el              :pin "4023409017d37dc2d6c230fe010fadb917b4395b" :recipe (:host github :repo "astoff/devdocs.el"))
+(package! devdocs.el              :pin "330b46505363e7e735e10b4ecbb8c722c0bc7c46" :recipe (:host github :repo "astoff/devdocs.el"))
 (package! dired-filter            :pin "de9336f4b47ef901799fe95315fa080fa6d77b48" :recipe (:host github :repo "Fuco1/dired-hacks"))
 (package! dired-git-info          :pin "1bfcdf139181afc9034a40dd0640e53d95b12f5f" :recipe (:host github :repo "tuh8888/dired-git-info"))
 (package! dired-preview           :pin "3e3780a3becb53009593cb3dbfbef987ea286a2f" :recipe (:host github :repo "protesilaos/dired-preview"))
