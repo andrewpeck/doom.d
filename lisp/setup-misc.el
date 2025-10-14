@@ -582,10 +582,6 @@ help instead of keeping it open."
 
 (use-package! eldoc
   :config
-
-  (map! :leader :desc "Eldoc Help at Point" "kk" 'eldoc-box-help-at-point)
-  (map! :leader :desc "Eldoc Help at Point" "kh" 'eldoc-box-hover-at-point-mode)
-
   (setq eldoc-echo-area-prefer-doc-buffer t
         eldoc-idle-delay 0.5
         eldoc-echo-area-use-multiline-p t))
@@ -623,9 +619,7 @@ help instead of keeping it open."
   (setq comint-move-point-for-output t
         comint-scroll-to-bottom-on-input t
         comint-scroll-to-bottom-on-output t
-        comint-scroll-show-maximum-output t)
-
-  )
+        comint-scroll-show-maximum-output t))
 
 ;;------------------------------------------------------------------------------
 ;; ielm

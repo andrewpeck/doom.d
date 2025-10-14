@@ -50,7 +50,6 @@
 (package! drag-stuff              :pin "6d06d846cd37c052d79acd0f372c13006aa7e7c8")
 (package! dwim-shell-command      :pin "5ffad4ac5702e046166d0f59a3d3d790aa8274a2" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! eglot-booster           :pin "cab7803c4f0adc7fff9da6680f90110674bb7a22" :recipe (:host github :repo "jdtsmith/eglot-booster"))
-(package! eldoc-box               :pin "fead2cef661790417267e5498d4d14806e020f99" :recipe (:host github :repo "casouri/eldoc-box"))
 (package! elfeed                  :pin "a39fb78e34ee25dc8baea83376f929d7c128344f" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-colorpicker       :pin "3acee0fc0e35e130fb049ab69f99544a1ca9d11f" :recipe (:host github :repo "syohex/emacs-colorpicker"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
