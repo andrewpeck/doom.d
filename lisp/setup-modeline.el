@@ -29,19 +29,20 @@ nil."
   (concat
    (pcase (or status flycheck-last-status-change)
      (`not-checked "")
-     (`no-checker  "")
-     (`running     "")
+     (`no-checker  "")
+     (`running     "󰔟")
      (`errored     "")
-     (`interrupted "")
+     (`interrupted "")
      (`suspicious  "")
      (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
                   (if (not (or .error .warning))
                       ;; no errors or warnings
-                      ""
-                      ;; else
-                      (concat
-                       (propertize (format "%s" (or .error "0") ) 'face '(:inherit error))
-                       "·" (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning)) " ")))))  " "))
+                      ""
+                    ;; else
+                    (concat
+                     (propertize (format "%s" (or .error "0") ) 'face '(:inherit error))
+                     "·" (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning)) " ")))))
+   " "))
 
 (after! vc-git
   (defun advice/vc-mode-line-transform (tstr)
