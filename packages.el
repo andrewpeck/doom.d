@@ -101,7 +101,7 @@
 (package! visual-fill-column      :pin "e391b52922086ac38397a3325933900b6d90f9f0" :recipe (:host codeberg :repo "joostkremers/visual-fill-column"))
 (package! vivado_mode             :pin "d0192c2919855bbc96f269f75b49a5a95242eeb1" :recipe (:host github :repo "andrewpeck/vivado_mode"))
 (package! wavedrom-mode           :pin "249aec11fdab12ae6228c2bc2580b581d16e3443" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
-(package! xr                      :pin "cbcb51d5ba2a28c47264ddd17ac4ff0c89b0451e")                           ; xr is rx in reverse
+(package! xr                      :pin "4088798ad47d0d57cd67a8129a101645978ab1bd")                           ; xr is rx in reverse
 ;; end:sort
 
 ;; (package! treesit-auto            :pin "016bd286a1ba4628f833a626f8b9d497882ecdf3" :recipe (:host github :repo "renzmann/treesit-auto"))
