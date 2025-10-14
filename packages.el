@@ -48,7 +48,7 @@
 (package! dired-git-info          :pin "1bfcdf139181afc9034a40dd0640e53d95b12f5f" :recipe (:host github :repo "tuh8888/dired-git-info"))
 (package! dired-preview           :pin "3e3780a3becb53009593cb3dbfbef987ea286a2f" :recipe (:host github :repo "protesilaos/dired-preview"))
 (package! drag-stuff              :pin "6d06d846cd37c052d79acd0f372c13006aa7e7c8")
-(package! dwim-shell-command      :pin "71ed89f097c800ed3b5516e2b5541fdb6a1003b6" :recipe (:host github :repo "xenodium/dwim-shell-command"))
+(package! dwim-shell-command      :pin "5ffad4ac5702e046166d0f59a3d3d790aa8274a2" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! eglot-booster           :pin "cab7803c4f0adc7fff9da6680f90110674bb7a22" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 (package! eldoc-box               :pin "8c5104f06700b774b8af76d77a440e334fbc03e9" :recipe (:host github :repo "casouri/eldoc-box"))
 (package! elfeed                  :pin "a39fb78e34ee25dc8baea83376f929d7c128344f" :recipe (:host github :repo "skeeto/elfeed"))
