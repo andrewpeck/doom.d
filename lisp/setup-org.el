@@ -17,7 +17,6 @@
   (add-hook 'org-mode-hook (defun hook/org-set-scroll-margin () (setq-local scroll-margin 1)))
   ;; (add-hook 'org-mode-hook (defun hook/org-auto-fill-mode () (auto-fill-mode t)))
   (add-hook 'org-mode-hook (defun hook/org-enable-evil-org-mode () (evil-org-mode)))
-  (add-hook 'org-mode-hook (defun hook/org-enable-word-wrap-mode () (+word-wrap-mode)))
   ;; (add-hook 'org-mode-hook (defun hook/org-enable-auto-format () (+org-enable-auto-reformat-tables-h)))
   (add-hook 'org-mode-hook (defun hook/org-latex-text-scale-mode () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))
   (add-hook 'org-mode-hook (defun hook/org-crypt-before-save-magic () (add-hook 'before-save-hook #'org-encrypt-entries nil t)))

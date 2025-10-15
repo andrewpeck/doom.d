@@ -75,7 +75,6 @@
   :hook
 
   (LaTeX-mode-hook . outline-minor-mode)
-  (LaTeX-mode-hook . olivetti-mode)
   ;; (LaTeX-mode-hook . variable-pitch-mode)
   (LaTeX-mode-hook . jinx-mode)
   (LaTeX-mode-hook . reftex-mode)
@@ -116,9 +115,6 @@
 
         (:map TeX-mode-map
          :localleader
-
-         ;; olivetti
-         :desc "Olivetti Mode" "o" 'olivetti-mode
 
          ;; formatting macros
          :desc "TeX Format Bold" "tb" 'tex-bold

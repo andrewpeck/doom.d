@@ -31,15 +31,19 @@
 
 (use-package visual-fill-column
   :commands (visual-fill-column-adjust)
-  :config
+  :init
 
   (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
   (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "c"  #'ap/toggle-wrap)
+  (map! :leader :prefix "t" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
+  (map! :localleader :desc "Olivetti Mode" "o" 'ap/toggle-wrap-and-center) 
 
   ;; Don't wrap text modes unless we really want it
-  (add-hook! 'latex-mode-hook (lambda () (toggle-truncate-lines 0)))
-  (add-hook! 'markdown-mode-hook #'+word-wrap-mode)
+  ;; (add-hook! 'latex-mode-hook (lambda () (toggle-truncate-lines 0)))
+  ;; (add-hook! 'markdown-mode-hook #'+word-wrap-mode)
+  ;; (add-hook 'org-mode-hook (defun hook/org-enable-word-wrap-mode () (+word-wrap-mode)))
 
+  (defvar-local doom--line-number-style nil "Style of doom line numbers.")
   (defvar-local ap/is-wrapped nil "Store the state of line wrapping in the current buffer.")
   (defvar-local ap/is-wrapped-linum-state (list display-line-numbers
                                                 doom--line-number-style))
@@ -48,46 +52,67 @@
   (declare-function ap/wrap "setup-utils" ())
   (declare-function ap/wrap-and-center "setup-utils" ())
 
-  ;; TODO: should rewrite this based around word-wrap-mode
-  (defun ap/wrap ()
+  ;; wrap in magit status mode
+  (add-hook 'magit-status-mode-hook #'ap/wrap)
+
+  (defun ap/toggle-wrap (&optional force-state center)
     (interactive)
     (let ((inhibit-message t))
-      (setq ap/is-wrapped 1)
-      (visual-line-mode 1)
-      (toggle-truncate-lines 0)
-      (visual-fill-column-mode 1))
 
-    (message "Wrapping lines..."))
+      (if (not force-state)
+          (setq ap/is-wrapped
+                (not ap/is-wrapped))
+        (setq ap/is-wrapped force-state))
+
+      (if ap/is-wrapped
+          (visual-line-mode 1)
+        (visual-line-mode 0))
+
+      (if ap/is-wrapped
+          (toggle-truncate-lines 0)
+        (toggle-truncate-lines 1))
+
+      (if ap/is-wrapped
+          (visual-fill-column-mode 1)
+        (visual-fill-column-mode 0))
+
+      (if ap/is-wrapped
+          ;; store state when wrapping;
+          (progn
+            (setq ap/is-wrapped-linum-state (list display-line-numbers
+                                                  doom--line-number-style)))
+        ;; restore state when unwrapping
+        (progn
+          (setq display-line-numbers (car ap/is-wrapped-linum-state)
+                doom--line-number-style (cadr ap/is-wrapped-linum-state))))
+
+      (if (and center ap/is-wrapped)
+          (setq visual-fill-column-center-text t
+                doom--line-number-style nil
+                display-line-numbers nil)
+        (setq visual-fill-column-center-text nil))
+
+      (visual-fill-column-adjust))
+    
+    (if ap/is-wrapped
+        (message "Wrapping lines...")         
+      (message "Unwrapping lines...")))
+
+  (defun ap/wrap ()
+    (interactive)
+    (ap/toggle-wrap t))
 
   (defun ap/no-wrap ()
     (interactive)
-    (let ((inhibit-message t))
-      (setq ap/is-wrapped nil)
-      (setq display-line-numbers (car ap/is-wrapped-linum-state))
-      (setq doom--line-number-style (cadr ap/is-wrapped-linum-state))
-      (visual-line-mode 0)
-      (toggle-truncate-lines 1)
-      (visual-fill-column-mode 0))
-
-    (message "Unwraping lines..."))
+    (ap/toggle-wrap nil))
 
   (defun ap/wrap-and-center ()
     (interactive)
-    (ap/wrap)
-
-    (setq visual-fill-column-center-text t)
-    (visual-fill-column-adjust)
-
-    (setq doom--line-number-style nil)
-    (setq display-line-numbers nil))
-
-  (defun ap/toggle-wrap ()
-    (interactive)
-    (if ap/is-wrapped (ap/no-wrap) (ap/wrap)))
+    (ap/toggle-wrap t t))
 
   (defun ap/toggle-wrap-and-center ()
     (interactive)
-    (if ap/is-wrapped (ap/no-wrap) (ap/wrap-and-center)))
+    (ap/toggle-wrap nil t))
 
   :init
 
@@ -221,27 +246,6 @@
   :hook
   (LaTeX-mode . citar-capf-setup)
   (org-mode . citar-capf-setup))
-
-;;------------------------------------------------------------------------------
-;; Olivetti Mode
-;;------------------------------------------------------------------------------
-
-(use-package! olivetti
-  :init
-  (add-hook! 'olivetti-mode-on-hook
-    (setq-local doom--line-number-style nil)
-    (setq-local display-line-numbers nil))
-  :custom
-
-  (advice-add #'olivetti-mode :after
-              (lambda (&rest _)
-                (if (not olivetti-mode)
-                    (progn
-                      (toggle-truncate-lines 0)
-                      (visual-line-mode 0))
-                  (progn
-                    (toggle-truncate-lines 1)
-                    (visual-line-mode 1))))))
 
 ;;------------------------------------------------------------------------------
 ;; Hydra

@@ -75,7 +75,6 @@
 (package! nyan-mode               :pin "09904af23adb839c6a9c1175349a1fb67f5b4370" :recipe (:host github :repo "TeMPOraL/nyan-mode") )
 (package! ob-mermaid              :pin "372c2d91d3cdba5da9f7ac23e7bce7a0b3b46862" :recipe (:host github :repo "arnm/ob-mermaid"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
-(package! olivetti                :pin "845eb7a95a3ca3325f1120c654d761b91683f598")
 (package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))
 (package! org-download            :pin "c8be2611786d1d8d666b7b4f73582de1093f25ac" :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-excalidraw          :pin "d697540dd0b03256d00d3891307efa66ffd10a21" :recipe (:host github :repo "andrewpeck/org-excalidraw") )

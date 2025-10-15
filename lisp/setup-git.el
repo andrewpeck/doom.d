@@ -169,9 +169,6 @@ on the current line, if any."
   (add-hook! 'magit-diff-mode-hook
     (setq-local truncate-lines nil))
 
-  ;; wrap in magit status mode
-  (add-hook 'magit-status-mode-hook (lambda () (+word-wrap-mode nil)))
-
   ;; from: https://www.reddit.com/r/emacs/comments/1187mmq/can_magit_update_synce_and_init_all_submodules/
   (unless (condition-case nil
               (transient-get-suffix 'magit-submodule "U")
