@@ -154,6 +154,8 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
       auto-revert-remote-files t             ;
       undo-limit 80000000)                 ; Raise undo-limit to 80Mb
 
+(scroll-bar-mode)
+
 (setq mouse-wheel-scroll-amount-horizontal 32
       mouse-wheel-tilt-scroll t
       enable-local-variables t               ;
