@@ -99,7 +99,7 @@
 (package! vimrc-mode              :pin "f594392a0834193a1fe1522d007e1c8ce5b68e43")
 (package! visual-fill-column      :pin "aeca29f8ce16b21dce9a989461e7fa445f6ecfd5" :recipe (:host codeberg :repo "joostkremers/visual-fill-column"))
 (package! vivado_mode             :pin "d0192c2919855bbc96f269f75b49a5a95242eeb1" :recipe (:host github :repo "andrewpeck/vivado_mode"))
-(package! wavedrom-mode           :pin "249aec11fdab12ae6228c2bc2580b581d16e3443" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
+(package! wavedrom-mode           :pin "43e4fb89b35e5c899d08b01efa310ddf482e6f4e" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
 (package! xr                      :pin "4088798ad47d0d57cd67a8129a101645978ab1bd")                           ; xr is rx in reverse
 ;; end:sort
 
