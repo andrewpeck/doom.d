@@ -95,7 +95,7 @@
 (package! uniline                 :pin "cc53c929af7b52e38afdc793321e87049ccb043c" :recipe (:host github :repo "tbanel/uniline"))
 (package! verilog-mode            :pin "2be535c1eb276fc449e8c89357b37d691112b3f8" :recipe (:host github :repo "veripool/verilog-mode"))
 (package! verilog-port-copy       :pin "b83145b1106d12d0d258cb44c2ed39126be0dca1" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
-(package! vim-tab-bar.el          :pin "d5bd8624320e2311b8feb40971488e29cdf7f57f" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
+(package! vim-tab-bar.el          :pin "534c0a42e40e867e144efbaa55b1ebc116ed0c60" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
 (package! vimrc-mode              :pin "f594392a0834193a1fe1522d007e1c8ce5b68e43")
 (package! visual-fill-column      :pin "aeca29f8ce16b21dce9a989461e7fa445f6ecfd5" :recipe (:host codeberg :repo "joostkremers/visual-fill-column"))
 (package! vivado_mode             :pin "d0192c2919855bbc96f269f75b49a5a95242eeb1" :recipe (:host github :repo "andrewpeck/vivado_mode"))
