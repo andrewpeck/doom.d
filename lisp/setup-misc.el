@@ -1,33 +1,8 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
-;; was getting this error for some reason:
-;; (2 nil)
-;; (let nil (* 2 (symbol-value +word-wrap--major-mode-indent-var)))
-;; (cond ((eq +word-wrap-extra-indent 'double) (let nil (* 2 (symbol-value +word-wrap--major-mode-indent-var)))) ((eq +word-wrap-extra-indent 'single) (let nil (symbol-value +word-wrap--major-mode-indent-var))) ((integerp +word-wrap-extra-indent) (let ((fixed +word-wrap-extra-indent)) fixed)) (t (let nil 0)))
-;; (if (not (or +word-wrap--major-mode-is-text (doom-point-in-string-or-comment-p p))) (cond ((eq +word-wrap-extra-indent 'double) (let nil (* 2 (symbol-value +word-wrap--major-mode-indent-var)))) ((eq +word-wrap-extra-indent 'single) (let nil (symbol-value +word-wrap--major-mode-indent-var))) ((integerp +word-wrap-extra-indent) (let ((fixed +word-wrap-extra-indent)) fixed)) (t (let nil 0))) 0)
-;; +word-wrap--calc-extra-indent(1)
-;; (let ((adaptive-wrap-extra-indent (+word-wrap--calc-extra-indent beg))) (funcall fn beg end))
-;; +word-wrap--adjust-extra-indent-a(#<subr adaptive-wrap-fill-context-prefix> 1 22)
-;; apply(+word-wrap--adjust-extra-indent-a #<subr adaptive-wrap-fill-context-prefix> (1 22))
-(setq-default +word-wrap--major-mode-indent-var 'standard-indent)
-
-(defun copy-file-name-to-kill ()
-  "Copy the current buffer file name to the clipboard."
-  (interactive)
-  (let ((filename (if (equal major-mode 'dired-mode)
-                      default-directory
-                    (buffer-file-name))))
-    (when filename
-      (kill-new filename)
-      (message "Copied buffer file name '%s' to the clipboard." filename))))
-
 ;;------------------------------------------------------------------------------
-;; Casual
+;; Visual Fill Column
 ;;------------------------------------------------------------------------------
-
-(remove-hook! 'text-mode-hook #'+word-wrap-mode)
-(remove-hook! 'latex-mode-hook #'+word-wrap-mode)
-(remove-hook! 'latex-mode-hook #'visual-fill-column-mode)
 
 (use-package visual-fill-column
   :commands (visual-fill-column-adjust)
@@ -804,14 +779,6 @@ help instead of keeping it open."
 ;; add a space before cliplink insertion, otherwise the link just runs into the
 ;; preceding character e.g. ***[[...]]
 (advice-add 'org-cliplink :before (lambda () (insert " ")))
-
-;;---------------------------------------------------------------------------------
-;; Mixed Pitch Mode
-;;---------------------------------------------------------------------------------
-
-;; (add-hook 'org-mode-hook      #'mixed-pitch-mode)
-;; (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
-;; (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
 
 ;;------------------------------------------------------------------------------
 ;; Drag-Stuff

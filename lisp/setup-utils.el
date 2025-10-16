@@ -11,6 +11,16 @@
 ;; Utility Functions
 ;;------------------------------------------------------------------------------
 
+(defun copy-file-name-to-kill ()
+  "Copy the current buffer file name to the clipboard."
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (kill-new filename)
+      (message "Copied buffer file name '%s' to the clipboard." filename))))
+
 (defun make-declare ()
   "Make a function declaration from the symbol at point."
   (interactive)

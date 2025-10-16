@@ -1442,3 +1442,11 @@ lines are selected, or the NxM dimensions of a block selection.")
    (setq font-timer
          (run-with-timer 0 60
                          (lambda () (progn (ap/update-font-list) (doom/reload-font)))))))
+
+;;---------------------------------------------------------------------------------
+;; Mixed Pitch Mode
+;;---------------------------------------------------------------------------------
+
+;; (add-hook 'org-mode-hook      #'mixed-pitch-mode)
+;; (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
+;; (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
