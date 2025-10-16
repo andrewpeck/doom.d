@@ -84,7 +84,8 @@
 (advice-add 'load-theme :before (lambda (&rest _) (my/disable-all-active-themes)))
 
 (defun ap/get-dark-theme ()
-  (if (not (display-graphic-p))
+  (if (and (not (daemonp))
+           (not (display-graphic-p)))
       'modus-vivendi-tinted
     (pcase (downcase (system-name))
       ;; doom-laserwave doom-one doom-gruvbox
