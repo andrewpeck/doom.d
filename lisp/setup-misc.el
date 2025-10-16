@@ -33,10 +33,10 @@
   :commands (visual-fill-column-adjust)
   :init
 
-  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
-  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "c"  #'ap/toggle-wrap)
-  (map! :leader :prefix "t" :desc "Toggle Visual Wrap"   "w"  #'ap/toggle-wrap)
-  (map! :localleader :desc "Olivetti Mode" "o" 'ap/toggle-wrap-and-center) 
+  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'my/toggle-wrap)
+  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "c"  #'my/toggle-wrap)
+  (map! :leader :prefix "t" :desc "Toggle Visual Wrap"   "w"  #'my/toggle-wrap)
+  (map! :localleader :desc "Olivetti Mode" "o" 'my/toggle-wrap-and-center) 
 
   ;; Don't wrap text modes unless we really want it
   ;; (add-hook! 'latex-mode-hook (lambda () (toggle-truncate-lines 0)))
@@ -44,49 +44,49 @@
   ;; (add-hook 'org-mode-hook (defun hook/org-enable-word-wrap-mode () (+word-wrap-mode)))
 
   (defvar-local doom--line-number-style nil "Style of doom line numbers.")
-  (defvar-local ap/is-wrapped nil "Store the state of line wrapping in the current buffer.")
-  (defvar-local ap/is-wrapped-linum-state (list display-line-numbers
+  (defvar-local my/is-wrapped nil "Store the state of line wrapping in the current buffer.")
+  (defvar-local my/is-wrapped-linum-state (list display-line-numbers
                                                 doom--line-number-style))
 
-  (declare-function ap/no-wrap "setup-utils" ())
-  (declare-function ap/wrap "setup-utils" ())
-  (declare-function ap/wrap-and-center "setup-utils" ())
+  (declare-function my/no-wrap "setup-utils" ())
+  (declare-function my/wrap "setup-utils" ())
+  (declare-function my/wrap-and-center "setup-utils" ())
 
   ;; wrap in magit status mode
-  (add-hook 'magit-status-mode-hook #'ap/wrap)
+  (add-hook 'magit-status-mode-hook #'my/wrap)
 
-  (defun ap/toggle-wrap (&optional force-state center)
+  (defun my/toggle-wrap (&optional force-state center)
     (interactive)
     (let ((inhibit-message t))
 
       (if (not force-state)
-          (setq ap/is-wrapped
-                (not ap/is-wrapped))
-        (setq ap/is-wrapped force-state))
+          (setq my/is-wrapped
+                (not my/is-wrapped))
+        (setq my/is-wrapped force-state))
 
-      (if ap/is-wrapped
+      (if my/is-wrapped
           (visual-line-mode 1)
         (visual-line-mode 0))
 
-      (if ap/is-wrapped
+      (if my/is-wrapped
           (toggle-truncate-lines 0)
         (toggle-truncate-lines 1))
 
-      (if ap/is-wrapped
+      (if my/is-wrapped
           (visual-fill-column-mode 1)
         (visual-fill-column-mode 0))
 
-      (if ap/is-wrapped
+      (if my/is-wrapped
           ;; store state when wrapping;
           (progn
-            (setq ap/is-wrapped-linum-state (list display-line-numbers
+            (setq my/is-wrapped-linum-state (list display-line-numbers
                                                   doom--line-number-style)))
         ;; restore state when unwrapping
         (progn
-          (setq display-line-numbers (car ap/is-wrapped-linum-state)
-                doom--line-number-style (cadr ap/is-wrapped-linum-state))))
+          (setq display-line-numbers (car my/is-wrapped-linum-state)
+                doom--line-number-style (cadr my/is-wrapped-linum-state))))
 
-      (if (and center ap/is-wrapped)
+      (if (and center my/is-wrapped)
           (setq visual-fill-column-center-text t
                 doom--line-number-style nil
                 display-line-numbers nil)
@@ -94,33 +94,25 @@
 
       (visual-fill-column-adjust))
     
-    (if ap/is-wrapped
+    (if my/is-wrapped
         (message "Wrapping lines...")         
       (message "Unwrapping lines...")))
 
-  (defun ap/wrap ()
+  (defun my/wrap ()
     (interactive)
-    (ap/toggle-wrap t))
+    (my/toggle-wrap t))
 
-  (defun ap/no-wrap ()
+  (defun my/no-wrap ()
     (interactive)
-    (ap/toggle-wrap nil))
+    (my/toggle-wrap nil))
 
-  (defun ap/wrap-and-center ()
+  (defun my/wrap-and-center ()
     (interactive)
-    (ap/toggle-wrap t t))
+    (my/toggle-wrap t t))
 
-  (defun ap/toggle-wrap-and-center ()
+  (defun my/toggle-wrap-and-center ()
     (interactive)
-    (ap/toggle-wrap nil t))
-
-  :init
-
-  (declare-function hook/disable-visual-fill-column-mode "setup-misc" ())
-
-  (add-hook! 'nxml-mode-hook
-    (defun hook/disable-visual-fill-column-mode ()
-      (visual-fill-column-mode -1))))
+    (my/toggle-wrap nil t)))
 
 ;;------------------------------------------------------------------------------
 ;; Casual
