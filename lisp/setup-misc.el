@@ -131,18 +131,31 @@
 
 (use-package! devdocs
 
-  :config
+  :hook
 
-  (map! :map prog-mode-map
-        "C-k" (defun devdocs-lookup-at-pt ()
-                (interactive)
-                (devdocs-lookup nil (symbol-name (symbol-at-point)))))
+  (prog-mode-hook . devdocs-setup-major-mode)
 
-  (add-hook 'python-base-mode-hook
-            (lambda () (setq-local devdocs-current-docs '("python~3.12"))))
+  :init
 
-  (add-hook 'emacs-lisp-mode-hook
-            (lambda () (setq-local devdocs-current-docs '("elisp")))))
+  (defun devdocs-setup-major-mode ()
+    (require 'devdocs)
+    (setq-local devdocs-current-docs
+                (pcase major-mode
+                  ;; doom-laserwave doom-one doom-gruvbox
+                  ('emacs-lisp-mode (list "elisp"))
+                  ('python-mode     (list "python~3.13"))
+                  ('python-ts-mode  (list "python~3.13"))
+                  ('tcl-mode        (list "tcl_tk~9.0"))
+                  (_                nil))))
+
+  (defun devdocs-lookup-at-pt ()
+    (interactive)
+    (let ((symbol (symbol-name (symbol-at-point))))
+      (devdocs-lookup
+       nil                              ; ASK-DOCS
+       symbol)))                        ; INITIAL-INPUT
+
+  (map! :map prog-mode-map "C-k" 'devdocs-lookup-at-pt))
 
 ;;------------------------------------------------------------------------------
 ;; gptel magit
