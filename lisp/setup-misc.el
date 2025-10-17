@@ -144,7 +144,8 @@
 ;; Calc
 ;;------------------------------------------------------------------------------
 
-(after! calc
+(use-package calc
+  :config 
   (setq calc-window-height 18))
 
 ;;------------------------------------------------------------------------------
@@ -339,9 +340,8 @@ _h_ decrease width    _l_ increase width
      ((org-inside-LaTeX-fragment-p) (org-edit-latex-fragment))
      ((org-footnote-at-reference-p) (org-edit-footnote-reference))))
 
-  (map!
-   (:map org-mode-map      "C-c C-e" #'my/org-dwim-edit-at-point)
-   (:map markdown-mode-map "C-c C-e" #'lte-edit-table)))
+  (map! (:map org-mode-map      "C-c C-e" #'my/org-dwim-edit-at-point)
+        (:map markdown-mode-map "C-c C-e" #'lte-edit-table)))
 
 ;;------------------------------------------------------------------------------
 ;; Smartparens
@@ -594,28 +594,30 @@ _h_ decrease width    _l_ increase width
 ;; Lookup
 ;;------------------------------------------------------------------------------
 
-;; calling +lookup/documentation annoyingly moves the cursor to the other window
-;; just add some advice to move it back
-(advice-add '+lookup/documentation :around
-            (lambda (orig-fun &rest args)
-              (let ((current (selected-window)))
-                (apply orig-fun args)
-                (select-window current))))
+(run-when-idle 10
 
-(defun advice/close-lookup-maybe (_id &rest _arg)
-  "Repeated invotations of +lookup/documentation will simply toggle the
+          ;; calling +lookup/documentation annoyingly moves the cursor to the other window
+          ;; just add some advice to move it back
+          (advice-add '+lookup/documentation :around
+                      (lambda (orig-fun &rest args)
+                        (let ((current (selected-window)))
+                          (apply orig-fun args)
+                          (select-window current))))
+
+          (defun advice/close-lookup-maybe (_id &rest _arg)
+            "Repeated invotations of +lookup/documentation will simply toggle the
 help instead of keeping it open."
-  (let ((buffers (seq-filter (lambda (buf)
-                               (or (string-prefix-p "*eglot-help" (buffer-name buf))
-                                   (string-prefix-p "*helpful " (buffer-name buf))))
-                             (buffer-list))))
-    (when buffers
-      (mapc #'kill-buffer buffers))
+            (let ((buffers (seq-filter (lambda (buf)
+                                         (or (string-prefix-p "*eglot-help" (buffer-name buf))
+                                             (string-prefix-p "*helpful " (buffer-name buf))))
+                                       (buffer-list))))
+              (when buffers
+                (mapc #'kill-buffer buffers))
 
-    buffers))
+              buffers))
 
-(advice-add #'+lookup/documentation :before-until
-            #'advice/close-lookup-maybe)
+          (advice-add #'+lookup/documentation :before-until
+                      #'advice/close-lookup-maybe))
 
 ;;------------------------------------------------------------------------------
 ;; Eldoc

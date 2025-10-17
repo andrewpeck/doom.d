@@ -220,6 +220,9 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
   (let ((timer (if timer timer 1.5)))
     (run-with-idle-timer timer nil #'load!! pkg)))
 
+(defun run-when-idle (seconds &rest body)
+  (run-with-idle-timer seconds nil #'progn body))
+
 (defun user-load-idle (path) (load-idle (concat doom-user-dir path)))
 (defun user-load-timer (path) (load-timer (concat doom-user-dir path)))
 
