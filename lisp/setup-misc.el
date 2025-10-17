@@ -776,9 +776,12 @@ help instead of keeping it open."
 ;; Org Cliplink
 ;;------------------------------------------------------------------------------
 
-;; add a space before cliplink insertion, otherwise the link just runs into the
-;; preceding character e.g. ***[[...]]
-(advice-add 'org-cliplink :before (lambda () (insert " ")))
+(use-package org-cliplink
+  :after org
+  :init
+  ;; add a space before cliplink insertion, otherwise the link just runs into the
+  ;; preceding character e.g. ***[[...]]
+  (advice-add 'org-cliplink :before (lambda () (insert " "))))
 
 ;;------------------------------------------------------------------------------
 ;; Drag-Stuff
