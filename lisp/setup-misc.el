@@ -104,7 +104,7 @@
 ;; Devdocs
 ;;------------------------------------------------------------------------------
 
-(use-package! devdocs
+(use-package devdocs
 
   :hook
 
@@ -185,7 +185,7 @@
 ;; GPTel
 ;;------------------------------------------------------------------------------
 
-(use-package! gptel
+(use-package gptel
 
   :init
 
@@ -213,7 +213,7 @@
   (gptel-model 'gpt-5)
   (gptel-default-mode 'org-mode))
 
-(use-package! gptel-org
+(use-package gptel-org
   :after gptel
   :custom
   (gptel-org-branching-context nil))
@@ -276,7 +276,7 @@ _h_ decrease width    _l_ increase width
 ;; Midnight Mode
 ;;------------------------------------------------------------------------------
 
-(use-package! midnight
+(use-package midnight
   :defer-incrementally t
   :config
   (add-to-list 'clean-buffer-list-kill-buffer-names "*Native-compile-Log*")
@@ -287,7 +287,7 @@ _h_ decrease width    _l_ increase width
 ;;------------------------------------------------------------------------------
 
 (comment
- (use-package! treesit-auto
+ (use-package treesit-auto
    :commands (global-treesit-auto-mode
               treesit-auto-install-all
               treesit-auto-add-to-auto-mode-alist)
@@ -308,7 +308,7 @@ _h_ decrease width    _l_ increase width
 (eval-when-compile
   (require 'copyright))
 
-(use-package! copyright
+(use-package copyright
 
   :init
 
@@ -342,7 +342,7 @@ _h_ decrease width    _l_ increase width
 ;; Large Table Edition
 ;;------------------------------------------------------------------------------
 
-(use-package! lte
+(use-package lte
   :init
   (add-hook 'org-mode-hook #'lte-truncate-table-mode)
   (add-hook 'markdown-mode-hook #'lte-truncate-table-mode)
@@ -376,7 +376,7 @@ _h_ decrease width    _l_ increase width
 ;; Wavedrom
 ;;------------------------------------------------------------------------------
 
-(use-package! ob-wavedrom
+(use-package ob-wavedrom
   :config
   (setq ob-wavedrom-cli-path "wavedrom"))
 
@@ -384,7 +384,7 @@ _h_ decrease width    _l_ increase width
 ;; Apheleia
 ;;------------------------------------------------------------------------------
 
-(use-package! apheleia
+(use-package apheleia
   :config
 
   ;; don't want to apply autoformatter for files with conflict markers in them
@@ -421,7 +421,7 @@ _h_ decrease width    _l_ increase width
 (eval-when-compile
   (require 'pdf-view))
 
-(use-package! pdf-view
+(use-package pdf-view
 
   :init
 
@@ -450,7 +450,7 @@ _h_ decrease width    _l_ increase width
     (pdf-rotate "-")
     (revert-buffer)))
 
-(use-package! image-mode
+(use-package image-mode
   :config
   (add-hook! 'image-mode-hook #'auto-revert-mode))
 
@@ -458,7 +458,7 @@ _h_ decrease width    _l_ increase width
 ;; Affe
 ;;------------------------------------------------------------------------------
 
-(use-package! affe
+(use-package affe
 
   :commands (affe-find affe-grep)
 
@@ -489,13 +489,13 @@ _h_ decrease width    _l_ increase width
 ;; Undo
 ;;------------------------------------------------------------------------------
 
-(use-package! undo-fu-session
+(use-package undo-fu-session
   ;; persistent undo
   :after undo-fu
   :config
   (setq undo-fu-session-directory (concat doom-user-dir ".undo-fu")))
 
-(use-package! undo-fu
+(use-package undo-fu
   :config
   ;; disable confusing undo-fu behavior
   ;; https://codeberg.org/ideasman42/emacs-undo-fu/issues/6
@@ -505,7 +505,7 @@ _h_ decrease width    _l_ increase width
 ;; Whitespace
 ;;------------------------------------------------------------------------------
 
-(use-package! ws-butler
+(use-package ws-butler
   :config
   (setq ws-butler-global-exempt-modes
         '(special-mode comint-mode term-mode eshell-mode)))
@@ -514,7 +514,7 @@ _h_ decrease width    _l_ increase width
 ;; Highlight Todos
 ;;------------------------------------------------------------------------------
 
-(use-package! hl-todo
+(use-package hl-todo
   :config
   (setq global-hl-todo-mode t))
 
@@ -522,7 +522,7 @@ _h_ decrease width    _l_ increase width
 ;; Savehist
 ;;------------------------------------------------------------------------------
 
-(use-package! savehist
+(use-package savehist
   ;; save macros and other registers peristently
   :config
   (add-to-list 'savehist-additional-variables 'register-alist)
@@ -535,12 +535,12 @@ _h_ decrease width    _l_ increase width
 ;; Yasnippet
 ;;------------------------------------------------------------------------------
 
-(use-package! yasnippet-capf
+(use-package yasnippet-capf
   :after cape
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
-(use-package! yasnippet
+(use-package yasnippet
 
   :init
 
@@ -578,7 +578,7 @@ _h_ decrease width    _l_ increase width
 (eval-when-compile
   (require 'flyspell))
 
-(use-package! flyspell
+(use-package flyspell
   :config
   (defun my-save-word ()
     "Save user defined words to the dictionary"
@@ -590,7 +590,7 @@ _h_ decrease width    _l_ increase width
                              (car word) current-location (cadr word)
                              (caddr word) current-location)))))
 
-(use-package! ispell
+(use-package ispell
   :init
   ;; Find Local Dictionaries
   (defun hook/set-ispell-dict ()
@@ -600,7 +600,7 @@ _h_ decrease width    _l_ increase width
                   (concat dict ".aspell.en.pws"))))
   (add-hook 'flycheck-mode-hook 'hook/set-ispell-dict))
 
-(use-package! jinx
+(use-package jinx
   :config
   (global-jinx-mode nil)
   (add-hook 'org-mode-hook (lambda () (jinx-mode 1)))
@@ -640,7 +640,7 @@ help instead of keeping it open."
 ;; Eldoc
 ;;------------------------------------------------------------------------------
 
-(use-package! eldoc
+(use-package eldoc
   :config
   (setq eldoc-echo-area-prefer-doc-buffer t
         eldoc-idle-delay 0.5
@@ -650,7 +650,7 @@ help instead of keeping it open."
 ;; Vc hooks
 ;;------------------------------------------------------------------------------
 
-(use-package! vc-hooks
+(use-package vc-hooks
   :config
   ;; set vc-ignore-dir-regexp to the default emacs value; doom overwrites this to
   ;; a value that ignores any remote directories, causing git-gutter etc to not
@@ -662,7 +662,7 @@ help instead of keeping it open."
 ;; Comint
 ;;------------------------------------------------------------------------------
 
-(use-package! comint
+(use-package comint
 
   :init
 
@@ -685,7 +685,7 @@ help instead of keeping it open."
 ;; ielm
 ;;------------------------------------------------------------------------------
 
-(use-package! ielm
+(use-package ielm
   :defer-incrementally t
 
   :init
@@ -715,7 +715,7 @@ help instead of keeping it open."
 ;; svg-tag-mode
 ;;------------------------------------------------------------------------------
 
-(use-package! svg-tag-mode
+(use-package svg-tag-mode
   :after org-mode
   ;; https://github.com/rougier/svg-tag-mode
 
@@ -741,7 +741,7 @@ help instead of keeping it open."
 ;;
 ;;------------------------------------------------------------------------------
 
-(use-package! undo-tree
+(use-package undo-tree
   :defer-incrementally t
   :when (featurep 'undo-tree)
   :config
@@ -755,7 +755,7 @@ help instead of keeping it open."
 ;;
 ;;------------------------------------------------------------------------------
 
-(use-package! emojify-mode
+(use-package emojify-mode
   :defer-incrementally t
   :when (featurep 'emojify-mode)
   :config
@@ -765,7 +765,7 @@ help instead of keeping it open."
 ;;
 ;;------------------------------------------------------------------------------
 
-(use-package! langtool
+(use-package langtool
   :defer-incrementally t
   :when (featurep 'langtool)
   :config
@@ -784,7 +784,7 @@ help instead of keeping it open."
 ;; Drag-Stuff
 ;;------------------------------------------------------------------------------
 
-(use-package! drag-stuff
+(use-package drag-stuff
   :after (:any text-mode prog-mode)
   :commands (drag-stuff-define-keys)
   :init
