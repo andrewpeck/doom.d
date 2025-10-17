@@ -358,7 +358,6 @@ into Verilog ports."
   :config
 
   (require 'er-basic-expansions)
-  (require 'flycheck)
 
   ;; vhdl mode will wrap comments after some # of characters
   (setq vhdl-end-comment-column 200

@@ -175,7 +175,7 @@
 
 (use-package autorevert
   :init
-  (global-auto-revert-mode t)
+  (run-when-idle 1 (global-auto-revert-mode t))
   :custom
   (auto-revert-avoid-polling nil)
   (auto-revert-interval 1)
@@ -594,7 +594,7 @@ _h_ decrease width    _l_ increase width
 ;; Lookup
 ;;------------------------------------------------------------------------------
 
-(run-when-idle 10
+(run-when-idle 1
 
           ;; calling +lookup/documentation annoyingly moves the cursor to the other window
           ;; just add some advice to move it back

@@ -4,11 +4,11 @@
 ;; Appearance
 ;;------------------------------------------------------------------------------
 
-(use-package! poporg
+(use-package poporg
   :config
   (map! :leader :prefix "e" :desc "Poporg Edit Comment"  "c"  #'poporg-dwim))
 
-(use-package! org
+(use-package org
   :init
 
   (add-hook 'org-mode-hook 'org-appear-mode)
