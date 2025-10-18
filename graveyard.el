@@ -1450,3 +1450,25 @@ lines are selected, or the NxM dimensions of a block selection.")
 ;; (add-hook 'org-mode-hook      #'mixed-pitch-mode)
 ;; (add-hook 'markdown-mode-hook #'mixed-pitch-mode)
 ;; (add-hook 'latex-mode-hook    #'mixed-pitch-mode)
+
+
+;;------------------------------------------------------------------------------
+;; Org roam
+;;------------------------------------------------------------------------------
+
+;; (use-package! org-roam
+;;   :after org
+;;   :config
+
+;;   (setq org-roam-db-autosync-mode t
+;;         org-roam-directory (file-truename "~/notes/")
+;;         org-roam-graph-extra-config '(("rankdir" . "RL"))
+;;         ;; (setq org-roam-graph-edge-extra-config '(("dir" . "back")))
+;;         org-roam-graph-link-hidden-types '("file" "http" "https"))
+
+;;   ;; add a space before inserting a node for lists etc so it does
+;;   ;; not come out as -[link] but rather as - [link]
+;;   (advice-add 'org-roam-node-insert :before (lambda () (insert " ")))
+;;   (setq org-roam-db-location "~/.org-roam.db")
+;;   (setq org-roam-link-title-format "Org:%s"))
+

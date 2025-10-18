@@ -620,6 +620,18 @@ help instead of keeping it open."
                       #'advice/close-lookup-maybe))
 
 ;;------------------------------------------------------------------------------
+;; Time
+;;------------------------------------------------------------------------------
+
+(use-package time
+  :config
+  (setq world-clock-list
+        '(("America/Los_Angeles" "Los Angeles")
+          ("America/New_York" "Boston")
+          ("Europe/London" "London")
+          ("Europe/Paris" "Geneva"))))
+
+;;------------------------------------------------------------------------------
 ;; Eldoc
 ;;------------------------------------------------------------------------------
 
