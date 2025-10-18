@@ -63,14 +63,15 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 
 (setq copyright-names-regexp ".*Andrew Peck*")
 
+(add-load-path! "")
 (add-load-path! "lisp/")
 (add-load-path! "autoload/")
 
-(setq use-package-always-defer t)
+(load (expand-file-name "loaddefs.el" doom-user-dir) nil t)
 
-(use-package my-defuns
-  :load-path (lambda () (concat (doom-dir "autoload")))
-  :functions (make-declare))
+(use-package my-defuns     :load-path (lambda () (concat (doom-dir "autoload"))))
+(use-package regulator     :load-path (lambda () (concat (doom-dir "autoload"))))
+(use-package popup-acronym :load-path (lambda () (concat (doom-dir "autoload"))))
 
 ;; Suppress `Package cl is deprecated` warnings
 (setq byte-compile-warnings '(not obsolete))
@@ -228,10 +229,6 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 (defmacro run-when-idle (seconds &rest body)
   "Execute BODY after SECONDS of idle."
   (run-with-idle-timer seconds nil (lambda (_) (progn body)) nil))
-
-(defun run-when-idle (seconds &rest body)
-  "Execute BODY after SECONDS of idle."
-  (run-with-idle-timer seconds nil body nil))
 
 (defun user-load-idle (path) (load-idle (concat doom-user-dir path)))
 (defun user-load-timer (path) (load-timer (concat doom-user-dir path)))

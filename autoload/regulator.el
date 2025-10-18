@@ -4,13 +4,13 @@
 (defvar e24
   (list 1.0 1.1 1.2 1.3 1.5 1.6 1.8 2.0 2.2 2.4 2.7 3.0
         3.3 3.6 3.9 4.3 4.7 5.1 5.6 6.2 6.8 7.5 8.2 9.1)
-  "E24 5% Tolerance Resistors")
+  "E24 5% Tolerance Resistors.")
 
 (defvar e48
   (list 1.00 1.05 1.10 1.15 1.21 1.27 1.33 1.40 1.47 1.54 1.62 1.69 1.78 1.87 1.96 2.05 2.15 2.26
         2.37 2.49 2.61 2.74 2.87 3.01 3.16 3.32 3.48 3.65 3.83 4.02 4.22 4.42 4.64 4.87 5.11 5.36 5.62
         5.90 6.19 6.49 6.81 7.15 7.50 7.87 8.25 8.66 9.09 9.53)
-  "E48 2% Tolerance Resistors")
+  "E48 2% Tolerance Resistors.")
 
 (defvar e96
   (list 1.00 1.02 1.05 1.07 1.10 1.13 1.15 1.18 1.21 1.24 1.27 1.30 1.33 1.37 1.40 1.43 1.47 1.50
@@ -19,7 +19,7 @@
         3.83 3.92 4.02 4.12 4.22 4.32 4.42 4.53 4.64 4.75 4.87 4.99 5.11 5.23 5.36 5.49 5.62 5.76 5.90
         6.04 6.19 6.34 6.49 6.65 6.81 6.98 7.15 7.32 7.50 7.68 7.87 8.06 8.25 8.45 8.66 8.87 9.09 9.31
         9.53 9.76)
-  "E96 1% tolerance resistors")
+  "E96 1% tolerance resistors.")
 
 (defvar e192
   (list 1.00 1.01 1.02 1.04 1.05 1.06 1.07 1.09 1.10 1.11 1.13 1.14 1.15 1.17 1.18 1.20 1.21 1.23
@@ -33,16 +33,18 @@
         6.12 6.19 6.26 6.34 6.42 6.49 6.57 6.65 6.73 6.81 6.90 6.98 7.06 7.15 7.23 7.32 7.41 7.50 7.59
         7.68 7.77 7.87 7.96 8.06 8.16 8.25 8.35 8.45 8.56 8.66 8.76 8.87 8.98 9.09 9.20 9.31 9.42 9.53
         9.65 9.76 9.88)
-  "E192 <0.5% tolerance resistors"
+  "E192 <0.5% tolerance resistors."
   )
 
 (defun regulator-format-resistor (value)
+  ""
   (cond ((>= value 1000000) (format "%gM" (/ value 1000000.0)))
         ((>= value 1000) (format "%gk" (/ value 1000.0)))
         (t (format "%d" value))))
 
+;;;###autoload
 (defun find-regulator-divider ()
-  "Find resistors for a voltage regulator"
+  "Find resistors for a voltage regulator."
   (interactive)
   (let ((series (symbol-value (intern (completing-read "series: " '("e48" "e24" "e96" "e192")))))
         (vref (string-to-number (read-string "vref: " "0.5")))
@@ -81,8 +83,11 @@
       (princ divider))
 
     (with-current-buffer "regulator"
+      (require 'org)
+      (require 'org-table)
       (read-only-mode -1)
       (org-mode)
       (org-table-align))) t)
 
 (provide 'regulator)
+;;; regulator.el ends here

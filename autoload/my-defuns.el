@@ -638,10 +638,12 @@ This function tries to de hyphenate them."
 
 ;;;###autoload
 (defvar my/xdg-data-dirs
-  (mapcar (lambda (dir) (expand-file-name "applications" dir))
-          (cons (xdg-data-home)
-                (xdg-data-dirs)))
-  "Directories in which to search for applications (.desktop files).")
+  (progn
+    (require 'xdg)
+    (mapcar (lambda (dir) (expand-file-name "applications" dir))
+            (cons (xdg-data-home)
+                  (xdg-data-dirs))))
+  "Directories in which to search for applications (.desktop files).") 
 
 ;;;###autoload
 (defun my/list-desktop-files ()
@@ -732,4 +734,8 @@ Make sure perl-file-mimeinfo is installed."
   (register-new-mime-type "emacs" "el" "emacs")
   (register-new-mime-type "excalidraw" "excalidraw" "excalidraw"))
 
+(loaddefs-generate "~/.doom.d/autoload/"
+                   "~/.doom.d/loaddefs.el")
+
 (provide 'my-defuns)
+;;; my-defuns.el ends here
