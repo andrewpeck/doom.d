@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t; -*-
+;; -*- Lexical-binding: t; -*-
 
 (eval-when-compile
   (require 'outline)
@@ -11,6 +11,7 @@
 ;; Utility Functions
 ;;------------------------------------------------------------------------------
 
+;;;###autoload
 (defun copy-file-name-to-kill ()
   "Copy the current buffer file name to the clipboard."
   (interactive)
@@ -21,6 +22,7 @@
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
+;;;###autoload
 (defun make-declare ()
   "Make a function declaration from the symbol at point."
   (interactive)
@@ -31,6 +33,7 @@
       (evil-open-above 1)
       (insert (format "(declare-function %s \"%s\" %s)" function file args)))))
 
+;;;###autoload
 (defun scratch-new ()
   "Create a new empty scratch buffer."
   (interactive)
@@ -39,19 +42,23 @@
     (switch-to-buffer xbuf)
     (funcall initial-major-mode) xbuf))
 
+;;;###autoload
 (defun byte-compile-config ()
   (interactive)
   (byte-recompile-directory (expand-file-name "~/.doom.d") 0))
 
+;;;###autoload
 (defun open-link-or (fn)
   (cond
    ((thing-at-point 'url) (link-hint-open-link-at-point))
    (t (call-interactively fn))))
 
+;;;###autoload
 (defun re-indent-buffer ()
   (interactive)
   (evil-indent (point-min) (point-max)))
 
+;;;###autoload
 (defun ap/tab-fallthrough ()
   (interactive)
   (or
@@ -63,10 +70,12 @@
      (print "Outline Cycle")
      (outline-cycle))))
 
+;;;###autoload
 (defvar preferred-terminal
   'wezterm
   "Default terminal used by `open-pwd-in-terminal'")
 
+;;;###autoload
 (defun open-pwd-in-terminal ()
   "Opens the present working directory in external terminal."
   (interactive)
@@ -78,12 +87,14 @@
     ('nil (error "`preferred-terminal' not set."))
     (_ (error (format  "`preferred-terminal' %s not recognized" preferred-terminal)))))
 
+;;;###autoload
 (defun run-in-terminal (cmd)
   (pcase preferred-terminal
     ('wezterm (apply #'call-process (nconc (list "wezterm" nil 0 nil "-e") (if (listp cmd) cmd (list cmd)))))
     ('nil (error "`preferred-terminal' not set."))
     (_ (error (format  "`preferred-terminal' %s not recognized" preferred-terminal)))))
 
+;;;###autoload
 (defun open-buffer-in-vim ()
   "Opens the current buffer in gvim."
   (interactive)
@@ -91,19 +102,23 @@
 
 (defalias 'gvim #'open-buffer-in-vim)
 
+;;;###autoload
 (defun org-make-tables-pretty ()
   "Makes org mode tables pretty in the current buffer."
   (interactive)
   (org-table-map-tables 'org-table-align))
 
+;;;###autoload
 (defun xdg-do (x)
   (call-process (executable-find "xdg-open") nil 0 nil x))
 
+;;;###autoload
 (defun xdg-browse-directory ()
   "Open the current file's directory however the OS would."
   (interactive)
   (xdg-do default-directory))
 
+;;;###autoload
 (defun xdg-open-file ()
   "Open the current file however the OS would."
   (interactive)
@@ -112,6 +127,7 @@
   (when (eq major-mode 'dired-mode)
     (xdg-do default-directory)))
 
+;;;###autoload
 (defun py-black ()
   "Format python file with black."
   (interactive)
@@ -129,6 +145,7 @@
          nil))) ; show error buffer?
     (goto-char pt)))
 
+;;;###autoload
 (defun autopep ()
   "Format python file with autopep."
   (interactive)
@@ -145,6 +162,7 @@
        nil))
     (goto-char pt)))                   ; show error buffer?
 
+;;;###autoload
 (defun verible-format ()
   "Format verilog file with verible."
   (interactive)
@@ -168,6 +186,7 @@
                            ,(buffer-file-name)) " "))))
   (revert-buffer))
 
+;;;###autoload
 (defun pyment ()
   "Format python file with pyment"
   (interactive)
@@ -183,6 +202,7 @@
      t)))                               ; show error buffer?
 
 ;; Backspace to switch to last buffer
+;;;###autoload
 (defun switch-to-previous-buffer ()
   "Switch to previously open buffer. Repeated invocations toggle
 between the two most recently open buffers."
@@ -194,17 +214,20 @@ between the two most recently open buffers."
                 (buffer-file-name current))
       (switch-to-buffer other))))
 
+;;;###autoload
 (defun open-todo ()
   "Open my todo file"
   (interactive)
   (require 'org)
   (find-file +org-capture-todo-file))
 
+;;;###autoload
 (defun org-agenda-and-todo ()
   "Open the full org agenda + todo"
   (interactive)
   (org-agenda nil "n"))
 
+;;;###autoload
 (defun open-timesheet ()
   "Open my EDF timesheet"
   (interactive)
@@ -220,6 +243,7 @@ between the two most recently open buffers."
 ;; Crontab
 ;;------------------------------------------------------------------------------
 
+;;;###autoload
 (defun crontab-e ()
   "Run `crontab -e' in a emacs buffer."
   (interactive)
@@ -229,6 +253,7 @@ between the two most recently open buffers."
 ;; Remove all advice from symbol
 ;;------------------------------------------------------------------------------
 
+;;;###autoload
 (defun advice-unadvice (sym)
   "Remove all advices from symbol SYM."
   (interactive "aFunction symbol: ")
@@ -238,11 +263,13 @@ between the two most recently open buffers."
 ;; Multiplication in Region
 ;;------------------------------------------------------------------------------
 
+;;;###autoload
 (defun mult-by (by)
   ""
   (when (re-search-forward "\\b[-0-9.]+\\b" nil t)
     (replace-match (number-to-string (* by (string-to-number (match-string 0)))) nil t) t))
 
+;;;###autoload
 (defun mult-in-rectangle (start end)
   "Multiplies all numbers in region by some coefficient.
 
@@ -275,6 +302,7 @@ lines, e.g.
 ;; Utility Functions
 ;;---------------------------------------------------------------------------------
 
+;;;###autoload
 (defun copy-html-to-ohm ()
   (start-process
    "copy-to-ohm"
@@ -285,6 +313,7 @@ lines, e.g.
 ;; C-backspace without modifying kill ring
 ;; https://emacs.stackexchange.com/questions/22266/backspace-without-adding-to-kill-ring
 
+;;;###autoload
 (defun my-delete-word (arg)
   "Delete characters forward until encountering the end of a word.
   With argument, do this that many times.
@@ -296,6 +325,7 @@ lines, e.g.
      (forward-word arg)
      (point))))
 
+;;;###autoload
 (defun my-backward-delete-word (arg)
   "Delete characters backward until encountering the beginning of a word.
   With argument, do this that many times.
@@ -305,11 +335,13 @@ lines, e.g.
 
 (global-set-key (kbd "C-<backspace>") #'my-backward-delete-word)
 
+;;;###autoload
 (defun suspend ()
   "Suspend the system using systemctl syspend"
   (interactive)
   (call-process "systemctl" nil 0 nil "suspend"))
 
+;;;###autoload
 (defun reload-this-buffer ()
   "Kill and re-open the current buffer"
   (interactive)
@@ -320,10 +352,12 @@ lines, e.g.
 
 (map! :leader :desc "Reload buffer" "b r" #'reload-this-buffer)
 
+;;;###autoload
 (defun fix-evil ()
   (interactive)
   (setq-local transient-mark-mode t))
 
+;;;###autoload
 (defun arrayify (start end quote separator)
   "Turn selection into a QUOTEd, separated one-liner."
   (interactive
@@ -348,7 +382,7 @@ lines, e.g.
 
 ;; Buffer Mode Histogram
 ;; http://blogs.fluidinfo.com/terry/2011/11/10/emacs-buffer-mode-histogram/
-
+;;;###autoload
 (defun buffer-mode-histogram ()
   "Display a histogram of Emacs buffer modes."
   (interactive)
@@ -384,6 +418,7 @@ lines, e.g.
           (princ (format "%2d %20s %s\n" count key
                          (make-string count ?+))))))))
 
+;;;###autoload
 (defun reindent-buffer-with-vim ()
   "Reindent buffer file with vim."
   (interactive)
@@ -394,6 +429,7 @@ lines, e.g.
 ;; Functions for alphabetically sorting items
 ;;---------------------------------------------------------------------------------
 
+;;;###autoload
 (defun sort-code-block (comment-char)
   "Alphabetically sorts code blocks in a file, starting with #
 start:sort and ending with # end:sort, where # is the comment
@@ -419,6 +455,7 @@ char of the language you are editing"
   ;; make sure to return nil here for write-contents-functions
   nil)
 
+;;;###autoload
 (defun sort-elisp-block ()
   "Alphabetically sort a block of elisp code.
 
@@ -433,6 +470,7 @@ The block should be encased by
 ;; Query Replace
 ;;------------------------------------------------------------------------------
 
+;;;###autoload
 (defun query-replace-symbol ()
   "Do query-replace current word with"
 
@@ -446,6 +484,7 @@ The block should be encased by
                      (if active? (region-beginning) (point-min))
                      (if active? (region-end) (point-max))))))
 
+;;;###autoload
 (defun github-package ()
   (let ((clip (current-kill 0))
         (repo "")
@@ -463,6 +502,7 @@ The block should be encased by
 ;; HDL Helpers
 ;;---------------------------------------------------------------------------------
 
+;;;###autoload
 (defun hdl-self-op (op)
   (let ((sym (if (region-active-p)
                  (buffer-substring-no-properties (region-beginning) (region-end))
@@ -474,11 +514,13 @@ The block should be encased by
         (indent-for-tab-command)
         (insert (format "%s <= %s %s 1;" sym sym op))))))
 
+;;;###autoload
 (defun hdl-i++ ()
   "Insert a hdl i++ for either the current selection or symbol at point."
   (interactive)
   (hdl-self-op "+"))
 
+;;;###autoload
 (defun hdl-i-- ()
   "Insert a hdl i-- for either the current selection or symbol at point."
   (interactive)
@@ -491,6 +533,7 @@ The block should be encased by
 (defvar normalize-comment-strings-length 83
   "Number of characters to normalize comment strings to.")
 
+;;;###autoload
 (defun normalize-comment-strings ()
   (interactive)
   (save-excursion
@@ -528,10 +571,12 @@ The block should be encased by
 ;; Date Format
 ;;------------------------------------------------------------------------------
 
+;;;###autoload
 (defvar current-date-format "%Y-%m-%d"
   "Format of date to insert with `insert-current-time' func.
 Note the weekly scope of the command's precision.")
 
+;;;###autoload
 (defun insert-current-date ()
   "insert the current date into the buffer.
 The date will follow the format in `current-date-format'"
@@ -548,6 +593,7 @@ The date will follow the format in `current-date-format'"
 ;; De-latexify helper
 ;;------------------------------------------------------------------------------
 
+;;;###autoload
 (defun fix-latex-pasted-text ()
 
   "Fix text pasted from Latex PDFs.
@@ -578,6 +624,7 @@ This function tries to de hyphenate them."
 ;; Calc with modified title for i3
 ;;------------------------------------------------------------------------------
 
+;;;###autoload
 (defun calc-popup ()
   (interactive)
   (switch-to-buffer (generate-new-buffer "Calc Popup"))
@@ -589,12 +636,14 @@ This function tries to de hyphenate them."
   (set-frame-width (selected-frame) 75)  
   (set-frame-height (selected-frame) 30))
 
+;;;###autoload
 (defvar my/xdg-data-dirs
   (mapcar (lambda (dir) (expand-file-name "applications" dir))
           (cons (xdg-data-home)
                 (xdg-data-dirs)))
   "Directories in which to search for applications (.desktop files).")
 
+;;;###autoload
 (defun my/list-desktop-files ()
   "Return an alist of all Linux applications.
 Each list entry is a pair of (desktop-name . desktop-file).
@@ -611,17 +660,20 @@ This function always returns its elements in a stable order."
                 (puthash id file hash)))))))
     result))
 
+;;;###autoload
 (defun my/mime-get-mime-type ()
   (string-trim
    (shell-command-to-string
     (format "xdg-mime query filetype %s" buffer-file-name))))
 
+;;;###autoload
 (defun my/mime-set-mime-type (mime-type handler)
   (when-let* ((cmd (format "xdg-mime default %s %s" handler mime-type)))
     (shell-command-to-string cmd)
     (message (format "Mime type for \"%s\" is \"%s\"" mime-type
                      (string-trim (shell-command-to-string (format "xdg-mime query default %s" mime-type)))))))
 
+;;;###autoload
 (defun my/update-mime-type ()
   "Update the mime association of the current file."
   (interactive)
@@ -634,6 +686,7 @@ This function always returns its elements in a stable order."
 ;; Mime type register
 ;;------------------------------------------------------------------------------
 
+;;;###autoload
 (defun register-new-mime-type (handler extension &optional executable logo comment)
 
   (when logo
@@ -669,6 +722,7 @@ This function always returns its elements in a stable order."
     (shell-command "update-desktop-database ~/.local/share/applications")
     (shell-command (format "xdg-mime install %s" filename))))
 
+;;;###autoload
 (defun my/register-mime-types ()
   "Register a few mimetypes that are useful for me.
 
@@ -677,3 +731,5 @@ Make sure perl-file-mimeinfo is installed."
   (register-new-mime-type "drawio" "drawio" "drawio")
   (register-new-mime-type "emacs" "el" "emacs")
   (register-new-mime-type "excalidraw" "excalidraw" "excalidraw"))
+
+(provide 'my-defuns)

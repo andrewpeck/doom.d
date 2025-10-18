@@ -64,8 +64,13 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 (setq copyright-names-regexp ".*Andrew Peck*")
 
 (add-load-path! "lisp/")
+(add-load-path! "autoload/")
 
 (setq use-package-always-defer t)
+
+(use-package my-defuns
+  :load-path (lambda () (concat (doom-dir "autoload")))
+  :functions (make-declare))
 
 ;; Suppress `Package cl is deprecated` warnings
 (setq byte-compile-warnings '(not obsolete))
