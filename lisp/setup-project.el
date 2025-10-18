@@ -28,6 +28,8 @@
     (project-forget-zombie-projects)
     (project-remember-projects-under "~/work"))
 
+  (defun projectile-locate-dominating-file (&rest _)
+    (locate-dominating-file "." ".git"))
 
   ;; doom has project.el calling projectile, just revert to original value
   (setq project-find-functions (list #'project-try-vc))
