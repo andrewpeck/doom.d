@@ -11,7 +11,7 @@
       nyan-bar-length 16
       nyan-wavy-trail t)
 
-(defun simple-mode-line-render (left right)
+(defsubst simple-mode-line-render (left right)
   "Return a string of `window-width' length.
 Containing LEFT, and RIGHT aligned respectively."
   (let ((available-width
@@ -22,7 +22,19 @@ Containing LEFT, and RIGHT aligned respectively."
             (list (format (format "%%%ds" available-width) ""))
             right)))
 
-(defun my-flycheck-mode-line-status-text (&optional status)
+(defsubst modeline-flycheck-state ()
+  ""
+  (let-alist (flycheck-count-errors flycheck-current-errors)
+    (if (not (or .error .warning))
+        ;; no errors or warnings
+        ""
+      ;; else
+      (concat
+       (propertize (format "%s" (or .error "0") ) 'face '(:inherit error))
+       "·"
+       (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning))))))
+
+(defsubst my-flycheck-mode-line-status-text (&optional status)
   "Get a text describing STATUS for use in the mode line.
 STATUS defaults to `flycheck-last-status-change' if omitted or
 nil."
@@ -34,18 +46,11 @@ nil."
      (`errored     "")
      (`interrupted "")
      (`suspicious  "")
-     (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
-                  (if (not (or .error .warning))
-                      ;; no errors or warnings
-                      ""
-                    ;; else
-                    (concat
-                     (propertize (format "%s" (or .error "0") ) 'face '(:inherit error))
-                     "·" (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning)) " ")))))
+     (`finished     (modeline-flycheck-state)))
    " "))
 
 (after! vc-git
-  (defun advice/vc-mode-line-transform (tstr)
+  (defsubst advice/vc-mode-line-transform (tstr)
     (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
            (first-char (substring tstr 0 1)))
       (cond ((string= ":" first-char) ;;; Modified
@@ -70,9 +75,8 @@ nil."
                               evil-mode-line-tag
                               mode-line-mule-info
                               "%* "
-                              (let ((host (remote-host? default-directory)))
-                                (if host
-                                    (concat (propertize host 'face '(:inherit warning)) ":") nil))
+                              (when-let* ((host (remote-host? default-directory)))
+                                (concat (propertize host 'face '(:inherit warning)) ":"))
 
                               (propertized-buffer-identification "%b")
 
@@ -80,27 +84,27 @@ nil."
                                 (concat "  " (nyan-create))))
 
                         ;; Right.
-                        (list
+                        (list ""
 
-                         (if (or defining-kbd-macro executing-kbd-macro)
-                             (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
+                         (when (or defining-kbd-macro executing-kbd-macro)
+                           (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ "))
 
-                         (when (and flycheck-mode flycheck-enabled-checkers)
-                           (concat "("
-                                   (string-join
-                                    (mapcar 'symbol-name flycheck-enabled-checkers) " ") ") "))
+                         (and flycheck-mode flycheck-enabled-checkers
+                              (concat "("
+                                      (string-join
+                                       (mapcar 'symbol-name flycheck-enabled-checkers) " ") ") "))
 
                          ;; mode-line-misc-info
                          ;; global-mode-string
                          ;; '("" battery-mode-line-string)
 
-                         (if (eq major-mode 'pdf-view-mode)
-                             (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages))
-                           "(L%l C%c %p)")
+                         (pcase major-mode
+                           ('pdf-view-mode (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages)))
+                           (_  "(L%l C%c %p)"))
 
-                         (and (not (remote-host? default-directory))
-                              (when-let ((m (vc-mode)))
-                                (concat " (" (string-trim m) ") ")))
+                         (when (not (remote-host? default-directory))
+                           (when-let ((m (vc-mode)))
+                             (concat " (" (string-trim m) ") ")))
 
                          ;; (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
@@ -114,6 +118,4 @@ nil."
                            (concat " "
                                    (replace-regexp-in-string
                                     "FlyC" ""
-                                    (my-flycheck-mode-line-status-text))))
-
-                         mode-line-end-spaces)))))
+                                    (my-flycheck-mode-line-status-text)))))))))

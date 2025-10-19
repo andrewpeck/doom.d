@@ -6,6 +6,7 @@
 (package! haml-mode    :disable t)
 (package! hl-line      :disable t)
 (package! ivy          :disable t)
+(package! avy          :disable t)
 (package! lsp          :disable t)
 (package! nose         :disable t)
 (package! org-pdftools :disable t)
@@ -103,6 +104,7 @@
 (package! xr                      :pin "4088798ad47d0d57cd67a8129a101645978ab1bd")                           ; xr is rx in reverse
 ;; end:sort
 
+(package! string-edit-at-point    :pin "87936d816ae24184dd83688136531b6b6f1943fe" :recipe (:host github :repo "emacsmirror/string-edit-at-point"))
 ;; (package! treesit-auto            :pin "016bd286a1ba4628f833a626f8b9d497882ecdf3" :recipe (:host github :repo "renzmann/treesit-auto"))
 ;; (package! org-mode                :pin "5cfc857c66e3ad7d4b70bb4a61f641c059994170" :recipe (:host github :repo "emacs-straight/org-mode"))
 ;; (package! headlice                :pin "c659acd65d0d52a68c58fa3cda307018144839e1" :recipe (:host nil :repo "https://code.tecosaur.net/tec/headlice"))
