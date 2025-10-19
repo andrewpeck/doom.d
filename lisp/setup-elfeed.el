@@ -7,9 +7,6 @@
 
   :config
 
-  (eval-when-compile
-    (require 'elfeed-lib))
-
   ;; Run `elfeed-update' every 8 hours
   (run-at-time nil (* 8 60 60) #'elfeed-update)
 

@@ -1472,3 +1472,81 @@ lines are selected, or the NxM dimensions of a block selection.")
 ;;   (setq org-roam-db-location "~/.org-roam.db")
 ;;   (setq org-roam-link-title-format "Org:%s"))
 
+
+  (custom-declare-face
+   '+org-todo-idea
+   `((t :weight bold :foreground "#94e2d5")) "IDEA todo keyword")
+
+  (custom-declare-face
+   '+org-todo-meet
+   `((t :weight bold :foreground "#cdf"))    "MEET todo keyword")
+
+  (custom-declare-face
+   '+org-todo-note
+   `((t :weight bold :foreground "#288"))    "NOTE todo keyword")
+
+
+  ;; change DEADLINE to a short symbol to reduce line noise
+  (font-lock-add-keywords
+   'org-mode
+   '(("^\\(DEADLINE:\\)"
+      (0 (prog1 ()
+           (compose-region (match-beginning 1) (match-end 1) ""))))))
+
+  (comment
+   ;; Huh??? what is this
+   (let ((name "*toc*"))
+     (fit-window-to-buffer
+      (car (seq-filter
+            (lambda (window)
+              (equal name (buffer-name (window-buffer window))))
+            (window-list-1 nil 0 t))) nil nil "10")))
+
+
+  ;; https://www.flannaghan.com/2013/01/11/tex-fold-mode
+  ;; (add-hook! 'find-file-hook :local (TeX-fold-region (point-min) (point-max)))
+  ;; (add-hook! 'write-contents-functions :local (TeX-fold-region (point-min) (point-max)))
+  ;; (add-hook! 'after-change-functions :local 'TeX-fold-paragraph)
+
+  ;; doom has some annoying hooks after macro insertion that cause obnoxious folding
+  ;; (setq TeX-after-insert-macro-hook nil)
+
+;;------------------------------------------------------------------------------
+;; True/False Faces
+;;------------------------------------------------------------------------------
+
+(defface my/highlight-true-face
+  '((t :foreground "#2a2" :weight bold))
+  "Highlight face for true"
+  :group 'basic-faces)
+
+(defface my/highlight-false-face
+  '((t :foreground "#f22" :weight bold))
+  "Highlight face for false"
+  :group 'basic-faces)
+
+;;;###autoload
+(defun my/highlight-true ()
+  "Use hi-lock to highlight specific words"
+  (hi-lock-face-buffer "\\b\\(true\\|True\\)\\b" 'my/highlight-true-face))
+
+;;;###autoload
+(defun my/highlight-false ()
+  "Use hi-lock to highlight specific words"
+  (hi-lock-face-buffer "\\b\\(false\\|False\\)\\b" 'my/highlight-false-face))
+
+(add-hook 'vhdl-mode-hook #'my/highlight-false)
+(add-hook 'vhdl-mode-hook #'my/highlight-true)
+
+;; (when (or (not (boundp 'theme-timer))
+;;           (not theme-timer))
+;;   ;; (cancel-function-timers #'synchronize-theme)
+;;   (setq theme-timer
+;;         (run-with-timer 0 3600 'synchronize-theme)))
+
+(custom-set-faces
+ '(writegood-weasels-face ((t (:underline (:color "#888888" :style wave))))))
+    ;; (add-hook 'verilog-mode-hook
+  ;;           (defun hook/set-fill-prefix ()
+  ;;             "Set the verilog fill prefix."
+  ;;             (setq-local fill-prefix "// ")))

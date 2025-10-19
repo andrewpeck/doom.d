@@ -1,8 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'p-search))
-
 (use-package p-search
   :defer t
   :commands (p-search)

@@ -1,8 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'image-converter))
-
 (use-package image
   :custom
   (image-use-external-converter t))

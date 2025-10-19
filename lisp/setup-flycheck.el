@@ -95,18 +95,19 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;; https://unconj.ca/blog/linting-prose-in-emacs.html
 ;;------------------------------------------------------------------------------
 
-(flycheck-define-checker proselint
-  "A linter for prose."
-  :command ("proselint"
-            ;;
-            ;;            (option-flag "--external-sources" flycheck-shellcheck-follow-sources)
-            "--config" (eval (expand-file-name "~/.doom.d/proselint.rc"))
-            source-inplace)
-  :error-patterns
-  ((warning line-start (file-name) ":" line ":" column ": "
-            (id (one-or-more (not (any " "))))
-            (message) line-end))
-  :modes (text-mode latex-mode markdown-mode gfm-mode org-mode))
+(after! flycheck
+  (flycheck-define-checker proselint
+    "A linter for prose."
+    :command ("proselint"
+              ;;
+              ;;            (option-flag "--external-sources" flycheck-shellcheck-follow-sources)
+              "--config" (eval (expand-file-name "~/.doom.d/proselint.rc"))
+              source-inplace)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ":" column ": "
+              (id (one-or-more (not (any " "))))
+              (message) line-end))
+    :modes (text-mode latex-mode markdown-mode gfm-mode org-mode)))
 
 ;;------------------------------------------------------------------------------
 ;; HOG
@@ -240,6 +241,4 @@ See URL `http://nagelfar.sourceforge.net/'."
   (flycheck-add-next-checker 'python-flake8 (cons t 'python-ruff))
   (flycheck-add-next-checker 'python-ruff (cons t 'python-mypy))
 
-  (setq-default flycheck-python-ruff-config "~/.ruff-toml")
-  )
-
+  (setq-default flycheck-python-ruff-config "~/.ruff-toml"))

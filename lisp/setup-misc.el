@@ -1,5 +1,20 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
+(use-package rainbow-delimiters-mode
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
+(use-package highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-responsive nil
+        ;; highlight-indent-guides-auto-enabled nil
+        highlight-indent-guides-method 'bitmap))
+
+;; clean the recent file list on idle
+(use-package recentf
+  :config
+  (setq recentf-auto-cleanup 120))
+
 ;;------------------------------------------------------------------------------
 ;; Visual Fill Column
 ;;------------------------------------------------------------------------------
@@ -109,8 +124,8 @@
   :hook
 
   (prog-mode-hook . devdocs-setup-major-mode)
-
-  :init
+  
+  :config
 
   (defun devdocs-setup-major-mode ()
     (require 'devdocs)
@@ -151,9 +166,6 @@
 ;;------------------------------------------------------------------------------
 ;; Uniline
 ;;------------------------------------------------------------------------------
-
-(eval-when-compile
-  (require 'uniline))
 
 (use-package uniline
   :config
@@ -287,9 +299,6 @@ _h_ decrease width    _l_ increase width
 ;; Copyright
 ;;------------------------------------------------------------------------------
 
-(eval-when-compile
-  (require 'copyright))
-
 (use-package copyright
 
   :init
@@ -399,9 +408,6 @@ _h_ decrease width    _l_ increase width
   :custom
   (pdf-sync-backward-display-action t))
 
-(eval-when-compile
-  (require 'pdf-view))
-
 (use-package pdf-view
 
   :init
@@ -410,6 +416,19 @@ _h_ decrease width    _l_ increase width
   (add-hook! 'pdf-view-mode-hook #'pdf-view-midnight-minor-mode)
 
   :config
+
+  (defun pdf-view-midnight-update-colors ()
+    "Sync pdf view midnight colors to currently selected theme."
+    (interactive)
+    (setq pdf-view-midnight-colors
+          `(,(face-attribute 'default :foreground) .
+            ,(face-attribute 'default :background)))
+    (dolist (buf (buffer-list (current-buffer)))
+      (with-current-buffer buf
+        (when pdf-view-midnight-minor-mode
+          (pdf-view-midnight-minor-mode 1)))))
+
+  (add-hook 'doom-load-theme-hook #'pdf-view-midnight-update-colors)
 
   (defun pdf-rotate (dir)
     "Rotate a pdf using Qpdf. Dir should either be + or -"
@@ -525,7 +544,8 @@ _h_ decrease width    _l_ increase width
 
   :init
 
-  (yas-global-mode 1)
+  (add-hook 'prog-mode-hook (lambda () (yas-global-mode 1)))
+  (add-hook 'text-mode-hook (lambda () (yas-global-mode 1)))
 
   :custom
 
@@ -555,9 +575,6 @@ _h_ decrease width    _l_ increase width
 ;;------------------------------------------------------------------------------
 ;; Ispell
 ;;------------------------------------------------------------------------------
-
-(eval-when-compile
-  (require 'flyspell))
 
 (use-package flyspell
   :config

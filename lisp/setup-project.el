@@ -1,8 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'project))
-
 (use-package! project
   :init
 

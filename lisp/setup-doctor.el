@@ -1,8 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'cl-lib))
-
 (cl-defun setup--check-for-exe (exe &key url noroot cmd ubuntu dnf pacman)
   ""
   (if  (executable-find exe)

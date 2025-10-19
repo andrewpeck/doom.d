@@ -1,8 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'git-rebase))
-
 ;;------------------------------------------------------------------------------
 ;; Magit
 ;;------------------------------------------------------------------------------
@@ -66,7 +63,7 @@ Useful for working on NAS where permissions don't make sense."
   (remove-hook 'magit-refresh-buffer-hook '+magit-invalidate-projectile-cache-h)
 
   ;; copy short hashes only
-  (setopt magit-copy-revision-abbreviated t)
+  (setq magit-copy-revision-abbreviated t)
 
   ;; https://gist.github.com/danielmartin/34bc36dafd8f900de483394087230f48
   (defun my/change-commit-author (arg)
@@ -81,11 +78,11 @@ on the current line, if any."
        "exec"
        (lambda (_) (if author (format "git commit --amend --author='%s'" author) "")) arg)))
 
-  (setopt magit-list-refs-sortby "-creatordate")
+  (setq magit-list-refs-sortby "-creatordate")
 
-  (setopt magit-prefer-remote-upstream t)
-  ;; (setopt magit-branch-prefer-remote-upstream nil)
-  (setopt magit-branch-adjust-remote-upstream-alist
+  (setq magit-prefer-remote-upstream t)
+  ;; (setq magit-branch-prefer-remote-upstream nil)
+  (setq magit-branch-adjust-remote-upstream-alist
           '(("origin/master" . ".*")))
 
   ;; (add-to-list 'magit-status-sections-hook
@@ -207,9 +204,6 @@ on the current line, if any."
 ;;------------------------------------------------------------------------------
 ;; Git Gutter
 ;;------------------------------------------------------------------------------
-
-(eval-when-compile
-  (require 'diff-hl))
 
 (use-package! diff-hl
 

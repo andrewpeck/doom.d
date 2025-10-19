@@ -34,6 +34,9 @@
   :select t
   :quit nil)
 
+(set-popup-rule! "*Diff*"
+  :ignore t)
+
 (set-popup-rule! "*info*"
   :modeline t
   :side 'right

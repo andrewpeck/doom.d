@@ -1,8 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'markdown-mode))
-
 (defun dwim-open-at-point ()
   (interactive)
   (cl-case major-mode

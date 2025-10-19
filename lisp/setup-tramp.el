@@ -9,6 +9,18 @@
   :load-path "~/.emacs.d/.local/straight/repos/tramp"
   :config
 
+  ;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
+  (unless (functionp 'file-remote-p-memo)
+    (require 'memoize)
+    (defmemoize file-remote-p-memo (path)
+      (file-remote-p path 'host)))
+
+  (defun remote-host? (path)
+    ;; this is just tramp-remote-file-name-spec-regexp
+    ;; have a copy here so we don't need
+    (let ((remote-name-regexp "\\(-\\|[[:alnum:]]\\{2,\\}\\)\\(?::\\)\\(?:\\([^/:|[:blank:]]+\\)\\(?:@\\)\\)?\\(\\(?:[%._[:alnum:]-]+\\|\\(?:\\[\\)\\(?:\\(?:[[:alnum:]]*:\\)+[.[:alnum:]]*\\)?\\(?:]\\)\\)\\(?:\\(?:#\\)\\(?:[[:digit:]]+\\)\\)?\\)?"))
+      (or (string-match-p remote-name-regexp path)
+          (file-remote-p-memo path))))
 
   (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
         tramp-use-ssh-controlmaster-options t

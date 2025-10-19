@@ -1,15 +1,263 @@
 ;; -*- Lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'outline)
-  (require 'org-table)
-  (require 'org-fold)
-  (require 'org)
-  (require 'the-org-mode-expansions))
+;;;###autoload
+(defun verilog-name-to-port-inst ()
+    "Convert symbol at point into a verilog port instantiation.
+
+e.g. if you place the point at `outcome_cycle_idx_0' in the
+following line and execute this function:
+
+output reg [TBINB-1:0]       outcome_cycle_idx_0,
+
+it will be transformed into:
+
+.outcome_cycle_idx_0 (outcome_cycle_idx_0)
+
+
+This makes for easy conversion of some port list or wire list
+into Verilog ports."
+
+    (interactive)
+    (let ((name (symbol-at-point)))
+      (beginning-of-line)
+      (kill-line)
+      (insert (format ".%s (%s)," name name))
+      (verilog-indent-line)
+      (re-search-forward (format "%s" name))
+      (re-search-forward (format "%s" name))))
+
+;;;###autoload
+(defun vhdl-unsigned->slv ()
+  "Convert a VHDL unsigned to standard logic vector."
+  (interactive)
+  (require 'er-basic-expansions)
+  (when (not (region-active-p))
+    (er/mark-symbol))
+  (let ((sig (buffer-substring-no-properties (mark) (point))))
+    (delete-region (mark) (point))
+    (insert (format  "std_logic_vector(%s)" sig))
+    (backward-char 1))
+  (when (functionp 'evil-insert)
+    (evil-insert 0)))
+
+;;;###autoload
+(defun vhdl-int->slv ()
+  "Convert a VHDL integer to standard logic vector."
+  (interactive)
+  (require 'er-basic-expansions)
+  (when (not (region-active-p))
+    (er/mark-symbol))
+  (let ((sig (buffer-substring-no-properties (mark) (point))))
+    (delete-region (mark) (point))
+    (insert (format  "std_logic_vector(to_unsigned(%s, ))" sig))
+    (backward-char 2))
+  (when (functionp 'evil-insert)
+    (evil-insert 0)))
+
+;;;###autoload
+(defun vhdl-slv->int ()
+  "Convert a VHDL standard logic vector to integer."
+  (interactive)
+  (require 'er-basic-expansions)
+  (when (not (region-active-p))
+    (er/mark-symbol))
+  (let ((sig (buffer-substring-no-properties (mark) (point))))
+    (delete-region (mark) (point))
+    (insert (format  "to_integer(unsigned(%s))" sig))))
+
+;;;###autoload
+(defun vhdl-slv->unsigned ()
+  "Convert a VHDL standard logic vector to unsigned."
+  (interactive)
+  (require 'er-basic-expansions)
+  (when (not (region-active-p))
+    (er/mark-symbol))
+  (let ((sig (buffer-substring-no-properties (mark) (point))))
+    (delete-region (mark) (point))
+    (insert (format  "unsigned(%s)" sig))
+    (backward-char 1)))
+
+;;;###autoload
+(defun yosys-make-schematic ()
+  "Make a yosys schematic from the module at point. "
+
+  ;; TODO: need to process dependencies.
+  ;; TODO: catch errors, e.g. if read-module-name fails
+
+  (interactive)
+  (let* ((module (verilog-read-module-name))
+         (sources (buffer-file-name))
+         (cmd
+          (concat "yosys -p " "\"plugin -i systemverilog; read_systemverilog "
+                  sources " ; "
+                  "proc; stat; synth -top "
+                  module ";"
+                  " ; write_json -compat-int netlist.json; ltp; stat\""
+                  (format
+                   "&& netlistsvg netlist.json -o %s.svg && xdg-open %s.svg 2>&1" module module))))
+    ;; (async-shell-command cmd)
+    (call-process "bash" nil 0 nil "-c" cmd)))
+
+
+;;;###autoload
+(defun rainbow-delimiters--apply-color-range (start end depth match)
+  "Highlight a single delimiter at LOC according to DEPTH.
+
+LOC is the location of the character to add text properties to.
+DEPTH is the nested depth at LOC, which determines the face to use.
+MATCH is nil iff it's a mismatched closing delimiter."
+  (let ((face (funcall rainbow-delimiters-pick-face-function depth match start)))
+    (when face
+      (font-lock-prepend-text-property start end 'font-lock-face face))))
+
+;;;###autoload
+(defun rainbow-delimiters--propertize-verilog (_)
+  "Highlight delimiters in region between point and END.
+
+Used by font-lock for dynamic highlighting."
+
+  (interactive)
+  (when (eq major-mode 'verilog-mode)
+    (goto-char (point-min))
+    (let* ((depth 0)
+           (_ (point-max)))
+
+      ;; find begin-end pairs in the whole doc
+      ;; should probably operate on a range in case the document is large :(
+      ;; but for now this works...
+      (while (re-search-forward "\\<begin\\>\\|\\<end\\>" nil t)
+
+        ;; skip if we are in a comment
+        (unless (nth 4 (syntax-ppss))
+
+          (let* ((delim-start (match-beginning 0))
+                 (delim-end (match-end 0))
+                 (delim-word (match-string-no-properties 0)))
+
+            (when (string= delim-word "begin")
+              (setq depth (1+ depth)))
+
+            (rainbow-delimiters--apply-color-range delim-start delim-end depth (> depth 0))
+
+            (when (string= delim-word "end")
+              (setq depth (1- depth)))
+
+            (when (= depth -1)
+              (setq depth 0)))))))
+  ;; We already fontified the delimiters, tell font-lock there's nothing more
+  ;; to do.
+  nil)
+
+;;;###autoload
+(defun set-font-interactive ()
+  "Interactively choose and set a font."
+  (interactive)
+  (let ((font (completing-read "Font: " (font-family-list))))
+    (when font
+      (let ((size (string-to-number (read-string "Size: " (if (hd?) "22" "16")))))
+        (when (numberp size)
+          (setq doom-font (font-spec :name font :size size :weight 'regular))
+          (doom/reload-font))))))
+
+;;;###autoload
+(defun synchronize-theme ()
+  (interactive)
+  ;; https://gml.noaa.gov/grad/solcalc/solareqns.PDF
+  ;; https://en.wikipedia.org/wiki/Sunrise_equation
+  (pcase dark-mode
+    ('auto (let* ((hour  (string-to-number (format-time-string "%H")))
+                  (darkp (not  (member hour (number-sequence 7 15)))))
+             (if darkp
+                 (set-dark-mode)
+               (set-light-mode))))
+    ('dark (set-dark-mode))
+    ('light (set-light-mode))))
+
+;;;###autoload
+(defun set-dark-mode ()
+  "Set the color scheme to be dark."
+  (interactive)
+  (setq dark-mode 'dark)
+  (let ((theme ap/dark-theme))
+    (when (not (equal theme (car custom-enabled-themes)))
+      (progn (setq doom-theme theme)
+             (load-theme theme)))))
+
+;;;###autoload
+(defun set-light-mode ()
+  "Set the color scheme to be light."
+  (interactive)
+  (setq dark-mode 'light)
+  (let ((theme ap/light-theme))
+    (when (not (equal theme (car custom-enabled-themes)))
+      (progn (setq doom-theme theme)
+             (load-theme theme)))))
+
+;;;###autoload
+(defun set-auto-dark-mode ()
+  "Set the color scheme to follow the day cycle (roughly)."
+  (interactive)
+  (setq dark-mode 'auto)
+  (synchronize-theme)
+  (setq dark-mode 'auto))
+
+;;;###autoload
+(defun toggle-dark-mode ()
+  "Toggle dark mode."
+  (interactive)
+
+  (pcase dark-mode
+
+    ;; ;; auto -> dark
+    ;; ('auto (set-dark-mode))
+
+    ;; dark -> light
+    ('dark (set-light-mode))
+
+    ;; light -> auto
+    ('light (set-dark-mode))
+
+    (_ (error "Invalid dark mode!")))
+
+  (message (format "Setting theme mode to %s (%s)"
+                   (symbol-name dark-mode)
+                   (symbol-name doom-theme))))
 
 ;;------------------------------------------------------------------------------
 ;; Utility Functions
 ;;------------------------------------------------------------------------------
+
+;;;###autoload
+(defun home-manager-switch ()
+  "Reload home manager configuration."
+  (interactive)
+  (async-shell-command "home-manager switch"))
+
+;;;###autoload
+(defun project-root-dir (&rest _)
+  "Returns root directory of current project."
+  (when-let ((proj (project-current)))
+    (project-root proj)))
+
+;;;###autoload
+(defun projectile-project-root (&rest _)
+  (project-root-dir))
+
+;;;###autoload
+(defun doom-project-root (&rest _)
+  (project-root-dir))
+
+;;;###autoload
+(defun sudo-shell-command (command)
+  (shell-command (concat "echo " (shell-quote-argument (read-passwd "Password? "))
+                         " | sudo -S " command)))
+
+;;;###autoload
+(defun xclip ()
+  (interactive)
+  (let* ((buffer (buffer-file-name))
+         (mimetype (shell-command-to-string (concat "mimetype " buffer))))
+    (shell-command (concat "xclip -sel c -target " mimetype " " (buffer-file-name)))))
 
 ;;;###autoload
 (defun copy-file-name-to-kill ()
@@ -737,7 +985,6 @@ Make sure perl-file-mimeinfo is installed."
   "Helper function for latex text scaling.
 
 From https://www.reddit.com/r/orgmode/comments/165zeuu/delighted_by_org_svg_preview/"
-  (eval-when-compile (require 'face-remap))
   (cl-loop for o in (car (overlay-lists))
            if (eq (overlay-get o 'org-overlay-type) 'org-latex-overlay)
            do (plist-put (cdr (overlay-get o 'display))
@@ -1288,9 +1535,8 @@ local and remote servers."
    Use a prefix arg to get regular RET. "
   (interactive "P")
 
-  (eval-when-compile
-    (require 'org-inlinetask)
-    (require 'org))
+  (require 'org-inlinetask)
+  (require 'org)
 
   (if ignore
       (org-return)
@@ -1580,6 +1826,7 @@ and shortens it into an org mode link consisting of just `some file`"
 
 ;;;###autoload
 (defun org-link->markdown ()
+  "Convert Org mode link at point to markdown."
   (interactive)
   (let* ((ctx (org-in-regexp org-link-any-re))
          (beg (car ctx)) (end (cdr ctx))
@@ -1597,6 +1844,7 @@ and shortens it into an org mode link consisting of just `some file`"
 
 ;;;###autoload
 (defun markdown-link->org ()
+  "Convert Markdown link at point to Org."
   (interactive)
   (require 'markdown)
   (when (markdown-link-p)
@@ -1708,6 +1956,236 @@ Uses the `dom' library."
       (list (match-string 1 link)
             (match-string 2 link))
     (error "Cannot parse %s as Org link" link)))
+
+;;------------------------------------------------------------------------------
+;; LaTeX
+;;------------------------------------------------------------------------------
+
+;;;###autoload
+(defun texify-quotation-marks ()
+  (interactive)
+  ;; TODO: should add some feature to skip forward?
+
+  (save-excursion
+    (goto-char (point-min))
+
+    "find a quote mark"
+    (while (re-search-forward "\"" nil t)
+
+      (let* ((quote-pos (- (point) 1))
+             (next-quote-pos nil))
+
+        (save-excursion
+          (when (re-search-forward "\"" nil t)
+            (setq next-quote-pos (point))))
+
+        (when (and quote-pos next-quote-pos)
+
+          (lazy-highlight-cleanup)
+          (let ((overlay (make-overlay quote-pos next-quote-pos)))
+            (overlay-put overlay 'face '(ffap bold)))
+
+          (unwind-protect
+              (progn
+
+                ;; Opening quote
+                (goto-char quote-pos)
+                (overlay-put (make-overlay (point) (1+ (point)))'face '(isearch))
+                (when (yes-or-no-p "Replace opening quote?")
+                  (delete-char 1)
+                  (insert "``")
+
+                  (goto-char next-quote-pos)
+                  (overlay-put (make-overlay (point) (1+ (point)))'face '(isearch))
+                  (when (yes-or-no-p "Replace closing quote?")
+                    (delete-char 1)
+                    (insert "''"))))
+
+            (remove-overlays quote-pos next-quote-pos)))))))
+
+;;;###autoload
+(defun tex-follow-link-at-point ()
+  (interactive)
+  (let ((f (thing-at-point 'filename t)))
+    (string-match "\\(.*\\)\{\\(.*\\)}" f)
+    (let ((f (concat (vc-root-dir) (match-string 2 f))))
+      (when (and (not (string= f (vc-root-dir)))
+                 (file-exists-p f))
+        (find-file f)))))
+
+;;;###autoload
+(defvar default-tex-master nil)
+
+;;;###autoload
+(defun my/set-default-tex-master ()
+  "Set the master tex file for the current project."
+  (interactive)
+  ;; get master file from user
+  (let ((master-file
+         (completing-read "Master File: "
+                          (cl-remove-if-not (lambda (f) (string= "tex" (file-name-extension f)))
+                                            (project-files (project-current))))))
+    (setq default-tex-master master-file)
+    (setq TeX-master master-file)))   ; execute now to take effect immediately
+
+;;;###autoload
+(defun TeX-toggle-folding ()
+  (interactive)
+  (call-interactively #'TeX-fold-mode)
+  (if TeX-fold-mode
+      (TeX-fold-buffer)
+    (TeX-fold-clearout-buffer)))
+
+;;;###autoload
+(defun tex-link-insert ()
+  "Insert TeX href link"
+  (interactive)
+  (let* ((url-at-point (thing-at-point 'url))
+         (text-at-point (when (and (region-active-p)
+                                   (not url-at-point))
+                          (buffer-substring-no-properties
+                           (region-beginning)
+                           (region-end)))))
+    (let ((url (read-string "URL: " url-at-point))
+          (text (read-string (format "Text: ") text-at-point)))
+      (when (and url text)
+
+        (when (region-active-p)
+          (delete-region (region-beginning)
+                         (region-end)))
+
+        (when url-at-point
+          (let ((bounds (bounds-of-thing-at-point 'url)))
+            (delete-region (car bounds)
+                           (cdr bounds))))
+
+        (insert (format "\\href{%s}{%s}" url text))))))
+
+;;;###autoload
+(defun reftex-toc-set-max-level ()
+  (interactive)
+  (let ((level
+         (read-number "Level: " reftex-toc-max-level)))
+    (setq reftex-toc-max-level level))
+  (reftex-toc-Rescan))
+
+;;------------------------------------------------------------------------------
+;; Semantic Linefeeds
+;; based on https://abizjak.github.io/emacs/2016/03/06/latex-fill-paragraph.html
+
+;;;###autoload
+(defvar line-fill-paragraph-non-separators
+  (append
+   (list "n.b." "i.e." "e.g." "c.f." "viz." "eg." "ie.")
+   ;; single letter initials such as A. B. C.
+   (mapcar (lambda (x) (concat (upcase (char-to-string x)) ".")) (number-sequence ?a ?z))))
+
+;;;###autoload
+(defun ap/line-fill-paragraph (&optional P)
+  "When called with prefix argument call `fill-paragraph'.
+   Otherwise split the current paragraph into one sentence per line."
+  (interactive "P")
+  (if (not P)
+      (let ((regexp (concat "\s+\\(" (string-join line-fill-paragraph-non-separators "\\|") "\\)\\.")))
+        (save-excursion
+          (let ((fill-column 12345678)) ;; relies on dynamic binding
+            (fill-paragraph) ;; this will not work correctly if the paragraph is
+            ;; longer than 12345678 characters (in which case the
+            ;; file must be at least 12MB long. This is unlikely.)
+            (let ((end (save-excursion
+                         (forward-paragraph 1)
+                         (backward-sentence)
+                         (point-marker)))) ;; remember where to stop
+              (beginning-of-line)
+              (while (progn (forward-sentence)
+                            (<= (point) (marker-position end)))
+
+                ;; handle i.e. e.g. etc
+                (let ((s (point))
+                      (e nil))
+                  (save-excursion
+                    (re-search-backward " ")
+                    (setq e (point)))
+                  (let ((last-word (buffer-substring-no-properties s e)))
+                    (when (string-match regexp last-word)
+                      (debug)
+                      (forward-sentence))))
+
+                (when (<= (point) (marker-position end))
+                  (just-one-space) ;; leaves only one space, point is after it
+                  (delete-char -1) ;; delete the space
+                  (newline)        ;; and insert a newline
+                  (evil-indent-line (line-beginning-position) (line-end-position))))))))
+
+    ;; otherwise do ordinary fill paragraph
+    (fill-paragraph P)))
+
+;;;###autoload
+(defun tex-expand-and-insert (macro)
+  (interactive)
+  (when (not (region-active-p))
+    (er/mark-word))
+  (TeX-insert-macro macro))
+
+;;;###autoload
+(defun tex-underline ()
+  "Make the current TeX selection bold."
+  (interactive)
+  (tex-expand-and-insert "underline"))
+
+;;;###autoload
+(defun tex-bold ()
+  "Make the current TeX selection bold."
+  (interactive)
+  (tex-expand-and-insert "textbf"))
+
+;;;###autoload
+(defun tex-italic ()
+  "Make the current TeX selection italic."
+  (interactive)
+  (tex-expand-and-insert "textit"))
+
+;;;###autoload
+(defun tex-tt ()
+  "Make the current TeX selection typewriter."
+  (interactive)
+  (tex-expand-and-insert "texttt"))
+
+;;;###autoload
+(defun tex-glossarify ()
+  "Make the current TeX selection a glossary entry."
+  (interactive)
+  (tex-expand-and-insert "gls"))
+
+;;;###autoload
+(defun tex-Glossarify ()
+  "Make the current TeX selection a Glossary entry."
+  (interactive)
+  (tex-expand-and-insert "Gls"))
+
+;;;###autoload
+(defun hook/modify-latex-hyphen-syntax ()
+  "treat hyphenated words as one"
+  (modify-syntax-entry ?- "w"))
+
+;;;###autoload
+(defun electric-space ()        ; Trying to get Emacs to do semantic linefeeds
+  (interactive)
+  (if (looking-back (sentence-end) nil)
+      (insert "\n")
+    (self-insert-command 1)))
+
+(defvar electric-space-on-p nil)
+
+;;;###autoload
+(defun toggle-electric-space ()
+  (interactive)
+  (global-set-key
+   " "
+   (if (setq electric-space-on-p
+             (not electric-space-on-p))
+       'electric-space
+     'self-insert-command)))
 
 ;;------------------------------------------------------------------------------
 ;; Fini

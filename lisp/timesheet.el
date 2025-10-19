@@ -8,10 +8,6 @@
 ;; Y is year (1987 has Y = 87 except Y = 86 for Jan & Feb)
 ;; W is week day (0 = Sunday, ..., 6 = Saturday)
 
-(eval-when-compile
-  (declare-function calendar-iso-to-absolute "cal-iso" (date))
-  (require 'cal-iso))
-
 (defun ymd-to-weekday (C Y m d)
 
   ;; (1 = March, ..., 10 = December, 11 = Jan, 12 = Feb) Treat Jan & Feb as months of the preceding year

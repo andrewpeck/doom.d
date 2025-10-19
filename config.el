@@ -13,22 +13,19 @@
 ;; Collection of emacs configs: https://github.com/caisah/emacs.dz
 ;; https://github.com/danilevy1212/doom
 ;; https://github.com/jishnusen/emacs-config
+;;
+;; - TODO flycheck or flymake multiple python checkers (ruff, flake8)
+;; - TODO replace with thing from kill ring ;;
+;; - TODO +compile-to-vterm-global-minor-mode ???
+;; - TODO error with SPC-o-d
+;; - TODO setup gptel https://www.armindarvish.com/post/use_emacs_as_a_chatgpt_client/
+;; https://news.ycombinator.com/item?id=6965433
 
 ;; If non-nil, display instructions on how to exit the client on connection.
 (setq server-client-instructions nil)
 
-(defun project-root-dir (&rest _)
-  "Returns root directory of current project."
-  (when-let ((proj (project-current)))
-    (project-root proj)))
-
-(defun projectile-project-root (&rest _)
-  (project-root-dir))
-
-(defun doom-project-root (&rest _)
-  (project-root-dir))
-
 (setq use-package-hook-name-suffix nil
+      use-package-always-defer t
       use-package-compute-statistics t)
 
 ;;------------------------------------------------------------------------------
@@ -69,30 +66,8 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 
 (load (expand-file-name "loaddefs.el" doom-user-dir) nil t)
 
-(use-package my-defuns     :load-path (lambda () (concat (doom-dir "autoload"))))
-(use-package regulator     :load-path (lambda () (concat (doom-dir "autoload"))))
-(use-package popup-acronym :load-path (lambda () (concat (doom-dir "autoload"))))
-
 ;; Suppress `Package cl is deprecated` warnings
 (setq byte-compile-warnings '(not obsolete))
-
-;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
-(unless (functionp 'file-remote-p-memo)
-  (require 'memoize)
-  (defmemoize file-remote-p-memo (path)
-    (file-remote-p path 'host)))
-
-(defun remote-host? (path)
-  ;; this is just tramp-remote-file-name-spec-regexp
-  ;; have a copy here so we don't need
-  (let ((remote-name-regexp "\\(-\\|[[:alnum:]]\\{2,\\}\\)\\(?::\\)\\(?:\\([^/:|[:blank:]]+\\)\\(?:@\\)\\)?\\(\\(?:[%._[:alnum:]-]+\\|\\(?:\\[\\)\\(?:\\(?:[[:alnum:]]*:\\)+[.[:alnum:]]*\\)?\\(?:]\\)\\)\\(?:\\(?:#\\)\\(?:[[:digit:]]+\\)\\)?\\)?"))
-    (or (string-match-p remote-name-regexp path)
-        (file-remote-p-memo path))))
-
-(defun home-manager-switch ()
-  "Reload home manager configuration."
-  (interactive)
-  (async-shell-command "home-manager switch"))
 
 ;;------------------------------------------------------------------------------
 ;; Shell Config
@@ -105,14 +80,6 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 (setq shell-file-name (executable-find "bash"))
 (setq-default vterm-shell (executable-find "fish"))
 (setq-default explicit-shell-file-name (executable-find "fish"))
-
-;;------------------------------------------------------------------------------
-;; Auto Cleanup
-;;------------------------------------------------------------------------------
-
-;; clean the recent file list on idle
-(after! recentf
-  (setq recentf-auto-cleanup 120))
 
 ;;------------------------------------------------------------------------------
 ;; Mode aliases
@@ -147,68 +114,62 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 
 (add-to-list 'warning-suppress-types '(iedit))
 
-;; buffer-local variables
-(setq-default display-line-numbers nil
-              fill-column 80
-              tab-width 2
-              delete-by-moving-to-trash t ; Delete files to trash
-              window-combination-resize t) ; take new window space from all other windows (not just current)
+(use-package emacs
 
-;; something is overriding these
-(setq compilation-scroll-output t
-      auto-revert-mode t                  ;
-      auto-revert-remote-files t             ;
-      undo-limit 80000000)                 ; Raise undo-limit to 80Mb
+  :config
 
-(scroll-bar-mode)
+  ;; buffer-local variables
+  (setq-default display-line-numbers nil
+                fill-column 80
+                tab-width 2
+                delete-by-moving-to-trash t ; Delete files to trash
+                window-combination-resize t) ; take new window space from all other windows (not just current)
 
-(setq mouse-wheel-scroll-amount-horizontal 32
-      mouse-wheel-tilt-scroll t
-      enable-local-variables t               ;
-      help-at-pt-display-when-idle 'never ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
-      scroll-margin 30                    ; add a margin while scrolling
-      so-long-threshold 800               ; so-long-threshold can increase
-      auto-save-default t             ; Nobody likes to loose work, I certainly don't
-      truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
-      x-stretch-cursor t           ; Stretch cursor to the glyph width
+  ;; something is overriding these
+  (setq compilation-scroll-output t
+        auto-revert-mode t              ;
+        auto-revert-remote-files t      ;
+        undo-limit 80000000)            ; Raise undo-limit to 80Mb
 
-      abbrev-file-name (concat doom-user-dir "abbrev_defs")
+  (scroll-bar-mode)
 
-      ;; +format-on-save-enabled-modes
-      ;; '(not yaml-mode python-mode emacs-lisp-mode
-      ;;   sql-mode tex-mode latex-mode org-msg-edit-mode)
+  (setq mouse-wheel-scroll-amount-horizontal 32
+        mouse-wheel-tilt-scroll t
+        enable-local-variables t        ;
+        help-at-pt-display-when-idle 'never ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
+        scroll-margin 30                    ; add a margin while scrolling
+        so-long-threshold 800               ; so-long-threshold can increase
+        auto-save-default t      ; Nobody likes to loose work, I certainly don't
+        truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
+        x-stretch-cursor t           ; Stretch cursor to the glyph width
 
-      ;; Increase the amount of data which Emacs reads from the process.
-      ;; Again the emacs default is too low 4k considering that the some
-      ;; of the language server responses are in 800k - 3M range.
-      read-process-output-max (* 1024 1024) ;; 1mb
+        abbrev-file-name (concat doom-user-dir "abbrev_defs")
 
-      ;; Window Title
-      ;; https://www.emacswiki.org/emacs/FrameTitle
-      frame-title-format
-      '(:eval
-        (cond
-         (dired-directory (concat (abbreviate-file-name dired-directory) " - Dired" ))
-         (buffer-file-name (concat
-                            (abbreviate-file-name buffer-file-name)
-                            (when (buffer-modified-p) " * ")))
-         (t (buffer-name))))
-      ;; window title when minimzed--- just make it the same
-      icon-title-format frame-title-format)
+        ;; +format-on-save-enabled-modes
+        ;; '(not yaml-mode python-mode emacs-lisp-mode
+        ;;   sql-mode tex-mode latex-mode org-msg-edit-mode)
 
-(defun sudo-shell-command (command)
-  (shell-command (concat "echo " (shell-quote-argument (read-passwd "Password? "))
-           " | sudo -S " command)))
+        ;; Increase the amount of data which Emacs reads from the process.
+        ;; Again the emacs default is too low 4k considering that the some
+        ;; of the language server responses are in 800k - 3M range.
+        read-process-output-max (* 1024 1024) ;; 1mb
 
-(defun xclip ()
-  (interactive)
-  (let* ((buffer (buffer-file-name))
-         (mimetype (shell-command-to-string (concat "mimetype " buffer))))
-    (shell-command (concat "xclip -sel c -target " mimetype " " (buffer-file-name)))))
+        ;; Window Title
+        ;; https://www.emacswiki.org/emacs/FrameTitle
+        frame-title-format
+        '(:eval
+          (cond
+           (dired-directory (concat (abbreviate-file-name dired-directory) " - Dired" ))
+           (buffer-file-name (concat
+                              (abbreviate-file-name buffer-file-name)
+                              (when (buffer-modified-p) " * ")))
+           (t (buffer-name))))
+        ;; window title when minimzed--- just make it the same
+        icon-title-format frame-title-format)
 
-(midnight-mode)                     ; Clear buffers at midnight
-(display-time-mode 1)               ; Enable time in the mode-line
-(global-subword-mode 0)             ; Separate CamelCase words?
+  (midnight-mode)           ; Clear buffers at midnight
+  (display-time-mode 1)     ; Enable time in the mode-line
+  (global-subword-mode 0))  ; Separate CamelCase words?
 
 ;;------------------------------------------------------------------------------
 ;; Config Loading
@@ -235,15 +196,20 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 
 (load!! "custom")
 
+(load!! "lisp/setup-fonts.el")
+(load!! "lisp/setup-appearance.el")
+(load!! "lisp/setup-modeline.el")
+(load!! "lisp/setup-doom.el")
+
 ;; Load setup files
 (dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
-  (load (file-name-sans-extension file) 0.1))
+  (load-idle (file-name-sans-extension file) 0.1))
 
-(load!! "lisp/plotting")
-(load!! "lisp/regulator")
-(load!! "lisp/tracking")
-(load!! "passwords")
-(load!! "psiq")
+(load-idle "lisp/plotting")
+(load-idle "lisp/regulator")
+(load-idle "lisp/tracking")
+(load-idle "passwords")
+(load-idle "psiq")
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)

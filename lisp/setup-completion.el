@@ -1,35 +1,33 @@
 ;; -*- lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'cape)
-  (require 'cape-keyword)
-  (require 'tcl))
-
-;;------------------------------------------------------------------------------
-;; Keybindings
-;;------------------------------------------------------------------------------
-
-(map! :after corfu
-      (:map corfu-map "SPC" #'corfu-insert-separator)
-      (:map corfu-mode-map "C-<SPC>" #'completion-at-point))
-
 ;;------------------------------------------------------------------------------
 ;; Completion Preview
 ;;------------------------------------------------------------------------------
 
 (use-package completion-preview-mode
   :init
-  (global-completion-preview-mode)
+  (add-hook! '(prog-mode-hook text-mode-hook) #'global-completion-preview-mode)
   :config
   (unbind-key (kbd "TAB") completion-preview-active-mode-map)
   ;; Org mode has a custom `self-insert-command'
   (push 'org-self-insert-command completion-preview-commands))
 
-(use-package! corfu
+(use-package corfu
+
+  :init
+
+  (add-hook! '(prog-mode-hook text-mode-hook)
+    (global-corfu-mode)
+    (corfu-history-mode)
+    (corfu-popupinfo-mode))
 
   :commands (corfu-complete)
 
   :config
+
+  (map! :after corfu
+        (:map corfu-map "SPC" #'corfu-insert-separator)
+        (:map corfu-mode-map "C-<SPC>" #'completion-at-point))
 
   ;; for reasons I don't understand, the exit function gets called with no
   ;; candidates resulting in a args out of range 0,0 error when eglot completion
@@ -41,26 +39,18 @@
   (setq-default
    corfu-preselect 'first
 
-   corfu-auto-delay 0.5
-   corfu-auto-prefix 3
-   corfu-auto t
-   corfu-preview-current t              ; No preview vs Non-inserting preview
-
    ;; +corfu-want-minibuffer-completion nil
    ;; +corfu-want-tab-prefer-navigating-org-tables t
    ;; +corfu-want-tab-prefer-expand-snippets nil
    ;; +corfu-want-ret-to-confirm t
-   )
 
-  :init
-
-  (global-corfu-mode)
-  (corfu-history-mode)
-  (corfu-popupinfo-mode)
-
-  )
+   corfu-auto-delay 0.5
+   corfu-auto-prefix 3
+   corfu-auto t
+   corfu-preview-current t)) ; No preview vs Non-inserting preview
 
 ;; A few more useful configurations...
+
 (use-package emacs
   :custom
   ;; TAB cycle if there are only few candidates
@@ -79,9 +69,7 @@
   ;; useful beyond Corfu.
   (read-extended-command-predicate #'command-completion-default-include-p))
 
-(use-package! cape
-
-  :defer t
+(use-package cape
 
   :after corfu
 
@@ -93,8 +81,6 @@
   (cape-dabbrev-check-other-buffers nil)
 
   :config
-
-  (require 'cape-keyword)
 
   ;; cape-dabbrev: Complete word from current buffers. See also dabbrev-capf on Emacs 29.
   ;; cape-elisp-block: Complete Elisp in Org or Markdown code block.
@@ -137,6 +123,8 @@
   ;;------------------------------------------------------------------------------
 
   (after! verilog-mode
+
+    (require 'cape-keyword)
     (add-hook 'verilog-mode-hook
               (defun hook/add-verilog-keywords ()
                 (with-eval-after-load 'cape-keyword

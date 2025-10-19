@@ -1,8 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(eval-when-compile
-  (require 'org))
-
 (use-package org
   :init
 
@@ -66,47 +63,6 @@
         org-image-align  'left
         org-image-actual-width t)
 
-  (defun +org-http-or-https-image-data-fn (ov link _elem type)
-    "Interpret LINK as an URL to an image file."
-    (when (and (image-supported-file-p link)
-               (not (eq org-display-remote-inline-images 'skip)))
-      (if-let (buf (url-retrieve-synchronously (concat type ":" link)))
-          (with-current-buffer buf
-            (goto-char (point-min))
-            (re-search-forward "\r?\n\r?\n" nil t)
-            (overlay-put ov 'display (create-image (buffer-substring-no-properties (point) (point-max)) nil t)))
-        (message "Download of image \"%s\" failed" link)
-        nil)))
-
-  (defun +org-http-or-https-image-data-fn (ov link _elem type)
-    "Interpret LINK as an URL to an image file."
-    (when (and (image-supported-file-p link)
-               (not (eq org-display-remote-inline-images 'skip)))
-      (let ((dest (concat temporary-file-directory
-                          (car (last (split-string link "/" t))))))
-        (when (not (file-exists-p dest))
-          (url-copy-file (concat type ":" link) dest t))
-        (org-link-preview-file ov dest link))))
-
-  (defun +org-http-image-data-fn (ov link elem)
-    "Interpret LINK as an URL to an image file."
-    (+org-http-or-https-image-data-fn ov link elem "http"))
-
-  (defun +org-https-image-data-fn (ov link elem)
-    "Interpret LINK as an URL to an image file."
-    (+org-http-or-https-image-data-fn ov link elem "https"))
-
-  (defun +org-inline-image-data-fn (ov link _elem)
-    "Interpret LINK as base64-encoded image data."
-    (overlay-put ov 'display (create-image link nil t)))
-
-  (org-link-set-parameters "http"  :preview #'+org-http-image-data-fn)
-  (org-link-set-parameters "https" :preview #'+org-https-image-data-fn)
-  (org-link-set-parameters "img"   :preview #'+org-inline-image-data-fn)
-
-  (org-link-set-parameters
-   "docview" :preview #'org-link-docview-preview)
-
   (add-hook 'org-mode-hook #'org-excalidraw-initialize)
 
   ;; org should open html with a browser
@@ -115,21 +71,32 @@
 
   (require 'evil-org)
 
-  (setq ob-mermaid-cli-path "aa-exec --profile=chrome mmdc")
-
   ;;------------------------------------------------------------------------------
   ;; General
   ;;------------------------------------------------------------------------------
 
+  (after! ob-mermaid
+    (setq ob-mermaid-cli-path "aa-exec --profile=chrome mmdc"))
+
   (after! ob-ditaa
-    (setopt org-ditaa-jar-path "~/.doom.d/ditaa.jar"))
+    (setq org-ditaa-jar-path "~/.doom.d/ditaa.jar"))
+
+  (after! org-crypt
+    (setq org-crypt-disable-auto-save t
+          org-crypt-key nil))
+
+  (after! ox
+    (setq org-export-in-background nil
+
+          ;; html export
+          org-html-htmlize-output-type 'css
+          org-html-htmlize-font-prefix "org-"))
+
+  (after! org-indent
+    (setq org-indent-indentation-per-level 2))
 
   (setq org-tags-exclude-from-inheritance (list "crypt")
-        org-indent-indentation-per-level 2
         org-startup-numerated nil
-        org-crypt-key nil
-        org-crypt-disable-auto-save t
-        org-export-in-background nil
         org-confirm-babel-evaluate nil
         org-display-remote-inline-images 'download
 
@@ -138,12 +105,6 @@
         ;; Latex Previews
         org-preview-latex-default-process 'dvisvgm
         org-format-latex-options (plist-put org-format-latex-options :scale 1.5)
-
-        ;; html export
-        ;; (setq org-html-htmlize-output-type 'inline-css) ;; default
-        ;; (setq org-html-htmlize-font-prefix "") ;; default
-        org-html-htmlize-output-type 'css
-        org-html-htmlize-font-prefix "org-"
 
         ;; Toggle Displays
         org-startup-folded 'f
@@ -261,31 +222,12 @@
           ("meeting"   . (:foreground "gray" :slant italic))
           ("CRITICAL"  . (:background "red3" :foreground "#fff" :weight bold))))
 
-  ;; change DEADLINE to a short symbol to reduce line noise
-  (font-lock-add-keywords
-   'org-mode
-   '(("^\\(DEADLINE:\\)"
-      (0 (prog1 ()
-           (compose-region (match-beginning 1) (match-end 1) ""))))))
-
   (setq org-agenda-prefix-format
         '((agenda  . " %t")
           (timeline  . "  % s")
           (todo  . " %i")
           (tags  . " %i %-12:c")
           (search . " %i %-12:c")))
-
-  (custom-declare-face
-   '+org-todo-idea
-   `((t :weight bold :foreground "#94e2d5")) "IDEA todo keyword")
-
-  (custom-declare-face
-   '+org-todo-meet
-   `((t :weight bold :foreground "#cdf"))    "MEET todo keyword")
-
-  (custom-declare-face
-   '+org-todo-note
-   `((t :weight bold :foreground "#288"))    "NOTE todo keyword")
 
   (setq org-todo-keyword-faces
         '(("[-]"  . +org-todo-active)
@@ -305,11 +247,7 @@
           (sequence "NOTE" "NOTED")
           (sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
           (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
-          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
-
-  ;; (setq org-startup-indented nil)
-  ;; (setq-default org-indent-mode nil)
-  ) ;; end use-package! org
+          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)"))))
 
 ;;------------------------------------------------------------------------------
 ;; Poporg
@@ -435,3 +373,50 @@
      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
      ("\\paragraph{%s}"     . "\\paragraph*{%s}")
      ("\\subparagraph{%s}"  . "\\subparagraph*{%s}"))))
+
+;;------------------------------------------------------------------------------
+;; Image preview
+;;------------------------------------------------------------------------------
+
+;; not yet supported in master emacs?
+(when (fboundp 'org-link-preview-file) 
+  (defun +org-http-or-https-image-data-fn (ov link _elem type)
+    "Interpret LINK as an URL to an image file."
+    (when (and (image-supported-file-p link)
+               (not (eq org-display-remote-inline-images 'skip)))
+      (if-let (buf (url-retrieve-synchronously (concat type ":" link)))
+          (with-current-buffer buf
+            (goto-char (point-min))
+            (re-search-forward "\r?\n\r?\n" nil t)
+            (overlay-put ov 'display (create-image (buffer-substring-no-properties (point) (point-max)) nil t)))
+        (message "Download of image \"%s\" failed" link)
+        nil)))
+
+  (defun +org-http-or-https-image-data-fn (ov link _elem type)
+    "Interpret LINK as an URL to an image file."
+    (when (and (image-supported-file-p link)
+               (not (eq org-display-remote-inline-images 'skip)))
+      (let ((dest (concat temporary-file-directory
+                          (car (last (split-string link "/" t))))))
+        (when (not (file-exists-p dest))
+          (url-copy-file (concat type ":" link) dest t))
+        (org-link-preview-file ov dest link))))
+
+  (defun +org-http-image-data-fn (ov link elem)
+    "Interpret LINK as an URL to an image file."
+    (+org-http-or-https-image-data-fn ov link elem "http"))
+
+  (defun +org-https-image-data-fn (ov link elem)
+    "Interpret LINK as an URL to an image file."
+    (+org-http-or-https-image-data-fn ov link elem "https"))
+
+  (defun +org-inline-image-data-fn (ov link _elem)
+    "Interpret LINK as base64-encoded image data."
+    (overlay-put ov 'display (create-image link nil t)))
+
+  (org-link-set-parameters "http"  :preview #'+org-http-image-data-fn)
+  (org-link-set-parameters "https" :preview #'+org-https-image-data-fn)
+  (org-link-set-parameters "img"   :preview #'+org-inline-image-data-fn)
+
+  (org-link-set-parameters
+   "docview" :preview #'org-link-docview-preview))
