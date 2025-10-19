@@ -63,57 +63,57 @@ nil."
 
 (setq-default mode-line-format
 
-      '((:eval (simple-mode-line-render
+              '((:eval (simple-mode-line-render
 
-                ;; Left.
-                (list "%e"
-                      evil-mode-line-tag
-                      mode-line-mule-info
-                      "%* "
-                      (let ((host (remote-host? default-directory)))
-                        (if host
-                            (concat (propertize host 'face '(:inherit warning)) ":") nil))
+                        ;; Left.
+                        (list "%e"
+                              evil-mode-line-tag
+                              mode-line-mule-info
+                              "%* "
+                              (let ((host (remote-host? default-directory)))
+                                (if host
+                                    (concat (propertize host 'face '(:inherit warning)) ":") nil))
 
-                      (propertized-buffer-identification "%b")
+                              (propertized-buffer-identification "%b")
 
-                      (when nyan-mode
-                        (concat "  " (nyan-create))))
+                              (when nyan-mode
+                                (concat "  " (nyan-create))))
 
-                ;; Right.
-                (list
+                        ;; Right.
+                        (list
 
-                 (if (or defining-kbd-macro executing-kbd-macro)
-                     (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
+                         (if (or defining-kbd-macro executing-kbd-macro)
+                             (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ ") "")
 
-                 (when (and flycheck-mode flycheck-enabled-checkers)
-                   (concat "("
-                           (string-join
-                            (mapcar 'symbol-name flycheck-enabled-checkers) " ") ") "))
+                         (when (and flycheck-mode flycheck-enabled-checkers)
+                           (concat "("
+                                   (string-join
+                                    (mapcar 'symbol-name flycheck-enabled-checkers) " ") ") "))
 
-                 ;; mode-line-misc-info
-                 ;; global-mode-string
-                 ;; '("" battery-mode-line-string)
+                         ;; mode-line-misc-info
+                         ;; global-mode-string
+                         ;; '("" battery-mode-line-string)
 
-                 (if (eq major-mode 'pdf-view-mode)
-                     (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages))
-                   "(L%l C%c %p)")
+                         (if (eq major-mode 'pdf-view-mode)
+                             (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages))
+                           "(L%l C%c %p)")
 
-                 (and (not (remote-host? default-directory))
-                      (when-let ((m (vc-mode)))
-                        (concat " (" (string-trim m) ") ")))
+                         (and (not (remote-host? default-directory))
+                              (when-let ((m (vc-mode)))
+                                (concat " (" (string-trim m) ") ")))
 
-                 ;; (format "%s" (if (listp mode-name) (car mode-name) mode-name))
+                         ;; (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
-                 (when buffer-env-active " ")
+                         (when buffer-env-active " ")
 
-                 ;; replace (eglot--mode-line-format)
-                 (when (and (fboundp #'eglot-managed-p)
-                            (eglot-managed-p)) " ")
+                         ;; replace (eglot--mode-line-format)
+                         (when (and (fboundp #'eglot-managed-p)
+                                    (eglot-managed-p)) " ")
 
-                 (when flycheck-mode
-                   (concat " "
-                    (replace-regexp-in-string
-                     "FlyC" ""
-                     (my-flycheck-mode-line-status-text))))
+                         (when flycheck-mode
+                           (concat " "
+                                   (replace-regexp-in-string
+                                    "FlyC" ""
+                                    (my-flycheck-mode-line-status-text))))
 
-                 mode-line-end-spaces)))))
+                         mode-line-end-spaces)))))
