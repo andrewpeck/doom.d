@@ -184,8 +184,8 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 
 (defun load-idle (pkg &optional timer)
   "Load package on idle."
-  (let ((timer (if timer timer 1.5)))
-    (run-with-idle-timer timer nil #'load!! pkg)))
+  (unless timer (setq timer 0.1))
+  (run-with-idle-timer timer nil #'load!! pkg))
 
 (defmacro run-when-idle (seconds &rest body)
   "Execute BODY after SECONDS of idle."
@@ -195,11 +195,10 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 (defun user-load-timer (path) (load-timer (concat doom-user-dir path)))
 
 (load!! "custom")
-
-(load!! "lisp/setup-fonts.el")
 (load!! "lisp/setup-appearance.el")
 (load!! "lisp/setup-modeline.el")
 (load!! "lisp/setup-doom.el")
+(load!! "lisp/setup-fonts.el")
 
 ;; Load setup files
 (dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
