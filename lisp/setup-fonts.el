@@ -1,22 +1,23 @@
 ;; -*- lexical-binding: t; -*-
 
- (defun hd? ()
-   "Check if the display is larger than 1920 pixels."
-   (> (display-pixel-width) 1920))
+(defun hd? ()
+  "Check if the display is larger than 1920 pixels."
+  (> (display-pixel-width) 1920))
 
-(comment
- (defun font-exists? (font)
-   "Check if FONT exists."
-   (if (functionp 'doom-font-exists-p)
-       (doom-font-exists-p font)
-     (ignore-errors
-       (if (null (x-list-fonts font))
-           nil t))))
+(defun font-exists? (font)
+  "Check if FONT exists."
+  (if (functionp 'doom-font-exists-p)
+      (doom-font-exists-p font)
+    (ignore-errors
+      (if (null (x-list-fonts font))
+          nil t))))
+
+(defvar my/preferred-fonts nil "List of preferred fonts. (name hd-size size)")
 
  ;; M-x describe-font
- (defvar my/preferred-fonts
-   `(("Adwaita Mono"             22 16)
-     ("Hack Nerd Font"           21 16)
+ (setq my/preferred-fonts
+   `(("Hack Nerd Font"           21 16)
+     ("AdwaitaMono Nerd Font"   22 16)
      ("Berkeley Mono"            24 20)
      ("InconsolataGo Nerd Font"  26 19)
      ("Julia Mono"               21 16)
@@ -31,36 +32,33 @@
      ("Terminus"                 16 19)
      ("Fira Code"                14 19)
      ("IBM Plex Mono"            16 19)
-     ("Ubuntu Mono"              21 19))
+     ("Ubuntu Mono"              21 19)))
 
-   "List of preferred fonts. (name hd-size size)")
+(defvar my/preferred-variable-pitch-font
+  `(("Adwaita Sans" 18 18)
+    ("Comic Code"   24 16)
+    ("Cantarell"    24 16)
+    ("Fira Code"    24 17)
+    ("Calibri"      24 18))
 
- (defvar my/preferred-variable-pitch-font
-   `(("Adwaita Sans" 18 18)
-     ("Comic Code"   24 16)
-     ("Cantarell"    24 16)
-     ("Fira Code"    24 17)
-     ("Calibri"      24 18))
+  "List of preferred variable pitch fonts.")
 
-   "List of preferred variable pitch fonts.")
+(defun ap/update-font-list ()
 
- (defun ap/update-font-list ()
+  (let* ((font (cl-find-if (lambda (x) (font-exists? (car x))) my/preferred-fonts))
+         (name (car font))
+         (size (if (hd?) (nth 1 font) (nth 2 font))))
 
-   (let* ((font (cl-find-if (lambda (x) (font-exists? (car x))) my/preferred-fonts))
-          (name (car font))
-          (size (if (hd?) (nth 1 font) (nth 2 font))))
+    (when font
+      (setq doom-font (font-spec :family name :size size :weight 'regular)
+            doom-big-font (font-spec :family name :size (+ 4 size))
+            doom-serif-font (font-spec :family name :weight 'light))))
 
-     (setq doom-font (font-spec :family name :size size :weight 'regular)
-           doom-big-font (font-spec :family name :size (+ 4 size))
-           doom-serif-font (font-spec :family name :weight 'light)))
+  (let* ((font (cl-find-if (lambda (x) (font-exists? (car x))) my/preferred-variable-pitch-font))
+         (name (car font))
+         (size (if (hd?) (nth 1 font) (nth 2 font))))
+    (when font
+      (setq doom-variable-pitch-font (font-spec :family name :size size)))))
 
-   (let* ((font (cl-find-if (lambda (x) (font-exists? (car x))) my/preferred-variable-pitch-font))
-          (name (car font))
-          (size (if (hd?) (nth 1 font) (nth 2 font))))
-     (setq doom-variable-pitch-font (font-spec :family name :size size))))
-
- (ap/update-font-list)
-
- (advice-add #'doom/reload-font :before #'ap/update-font-list))
-
-(setq doom-font (font-spec :family "Adwaita Mono" :size (if (hd?) 22 16)))
+(advice-add #'doom/reload-font :before #'ap/update-font-list)
+(ap/update-font-list)
