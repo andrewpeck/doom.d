@@ -3,119 +3,113 @@
 ;; https://www.emacswiki.org/emacs/ModeLineConfiguration
 ;; https://www.emacswiki.org/emacs/PercentConstruct
 
-(display-battery-mode)
-(setq battery-mode-line-format "%b%p%% · ")
+(use-package nyan-mode
+  :config
+  (setq nyan-animate-nyancat t
+        nyan-animation-frame-interval 0.1
+        nyan-bar-length 16
+        nyan-wavy-trail t))
 
-(setq nyan-animate-nyancat t
-      nyan-animation-frame-interval 0.1
-      nyan-bar-length 16
-      nyan-wavy-trail t)
 
-(defsubst simple-mode-line-render (left right)
-  "Return a string of `window-width' length.
-Containing LEFT, and RIGHT aligned respectively."
-  (let ((available-width
-         (- (window-total-width)
-            (+ (length (format-mode-line left))
-               (length (format-mode-line right))))))
-    (append left
-            (list (format (format "%%%ds" available-width) ""))
-            right)))
+(defvar modeline-show-flycheck-names nil)
 
 (defsubst modeline-flycheck-state ()
   ""
-  (let-alist (flycheck-count-errors flycheck-current-errors)
-    (if (not (or .error .warning))
-        ;; no errors or warnings
-        ""
-      ;; else
-      (concat
-       (propertize (format "%s" (or .error "0") ) 'face '(:inherit error))
-       "·"
-       (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning))))))
+  (string-trim
+   (let-alist (flycheck-count-errors flycheck-current-errors)
+     (if (not (or .error .warning))
+         ;; no errors or warnings
+         ""
+       ;; else
+       (concat
+        (propertize (format "%s" (or .error "0") ) 'face '(:inherit error))
+        "·"
+        (propertize (format "%s" (or .warning "0")) 'face '(:inherit warning)))))))
 
 (defsubst my-flycheck-mode-line-status-text (&optional status)
   "Get a text describing STATUS for use in the mode line.
 STATUS defaults to `flycheck-last-status-change' if omitted or
 nil."
-  (concat
-   (pcase (or status flycheck-last-status-change)
-     (`not-checked "")
-     (`no-checker  "")
-     (`running     "󰔟")
-     (`errored     "")
-     (`interrupted "")
-     (`suspicious  "")
-     (`finished     (modeline-flycheck-state)))
-   " "))
+  (pcase (or status flycheck-last-status-change)
+    (`not-checked "")
+    (`no-checker  "")
+    (`running     "󰔟")
+    (`errored     "")
+    (`interrupted "")
+    (`suspicious  "")
+    (`finished     (modeline-flycheck-state))))
 
 (after! vc-git
   (defsubst advice/vc-mode-line-transform (tstr)
+    ;; Start with e.g. Git:master
+    ;; strip off Git to yield :master
+    ;; take first character to get -
     (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
-           (first-char (substring tstr 0 1)))
-      (cond ((string= ":" first-char) ;;; Modified
-             (replace-regexp-in-string "^:"
-                                       (propertize "󰊢 " 'face `(:foreground ,(face-attribute 'diff-removed :foreground)))
-                                       tstr))
-            ((string= "-" first-char) ;; No change
-             (replace-regexp-in-string "^-" (propertize "󰊢 " 'face `(:foreground ,(face-attribute 'diff-added :foreground))) tstr))
-            (t tstr))))
+           (first-char (substring tstr 0 1))
+           (modified (string= first-char ":"))
+           (face (if modified 'diff-removed 'diff-added)))
+      (substring (propertize tstr 'face `(:foreground ,(face-attribute face :foreground))) 1 nil)))
+
   ;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
   (advice-add #'vc-git-mode-line-string :filter-return #'advice/vc-mode-line-transform))
 
 (setq eglot-menu-string "⌁")
 (custom-set-faces '(eglot-mode-line ((t))))
 
-(setq-default mode-line-format
+(setq mode-line-format
+      '(
+        ;;LEFT
+        "%e"
+        evil-mode-line-tag
+        mode-line-mule-info
+        "%* "
 
-              '((:eval (simple-mode-line-render
+        (:eval (when-let* ((host (remote-host? default-directory)))
+                 (concat (propertize host 'face '(:inherit warning)) ":")))
 
-                        ;; Left.
-                        (list "%e"
-                              evil-mode-line-tag
-                              mode-line-mule-info
-                              "%* "
-                              (when-let* ((host (remote-host? default-directory)))
-                                (concat (propertize host 'face '(:inherit warning)) ":"))
+        (:eval (propertized-buffer-identification "%b"))
 
-                              (propertized-buffer-identification "%b")
+        (:eval (when nyan-mode
+                 (concat " " (nyan-create))))
 
-                              (when nyan-mode
-                                (concat "  " (nyan-create))))
+        ;; RIGHT PAD
+        mode-line-format-right-align
 
-                        ;; Right.
-                        (list ""
+        ;; RIGHT
 
-                         (when (or defining-kbd-macro executing-kbd-macro)
-                           (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅ "))
+        (:eval
+         (string-join 
+          (remq nil 
+                (list
+                 (when (or defining-kbd-macro executing-kbd-macro)
+                   (concat "MACRO(" (char-to-string evil-this-macro) ") ⋅"))
 
-                         (and flycheck-mode flycheck-enabled-checkers
-                              (concat "("
-                                      (string-join
-                                       (mapcar 'symbol-name flycheck-enabled-checkers) " ") ") "))
+                 (and flycheck-mode flycheck-enabled-checkers
+                      (concat (when modeline-show-flycheck-names
+                                (concat
+                                 "("
+                                 (string-join (mapcar 'symbol-name flycheck-enabled-checkers) " ") " "))
 
-                         ;; mode-line-misc-info
-                         ;; global-mode-string
-                         ;; '("" battery-mode-line-string)
+                              (my-flycheck-mode-line-status-text)
 
-                         (pcase major-mode
-                           ('pdf-view-mode (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages)))
-                           (_  "(L%l C%c %p)"))
+                              (when modeline-show-flycheck-names ")")))
 
-                         (when (not (remote-host? default-directory))
-                           (when-let ((m (vc-mode)))
-                             (concat " (" (string-trim m) ") ")))
+                 (pcase major-mode
+                   ('pdf-view-mode (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages)))
+                   (_  "(L%l C%c %p)"))
 
-                         ;; (format "%s" (if (listp mode-name) (car mode-name) mode-name))
+                 (when (not (remote-host? default-directory))
+                   (when-let ((m vc-mode))
+                     (concat "(" (string-trim m) ")")))
 
-                         (when buffer-env-active " ")
+                 ;; (format "%s" (if (listp mode-name) (car mode-name) mode-name))
 
-                         ;; replace (eglot--mode-line-format)
-                         (when (and (fboundp #'eglot-managed-p)
-                                    (eglot-managed-p)) " ")
+                 (when buffer-env-active "")
 
-                         (when flycheck-mode
-                           (concat " "
-                                   (replace-regexp-in-string
-                                    "FlyC" ""
-                                    (my-flycheck-mode-line-status-text)))))))))
+                 ;; replace (eglot--mode-line-format)
+                 (when (and (fboundp #'eglot-managed-p)
+                            (eglot-managed-p)) "")))
+          " "))
+
+        ;; END
+        " " mode-line-end-spaces))
