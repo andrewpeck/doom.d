@@ -141,10 +141,6 @@
         :m "RET" (lambda () (interactive) (open-link-or #'python-shell-send-defun))
         :m "M-RET" #'python-shell-send-buffer)
 
-  (map! :map system-install-run-minor-mode-map
-        :after system-install
-        :n "q" #'bury-buffer)
-
   (declare-function popup/quit-window "+hacks" (args))
   (map! :after archive-mode :map archive-mode-map "-" #'popup/quit-window)
 

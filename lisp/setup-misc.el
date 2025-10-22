@@ -1,5 +1,12 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
+(use-package system-install
+  :config
+  (system-install-auto-refresh)
+  (map! :map system-install-run-minor-mode-map
+        :after system-install
+        :n "q" #'bury-buffer))
+
 (use-package rainbow-delimiters-mode
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
