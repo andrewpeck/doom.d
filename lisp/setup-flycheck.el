@@ -70,7 +70,7 @@
             (? "-" (id (+ (any "0-9A-Z_")))) ": "
             (? (file-name) ":" line ":" (? column ":") " ")
             (message) line-end))
-    :modes verilog-mode))
+    :modes (verilog-mode verilog-ts-mode)))
 
 ;;------------------------------------------------------------------------------
 ;; Tcl Nagelfar
