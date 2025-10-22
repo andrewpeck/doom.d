@@ -71,30 +71,6 @@
 
   (require 'evil-org)
 
-  ;;------------------------------------------------------------------------------
-  ;; General
-  ;;------------------------------------------------------------------------------
-
-  (after! ob-mermaid
-    (setq ob-mermaid-cli-path "aa-exec --profile=chrome mmdc"))
-
-  (after! ob-ditaa
-    (setq org-ditaa-jar-path "~/.doom.d/ditaa.jar"))
-
-  (after! org-crypt
-    (setq org-crypt-disable-auto-save t
-          org-crypt-key nil))
-
-  (after! ox
-    (setq org-export-in-background nil
-
-          ;; html export
-          org-html-htmlize-output-type 'css
-          org-html-htmlize-font-prefix "org-"))
-
-  (after! org-indent
-    (setq org-indent-indentation-per-level 2))
-
   (setq org-tags-exclude-from-inheritance (list "crypt")
         org-startup-numerated nil
         org-confirm-babel-evaluate nil
@@ -420,3 +396,33 @@
 
   (org-link-set-parameters
    "docview" :preview #'org-link-docview-preview))
+
+(use-package ob-mermaid
+  :after org
+  :config
+  (setq ob-mermaid-cli-path "aa-exec --profile=chrome mmdc"))
+
+(use-package ob-mermaid
+  :after org
+  :config
+  (setq org-ditaa-jar-path "~/.doom.d/ditaa.jar"))
+
+(use-package ob-mermaid
+  :after org
+  :config
+  (setq org-crypt-disable-auto-save t
+        org-crypt-key nil))
+
+(use-package ob-mermaid
+  :after org
+  :config
+  (setq org-export-in-background nil
+
+        ;; html export
+        org-html-htmlize-output-type 'css
+        org-html-htmlize-font-prefix "org-"))
+
+(use-package ob-mermaid
+  :after org
+  :config
+  (setq org-indent-indentation-per-level 2))
