@@ -1,6 +1,17 @@
 ;; -*- lexical-binding: t; -*-
 
 ;;;###autoload
+(defun my/describe-char-at-mouse-click (click-event)
+  "`describe-char' at CLICK-EVENT's position.
+CLICK-EVENT should be a mouse-click event.
+
+From https://emacs.stackexchange.com/questions/303/describe-face-character-not-under-unreachable-by-the-cursor"
+  (interactive "e")
+  (run-hooks 'mouse-leave-buffer-hook)
+  (let ((pos (cadr (event-start click-event))))
+    (describe-char pos)))
+
+;;;###autoload
 (defun verilog-name-to-port-inst ()
     "Convert symbol at point into a verilog port instantiation.
 
