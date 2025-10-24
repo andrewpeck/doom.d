@@ -101,7 +101,7 @@
   ;; Python
   ;;------------------------------------------------------------------------------
 
-  (add-hook 'python-ts-mode-hook
+  (add-hook! '(python-mode python-ts-mode-hook)
             (defun hook/set-python-base-capf ()
               (setq-local cape-file-prefix '("\"" "'"))
               (setq-local completion-at-point-functions
@@ -118,13 +118,13 @@
   (after! verilog-mode
 
     (require 'cape-keyword)
-    (add-hook 'verilog-mode-hook
+    (add-hook! '(verilog-mode-hook verilog-ts-mode-hook)
               (defun hook/add-verilog-keywords ()
                 (with-eval-after-load 'cape-keyword
                   (add-to-list 'cape-keyword-list
                                (append '(verilog-mode) verilog-keywords))))))
 
-  (add-hook 'verilog-mode-hook
+  (add-hook! '(verilog-mode-hook verilog-ts-mode-hook)
             (defun hook/set-verilog-capf ()
               (setq-local completion-at-point-functions
                           (list (cape-capf-super
