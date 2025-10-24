@@ -78,7 +78,8 @@ nil."
 
                 ;; lsp
                 (:eval (and (fboundp #'eglot-managed-p)
-                            (eglot-managed-p)) " ")
+                            (eglot-managed-p)
+                            " "))
 
                 ;; flycheck
                 (:eval (and flycheck-mode flycheck-enabled-checkers
