@@ -42,7 +42,7 @@ nil."
     (let* ((tstr (replace-regexp-in-string "Git" "" tstr))
            (first-char (substring tstr 0 1))
            (modified (string= first-char ":"))
-           (face (if modified 'diff-removed 'diff-added)))
+           (face (if modified 'error 'magit-diff-added)))
       (substring (propertize tstr 'face `(:foreground ,(face-attribute face :foreground))) 1 nil)))
 
   ;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
@@ -61,6 +61,10 @@ nil."
                          (concat (propertize host 'face '(:inherit warning)) ":")))
 
                 (:eval (propertized-buffer-identification "%b"))
+
+                ;; git
+                (:eval (when-let* ((m (and (not (remote-host? default-directory)) vc-mode)))
+                         (concat " (" (string-trim m) ")" " ")))
 
                 (:eval (and nyan-mode
                          (concat " " (nyan-create))))
@@ -95,8 +99,5 @@ nil."
                 ;; position
                 (:eval (concat (pcase major-mode
                                  ('pdf-view-mode (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages)))
-                                 (_  "(L%l C%c %p)")) " "))
-
-                ;; git
-                (:eval (when-let* ((m (and (not (remote-host? default-directory)) vc-mode)))
-                         (concat "(" (string-trim m) ")" " ")))))
+                                 (_  "(L%l C%c %p)"))
+                               " "))))
