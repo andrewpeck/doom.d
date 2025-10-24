@@ -1550,3 +1550,18 @@ lines are selected, or the NxM dimensions of a block selection.")
   ;;           (defun hook/set-fill-prefix ()
   ;;             "Set the verilog fill prefix."
   ;;             (setq-local fill-prefix "// ")))
+
+
+;; (display-battery-mode)
+;; (setq battery-mode-line-format "%b%p%% · ")
+
+
+  ;; for reasons I don't understand, the exit function gets called with no
+  ;; candidates resulting in a args out of range 0,0 error when eglot completion
+  ;; is performed and there are no candidates
+  ;; avoid the error with some small advice
+  ;; NOTE: this was causing double ''literals' in python
+  ;; not sure if the problem is still relevant when not using
+  ;; the doom config for corfu
+  ;; (advice-add 'corfu--exit-function :before-while
+  ;;             (lambda (_ _ cands) cands))

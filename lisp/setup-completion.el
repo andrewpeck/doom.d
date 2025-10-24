@@ -29,13 +29,6 @@
         (:map corfu-map "SPC" #'corfu-insert-separator)
         (:map corfu-mode-map "C-<SPC>" #'completion-at-point))
 
-  ;; for reasons I don't understand, the exit function gets called with no
-  ;; candidates resulting in a args out of range 0,0 error when eglot completion
-  ;; is performed and there are no candidates
-  ;; avoid the error with some small advice
-  (advice-add 'corfu--exit-function :before-while
-              (lambda (_ _ cands) cands))
-
   (setq-default
    corfu-preselect 'first
 
