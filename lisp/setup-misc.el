@@ -7,6 +7,23 @@
         :after system-install
         :n "q" #'bury-buffer))
 
+
+;;------------------------------------------------------------------------------
+;; Vterm
+;;------------------------------------------------------------------------------
+
+(use-package vterm
+  :commands (+vterm/toggle-here)
+  :config
+  (defun +vterm/toggle-here ()
+    (interactive)
+    (let ((current-prefix-arg '(4)))
+      (call-interactively '+vterm/toggle)))
+
+  (map! :leader (:prefix "o"
+                 :desc "Vterm Toggle"         "t"  #'+vterm/toggle-here
+                 :desc "Vterm Toggle Root"    "T"  #'+vterm/toggle)))
+
 (use-package rainbow-delimiters-mode
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))

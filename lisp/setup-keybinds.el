@@ -8,13 +8,6 @@
     (markdown-mode (call-interactively #'markdown-follow-thing-at-point))
     (t             (browse-url-at-point))))
 
-;; modify +vterm/toggle to open in pwd instead of project root
-(defun my/vterm-here ()
-  (interactive)
-  (cl-letf (((symbol-function 'doom-project-root)
-             (lambda () nil)))
-    (vterm)))
-
 (defun my/mu4e-open-inbox ()
   (interactive)
   (mu4e~headers-jump-to-maildir "/INBOX"))
@@ -195,8 +188,6 @@
                  :desc "Open org agenda"      "x"  #'org-agenda-and-todo
                  :desc "GPT Prompt"           "ai" #'gpt-prompt
                  :desc "Calculator"           "c"  #'calc
-                 :desc "Vterm Toggle"         "t"  #'my/vterm-here
-                 :desc "Vterm Toggle Root"    "T"  #'+vterm/here
                  :desc "Mu4e Inbox"           "i"  #'my/mu4e-open-inbox
                  :desc "Quick Calc"           "C"  #'quick-calc))
 
