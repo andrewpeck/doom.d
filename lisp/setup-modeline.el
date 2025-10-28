@@ -60,13 +60,13 @@ nil."
                 mode-line-mule-info
                 "%* "
 
-                (:eval (when-let* ((host (remote-host? default-directory)))
+                (:eval (and-let* ((host (remote-host? default-directory)))
                          (concat (propertize host 'face '(:inherit warning)) ":")))
 
                 (:eval (propertized-buffer-identification "%b"))
 
                 ;; git
-                (:eval (when-let* ((m (and (not (remote-host? default-directory)) vc-mode)))
+                (:eval (and-let* ((m (and (not (remote-host? default-directory)) vc-mode)))
                          (concat " (" (string-trim m) ")" " ")))
 
                 (:eval (and nyan-mode
