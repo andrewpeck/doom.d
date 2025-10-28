@@ -14,6 +14,8 @@
 
 (use-package corfu
 
+  :commands (corfu-insert-separator)
+
   :init
 
   (add-hook! '(prog-mode-hook text-mode-hook)
@@ -25,8 +27,16 @@
 
   :config
 
+  (after! eglot
+    (defun corfu-debug-eglot ()
+      (interactive)
+      (setq-local completion-at-point-functions
+                  (list (cape-capf-buster (cape-capf-debug #'eglot-completion-at-point))))))
+
   (map! :after corfu
         (:map corfu-map "SPC" #'corfu-insert-separator)
+        (:map corfu-map "C-SPC" #'corfu-insert-separator)
+        (:map corfu-mode-map "C-c f" #'cape-file)
         (:map corfu-mode-map "C-<SPC>" #'completion-at-point))
 
   (setq-default
@@ -37,10 +47,19 @@
    ;; +corfu-want-tab-prefer-expand-snippets nil
    ;; +corfu-want-ret-to-confirm t
 
-   corfu-auto-delay 0.5
+   corfu-auto-delay 0.3
    corfu-auto-prefix 3
    corfu-auto t
    corfu-preview-current t)) ; No preview vs Non-inserting preview
+
+(use-package orderless
+  :custom
+  ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(basic orderless))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-defaults nil) ;; Disable defaults, use our settings
+  (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
 
 ;; A few more useful configurations...
 
@@ -93,7 +112,6 @@
   ;;------------------------------------------------------------------------------
 
   (add-hook! 'hog-src-mode-hook
-    (setq-local cape-file-prefix nil)
     (setq-local cape-file-directory (vc-root-dir))
     (setq-local completion-at-point-functions (list #'cape-file #'cape-dabbrev)))
 
@@ -101,66 +119,70 @@
   ;; Python
   ;;------------------------------------------------------------------------------
 
-  (add-hook! '(python-mode python-ts-mode-hook)
-            (defun hook/set-python-base-capf ()
-              (setq-local cape-file-prefix '("\"" "'"))
-              (setq-local completion-at-point-functions
-                          (list 'eglot-completion-at-point
-                                'cape-file
-                                'python-completion-at-point
-                                'yasnippet-capf
-                                'cape-dabbrev))))
+  ;; after! python-ts-mode
+  (defun hook/set-python-base-capf ()
+    (setq-local cape-file-prefix '("\"" "'"))
+    (setq-local completion-at-point-functions
+                (list 'eglot-completion-at-point
+                      'python-completion-at-point
+                      'yasnippet-capf
+                      'cape-dabbrev)))
+
+  (add-hook! '(python-mode python-ts-mode-hook) 'hook/set-python-base-capf)
 
   ;;------------------------------------------------------------------------------
   ;; Verilog
   ;;------------------------------------------------------------------------------
 
-  (after! verilog-mode
+  (defun hook/add-verilog-keywords ()
+    (add-to-list 'cape-keyword-list
+                 (append '(verilog-mode) verilog-keywords)))
 
-    (require 'cape-keyword)
-    (add-hook! '(verilog-mode-hook verilog-ts-mode-hook)
-              (defun hook/add-verilog-keywords ()
-                (with-eval-after-load 'cape-keyword
-                  (add-to-list 'cape-keyword-list
-                               (append '(verilog-mode) verilog-keywords))))))
+  (defun hook/set-verilog-capf ()
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       #'cape-dabbrev
+                       #'cape-keyword
+                       #'yasnippet-capf))))
 
   (add-hook! '(verilog-mode-hook verilog-ts-mode-hook)
-            (defun hook/set-verilog-capf ()
-              (setq-local completion-at-point-functions
-                          (list (cape-capf-super
-                                 #'cape-dabbrev
-                                 #'cape-keyword
-                                 #'yasnippet-capf)))))
+             'hook/add-verilog-keywords
+             'hook/set-verilog-capf)
 
   ;;------------------------------------------------------------------------------
   ;; VHDL
   ;;------------------------------------------------------------------------------
 
-  (add-hook 'vhdl-mode-hook
-            (defun hook/add-vhdl-keywords ()
-              (require 'vhdl-mode)
-              (with-eval-after-load 'cape-keyword
-                (add-to-list 'cape-keyword-list
-                             (append '(vhdl-mode)
-                                     vhdl-keywords
-                                     vhdl-types
-                                     vhdl-attributes
-                                     vhdl-enum-values
-                                     vhdl-constants
-                                     vhdl-functions
-                                     vhdl-packages
-                                     vhdl-directives)))))
+  (defun hook/add-vhdl-keywords ()
+    (require 'vhdl-mode)
+    (with-eval-after-load 'cape-keyword
+      (add-to-list 'cape-keyword-list
+                   (append '(vhdl-mode)
+                           vhdl-keywords
+                           vhdl-types
+                           vhdl-attributes
+                           vhdl-enum-values
+                           vhdl-constants
+                           vhdl-functions
+                           vhdl-packages
+                           vhdl-directives))))
 
-  (add-hook 'vhdl-mode-hook
-            (defun hook/set-vhdl-capf ()
-              (setq-local completion-at-point-functions
-                          (list (cape-capf-super
-                                 #'cape-dabbrev
-                                 #'cape-keyword
-                                 #'yasnippet-capf)))))
+    (defun hook/set-vhdl-capf ()
+      (setq-local completion-at-point-functions
+                  (list (cape-capf-super
+                         #'cape-dabbrev
+                         #'cape-keyword
+                         #'yasnippet-capf))))
 
-  (add-hook 'makefile-mode-hook
-            (lambda () (call-interactively 'makefile-pickup-everything)))
+  (add-hook 'vhdl-mode-hook 'hook/add-vhdl-keywords 'hook/set-vhdl-capf)
+
+  ;;------------------------------------------------------------------------------
+  ;; Make
+  ;;------------------------------------------------------------------------------
+
+  (add-hook! 'makefile-mode-hook
+    (lambda () (call-interactively 'makefile-pickup-everything)))
+
   ;;------------------------------------------------------------------------------
   ;; Tex
   ;;------------------------------------------------------------------------------
@@ -188,67 +210,69 @@
                  #'citar-capf
                  #'yasnippet-capf)))
 
-  (add-hook 'LaTeX-mode-hook 'hook/setup-tex-with-corfu)
+  (add-hook 'LaTeX-mode-hook 'hook/setup-tex-with-corfu))
 
-  ;; HACK: eglot screws with completion-at-point-functions... usually might not
-  ;; care but with latex the eglot completion at point errors so NONE of the
-  ;; capfs work when eglot is active. So just remove the eglot capf then re-configure corfu.
-  ;;
-  ;; This seemingly can't be in the LaTeX mode hook since eglot mode hook is run
-  ;; *after* latex mode, so anything in the latex mode hook just get overwritten
-  ;; by what happens in eglot setup
-  (add-hook 'eglot-managed-mode-hook
-            (defun hook/remove-tex-eglot-completion ()
-              (when (eq major-mode 'LaTeX-mode)
-                (remove-hook 'completion-at-point-functions 'eglot-completion-at-point t)
-                (hook/setup-tex-with-corfu))))
+;; HACK: eglot screws with completion-at-point-functions... usually might not
+;; care but with latex the eglot completion at point errors so NONE of the
+;; capfs work when eglot is active. So just remove the eglot capf then re-configure corfu.
+;;
+;; This seemingly can't be in the LaTeX mode hook since eglot mode hook is run
+;; *after* latex mode, so anything in the latex mode hook just get overwritten
+;; by what happens in eglot setup
+(add-hook 'eglot-managed-mode-hook
+          (defun hook/remove-tex-eglot-completion ()
+            (when (eq major-mode 'LaTeX-mode)
+              (remove-hook 'completion-at-point-functions 'eglot-completion-at-point t)
+              (hook/setup-tex-with-corfu))))
 
-  ;;------------------------------------------------------------------------------
-  ;; Elisp
-  ;;------------------------------------------------------------------------------
+;;------------------------------------------------------------------------------
+;; Elisp
+;;------------------------------------------------------------------------------
 
-  (add-hook 'emacs-lisp-mode-hook
-            (defun hook/set-elisp-capf-functions ()
-              (setq-local completion-at-point-functions
-                          (list
-                           ;; (cape-company-to-capf #'company-yasnippet)
-                           #'yasnippet-capf
-                           #'cape-elisp-symbol
-                           #'cape-keyword
-                           #'cape-dabbrev
-                           #'cape-history
-                           #'cape-file))))
+(after! elisp-mode
+  (defun hook/set-elisp-capf-functions ()
+    (setq-local completion-at-point-functions
+                (list
+                 #'yasnippet-capf
+                 #'cape-elisp-symbol
+                 #'cape-keyword
+                 #'cape-dabbrev
+                 #'cape-history
+                 #'cape-file))))
 
-  ;;------------------------------------------------------------------------------
-  ;; TCL
-  ;;------------------------------------------------------------------------------
+(add-hook 'emacs-lisp-mode-hook 'hook/set-elisp-capf-functions)
 
-  (add-hook 'tcl-mode-hook
-            (defun hook/set-tcl-cape-capfs ()
-              (setq-local completion-at-point-functions
-                          (list (cape-capf-super
-                                 #'cape-dabbrev
-                                 #'cape-keyword
-                                 #'cape-file
-                                 #'yasnippet-capf)))))
+;;------------------------------------------------------------------------------
+;; TCL
+;;------------------------------------------------------------------------------
 
-  (add-hook 'tcl-mode-hook
-            (defun hook/set-tcl-cape-keywords ()
-              (require 'cape-keyword)
-              (add-to-list 'cape-keyword-list
-                           (append '(tcl-mode)
+(after! tcl
+  (defun hook/set-tcl-capfs ()
+    (setq-local completion-at-point-functions
+                (list
+                 (cape-capf-super #'cape-dabbrev
+                                  #'cape-keyword
+                                  #'yasnippet-capf))))
 
-                                   ;; vivado
-                                   '("set_property" "add_files" "generate_target"
-                                     "report_utilization"
-                                     "report_timing_summary"
-                                     "import_ip" "create_project"
-                                     "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
-                                     "get_nets" "font-lock-builtin-face" "create_generated_clock"
-                                     "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
-                                     "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
-                                     "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
+  (defun hook/set-tcl-cape-keywords ()
+    (require 'cape-keyword)
+    (add-to-list 'cape-keyword-list
+                 (append '(tcl-mode)
 
-                                   tcl-keyword-list
-                                   tcl-typeword-list
-                                   tcl-builtin-list)))))
+                         ;; vivado
+                         '("set_property" "add_files" "generate_target"
+                           "report_utilization"
+                           "report_timing_summary"
+                           "import_ip" "create_project"
+                           "get_files" "get_clocks" "get_cells" "get_pins" "get_ports"
+                           "get_nets" "font-lock-builtin-face" "create_generated_clock"
+                           "create_clock" "set_input_jitter" "set_input_delay" "set_output_delay"
+                           "set_property" "set_clock_groups" "set_multicycle_path" "set_false_path"
+                           "set_max_delay" "create_pblock" "add_cells_to_pblock" "resize_pblock")
+
+                         tcl-keyword-list
+                         tcl-typeword-list
+                         tcl-builtin-list))))
+
+(add-hook! 'tcl-mode-hook 'hook/set-tcl-capfs 'hook/set-tcl-cape-keywords)
+
