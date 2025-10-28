@@ -89,7 +89,7 @@
 (package! resume.el               :pin "f451785aae168ea4505846e38381e56f910076cc" :recipe (:host github :repo "andrewpeck/resume.el"))
 (package! scad-mode               :pin "b130730a3123387e69c85cf10633701ea447fa2a")
 (package! screenshot              :pin "2770c0cfefe1cc09d55585f4f2f336a1b26e610e" :recipe (:host github :repo "tecosaur/screenshot"))
-(package! standard-themes         :pin "0e94cf4e05a86fb0393fb7113986a105e6e469ea" :recipe (:host github :repo "protesilaos/standard-themes"))
+(package! standard-themes         :pin "a341ec1ef416bcadc90b1a49e2163a51c401f8d8" :recipe (:host github :repo "protesilaos/standard-themes"))
 (package! svg-tag-mode            :pin "13e888b8bd9a0664d060149a44a751b2113331b6" :recipe (:host github :repo "rougier/svg-tag-mode"))
 (package! system-install.el       :pin "80951d1eab707bb0aede77263726ca6209eaf21a" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
