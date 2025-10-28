@@ -387,6 +387,26 @@ Used by font-lock for dynamic highlighting."
     (xdg-do default-directory)))
 
 ;;;###autoload
+(defun file-clipboard-copy ()
+  "Copy currently opened file to clipboard."
+  (interactive)
+  (unless (executable-find "xclip")
+    (error "Cannot copy. xclip not found in path"))
+  (if-let* ((file buffer-file-name))
+      (let ((async-shell-command-display-buffer nil))
+        (async-shell-command (format "copy-file %s" file)))
+    (message "Buffer does not have a corresponding buffer-file-name.")))
+
+;;;###autoload
+(defun dired-clipboard-copy ()
+  "Copy currently selected files to clipboard."
+  (interactive)
+  (if-let* ((files (dired-get-marked-files)))
+      (let ((async-shell-command-display-buffer nil))
+        (async-shell-command (concat "copy-file " (string-join files " "))))
+    (message "No files marked.")))
+
+;;;###autoload
 (defun py-black ()
   "Format python file with black."
   (interactive)
