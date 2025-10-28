@@ -561,6 +561,8 @@ _h_ decrease width    _l_ increase width
 
   :config
 
+  (setq yas-verbosity 2)
+
   ;; HACK: for some unknown reason yasnippet has started producing duplicate
   ;; templates managed to remove them just by applying this advice but it really
   ;; should be fixed properly
