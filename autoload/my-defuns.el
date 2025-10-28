@@ -1,6 +1,19 @@
 ;; -*- lexical-binding: t; -*-
 
 ;;;###autoload
+(defun my/toggle-c-verilog-comment-style ()
+  (interactive)
+  (save-excursion
+    (narrow-to-region (line-beginning-position) (line-end-position))
+    (beginning-of-line)
+    (when-let* ((re (re-search-forward "\\(\s+\\)//\\(.*\\)" nil t))
+                (whitespace (match-string 1))
+                (text (match-string 2)))
+      (delete-line)
+      (insert (format "%s/*%s */" whitespace text)))
+    (widen)))
+
+;;;###autoload
 (defun my/describe-char-at-mouse-click (click-event)
   "`describe-char' at CLICK-EVENT's position.
 CLICK-EVENT should be a mouse-click event.
