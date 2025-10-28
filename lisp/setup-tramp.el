@@ -16,6 +16,7 @@
       (file-remote-p path 'host)))
 
   (defun remote-host? (path)
+    "Return t if path is a remote host."
     ;; this is just tramp-remote-file-name-spec-regexp
     ;; have a copy here so we don't need
     (let ((remote-name-regexp "\\(-\\|[[:alnum:]]\\{2,\\}\\)\\(?::\\)\\(?:\\([^/:|[:blank:]]+\\)\\(?:@\\)\\)?\\(\\(?:[%._[:alnum:]-]+\\|\\(?:\\[\\)\\(?:\\(?:[[:alnum:]]*:\\)+[.[:alnum:]]*\\)?\\(?:]\\)\\)\\(?:\\(?:#\\)\\(?:[[:digit:]]+\\)\\)?\\)?"))
