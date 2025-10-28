@@ -66,14 +66,12 @@
 
   :if (modulep! :tools lsp +eglot)
 
-  :custom
-
-  (eglot-managed-mode-hook (list (lambda () (eldoc-mode -1))))
-  (eglot-events-buffer-config '(:size 2000000 :format full))
-  (eglot-prefer-plaintext nil)
-  (eglot-autoshutdown t)
-
   :config
+
+  (setq eglot-managed-mode-hook (list (lambda () (eldoc-mode -1)))
+        eglot-events-buffer-config '(:size 2000000 :format full)
+        eglot-prefer-plaintext nil
+        eglot-autoshutdown t)
 
   (add-hook 'eglot-managed-mode-hook 'eglot-inlay-hints-mode t)
 
