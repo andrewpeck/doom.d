@@ -1,6 +1,11 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
+;;------------------------------------------------------------------------------
+;; System Install
+;;------------------------------------------------------------------------------
+
 (use-package system-install
+  :commands (system-install-auto-refresh)
   :config
   (system-install-auto-refresh)
   (map! :map system-install-run-minor-mode-map
@@ -24,12 +29,18 @@
                  :desc "Vterm Toggle"         "t"  #'+vterm/toggle-here
                  :desc "Vterm Toggle Root"    "T"  #'+vterm/toggle)))
 
+;;------------------------------------------------------------------------------
+;; Rainbow
+;;------------------------------------------------------------------------------
+
 (use-package rainbow-delimiters-mode
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 (use-package highlight-indent-guides
   :config
+  (defvar highlight-indent-guides-responsive) ;; pacify the byte compiler
+  (defvar highlight-indent-guides-method)     ;; pacify the byte compiler
   (setq highlight-indent-guides-responsive nil
         ;; highlight-indent-guides-auto-enabled nil
         highlight-indent-guides-method 'bitmap))
@@ -57,7 +68,7 @@
   ;; (add-hook! 'markdown-mode-hook #'+word-wrap-mode)
   ;; (add-hook 'org-mode-hook (defun hook/org-enable-word-wrap-mode () (+word-wrap-mode)))
 
-  (defvar-local doom--line-number-style nil "Style of doom line numbers.")
+  (defvar-local doom--line-number-style nil "Style of doom line numbers.") 
   (defvar-local my/is-wrapped nil "Store the state of line wrapping in the current buffer.")
   (defvar-local my/is-wrapped-linum-state (list display-line-numbers
                                                 doom--line-number-style))
@@ -172,14 +183,6 @@
   (map! :map prog-mode-map "C-k" 'devdocs-lookup-at-pt))
 
 ;;------------------------------------------------------------------------------
-;; gptel magit
-;;------------------------------------------------------------------------------
-
-(use-package gptel-magit
-  :hook (magit-mode . gptel-magit-install)
-  :commands (gptel-magit-commit-generate))
-
-;;------------------------------------------------------------------------------
 ;; Calc
 ;;------------------------------------------------------------------------------
 
@@ -192,6 +195,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package uniline
+  :commands (uniline-launch-interface)
   :config
   (map! :map uniline-mode-map "I" #'uniline-launch-interface))
 
@@ -222,8 +226,11 @@
 ;; GPTel
 ;;------------------------------------------------------------------------------
 
-(use-package gptel
+(use-package gptel-magit
+  :hook (magit-mode . gptel-magit-install)
+  :commands (gptel-magit-commit-generate))
 
+(use-package gptel
   :init
 
   (map! :leader :prefix "o"
@@ -434,6 +441,8 @@ _h_ decrease width    _l_ increase width
 
 (use-package pdf-view
 
+  :commands (pdf-view-midnight-minor-mode pdf-view-midnight-update-colors pdf-rotate)
+
   :init
 
   (add-hook! 'pdf-view-mode-hook #'auto-revert-mode)
@@ -501,13 +510,13 @@ _h_ decrease width    _l_ increase width
   (defun affe-find-dotfile () (interactive) (affe-find "~/dotfiles"))
 
   ;; Affe
-  (map! :leader :prefix "f" :desc "Open dotfile"         "."  #'affe-find-dotfile)
-  (map! :mn "C-o"   #'affe-find-home
-        :mn "C-S-Y" #'affe-find-work
-        :mn "C-p"   #'affe-find-project
-        :mn "C-S-p" #'affe-grep-project
-        :mn "C-S-n" #'affe-find-notes
-        :mn "C-n"   #'affe-find-psiq))
+  (map! :leader :prefix "f" :desc "Open dotfile"         "."  'affe-find-dotfile)
+  (map! :mn "C-o"   'affe-find-home
+        :mn "C-S-Y" 'affe-find-work
+        :mn "C-p"   'affe-find-project
+        :mn "C-S-p" 'affe-grep-project
+        :mn "C-S-n" 'affe-find-notes
+        :mn "C-n"   'affe-find-psiq))
 
 ;;------------------------------------------------------------------------------
 ;; Undo
@@ -603,6 +612,7 @@ _h_ decrease width    _l_ increase width
 ;;------------------------------------------------------------------------------
 
 (use-package flyspell
+  :commands (flyspell-get-word flyspell-do-correct)
   :config
   (defun my-save-word ()
     "Save user defined words to the dictionary"

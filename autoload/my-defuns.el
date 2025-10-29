@@ -54,7 +54,6 @@ into Verilog ports."
 (defun vhdl-unsigned->slv ()
   "Convert a VHDL unsigned to standard logic vector."
   (interactive)
-  (require 'er-basic-expansions)
   (when (not (region-active-p))
     (er/mark-symbol))
   (let ((sig (buffer-substring-no-properties (mark) (point))))
@@ -178,7 +177,7 @@ Used by font-lock for dynamic highlighting."
   (interactive)
   (let ((font (completing-read "Font: " (font-family-list))))
     (when font
-      (let ((size (string-to-number (read-string "Size: " (if (hd?) "22" "16")))))
+      (let ((size (string-to-number (read-string "Size: " "16"))))
         (when (numberp size)
           (setq doom-font (font-spec :name font :size size :weight 'regular))
           (doom/reload-font))))))
@@ -259,25 +258,29 @@ Used by font-lock for dynamic highlighting."
 
 ;;;###autoload
 (defun project-root-dir (&rest _)
-  "Returns root directory of current project."
+  "Return root directory of current project."
   (when-let ((proj (project-current)))
     (project-root proj)))
 
 ;;;###autoload
 (defun projectile-project-root (&rest _)
+  "Get the root of the current VCS project."
   (project-root-dir))
 
 ;;;###autoload
 (defun doom-project-root (&rest _)
+  "Get the root of the current VCS project."
   (project-root-dir))
 
 ;;;###autoload
 (defun sudo-shell-command (command)
+  ""
   (shell-command (concat "echo " (shell-quote-argument (read-passwd "Password? "))
                          " | sudo -S " command)))
 
 ;;;###autoload
 (defun xclip ()
+  ""
   (interactive)
   (let* ((buffer (buffer-file-name))
          (mimetype (shell-command-to-string (concat "mimetype " buffer))))
@@ -408,12 +411,16 @@ Used by font-lock for dynamic highlighting."
     (error "Cannot copy. xclip not found in path"))
 
   (pcase major-mode
-    ('dired-mode (if-let* ((files (thread-last
-                                    (dired-get-marked-files)
-                                    (mapcar (lambda (x) (when x (string-replace " "  "\\ " x)))))))
-                     (let ((async-shell-command-display-buffer nil))
-                       (async-shell-command (concat "copy-file " (string-join files " "))))
-                   (message "No files marked.")))
+    ;; in dired mode take all marked files
+    ('dired-mode
+     (if-let* ((files (thread-last
+                        (dired-get-marked-files)
+                        (mapcar (lambda (x) (when x (string-replace " "  "\\ " x)))))))
+         (let ((async-shell-command-display-buffer nil))
+           (async-shell-command (concat "copy-file " (string-join files " "))))
+       (message "No files marked.")))
+
+    ;; else take the current buffer
     (_ (if-let* ((file (string-replace " "  "\\ " buffer-file-name)))
            (let ((async-shell-command-display-buffer nil))
              (async-shell-command (format "copy-file %s" file)))
