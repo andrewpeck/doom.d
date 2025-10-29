@@ -14,6 +14,8 @@
 
 (after! doom-keybinds
 
+  (map! :leader :desc "Copy file or marked files to clipboard." "fc" #'file-clipboard-copy)
+
   ;; <d>escribe
   (map! "C-h <down-mouse-1>" #'my/describe-char-at-mouse-click)
 
