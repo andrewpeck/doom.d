@@ -37,7 +37,7 @@
 (package! backup-each-save        :pin "9d9714be7bf99b2a192587c1454822c69c61915e" :recipe (:host github :repo "andrewpeck/backup-each-save"))
 (package! benchmark-init          :pin "6507caa3c4cb2a6c9b85c771c5e9e5aeb7d745bc")
 (package! bookmark-url.el         :pin "e11160fcb69ad8676d0ec7a440b71083b4703423" :recipe (:host github :repo "andrewpeck/bookmark-url.el"))
-(package! browse-at-remote        :pin "76aa27dfd469fcae75ed7031bb73830831aaccbf" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
+(package! browse-at-remote        :pin "cf0269f3db9e968c819b1d85b33d791c20c2e495" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
 (package! buffer-env              :pin "fc5cab4db55f0b95c4b97fbe3104e394da34b91a" :recipe (:host github :repo "astoff/buffer-env"))
 (package! casual                  :pin "f0ec7e600db38e9e7c0b46de48eac032dbf9845d" :recipe (:host github :repo "kickingvegas/casual"))
 (package! clojure-emacs           :pin "592c4f89efb5112784cbf94c9ea6fdd045771b62" :recipe (:host github :repo "clojure-emacs/squiggly-clojure"))

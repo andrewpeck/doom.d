@@ -61,6 +61,7 @@
 
  :editor
 
+ whitespace
  lispy
  (evil +everywhere)  ; come to the dark side, we have cookies
  fold                ; (nigh) universal code folding
