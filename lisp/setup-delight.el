@@ -5,7 +5,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! delight
-  :demand t
   :config
   (delight '+org-pretty-mode         " 🌻"          "org")
   (delight 'better-jumper-local-mode ""             "better-jumper")
