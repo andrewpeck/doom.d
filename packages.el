@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t; -*-
+;;; packages.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
 ;; Disabled packages
 (package! diredfl      :disable t)

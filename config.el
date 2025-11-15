@@ -1,4 +1,4 @@
-;; config.el -*- lexical-binding: t; -*-
+;; config.el -*- lexical-binding: t; no-byte-compile: t;-*-
 ;;
 ;; Interesting Packages:
 ;; https://github.com/alphapapa/taxy.el
