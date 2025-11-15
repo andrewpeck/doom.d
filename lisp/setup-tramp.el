@@ -10,18 +10,9 @@
   :config
 
   ;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
-  (unless (functionp 'file-remote-p-memo)
+  (when (not (get 'file-remote-p :memoize-original-function))
     (require 'memoize)
-    (defmemoize file-remote-p-memo (path)
-      (file-remote-p path 'host)))
-
-  (defun remote-host? (path)
-    "Return t if path is a remote host."
-    ;; this is just tramp-remote-file-name-spec-regexp
-    ;; have a copy here so we don't need
-    (let ((remote-name-regexp "\\(-\\|[[:alnum:]]\\{2,\\}\\)\\(?::\\)\\(?:\\([^/:|[:blank:]]+\\)\\(?:@\\)\\)?\\(\\(?:[%._[:alnum:]-]+\\|\\(?:\\[\\)\\(?:\\(?:[[:alnum:]]*:\\)+[.[:alnum:]]*\\)?\\(?:]\\)\\)\\(?:\\(?:#\\)\\(?:[[:digit:]]+\\)\\)?\\)?"))
-      (or (string-match-p remote-name-regexp path)
-          (file-remote-p-memo path))))
+    (memoize 'file-remote-p))
 
   (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
         tramp-use-ssh-controlmaster-options t
