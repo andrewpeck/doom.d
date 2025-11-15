@@ -254,7 +254,15 @@ Used by font-lock for dynamic highlighting."
 (defun home-manager-switch ()
   "Reload home manager configuration."
   (interactive)
-  (async-shell-command "home-manager switch"))
+  (async-shell-command "home-manager switch"
+                       "*home-manager switch*"))
+
+;;;###autoload
+(defun home-manager-update ()
+  "Reload home manager configuration."
+  (interactive)
+  (async-shell-command "nix-channel --update && home-manager switch"
+                       "*home-manager update*"))
 
 ;;;###autoload
 (defun project-root-dir (&rest _)
