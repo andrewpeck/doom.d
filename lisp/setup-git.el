@@ -13,7 +13,7 @@
       ;;------------------------------------------------------------------------------
 
       (:map git-rebase-mode-map
-            "A" #'my/change-commit-author)
+            "A" #'my/magit-change-commit-author)
 
       ;;------------------------------------------------------------------------------
       ;; Magit Leader Commands
@@ -66,7 +66,7 @@ Useful for working on NAS where permissions don't make sense."
   (setq magit-copy-revision-abbreviated t)
 
   ;; https://gist.github.com/danielmartin/34bc36dafd8f900de483394087230f48
-  (defun my/change-commit-author (arg)
+  (defun my/magit-change-commit-author (arg)
     "Change the commit author during an interactive rebase in Magit.
 With a prefix argument, insert a new change commit author command
 even when there is already another rebase command on the current
