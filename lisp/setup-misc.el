@@ -48,6 +48,7 @@
 ;; clean the recent file list on idle
 (use-package recentf
   :config
+  (add-to-list 'recentf-exclude "^/mnt/Media/")
   (setq recentf-auto-cleanup 120))
 
 ;;------------------------------------------------------------------------------
