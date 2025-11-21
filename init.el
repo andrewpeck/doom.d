@@ -95,7 +95,7 @@
  (docker +lsp +tree-sitter)
  (eval +overlay)                        ; run code, run (also, repls)
  (lookup +dictionary +docsets +offline) ; helps you navigate your code and documentation
- (lsp +eglot)                           ;
+ (lsp +eglot +booster)
  (magit +forge)                         ; a git porcelain for Emacs
  make                                   ; run make tasks from Emacs
  pdf                                    ; pdf enhancements
