@@ -120,7 +120,7 @@
  (json +tree-sitter)                 ; json, uhg
  (latex +fold +lsp +tree-sitter)     ; writing papers in Emacs has never been so fun
  (markdown +grip +tree-sitter)       ; writing docs for people to ignore
- data                                ; A dumping ground for data formats (csv, xml)
+ ;; data                             ; A dumping ground for data formats (csv, xml)
  emacs-lisp                          ; drown in parentheses
  (php +tree-sitter +lsp)             ; perl's insecure younger brother
  (python +pyright +lsp +tree-sitter) ; beautiful is better than ugly

@@ -29,6 +29,7 @@
 
 ;; Misc packages
 ;; start:sort
+(package! csv-mode                :pin "1695ee17521d55dbe94caacaef5a94dfa933cd9f")
 (package! adaptive-wrap           :pin "d75665b9c88e65f91dadd1e5880905bbdb7c09b7")
 (package! affe                    :pin "10fc401cf2d35bafb7220b9456af7dbfd064e1f2")
 (package! almost-mono-themes      :pin "0641bf565c113caef8d5c2a93f38cff32ebb62b7" :recipe (:host github :repo "cryon/almost-mono-themes"))
