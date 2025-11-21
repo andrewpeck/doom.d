@@ -1,11 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 
-(comment
- (map! :map verilog-mode-map
-       :after verilog-mode
-       "<return>" #'electric-verilog-terminate-and-indent
-       "<backspace>" nil                ; unbind verilog electric backspace
-       "TAB" #'indent-for-tab-command)
+(map! :map verilog-mode-map
+      :after verilog-mode
+      "<return>" #'electric-verilog-terminate-and-indent
+      "<backspace>" nil                ; unbind verilog electric backspace
+      "TAB" #'indent-for-tab-command)
 
  (comment
   (use-package verilog-ext
@@ -41,7 +40,7 @@
 
 
  (use-package verilog-port-copy
-   :after verilog))
+   :after verilog)
 
 (use-package verilog-mode
 
