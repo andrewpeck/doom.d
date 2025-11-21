@@ -210,7 +210,7 @@ SORT to non-nill will sort the list. "
           (apply #'concat
                  (mapcar (lambda (x) (format "%s, %f\n" (car x) (cadr x)) ) totals))
           (format
-           "\" | uplot bar -d, -t \"%s\" 2>&1 > /dev/null" title))) "\n")))))
+           "\" | uplot bar -d, -t \"%s\"" title))) "\n")))))
 
 ;;;###autoload
 (defun filter-work-chart (data)

@@ -229,6 +229,7 @@
        'electric-space
      'self-insert-command)))
 
+(provide 'my-tex)
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'write-contents-functions)
 ;; eval: (add-hook 'write-contents-functions (lambda () (loaddefs-generate "~/.doom.d/autoload/" "~/.doom.d/loaddefs.el")))

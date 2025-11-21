@@ -1,5 +1,13 @@
 ;; -*- lexical-binding: t; -*-
 
+(eval-when-compile
+  (require 'use-package)
+  (require 'verilog-mode)
+  (require 'expand-region)
+  (require 'project)
+  (require 'dired)
+  (require 'subr-x))
+
 ;;;###autoload
 (defun my/toggle-c-verilog-comment-style ()
   (interactive)
@@ -538,7 +546,7 @@ between the two most recently open buffers."
 (defun open-timesheet ()
   "Open my EDF timesheet"
   (interactive)
-  (find-file "~/work/billing/billing.org")
+  (find-file my/timesheet)
   (goto-char (point-max))
   (re-search-backward "TBLFM")
   (org-reveal)
@@ -2020,7 +2028,7 @@ Uses the `dom' library."
 ;; Fini
 ;;------------------------------------------------------------------------------
 
-(loaddefs-generate "~/.doom.d/autoload/"
+(loaddefs-generate "~/.doom.d/my-autoloads/"
                    "~/.doom.d/loaddefs.el")
 
 (provide 'my-defuns)

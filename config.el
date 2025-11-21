@@ -70,7 +70,7 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 
 (add-load-path! "")
 (add-load-path! "lisp/")
-(add-load-path! "autoload/")
+(add-load-path! "my-autoloads/")
 
 (load (expand-file-name "loaddefs.el" doom-user-dir) nil t)
 
