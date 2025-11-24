@@ -80,13 +80,14 @@ nil."
 
                 ;; RIGHT
 
-                ;; venv
-                (:eval (and buffer-env-active " "))
-
                 ;; lsp
                 (:eval (and (fboundp #'eglot-managed-p)
                             (eglot-managed-p)
-                            " "))
+                            (concat (nth 1 (eglot--server-info (eglot-current-server)))
+                                    "  ")))
+
+                ;; venv
+                (:eval (and buffer-env-active " "))
 
                 ;; flycheck
                 (:eval (and flycheck-mode flycheck-enabled-checkers
