@@ -57,6 +57,7 @@
     ;; the default function name face is the same as the string face and looks awful for lisp
     '(font-lock-function-name-face :foreground "#d3869b")
     '(mu4e-unread-face :foreground "#cccccc" :weight bold)
+    '(tab-bar-tab-inactive :foreground "#646464" :background "#151515") ; more contrast in inactive tabs
     '(whitespace-tab :background "#282828")
     '(org-todo :weight bold :foreground "orange red")
     '(org-table :weight normal :foreground "lightblue")
