@@ -61,6 +61,7 @@
 (use-package recentf
   :config
   (add-to-list 'recentf-exclude "^/mnt/Media/")
+  (add-to-list 'recentf-exclude "^~/Downloads")
   (setq recentf-auto-cleanup 120))
 
 ;;------------------------------------------------------------------------------
