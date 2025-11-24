@@ -50,6 +50,10 @@
                '((python-mode python-ts-mode)
                  "basedpyright-langserver" "--stdio"))
 
+  (add-to-list 'eglot-server-programs
+               '((python-mode python-ts-mode)
+                 "ty" "server"))
+
   (defun emacs-lsp-booster-install ()
     "Install LSP booster with cargo."
     (interactive)
