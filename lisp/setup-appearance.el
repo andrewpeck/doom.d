@@ -18,29 +18,29 @@
 
 (advice-add 'load-theme :before (lambda (&rest _) (my/disable-all-active-themes)))
 
-(defvar ap/dark-theme
-  (if (and (not (daemonp))
-           (not (display-graphic-p)))
-      'modus-vivendi-tinted
-    (pcase (downcase (system-name))
-      ;; doom-laserwave doom-one doom-gruvbox
-      ("pepper"      'doom-laserwave)
-      ("larry"       'doom-spacegrey)
-      ("strange"     'doom-spacegrey)
-      ("apeck-len01" 'doom-gruvbox)
-      (_             'doom-spacegrey)))
-  "Preferred dark theme.")
+(defvar ap/dark-theme "Preferred dark theme.")
+(defvar ap/light-theme "Preferred light theme.")
 
-(defvar ap/light-theme
+(setq ap/dark-theme
+      (if (and (not (daemonp))
+               (not (display-graphic-p)))
+          'modus-vivendi-tinted
+        (pcase (downcase (system-name))
+          ;; doom-laserwave doom-one doom-gruvbox
+          ("pepper"      'doom-laserwave)
+          ("larry"       'doom-spacegrey)
+          ("strange"     'doom-spacegrey)
+          ("apeck-len01" 'doom-gruvbox)
+          (_             'doom-spacegrey))))
+
+(setq ap/light-theme
   (if (not (display-graphic-p)) 'summerfruit
     (pcase (downcase (system-name))
       ("apeck-len01"  'modus-operandi)
       ("pepper"       'doom-one-light)
       ("larry"        'summerfruit)
       ("strange"      'summerfruit)
-      (_              'summerfruit)))
-
-  "Preferred light theme.")
+      (_              'summerfruit))))
 
 (defvar dark-mode 'dark)
 
