@@ -167,12 +167,12 @@
                            vhdl-packages
                            vhdl-directives))))
 
-    (defun hook/set-vhdl-capf ()
-      (setq-local completion-at-point-functions
-                  (list (cape-capf-super
-                         #'cape-dabbrev
-                         #'cape-keyword
-                         #'yasnippet-capf))))
+  (defun hook/set-vhdl-capf ()
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       #'cape-dabbrev
+                       #'cape-keyword
+                       #'yasnippet-capf))))
 
   (add-hook 'vhdl-mode-hook 'hook/add-vhdl-keywords 'hook/set-vhdl-capf)
 
@@ -210,26 +210,25 @@
                  #'citar-capf
                  #'yasnippet-capf)))
 
-  (add-hook 'LaTeX-mode-hook 'hook/setup-tex-with-corfu))
+  (add-hook 'LaTeX-mode-hook 'hook/setup-tex-with-corfu)
 
-;; HACK: eglot screws with completion-at-point-functions... usually might not
-;; care but with latex the eglot completion at point errors so NONE of the
-;; capfs work when eglot is active. So just remove the eglot capf then re-configure corfu.
-;;
-;; This seemingly can't be in the LaTeX mode hook since eglot mode hook is run
-;; *after* latex mode, so anything in the latex mode hook just get overwritten
-;; by what happens in eglot setup
-(add-hook 'eglot-managed-mode-hook
-          (defun hook/remove-tex-eglot-completion ()
-            (when (eq major-mode 'LaTeX-mode)
-              (remove-hook 'completion-at-point-functions 'eglot-completion-at-point t)
-              (hook/setup-tex-with-corfu))))
+  ;; HACK: eglot screws with completion-at-point-functions... usually might not
+  ;; care but with latex the eglot completion at point errors so NONE of the
+  ;; capfs work when eglot is active. So just remove the eglot capf then re-configure corfu.
+  ;;
+  ;; This seemingly can't be in the LaTeX mode hook since eglot mode hook is run
+  ;; *after* latex mode, so anything in the latex mode hook just get overwritten
+  ;; by what happens in eglot setup
+  (add-hook 'eglot-managed-mode-hook
+            (defun hook/remove-tex-eglot-completion ()
+              (when (eq major-mode 'LaTeX-mode)
+                (remove-hook 'completion-at-point-functions 'eglot-completion-at-point t)
+                (hook/setup-tex-with-corfu))))
 
-;;------------------------------------------------------------------------------
-;; Elisp
-;;------------------------------------------------------------------------------
+  ;;------------------------------------------------------------------------------
+  ;; Elisp
+  ;;------------------------------------------------------------------------------
 
-(after! elisp-mode
   (defun hook/set-elisp-capf-functions ()
     (setq-local completion-at-point-functions
                 (list
@@ -238,15 +237,14 @@
                  #'cape-keyword
                  #'cape-dabbrev
                  #'cape-history
-                 #'cape-file))))
+                 #'cape-file)))
 
-(add-hook 'emacs-lisp-mode-hook 'hook/set-elisp-capf-functions)
+  (add-hook 'emacs-lisp-mode-hook 'hook/set-elisp-capf-functions)
 
-;;------------------------------------------------------------------------------
-;; TCL
-;;------------------------------------------------------------------------------
+  ;;------------------------------------------------------------------------------
+  ;; TCL
+  ;;------------------------------------------------------------------------------
 
-(after! tcl
   (defun hook/set-tcl-capfs ()
     (setq-local completion-at-point-functions
                 (list
@@ -272,7 +270,6 @@
 
                          tcl-keyword-list
                          tcl-typeword-list
-                         tcl-builtin-list))))
+                         tcl-builtin-list)))
 
-(add-hook! 'tcl-mode-hook 'hook/set-tcl-capfs 'hook/set-tcl-cape-keywords)
-
+  (add-hook! 'tcl-mode-hook 'hook/set-tcl-capfs 'hook/set-tcl-cape-keywords))
