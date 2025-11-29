@@ -937,13 +937,13 @@ This function tries to de hyphenate them."
 (defun calc-popup ()
   (interactive)
   (switch-to-buffer (generate-new-buffer "Calc Popup"))
+  (set-frame-width (selected-frame) 75)
+  (set-frame-height (selected-frame) 30)
   (calc-mode)
   (calc-big-language)
   (with-current-buffer (calc-trail-buffer)
     (and calc-display-trail
-         (calc-trail-display nil t)))
-  (set-frame-width (selected-frame) 75)  
-  (set-frame-height (selected-frame) 30))
+         (calc-trail-display nil t))))
 
 ;;;###autoload
 (defvar my/xdg-data-dirs
