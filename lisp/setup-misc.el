@@ -244,11 +244,23 @@
   :hook (magit-mode . gptel-magit-install)
   :commands (gptel-magit-commit-generate))
 
+(defun ChatGPT ()
+  (interactive)
+  (if (member "*ChatGPT*" (mapcar #'buffer-name (doom-visible-buffers)))
+      (+popup/toggle)
+    (gptel "*ChatGPT*" nil nil t)))
+
 (use-package gptel
   :init
 
+  (set-popup-rule! "*ChatGPT*"
+    :side 'bottom
+    :size 0.3
+    :select t
+    :quit t)
+
   (map! :leader :prefix "o"
-        (:desc "GPTel" "g" #'gptel
+        (:desc "GPTel" "g" #'ChatGPT
          :desc "GPTel Rewrite" "G"  #'gptel-rewrite))
 
   (map! :mode git-commit-mode :leader :prefix "m"
