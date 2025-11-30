@@ -836,17 +836,6 @@ help instead of keeping it open."
   (setq global-emojify-mode t))
 
 ;;------------------------------------------------------------------------------
-;;
-;;------------------------------------------------------------------------------
-
-(use-package langtool
-  :defer-incrementally t
-  :when (featurep 'langtool)
-  :config
-  (setq langtool-java-classpath "/snap/languagetool/current/usr/share/java")
-  (setq langtool-language-tool-server-jar "/snap/languagetool/current/usr/bin/languagetool.jar"))
-
-;;------------------------------------------------------------------------------
 ;; Org Cliplink
 ;;------------------------------------------------------------------------------
 
