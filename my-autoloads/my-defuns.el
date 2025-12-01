@@ -983,7 +983,7 @@ This function always returns its elements in a stable order."
     result))
 
 ;;;###autoload
-(defun my/mime-get-mime-type ()
+(defun my/mime-get-buffer-mime-type ()
   (string-trim
    (shell-command-to-string
     (format "xdg-mime query filetype %s" buffer-file-name))))
@@ -999,7 +999,7 @@ This function always returns its elements in a stable order."
 (defun my/update-mime-type ()
   "Update the mime association of the current file."
   (interactive)
-  (when-let* ((mime-type (my/mime-get-mime-type))
+  (when-let* ((mime-type (my/mime-get-buffer-mime-type))
               (handler (completing-read "Handler: " (mapcar #'car (my/list-desktop-files)))))
     (when (yes-or-no-p (format "Update %s to be handled by %s?" mime-type handler))
       (my/mime-set-mime-type mime-type handler))))
