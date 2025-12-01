@@ -935,10 +935,21 @@ This function tries to de hyphenate them."
 
 ;;;###autoload
 (defun calc-popup ()
+  "Popup a full frame calc buffer."
   (interactive)
-  (switch-to-buffer (generate-new-buffer "Calc Popup"))
+
+  ;; maybe create poup buffer
+  ;; switch to it
+  (let ((popup-name "Calc Popup"))
+    (unless (get-buffer popup-name)
+      (generate-new-buffer popup-name))
+    (switch-to-buffer popup-name))
+
+  ;; adjust frame size
   (set-frame-width (selected-frame) 75)
   (set-frame-height (selected-frame) 30)
+
+  ;; setup calc + display trail
   (calc-mode)
   (calc-big-language)
   (with-current-buffer (calc-trail-buffer)
