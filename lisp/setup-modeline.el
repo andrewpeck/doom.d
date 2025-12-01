@@ -83,11 +83,14 @@ nil."
                 ;; lsp
                 (:eval (and (fboundp #'eglot-managed-p)
                             (eglot-managed-p)
-                            (concat (nth 1 (eglot--server-info (eglot-current-server)))
-                                    "  ")))
+                            (let ((server (nth 1 (eglot--server-info (eglot-current-server)))))
+                              (pcase server
+                                ("pyrefly-lsp" "󱖉 " )
+                                ("ty" " ")
+                                (_ (concat server "  "))))))
 
                 ;; venv
-                (:eval (and buffer-env-active " "))
+                (:eval (and buffer-env-active " "))
 
                 ;; flycheck
                 (:eval (and flycheck-mode flycheck-enabled-checkers
