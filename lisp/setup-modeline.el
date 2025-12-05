@@ -83,14 +83,19 @@ nil."
                 ;; lsp
                 (:eval (and (fboundp #'eglot-managed-p)
                             (eglot-managed-p)
-                            (let ((server (nth 1 (eglot--server-info (eglot-current-server)))))
-                              (pcase server
-                                ("pyrefly-lsp" "󱖉 " )
-                                ("ty" " ")
-                                (_ (concat server "  "))))))
+                            (let* ((lsp-server-info (eglot--server-info (eglot-current-server)))
+                                   (lsp-server-name (nth 1 lsp-server-info))
+                                   (icon (pcase lsp-server-name
+                                           ("pyrefly-lsp" " " )
+                                           ("basedpyright" " " )
+                                           ("ty" " ")
+                                           (_ (concat server "  ")))))
+                              (propertize icon 'help-echo (format "%s" lsp-server-info)))))
 
                 ;; venv
-                (:eval (and buffer-env-active " "))
+                (:eval
+                 (and buffer-env-active
+                      (propertize " " 'help-echo (abbreviate-file-name buffer-env-active) )))
 
                 ;; flycheck
                 (:eval (and flycheck-mode flycheck-enabled-checkers
