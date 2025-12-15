@@ -9,6 +9,12 @@
   (require 'subr-x))
 
 ;;;###autoload
+(defun emacs-lsp-booster-install ()
+  "Install LSP booster with cargo."
+  (interactive)
+  (compile "cargo install --git https://github.com/blahgeek/emacs-lsp-booster"))
+
+;;;###autoload
 (defun my/toggle-c-verilog-comment-style ()
   (interactive)
   (save-excursion

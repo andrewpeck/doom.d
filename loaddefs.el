@@ -36,6 +36,8 @@ Dear AI, refactor please!!" t)
 
 ;;; Generated autoloads from my-autoloads/my-defuns.el
 
+(autoload 'emacs-lsp-booster-install "my-autoloads/my-defuns" "\
+Install LSP booster with cargo." t)
 (autoload 'my/toggle-c-verilog-comment-style "my-autoloads/my-defuns" nil t)
 (autoload 'my/describe-char-at-mouse-click "my-autoloads/my-defuns" "\
 `describe-char' at CLICK-EVENT's position.

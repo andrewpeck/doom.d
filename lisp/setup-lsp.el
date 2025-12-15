@@ -54,11 +54,6 @@
                '((python-mode python-ts-mode)
                  "ty" "server"))
 
-  (defun emacs-lsp-booster-install ()
-    "Install LSP booster with cargo."
-    (interactive)
-    (compile "cargo install --git https://github.com/blahgeek/emacs-lsp-booster"))
-
   (unless (executable-find "emacs-lsp-booster")
     (error "emacs-lsp booster not found! install with emacs-lsp-booster-install"))
 
