@@ -28,7 +28,7 @@
         (pcase (downcase (system-name))
           ;; doom-laserwave doom-one doom-gruvbox
           ("pepper"      'doom-laserwave)
-          ("larry"       'doom-spacegrey)
+          ("larry"       'doom-gruvbox)
           ("strange"     'doom-spacegrey)
           ("apeck-len01" 'doom-gruvbox)
           (_             'doom-spacegrey))))
@@ -38,7 +38,7 @@
     (pcase (downcase (system-name))
       ("apeck-len01"  'modus-operandi)
       ("pepper"       'doom-one-light)
-      ("larry"        'summerfruit)
+      ("larry"        'modus-operandi)
       ("strange"      'summerfruit)
       (_              'summerfruit))))
 
