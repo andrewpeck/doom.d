@@ -50,9 +50,9 @@
                '((python-mode python-ts-mode)
                  "basedpyright-langserver" "--stdio"))
 
-  (add-to-list 'eglot-server-programs
-               '((python-mode python-ts-mode)
-                 "ty" "server"))
+  ;; (add-to-list 'eglot-server-programs
+  ;;              '((python-mode python-ts-mode)
+  ;;                "ty" "server"))
 
   (unless (executable-find "emacs-lsp-booster")
     (error "emacs-lsp booster not found! install with emacs-lsp-booster-install"))
