@@ -1,11 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package! project
-  :init
-
-  ;; use project find file instead of projectile;
-  ;; caching is more trouble than it is worth
-  (map! :leader :desc "Find file in project" "SPC" #'project-find-file)
 
   :config
 

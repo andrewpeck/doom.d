@@ -40,7 +40,7 @@ From https://emacs.stackexchange.com/questions/303/describe-face-character-not-u
 
 ;;;###autoload
 (defun verilog-name-to-port-inst ()
-    "Convert symbol at point into a verilog port instantiation.
+  "Convert symbol at point into a verilog port instantiation.
 
 e.g. if you place the point at `outcome_cycle_idx_0' in the
 following line and execute this function:
@@ -55,14 +55,14 @@ it will be transformed into:
 This makes for easy conversion of some port list or wire list
 into Verilog ports."
 
-    (interactive)
-    (let ((name (symbol-at-point)))
-      (beginning-of-line)
-      (kill-line)
-      (insert (format ".%s (%s)," name name))
-      (verilog-indent-line)
-      (re-search-forward (format "%s" name))
-      (re-search-forward (format "%s" name))))
+  (interactive)
+  (let ((name (symbol-at-point)))
+    (beginning-of-line)
+    (kill-line)
+    (insert (format ".%s (%s)," name name))
+    (verilog-indent-line)
+    (re-search-forward (format "%s" name))
+    (re-search-forward (format "%s" name))))
 
 ;;;###autoload
 (defun vhdl-unsigned->slv ()
@@ -2040,6 +2040,61 @@ Uses the `dom' library."
       (list (match-string 1 link)
             (match-string 2 link))
     (error "Cannot parse %s as Org link" link)))
+
+;;;###autoload
+(defun consult-recent-file ()
+  "Find recent using `completing-read'.
+
+This version is modified to sort by recent files"
+  (interactive)
+  (require 'consult)
+  (require 'recentf)
+  (find-file
+   (consult--read
+    (or (mapcar #'abbreviate-file-name recentf-list)
+        (user-error "No recent files"))
+    :prompt "Find recent file: "
+    :sort 'consult--recent-files-sort
+    :require-match t
+    :category 'file
+    :state (consult--file-preview)
+    :history 'file-name-history)))
+
+;; like project-find-file, but sorted by date
+;;;###autoload
+(defun consult-project-find-file ()
+  "Find project files using `completing-read'."
+  (interactive)
+  (require 'consult)
+  (find-file
+   (consult--read
+    (or (project-files (project-current))
+        (user-error "No recent files"))
+    :prompt "Find project file: "
+    :sort 'consult--recent-files-sort
+    :require-match t
+    :category 'file
+    :state (consult--file-preview)
+    :history 'file-name-history)))
+
+(defun consult--recent-files-sort (file-list)
+ "Sort the FILE-LIST by modification time, from most recent to least recent."
+ (thread-last
+   file-list
+   ;; Use modification time, since getting file access time seems to count as
+   ;; accessing the file, ruining future uses.
+   (mapcar (lambda (f)
+             (cons f (file-attribute-modification-time (file-attributes f)))))
+   (seq-sort (pcase-lambda (`(,f1 . ,t1) `(,f2 . ,t2))
+               ;; Want existing, most recent, local files first.
+               (cond ((or (not (file-exists-p f1))
+                          (file-remote-p f1))
+                      nil)
+                     ((or (not (file-exists-p f2))
+                          (file-remote-p f2))
+                      t)
+                     (t (time-less-p t2 t1)))))
+   (mapcar #'car)))
 
 ;;------------------------------------------------------------------------------
 ;; Fini
