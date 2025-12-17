@@ -59,6 +59,8 @@ Useful for working on NAS where permissions don't make sense."
   (setq magit-buffer-log-args
         '("-n256" "--follow" "--graph" "--decorate"))
 
+  (setq magit-diff-visit-prefer-worktree t)
+
   ;; I don't use projectile anymore
   (remove-hook 'magit-refresh-buffer-hook '+magit-invalidate-projectile-cache-h)
 
@@ -83,7 +85,7 @@ on the current line, if any."
   (setq magit-prefer-remote-upstream t)
   ;; (setq magit-branch-prefer-remote-upstream nil)
   (setq magit-branch-adjust-remote-upstream-alist
-          '(("origin/master" . ".*")))
+        '(("origin/master" . ".*")))
 
   ;; (add-to-list 'magit-status-sections-hook
   ;;              #'magit-insert-local-branches)
