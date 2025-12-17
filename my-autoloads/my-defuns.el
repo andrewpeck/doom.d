@@ -2041,6 +2041,25 @@ Uses the `dom' library."
             (match-string 2 link))
     (error "Cannot parse %s as Org link" link)))
 
+(defun consult--recent-files-sort (file-list)
+ "Sort the FILE-LIST by modification time, from most recent to least recent."
+ (thread-last
+   file-list
+   ;; Use modification time, since getting file access time seems to count as
+   ;; accessing the file, ruining future uses.
+   (mapcar (lambda (f)
+             (cons f (file-attribute-modification-time (file-attributes f)))))
+   (seq-sort (pcase-lambda (`(,f1 . ,t1) `(,f2 . ,t2))
+               ;; Want existing, most recent, local files first.
+               (cond ((or (not (file-exists-p f1))
+                          (file-remote-p f1))
+                      nil)
+                     ((or (not (file-exists-p f2))
+                          (file-remote-p f2))
+                      t)
+                     (t (time-less-p t2 t1)))))
+   (mapcar #'car)))
+
 ;;;###autoload
 (defun consult-recent-file ()
   "Find recent using `completing-read'.
@@ -2077,24 +2096,22 @@ This version is modified to sort by recent files"
     :state (consult--file-preview)
     :history 'file-name-history)))
 
-(defun consult--recent-files-sort (file-list)
- "Sort the FILE-LIST by modification time, from most recent to least recent."
- (thread-last
-   file-list
-   ;; Use modification time, since getting file access time seems to count as
-   ;; accessing the file, ruining future uses.
-   (mapcar (lambda (f)
-             (cons f (file-attribute-modification-time (file-attributes f)))))
-   (seq-sort (pcase-lambda (`(,f1 . ,t1) `(,f2 . ,t2))
-               ;; Want existing, most recent, local files first.
-               (cond ((or (not (file-exists-p f1))
-                          (file-remote-p f1))
-                      nil)
-                     ((or (not (file-exists-p f2))
-                          (file-remote-p f2))
-                      t)
-                     (t (time-less-p t2 t1)))))
-   (mapcar #'car)))
+;;;###autoload
+(defun consult-open-buffers ()
+  "Find project files using `completing-read'."
+  (interactive)
+  (require 'consult)
+  (require 'dash)
+  (find-file
+   (consult--read
+    (or (delq nil (mapcar #'buffer-file-name (buffer-list)))
+        (user-error "No recent files"))
+    :prompt "Find buffer file: "
+    :sort 'consult--recent-files-sort
+    :require-match t
+    :category 'file
+    :state (consult--file-preview)
+    :history 'file-name-history)))
 
 ;;------------------------------------------------------------------------------
 ;; Fini

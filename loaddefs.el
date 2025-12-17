@@ -481,6 +481,8 @@ Find recent using `completing-read'.
 This version is modified to sort by recent files" t)
 (autoload 'consult-project-find-file "my-autoloads/my-defuns" "\
 Find project files using `completing-read'." t)
+(autoload 'consult-open-buffers "my-autoloads/my-defuns" "\
+Find project files using `completing-read'." t)
 (register-definition-prefixes "my-autoloads/my-defuns" '("consult--recent-files-sort" "gvim" "normalize-comment-strings-length" "org-drawio-template"))
 
 
