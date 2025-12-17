@@ -32,6 +32,7 @@
   (setq elfeed-feeds
         '("https://www.evalapply.org/index.xml"
           ;; "https://hackaday.com/blog/feed/"
+          "https://www.eetimes.com/feed-reader/"
           "http://yummymelon.com/devnull/feeds/all.atom.xml"
           "https://simonwillison.net/atom/everything/"
           "https://krebsonsecurity.com/feed/"
