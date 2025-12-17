@@ -992,7 +992,10 @@ This function always returns its elements in a stable order."
 (defun my/mime-get-buffer-mime-type ()
   (string-trim
    (shell-command-to-string
-    (format "xdg-mime query filetype %s" buffer-file-name))))
+    (format "xdg-mime query filetype %s"
+            (cond
+             ((eq major-mode 'dired-mode) default-directory)
+             (t (buffer-file-name)))))))
 
 ;;;###autoload
 (defun my/mime-set-mime-type (mime-type handler)
