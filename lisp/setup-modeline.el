@@ -89,6 +89,7 @@ nil."
                                            ("pyrefly-lsp" " " )
                                            ("basedpyright" " " )
                                            ("ty" " ")
+                                           ("rustanalyzer" " ")
                                            (_ (concat server "  ")))))
                               (propertize icon 'help-echo (format "%s" lsp-server-info)))))
 
