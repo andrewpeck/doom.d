@@ -80,7 +80,7 @@
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))
 (package! org-download            :pin "c8be2611786d1d8d666b7b4f73582de1093f25ac" :recipe (:host github :repo "abo-abo/org-download"))
-(package! org-excalidraw          :pin "d697540dd0b03256d00d3891307efa66ffd10a21" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
+(package! org-excalidraw          :pin "0e5365ce2237fd684b20a8b95a4967d850e20333" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
 (package! org-web-tools           :pin "7a6498f442fc7f29504745649948635c7165d847")
 (package! p-search                :pin "c382c80947a95825e258332d6f89bd6be496d914" :recipe (:host github :repo "zkry/p-search"))
 (package! plz                     :pin "981a4d09521ef59439713624702efcad996840a0")
