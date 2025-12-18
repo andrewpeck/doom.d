@@ -400,6 +400,17 @@ Used by font-lock for dynamic highlighting."
 (defalias 'gvim #'open-buffer-in-vim)
 
 ;;;###autoload
+(defun org-update-all-src-blocks ()
+  "Update all org histograms blocks."
+  (save-excursion
+    (goto-char (point-min))
+    (while
+        (re-search-forward "#\\+begin_src" nil t)
+      (print (point))
+      (forward-line)
+      (org-babel-execute-src-block))))
+
+;;;###autoload
 (defun org-make-tables-pretty ()
   "Makes org mode tables pretty in the current buffer."
   (interactive)

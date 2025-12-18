@@ -1,15 +1,70 @@
-;; W = ( d + floor (2.6m - 0.2) - 2C + Y + floor(Y/4) + floor (C/4) ) mod 7
-;; https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
-;; k is day (1 to 31)
-;; m is month (1 = March, ..., 10 = December, 11 = Jan, 12 = Feb) Treat Jan & Feb as months of the preceding year
-;; C is century (1987 has C = 19)
-;; Y is year (1987 has Y = 87 except Y = 86 for Jan & Feb)
-;; W is week day (0 = Sunday, ..., 6 = Saturday)
+;;; timesheet.el --- Helpers to turn org mode into a timetracking software -*- lexical-binding: t; -*-
+;;
+;; Copyright (C) 2020-2025 Andrew Peck
 
-;;;###autoload
-(defun ymd-to-weekday (C Y m d)
+;; Author: Andrew Peck <git@andrewepeck.xyz>
+;; URL: https://github.com/andrewpeck/timesheet.el
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "28.1"))
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 3, or (at your option)
+;; any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>
+;; 
+;;; Commentary:
+;; 
+;; Helpers to turn org mode into a timetracking software.
+;;
+;;; Code:
 
-  ;; (1 = March, ..., 10 = December, 11 = Jan, 12 = Feb) Treat Jan & Feb as months of the preceding year
+(require 'calendar)
+(require 'cal-iso)
+(require 'ob-ref)
+(require 'org-table)
+(require 'dash)
+
+(defvar timesheet-substitutions nil
+  "Alist of name substitutions to be made., e.g.
+
+\\='((\"^ME0SF$\" . \"ME0\")
+  (\"^ME0OH$\" . \"ME0\")
+  (\"^ME0BE$\" . \"ME0\")
+  (\"^VAC$\"   . \"VACATION\"))")
+
+(defun timesheet--ymd-to-weekday (C Y m d)
+  "Convert a date (C Y M D) into day of week.
+
+For date 2025/12/07:
+
+C = Century, e.g. 20
+Y = year, e.g. 25
+m = month, e.g. 12
+d = day, e.g. 7
+
+W = ( d + floor (2.6m - 0.2) - 2C + Y + floor(Y/4) + floor (C/4) ) mod 7
+https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
+k is day (1 to 31)
+m is month (1 = March, ..., 10 = December, 11 = Jan, 12 = Feb)
+  Treat Jan & Feb as months of the preceding year
+C is century (1987 has C = 19)
+Y is year (1987 has Y = 87 except Y = 86 for Jan & Feb)
+W is week day (0 = Sunday, ..., 6 = Saturday)"
+
+  (declare (pure t) (side-effect-free error-free))
+
+  ;; (1 = March ,\... ,10 = December ,11 = Jan ,12 = Feb)
+  ;; Treat Jan & Feb as months of the preceding year
   (if (< m 3)
       (progn (setf Y (- Y 1))
              (setf m (+ m 10)))
@@ -23,13 +78,16 @@
           (floor (/ Y 4.0))
           (floor (/ C 4.0))) 7))
 
-;;;###autoload
-(defun weekday-to-abbr (d)
+(defun timesheet--weekday-to-abbr (d)
+  "Return an abbreviated day of the week from an integer D.
+0=SUN, 1=MON, etc"
+  (declare (pure t) (side-effect-free error-free))
   (aref ["SUN" "MON" "TUE" "WED" "THU" "FRI" "SAT"] d))
 
-;;;###autoload
-(defun month-to-number (m)
-  (pcase m
+(defun timesheet--month-to-number (month)
+  "Convert a text MONTH to an integer."
+  (declare (pure t) (side-effect-free error-free))
+  (pcase month
     ("January"   1)
     ("February"  2)
     ("March"     3)
@@ -42,22 +100,24 @@
     ("October"   10)
     ("November"  11)
     ("December"  12)
-    (_ -1)))
+    (_ (user-error (format "Invalid date %s" month)))))
 
-;; org-get-outline-path t
 ;;;###autoload
-(defun get-day-of-week (title day)
-  (let* ((heading (split-string title " " t))
-         (month (month-to-number (car heading)))
-         (year (string-to-number (cadr heading)))
-         (y (mod year 100))
+(defun timesheet-get-day-of-week (year month day)
+  "Return day of week as a str from a TITLE and DAY-OF-MONTH."
+  (declare (pure t) (side-effect-free error-free))
+  (let* ((y (mod year 100))
          (c (/ year 100)))
     (if (string= day "") " "
-      (weekday-to-abbr (ymd-to-weekday c y month (string-to-number day))))))
+      (timesheet--weekday-to-abbr
+       (timesheet--ymd-to-weekday c
+                                  y
+                                  month
+                                  (string-to-number day))))))
 
-;;;###autoload
-(defun clock-to-float (time)
-  "Convert a clock time (e.g. 12:30) to a float (e.g. 12.5)"
+(defun timesheet--clock-to-float (time)
+  "Convert a clock TIME (e.g. 12:30) to a float (e.g. 12.5)."
+  (declare (pure t) (side-effect-free error-free))
   (let* ((split (split-string time ":" t))
          (hours (string-to-number (car split)))
          (minutes 0))
@@ -66,25 +126,20 @@
     (print (+ hours (/ minutes 60.0)))))
 
 ;;;###autoload
-(defun range-to-time (range)
-  "Convert a 12hr clock time range time (e.g. 1-2:30)
-to a float amount of time (1.5)"
+(defun timesheet-range-to-time (range)
+  "Convert a 12hr clock time RANGE time (e.g. 1-2:30)
+to a float amount of time (1.5)."
+  (declare (pure t) (side-effect-free t))
   (if (string-empty-p range) ""
-    (let ((start (clock-to-float (car (split-string range "-" t))))
-          (end (clock-to-float (cadr (split-string range "-" t)))))
+    (let ((start (timesheet--clock-to-float (car (split-string range "-" t))))
+          (end (timesheet--clock-to-float (cadr (split-string range "-" t)))))
       (when (> start end)
         (setf end (+ 12 end)))
       (- end start))))
 
-;; (if (not (equal a ""))
-;;     (range-to-time a) a)
-
-;; ;(setq path "January 2023")
-;; (when (and (boundp 'path) (boundp 'k))
-;;     (get-day-of-week path k))
-
 ;;;###autoload
-(defun update-all-histograms ()
+(defun timesheet-update-all-histograms ()
+  "Update all timesheet histograms blocks."
   (save-excursion
     (goto-char (point-min))
     (while
@@ -92,18 +147,8 @@ to a float amount of time (1.5)"
       (forward-line)
       (org-babel-execute-src-block))))
 
-;;;###autoload
-(defun update-all-src-blocks ()
-  (save-excursion
-    (goto-char (point-min))
-    (while
-        (re-search-forward "#\\+begin_src" nil t)
-      (print (point))
-      (forward-line)
-      (org-babel-execute-src-block))))
-
-;;;###autoload
-(cl-defun bin-data (data &key normalize sort)
+(cl-defun timesheet--bin-data (data &key normalize sort)
+  ""
   (let ((totals ())
         (ht (make-hash-table :test 'equal))
         (max-val 0))
@@ -133,8 +178,8 @@ to a float amount of time (1.5)"
     totals))
 
 ;;;###autoload
-(cl-defun plot-chart (data keyword valword &key normalize sort uplot title)
-  "Simple function to plot an ascii bar chart.
+(cl-defun timesheet-plot-chart (data keyword valword &key normalize sort uplot title)
+  "Simple function to plot an ascii bar chart from DATA.
 
 It accepts DATA in the form of an alist of the form
 \='((KEY . VAL) (KEY . VAL) (KEY . VAL)) and will
@@ -209,66 +254,57 @@ SORT to non-nill will sort the list. "
           "echo \""
           (apply #'concat
                  (mapcar (lambda (x) (format "%s, %f\n" (car x) (cadr x)) ) totals))
+          ;; HACK until nix youplot is fixed
           (format
-           "\" | uplot bar -d, -t \"%s\"" title))) "\n")))))
+           "\" | uplot bar -d, -t \"%s\" 2>&1 | tail -n +4" title))) "\n")))))
 
 ;;;###autoload
-(defun filter-work-chart (data)
+(defun timesheet-filter-work-chart (data)
   ""
-  (let* ((substitutions '(("^ME0SF$" . "ME0")
-                          ("^ME0OH$" . "ME0")
-                          ("^ME0BE$" . "ME0")
-                          ("^VAC$". "VACATION")))
+  ;; remove the header
+  (let* ((data (cdr data))
 
-         ;; remove the header
-         (data (cdr data))
+        ;;  remove empty lines (e.g. ("" 0))
+        (data
+         (cl-remove-if
+          (lambda (a) (string= "" (car a)))
+          data))
 
-         ;;  remove empty lines (e.g. ("" 0))
-         (data
-          (cl-remove-if
-           (lambda (a) (string= "" (car a)))
-           data))
-
-         ;; Filter the data from an entire table to just a list of
-         ;; ( (PROJECT + HOURS) x N )
-         ;; e.g. (("ETL" 6.5) ("ADMIN" 0.5) ("" 0))
-         (data-filtered
-          (mapcar
-           (lambda (x)
-             (let* ((hours (nth 6 x))
-                    (hours (if (stringp hours)
-                               (string-to-number hours) hours))
-                    (project (upcase (nth 3 x)))
-                    (project (seq-reduce
-                              (lambda (str subs)
-                                (replace-regexp-in-string
-                                 (car subs)
-                                 (cdr subs) str))
-                              substitutions project)))
-               (list project hours))) data)))
-
+        ;; Filter the data from an entire table to just a list of
+        ;; ( (PROJECT + HOURS) x N )
+        ;; e.g. (("ETL" 6.5) ("ADMIN" 0.5) ("" 0))
+        (data-filtered
+         (mapcar
+          (lambda (x)
+            (let* ((hours (nth 6 x))
+                   (hours (if (stringp hours)
+                              (string-to-number hours) hours))
+                   (project (upcase (nth 3 x)))
+                   (project (seq-reduce
+                             (lambda (str subs)
+                               (replace-regexp-in-string
+                                (car subs)
+                                (cdr subs) str))
+                             timesheet-substitutions project)))
+              (list project hours))) data)))
     data-filtered))
 
-;;;###autoload
-(defun week-number (month day year)
-  (require 'calendar)
-  (require 'cal-iso)
-  (car
-   (calendar-iso-from-absolute
-    (calendar-absolute-from-gregorian
-     (list month day year)))))
+(defun timesheet--week-number (month day year)
+  "Convert MONTH/DAY/YEAR to week number."
+  (car (calendar-iso-from-absolute
+        (calendar-absolute-from-gregorian
+         (list month day year)))))
 
-;;;###autoload
-(defun iso-week-to-time (year week day)
+(defun timesheet--iso-week-to-timestamp (year week day)
+  "Convert YEAR WEEK DAY to a timestamp."
   (pcase-let ((`(,m ,d ,y)
                (calendar-gregorian-from-absolute
                 (calendar-iso-to-absolute (list week day year)))))
     (encode-time 0 0 0 d m y)))
 
 ;;;###autoload
-(defun plot-weekly-work-goals (data)
+(defun timesheet-plot-weekly-work-goals (data)
   ""
-
   (let ((sums (make-hash-table :test 'equal))
         (keys '()))
 
@@ -282,7 +318,7 @@ SORT to non-nill will sort the list. "
           (let* ((day (nth 1 row))
                  (prj (nth 3 row))
                  (hours (nth 6 row))
-                 (week (if (numberp day) (week-number month day year) -1)))
+                 (week (if (numberp day) (timesheet--week-number month day year) -1)))
 
             (when (and (numberp day)
                        (numberp hours)
@@ -319,7 +355,7 @@ SORT to non-nill will sort the list. "
              (pad (if (< pad-count 0) ""
                     (concat  (make-string pad-count ? ) "|")))
              (difference (- sum goal))
-             (time (iso-week-to-time year week 1))
+             (time (timesheet--iso-week-to-timestamp year week 1))
              (month (string-to-number (format-time-string "%m" time))))
 
         (princ (concat
@@ -329,7 +365,8 @@ SORT to non-nill will sort the list. "
                 (format "(%d)\n" difference)))))))
 
 ;;;###autoload
-(defun plot-weekly-work-goals-for-date-range (start-year start-month end-year end-month)
+(defun timesheet-plot-weekly-goals-for-range (start-year start-month end-year end-month)
+  ""
   (let* ((year start-year)
          (month start-month)
          (timesheets nil))
@@ -348,27 +385,27 @@ SORT to non-nill will sort the list. "
                 year (1+ year))
         (setq month (1+ month))))
 
-    (plot-weekly-work-goals (reverse timesheets))))
+    (timesheet-plot-weekly-work-goals (reverse timesheets))))
 
 ;;;###autoload
-(cl-defun plot-monthly-work-chart (data &key uplot title)
+(cl-defun timesheet-plot-monthly (data &key uplot title)
   ""
-  (plot-chart (filter-work-chart data) "Project" "Hours"
+  (timesheet-plot-chart (timesheet-filter-work-chart data) "Project" "Hours"
               :normalize 50 :sort t :uplot uplot :title (if title title "Monthly Work Distribution")))
 
 ;;;###autoload
-(defun date-range-to-year-month-list (start-year start-month end-year end-month)
+(defun timesheet-range-to-year-month (start-year start-month end-year end-month)
   ""
   (let* ((end-tag (+ end-month (* 12 end-year)))
          (start-tag (+ start-month (* 12 start-year)))
          (difference (- end-tag start-tag))
          (month-sequence (number-sequence 0 difference)))
     (mapcar (lambda (x) (list (+ start-year (floor (+ x (- start-month 1)) 12))
-                              (1+ (mod (+ x (- start-month 1)) 12))
-                              )) month-sequence)))
+                              (1+ (mod (+ x (- start-month 1)) 12))))
+            month-sequence)))
 
 ;;;###autoload
-(defun add-yyyy-mm-to-table (data year month)
+(defun timesheet-add-yyyy-mm-to-table (data year month)
   ""
   (mapcar
    (lambda (x)
@@ -383,17 +420,18 @@ SORT to non-nill will sort the list. "
                           (format "%4d-%02d-%02d"
                                   (string-to-number year)
                                   (string-to-number month)
-                                  (string-to-number day)
-                                  ))
-                         (t day)))) x)
-       x)) data))
+                                  (string-to-number day)))
+                         (t day))))
+           x)
+       x))
+   data))
 
 
 ;;;###autoload
-(cl-defun get-work-data-in-date-range
-    (title &key
-           start-year start-month end-year end-month
-           short meetings meetings-detailed hlines projects)
+(cl-defun timesheet-get-work-data-in-date-range (title &key
+start-year start-month end-year end-month
+short meetings meetings-detailed hlines projects)
+  ""
   (message title)
   (let ((org-table-data ()))
 
@@ -412,21 +450,22 @@ SORT to non-nill will sort the list. "
       ;;  make a list of all year-months and iterate over it
       (dolist (table
                (mapcar (lambda (x) (format "%04d-%02d" (car x) (cadr x)))
-                       (date-range-to-year-month-list start-year start-month end-year end-month)))
+                       (timesheet-range-to-year-month start-year start-month end-year end-month)))
         (goto-char (point-min))
         (search-forward (concat "#+" "TBLNAME: " table))
 
         ;;  gather an org table
         (let ((month-table-data
                (org-table-to-lisp
-                (buffer-substring-no-properties (org-table-begin) (org-table-end)))))
+                (buffer-substring-no-properties (org-table-begin)
+                                                (org-table-end)))))
 
           ;;  concat all the tables together
           (setq org-table-data
                 ;;  append the yyyy-mm to the day
                 ;; month-table-data
                 (append org-table-data
-                        (add-yyyy-mm-to-table month-table-data
+                        (timesheet-add-yyyy-mm-to-table month-table-data
                                               (car (split-string table "-"))
                                               (cadr (split-string table "-"))))))))
 
@@ -444,8 +483,7 @@ SORT to non-nill will sort the list. "
              (and (listp a)
                   (or (string= "--" (nth 3 a))
                       (string= "" (nth 3 a))
-                      (string= "TIME" (upcase (nth 2 a)))
-                      )))
+                      (string= "TIME" (upcase (nth 2 a))))))
            org-table-data))
 
     ;; if projects, filter out all non-matching entries
@@ -522,20 +560,21 @@ SORT to non-nill will sort the list. "
 
 
 ;;;###autoload
-(cl-defun plot-work-chart-in-date-range
+(cl-defun timesheet-plot-work-chart-in-date-range
     (title &key
            start-year start-month
            end-year end-month
            short
            meetings meetings-detailed)
-  (plot-monthly-work-chart
-   (get-work-data-in-date-range
+  (timesheet-plot-monthly
+   (timesheet-get-work-data-in-date-range
     title
     :start-year start-year :start-month start-month :end-year end-year :end-month end-month
     :short short :meetings meetings :meetings-detailed meetings-detailed) :title title :uplot t))
 
 ;;;###autoload
-(defun plot-weekly-summary-for-month (year month)
+(defun timesheet-plot-weekly-summary-for-month (year month)
+  ""
 
   (let* ((start-year (if (= month 1) (- year 1) year))
          (end-year (if (= month 12) (+ year 1) year))
@@ -549,7 +588,7 @@ SORT to non-nill will sort the list. "
                      (t (+ month 2)))))
 
     (-as-> (with-output-to-string
-             (plot-weekly-work-goals-for-date-range start-year start-month end-year end-month)) data
+             (timesheet-plot-weekly-goals-for-range start-year start-month end-year end-month)) data
              (split-string data "\n" t)
              (cl-remove-if-not (lambda (x) (string-search (format "%04d-%02d" year month) x)) data)
              (string-join data "\n")
@@ -557,7 +596,7 @@ SORT to non-nill will sort the list. "
              (princ data))))
 
 ;;;###autoload
-(defun filter-timesheet-for-hours (data)
+(defun timesheet-filter-timesheet-for-hours (data)
   ""
   (let ((plot-data
          (cdr (mapcar
@@ -576,15 +615,15 @@ SORT to non-nill will sort the list. "
     plot-data))
 
 ;;;###autoload
-(defun plot-monthly-histogram (title data)
+(defun timesheet-plot-monthly-histogram (title data)
   ""
-  (plot-chart (filter-timesheet-for-hours data) "Month" title
+  (timesheet-plot-chart (timesheet-filter-timesheet-for-hours data) "Month" title
               :normalize 50 :uplot t :title title)
   (princ "\n"))
 
 ;;;###autoload
-(defun org-insert-monthly-timesheet ()
-  "Insert a new timesheet for the current month"
+(defun timesheet-insert-monthly ()
+  "Insert a new timesheet for the current month."
   (interactive)
   (let* ((time (current-time))
          (month (format-time-string "%B" time))
@@ -606,14 +645,15 @@ SORT to non-nill will sort the list. "
       "|---+---+----------+---------+--------------------+-----+-------|\n"
       "| # |   |          |         |                    |     |       |\n"
       "|---+---+----------+---------+--------------------+-----+-------|\n"
-      (format  "#+TBLFM: $6='(get-day-of-week \"%s %s\" $2)::$7='(range-to-time $3)\n" month year)
+      (format  "#+TBLFM: $6='(timesheet-get-day-of-week %s %s $2)::$7='(timesheet-range-to-time $3)\n" year mm)
       "\n"
       (format  "#+begin_src emacs-lisp :exports results :results output :var data=%s-%s\n" year mm)
-      "(plot-monthly-work-chart data :uplot t)\n"
-      (format "(plot-weekly-summary-for-month %s %s)\n" year mm)
+      "(timesheet-plot-monthly data :uplot t)\n"
+      (format "(timesheet-plot-weekly-summary-for-month %s %s)\n" year mm)
       "#+end_src\n"))))
 
 (provide 'timesheet)
+;;; timesheet.el ends here
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'write-contents-functions)
