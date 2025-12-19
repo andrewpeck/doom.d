@@ -1,5 +1,7 @@
 ;;; packages.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
+(package! psi-emacs  :type 'local :recipe (:local-repo "~/work/psi-emacs" :type git) )
+
 ;; Disabled packages
 (package! diredfl      :disable t)
 (package! gptel-quick  :disable t)

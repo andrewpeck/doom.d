@@ -216,7 +216,7 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 (load-idle "lisp/regulator")
 (load-idle "lisp/tracking")
 (load-idle "passwords")
-(load-idle "psiq")
+(require 'psi-emacs)
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)
