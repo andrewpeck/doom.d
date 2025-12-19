@@ -141,6 +141,8 @@ Opens the present working directory in external terminal." t)
 (fn CMD)")
 (autoload 'open-buffer-in-vim "my-autoloads/my-defuns" "\
 Opens the current buffer in gvim." t)
+(autoload 'org-update-all-src-blocks "my-autoloads/my-defuns" "\
+Update all org histograms blocks.")
 (autoload 'org-make-tables-pretty "my-autoloads/my-defuns" "\
 Makes org mode tables pretty in the current buffer." t)
 (autoload 'xdg-do "my-autoloads/my-defuns" "\
@@ -541,39 +543,23 @@ Find resistors for a voltage regulator." t)
 
 ;;; Generated autoloads from my-autoloads/timesheet.el
 
-(autoload 'ymd-to-weekday "my-autoloads/timesheet" "\
+(autoload 'timesheet-get-day-of-week "my-autoloads/timesheet" "\
+Return day of week as a str from a TITLE and DAY-OF-MONTH.
 
-
-(fn C Y M D)")
-(autoload 'weekday-to-abbr "my-autoloads/timesheet" "\
-
-
-(fn D)")
-(autoload 'month-to-number "my-autoloads/timesheet" "\
-
-
-(fn M)")
-(autoload 'get-day-of-week "my-autoloads/timesheet" "\
-
-
-(fn TITLE DAY)")
-(autoload 'clock-to-float "my-autoloads/timesheet" "\
-Convert a clock time (e.g. 12:30) to a float (e.g. 12.5)
-
-(fn TIME)")
-(autoload 'range-to-time "my-autoloads/timesheet" "\
-Convert a 12hr clock time range time (e.g. 1-2:30)
-to a float amount of time (1.5)
+(fn YEAR MONTH DAY)")
+(function-put 'timesheet-get-day-of-week 'pure 't)
+(function-put 'timesheet-get-day-of-week 'side-effect-free 'error-free)
+(autoload 'timesheet-range-to-time "my-autoloads/timesheet" "\
+Convert a 12hr clock time RANGE time (e.g. 1-2:30)
+to a float amount of time (1.5).
 
 (fn RANGE)")
-(autoload 'update-all-histograms "my-autoloads/timesheet")
-(autoload 'update-all-src-blocks "my-autoloads/timesheet")
-(autoload 'bin-data "my-autoloads/timesheet" "\
-
-
-(fn DATA &key NORMALIZE SORT)")
-(autoload 'plot-chart "my-autoloads/timesheet" "\
-Simple function to plot an ascii bar chart.
+(function-put 'timesheet-range-to-time 'pure 't)
+(function-put 'timesheet-range-to-time 'side-effect-free 't)
+(autoload 'timesheet-update-all-histograms "my-autoloads/timesheet" "\
+Update all timesheet histograms blocks.")
+(autoload 'timesheet-plot-chart "my-autoloads/timesheet" "\
+Simple function to plot an ascii bar chart from DATA.
 
 It accepts DATA in the form of an alist of the form
 ='((KEY . VAL) (KEY . VAL) (KEY . VAL)) and will
@@ -584,60 +570,54 @@ NORMALIZE will normalize the bar chart to some number of ASCII symbols.
 SORT to non-nill will sort the list. 
 
 (fn DATA KEYWORD VALWORD &key NORMALIZE SORT UPLOT TITLE)")
-(autoload 'filter-work-chart "my-autoloads/timesheet" "\
+(autoload 'timesheet-filter-work-chart "my-autoloads/timesheet" "\
 
 
 (fn DATA)")
-(autoload 'week-number "my-autoloads/timesheet" "\
-
-
-(fn MONTH DAY YEAR)")
-(autoload 'iso-week-to-time "my-autoloads/timesheet" "\
-
-
-(fn YEAR WEEK DAY)")
-(autoload 'plot-weekly-work-goals "my-autoloads/timesheet" "\
+(autoload 'timesheet-plot-weekly-work-goals "my-autoloads/timesheet" "\
 
 
 (fn DATA)")
-(autoload 'plot-weekly-work-goals-for-date-range "my-autoloads/timesheet" "\
+(autoload 'timesheet-plot-weekly-goals-for-range "my-autoloads/timesheet" "\
 
 
 (fn START-YEAR START-MONTH END-YEAR END-MONTH)")
-(autoload 'plot-monthly-work-chart "my-autoloads/timesheet" "\
+(autoload 'timesheet-plot-monthly "my-autoloads/timesheet" "\
 
 
 (fn DATA &key UPLOT TITLE)")
-(autoload 'date-range-to-year-month-list "my-autoloads/timesheet" "\
+(autoload 'timesheet-range-to-year-month "my-autoloads/timesheet" "\
 
 
 (fn START-YEAR START-MONTH END-YEAR END-MONTH)")
-(autoload 'add-yyyy-mm-to-table "my-autoloads/timesheet" "\
+(autoload 'timesheet-add-yyyy-mm-to-table "my-autoloads/timesheet" "\
 
 
 (fn DATA YEAR MONTH)")
-(autoload 'get-work-data-in-date-range "my-autoloads/timesheet" "\
+(autoload 'timesheet-get-work-data-in-date-range "my-autoloads/timesheet" "\
 
 
 (fn TITLE &key START-YEAR START-MONTH END-YEAR END-MONTH SHORT MEETINGS MEETINGS-DETAILED HLINES PROJECTS)")
-(autoload 'plot-work-chart-in-date-range "my-autoloads/timesheet" "\
+(autoload 'timesheet-plot-work-chart-in-date-range "my-autoloads/timesheet" "\
 
 
 (fn TITLE &key START-YEAR START-MONTH END-YEAR END-MONTH SHORT MEETINGS MEETINGS-DETAILED)")
-(autoload 'plot-weekly-summary-for-month "my-autoloads/timesheet" "\
+(autoload 'timesheet-plot-weekly-summary-for-month "my-autoloads/timesheet" "\
 
 
 (fn YEAR MONTH)")
-(autoload 'filter-timesheet-for-hours "my-autoloads/timesheet" "\
+(autoload 'timesheet-filter-timesheet-for-hours "my-autoloads/timesheet" "\
 
 
 (fn DATA)")
-(autoload 'plot-monthly-histogram "my-autoloads/timesheet" "\
+(autoload 'timesheet-plot-monthly-histogram "my-autoloads/timesheet" "\
 
 
 (fn TITLE DATA)")
-(autoload 'org-insert-monthly-timesheet "my-autoloads/timesheet" "\
-Insert a new timesheet for the current month" t)
+(autoload 'timesheet-insert-monthly "my-autoloads/timesheet" "\
+Insert a new timesheet for the current month." t)
+(register-definition-prefixes "my-autoloads/timesheet" '("timesheet-"))
+
 
 ;;; End of scraped data
 
