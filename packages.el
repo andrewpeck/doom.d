@@ -94,6 +94,7 @@
 (package! svg-tag-mode            :pin "13e888b8bd9a0664d060149a44a751b2113331b6" :recipe (:host github :repo "rougier/svg-tag-mode"))
 (package! system-install.el       :pin "80951d1eab707bb0aede77263726ca6209eaf21a" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
+(package! timesheet               :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/timesheet.el"))
 (package! toc-org                 :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! uniline                 :pin "cc53c929af7b52e38afdc793321e87049ccb043c" :recipe (:host github :repo "tbanel/uniline"))
 (package! verilog-mode            :pin "2be535c1eb276fc449e8c89357b37d691112b3f8" :recipe (:host github :repo "veripool/verilog-mode"))
