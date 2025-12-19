@@ -16,6 +16,8 @@
 
   (map! :leader :desc "Copy file or marked files to clipboard." "fc" #'file-clipboard-copy)
 
+  (map! :leader  :desc "Open timesheet" "bt" 'open-timesheet)
+
   ;; <d>escribe
   (map! "C-h <down-mouse-1>" #'my/describe-char-at-mouse-click)
 
