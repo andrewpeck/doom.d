@@ -210,7 +210,7 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 
 ;; Load setup files
 (dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
-  (load-idle (file-name-sans-extension file) 0.1))
+  (load-idle (file-name-sans-extension file)))
 
 (load-idle "lisp/plotting")
 (load-idle "lisp/regulator")
