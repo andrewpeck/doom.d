@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: pure
+# key: pure
+# --
+(declare (pure t) (side-effect-free error-free))
