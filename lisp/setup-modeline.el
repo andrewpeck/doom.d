@@ -87,7 +87,7 @@ nil."
                                    (lsp-server-name (nth 1 lsp-server-info))
                                    (icon (pcase lsp-server-name
                                            ("pyrefly-lsp" " " )
-                                           ("basedpyright" " " )
+                                           ("basedpyright" "󱔎 " )
                                            ("ty" " ")
                                            ("rustanalyzer" " ")
                                            (_ (concat server "  ")))))
