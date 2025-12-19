@@ -54,8 +54,6 @@
 (package! dired-preview           :pin "3e3780a3becb53009593cb3dbfbef987ea286a2f" :recipe (:host github :repo "protesilaos/dired-preview"))
 (package! drag-stuff              :pin "6d06d846cd37c052d79acd0f372c13006aa7e7c8")
 (package! dwim-shell-command      :pin "5ffad4ac5702e046166d0f59a3d3d790aa8274a2" :recipe (:host github :repo "xenodium/dwim-shell-command"))
-(package! eglot                   :pin "ad7e201bb6d892895b07048f809fe336f6935109" :recipe (:host github :repo "joaotavora/eglot"))
-(package! eglot-booster           :pin "cab7803c4f0adc7fff9da6680f90110674bb7a22" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 (package! elfeed                  :pin "a39fb78e34ee25dc8baea83376f929d7c128344f" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-colorpicker       :pin "3acee0fc0e35e130fb049ab69f99544a1ca9d11f" :recipe (:host github :repo "syohex/emacs-colorpicker"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
@@ -93,6 +91,7 @@
 (package! scad-mode               :pin "b130730a3123387e69c85cf10633701ea447fa2a")
 (package! screenshot              :pin "2770c0cfefe1cc09d55585f4f2f336a1b26e610e" :recipe (:host github :repo "tecosaur/screenshot"))
 (package! standard-themes         :pin "a341ec1ef416bcadc90b1a49e2163a51c401f8d8" :recipe (:host github :repo "protesilaos/standard-themes"))
+(package! string-edit-at-point    :pin "87936d816ae24184dd83688136531b6b6f1943fe" :recipe (:host github :repo "emacsmirror/string-edit-at-point"))
 (package! svg-tag-mode            :pin "13e888b8bd9a0664d060149a44a751b2113331b6" :recipe (:host github :repo "rougier/svg-tag-mode"))
 (package! system-install.el       :pin "80951d1eab707bb0aede77263726ca6209eaf21a" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
@@ -109,7 +108,9 @@
 (package! xr                      :pin "4088798ad47d0d57cd67a8129a101645978ab1bd")                           ; xr is rx in reverse
 ;; end:sort
 
-(package! string-edit-at-point    :pin "87936d816ae24184dd83688136531b6b6f1943fe" :recipe (:host github :repo "emacsmirror/string-edit-at-point"))
+
+;; (package! eglot                   :pin "ad7e201bb6d892895b07048f809fe336f6935109" :recipe (:host github :repo "joaotavora/eglot"))
+;; (package! eglot-booster           :pin "cab7803c4f0adc7fff9da6680f90110674bb7a22" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 ;; (package! treesit-auto            :pin "016bd286a1ba4628f833a626f8b9d497882ecdf3" :recipe (:host github :repo "renzmann/treesit-auto"))
 ;; (package! org-mode                :pin "5cfc857c66e3ad7d4b70bb4a61f641c059994170" :recipe (:host github :repo "emacs-straight/org-mode"))
 ;; (package! headlice                :pin "c659acd65d0d52a68c58fa3cda307018144839e1" :recipe (:host nil :repo "https://code.tecosaur.net/tec/headlice"))
