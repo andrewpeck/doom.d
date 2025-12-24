@@ -60,7 +60,6 @@
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! expand-region           :pin "351279272330cae6cecea941b0033a8dd8bcc4e8" :recipe (:host github :repo "magnars/expand-region.el"))
 (package! flycheck-clj-kondo      :pin "e38c67ba9db1ea1cbe1b61ab39b506c05efdcdbf" :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
-(package! flycheck-pycheckers     :pin "1bd9b7a7d4009a81ebd34515a72a3a94c313ad76" :recipe (:host github :repo "msherry/flycheck-pycheckers"))
 (package! gptel                   :pin "13baa6754e7b12ce9f0a5a87bf11cf01d1b753d8")
 (package! gptel-quick             :pin "495b5e0b5348dbced1448bd12cbf8847e30b5175" :recipe (:host github :repo "karthink/gptel-quick"))
 (package! graphviz-dot-mode       :pin "516c151b845a3eb2da73eb4ee648ad99172087ac")
