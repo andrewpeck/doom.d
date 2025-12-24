@@ -2060,7 +2060,7 @@ Uses the `dom' library."
 ;;------------------------------------------------------------------------------
 
 ;;;###autoload
-(cl-defun +vterm/toggle-here ()
+(defun +vterm/toggle-here ()
   "Toggle a terminal popup window at project root. Return the vterm buffer.
 
 Modified from +vterm/toggle in doom Emacs, which has the (for me)
@@ -2073,21 +2073,20 @@ usually want to open a terminal at the `default-directory`."
    (lambda ()
      (let ((buffer-name (format "*doom:vterm-popup:%s*" "main")))
 
-       (when-let* ((win (get-buffer-window buffer-name)))
-         (delete-window win)
-         (cl-return))
+       (if-let* ((win (get-buffer-window buffer-name)))
+           (delete-window win)
 
-       (let ((buffer (or (cl-loop for buf in (doom-buffers-in-mode 'vterm-mode)
-                                  if (equal (buffer-local-value '+vterm--id buf)
-                                            buffer-name)
-                                  return buf)
-                         (get-buffer-create buffer-name))))
-         (with-current-buffer buffer
-           (unless (eq major-mode 'vterm-mode)
-             (vterm-mode))
-           (setq-local +vterm--id buffer-name))
-         (pop-to-buffer buffer))
-       (get-buffer buffer-name)))))
+         (let ((buffer (or (cl-loop for buf in (doom-buffers-in-mode 'vterm-mode)
+                                    if (equal (buffer-local-value '+vterm--id buf)
+                                              buffer-name)
+                                    return buf)
+                           (get-buffer-create buffer-name))))
+           (with-current-buffer buffer
+             (unless (eq major-mode 'vterm-mode)
+               (vterm-mode))
+             (setq-local +vterm--id buffer-name))
+           (pop-to-buffer buffer))
+         (get-buffer buffer-name))))))
 
 ;;------------------------------------------------------------------------------
 ;; Wrapping
