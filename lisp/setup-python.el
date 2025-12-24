@@ -92,6 +92,14 @@ or for a single package (uv-install \"mypy\")
   ;; Keybindings
   ;;------------------------------------------------------------------------------
 
+
+  (defun ruff-fmt ()
+    "Format the current buffer with Ruff."
+    (interactive)
+    (apheleia-format-buffer 'ruff))
+
+  (map! :map python-ts-mode-map :localleader "bf" #'ruff-fmt)
+
   (map! :map python-ts-mode-map "C-c C-e" nil)
 
   (map! :localleader :map (python-mode-map python-ts-mode-map)
