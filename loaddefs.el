@@ -100,18 +100,6 @@ Toggle dark mode." t)
 Reload home manager configuration." t)
 (autoload 'home-manager-update "my-autoloads/my-defuns" "\
 Reload home manager configuration." t)
-(autoload 'project-root-dir "my-autoloads/my-defuns" "\
-Return root directory of current project.
-
-(fn &rest _)")
-(autoload 'projectile-project-root "my-autoloads/my-defuns" "\
-Get the root of the current VCS project.
-
-(fn &rest _)")
-(autoload 'doom-project-root "my-autoloads/my-defuns" "\
-Get the root of the current VCS project.
-
-(fn &rest _)")
 (autoload 'sudo-shell-command "my-autoloads/my-defuns" "\
 
 
@@ -477,15 +465,7 @@ Gets the title of a webpage at URL
 
 
 (fn LINK)")
-(autoload 'consult-recent-file "my-autoloads/my-defuns" "\
-Find recent using `completing-read'.
-
-This version is modified to sort by recent files" t)
-(autoload 'consult-project-find-file "my-autoloads/my-defuns" "\
-Find project files using `completing-read'." t)
-(autoload 'consult-open-buffers "my-autoloads/my-defuns" "\
-Find project files using `completing-read'." t)
-(register-definition-prefixes "my-autoloads/my-defuns" '("consult--recent-files-sort" "gvim" "normalize-comment-strings-length" "org-drawio-template"))
+(register-definition-prefixes "my-autoloads/my-defuns" '("gvim" "normalize-comment-strings-length" "org-drawio-template"))
 
 
 ;;; Generated autoloads from my-autoloads/my-tex.el

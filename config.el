@@ -28,28 +28,11 @@
       use-package-always-defer t
       use-package-compute-statistics t)
 
-(defun remote-host? (path)
-"Return t if path is a remote host."
-;; this is just tramp-remote-file-name-spec-regexp
-;; have a copy here so we don't need
-(let ((remote-name-regexp "\\(-\\|[[:alnum:]]\\{2,\\}\\)\\(?::\\)\\(?:\\([^/:|[:blank:]]+\\)\\(?:@\\)\\)?\\(\\(?:[%._[:alnum:]-]+\\|\\(?:\\[\\)\\(?:\\(?:[[:alnum:]]*:\\)+[.[:alnum:]]*\\)?\\(?:]\\)\\)\\(?:\\(?:#\\)\\(?:[[:digit:]]+\\)\\)?\\)?"))
-    (or (string-match-p remote-name-regexp path)
-        (file-remote-p path 'host))))
+(load! "core-defuns.el" doom-user-dir t)
 
 ;;------------------------------------------------------------------------------
 ;; Shhh...
 ;;------------------------------------------------------------------------------
-
-(defun advise-inhibit-messages (fn)
-  "Pass in a function name, that function will be advised to supress its output.
-Useful if you have an noisy command you want to keep quiet.
-
-Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
-
-  (advice-add fn :around
-              (lambda (orig-fun &rest args)
-                (let ((inhibit-message t))
-                  (apply orig-fun args)))))
 
 (advise-inhibit-messages 'recentf-cleanup)
 (advise-inhibit-messages 'eglot)
@@ -182,25 +165,6 @@ Use as e.g. (advice-inhibit-messages 'recentf-cleanup)"
 ;;------------------------------------------------------------------------------
 ;; Config Loading
 ;;------------------------------------------------------------------------------
-
-(defun load!! (path) (load! path doom-user-dir t))
-
-(defun load-timer (pkg &optional timer)
-  "Load package on a timer."
-  (let ((timer (if timer timer 1.5)))
-    (run-with-timer timer nil #'load!! pkg)))
-
-(defun load-idle (pkg &optional timer)
-  "Load package on idle."
-  (unless timer (setq timer 0.1))
-  (run-with-idle-timer timer nil #'load!! pkg))
-
-(defmacro run-when-idle (seconds &rest body)
-  "Execute BODY after SECONDS of idle."
-  (run-with-idle-timer seconds nil (lambda (_) (progn body)) nil))
-
-(defun user-load-idle (path) (load-idle (concat doom-user-dir path)))
-(defun user-load-timer (path) (load-timer (concat doom-user-dir path)))
 
 (load!! "custom")
 (load!! "lisp/setup-appearance.el")
