@@ -479,7 +479,7 @@ usually want to open a terminal at the `default-directory`." t)
 (autoload 'my/no-wrap "my-autoloads/my-defuns" nil t)
 (autoload 'my/wrap-and-center "my-autoloads/my-defuns" nil t)
 (autoload 'my/toggle-wrap-and-center "my-autoloads/my-defuns" nil t)
-(register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "my/is-wrapped" "normalize-comment-strings-length" "org-drawio-template"))
+(register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "my/" "normalize-comment-strings-length" "org-drawio-template"))
 
 
 ;;; Generated autoloads from my-autoloads/my-tex.el

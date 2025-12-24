@@ -2044,6 +2044,17 @@ Uses the `dom' library."
             (match-string 2 link))
     (error "Cannot parse %s as Org link" link)))
 
+(defun my/org-dwim-edit-at-point ()
+    "Try to edit the thing at point in some sensible way."
+    (interactive)
+    (cond
+     ((string= "TBLFM" (cdr (org-thing-at-point))) (org-edit-special))
+     ((org-at-table-p) (lte-edit-table))
+     ((org--link-at-point) (org-insert-link))
+     ((org-in-src-block-p) (org-edit-src-code))
+     ((org-inside-LaTeX-fragment-p) (org-edit-latex-fragment))
+     ((org-footnote-at-reference-p) (org-edit-footnote-reference))))
+
 ;;------------------------------------------------------------------------------
 ;; Vterm
 ;;------------------------------------------------------------------------------
