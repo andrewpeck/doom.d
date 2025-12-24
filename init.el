@@ -9,10 +9,6 @@
 (add-to-list 'default-frame-alist
              '(background-color . "#17191a"))
 
-;; Prevents some cases of Emacs flickering
-(add-to-list 'default-frame-alist
-             '(inhibit-double-buffering . nil))
-
 (menu-bar-mode 0)                   ; Turn off menu bar
 
 (setq doom-cache-dir (concat doom-user-dir ".cache/"))

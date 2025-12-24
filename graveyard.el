@@ -1565,3 +1565,7 @@ lines are selected, or the NxM dimensions of a block selection.")
   ;; the doom config for corfu
   ;; (advice-add 'corfu--exit-function :before-while
   ;;             (lambda (_ _ cands) cands))
+
+;; Prevents some cases of Emacs flickering
+(add-to-list 'default-frame-alist
+             '(inhibit-double-buffering . nil))
