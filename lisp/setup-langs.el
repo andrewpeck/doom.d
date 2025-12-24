@@ -1,5 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 
+(add-hook! '(rust-mode-hook rust-ts-mode-hook)
+  (unless (executable-find "rust-analyzer")
+    (when (yes-or-no-p "rust-analyzer not found. Would you like to install it?")
+      (async-shell-command "rustup component add rust-analyzer"))))
+
 ;;------------------------------------------------------------------------------
 ;; Awk
 ;;------------------------------------------------------------------------------
