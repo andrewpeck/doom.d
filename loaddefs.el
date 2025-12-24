@@ -465,6 +465,12 @@ Gets the title of a webpage at URL
 
 
 (fn LINK)")
+(autoload '+vterm/toggle-here "my-autoloads/my-defuns" "\
+Toggle a terminal popup window at project root. Return the vterm buffer.
+
+Modified from +vterm/toggle in doom Emacs, which has the (for me)
+undesirable property of opening a terminal at the root of the repo. I
+usually want to open a terminal at the `default-directory`." t)
 (register-definition-prefixes "my-autoloads/my-defuns" '("gvim" "normalize-comment-strings-length" "org-drawio-template"))
 
 

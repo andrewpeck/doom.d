@@ -14,11 +14,9 @@
 ;; https://github.com/danilevy1212/doom
 ;; https://github.com/jishnusen/emacs-config
 ;;
-;; - TODO flycheck or flymake multiple python checkers (ruff, flake8)
 ;; - TODO replace with thing from kill ring ;;
 ;; - TODO +compile-to-vterm-global-minor-mode ???
 ;; - TODO error with SPC-o-d
-;; - TODO setup gptel https://www.armindarvish.com/post/use_emacs_as_a_chatgpt_client/
 ;; https://news.ycombinator.com/item?id=6965433
 
 ;; If non-nil, display instructions on how to exit the client on connection.
