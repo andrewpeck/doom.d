@@ -2,6 +2,12 @@
 
 (use-package! project
 
+  :init
+
+  (map! :leader (:prefix "g" :desc "Browse Projectile Homepage" "oH" 'project-vc-browse-at-remote))
+  (map! :leader (:prefix "p" :desc "Open Project" "p" #'project-switch-project))
+  (map! :leader :desc "Project Find File" "SPC" #'project-find-file)
+
   :config
 
   ;; doom overwrites this to ignore tramp uhg damnit
@@ -39,8 +45,4 @@
             (find-file project)
             (+vc/browse-at-remote-homepage)
             (previous-buffer))
-        (user-error "There are no known projects"))))
-
-  (map! :leader (:prefix "g" :desc "Browse Projectile Homepage" "oH" 'project-vc-browse-at-remote))
-  (map! :leader (:prefix "p" :desc "Open Project" "p" #'project-switch-project))
-  (map! :leader :desc "Project Find File" "SPC" #'project-find-file))
+        (user-error "There are no known projects")))))
