@@ -2044,6 +2044,10 @@ Uses the `dom' library."
             (match-string 2 link))
     (error "Cannot parse %s as Org link" link)))
 
+;;------------------------------------------------------------------------------
+;; Vterm
+;;------------------------------------------------------------------------------
+
 ;;;###autoload
 (cl-defun +vterm/toggle-here ()
   "Toggle a terminal popup window at project root. Return the vterm buffer.
@@ -2073,6 +2077,84 @@ usually want to open a terminal at the `default-directory`."
            (setq-local +vterm--id buffer-name))
          (pop-to-buffer buffer))
        (get-buffer buffer-name)))))
+
+;;------------------------------------------------------------------------------
+;; Wrapping
+;;------------------------------------------------------------------------------
+
+;; Don't wrap text modes unless we really want it
+;; (add-hook! 'latex-mode-hook (lambda () (toggle-truncate-lines 0)))
+;; (add-hook! 'markdown-mode-hook #'+word-wrap-mode)
+;; (add-hook 'org-mode-hook (defun hook/org-enable-word-wrap-mode () (+word-wrap-mode)))
+
+(defvar-local doom--line-number-style nil "Style of doom line numbers.")
+(defvar-local my/is-wrapped nil "Store the state of line wrapping in the current buffer.")
+(defvar-local my/is-wrapped-linum-state (list display-line-numbers
+                                              doom--line-number-style))
+
+;;;###autoload
+(defun my/toggle-wrap (&optional force-state center)
+  (interactive)
+  (let ((inhibit-message t))
+
+    (if (not force-state)
+        (setq my/is-wrapped
+              (not my/is-wrapped))
+      (setq my/is-wrapped force-state))
+
+    (if my/is-wrapped
+        (visual-line-mode 1)
+      (visual-line-mode 0))
+
+    (if my/is-wrapped
+        (toggle-truncate-lines 0)
+      (toggle-truncate-lines 1))
+
+    (if my/is-wrapped
+        (visual-fill-column-mode 1)
+      (visual-fill-column-mode 0))
+
+    (if my/is-wrapped
+        ;; store state when wrapping;
+        (progn
+          (setq my/is-wrapped-linum-state (list display-line-numbers
+                                                doom--line-number-style)))
+      ;; restore state when unwrapping
+      (progn
+        (setq display-line-numbers (car my/is-wrapped-linum-state)
+              doom--line-number-style (cadr my/is-wrapped-linum-state))))
+
+    (if (and center my/is-wrapped)
+        (setq visual-fill-column-center-text t
+              doom--line-number-style nil
+              display-line-numbers nil)
+      (setq visual-fill-column-center-text nil))
+
+    (visual-fill-column-adjust))
+
+  (if my/is-wrapped
+      (message "Wrapping lines...")
+    (message "Unwrapping lines...")))
+
+;;;###autoload
+(defun my/wrap ()
+  (interactive)
+  (my/toggle-wrap t))
+
+;;;###autoload
+(defun my/no-wrap ()
+  (interactive)
+  (my/toggle-wrap nil))
+
+;;;###autoload
+(defun my/wrap-and-center ()
+  (interactive)
+  (my/toggle-wrap t t))
+
+;;;###autoload
+(defun my/toggle-wrap-and-center ()
+  (interactive)
+  (my/toggle-wrap nil t))
 
 ;;------------------------------------------------------------------------------
 ;; Fini

@@ -51,7 +51,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package visual-fill-column
-  :commands (visual-fill-column-adjust)
   :init
 
   (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'my/toggle-wrap)
@@ -59,81 +58,8 @@
   (map! :leader :prefix "t" :desc "Toggle Visual Wrap"   "w"  #'my/toggle-wrap)
   (map! :localleader :desc "Olivetti Mode" "o" 'my/toggle-wrap-and-center) 
 
-  ;; Don't wrap text modes unless we really want it
-  ;; (add-hook! 'latex-mode-hook (lambda () (toggle-truncate-lines 0)))
-  ;; (add-hook! 'markdown-mode-hook #'+word-wrap-mode)
-  ;; (add-hook 'org-mode-hook (defun hook/org-enable-word-wrap-mode () (+word-wrap-mode)))
-
-  (defvar-local doom--line-number-style nil "Style of doom line numbers.") 
-  (defvar-local my/is-wrapped nil "Store the state of line wrapping in the current buffer.")
-  (defvar-local my/is-wrapped-linum-state (list display-line-numbers
-                                                doom--line-number-style))
-
-  (declare-function my/no-wrap "setup-utils" ())
-  (declare-function my/wrap "setup-utils" ())
-  (declare-function my/wrap-and-center "setup-utils" ())
-
   ;; wrap in magit status mode
-  (add-hook 'magit-status-mode-hook #'my/wrap)
-
-  (defun my/toggle-wrap (&optional force-state center)
-    (interactive)
-    (let ((inhibit-message t))
-
-      (if (not force-state)
-          (setq my/is-wrapped
-                (not my/is-wrapped))
-        (setq my/is-wrapped force-state))
-
-      (if my/is-wrapped
-          (visual-line-mode 1)
-        (visual-line-mode 0))
-
-      (if my/is-wrapped
-          (toggle-truncate-lines 0)
-        (toggle-truncate-lines 1))
-
-      (if my/is-wrapped
-          (visual-fill-column-mode 1)
-        (visual-fill-column-mode 0))
-
-      (if my/is-wrapped
-          ;; store state when wrapping;
-          (progn
-            (setq my/is-wrapped-linum-state (list display-line-numbers
-                                                  doom--line-number-style)))
-        ;; restore state when unwrapping
-        (progn
-          (setq display-line-numbers (car my/is-wrapped-linum-state)
-                doom--line-number-style (cadr my/is-wrapped-linum-state))))
-
-      (if (and center my/is-wrapped)
-          (setq visual-fill-column-center-text t
-                doom--line-number-style nil
-                display-line-numbers nil)
-        (setq visual-fill-column-center-text nil))
-
-      (visual-fill-column-adjust))
-    
-    (if my/is-wrapped
-        (message "Wrapping lines...")         
-      (message "Unwrapping lines...")))
-
-  (defun my/wrap ()
-    (interactive)
-    (my/toggle-wrap t))
-
-  (defun my/no-wrap ()
-    (interactive)
-    (my/toggle-wrap nil))
-
-  (defun my/wrap-and-center ()
-    (interactive)
-    (my/toggle-wrap t t))
-
-  (defun my/toggle-wrap-and-center ()
-    (interactive)
-    (my/toggle-wrap nil t)))
+  (add-hook 'magit-status-mode-hook #'my/wrap))
 
 ;;------------------------------------------------------------------------------
 ;; Casual
@@ -376,17 +302,6 @@ _h_ decrease width    _l_ increase width
   :init
   (add-hook 'org-mode-hook #'lte-truncate-table-mode)
   (add-hook 'markdown-mode-hook #'lte-truncate-table-mode)
-
-  (defun my/org-dwim-edit-at-point ()
-    "Try to edit the thing at point in some sensible way."
-    (interactive)
-    (cond
-     ((string= "TBLFM" (cdr (org-thing-at-point))) (org-edit-special))
-     ((org-at-table-p) (lte-edit-table))
-     ((org--link-at-point) (org-insert-link))
-     ((org-in-src-block-p) (org-edit-src-code))
-     ((org-inside-LaTeX-fragment-p) (org-edit-latex-fragment))
-     ((org-footnote-at-reference-p) (org-edit-footnote-reference))))
 
   (map! (:map org-mode-map      "C-c C-e" #'my/org-dwim-edit-at-point)
         (:map markdown-mode-map "C-c C-e" #'lte-edit-table)))

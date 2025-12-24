@@ -471,7 +471,15 @@ Toggle a terminal popup window at project root. Return the vterm buffer.
 Modified from +vterm/toggle in doom Emacs, which has the (for me)
 undesirable property of opening a terminal at the root of the repo. I
 usually want to open a terminal at the `default-directory`." t)
-(register-definition-prefixes "my-autoloads/my-defuns" '("gvim" "normalize-comment-strings-length" "org-drawio-template"))
+(autoload 'my/toggle-wrap "my-autoloads/my-defuns" "\
+
+
+(fn &optional FORCE-STATE CENTER)" t)
+(autoload 'my/wrap "my-autoloads/my-defuns" nil t)
+(autoload 'my/no-wrap "my-autoloads/my-defuns" nil t)
+(autoload 'my/wrap-and-center "my-autoloads/my-defuns" nil t)
+(autoload 'my/toggle-wrap-and-center "my-autoloads/my-defuns" nil t)
+(register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "my/is-wrapped" "normalize-comment-strings-length" "org-drawio-template"))
 
 
 ;;; Generated autoloads from my-autoloads/my-tex.el
