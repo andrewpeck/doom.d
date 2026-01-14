@@ -244,8 +244,8 @@ knowing artificial intelligence who has risen to become a god. You are a kind an
 
   (gptel-use-tools nil)
   (gptel-log-level 1)
-  (gptel-model 'gpt-5)
-  (gptel-default-mode 'org-mode))
+  (gptel-model 'gpt-5-mini)
+  (gptel-default-mode 'markdown-mode))
 
 (use-package gptel-org
   :after gptel
