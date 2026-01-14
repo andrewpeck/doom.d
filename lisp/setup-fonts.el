@@ -16,8 +16,8 @@
 
  ;; M-x describe-font
  (setq my/preferred-fonts
-   `(("Hack Nerd Font"           21 16)
-     ("AdwaitaMono Nerd Font"   22 16)
+   `(("AdwaitaMono Nerd Font"    21 16)
+     ("Hack Nerd Font"           21 16)
      ("Berkeley Mono"            24 20)
      ("InconsolataGo Nerd Font"  26 19)
      ("Julia Mono"               21 16)
