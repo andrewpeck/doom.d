@@ -154,14 +154,17 @@
 
 (defun ChatGPT ()
   (interactive)
-  (if (member "*ChatGPT*" (mapcar #'buffer-name (doom-visible-buffers)))
+  (if (member "Chat.md" (mapcar #'buffer-name (doom-visible-buffers)))
       (+popup/toggle)
-    (gptel "*ChatGPT*" nil nil t)))
+    (find-file (concat doom-user-dir "Chat.md"))
+    (gptel-mode)))
 
 (use-package gptel
   :init
 
-  (set-popup-rule! "*ChatGPT*"
+  ;; https://platform.openai.com/docs/models
+
+  (set-popup-rule! "Chat.md"
     :side 'bottom
     :size 0.3
     :select t
