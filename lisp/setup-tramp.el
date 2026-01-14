@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
+(use-package! tramp-hlo
+  :commands (tramp-hlo-setup))
+
 ;;------------------------------------------------------------------------------
 ;; Tramp
 ;;------------------------------------------------------------------------------
@@ -8,6 +11,8 @@
 
   :load-path "~/.emacs.d/.local/straight/repos/tramp"
   :config
+
+  (tramp-hlo-setup)
 
   ;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
   (when (not (get 'file-remote-p :memoize-original-function))
