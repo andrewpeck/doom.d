@@ -535,84 +535,6 @@ Find resistors for a voltage regulator." t)
 (register-definition-prefixes "my-autoloads/regulator" '("e192" "e24" "e48" "e96" "regulator-format-resistor"))
 
 
-;;; Generated autoloads from my-autoloads/timesheet.el
-
-(autoload 'timesheet-get-day-of-week "my-autoloads/timesheet" "\
-Return day of week as a str from a TITLE and DAY-OF-MONTH.
-
-(fn YEAR MONTH DAY)")
-(function-put 'timesheet-get-day-of-week 'pure 't)
-(function-put 'timesheet-get-day-of-week 'side-effect-free 'error-free)
-(autoload 'timesheet-range-to-time "my-autoloads/timesheet" "\
-Convert a 12hr clock time RANGE time (e.g. 1-2:30)
-to a float amount of time (1.5).
-
-(fn RANGE)")
-(function-put 'timesheet-range-to-time 'pure 't)
-(function-put 'timesheet-range-to-time 'side-effect-free 't)
-(autoload 'timesheet-update-all-histograms "my-autoloads/timesheet" "\
-Update all timesheet histograms blocks.")
-(autoload 'timesheet-plot-chart "my-autoloads/timesheet" "\
-Simple function to plot an ascii bar chart from DATA.
-
-It accepts DATA in the form of an alist of the form
-='((KEY . VAL) (KEY . VAL) (KEY . VAL)) and will
-produce a bar chart where for each key val is summed.
-
-NORMALIZE will normalize the bar chart to some number of ASCII symbols.
-
-SORT to non-nill will sort the list. 
-
-(fn DATA KEYWORD VALWORD &key NORMALIZE SORT UPLOT TITLE)")
-(autoload 'timesheet-filter-work-chart "my-autoloads/timesheet" "\
-
-
-(fn DATA)")
-(autoload 'timesheet-plot-weekly-work-goals "my-autoloads/timesheet" "\
-
-
-(fn DATA)")
-(autoload 'timesheet-plot-weekly-goals-for-range "my-autoloads/timesheet" "\
-
-
-(fn START-YEAR START-MONTH END-YEAR END-MONTH)")
-(autoload 'timesheet-plot-monthly "my-autoloads/timesheet" "\
-
-
-(fn DATA &key UPLOT TITLE)")
-(autoload 'timesheet-range-to-year-month "my-autoloads/timesheet" "\
-
-
-(fn START-YEAR START-MONTH END-YEAR END-MONTH)")
-(autoload 'timesheet-add-yyyy-mm-to-table "my-autoloads/timesheet" "\
-
-
-(fn DATA YEAR MONTH)")
-(autoload 'timesheet-get-work-data-in-date-range "my-autoloads/timesheet" "\
-
-
-(fn TITLE &key START-YEAR START-MONTH END-YEAR END-MONTH SHORT MEETINGS MEETINGS-DETAILED HLINES PROJECTS)")
-(autoload 'timesheet-plot-work-chart-in-date-range "my-autoloads/timesheet" "\
-
-
-(fn TITLE &key START-YEAR START-MONTH END-YEAR END-MONTH SHORT MEETINGS MEETINGS-DETAILED)")
-(autoload 'timesheet-plot-weekly-summary-for-month "my-autoloads/timesheet" "\
-
-
-(fn YEAR MONTH)")
-(autoload 'timesheet-filter-timesheet-for-hours "my-autoloads/timesheet" "\
-
-
-(fn DATA)")
-(autoload 'timesheet-plot-monthly-histogram "my-autoloads/timesheet" "\
-
-
-(fn TITLE DATA)")
-(autoload 'timesheet-insert-monthly "my-autoloads/timesheet" "\
-Insert a new timesheet for the current month." t)
-(register-definition-prefixes "my-autoloads/timesheet" '("timesheet-"))
-
-
 ;;; End of scraped data
 
 (provide 'loaddefs)
