@@ -227,18 +227,15 @@ See URL `http://nagelfar.sourceforge.net/'."
 (after! python
   (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
 
-  (add-hook 'flycheck-mode-hook
+  (add-hook! '(python-mode-hook python-ts-mode-hook)
             (defun hook/configure-python-checkers ()
-              (when (or (equal major-mode 'python-ts-mode)
-                        (equal major-mode 'python-mode))
-                (setq flycheck--automatically-enabled-checkers
+
+                (setq flycheck-enabled-checkers
                       (remove nil
                               (list (when (executable-find "ruff") 'python-ruff)
-                                    (when (executable-find "flake8") 'python-flake8)
-                                    (when (executable-find "mypy") 'python-mypy))))
-                (setq-local flycheck-disabled-checkers '(python-pylint)))))
+                                    (when (executable-find "flake8") 'python-flake8))))
+                (setq-local flycheck-disabled-checkers '(python-pylint python-mypy))))
 
   (flycheck-add-next-checker 'python-flake8 (cons t 'python-ruff))
-  (flycheck-add-next-checker 'python-ruff (cons t 'python-mypy))
 
   (setq-default flycheck-python-ruff-config "~/.ruff-toml"))
