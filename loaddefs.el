@@ -485,7 +485,6 @@ usually want to open a terminal at the `default-directory`." t)
 ;;; Generated autoloads from my-autoloads/my-tex.el
 
 (autoload 'texify-quotation-marks "my-autoloads/my-tex" nil t)
-(autoload 'tex-follow-link-at-point "my-autoloads/my-tex" nil t)
 (defvar default-tex-master nil)
 (autoload 'my/set-default-tex-master "my-autoloads/my-tex" "\
 Set the master tex file for the current project." t)

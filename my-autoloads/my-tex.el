@@ -45,16 +45,6 @@
             (remove-overlays quote-pos next-quote-pos)))))))
 
 ;;;###autoload
-(defun tex-follow-link-at-point ()
-  (interactive)
-  (let ((f (thing-at-point 'filename t)))
-    (string-match "\\(.*\\)\{\\(.*\\)}" f)
-    (let ((f (concat (vc-root-dir) (match-string 2 f))))
-      (when (and (not (string= f (vc-root-dir)))
-                 (file-exists-p f))
-        (find-file f)))))
-
-;;;###autoload
 (defvar default-tex-master nil)
 
 ;;;###autoload

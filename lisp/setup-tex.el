@@ -96,14 +96,39 @@
   ;; Keybinds
   ;;------------------------------------------------------------------------------
 
-  (map! (:map TeX-mode-map
+  (defun tex-file-at-point ()
+    (let ((f (thing-at-point 'filename t)))
+      (string-match "\\(.*\\)\{\\(.*\\)}" f)
+      (let ((f (concat (vc-root-dir) (match-string 2 f))))
+        (and (not (string= f (vc-root-dir)))
+             (file-exists-p f)
+             f))))
+
+  (defun tex-follow-link-at-point ()
+    ;; TODO this doesn't work for urls
+    (interactive)
+    (let ((f (thing-at-point 'filename t)))
+      (string-match "\\(.*\\)\{\\(.*\\)}" f)
+      (let ((f (concat (vc-root-dir) (match-string 2 f))))
+        (when (and (not (string= f (vc-root-dir)))
+                   (file-exists-p f))
+          (find-file f)))))
+
+  (defun tex-m-ret-dwim ()
+    (interactive)
+    (cond
+     ((thing-at-point 'url) (browse-url (thing-at-point 'url)))
+     ((tex-file-at-point) (find-file (tex-file-at-point)))
+     (t (LaTeX-insert-item))))
+
+  (map! (:map LaTeX-mode-map
               "M-q" 'ap/line-fill-paragraph
               "C-c C-l" 'tex-link-insert
               "M-<right>" 'outline-demote
               "M-<left>" 'outline-promote
               "C-c C-l" 'tex-link-insert
               "C-c C-s" 'LaTeX-section
-              "RET" 'tex-follow-link-at-point)
+              "M-RET" 'tex-m-ret-dwim)
 
         (:map reftex-toc-mode-map
          :after reftex-toc-mode
