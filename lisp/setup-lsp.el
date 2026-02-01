@@ -3,12 +3,11 @@
 ;; LSP
 ;;------------------------------------------------------------------------------
 
-(use-package lsp-pyright
-  :when (modulep! :tools lsp -eglot)
-  :custom (lsp-pyright-langserver-command "basedpyright") ;; or basedpyright
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp))))  ; or lsp-deferred
+(map! :leader
+      :desc "LSP"
+      (:prefix ("l" . "LSP")
+               "l" (lambda () (interactive) (eglot-ensure))
+               "d" #'eglot-shutdown-all))
 
 (use-package lsp-mode
   :when (modulep! :tools lsp -eglot)
