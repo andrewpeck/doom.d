@@ -20,6 +20,7 @@
       ;;------------------------------------------------------------------------------
 
       (:leader :prefix "g"
+       :desc "Magit Amend" "L" #'magit-log-buffer-file-and-follow
        :desc "Magit Amend" "A" #'magit-commit-amend
        :desc "Magit Push" "p" #'magit-push
        :desc "Magit Pull" "u" #'magit-pull-from-pushremote
@@ -56,8 +57,13 @@ Useful for working on NAS where permissions don't make sense."
 
   :config
 
-  (setq magit-buffer-log-args
-        '("-n256" "--follow" "--graph" "--decorate"))
+  (defun magit-log-buffer-file-and-follow (&optional beg end)
+    (interactive (cons current-prefix-arg (magit-file-region-line-numbers)))
+    (require 'magit)
+    (magit-log-buffer-file t beg end))
+
+  (setq-default magit-buffer-log-args
+                '("-n256" "--follow" "--graph" "--decorate"))
 
   (setq magit-diff-visit-prefer-worktree t)
 
