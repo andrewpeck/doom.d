@@ -39,6 +39,26 @@
 
   :config
 
+  (advice-add 'eglot--message :override
+              (lambda (format &rest args)
+                (let ((msg (apply #'eglot--format format args)))
+                  (message
+                   (cond
+                    ((string-match-p (regexp-quote "connected") msg) "Connected to LSP.")
+                    (t msg))))))
+
+  (advice-add 'jsonrpc--message :override
+              (lambda (format &rest args)
+                (let ((msg (apply #'format format args)))
+                  (message
+                   (cond
+                    ((string-match-p (regexp-quote "Server exited with status") msg) "Disconnected from LSP.")
+                    (t msg))))))
+
+  (defun eglot-describe-session ()
+    (interactive)
+    (message (format "%s" (eglot--server-info (eglot-current-server)))))
+
   (setq eglot-managed-mode-hook (list (lambda () (eldoc-mode -1)))
         eglot-events-buffer-config '(:size 2000000 :format full)
         eglot-prefer-plaintext nil
