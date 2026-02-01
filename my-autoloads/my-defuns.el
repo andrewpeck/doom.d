@@ -1975,18 +1975,27 @@ and shortens it into an org mode link consisting of just `some file`"
 ;;------------------------------------------------------------------------------
 
 ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
+(defun org-copy-as (target)
+  "Copy the (in Org) to the system clipboard as Markdown."
+  (let* ((start (if (use-region-p) (region-beginning) (point-min)))
+         (end (if (use-region-p) (region-end) (point-max)))
+         (org-text (buffer-substring-no-properties start end))
+         (converted-text
+          (org-export-string-as org-text target t '(:with-toc nil))))
+    (kill-new converted-text)
+    (gui-set-selection 'CLIPBOARD converted-text)))
+
 ;;;###autoload
-(defun org-copy-region-as-markdown ()
-  "Copy the region (in Org) to the system clipboard as Markdown."
+(defun org-copy-as-markdown ()
+  "Copy the (in Org) to the system clipboard as Markdown."
   (interactive)
-  (if (use-region-p)
-      (let* ((region
-              (buffer-substring-no-properties
-               (region-beginning)
-               (region-end)))
-             (markdown
-              (org-export-string-as region 'md t '(:with-toc nil))))
-        (gui-set-selection 'CLIPBOARD markdown))))
+  (org-copy-as 'md))
+
+;;;###autoload
+(defun org-copy-as-ascii ()
+  "Copy the (in Org) to the system clipboard as Plain text."
+  (interactive)
+  (org-copy-as 'ascii))
 
 ;;;###autoload
 (defun org-web-tools--get-url (url)

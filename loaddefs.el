@@ -442,8 +442,10 @@ Extract URL from org-mode link and add it to kill ring.
 (fn &optional ARG)" t)
 (autoload 'org-remove-link-and-trash-linked-file "my-autoloads/my-defuns" "\
 Remove `org-mode' link at point and trash linked file." t)
-(autoload 'org-copy-region-as-markdown "my-autoloads/my-defuns" "\
-Copy the region (in Org) to the system clipboard as Markdown." t)
+(autoload 'org-copy-as-markdown "my-autoloads/my-defuns" "\
+Copy the (in Org) to the system clipboard as Markdown." t)
+(autoload 'org-copy-as-ascii "my-autoloads/my-defuns" "\
+Copy the (in Org) to the system clipboard as Plain text." t)
 (autoload 'org-web-tools--get-url "my-autoloads/my-defuns" "\
 Return content for URL as string.
 This uses `url-retrieve-synchronously' to make a request with the
