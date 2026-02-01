@@ -197,15 +197,14 @@
 ;;------------------------------------------------------------------------------
 
 (use-package! hog
+
   :config
-  (pcase (system-name)
-    ("strange" (setq hog-vivado-path "~/Xilinx/Vivado/2021.1"
-                     hog-number-of-jobs 16))
-    ("larry" (setq hog-vivado-path "/storage/Xilinx/Vivado/2021.1"
-                   hog-number-of-jobs 4))
-    ("pepper" (setq hog-vivado-path "/opt/Xilinx/Vivado/2021.1"))
-    ("apeck-len01" (setq hog-vivado-path "/opt/Xilinx/Vivado/2022.2"))
-    )
+
+  (setq hog-vivado-path
+        (or (file-exists "/opt/Xilinx/Vivado/2022.2")
+            (file-exists "/storage/Xilinx/Vivado/2022.2")
+            (file-exists "/opt/Xilinx/Vivado/2021.1")
+            (file-exists "/storage/Xilinx/Vivado/2021.1")))
 
   (setq hog-ieee-library
         '("ieee" ("/usr/local/lib/ghdl/src/synopsys/*.vhdl"

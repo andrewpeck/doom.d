@@ -33,6 +33,12 @@
     (widen)))
 
 ;;;###autoload
+(defun file-exists (file)
+  "Not predicated version of file-exists-p."
+  (and (file-exists-p file)
+       file))
+
+;;;###autoload
 (defun my/describe-char-at-mouse-click (click-event)
   "`describe-char' at CLICK-EVENT's position.
 CLICK-EVENT should be a mouse-click event.
