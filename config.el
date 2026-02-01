@@ -26,6 +26,8 @@
       use-package-always-defer t
       use-package-compute-statistics t)
 
+(setq browse-url-browser-function 'browse-url-firefox)
+
 (load! "core-defuns.el" doom-user-dir t)
 
 ;;------------------------------------------------------------------------------
