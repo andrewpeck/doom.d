@@ -26,6 +26,9 @@
     (project-forget-zombie-projects)
     (project-remember-projects-under "~/work"))
 
+  ;; periodically rescan for projects
+  (run-with-timer 10 3600 'my/project-discover-all)
+
   (defun projectile-locate-dominating-file (&rest _)
     (locate-dominating-file "." ".git"))
 
