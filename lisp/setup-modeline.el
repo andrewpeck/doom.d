@@ -90,7 +90,8 @@ nil."
                                            ("basedpyright" "󱔎 " )
                                            ("ty" " ")
                                            ("rustanalyzer" " ")
-                                           (_ (concat server "  ")))))
+                                           ("rass" " ")
+                                           (_ "  "))))
                               (propertize icon 'help-echo (format "%s" lsp-server-info)))))
 
                 ;; venv
