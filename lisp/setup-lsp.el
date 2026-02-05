@@ -59,7 +59,9 @@
     (message (format "%s" (eglot--server-info (eglot-current-server)))))
 
   (setq eglot-managed-mode-hook (list (lambda () (eldoc-mode -1)))
-        eglot-events-buffer-config '(:size 2000000 :format full)
+        eglot-events-buffer-config '(:size 0 :format full)
+        ;; eglot-events-buffer-config '(:size 2000000 :format full)
+        eglot-sync-connect 0
         eglot-prefer-plaintext nil
         eglot-autoshutdown t)
 
