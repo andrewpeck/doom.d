@@ -41,6 +41,7 @@
 (package! bookmark-url.el         :pin "e11160fcb69ad8676d0ec7a440b71083b4703423" :recipe (:host github :repo "andrewpeck/bookmark-url.el"))
 (package! browse-at-remote        :pin "cf0269f3db9e968c819b1d85b33d791c20c2e495" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
 (package! buffer-env              :pin "fc5cab4db55f0b95c4b97fbe3104e394da34b91a" :recipe (:host github :repo "astoff/buffer-env"))
+(package! buffer-flip.el          :pin "ace8d64583896fd3c4c97de7a20e4428b6966f2c" :recipe (:host github :repo "andrewpeck/buffer-flip.el"))
 (package! casual                  :pin "0c0a386bb9e73532679a29a270cfdd2c6e386d66" :recipe (:host github :repo "kickingvegas/casual"))
 (package! clojure-emacs           :pin "592c4f89efb5112784cbf94c9ea6fdd045771b62" :recipe (:host github :repo "clojure-emacs/squiggly-clojure"))
 (package! code-cells.el           :pin "b99013b81712edbb94fdb57cce083d32ad06fbb8" :recipe (:host github :repo "astoff/code-cells.el"))
