@@ -97,7 +97,6 @@
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! timesheet               :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
 (package! toc-org                 :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
-(package! tramp-hlo               :pin "b726b4042e96ac5cead396c8d12c01e6bad2bd78" :recipe (:host github :repo "jsadusk/tramp-hlo"))
 (package! uniline                 :pin "cc53c929af7b52e38afdc793321e87049ccb043c" :recipe (:host github :repo "tbanel/uniline"))
 (package! verilog-mode            :pin "2be535c1eb276fc449e8c89357b37d691112b3f8" :recipe (:host github :repo "veripool/verilog-mode"))
 (package! verilog-port-copy       :pin "b83145b1106d12d0d258cb44c2ed39126be0dca1" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
@@ -109,7 +108,7 @@
 (package! xr                      :pin "4088798ad47d0d57cd67a8129a101645978ab1bd")                           ; xr is rx in reverse
 ;; end:sort
 
-
+;; (package! tramp-hlo               :pin "b726b4042e96ac5cead396c8d12c01e6bad2bd78" :recipe (:host github :repo "jsadusk/tramp-hlo"))
 ;; (package! eglot                   :pin "ad7e201bb6d892895b07048f809fe336f6935109" :recipe (:host github :repo "joaotavora/eglot"))
 ;; (package! eglot-booster           :pin "cab7803c4f0adc7fff9da6680f90110674bb7a22" :recipe (:host github :repo "jdtsmith/eglot-booster"))
 ;; (package! treesit-auto            :pin "016bd286a1ba4628f833a626f8b9d497882ecdf3" :recipe (:host github :repo "renzmann/treesit-auto"))
