@@ -43,6 +43,7 @@
 (package! buffer-env              :pin "fc5cab4db55f0b95c4b97fbe3104e394da34b91a" :recipe (:host github :repo "astoff/buffer-env"))
 (package! buffer-flip.el          :pin "ace8d64583896fd3c4c97de7a20e4428b6966f2c" :recipe (:host github :repo "andrewpeck/buffer-flip.el"))
 (package! casual                  :pin "0c0a386bb9e73532679a29a270cfdd2c6e386d66" :recipe (:host github :repo "kickingvegas/casual"))
+(package! cloc.el                 :pin "0f6927cfb8f90019c20ea66e85fda256f6cfa4ff" :recipe (:host github :repo "andrewpeck/cloc.el"))
 (package! clojure-emacs           :pin "592c4f89efb5112784cbf94c9ea6fdd045771b62" :recipe (:host github :repo "clojure-emacs/squiggly-clojure"))
 (package! code-cells.el           :pin "b99013b81712edbb94fdb57cce083d32ad06fbb8" :recipe (:host github :repo "astoff/code-cells.el"))
 (package! comint-scroll-to-bottom :pin "1cd1471cfca72ac62d330630afe2f2fad44abcf5" :recipe (:host github :repo "jorgenschaefer/comint-scroll-to-bottom"))
