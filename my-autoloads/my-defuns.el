@@ -1950,9 +1950,9 @@ and shortens it into an org mode link consisting of just `some file`"
 ;; from
 ;; (https://github.com/SqrtMinusOne/dotfiles/blob/4b176a5bb1a5e20a7fdd7398b74df79701267a7e/.emacs.d/init.el)
 ;;;###autoload
-(defun org-link-copy (&optional arg)
-  "Extract URL from org-mode link and add it to kill ring."
-  (interactive "P")
+(defun org-link-copy ()
+  "Extract URL from \"org-mode\" link at point and add it to kill ring."
+  (interactive)
   (let* ((link (org-element-lineage (org-element-context) '(link) t))
          (type (org-element-property :type link))
          (url (org-element-property :path link))
