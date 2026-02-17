@@ -169,9 +169,9 @@
 
 (defun ChatGPT ()
   (interactive)
-  (if (member "Chat.md" (mapcar #'buffer-name (doom-visible-buffers)))
+  (if (member "Chat.org" (mapcar #'buffer-name (doom-visible-buffers)))
       (+popup/toggle)
-    (find-file (concat doom-user-dir "Chat.md"))
+    (find-file (concat doom-user-dir "Chat.org"))
     (gptel-mode)))
 
 (use-package gptel
@@ -179,7 +179,7 @@
 
   ;; https://platform.openai.com/docs/models
 
-  (set-popup-rule! "Chat.md"
+  (set-popup-rule! "Chat.org"
     :side 'bottom
     :size 0.3
     :select t
