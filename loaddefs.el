@@ -437,9 +437,7 @@ Convert Org mode link at point to markdown." t)
 (autoload 'markdown-link->org "my-autoloads/my-defuns" "\
 Convert Markdown link at point to Org." t)
 (autoload 'org-link-copy "my-autoloads/my-defuns" "\
-Extract URL from org-mode link and add it to kill ring.
-
-(fn &optional ARG)" t)
+Extract URL from \"org-mode\" link at point and add it to kill ring." t)
 (autoload 'org-remove-link-and-trash-linked-file "my-autoloads/my-defuns" "\
 Remove `org-mode' link at point and trash linked file." t)
 (autoload 'org-copy-as-markdown "my-autoloads/my-defuns" "\
@@ -485,7 +483,7 @@ usually want to open a terminal at the `default-directory`." t)
 (autoload 'my/no-wrap "my-autoloads/my-defuns" nil t)
 (autoload 'my/wrap-and-center "my-autoloads/my-defuns" nil t)
 (autoload 'my/toggle-wrap-and-center "my-autoloads/my-defuns" nil t)
-(register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "my/" "normalize-comment-strings-length" "org-drawio-template"))
+(register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "my/" "normalize-comment-strings-length" "org-"))
 
 
 ;;; Generated autoloads from my-autoloads/my-tex.el
