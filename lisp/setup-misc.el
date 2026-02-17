@@ -1,19 +1,19 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
 (use-package buffer-flip
-  :config
 
-  (setq buffer-flip-wraparound nil)
+  :init
 
   (map! :nm "DEL" 'buffer-flip)
-
   (map! :map buffer-flip-map "C-<left>" #'buffer-flip-backward)
   (map! :map buffer-flip-map "C-<right>" #'buffer-flip-forward)
   (map! :map buffer-flip-map "ESC" #'buffer-flip-abort)
 
-  (setq buffer-flip-skip-major-modes (list 'dired-mode))
+  :config
 
-  (setq buffer-flip-skip-patterns '("^\\*.*\\*$")))
+  (setq buffer-flip-wraparound nil
+        buffer-flip-skip-major-modes (list 'dired-mode)
+        buffer-flip-skip-patterns '("^\\*.*\\*$")))
 
 ;;------------------------------------------------------------------------------
 ;; System Install

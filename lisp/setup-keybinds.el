@@ -126,7 +126,7 @@
   (map! :nmv "TAB" 'nil)
 
   ;; Backspace to jump to previous buffer
-  (map! :nm "DEL" 'evil-switch-to-windows-last-buffer)
+  ;; (map! :nm "DEL" 'evil-switch-to-windows-last-buffer)
 
   (map! :map emacs-lisp-mode-map
         :nm "RET"  (lambda () (interactive) (open-link-or #'eval-defun))
