@@ -354,48 +354,26 @@
 ;; Image preview
 ;;------------------------------------------------------------------------------
 
-;; not yet supported in master emacs?
-(when (fboundp 'org-link-preview-file) 
-  (defun +org-http-or-https-image-data-fn (ov link _elem type)
+(use-package ol
+  :config
+
+  (defun +org-remote-image-data-fn (ov _link elem)
     "Interpret LINK as an URL to an image file."
-    (when (and (image-supported-file-p link)
-               (not (eq org-display-remote-inline-images 'skip)))
-      (if-let (buf (url-retrieve-synchronously (concat type ":" link)))
-          (with-current-buffer buf
-            (goto-char (point-min))
-            (re-search-forward "\r?\n\r?\n" nil t)
-            (overlay-put ov 'display (create-image (buffer-substring-no-properties (point) (point-max)) nil t)))
-        (message "Download of image \"%s\" failed" link)
-        nil)))
+    (let ((link (org-element-property :raw-link elem)))
+      (when-let* ((cached-file (and (image-supported-file-p link)
+                                    (not (eq org-display-remote-inline-images 'skip))
+                                    (concat temporary-file-directory
+                                            (file-name-nondirectory link)))))
+        ;;  make a local copy of the file
+        (unless (file-exists-p cached-file)
+          (url-copy-file link cached-file t))
 
-  (defun +org-http-or-https-image-data-fn (ov link _elem type)
-    "Interpret LINK as an URL to an image file."
-    (when (and (image-supported-file-p link)
-               (not (eq org-display-remote-inline-images 'skip)))
-      (let ((dest (concat temporary-file-directory
-                          (car (last (split-string link "/" t))))))
-        (when (not (file-exists-p dest))
-          (url-copy-file (concat type ":" link) dest t))
-        (org-link-preview-file ov dest link))))
+        (org-link-preview-file ov cached-file link))))
 
-  (defun +org-http-image-data-fn (ov link elem)
-    "Interpret LINK as an URL to an image file."
-    (+org-http-or-https-image-data-fn ov link elem "http"))
+  (org-link-set-parameters "http"  :preview #'+org-remote-image-data-fn)
+  (org-link-set-parameters "https" :preview #'+org-remote-image-data-fn)
+  (org-link-set-parameters "docview" :preview #'org-link-docview-preview))
 
-  (defun +org-https-image-data-fn (ov link elem)
-    "Interpret LINK as an URL to an image file."
-    (+org-http-or-https-image-data-fn ov link elem "https"))
-
-  (defun +org-inline-image-data-fn (ov link _elem)
-    "Interpret LINK as base64-encoded image data."
-    (overlay-put ov 'display (create-image link nil t)))
-
-  (org-link-set-parameters "http"  :preview #'+org-http-image-data-fn)
-  (org-link-set-parameters "https" :preview #'+org-https-image-data-fn)
-  (org-link-set-parameters "img"   :preview #'+org-inline-image-data-fn)
-
-  (org-link-set-parameters
-   "docview" :preview #'org-link-docview-preview))
 
 (use-package ob-mermaid
   :after org
