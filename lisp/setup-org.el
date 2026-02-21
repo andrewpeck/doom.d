@@ -87,6 +87,7 @@
 
         ;; Turn on inline images by default
         org-startup-with-inline-images t
+        org-startup-with-latex-preview nil
         ;; (org-display-inline-images t t)
 
         org-attach-id-dir "./images/screenshots"
