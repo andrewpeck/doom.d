@@ -370,6 +370,25 @@
 
         (org-link-preview-file ov cached-file link))))
 
+  ;; FIXME: doesn't work
+  (defun base64-to-image-file (base64-string output-file)
+    "Decode BASE64-STRING and save it as OUTPUT-FILE."
+    (when-let* ((decoded-bytes (base64-decode-string base64-string)))
+      (with-temp-file output-file
+        (insert decoded-bytes)) t))
+
+  (defun +org-inline-image-data-fn (ov link _elem)
+    "Interpret LINK as base64-encoded image data."
+    ;; TODO: should embed the file type in the string and parse off the excess
+    ;; right now just assuming PNG
+    ;; (base64-to-image-file "data:image/png;base64
+    (org-link-preview-file ov "/tmp/org.png" link)
+    (let ((tmp (concat (make-temp-file "org-preview-") ".png")))
+      (when (base64-to-image-file link tmp)
+        (org-link-preview-file ov tmp link))))
+
+  (org-link-set-parameters "img"   :preview #'+org-inline-image-data-fn)
+
   (org-link-set-parameters "http"  :preview #'+org-remote-image-data-fn)
   (org-link-set-parameters "https" :preview #'+org-remote-image-data-fn)
   (org-link-set-parameters "docview" :preview #'org-link-docview-preview))
