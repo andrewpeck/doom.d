@@ -82,9 +82,16 @@ or for a single package (uv-install \"mypy\")
           (buffer-env-update))))
 
     (when (getenv "VIRTUAL_ENV")
-      (uv-install '("mypy" "flake8")))
+      (unless (executable-find "mypy")
+        (uv-install '("mypy")))
+      (unless (executable-find "flake8")
+        (uv-install '("flake8")))
+      (unless (executable-find "rass")
+        (uv-install '("rassumfrassum"))))
 
     (my/check-python-tooling))
+
+  (add-hook! 'python-base-mode-hook 'my/setup-python-tooling)
 
   :config
 
