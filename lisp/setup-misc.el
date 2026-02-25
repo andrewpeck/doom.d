@@ -1,5 +1,15 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
+(use-package buffer-env
+  :config
+  (defvar buffer-env-trusted-dirs nil)
+  (setq buffer-env-trusted-dirs '("~/work"))
+
+  (defun buffer-env-is-trusted-dir (file)
+    (cl-some #'identity (mapcar (lambda (x) (file-in-directory-p file x)) buffer-env-trusted-dirs)))
+
+  (advice-add #'buffer-env--authorize :before-until #'buffer-env-is-trusted-dir))
+
 (use-package buffer-flip
 
   :init
