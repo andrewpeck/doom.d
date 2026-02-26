@@ -14,6 +14,15 @@
   (require 'subr-x))
 
 ;;;###autoload
+(defun my/replace-buffer-with-clipboard ()
+  "Replace the entire contents of the current buffer with the system clipboard."
+  (interactive)
+  (when-let* ((text (gui-get-selection 'CLIPBOARD 'STRING)))
+    (erase-buffer)
+    (insert text)
+    (goto-char (point-min))))
+
+;;;###autoload
 (defun emacs-lsp-booster-install ()
   "Install LSP booster with cargo."
   (interactive)
