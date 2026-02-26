@@ -1,12 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package buffer-env
-  :init
-  (add-hook 'hack-local-variables-hook #'buffer-env-update)
-  (add-hook 'comint-mode-hook #'buffer-env-update)
-  :custom
-  (buffer-env-script-name '(".venv/bin/activate" ".env" ".envrc")))
-
 ;;------------------------------------------------------------------------------
 ;; Python
 ;;------------------------------------------------------------------------------

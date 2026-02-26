@@ -1,6 +1,11 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
 (use-package buffer-env
+  :custom
+  (buffer-env-script-name '(".venv/bin/activate" ".env" ".envrc"))
+  :init
+  (add-hook 'hack-local-variables-hook #'buffer-env-update)
+  (add-hook 'comint-mode-hook #'buffer-env-update)
   :config
   (defvar buffer-env-trusted-dirs nil)
   (setq buffer-env-trusted-dirs '("~/work"))
