@@ -400,27 +400,13 @@
   :config
   (setq ob-mermaid-cli-path "aa-exec --profile=chrome mmdc"))
 
-(use-package ob-mermaid
+(use-package ob-ditaa
   :after org
   :config
   (setq org-ditaa-jar-path "~/.doom.d/ditaa.jar"))
 
-(use-package ob-mermaid
+(use-package org-crypt
   :after org
   :config
   (setq org-crypt-disable-auto-save t
         org-crypt-key nil))
-
-(use-package ob-mermaid
-  :after org
-  :config
-  (setq org-export-in-background nil
-
-        ;; html export
-        org-html-htmlize-output-type 'css
-        org-html-htmlize-font-prefix "org-"))
-
-(use-package ob-mermaid
-  :after org
-  :config
-  (setq org-indent-indentation-per-level 2))
