@@ -374,7 +374,7 @@
   ;; FIXME: doesn't work
   (defun base64-to-image-file (base64-string output-file)
     "Decode BASE64-STRING and save it as OUTPUT-FILE."
-    (when-let* ((decoded-bytes (base64-decode-string base64-string)))
+    (when-let* ((decoded-bytes (base64-decode-string base64-string nil t)))
       (with-temp-file output-file
         (insert decoded-bytes)) t))
 
