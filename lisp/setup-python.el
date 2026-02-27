@@ -70,7 +70,7 @@ or for a single package (uv-install \"mypy\")
     (interactive)
 
     (unless (getenv "VIRTUAL_ENV")
-      (when (yes-or-no-p "Virtual environment not active. Do you want to create want at project root?")
+      (when (yes-or-no-p "Virtual environment not active. Do you want to create at venv project root?")
         (when (shell-command (concat "uv venv --python 3.12 " (doom-project-root) ".venv"))
           (buffer-env-update))))
 
