@@ -207,7 +207,19 @@
   (map! :mode git-commit-mode :leader :prefix "m"
         :desc "GPTel Magit Commit Generate" "g"  #'gptel-magit-commit-generate)
 
-  (map! :map org-mode-map      "C-c <return>" #'gptel-send
+  (defun gptel-send-org-subtree (&optional arg)
+    "Send the current Org subtree to gptel.
+  With prefix ARG, open the gptel transient menu."
+    (interactive "P")
+    (save-mark-and-excursion
+      (org-back-to-heading t)
+      ;; get end of tree, subtract 1 to not include newline
+      (push-mark (- (save-excursion
+                       (org-end-of-subtree t t)
+                       (point)) 1) nil t)
+      (gptel-send arg)))
+
+  (map! :map org-mode-map      "C-c <return>" #'gptel-send-org-subtree
         :map markdown-mode-map "C-c <return>" #'gptel-send)
 
   (after! org-mode
