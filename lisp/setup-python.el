@@ -49,8 +49,23 @@
     (unless (or (executable-find "basedpyright")
                 (executable-find "pyright"))
       (warn "pyright/basedpyright not found! please install it"))
-    (unless (executable-find "mypy")
-      (warn "mypy not found! please install it")))
+    ;; (unless (executable-find "mypy")
+    ;;   (warn "mypy not found! please install it"))
+    )
+
+  (defun uv-tool (packages)
+    "Use uv tool to install a list of PACKAGES or a single package.
+
+e.g. (uv-install \\='(\"mypy\" \"flake8\"))
+
+or for a single package (uv-install \"mypy\")
+"
+    (let ((pkg-str
+           (cond
+            ((stringp packages) packages)
+            ((listp packages) (string-join packages " "))
+            (t (error "Unrecognized input to uv-tool.")))))
+      (compile (concat "uv tool install " pkg-str))))
 
   (defun uv-install (packages)
     "Use uv pip to install a list of PACKAGES or a single package.
@@ -147,4 +162,10 @@ or for a single package (uv-install \"mypy\")
   (map! :localleader :map code-cells-mode-map
         (:prefix-map ("e" . "eval")
          :desc "Eval code cell." "c" #'code-cells-eval
-         :desc "Eval code cells above." "C" #'code-cells-eval-above)))
+         :desc "Eval code cells above." "C" #'code-cells-eval-above))
+
+
+  (defun jupyter-install-nbdime ()
+    (unless (executable-find "nbdime")
+      (uv-tool "nbdime")
+      (shell-command "nbdime config-git --enable --global"))))
