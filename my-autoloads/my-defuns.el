@@ -404,6 +404,12 @@ Used by font-lock for dynamic highlighting."
 (defalias 'gvim #'open-buffer-in-vim)
 
 ;;;###autoload
+(defun vscode ()
+  "Opens the current buffer in vscode."
+  (interactive)
+  (call-process "code" nil t nil (buffer-file-name)))
+
+;;;###autoload
 (defun org-update-all-src-blocks ()
   "Update all org histograms blocks."
   (save-excursion

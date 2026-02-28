@@ -135,6 +135,8 @@ Opens the present working directory in external terminal." t)
 (fn CMD)")
 (autoload 'open-buffer-in-vim "my-autoloads/my-defuns" "\
 Opens the current buffer in gvim." t)
+(autoload 'vscode "my-autoloads/my-defuns" "\
+Opens the current buffer in vscode." t)
 (autoload 'org-update-all-src-blocks "my-autoloads/my-defuns" "\
 Update all org histograms blocks.")
 (autoload 'org-make-tables-pretty "my-autoloads/my-defuns" "\
