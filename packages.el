@@ -31,19 +31,19 @@
 
 ;; start:sort
 (package! backup-each-save        :pin "9d9714be7bf99b2a192587c1454822c69c61915e" :recipe (:host github :repo "andrewpeck/backup-each-save"))
-(package! bookmark-url.el         :pin "e11160fcb69ad8676d0ec7a440b71083b4703423" :recipe (:host github :repo "andrewpeck/bookmark-url.el"))
+(package! bookmark-url.el         :pin "c5081e35c3d1f746ef8754ff8378dc27052fa907" :recipe (:host github :repo "andrewpeck/bookmark-url.el"))
 (package! buffer-flip.el          :pin "ace8d64583896fd3c4c97de7a20e4428b6966f2c" :recipe (:host github :repo "andrewpeck/buffer-flip.el"))
 (package! cloc.el                 :pin "6eaf53efb1dac2ba2773ec3acb74eeaf2fec0a67" :recipe (:host github :repo "andrewpeck/cloc.el"))
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! hdl_deps                :pin "6adb437647edc9e17ce1ddf6e88f2571f8945179" :recipe (:host github :repo "andrewpeck/hdl_deps"))
-(package! hog.el                  :pin "893dc124ce3e48f99e995749788f329fa36adc6c" :recipe (:host github :repo "andrewpeck/hog.el"))
+(package! hog.el                  :pin "0e3fcab8fa7c2725aac2c7cf02ab6343a02d6e68" :recipe (:host github :repo "andrewpeck/hog.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-excalidraw          :pin "0e5365ce2237fd684b20a8b95a4967d850e20333" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
-(package! resume.el               :pin "779744fc71226f03d6b85ceec004dabc0b2c2b45" :recipe (:host github :repo "andrewpeck/resume.el"))
-(package! system-install.el       :pin "80951d1eab707bb0aede77263726ca6209eaf21a" :recipe (:host github :repo "andrewpeck/system-install.el"))
+(package! resume.el               :pin "062dc93dcc5200bf92fcf49507666845b80dc09c" :recipe (:host github :repo "andrewpeck/resume.el"))
+(package! system-install.el       :pin "399c5025c11fdd9b952340e4acd27fd3a2ed4be5" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! timesheet               :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
 (package! verilog-port-copy       :pin "b83145b1106d12d0d258cb44c2ed39126be0dca1" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
-(package! vivado_mode             :pin "d0192c2919855bbc96f269f75b49a5a95242eeb1" :recipe (:host github :repo "andrewpeck/vivado_mode"))
+(package! vivado_mode             :pin "83b636936107da4cbe1783f2b850ba91c2d1af36" :recipe (:host github :repo "andrewpeck/vivado_mode"))
 ;; end:sort
 
 ;; Misc packages
