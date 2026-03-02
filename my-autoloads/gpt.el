@@ -6,7 +6,7 @@
 
 (defvar gpt-api-key "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" "A key for openai.")
 (defvar gpt-cost-per-token (/ 2.0 1000.0) "Cost for single GPT token.")
-(defvar gpt-text-model "gpt-4o" "Model used by gpt.")
+(defvar gpt-text-model "gpt-5-mini" "Model used by gpt.")
 
 (defvar gpt-max-tokens 1024 "Max number of tokens.")
 (defvar gpt-temperature 0.7 "GPT Temperature.")
