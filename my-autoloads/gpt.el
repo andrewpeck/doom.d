@@ -12,14 +12,12 @@
 (defvar gpt-temperature 0.7 "GPT Temperature.")
 (defvar gpt-top-p 1 "GPT Top_p. Distribution of probably of common tokens.")
 
-(defun gpt--api-call (prompt callback)
+(defun gpt--api-call (prompt &optional callback)
   "Posts a GPT api request based on the PROMPT, and execute CALLBACK on it.
 
 The callback will be executed asynchronously."
 
   (let* ((json-array-type 'list)
-         (callback (or callback 'sync))
-
          (post-body
           (json-encode (list (cons "model" gpt-text-model)
                              (cons "max_tokens" gpt-max-tokens)
@@ -38,69 +36,55 @@ The callback will be executed asynchronously."
                      :headers post-headers
                      :body post-body
                      :as #'json-read
-                     :then (lambda (alist)
-                             (funcall callback alist)))))
-
-    ;; (message (format  "GPT Posting: %s %s" post-headers post-body))
-    ;; (when response )
+                     :then (if callback
+                               (lambda (alist) (funcall callback alist))
+                             'sync))))
 
     ;; return the response
     response))
 
-
 (defun gpt--extract-message (response)
   "Extract the message from a GPT RESPONSE decoded json data structure."
-  (when response
-    (let ((msg (or (cdr  (assoc 'content (assoc 'message (aref  (cdr (assoc 'choices response)) 0))))
-                        (cdr (assoc 'content (-filter 'consp (-flatten response)))))))
-      (unless msg
-        (error (format "No reponse from GPT query! %s" response))) msg)))
+  (let ((msg
+         (thread-last response
+                      (assoc 'choices)
+                      (cdr)
+                      (car)
+                      (assoc 'message)
+                      (assoc 'content)
+                      (cdr))))
+    (unless msg
+      (error (format "No reponse from GPT query! %s" response)))
+    msg))
 
 (defun gpt--process-response (json &optional _prompt buffer-name buffer-point)
-  ""
+  "Process the JSON response from the GPT API and display it.
 
+If JSON is nil, display an error message. If BUFFER-NAME is provided,
+insert the response at BUFFER-POINT in that buffer. Otherwise, open or
+create a buffer named \"*gpt*\" in Org mode and display the response
+there. Optionally display token usage if available. JSON is the API
+response, BUFFER-NAME is the optional buffer to display the response,
+and BUFFER-POINT is the position in BUFFER-NAME to insert the response."
   (save-excursion
-    (if (not json)
-        (message "GPT API call failed!")
-
-      (let ((response (gpt--extract-message json))
-            (usage (cdr (assoc 'total_tokens (assoc 'usage json)))))
-
+    (if (not json) (message "GPT API call failed!")
+      (let
+          ((response (gpt--extract-message json))
+           (usage (cdr (assoc 'total_tokens (assoc 'usage json)))))
         (when response
-
           (when usage
             (message "Usage: %d tokens (%f cents)" usage
                      (* usage gpt-cost-per-token)))
-
           (if buffer-name
-
               (with-current-buffer buffer-name
-                (goto-char buffer-point)
-                (insert (format "\n%s\n" response)))
-
+                (goto-char buffer-point) (insert (format "\n%s\n" response)))
             (progn
-
-              (pop-to-buffer (get-buffer-create "*gpt*"))
-              (org-mode)
-
-              (goto-char (point-min))
-              (insert "* GPT Response\n")
-
-              ;; (when prompt
-              ;;   (insert "** Prompt\n")
-              ;;   (insert "#+begin_src markdown\n")
-              ;;   (insert prompt)
-              ;;   (insert "\n#+end_src\n"))
-
-              (insert "** Reponse\n")
-              (insert "#+begin_src markdown\n")
-              (insert response)
-              (insert "\n#+end_src\n")
-
-              (newline)
+              (pop-to-buffer (get-buffer-create "*gpt*")) (org-mode)
+              (goto-char (point-min)) (insert "* GPT Response\n")
+              (insert "** Reponse\n") (insert "#+begin_src markdown\n")
+              (insert response) (insert "\n#+end_src\n") (newline)
               (goto-char (point-min)))))))))
-
-(defun gpt--execute-prompt (prompt &optional buffer-name buffer-point)
+(defun gpt--execute-prompt (prompt &optional buffer-name buffer-point no-region)
   "Execute a GPT-based prompt with or without a selection.
 
 PROMPT is a string representing the initial prompt for the GPT
@@ -109,7 +93,7 @@ text is included in the query to the GPT model, formatted as an
 extension of the prompt."
 
   (let ((selection nil))
-    (when (region-active-p)
+    (when (and (not no-region) (region-active-p))
       (setq selection (buffer-substring-no-properties
                        (region-beginning)
                        (region-end))))
@@ -123,7 +107,7 @@ extension of the prompt."
   (interactive)
   (let ((prompt
          (or (read-string "Command: ")
-          "You are a helpful coding assistant for an
+             "You are a helpful coding assistant for an
  electronics and FPGA engineer. Please answer concisely. Please describe
  the following code or following the instructions.")))
     (gpt--execute-prompt prompt)))
@@ -191,5 +175,25 @@ extension of the prompt."
   "Dear AI, refactor please!!"
   (interactive)
   (gpt--execute-prompt "Please refactor the following code and describe what you changed. Answer formatted in in markdown."))
+
+;;;###autoload
+(defun gpt-get-docstring ()
+  "Insert/overwrite the docstring for the current defun."
+  (interactive)
+  (save-excursion
+    (if-let* ((bounds (bounds-of-thing-at-point 'defun))
+              (beg (car bounds)) (end (cdr bounds))
+              (form-str (buffer-substring-no-properties beg end))
+              (doc (string-trim
+                    (gpt--extract-message (gpt--api-call
+                                           (concat
+                                            (format "Please write a concise docstring for this function being developed in %s." major-mode)
+                                            (format "The docstring should follow standard %s conventions" major-mode)
+                                            "No markdown. No added commentary. No code fences. Just a bare docstring. No outer quotes."
+                                            (when (equal major-mode 'emacs-lisp-mode)
+                                              "Use `..' for single quotes. First line should be less than 80 characters. Insert a blank between the first and second lines.")
+                                            form-str))))))
+        (kill-new doc)
+      (error "Failed to get function definition"))))
 
 (provide 'gpt)
