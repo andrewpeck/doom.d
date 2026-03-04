@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: elsif
-# uuid: vhdl-if
+# uuid: vhdl-elsif
 # key: elsif
 # condition: t
 # --
