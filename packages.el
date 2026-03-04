@@ -42,7 +42,7 @@
 (package! resume.el               :pin "062dc93dcc5200bf92fcf49507666845b80dc09c" :recipe (:host github :repo "andrewpeck/resume.el"))
 (package! system-install.el       :pin "399c5025c11fdd9b952340e4acd27fd3a2ed4be5" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! timesheet               :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
-(package! verilog-port-copy       :pin "b83145b1106d12d0d258cb44c2ed39126be0dca1" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
+(package! verilog-port-copy       :pin "1bae878ff579bd5dea39575eaaec7356e1a3089d" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! vivado_mode             :pin "83b636936107da4cbe1783f2b850ba91c2d1af36" :recipe (:host github :repo "andrewpeck/vivado_mode"))
 ;; end:sort
 
