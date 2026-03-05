@@ -21,8 +21,14 @@
     ;; some other hook overwriting it?
     (treesit--explorer-post-command)))
 
-  (define-derived-mode verilog-ts-mode verilog-mode "Verilog"
-    "A mode for Verilog."
-    (when (treesit-ready-p 'verilog)
-      (treesit-parser-create 'verilog)
-      (treesit-major-mode-setup))))
+(define-derived-mode verilog-ts-mode verilog-mode "Verilog"
+  "A mode for Verilog."
+  (when (treesit-ready-p 'verilog)
+    (treesit-parser-create 'verilog)
+    (treesit-major-mode-setup)))
+
+(define-derived-mode vhdl-ts-mode vhdl-mode "Vhdl"
+  "A mode for Vhdl."
+  (when (treesit-ready-p 'vhdl)
+    (treesit-parser-create 'vhdl)
+    (treesit-major-mode-setup)))
