@@ -377,6 +377,34 @@ _h_ decrease width    _l_ increase width
         (copyright-update nil t)
         (copyright-fix-years))))
 
+  (defun copyright-update-year (replace noquery)
+    "Modified version of copyright-update year which always uses ranges instead of comma separated years."
+    ;; This uses the match-data from copyright-find-copyright/end.
+    (goto-char (match-end 1))
+    (copyright-find-end)
+    (setq copyright-current-year (format-time-string "%Y"))
+    (unless (string= (buffer-substring (- (match-end 3) 2) (match-end 3))
+                     (substring copyright-current-year -2))
+      (if (or noquery
+              (save-window-excursion
+                (save-excursion
+                  (switch-to-buffer (current-buffer))
+                  (y-or-n-p (if replace
+                                (concat "Replace copyright year(s) by "
+                                        copyright-current-year "? ")
+                              (concat "Add " copyright-current-year
+                                      " to copyright? "))))))
+          (if replace
+              (replace-match copyright-current-year t t nil 3)
+            (let ((size (save-excursion (skip-chars-backward "0-9"))))
+              (if (or (memq (char-after (+ (point) size -1)) '(?- ?–))
+                      (memq (char-after (+ (point) size -2)) '(?- ?–)))
+                  ;; Existing range: replace the end year.
+                  (delete-char size)
+                ;; Single year or comma list: start a range.
+                (insert "-"))
+              (insert (substring copyright-current-year size)))))))
+
   (add-to-list 'before-save-hook t)
   (add-hook 'before-save-hook 'my/update-copyright)
 
