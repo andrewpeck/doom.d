@@ -1,104 +1,68 @@
 ;; -*- lexical-binding: t; -*-
 
-(require 'plz)
-(require 'json)
-(require 'dash)
+(defun openai (prompt &optional model)
+  "Query the OpenAI API with PROMPT, returning the response as a string.
 
-(defvar gpt-api-key "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" "A key for openai.")
-(defvar gpt-cost-per-token (/ 2.0 1000.0) "Cost for single GPT token.")
-(defvar gpt-text-model "gpt-5-mini" "Model used by gpt.")
+Optionally select a MODEL"
+  (let* ((model (or model "gpt-4o-mini"))
+         (script (format "import sys
+from openai import OpenAI
+client = OpenAI()
+resp = client.responses.create(model=%S, input=sys.stdin.read())
+print(resp.output_text)" model))
+         (out-buf (generate-new-buffer " *openai-output*"))
+         (output (unwind-protect
+                     (progn
+                       (with-temp-buffer
+                         (insert prompt)
+                         (call-process-region (point-min) (point-max)
+                                              "/usr/bin/python3" nil out-buf nil
+                                              "-c" script))
+                       (with-current-buffer out-buf (buffer-string)))
+                   (kill-buffer out-buf)))
+         (output (string-trim-right output "\n")))
+    (when (or (not output) (string-empty-p output))
+      (user-error "No response from OpenAI API"))
+    output))
 
-(defvar gpt-max-tokens 1024 "Max number of tokens.")
-(defvar gpt-temperature 0.7 "GPT Temperature.")
-(defvar gpt-top-p 1 "GPT Top_p. Distribution of probably of common tokens.")
+(defun gpt--process-response (response &optional buffer-name buffer-point)
+  "Process the RESPONSE from the GPT API and display it.
 
-(defun gpt--api-call (prompt &optional callback)
-  "Posts a GPT api request based on the PROMPT, and execute CALLBACK on it.
-
-The callback will be executed asynchronously."
-
-  (let* ((json-array-type 'list)
-         (post-body
-          (json-encode (list (cons "model" gpt-text-model)
-                             (cons "max_tokens" gpt-max-tokens)
-                             (cons "temperature" gpt-temperature)
-                             (cons "messages"
-                                   (list (list (cons "role" "user")
-                                               (cons "content" prompt))))
-                             (cons "top_p" gpt-top-p)
-                             (cons "frequency_penalty" 0)
-                             (cons "presence_penalty" 0))))
-
-         (post-headers `(("Content-Type" . "application/json")
-                         ("Authorization" . ,(concat  "Bearer " gpt-api-key))))
-
-         (response (plz 'post "https://api.openai.com/v1/chat/completions"
-                     :headers post-headers
-                     :body post-body
-                     :as #'json-read
-                     :then (if callback
-                               (lambda (alist) (funcall callback alist))
-                             'sync))))
-
-    ;; return the response
-    response))
-
-(defun gpt--extract-message (response)
-  "Extract the message from a GPT RESPONSE decoded json data structure."
-  (let ((msg
-         (thread-last response
-                      (assoc 'choices)
-                      (cdr)
-                      (car)
-                      (assoc 'message)
-                      (assoc 'content)
-                      (cdr))))
-    (unless msg
-      (error (format "No reponse from GPT query! %s" response)))
-    msg))
-
-(defun gpt--process-response (json &optional _prompt buffer-name buffer-point)
-  "Process the JSON response from the GPT API and display it.
-
-If JSON is nil, display an error message. If BUFFER-NAME is provided,
-insert the response at BUFFER-POINT in that buffer. Otherwise, open or
-create a buffer named \"*gpt*\" in Org mode and display the response
-there. Optionally display token usage if available. JSON is the API
-response, BUFFER-NAME is the optional buffer to display the response,
-and BUFFER-POINT is the position in BUFFER-NAME to insert the response."
+If BUFFER-NAME is provided,insert the response at BUFFER-POINT in that
+buffer. Otherwise, open or create a buffer named \"*gpt*\" in Org mode
+and display the response there."
   (save-excursion
-    (if (not json) (message "GPT API call failed!")
-      (let
-          ((response (gpt--extract-message json))
-           (usage (cdr (assoc 'total_tokens (assoc 'usage json)))))
-        (when response
-          (when usage
-            (message "Usage: %d tokens (%f cents)" usage
-                     (* usage gpt-cost-per-token)))
-          (if buffer-name
-              (with-current-buffer buffer-name
-                (goto-char buffer-point) (insert (format "\n%s\n" response)))
-            (progn
-              (pop-to-buffer (get-buffer-create "*gpt*")) (org-mode)
-              (goto-char (point-min)) (insert "* GPT Response\n")
-              (insert "** Reponse\n") (insert "#+begin_src markdown\n")
-              (insert response) (insert "\n#+end_src\n") (newline)
-              (goto-char (point-min)))))))))
+    (when response
+      (if buffer-name
+          (with-current-buffer buffer-name
+            (goto-char buffer-point) (insert (format "\n%s\n" response)))
+        (progn
+          (pop-to-buffer (get-buffer-create "*gpt*")) (org-mode)
+          (goto-char (point-min)) (insert "* GPT Response\n")
+          (insert "** Reponse\n") (insert "#+begin_src markdown\n")
+          (insert response) (insert "\n#+end_src\n") (newline)
+          (goto-char (point-min)))))))
+
 (defun gpt--execute-prompt (prompt &optional buffer-name buffer-point no-region)
   "Execute a GPT-based prompt with or without a selection.
 
 PROMPT is a string representing the initial prompt for the GPT
 model. If a region is active in the current buffer, the selected
 text is included in the query to the GPT model, formatted as an
-extension of the prompt."
+extension of the prompt.
+
+Output will go to BUFFER-NAME."
 
   (let ((selection nil))
     (when (and (not no-region) (region-active-p))
       (setq selection (buffer-substring-no-properties
                        (region-beginning)
                        (region-end))))
-    (let* ((query (if selection (format "%s .\\n\\n%s" prompt selection) prompt)))
-      (gpt--api-call query (lambda (x) (gpt--process-response x query buffer-name buffer-point))))))
+    (let* ((query (if selection (format "%s .\\n\\n%s" prompt selection) prompt))
+           (response (openai query)))
+      (gpt--process-response response
+                             buffer-name
+                             buffer-point))))
 
 ;;;###autoload
 (defun gpt-prompt ()
@@ -184,16 +148,20 @@ extension of the prompt."
     (if-let* ((bounds (bounds-of-thing-at-point 'defun))
               (beg (car bounds)) (end (cdr bounds))
               (form-str (buffer-substring-no-properties beg end))
-              (doc (string-trim
-                    (gpt--extract-message (gpt--api-call
-                                           (concat
-                                            (format "Please write a concise docstring for this function being developed in %s." major-mode)
-                                            (format "The docstring should follow standard %s conventions" major-mode)
-                                            "No markdown. No added commentary. No code fences. Just a bare docstring. No outer quotes."
-                                            (when (equal major-mode 'emacs-lisp-mode)
-                                              "Use `..' for single quotes. First line should be less than 80 characters. Insert a blank between the first and second lines.")
-                                            form-str))))))
-        (kill-new doc)
+              (prompt (string-join
+                       (list
+                        (format "Please write a concise docstring for this function being developed in %s." major-mode)
+                        (format "The docstring should follow standard %s conventions." major-mode)
+                        "No markdown. No added commentary. No code fences. Just a bare docstring. No outer quotes."
+                        ;; (when (equal major-mode 'emacs-lisp-mode)
+                        ;;   "Use \`..\' for single quotes. First line should be less than 80 characters. Insert a blank between the first and second lines. The code is: \n"
+                        ;;   )
+                        form-str
+                        ) " "))
+              (doc (openai prompt)))
+        (progn
+          (message doc)
+          (kill-new doc))
       (error "Failed to get function definition"))))
 
 (provide 'gpt)

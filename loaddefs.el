@@ -31,7 +31,9 @@ Dear AI, improve please!!" t)
 Dear AI, help please!!" t)
 (autoload 'gpt-refactor "my-autoloads/gpt" "\
 Dear AI, refactor please!!" t)
-(register-definition-prefixes "my-autoloads/gpt" '("gpt-"))
+(autoload 'gpt-get-docstring "my-autoloads/gpt" "\
+Insert/overwrite the docstring for the current defun." t)
+(register-definition-prefixes "my-autoloads/gpt" '("gpt--" "openai"))
 
 
 ;;; Generated autoloads from my-autoloads/my-defuns.el
