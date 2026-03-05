@@ -4,6 +4,9 @@
 
   :config
 
+  (add-to-list 'treesit-language-source-alist '(verilog "https://github.com/gmlarumbe/tree-sitter-systemverilog" nil nil nil nil))
+  (add-to-list 'treesit-language-source-alist '(systemverilog "https://github.com/gmlarumbe/tree-sitter-systemverilog" nil nil nil nil))
+
   (add-hook 'markdown-mode-hook #'markdown-ts-mode)
 
   (set-tree-sitter! 'verilog-mode 'verilog-ts-mode
