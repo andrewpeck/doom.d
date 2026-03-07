@@ -149,3 +149,10 @@
   ;; HACK for using nobreak-space in modeline
   (custom-theme-set-faces! 'doom-spacegrey
     '(nobreak-space :inherit modeline)))
+
+(defun reload-frame-theme (frame)
+  (with-selected-frame frame
+    (load-theme doom-theme)))
+
+(add-hook 'after-make-frame-functions
+          #'reload-frame-theme)
