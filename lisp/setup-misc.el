@@ -318,7 +318,7 @@ _h_ decrease width    _l_ increase width
 
 (use-package smartparens
   :custom
-  ; disable smartparens/automatic parentheses completion
+  ;; disable smartparens/automatic parentheses completion
   (smartparens-global-mode nil)
   (smartparens-mode nil))
 
@@ -578,28 +578,28 @@ _h_ decrease width    _l_ increase width
 
 (run-when-idle 1
 
-          ;; calling +lookup/documentation annoyingly moves the cursor to the other window
-          ;; just add some advice to move it back
-          (advice-add '+lookup/documentation :around
-                      (lambda (orig-fun &rest args)
-                        (let ((current (selected-window)))
-                          (apply orig-fun args)
-                          (select-window current))))
+               ;; calling +lookup/documentation annoyingly moves the cursor to the other window
+               ;; just add some advice to move it back
+               (advice-add '+lookup/documentation :around
+                           (lambda (orig-fun &rest args)
+                             (let ((current (selected-window)))
+                               (apply orig-fun args)
+                               (select-window current))))
 
-          (defun advice/close-lookup-maybe (_id &rest _arg)
-            "Repeated invotations of +lookup/documentation will simply toggle the
+               (defun advice/close-lookup-maybe (_id &rest _arg)
+                 "Repeated invotations of +lookup/documentation will simply toggle the
 help instead of keeping it open."
-            (let ((buffers (seq-filter (lambda (buf)
-                                         (or (string-prefix-p "*eglot-help" (buffer-name buf))
-                                             (string-prefix-p "*helpful " (buffer-name buf))))
-                                       (buffer-list))))
-              (when buffers
-                (mapc #'kill-buffer buffers))
+                 (let ((buffers (seq-filter (lambda (buf)
+                                              (or (string-prefix-p "*eglot-help" (buffer-name buf))
+                                                  (string-prefix-p "*helpful " (buffer-name buf))))
+                                            (buffer-list))))
+                   (when buffers
+                     (mapc #'kill-buffer buffers))
 
-              buffers))
+                   buffers))
 
-          (advice-add #'+lookup/documentation :before-until
-                      #'advice/close-lookup-maybe))
+               (advice-add #'+lookup/documentation :before-until
+                           #'advice/close-lookup-maybe))
 
 ;;------------------------------------------------------------------------------
 ;; Time
