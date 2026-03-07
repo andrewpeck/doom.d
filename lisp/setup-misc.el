@@ -183,6 +183,10 @@
   :commands (gptel-magit-commit-generate))
 
 (defun ChatGPT ()
+  "Open or toggle the Chat.org buffer using gptel-mode.
+
+If Chat.org is already visible, toggle its popup. Otherwise, create a
+new Chat.org file and activate gptel-mode."
   (interactive)
   (if (member "Chat.org" (mapcar #'buffer-name (doom-visible-buffers)))
       (+popup/toggle)
