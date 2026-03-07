@@ -359,7 +359,7 @@
 
   :config
 
-  (defun +org-remote-image-data-fn (ov _link elem)
+  (defun my/+org-remote-image-data-fn (ov _link elem)
     "Interpret LINK as an URL to an image file."
     (let ((link (org-element-property :raw-link elem)))
 
@@ -391,12 +391,11 @@
      ((string-prefix-p "RIFF" decoded) "webp")
      (t nil)))
 
-  (defun +org-inline-image-data-fn (ov link _elem)
+  (defun my/+org-inline-image-data-fn (ov link _elem)
     "Interpret LINK as base64-encoded image data."
     (when-let* ((decoded-bytes (base64-decode-string link nil t))
                 (extension (base64-image-extension decoded-bytes)))
-      (let ((output-file (concat (make-temp-file "org-preview-")
-                                 "." extension)))
+      (let ((output-file (concat (make-temp-file "org-preview-") "." extension)))
         (with-temp-file output-file
           (insert decoded-bytes))
           (org-link-preview-file ov output-file link))))
@@ -408,10 +407,9 @@
       (if (and result (string-prefix-p "LINK: img:" result))
           "Base64 encoded image" result)))
 
-  (org-link-set-parameters "img"     :preview #'+org-inline-image-data-fn)
-  (org-link-set-parameters "http"    :preview #'+org-remote-image-data-fn)
-  (org-link-set-parameters "https"   :preview #'+org-remote-image-data-fn))
-
+  (org-link-set-parameters "img"     :preview #'my/+org-inline-image-data-fn)
+  (org-link-set-parameters "http"    :preview #'my/+org-remote-image-data-fn)
+  (org-link-set-parameters "https"   :preview #'my/+org-remote-image-data-fn))
 
 (use-package ob-mermaid
   :after org
