@@ -28,19 +28,15 @@
         (pcase (downcase (system-name))
           ;; doom-laserwave doom-one doom-gruvbox
           ("pepper"      'doom-laserwave)
-          ("larry"       'doom-gruvbox)
           ("strange"     'doom-spacegrey)
-          ("apeck-len01" 'doom-gruvbox)
-          (_             'doom-spacegrey))))
+          (_             'doom-gruvbox))))
 
 (setq ap/light-theme
   (if (not (display-graphic-p)) 'summerfruit
     (pcase (downcase (system-name))
-      ("apeck-len01"  'modus-operandi)
       ("pepper"       'doom-one-light)
-      ("larry"        'modus-operandi)
       ("strange"      'summerfruit)
-      (_              'summerfruit))))
+      (_              'standard-light))))
 
 (defvar dark-mode 'dark)
 
