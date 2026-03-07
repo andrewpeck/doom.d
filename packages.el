@@ -108,7 +108,7 @@
 (package! vim-tab-bar.el          :pin "534c0a42e40e867e144efbaa55b1ebc116ed0c60" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
 (package! uniline                 :pin "22dd38567012467a912f4d32e10444a7ff7a3103" :recipe (:host github :repo "tbanel/uniline"))
 (package! vimrc-mode              :pin "f594392a0834193a1fe1522d007e1c8ce5b68e43")
-(package! visual-fill-column      :pin "aeca29f8ce16b21dce9a989461e7fa445f6ecfd5" :recipe (:host codeberg :repo "joostkremers/visual-fill-column"))
+(package! visual-fill-column      :pin "e1be9a1545157d24454d950c0ac79553c540edb7" :recipe (:host codeberg :repo "joostkremers/visual-fill-column"))
 (package! wavedrom-mode           :pin "43e4fb89b35e5c899d08b01efa310ddf482e6f4e" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
 (package! xr                      :pin "07369f3ceeda919b06d2356d66bfbcbf8975d09d")                           ; xr is rx in reverse
 ;; end:sort
