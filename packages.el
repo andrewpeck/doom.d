@@ -110,7 +110,7 @@
 (package! vimrc-mode              :pin "f594392a0834193a1fe1522d007e1c8ce5b68e43")
 (package! visual-fill-column      :pin "aeca29f8ce16b21dce9a989461e7fa445f6ecfd5" :recipe (:host codeberg :repo "joostkremers/visual-fill-column"))
 (package! wavedrom-mode           :pin "43e4fb89b35e5c899d08b01efa310ddf482e6f4e" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
-(package! xr                      :pin "4088798ad47d0d57cd67a8129a101645978ab1bd")                           ; xr is rx in reverse
+(package! xr                      :pin "07369f3ceeda919b06d2356d66bfbcbf8975d09d")                           ; xr is rx in reverse
 ;; end:sort
 
 ;; (package! tramp-hlo               :pin "b726b4042e96ac5cead396c8d12c01e6bad2bd78" :recipe (:host github :repo "jsadusk/tramp-hlo"))
