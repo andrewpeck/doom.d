@@ -66,7 +66,7 @@
 (package! devdocs.el              :pin "25c746024ddf73570195bf42b841f761a2fee10c" :recipe (:host github :repo "astoff/devdocs.el"))
 (package! dired-filter            :pin "de9336f4b47ef901799fe95315fa080fa6d77b48" :recipe (:host github :repo "Fuco1/dired-hacks"))
 (package! dired-git-info          :pin "1bfcdf139181afc9034a40dd0640e53d95b12f5f" :recipe (:host github :repo "tuh8888/dired-git-info"))
-(package! dired-preview           :pin "3e3780a3becb53009593cb3dbfbef987ea286a2f" :recipe (:host github :repo "protesilaos/dired-preview"))
+(package! dired-preview           :pin "b0cba0825d2eea2ac6d9a8ef65a73b6186e6d294" :recipe (:host github :repo "protesilaos/dired-preview"))
 (package! drag-stuff              :pin "6d06d846cd37c052d79acd0f372c13006aa7e7c8")
 (package! dwim-shell-command      :pin "5ffad4ac5702e046166d0f59a3d3d790aa8274a2" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! elfeed                  :pin "a39fb78e34ee25dc8baea83376f929d7c128344f" :recipe (:host github :repo "skeeto/elfeed"))
