@@ -225,6 +225,7 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 
 (after! python
+  (global-flycheck-eglot-mode 1)
   (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
 
   (add-hook! '(python-mode-hook python-ts-mode-hook)
