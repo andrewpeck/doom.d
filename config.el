@@ -76,15 +76,15 @@
 ;; Mode aliases
 ;;------------------------------------------------------------------------------
 
-;; enable syntax highlighting for vimrc files
+;; enable syntax highlighting for abnormal files
 (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))   ; vimrc
-(add-to-list 'auto-mode-alist '("\\.xdc\\'"          . vivado-mode))  ; tcl mode for xdc files
-(add-to-list 'auto-mode-alist '("\\.qel\\'"          . tcl-mode))     ; tcl mode for cadence files
-(add-to-list 'auto-mode-alist '("\\.sdc\\'"          . tcl-mode))     ; tcl mode for sdc files
-(add-to-list 'auto-mode-alist '("\\.ltx\\'"          . json-mode))    ; json mode for ltx files
-(add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; cpp mode for arduino files
-(add-to-list 'auto-mode-alist '("\\.src\\'"          . hog-src-mode)) ;
-(add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; yaml mode for cheby
+(add-to-list 'auto-mode-alist '("\\.xdc\\'"          . vivado-mode))  ; vivado xdc
+(add-to-list 'auto-mode-alist '("\\.ltx\\'"          . json-mode))    ; vivado ltx
+(add-to-list 'auto-mode-alist '("\\.qel\\'"          . tcl-mode))     ; cadence script
+(add-to-list 'auto-mode-alist '("\\.sdc\\'"          . tcl-mode))     ; synopsys sdc
+(add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; arduino
+(add-to-list 'auto-mode-alist '("\\.src\\'"          . hog-src-mode)) ; hog
+(add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; cheby
 (add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
 
 ;; Sibling File Rules
