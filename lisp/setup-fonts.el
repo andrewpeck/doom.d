@@ -16,13 +16,13 @@
 
  ;; M-x describe-font
  (setq my/preferred-fonts
-   `(("Hack Nerd Font"           23 18)
+   `(("Comic Code"               24 14)
+     ("Hack Nerd Font"           23 18)
      ("AdwaitaMono Nerd Font"    21 16)
      ("Berkeley Mono"            24 20)
      ("InconsolataGo Nerd Font"  26 19)
      ("Julia Mono"               21 16)
      ("JetBrains Mono"           23 20)
-     ("Comic Code"               22 14)
      ("Inconsolata"              19 18)
      ("Roboto Mono"              22 19)
      ("Noto Mono"                19 15)
