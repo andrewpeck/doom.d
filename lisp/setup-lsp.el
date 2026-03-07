@@ -7,7 +7,14 @@
       :desc "LSP"
       (:prefix ("l" . "LSP")
                "l" (lambda () (interactive) (eglot-ensure))
-               "d" #'eglot-shutdown-all))
+               "d" (lambda () (interactive)
+                     (flycheck-eglot-mode -1)
+                     (eglot-inlay-hints-mode -1)
+                     (when-let* ((timer eglot--outstanding-inlay-regions-timer))
+                       (cancel-timer timer))
+                     (when-let* ((current-server (eglot-current-server)))
+                       (ignore-errors (eglot-shutdown current-server))
+                       (message "Shut down %s" current-server)))))
 
 (use-package lsp-mode
   :when (modulep! :tools lsp -eglot)
