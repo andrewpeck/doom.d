@@ -99,7 +99,7 @@
 (package! rainbow-mode            :pin "2e6b18609c2fdd1a2dc513937a64d276fd6cf24c")
 (package! scad-mode               :pin "b130730a3123387e69c85cf10633701ea447fa2a")
 (package! screenshot              :pin "2770c0cfefe1cc09d55585f4f2f336a1b26e610e" :recipe (:host github :repo "tecosaur/screenshot"))
-(package! standard-themes         :pin "a341ec1ef416bcadc90b1a49e2163a51c401f8d8" :recipe (:host github :repo "protesilaos/standard-themes"))
+(package! standard-themes         :pin "10af6659bf2a63212fcd83fcd1106d0468d53308" :recipe (:host github :repo "protesilaos/standard-themes"))
 (package! string-edit-at-point    :pin "87936d816ae24184dd83688136531b6b6f1943fe" :recipe (:host github :repo "emacsmirror/string-edit-at-point"))
 (package! svg-tag-mode            :pin "13e888b8bd9a0664d060149a44a751b2113331b6" :recipe (:host github :repo "rougier/svg-tag-mode"))
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
