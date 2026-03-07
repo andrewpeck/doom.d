@@ -58,7 +58,11 @@
          (name (car font))
          (size (if (hd?) (nth 1 font) (nth 2 font))))
     (when font
-      (setq doom-variable-pitch-font (font-spec :family name :size size)))))
+      (setq doom-variable-pitch-font (font-spec :family name :size size))))
+
+  (if (string= (font-get doom-font :family) "Comic Code")
+      (setq-default line-spacing 0.2)
+    (setq-default line-spacing 0)))
 
 (advice-add #'doom/reload-font :before #'ap/update-font-list)
 (ap/update-font-list)
