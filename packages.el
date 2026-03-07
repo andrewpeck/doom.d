@@ -90,7 +90,7 @@
 (package! ob-mermaid              :pin "4f814ad5e1b96764af52d53799288ff3acc94b47" :recipe (:host github :repo "arnm/ob-mermaid"))
 (package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))
 (package! org-download            :pin "c8be2611786d1d8d666b7b4f73582de1093f25ac" :recipe (:host github :repo "abo-abo/org-download"))
-(package! org-mode                :pin "93b79549f62bdc522caa2a3eb88bb5f6d2c9563c" :recipe (:host github :repo "emacs-straight/org-mode"))
+(package! org-mode                :pin "1025e3b49a98f175b124dbccd774918360fe7e11" :recipe (:host github :repo "emacs-straight/org-mode"))
 (package! org-web-tools           :pin "7a6498f442fc7f29504745649948635c7165d847")
 (package! p-search                :pin "c382c80947a95825e258332d6f89bd6be496d914" :recipe (:host github :repo "zkry/p-search"))
 (package! plz                     :pin "981a4d09521ef59439713624702efcad996840a0")
