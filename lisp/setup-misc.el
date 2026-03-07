@@ -8,7 +8,7 @@
   (add-hook 'comint-mode-hook #'buffer-env-update)
   :config
   (defvar buffer-env-trusted-dirs nil)
-  (setq buffer-env-trusted-dirs '("~/work"))
+  (add-to-list 'buffer-env-trusted-dirs "~/work")
 
   (defun buffer-env-is-trusted-dir (file)
     (cl-some #'identity (mapcar (lambda (x) (file-in-directory-p file x)) buffer-env-trusted-dirs)))
