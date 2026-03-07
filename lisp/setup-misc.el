@@ -219,8 +219,8 @@ new Chat.org file and activate gptel-mode."
       (org-back-to-heading t)
       ;; get end of tree, subtract 1 to not include newline
       (push-mark (- (save-excursion
-                       (org-end-of-subtree t t)
-                       (point)) 1) nil t)
+                      (org-end-of-subtree t t)
+                      (point)) 1) nil t)
       (gptel-send arg)))
 
   (map! :map org-mode-map      "C-c <return>" #'gptel-send-org-subtree
