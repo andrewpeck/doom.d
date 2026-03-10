@@ -74,7 +74,7 @@
   (setq org-tags-exclude-from-inheritance (list "crypt")
         org-startup-numerated nil
         org-confirm-babel-evaluate nil
-        org-display-remote-inline-images 'download
+        org-display-remote-inline-images 'cache
 
         ;; org-plantuml-jar-path "~/.doom.d/plantuml.jar"
 
@@ -361,27 +361,26 @@
 
   (defun my/+org-remote-image-data-fn (ov _link elem)
     "Interpret LINK as an URL to an image file."
-    (let ((link (org-element-property :raw-link elem)))
+    ;; _link is the link sans http or https,
+    ;; e.g. http://somesite.com/someimage.png will be passed as
+    ;; _link = //somesite.com/someimage.png
+    ;; so we just get the raw link from the org element isntead
+    (when-let* ((link (org-element-property :raw-link elem))
+                (cache-file (and (image-supported-file-p link)
+                                 (not (eq org-display-remote-inline-images 'skip))
+                                 (concat temporary-file-directory
+                                         "org-preview/"
+                                         (buffer-name (overlay-buffer ov)) "/"
+                                         (file-name-nondirectory link)))))
+      ;; cache a local copy of the file
+      (when (or (eq org-display-remote-inline-images 'download)
+                (not (file-exists-p cache-file)))
+        (make-directory (file-name-directory cache-file) t)
+        (url-copy-file link cache-file t))
 
-      ;; _link is the link sans http or https,
-      ;; e.g. http://somesite.com/someimage.png will be passed as
-      ;; _link = //somesite.com/someimage.png
-      ;; so we just get the raw link from the org element isntead
-      (when-let* ((cache-file (and (image-supported-file-p link)
-                                    (not (eq org-display-remote-inline-images 'skip))
-                                    (concat temporary-file-directory
-                                            "org-preview/"
-                                            (buffer-name (overlay-buffer ov)) "/"
-                                            (file-name-nondirectory link)))))
-        ;;  cache a local copy of the file
-        (unless (file-exists-p cache-file)
-          (make-directory (file-name-directory cache-file) t)
-          (unless (url-copy-file link cache-file t)
-            (message "Download of image \"%s\" failed" link)))
-
-        ;; preview
-        (when (file-exists-p cache-file)
-          (org-link-preview-file ov cache-file link)))))
+      ;; preview
+      (when (file-exists-p cache-file)
+        (org-link-preview-file ov cache-file link))))
 
   (defun base64-image-extension (decoded)
     (cond
