@@ -105,7 +105,7 @@
 (package! toc-org                 :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
 (package! uniline                 :pin "1d62787fe6766d3f74a0665dfab945969520d4eb" :recipe (:host github :repo "tbanel/uniline"))
 (package! verilog-mode            :pin "54a0c9b5025aa73f585fc18560d724a60ca2e86c" :recipe (:host github :repo "veripool/verilog-mode"))
-(package! vim-tab-bar.el          :pin "a1bc1496e55a732e05186849221b9321132e7581" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
+(package! vim-tab-bar.el          :pin "210d6e14c413cf5eadf2fd9388fbb32755e90ef5" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
 (package! vimrc-mode              :pin "f594392a0834193a1fe1522d007e1c8ce5b68e43")
 (package! visual-fill-column      :pin "e1be9a1545157d24454d950c0ac79553c540edb7" :recipe (:host codeberg :repo "joostkremers/visual-fill-column"))
 (package! wavedrom-mode           :pin "43e4fb89b35e5c899d08b01efa310ddf482e6f4e" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
