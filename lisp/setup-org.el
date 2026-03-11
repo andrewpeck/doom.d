@@ -359,56 +359,12 @@
 
   :config
 
-  (defun my/+org-remote-image-data-fn (ov _link elem)
-    "Interpret LINK as an URL to an image file."
-    ;; _link is the link sans http or https,
-    ;; e.g. http://somesite.com/someimage.png will be passed as
-    ;; _link = //somesite.com/someimage.png
-    ;; so we just get the raw link from the org element isntead
-    (when-let* ((link (org-element-property :raw-link elem))
-                (cache-file (and (image-supported-file-p link)
-                                 (not (eq org-display-remote-inline-images 'skip))
-                                 (concat temporary-file-directory
-                                         "org-preview/"
-                                         (buffer-name (overlay-buffer ov)) "/"
-                                         (file-name-nondirectory link)))))
-      ;; cache a local copy of the file
-      (when (or (eq org-display-remote-inline-images 'download)
-                (not (file-exists-p cache-file)))
-        (make-directory (file-name-directory cache-file) t)
-        (url-copy-file link cache-file t))
-
-      ;; preview
-      (when (file-exists-p cache-file)
-        (org-link-preview-file ov cache-file link))))
-
-  (defun base64-image-extension (decoded)
-    (cond
-     ((string-prefix-p "\x89PNG" decoded) "png")
-     ((string-prefix-p "\xff\xd8\xff" decoded) "jpg")
-     ((string-prefix-p "GIF8" decoded) "gif")
-     ((string-prefix-p "RIFF" decoded) "webp")
-     (t nil)))
-
-  (defun my/+org-inline-image-data-fn (ov link _elem)
-    "Interpret LINK as base64-encoded image data."
-    (when-let* ((decoded-bytes (base64-decode-string link nil t))
-                (extension (base64-image-extension decoded-bytes)))
-      (let ((output-file (concat (make-temp-file "org-preview-") "." extension)))
-        (with-temp-file output-file
-          (insert decoded-bytes))
-          (org-link-preview-file ov output-file link))))
-
   (advice-add 'org-eldoc-documentation-function :around #'my/org-eldoc-handle-img)
 
   (defun my/org-eldoc-handle-img (orig-fun &rest args)
     (let ((result (apply orig-fun args)))
-      (if (and result (string-prefix-p "LINK: img:" result))
-          "Base64 encoded image" result)))
-
-  (org-link-set-parameters "img"     :preview #'my/+org-inline-image-data-fn)
-  (org-link-set-parameters "http"    :preview #'my/+org-remote-image-data-fn)
-  (org-link-set-parameters "https"   :preview #'my/+org-remote-image-data-fn))
+      (if (and result (string-prefix-p "LINK: data:" result))
+          "Base64 encoded image" result))))
 
 (use-package ob-mermaid
   :after org
