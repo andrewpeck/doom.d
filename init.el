@@ -23,7 +23,7 @@
  :ui
 
  doom                ; what makes DOOM look the way it does
- doom-dashboard      ;
+ dashboard           ;
  hl-todo             ; highlight TODO / FIXME/NOTE/DEPRECATED/HACK/REVIEW
  nav-flash           ; blink the current line after jumping
  ophints             ; highlight the region an operation acts on
