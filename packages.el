@@ -74,7 +74,7 @@
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
 (package! expand-region           :pin "351279272330cae6cecea941b0033a8dd8bcc4e8" :recipe (:host github :repo "magnars/expand-region.el"))
 (package! flycheck-clj-kondo      :pin "e38c67ba9db1ea1cbe1b61ab39b506c05efdcdbf" :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
-(package! gptel                   :pin "63795dee75db49a04fd87842a1dcdef29c855f93")
+(package! gptel                   :pin "9682e8f5f96a72c858fb3420003642194793b32f")
 (package! gptel-quick             :pin "018ff2be8f860a1e8fe3966eec418ad635620c38" :recipe (:host github :repo "karthink/gptel-quick"))
 (package! graphviz-dot-mode       :pin "516c151b845a3eb2da73eb4ee648ad99172087ac")
 (package! hydra                   :pin "59a2a45a35027948476d1d7751b0f0215b1e61aa")
