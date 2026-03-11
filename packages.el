@@ -78,7 +78,7 @@
 (package! gptel-quick             :pin "018ff2be8f860a1e8fe3966eec418ad635620c38" :recipe (:host github :repo "karthink/gptel-quick"))
 (package! graphviz-dot-mode       :pin "516c151b845a3eb2da73eb4ee648ad99172087ac")
 (package! hydra                   :pin "59a2a45a35027948476d1d7751b0f0215b1e61aa")
-(package! jinx                    :pin "75e8e4805fe6f4ab256bd59bec71464edbc23887" :recipe (:host github :repo "minad/jinx"))
+(package! jinx                    :pin "61bed3f77d37ae02100e8a2ec1cfb849d649fa5d" :recipe (:host github :repo "minad/jinx"))
 (package! logview                 :pin "50cac3f726abd4e7872b8fa36ede72550ce66a64")
 (package! lorem-ipsum             :pin "4e87a899868e908a7a9e1812831d76c8d072f885")
 (package! lte.el                  :pin "011c86d9fb72d00105293efabef4756274d851b4" :recipe (:host github :repo "fredericgiquel/lte.el"))
