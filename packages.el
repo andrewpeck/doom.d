@@ -103,7 +103,7 @@
 (package! svg-tag-mode            :pin "13e888b8bd9a0664d060149a44a751b2113331b6" :recipe (:host github :repo "rougier/svg-tag-mode"))
 (package! systemd                 :pin "8742607120fbc440821acbc351fda1e8e68a8806" :recipe (:host github :repo "holomorph/systemd-mode"))
 (package! toc-org                 :pin "6d3ae0fc47ce79b1ea06cabe21a3c596395409cd")
-(package! uniline                 :pin "22dd38567012467a912f4d32e10444a7ff7a3103" :recipe (:host github :repo "tbanel/uniline"))
+(package! uniline                 :pin "1d62787fe6766d3f74a0665dfab945969520d4eb" :recipe (:host github :repo "tbanel/uniline"))
 (package! verilog-mode            :pin "54a0c9b5025aa73f585fc18560d724a60ca2e86c" :recipe (:host github :repo "veripool/verilog-mode"))
 (package! vim-tab-bar.el          :pin "a1bc1496e55a732e05186849221b9321132e7581" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
 (package! vimrc-mode              :pin "f594392a0834193a1fe1522d007e1c8ce5b68e43")
