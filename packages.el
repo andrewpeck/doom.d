@@ -56,7 +56,7 @@
 (package! benchmark-init          :pin "54b9703389f25012e4cc20fe4a0d4ea253ce4820")
 (package! browse-at-remote        :pin "38e5ffd77493c17c821fd88f938dbf42705a5158" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
 (package! buffer-env              :pin "fc5cab4db55f0b95c4b97fbe3104e394da34b91a" :recipe (:host github :repo "astoff/buffer-env"))
-(package! casual                  :pin "a68d05609cc40905618b72b8cadbbdde833e428e" :recipe (:host github :repo "kickingvegas/casual"))
+(package! casual                  :pin "0b04ad703efad2a53a3c756c02784e819d0f8b4e" :recipe (:host github :repo "kickingvegas/casual"))
 (package! clojure-emacs           :pin "592c4f89efb5112784cbf94c9ea6fdd045771b62" :recipe (:host github :repo "clojure-emacs/squiggly-clojure"))
 (package! code-cells.el           :pin "b99013b81712edbb94fdb57cce083d32ad06fbb8" :recipe (:host github :repo "astoff/code-cells.el"))
 (package! comint-scroll-to-bottom :pin "1cd1471cfca72ac62d330630afe2f2fad44abcf5" :recipe (:host github :repo "jorgenschaefer/comint-scroll-to-bottom"))
