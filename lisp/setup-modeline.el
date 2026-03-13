@@ -67,7 +67,10 @@ nil."
 
                 ;; git
                 (:eval (and-let* ((m (and (not (remote-host? default-directory)) vc-mode)))
-                         (concat " (" (string-trim m) ")" " ")))
+                         (concat " (" (string-trim m) ")")))
+
+
+                " " which-func-format
 
                 (:eval (and nyan-mode
                             (concat " " (nyan-create))))
@@ -113,3 +116,5 @@ nil."
                                      ('pdf-view-mode (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages)))
                                      (_  "(L%l C%c %p)"))))
                          (concat page " ")))))
+
+(which-function-mode 1)
