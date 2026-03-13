@@ -3,18 +3,34 @@
 ;; LSP
 ;;------------------------------------------------------------------------------
 
+(defun +lsp-shutdown ()
+  (interactive)
+  (let ((inhibit-message t))
+    (flycheck-eglot-mode -1)
+    (eglot-inlay-hints-mode -1)
+    (when-let* ((timer eglot--outstanding-inlay-regions-timer))
+      (cancel-timer timer))
+    (when-let* ((current-server (eglot-current-server)))
+      (ignore-errors (eglot-shutdown current-server))
+      (let ((inhibit-message nil))
+        (message "Shut down %s" current-server)))))
+
+(defun +lsp-startup ()
+  (interactive)
+  (eglot-ensure))
+
+(defun +lsp-restart ()
+  (interactive)
+  (+lsp-shutdown)
+  (+lsp-startup))
+
 (map! :leader
+      :after eglot
       :desc "LSP"
       (:prefix ("l" . "LSP")
-               "l" (lambda () (interactive) (eglot-ensure))
-               "d" (lambda () (interactive)
-                     (flycheck-eglot-mode -1)
-                     (eglot-inlay-hints-mode -1)
-                     (when-let* ((timer eglot--outstanding-inlay-regions-timer))
-                       (cancel-timer timer))
-                     (when-let* ((current-server (eglot-current-server)))
-                       (ignore-errors (eglot-shutdown current-server))
-                       (message "Shut down %s" current-server)))))
+               "l" #'+lsp-startup
+               "r" #'+lsp-restart
+               "d" #'+lsp-shutdown))
 
 (use-package lsp-mode
   :when (modulep! :tools lsp -eglot)
