@@ -10,5 +10,6 @@
   "Xilinx ⟶ Ultrascale+ ⟶ Product Table": "https://docs.xilinx.com/v/u/en-US/ultrascale-plus-fpga-product-selection-guide",
   "Xilinx ⟶ Ultrascale ⟶ Product Table": "https://docs.amd.com/v/u/en-US/ultrascale-fpga-product-selection-guide",
   "Xilinx ⟶ Versal Premium ⟶ Product Table": "https://docs.amd.com/v/u/en-US/versal-premium-psg",
-  "Xilinx ⟶ Spartan Ultrascale+ ⟶ DC/Switching": "https://docs.amd.com/viewer/book-attachment/5Biy7JjLbd8wMxkBl9RAMg/eVwjxEWpG_~jIEXJUxYg0w-5Biy7JjLbd8wMxkBl9RAMg"
+  "Xilinx ⟶ Spartan Ultrascale+ ⟶ DC/Switching": "https://docs.amd.com/r/en-US/ds930-spartan-ultrascale-plus",
+  "Xilinx ⟶ Spartan Ultrascale+ ⟶ SelectIO": "https://docs.amd.com/r/en-US/ug861-ultrascale-selectio/I/O-Tile-Overview"
 }
