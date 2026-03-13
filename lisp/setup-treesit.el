@@ -13,7 +13,7 @@
     '((verilog :url "https://github.com/tree-sitter/tree-sitter-verilog"
        :commit "227d277b6a1a5e2bf818d6206935722a7503de08")))
 
-  (setq treesit-font-lock-level 4)
+  (setopt treesit-font-lock-level 4)
 
   (defun treesit-explore-start ()
     (interactive)

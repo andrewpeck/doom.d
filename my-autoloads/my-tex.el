@@ -214,8 +214,8 @@
   (interactive)
   (global-set-key
    " "
-   (if (setq electric-space-on-p
-             (not electric-space-on-p))
+   (if (setopt electric-space-on-p
+               (not electric-space-on-p))
        'electric-space
      'self-insert-command)))
 

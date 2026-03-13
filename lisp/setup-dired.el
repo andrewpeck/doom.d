@@ -37,9 +37,8 @@
   :after dired
   :config
 
-  (setq dired-compress-file-default-suffix ".zst"
-        dired-compress-directory-default-suffix ".tar.zst")
-
+  (setopt dired-compress-file-default-suffix ".zst"
+          dired-compress-directory-default-suffix ".tar.zst")
 
   (dolist (element (list 'dired-do-rename 'dired-create-directory))
     (advice-add element
@@ -53,8 +52,8 @@
   :config
 
   (add-hook 'dired-mode-hook #'dired-omit-mode)
-  (setq dired-omit-extensions (remove ".bin" dired-omit-extensions))
-  (setq dired-omit-extensions (remove ".bit" dired-omit-extensions)))
+  (setopt dired-omit-extensions (remove ".bin" dired-omit-extensions))
+  (setopt dired-omit-extensions (remove ".bit" dired-omit-extensions)))
 
 (use-package! dired
 
@@ -65,14 +64,14 @@
   ;; (dired-async-mode 1)
 
   ;; better dired soring
-  (setq dired-listing-switches "-a1vBhl  --group-directories-first"
-        dired-mouse-drag-files t
-        dired-do-revert-buffer t                        ; Automatically revert Dired buffers after dired-do operations.
-        dired-dwim-target t                             ; suggest a target for moving/copying intelligently
-        dired-hide-details-hide-symlink-targets nil
-        dired-auto-revert-buffer #'dired-buffer-stale-p ; don't prompt to revert, just do it
-        dired-recursive-copies  'always                 ; Always copy/delete recursively
-        dired-recursive-deletes 'top                    ; Always copy/delete recursively
+  (setopt dired-listing-switches "-a1vBhl  --group-directories-first"
+          dired-mouse-drag-files t
+          dired-do-revert-buffer t                        ; Automatically revert Dired buffers after dired-do operations.
+          dired-dwim-target t                             ; suggest a target for moving/copying intelligently
+          dired-hide-details-hide-symlink-targets nil
+          dired-auto-revert-buffer #'dired-buffer-stale-p ; don't prompt to revert, just do it
+          dired-recursive-copies  'always                 ; Always copy/delete recursively
+          dired-recursive-deletes 'top                    ; Always copy/delete recursively
         )
 
   (defun +dired/quit-all ()
@@ -119,7 +118,7 @@
 
   ;; Stolen from doom: Disable the prompt about whether I want to kill the Dired
   ;; buffer for a deleted directory. Of course I do!
-  (setq dired-clean-confirm-killing-deleted-buffers nil)
+  (setopt dired-clean-confirm-killing-deleted-buffers nil)
 
   (defun my/dired-convert-marked-image-files-to-pdf ()
     (interactive)

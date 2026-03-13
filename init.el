@@ -11,7 +11,7 @@
 
 (menu-bar-mode 0)                   ; Turn off menu bar
 
-(setq doom-cache-dir (concat doom-user-dir ".cache/"))
+(setopt doom-cache-dir (concat doom-user-dir ".cache/"))
 
 (doom!
 

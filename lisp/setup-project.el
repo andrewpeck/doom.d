@@ -15,10 +15,10 @@
   ;;
   ;; but when it is restored the bookmarks don't work because the bookmark tool
   ;; apparently tries to create tramp connections? UHG
-  (setq vc-ignore-dir-regexp "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'")
+  (setopt vc-ignore-dir-regexp "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'")
 
   ;; doom has project.el calling projectile, just revert to original value
-  (setq project-find-functions (list #'project-try-vc))
+  (setopt project-find-functions (list #'project-try-vc))
 
   (defun my/project-discover-all ()
     "Search the work dir and reregister all directories."
@@ -33,9 +33,9 @@
     (locate-dominating-file "." ".git"))
 
   ;; doom has project.el calling projectile, just revert to original value
-  (setq project-find-functions (list #'project-try-vc))
+  (setopt project-find-functions (list #'project-try-vc))
 
-  (setq project-switch-commands 'project-find-file)
+  (setopt project-switch-commands 'project-find-file)
 
   (defun project-vc-browse-at-remote (&optional _)
     "Open in browser the VC repository for the selected project."

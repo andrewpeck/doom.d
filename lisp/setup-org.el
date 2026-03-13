@@ -51,17 +51,11 @@
     (interactive)
     (org-fill-paragraph t))
 
-  (setq org-todo-keywords
-        '((sequence "MEET" "MET")
-          (sequence "NOTE" "NOTED")
-          (sequence "TODO(t)" "|" "DONE(d)" "KILL(k)")
-          (sequence  "LOOP(r)" "PROJ(p)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
-          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
-          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+  (setopt org-indent-indentation-per-level 2)
 
-  (setq org-image-max-width 1280
-        org-image-align  'left
-        org-image-actual-width t)
+  (setopt org-image-max-width 1280
+          org-image-align  'left
+          org-image-actual-width t)
 
   (add-hook 'org-mode-hook #'org-excalidraw-initialize)
 
@@ -71,92 +65,91 @@
 
   (require 'evil-org)
 
-  (setq org-tags-exclude-from-inheritance (list "crypt")
-        org-startup-numerated nil
-        org-confirm-babel-evaluate nil
-        org-display-remote-inline-images 'cache
+  (setopt org-tags-exclude-from-inheritance (list "crypt")
+          org-startup-numerated nil
+          org-confirm-babel-evaluate nil
+          org-display-remote-inline-images 'cache
 
-        ;; org-plantuml-jar-path "~/.doom.d/plantuml.jar"
+          ;; org-plantuml-jar-path "~/.doom.d/plantuml.jar"
 
-        ;; Latex Previews
-        org-preview-latex-default-process 'dvisvgm
-        org-format-latex-options (plist-put org-format-latex-options :scale 1.5)
+          ;; Latex Previews
+          org-preview-latex-default-process 'dvisvgm
+          org-format-latex-options (plist-put org-format-latex-options :scale 1.5)
 
-        ;; Toggle Displays
-        org-startup-folded 'f
+          ;; Toggle Displays
+          org-startup-folded 'fold
 
-        ;; Turn on inline images by default
-        org-startup-with-inline-images t
-        org-startup-with-latex-preview nil
-        ;; (org-display-inline-images t t)
+          ;; Turn on inline images by default
+          org-startup-with-inline-images t
+          org-startup-with-latex-preview nil
+          ;; (org-display-inline-images t t)
 
-        org-attach-id-dir "./images/screenshots"
+          org-attach-id-dir "./images/screenshots"
 
-        ;; Allow M-Ret to split list items
-        org-M-RET-may-split-line t
-        org-log-done 'time
+          ;; Allow M-Ret to split list items
+          org-M-RET-may-split-line t
+          org-log-done 'time
 
-        ;; (setq org-hide-emphasis-markers nil)
-        org-link-file-path-type 'relative
-        org-id-locations-file "~/notes/.org-id-locations"
-        org-export-with-sub-superscripts nil
-        org-directory "~/notes"
-        org-agenda-start-day "0d"
-        org-agenda-span 2
-        org-attach-id-dir "./images/"
-        org-agenda-files (list "~/todo")
-        org-default-notes-file "~/todo/notes.org"
-        +org-capture-todo-file "~/todo/todo.org"
-        +org-capture-meetings-file "~/todo/meetings.org"
+          org-link-file-path-type 'relative
+          org-id-locations-file "~/notes/.org-id-locations"
+          org-export-with-sub-superscripts nil
+          org-directory "~/notes"
+          org-agenda-start-day "0d"
+          org-agenda-span 2
+          org-attach-id-dir "./images/"
+          org-agenda-files (list "~/todo")
+          org-default-notes-file "~/todo/notes.org"
+          +org-capture-todo-file "~/todo/todo.org"
+          +org-capture-meetings-file "~/todo/meetings.org"
 
-        ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
-        ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
-        org-capture-templates
-        '(;; ("a" "Appointment" entry (file  "~/Sync/org/gcal-peck.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+          ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
+          ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
+          org-capture-templates
+          '(;; ("a" "Appointment" entry (file  "~/Sync/org/gcal-peck.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
 
-          ;; https://orgmode.org/manual/Template-elements.html
+            ;; https://orgmode.org/manual/Template-elements.html
 
-          ("t" "TODO" entry
-           (file+headline +org-capture-todo-file "To do")
-           "** TODO %?\n"  :prepend t)
+            ("t" "TODO" entry
+             (file+headline +org-capture-todo-file "To do")
+             "** TODO %?\n"  :prepend t)
 
-          ("d" "DEADLINE" entry
-           (file+headline +org-capture-todo-file "To do")
-           "** TODO %?\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \".\"))"  :prepend t)
+            ("d" "DEADLINE" entry
+             (file+headline +org-capture-todo-file "To do")
+             "** TODO %?\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \".\"))"  :prepend t)
 
-          ("u" "Url" entry
-           (file+headline "~/notes/inbox.org" "Captured")
-           "** %a :website:\n\n%U %?\n\n%:initial" :unnarrowed t)
+            ("u" "Url" entry
+             (file+headline "~/notes/inbox.org" "Captured")
+             "** %a :website:\n\n%U %?\n\n%:initial" :unnarrowed t)
 
-          ("m" "Meeting" entry
-           (file+headline "~/work/psiq/meetings.org" "Meetings")
-           "** %t %? [/]\n- [ ] " :prepend t)
+            ("m" "Meeting" entry
+             (file+headline "~/work/psiq/meetings.org" "Meetings")
+             "** %t %? [/]\n- [ ] " :prepend t)
 
-          ("l" "Log" entry
-           (file+headline "~/work/todo/log.org" "Log")
-           "** %t %?\n- last week\n    - \n- this week\n    - " :prepend t)
+            ("l" "Log" entry
+             (file+headline "~/work/todo/log.org" "Log")
+             "** %t %?\n- last week\n    - \n- this week\n    - " :prepend t)
 
-          ("w" "Waiting" entry
-           (file+headline +org-capture-todo-file "To do")
-           "** WAIT %?\n %U" :prepend t)
+            ("w" "Waiting" entry
+             (file+headline +org-capture-todo-file "To do")
+             "** WAIT %?\n %U" :prepend t)
 
-          ("i" "Idea" entry
-           (file+headline +org-capture-todo-file "Ideas")
-           "** IDEA %?\n%U")
+            ("i" "Idea" entry
+             (file+headline +org-capture-todo-file "Ideas")
+             "** IDEA %?\n%U")
 
-          ("n" "Note" entry
-           (file+headline org-default-notes-file "Notes")
-           "** %?\n%U")
+            ("n" "Note" entry
+             (file+headline org-default-notes-file "Notes")
+             "** %?\n%U")
 
-          ("a" "capture-clipboard" entry
-           ;; %i == body
-           ;; %u == date
-           (file+headline "~/notes/inbox.org" "To do") "** TODO %:link %i"
-           :immediate-finish t
-           :unnarrowed t)
+            ("a" "capture-clipboard" entry
+             ;; %i == body
+             ;; %u == date
+             (file+headline "~/notes/inbox.org" "To do") "** TODO %:link %i"
+             :immediate-finish t
+             :unnarrowed t)
 
-          ("s" "Shopping" item
-           (file+headline +org-capture-todo-file "Shopping") "- [ ] %?" :prepend t)))
+            ("s" "Shopping" item
+             (file+headline +org-capture-todo-file "Shopping") "- [ ] %?" :prepend t)))
 
   ;; Applications for opening file:path items in a document
   (add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
@@ -179,52 +172,52 @@
           ("php" . "<?php echo \"<?xml version=\\\"1.0\\\" encoding=\\\"%s\\\" ?>\"; ?>")))
 
   ;; Tag colors
-  (setq org-tag-faces
-        '(("etl"       . (:foreground "gray"))
-          ("atlas"     . (:foreground "gray"))
-          ("l0mdt"     . (:foreground "gray"))
+  (setopt org-tag-faces
+          '(("etl"       . (:foreground "gray"))
+            ("atlas"     . (:foreground "gray"))
+            ("l0mdt"     . (:foreground "gray"))
 
-          ("BU"        . (:foreground "red2"       :weight bold))
-          ("bu"        . (:foreground "red2"       :weight bold))
+            ("BU"        . (:foreground "red2"       :weight bold))
+            ("bu"        . (:foreground "red2"       :weight bold))
 
-          ("csc"       . (:foreground "steelblue"  :weight bold))
-          ("gaps"      . (:foreground "steelblue"  :weight bold))
-          ("hog"       . (:foreground "steelblue"  :weight bold))
-          ("gem"       . (:foreground "steelblue"  :weight bold))
-          ("me0"       . (:foreground "steelblue"  :weight bold))
+            ("csc"       . (:foreground "steelblue"  :weight bold))
+            ("gaps"      . (:foreground "steelblue"  :weight bold))
+            ("hog"       . (:foreground "steelblue"  :weight bold))
+            ("gem"       . (:foreground "steelblue"  :weight bold))
+            ("me0"       . (:foreground "steelblue"  :weight bold))
 
-          ("move"      . (:background "#666" :foreground "#eee"          :weight bold))
-          ("family"    . (:foreground "red4"          :weight bold))
-          ("home"      . (:foreground "lightorange"   :weight bold))
-          ("meeting"   . (:foreground "gray" :slant italic))
-          ("CRITICAL"  . (:background "red3" :foreground "#fff" :weight bold))))
+            ("move"      . (:background "#666" :foreground "#eee"          :weight bold))
+            ("family"    . (:foreground "red4"          :weight bold))
+            ("home"      . (:foreground "lightorange"   :weight bold))
+            ("meeting"   . (:foreground "gray" :slant italic))
+            ("CRITICAL"  . (:background "red3" :foreground "#fff" :weight bold))))
 
-  (setq org-agenda-prefix-format
-        '((agenda  . " %t")
-          (timeline  . "  % s")
-          (todo  . " %i")
-          (tags  . " %i %-12:c")
-          (search . " %i %-12:c")))
+  (setopt org-agenda-prefix-format
+          '((agenda  . " %t")
+            (todo  . " %i")
+            (tags  . " %i %-12:c")
+            (search . " %i %-12:c")))
 
-  (setq org-todo-keyword-faces
-        '(("[-]"  . +org-todo-active)
-          ("STRT" . +org-todo-active)
-          ("[?]"  . +org-todo-onhold)
-          ("WAIT" . +org-todo-onhold)
-          ("HOLD" . +org-todo-onhold)
-          ("MEET" . +org-todo-meet)
-          ("NOTE" . +org-todo-note)
-          ("PROJ" . +org-todo-project)
-          ("NO"   . +org-todo-cancel)
-          ("IDEA" . +org-todo-idea)
-          ("KILL" . +org-todo-cancel)))
+  (setopt org-todo-keyword-faces
+          '(("[-]"  . +org-todo-active)
+            ("STRT" . +org-todo-active)
+            ("[?]"  . +org-todo-onhold)
+            ("WAIT" . +org-todo-onhold)
+            ("HOLD" . +org-todo-onhold)
+            ("MEET" . +org-todo-meet)
+            ("NOTE" . +org-todo-note)
+            ("PROJ" . +org-todo-project)
+            ("NO"   . +org-todo-cancel)
+            ("IDEA" . +org-todo-idea)
+            ("KILL" . +org-todo-cancel)))
 
-  (setq org-todo-keywords
-        '((sequence "MEET" "MET")
-          (sequence "NOTE" "NOTED")
-          (sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
-          (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
-          (sequence "|" "OKAY(o)" "YES(y)" "NO(n)"))))
+  (setopt org-todo-keywords
+          '((sequence "MEET" "MET")
+            (sequence "NOTE" "NOTED")
+            (sequence "TODO(t)" "|" "DONE(d)" "KILL(k)")
+            (sequence  "LOOP(r)" "PROJ(p)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
+            (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+            (sequence "|" "OKAY(o)" "YES(y)" "NO(n)"))))
 
 ;;------------------------------------------------------------------------------
 ;; Poporg
@@ -241,10 +234,10 @@
 (use-package org-appear
   :after org
   :config
-  (setq org-appear-autoemphasis t
-        org-appear-inside-latex t
-        org-appear-autolinks t
-        org-appear-delay 0.1))
+  (setopt org-appear-autoemphasis t
+          org-appear-inside-latex t
+          org-appear-autolinks t
+          org-appear-delay 0.1))
 
 ;;------------------------------------------------------------------------------
 ;; Org Modern
@@ -255,11 +248,10 @@
    :after org
    :config
 
-   (setq org-modern-checkbox
-         '((?X  . "✓")
-           (?-  . "␣")
-           (?\s . "☐")))
-   (setq org-modern-table nil)
+   (setopt org-modern-checkbox '((?X  . "✓")
+                                 (?-  . "␣")
+                                 (?\s . "☐"))
+           org-modern-table nil)
    (global-org-modern-mode)))
 
 ;;------------------------------------------------------------------------------
@@ -272,22 +264,22 @@
 
   (setq-default org-download-image-dir "./images/screenshots")
 
-  (setq org-download-method            'directory
-        org-download-screenshot-method "import %s"
-        org-download-heading-lvl       0
+  (setopt org-download-method            'directory
+          org-download-screenshot-method "import %s"
+          org-download-heading-lvl       0
 
-        ;; annotate the width of the image with the actual width of the screenshot
-        org-download-annotate-function
-        (lambda (s)
-          (let ((width (string-to-number (shell-command-to-string (format "identify -format \"%%w\" %s" s)))))
-            (concat (format "#+ATTR_ORG: :width %spx\n" width)
-                    (format "#+ATTR_HTML: :style max-width:100%%;width:%spx\n" width))))
+          ;; annotate the width of the image with the actual width of the screenshot
+          org-download-annotate-function
+          (lambda (s)
+            (let ((width (string-to-number (shell-command-to-string (format "identify -format \"%%w\" %s" s)))))
+              (concat (format "#+ATTR_ORG: :width %spx\n" width)
+                      (format "#+ATTR_HTML: :style max-width:100%%;width:%spx\n" width))))
 
-        org-download-image-org-width 0
-        org-download-image-attr-list nil
-        org-download-link-format "[[file:%s]]\n"
-        org-download-abbreviate-filename-function #'file-relative-name
-        org-download-link-format-function #'org-download-link-format-function-default))
+          org-download-image-org-width 0
+          org-download-image-attr-list nil
+          org-download-link-format "[[file:%s]]\n"
+          org-download-abbreviate-filename-function #'file-relative-name
+          org-download-link-format-function #'org-download-link-format-function-default))
 
 ;;------------------------------------------------------------------------------
 ;;  Org web tools + url parsing
@@ -309,38 +301,38 @@
 (use-package ox-latex
   :after org
   :config
-  (setq org-latex-article-header
-        (concat
-         "\\documentclass[10pt]{article}\n"
-         "\\usepackage[letterpaper, margin=2.54cm]{geometry}\n"
-         "\\usepackage[utf8]{inputenc}\n"
-         "\\usepackage{fixltx2e}\n"
-         "\\usepackage{graphicx}\n"
-         "\\usepackage{longtable}\n"
-         "\\usepackage{float}\n"
-         "\\usepackage{wrapfig}\n"
-         "\\usepackage{rotating}\n"
-         "\\usepackage[normalem]{ulem}\n"
-         "\\usepackage{amsmath}\n"
-         "\\usepackage{textcomp}\n"
-         "\\usepackage{marvosym}\n"
-         "\\usepackage{wasysym}\n"
-         "\\usepackage{amssymb}\n"
-         "\\usepackage{hyperref}\n"
-         ;; "\\usepackage{mathpazo}\n"
-         "\\renewcommand{\\familydefault}{\\sfdefault}\n"
-         "\\usepackage{color}\n"
-         "\\usepackage{enumerate}\n"
-         "\\definecolor{bg}{rgb}{0.95,0.95,0.95}\n"
-         "\\tolerance=1000\n"
-         "[NO-DEFAULT-PACKAGES]\n"
-         "[PACKAGES]\n"
-         "[EXTRA]\n"
-         "\\linespread{1.0}\n"
-         "\\hypersetup{pdfborder=0 0 0}"))
+  (setopt org-latex-article-header
+          (concat
+           "\\documentclass[10pt]{article}\n"
+           "\\usepackage[letterpaper, margin=2.54cm]{geometry}\n"
+           "\\usepackage[utf8]{inputenc}\n"
+           "\\usepackage{fixltx2e}\n"
+           "\\usepackage{graphicx}\n"
+           "\\usepackage{longtable}\n"
+           "\\usepackage{float}\n"
+           "\\usepackage{wrapfig}\n"
+           "\\usepackage{rotating}\n"
+           "\\usepackage[normalem]{ulem}\n"
+           "\\usepackage{amsmath}\n"
+           "\\usepackage{textcomp}\n"
+           "\\usepackage{marvosym}\n"
+           "\\usepackage{wasysym}\n"
+           "\\usepackage{amssymb}\n"
+           "\\usepackage{hyperref}\n"
+           ;; "\\usepackage{mathpazo}\n"
+           "\\renewcommand{\\familydefault}{\\sfdefault}\n"
+           "\\usepackage{color}\n"
+           "\\usepackage{enumerate}\n"
+           "\\definecolor{bg}{rgb}{0.95,0.95,0.95}\n"
+           "\\tolerance=1000\n"
+           "[NO-DEFAULT-PACKAGES]\n"
+           "[PACKAGES]\n"
+           "[EXTRA]\n"
+           "\\linespread{1.0}\n"
+           "\\hypersetup{pdfborder=0 0 0}"))
 
-  (setq org-latex-pdf-process
-        '("latexmk -shell-escape -f -pdf -%latex -interaction=nonstopmode -output-directory=%o %f"))
+  (setopt org-latex-pdf-process
+          '("latexmk -shell-escape -f -pdf -%latex -interaction=nonstopmode -output-directory=%o %f"))
 
   (add-to-list
    'org-latex-classes
@@ -369,15 +361,15 @@
 (use-package ob-mermaid
   :after org
   :config
-  (setq ob-mermaid-cli-path "aa-exec --profile=chrome mmdc"))
+  (setopt ob-mermaid-cli-path "aa-exec --profile=chrome mmdc"))
 
 (use-package ob-ditaa
   :after org
   :config
-  (setq org-ditaa-jar-path "~/.doom.d/ditaa.jar"))
+  (setopt org-ditaa-jar-path "~/.doom.d/ditaa.jar"))
 
 (use-package org-crypt
   :after org
   :config
-  (setq org-crypt-disable-auto-save t
-        org-crypt-key nil))
+  (setopt org-crypt-disable-auto-save t
+          org-crypt-key nil))

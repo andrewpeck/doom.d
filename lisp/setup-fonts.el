@@ -14,25 +14,25 @@
 
 (defvar my/preferred-fonts nil "List of preferred fonts. (name hd-size size)")
 
- ;; M-x describe-font
- (setq my/preferred-fonts
-   `(("Comic Code"               24 14)
-     ("Hack Nerd Font"           23 18)
-     ("AdwaitaMono Nerd Font"    21 16)
-     ("Berkeley Mono"            24 20)
-     ("InconsolataGo Nerd Font"  26 19)
-     ("Julia Mono"               21 16)
-     ("JetBrains Mono"           23 20)
-     ("Inconsolata"              19 18)
-     ("Roboto Mono"              22 19)
-     ("Noto Mono"                19 15)
-     ("DejaVu Sans Mono"         19 17)
-     ("Consolas"                 20 19)
-     ("Source Code Pro"          16 19)
-     ("Terminus"                 16 19)
-     ("Fira Code"                14 19)
-     ("IBM Plex Mono"            16 19)
-     ("Ubuntu Mono"              21 19)))
+;; M-x describe-font
+(setopt my/preferred-fonts
+        `(("AdwaitaMono Nerd Font"    24 16)
+          ("Hack Nerd Font"           23 18)
+          ("Comic Code"               24 14)
+          ("Berkeley Mono"            24 20)
+          ("InconsolataGo Nerd Font"  26 19)
+          ("Julia Mono"               21 16)
+          ("JetBrains Mono"           23 20)
+          ("Inconsolata"              19 18)
+          ("Roboto Mono"              22 19)
+          ("Noto Mono"                19 15)
+          ("DejaVu Sans Mono"         19 17)
+          ("Consolas"                 20 19)
+          ("Source Code Pro"          16 19)
+          ("Terminus"                 16 19)
+          ("Fira Code"                14 19)
+          ("IBM Plex Mono"            16 19)
+          ("Ubuntu Mono"              21 19)))
 
 (defvar my/preferred-variable-pitch-font
   `(("Adwaita Sans" 18 18)
@@ -50,15 +50,15 @@
          (size (if (hd?) (nth 1 font) (nth 2 font))))
 
     (when font
-      (setq doom-font (font-spec :family name :size size :weight 'regular)
-            doom-big-font (font-spec :family name :size (+ 4 size))
-            doom-serif-font (font-spec :family name :weight 'light))))
+      (setopt doom-font (font-spec :family name :size size :weight 'regular)
+              doom-big-font (font-spec :family name :size (+ 4 size))
+              doom-serif-font (font-spec :family name :weight 'light))))
 
   (let* ((font (cl-find-if (lambda (x) (font-exists? (car x))) my/preferred-variable-pitch-font))
          (name (car font))
          (size (if (hd?) (nth 1 font) (nth 2 font))))
     (when font
-      (setq doom-variable-pitch-font (font-spec :family name :size size))))
+      (setopt doom-variable-pitch-font (font-spec :family name :size size))))
 
   (if (string= (font-get doom-font :family) "Comic Code")
       (setq-default line-spacing 0.2)

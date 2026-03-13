@@ -234,29 +234,29 @@ Used by font-lock for dynamic highlighting."
 (defun set-dark-mode ()
   "Set the color scheme to be dark."
   (interactive)
-  (setq dark-mode 'dark)
+  (setopt dark-mode 'dark)
   (let ((theme ap/dark-theme))
     (when (not (equal theme (car custom-enabled-themes)))
-      (progn (setq doom-theme theme)
+      (progn (setopt doom-theme theme)
              (load-theme theme)))))
 
 ;;;###autoload
 (defun set-light-mode ()
   "Set the color scheme to be light."
   (interactive)
-  (setq dark-mode 'light)
+  (setopt dark-mode 'light)
   (let ((theme ap/light-theme))
     (when (not (equal theme (car custom-enabled-themes)))
-      (progn (setq doom-theme theme)
+      (progn (setopt doom-theme theme)
              (load-theme theme)))))
 
 ;;;###autoload
 (defun set-auto-dark-mode ()
   "Set the color scheme to follow the day cycle (roughly)."
   (interactive)
-  (setq dark-mode 'auto)
+  (setopt dark-mode 'auto)
   (synchronize-theme)
-  (setq dark-mode 'auto))
+  (setopt dark-mode 'auto))
 
 ;;;###autoload
 (defun toggle-dark-mode ()

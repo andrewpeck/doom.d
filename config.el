@@ -20,13 +20,13 @@
 ;; https://news.ycombinator.com/item?id=6965433
 
 ;; If non-nil, display instructions on how to exit the client on connection.
-(setq server-client-instructions nil)
+(setopt server-client-instructions nil)
 
-(setq use-package-hook-name-suffix nil
-      use-package-always-defer t
-      use-package-compute-statistics t)
+(setopt use-package-hook-name-suffix nil
+        use-package-always-defer t
+        use-package-compute-statistics t)
 
-(setq browse-url-browser-function 'browse-url-firefox)
+(setopt browse-url-browser-function 'browse-url-firefox)
 
 (load! "core-defuns.el" doom-user-dir t)
 
@@ -36,6 +36,10 @@
 
 (advise-inhibit-messages 'recentf-cleanup)
 (advise-inhibit-messages 'eglot)
+;; Suppress `Package cl is deprecated` warnings
+(setq byte-compile-warnings '(not obsolete)) ;; errors with setopt; bug?
+
+(add-to-list 'warning-suppress-types '(iedit))
 
 ;;------------------------------------------------------------------------------
 ;; Packages & Loads
@@ -47,18 +51,15 @@
   (setenv "VIRTUAL_ENV" nil))
 
 ;; something was setting this to C
-(setq current-locale-environment "en_US.UTF-8")
+(setopt current-locale-environment "en_US.UTF-8")
 
-(setq copyright-names-regexp ".*Andrew Peck*")
+(setopt copyright-names-regexp ".*Andrew Peck*")
 
 (add-load-path! "")
 (add-load-path! "lisp/")
 (add-load-path! "my-autoloads/")
 
 (load (expand-file-name "loaddefs.el" doom-user-dir) nil t)
-
-;; Suppress `Package cl is deprecated` warnings
-(setq byte-compile-warnings '(not obsolete))
 
 ;;------------------------------------------------------------------------------
 ;; Shell Config
@@ -68,9 +69,11 @@
 ;; output into some of the child processes that Emacs spawns. Many Emacs
 ;; packages/utilities will choke on this output, causing unpredictable
 ;; issues. To get around this, either:
-(setq shell-file-name (executable-find "bash"))
-(setq-default vterm-shell (executable-find "fish"))
-(setq-default explicit-shell-file-name (executable-find "fish"))
+(setopt shell-file-name (executable-find "bash"))
+(with-eval-after-load 'vterm
+  (setopt vterm-shell (executable-find "fish")))
+(with-eval-after-load 'shell
+  (setopt explicit-shell-file-name (executable-find "fish")))
 
 ;;------------------------------------------------------------------------------
 ;; Mode aliases
@@ -103,8 +106,6 @@
 (add-to-list 'default-frame-alist
              '(fullscreen . maximized))
 
-(add-to-list 'warning-suppress-types '(iedit))
-
 (use-package emacs
 
   :config
@@ -117,46 +118,46 @@
                 window-combination-resize t) ; take new window space from all other windows (not just current)
 
   ;; something is overriding these
-  (setq compilation-scroll-output t
-        auto-revert-mode t              ;
-        auto-revert-remote-files t      ;
-        undo-limit 80000000)            ; Raise undo-limit to 80Mb
+  (setopt compilation-scroll-output t
+          auto-revert-mode t              ;
+          auto-revert-remote-files t      ;
+          undo-limit 80000000)            ; Raise undo-limit to 80Mb
 
   (scroll-bar-mode)
 
-  (setq mouse-wheel-scroll-amount-horizontal 32
-        mouse-wheel-tilt-scroll t
-        enable-local-variables t        ;
-        help-at-pt-display-when-idle 'never ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
-        scroll-margin 30                    ; add a margin while scrolling
-        so-long-threshold 800               ; so-long-threshold can increase
-        auto-save-default t      ; Nobody likes to loose work, I certainly don't
-        truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
-        x-stretch-cursor t           ; Stretch cursor to the glyph width
+  (setopt mouse-wheel-scroll-amount-horizontal 32
+          mouse-wheel-tilt-scroll t
+          enable-local-variables t        ;
+          help-at-pt-display-when-idle 'never ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
+          scroll-margin 30                    ; add a margin while scrolling
+          so-long-threshold 800               ; so-long-threshold can increase
+          auto-save-default t      ; Nobody likes to loose work, I certainly don't
+          truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
+          x-stretch-cursor t           ; Stretch cursor to the glyph width
 
-        abbrev-file-name (concat doom-user-dir "abbrev_defs")
+          abbrev-file-name (concat doom-user-dir "abbrev_defs")
 
-        ;; +format-on-save-enabled-modes
-        ;; '(not yaml-mode python-mode emacs-lisp-mode
-        ;;   sql-mode tex-mode latex-mode org-msg-edit-mode)
+          ;; +format-on-save-enabled-modes
+          ;; '(not yaml-mode python-mode emacs-lisp-mode
+          ;;   sql-mode tex-mode latex-mode org-msg-edit-mode)
 
-        ;; Increase the amount of data which Emacs reads from the process.
-        ;; Again the emacs default is too low 4k considering that the some
-        ;; of the language server responses are in 800k - 3M range.
-        read-process-output-max (* 1024 1024) ;; 1mb
+          ;; Increase the amount of data which Emacs reads from the process.
+          ;; Again the emacs default is too low 4k considering that the some
+          ;; of the language server responses are in 800k - 3M range.
+          read-process-output-max (* 1024 1024) ;; 1mb
 
-        ;; Window Title
-        ;; https://www.emacswiki.org/emacs/FrameTitle
-        frame-title-format
-        '(:eval
-          (cond
-           (dired-directory (concat (abbreviate-file-name dired-directory) " - Dired" ))
-           (buffer-file-name (concat
-                              (abbreviate-file-name buffer-file-name)
-                              (when (buffer-modified-p) " * ")))
-           (t (buffer-name))))
-        ;; window title when minimzed--- just make it the same
-        icon-title-format frame-title-format)
+          ;; Window Title
+          ;; https://www.emacswiki.org/emacs/FrameTitle
+          frame-title-format
+          '(:eval
+            (cond
+             (dired-directory (concat (abbreviate-file-name dired-directory) " - Dired" ))
+             (buffer-file-name (concat
+                                (abbreviate-file-name buffer-file-name)
+                                (when (buffer-modified-p) " * ")))
+             (t (buffer-name))))
+          ;; window title when minimzed--- just make it the same
+          icon-title-format frame-title-format)
 
   (midnight-mode)           ; Clear buffers at midnight
   (display-time-mode 1)     ; Enable time in the mode-line

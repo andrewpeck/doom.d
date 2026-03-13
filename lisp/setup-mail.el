@@ -1,6 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
-(setq +notmuch-sync-backend 'offlineimap)
+(use-package notmuch
+  :config
+  (setopt +notmuch-sync-backend 'offlineimap))
 
 ;; (use-package smtpmail-async
 ;;   :commands (async-smtpmail-send-it))
@@ -26,34 +28,39 @@
     (interactive)
     (async-shell-command "mu index"))
 
-  (setq mu4e-drafts-folder "/fastmail/Drafts"
-        mu4e-sent-folder   "/fastmail/Sent"
-        mu4e-refile-folder "/fastmail/Archive"
-        mu4e-trash-folder  "/fastmail/Trash")
+  (setopt mu4e-drafts-folder "/fastmail/Drafts"
+          mu4e-sent-folder   "/fastmail/Sent"
+          mu4e-refile-folder "/fastmail/Archive"
+          mu4e-trash-folder  "/fastmail/Trash"
 
-  (setq mu4e-search-include-related nil)
+          mu4e-search-include-related nil
 
-  (setq mu4e-bookmarks
-        '(("maildir:/inbox AND flag:unread AND NOT flag:trashed" "Unread messages" ?u)
-          ("date:today..now AND NOT flag:trashed" "Today's messages" ?t)
-          ("maildir:/inbox AND date:today..now AND NOT flag:trashed" "Today's unread messages" ?r)
-          ("date:7d..now AND NOT flag:trashed" "Last 7 days" ?w)
-          ("mime:image/* AND NOT flag:trashed" "Messages with images" ?p)
-          ("flag:flagged AND NOT flag:trashed" "Flagged messages" ?f)))
+          mu4e-bookmarks '(("maildir:/inbox AND flag:unread AND NOT flag:trashed" "Unread messages" ?u)
+                           ("date:today..now AND NOT flag:trashed" "Today's messages" ?t)
+                           ("maildir:/inbox AND date:today..now AND NOT flag:trashed" "Today's unread messages" ?r)
+                           ("date:7d..now AND NOT flag:trashed" "Last 7 days" ?w)
+                           ("mime:image/* AND NOT flag:trashed" "Messages with images" ?p)
+                           ("flag:flagged AND NOT flag:trashed" "Flagged messages" ?f))
 
-  (setq mail-user-agent 'mu4e-user-agent)
+          mail-user-agent 'mu4e-user-agent
 
-  (setq send-mail-function #'smtpmail-send-it)
-  (setq message-send-mail-function #'smtpmail-send-it)
+          send-mail-function #'smtpmail-send-it
+          message-send-mail-function #'smtpmail-send-it
 
-  (setq user-full-name "Andrew Peck")
+          user-full-name "Andrew Peck"
 
-  (setq mu4e-sent-messages-behavior 'delete)
-  (setq mu4e-use-fancy-chars t)
-  (setq +mu4e-personal-addresses '("peckandrew@gmail.com"
-                                   "andrew.peck@cern.ch"
-                                   "apeck@fastmail.com"
-                                   "peck@bu.edu"))
+          mu4e-sent-messages-behavior 'delete
+          mu4e-use-fancy-chars t
+          +mu4e-personal-addresses '("peckandrew@gmail.com"
+                                     "andrew.peck@cern.ch"
+                                     "apeck@fastmail.com"
+                                     "peck@bu.edu")
+
+          mu4e-maildir-shortcuts
+          '(("/fastmail/inbox"              . ?i)
+            ("/fastmail/Sent"               . ?s)
+            ("/fastmail/Archive"            . ?a)
+            ("/fastmail/Trash"              . ?t)))
 
   ;; C-c C-c for 
   (map! :map mu4e-thread-mode-map :n "C-c C-c" #'mu4e-mark-execute-all)
@@ -62,23 +69,17 @@
   (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
   (add-hook 'mu4e-compose-mode-hook 'flyspell-mode))
 
-;; (setq user-mail-address "peckandrew@gmail.com")
-(setq mu4e-maildir-shortcuts
-      '(("/fastmail/inbox"              . ?i)
-        ("/fastmail/Sent"               . ?s)
-        ("/fastmail/Archive"            . ?a)
-        ("/fastmail/Trash"              . ?t)))
-
+;; (setopt user-mail-address "peckandrew@gmail.com")
 ;; https://www.djcbsoftware.nl/code/mu/mu4e/Bookmarks.html
-;; (setq mu4e-alert-style nil
+;; (setopt mu4e-alert-style nil
 ;;       mu4e-alert-email-notification-types nil)
 
-;; (setq mu4e-drafts-folder "/[Gmail]/Drafts")
-;; (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
+;; (setopt mu4e-drafts-folder "/[Gmail]/Drafts")
+;; (setopt mu4e-sent-folder   "/[Gmail]/Sent Mail")
 ;; ;; https://www.djcbsoftware.nl/code/mu/mu4e/Refiling-messages.html
-;; (setq mu4e-refile-folder "/[Gmail].All Mail")
-;; (setq mu4e-trash-folder  "/[Gmail]/Trash")
+;; (setopt mu4e-refile-folder "/[Gmail].All Mail")
+;; (setopt mu4e-trash-folder  "/[Gmail]/Trash")
 
-;; (setq mu4e-get-mail-command "offlineimap")
-;; (setq mu4e-view-show-addresses t)
-;; (setq mu4e-view-show-images t)
+;; (setopt mu4e-get-mail-command "offlineimap")
+;; (setopt mu4e-view-show-addresses t)
+;; (setopt mu4e-view-show-images t)

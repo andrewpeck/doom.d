@@ -26,9 +26,9 @@
 
   :config
 
-  (setq buffer-flip-wraparound nil
-        buffer-flip-skip-major-modes (list 'dired-mode)
-        buffer-flip-skip-patterns '("^\\*.*\\*$")))
+  (setopt buffer-flip-wraparound nil
+          buffer-flip-skip-major-modes (list 'dired-mode)
+          buffer-flip-skip-patterns '("^\\*.*\\*$")))
 
 ;;------------------------------------------------------------------------------
 ;; System Install
@@ -65,16 +65,17 @@
   :config
   (defvar highlight-indent-guides-responsive) ;; pacify the byte compiler
   (defvar highlight-indent-guides-method)     ;; pacify the byte compiler
-  (setq highlight-indent-guides-responsive nil
-        ;; highlight-indent-guides-auto-enabled nil
-        highlight-indent-guides-method 'bitmap))
+  (setopt highlight-indent-guides-responsive nil
+          ;; highlight-indent-guides-auto-enabled nil
+          highlight-indent-guides-method 'bitmap))
 
 ;; clean the recent file list on idle
 (use-package recentf
+  :defer t
   :config
   (add-to-list 'recentf-exclude "^/mnt/Media/")
   (add-to-list 'recentf-exclude "^~/Downloads")
-  (setq recentf-auto-cleanup 120))
+  (setopt recentf-auto-cleanup 120))
 
 ;;------------------------------------------------------------------------------
 ;; Visual Fill Column
@@ -140,7 +141,7 @@
 
 (use-package calc
   :config 
-  (setq calc-window-height 18))
+  (setopt calc-window-height 18))
 
 ;;------------------------------------------------------------------------------
 ;; Uniline
@@ -262,7 +263,7 @@ _h_ decrease width    _l_ increase width
     ;; This uses the match-data from copyright-find-copyright/end.
     (goto-char (match-end 1))
     (copyright-find-end)
-    (setq copyright-current-year (format-time-string "%Y"))
+    (setopt copyright-current-year (format-time-string "%Y"))
     (unless (string= (buffer-substring (- (match-end 3) 2) (match-end 3))
                      (substring copyright-current-year -2))
       (if (or noquery
@@ -298,7 +299,10 @@ _h_ decrease width    _l_ increase width
 
 (use-package colorpicker
   :config
-  (setq colorpicker--script "~/.config/emacs/.local/straight/repos/emacs-colorpicker/script/colorpicker.py"))
+  (setopt colorpicker--script
+          (find-file
+           (concat (file-name-directory (straight--repos-dir "emacs-colorpicker"))
+                   "script/colorpicker.py"))))
 
 ;;------------------------------------------------------------------------------
 ;; Large Table Edition
@@ -328,7 +332,7 @@ _h_ decrease width    _l_ increase width
 
 (use-package ob-wavedrom
   :config
-  (setq ob-wavedrom-cli-path "wavedrom"))
+  (setopt ob-wavedrom-cli-path "wavedrom"))
 
 ;;------------------------------------------------------------------------------ 
 ;; Apheleia
@@ -382,9 +386,9 @@ _h_ decrease width    _l_ increase width
   (defun pdf-view-midnight-update-colors ()
     "Sync pdf view midnight colors to currently selected theme."
     (interactive)
-    (setq pdf-view-midnight-colors
-          `(,(face-attribute 'default :foreground) .
-            ,(face-attribute 'default :background)))
+    (setopt pdf-view-midnight-colors
+            `(,(face-attribute 'default :foreground) .
+              ,(face-attribute 'default :background)))
     (dolist (buf (buffer-list (current-buffer)))
       (with-current-buffer buf
         (when pdf-view-midnight-minor-mode
@@ -427,9 +431,9 @@ _h_ decrease width    _l_ increase width
   :init
 
   ;; (setq affe-find-command "rg --color=never --files")
-  (setq affe-find-command (concat (or (executable-find "fd")
-                                      (executable-find "fdfind"))
-                                  " --color=never -L"))
+  (setopt affe-find-command (concat (or (executable-find "fd")
+                                        (executable-find "fdfind"))
+                                    " --color=never -L"))
 
   (defun affe-find-home    () (interactive) (affe-find "~/"))
   (defun affe-find-work    () (interactive) (affe-find "~/work"))
@@ -455,13 +459,13 @@ _h_ decrease width    _l_ increase width
   ;; persistent undo
   :after undo-fu
   :config
-  (setq undo-fu-session-directory (concat doom-user-dir ".undo-fu")))
+  (setopt undo-fu-session-directory (concat doom-user-dir ".undo-fu")))
 
 (use-package undo-fu
   :config
   ;; disable confusing undo-fu behavior
   ;; https://codeberg.org/ideasman42/emacs-undo-fu/issues/6
-  (setq undo-fu-ignore-keyboard-quit t))
+  (setopt undo-fu-ignore-keyboard-quit t))
 
 ;;------------------------------------------------------------------------------
 ;; Whitespace
@@ -469,8 +473,8 @@ _h_ decrease width    _l_ increase width
 
 (use-package ws-butler
   :config
-  (setq ws-butler-global-exempt-modes
-        '(special-mode comint-mode term-mode eshell-mode)))
+  (setopt ws-butler-global-exempt-modes
+          '(special-mode comint-mode term-mode eshell-mode)))
 
 ;;------------------------------------------------------------------------------
 ;; Highlight Todos
@@ -478,7 +482,7 @@ _h_ decrease width    _l_ increase width
 
 (use-package hl-todo
   :config
-  (setq global-hl-todo-mode t))
+  (setopt global-hl-todo-mode t))
 
 ;;------------------------------------------------------------------------------
 ;; Savehist
@@ -516,7 +520,7 @@ _h_ decrease width    _l_ increase width
 
   :config
 
-  (setq yas-verbosity 2)
+  (setopt yas-verbosity 2)
 
   ;; HACK: for some unknown reason yasnippet has started producing duplicate
   ;; templates managed to remove them just by applying this advice but it really
@@ -534,7 +538,7 @@ _h_ decrease width    _l_ increase width
 
   ;; Don't add newlines to snippet endings
   (add-hook 'snippet-mode-hook
-            (lambda () (setq require-final-newline nil))))
+            (lambda () (setopt require-final-newline nil))))
 
 ;;------------------------------------------------------------------------------
 ;; Ispell
@@ -607,11 +611,11 @@ help instead of keeping it open."
 
 (use-package time
   :config
-  (setq world-clock-list
-        '(("America/Los_Angeles" "Los Angeles")
-          ("America/New_York" "Boston")
-          ("Europe/London" "London")
-          ("Europe/Paris" "Geneva"))))
+  (setopt world-clock-list
+          '(("America/Los_Angeles" "Los Angeles")
+            ("America/New_York" "Boston")
+            ("Europe/London" "London")
+            ("Europe/Paris" "Geneva"))))
 
 ;;------------------------------------------------------------------------------
 ;; Eldoc
@@ -619,9 +623,9 @@ help instead of keeping it open."
 
 (use-package eldoc
   :config
-  (setq eldoc-echo-area-prefer-doc-buffer t
-        eldoc-idle-delay 0.5
-        eldoc-echo-area-use-multiline-p t))
+  (setopt eldoc-echo-area-prefer-doc-buffer t
+          eldoc-idle-delay 0.5
+          eldoc-echo-area-use-multiline-p t))
 
 ;;------------------------------------------------------------------------------
 ;; Vc hooks
@@ -632,8 +636,8 @@ help instead of keeping it open."
   ;; set vc-ignore-dir-regexp to the default emacs value; doom overwrites this to
   ;; a value that ignores any remote directories, causing git-gutter etc to not
   ;; work through tramp
-  (setq vc-ignore-dir-regexp
-        "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'"))
+  (setopt vc-ignore-dir-regexp
+          "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'"))
 
 ;;------------------------------------------------------------------------------
 ;; Comint
@@ -651,12 +655,12 @@ help instead of keeping it open."
 
   (add-hook 'inferior-python-mode-hook
             (lambda ()
-              (setq comint-move-point-for-output t)))
+              (setopt comint-move-point-for-output t)))
 
-  (setq comint-move-point-for-output t
-        comint-scroll-to-bottom-on-input t
-        comint-scroll-to-bottom-on-output t
-        comint-scroll-show-maximum-output t))
+  (setopt comint-move-point-for-output t
+          comint-scroll-to-bottom-on-input t
+          comint-scroll-to-bottom-on-output t
+          comint-scroll-show-maximum-output t))
 
 ;;------------------------------------------------------------------------------
 ;; ielm
@@ -679,11 +683,11 @@ help instead of keeping it open."
     ;; restore saved value (if available)
     (when ielm-comint-input-ring
       (message "Restoring comint-input-ring...")
-      (setq comint-input-ring ielm-comint-input-ring)))
+      (setopt comint-input-ring ielm-comint-input-ring)))
 
   (defun save-ielm-comint-input-ring ()
     (message "Saving comint-input-ring...")
-    (setq ielm-comint-input-ring comint-input-ring))
+    (setopt ielm-comint-input-ring comint-input-ring))
 
   (add-hook 'ielm-mode-hook
             #'set-ielm-comint-input-ring))
@@ -698,10 +702,10 @@ help instead of keeping it open."
 
   :init
 
-  (setq svg-tag-tags
-        '(("NOTE" . ((lambda (tag) (svg-tag-make :face 'font-lock-string-face "TODO"))))
-          ("TODO" . ((lambda (tag) (svg-tag-make :face 'org-warning "TODO"))))
-          ("FIXME" . ((lambda (tag) (svg-tag-make :face 'error "FIXME"))))))
+  (setopt svg-tag-tags
+          '(("NOTE" . ((lambda (tag) (svg-tag-make :face 'font-lock-string-face "TODO"))))
+            ("TODO" . ((lambda (tag) (svg-tag-make :face 'org-warning "TODO"))))
+            ("FIXME" . ((lambda (tag) (svg-tag-make :face 'error "FIXME"))))))
 
   :config
 
@@ -722,7 +726,7 @@ help instead of keeping it open."
   :defer-incrementally t
   :when (featurep 'undo-tree)
   :config
-  (setq undo-tree-history-directory-alist '(("." . "~/.undo-tree")))
+  (setopt undo-tree-history-directory-alist '(("." . "~/.undo-tree")))
 
   ;; https://github.com/doomemacs/doomemacs/issues/902
   (advice-remove '+undo--append-zst-extension-to-file-name-a
@@ -736,7 +740,7 @@ help instead of keeping it open."
   :defer-incrementally t
   :when (featurep 'emojify-mode)
   :config
-  (setq global-emojify-mode t))
+  (setopt global-emojify-mode t))
 
 ;;------------------------------------------------------------------------------
 ;; Org Cliplink

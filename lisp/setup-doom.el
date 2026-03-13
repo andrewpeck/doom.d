@@ -6,9 +6,9 @@
   (browse-url "https://github.com/orgs/doomemacs/projects/5/views/1"))
 
 ;; Dashboard
-(setq +dashboard-ascii-banner-fn (lambda () "Emacs"))
+(setopt +dashboard-ascii-banner-fn (lambda () "Emacs"))
 
-(setq +dashboard-functions
+(setopt +dashboard-functions
   `(+dashboard-widget-banner
     +dashboard-widget-loaded))
 
@@ -22,4 +22,4 @@
              (propertize (doom-display-benchmark-h 'return)
                          'face '+dashboard-loaded)))))
 
-(setq doom-scratch-dir doom-user-dir)
+(setopt doom-scratch-dir doom-user-dir)

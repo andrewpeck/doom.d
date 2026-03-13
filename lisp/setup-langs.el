@@ -167,8 +167,8 @@
   :config
 
   ;; cider-edit-jack-in-command
-  (setq org-babel-clojure-backend "cider")
-  (setq cider-save-file-on-load t))
+  (setopt org-babel-clojure-backend "cider"
+          cider-save-file-on-load t))
 
 (use-package! flycheck-clj-kondo
   :after clojure-mode)
