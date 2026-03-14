@@ -13,11 +13,27 @@
     (when-let* ((current-server (eglot-current-server)))
       (ignore-errors (eglot-shutdown current-server))
       (let ((inhibit-message nil))
-        (message "Shut down %s" current-server)))))
+        (message "Shut down `%s' language server"
+                 (nth 1 (eglot--server-info current-server)))))))
+
+(defun +lsp--wait-for-server (timeout interval)
+  (let ((server (eglot-current-server)))
+    (cond
+     (server
+      (message "Started `%s' language server"
+               (nth 1 (eglot--server-info server))))
+     ((< timeout 0)
+      (message "LSP server timed out"))
+     (t
+      (run-with-timer interval nil
+                      #'+lsp--wait-for-server
+                      (- timeout interval)
+                      interval)))))
 
 (defun +lsp-startup ()
   (interactive)
-  (eglot-ensure))
+  (eglot-ensure)
+  (+lsp--wait-for-server 10 0.2))
 
 (defun +lsp-restart ()
   (interactive)
