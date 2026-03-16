@@ -174,7 +174,7 @@
                        #'cape-keyword
                        #'yasnippet-capf))))
 
-  (add-hook 'vhdl-mode-hook 'hook/add-vhdl-keywords 'hook/set-vhdl-capf)
+  (add-hook! 'vhdl-mode-hook 'hook/add-vhdl-keywords 'hook/set-vhdl-capf)
 
   ;;------------------------------------------------------------------------------
   ;; Make
