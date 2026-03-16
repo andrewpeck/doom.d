@@ -143,9 +143,6 @@ or for a single package (uv-install \"mypy\")
   ;; Sorting
   ;;------------------------------------------------------------------------------
 
-  (defvar py-isort-options '("--line-length" "300" "-sl")
-    "List of arguments to apply in `python-sort-imports")
-
   (defun python-sort-imports ()
     "Sort Python imports in the current buffer."
     (interactive)
