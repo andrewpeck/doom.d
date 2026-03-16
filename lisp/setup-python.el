@@ -21,7 +21,7 @@
   :init
 
   ;;; turn on apheleia
-  (comment (add-hook 'python-base-mode-hook #'apheleia-mode))
+  (add-hook 'python-base-mode-hook #'apheleia-mode)
 
   ;;; invoke python ts mode
   (add-hook 'python-mode-hook #'python-ts-mode)
