@@ -504,15 +504,21 @@ _h_ decrease width    _l_ increase width
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package yasnippet
+  :commands (yas-insert-snippet)
 
   :init
 
-  (add-hook 'prog-mode-hook (lambda () (yas-minor-mode nil)))
-  (add-hook 'text-mode-hook (lambda () (yas-minor-mode nil)))
+  (defun my/yas-setup ()
+    (interactive)
+      (require 'yasnippet)
+      (setopt yas-snippet-dirs '("~/.doom.d/snippets"))
+      (yas-reload-all)
+      (yas-minor-mode))
+
+  (add-hook! '(prog-mode-hook text-mode-hook) #'my/yas-setup)
 
   :custom
 
-  (yas-snippet-dirs '("~/.doom.d/snippets"))
   (yas-also-auto-indent-first-line t)
 
   :config
