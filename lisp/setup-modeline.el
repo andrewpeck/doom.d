@@ -83,6 +83,14 @@ nil."
 
                 ;; RIGHT
 
+                ;; venv
+                (:eval
+                 (or (and buffer-env-active
+                          (propertize " " 'help-echo (abbreviate-file-name buffer-env-active) ))
+                     (and (or (eq major-mode 'python-ts-mode)
+                              (eq major-mode 'python-mode))
+                          (propertize  "No python venv. " 'face 'error))))
+
                 ;; lsp
                 (:eval (and (fboundp #'eglot-managed-p)
                             (eglot-managed-p)
@@ -96,11 +104,6 @@ nil."
                                            ("rass" " ")
                                            (_ "  "))))
                               (propertize icon 'help-echo (format "%s" lsp-server-info)))))
-
-                ;; venv
-                (:eval
-                 (and buffer-env-active
-                      (propertize " " 'help-echo (abbreviate-file-name buffer-env-active) )))
 
                 ;; flycheck
                 (:eval (and flycheck-mode flycheck-enabled-checkers

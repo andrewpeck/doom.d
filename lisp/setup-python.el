@@ -30,8 +30,6 @@
   (add-hook 'python-ts-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
 
-  ;; (flycheck-add-next-checker 'python-ruff (cons t 'python-pyright))
-
   (add-hook 'python-base-mode-hook
             (defun hook/disable-eldoc-mode () (eldoc-mode nil)))
 
@@ -40,18 +38,6 @@
               (when-let* ((name (buffer-file-name)))
                 (when (string=  (file-name-extension name) "ipynb")
                   (flycheck-mode 0)))))
-
-  (defun my/check-python-tooling ()
-    "Check if python tooling is installed."
-    (interactive)
-    (unless (executable-find "ruff")
-      (warn "ruff not found! please install it"))
-    (unless (or (executable-find "basedpyright")
-                (executable-find "pyright"))
-      (warn "pyright/basedpyright not found! please install it"))
-    ;; (unless (executable-find "mypy")
-    ;;   (warn "mypy not found! please install it"))
-    )
 
   (defun uv-tool (packages)
     "Use uv tool to install a list of PACKAGES or a single package.
@@ -81,7 +67,8 @@ or for a single package (uv-install \"mypy\")
             (t (error "Unrecognized input to uv-install.")))))
       (compile (concat "uv pip install " pkg-str))))
 
-  (defun my/setup-python-tooling ()
+  (defun my/setup-python-venv ()
+    "Set up a python venv at project root."
     (interactive)
 
     (buffer-env-update)
@@ -89,6 +76,16 @@ or for a single package (uv-install \"mypy\")
     (unless (getenv "VIRTUAL_ENV")
       (when (yes-or-no-p "Virtual environment not active. Do you want to create at venv project root?")
         (when (shell-command (concat "uv venv --python 3.12 " (doom-project-root) ".venv"))
+
+          (let* ((file (concat (doom-project-root) ".venv/bin/activate"))
+                 (hash (with-temp-buffer
+                         (insert-file-contents-literally file)
+                         (secure-hash 'sha256 (current-buffer)))))
+            (or (member (cons file hash) buffer-env-safe-files)
+                (customize-save-variable
+                       'buffer-env-safe-files
+                       (push (cons file hash) buffer-env-safe-files))))
+
           (buffer-env-update))))
 
     (when (getenv "VIRTUAL_ENV")
@@ -96,12 +93,10 @@ or for a single package (uv-install \"mypy\")
         (uv-install '("mypy")))
       (unless (executable-find "flake8")
         (uv-install '("flake8")))
+      (unless (executable-find "ty")
+        (uv-install '("ty")))
       (unless (executable-find "rass")
-        (uv-install '("rassumfrassum"))))
-
-    (my/check-python-tooling))
-
-  (add-hook! 'python-base-mode-hook 'my/setup-python-tooling)
+        (uv-install '("rassumfrassum")))))
 
   :config
 
