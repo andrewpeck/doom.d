@@ -84,8 +84,6 @@
 (use-package visual-fill-column
   :init
 
-  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "w"  #'my/toggle-wrap)
-  (map! :leader :prefix "v" :desc "Toggle Visual Wrap"   "c"  #'my/toggle-wrap)
   (map! :leader :prefix "t" :desc "Toggle Visual Wrap"   "w"  #'my/toggle-wrap)
   (map! :localleader :desc "Olivetti Mode" "o" 'my/toggle-wrap-and-center) 
 
