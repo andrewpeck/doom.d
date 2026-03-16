@@ -17,9 +17,6 @@
   ;; apparently tries to create tramp connections? UHG
   (setopt vc-ignore-dir-regexp "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'")
 
-  ;; doom has project.el calling projectile, just revert to original value
-  (setopt project-find-functions (list #'project-try-vc))
-
   (defun my/project-discover-all ()
     "Search the work dir and reregister all directories."
     (interactive)
