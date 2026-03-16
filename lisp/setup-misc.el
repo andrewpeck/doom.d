@@ -284,7 +284,6 @@ _h_ decrease width    _l_ increase width
                 (insert "-"))
               (insert (substring copyright-current-year size)))))))
 
-  (add-to-list 'before-save-hook t)
   (add-hook 'before-save-hook 'my/update-copyright)
 
   :custom
