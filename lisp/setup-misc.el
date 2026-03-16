@@ -507,8 +507,8 @@ _h_ decrease width    _l_ increase width
 
   :init
 
-  (add-hook 'prog-mode-hook (lambda () (yas-global-mode 1)))
-  (add-hook 'text-mode-hook (lambda () (yas-global-mode 1)))
+  (add-hook 'prog-mode-hook (lambda () (yas-minor-mode nil)))
+  (add-hook 'text-mode-hook (lambda () (yas-minor-mode nil)))
 
   :custom
 
