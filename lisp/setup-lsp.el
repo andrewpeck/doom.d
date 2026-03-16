@@ -119,7 +119,7 @@
                  "rass" "python"))
 
   (unless (executable-find "emacs-lsp-booster")
-    (error "emacs-lsp booster not found! install with emacs-lsp-booster-install"))
+    (warn "emacs-lsp booster not found! install with emacs-lsp-booster-install"))
 
   (add-to-list 'eglot-server-programs
                '(vhdl-mode . ("ghdl-ls"))))
