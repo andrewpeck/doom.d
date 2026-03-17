@@ -70,6 +70,8 @@
           org-confirm-babel-evaluate nil
           org-display-remote-inline-images 'cache
 
+          org-fold-core-style 'overlays
+
           ;; org-plantuml-jar-path "~/.doom.d/plantuml.jar"
 
           ;; Latex Previews
