@@ -2,45 +2,14 @@
 
 (map! :map verilog-mode-map
       :after verilog-mode
-      "<return>" #'electric-verilog-terminate-and-indent
-      "<backspace>" nil                ; unbind verilog electric backspace
-      "TAB" #'indent-for-tab-command)
+      ;; unbind electric tab insertion
+      "<TAB>" nil
+      :i "<return>" #'electric-verilog-terminate-and-indent
+      ;; unbind verilog electric backspace
+      :nm "<backspace>" nil)
 
- (comment
-  (use-package verilog-ext
-    :hook ((verilog-mode . verilog-ext-mode))
-    :init
-    ;; Can also be set through `M-x RET customize-group RET verilog-ext':
-    ;; Comment out/remove the ones you do not need
-    (setq verilog-ext-feature-list
-          '(font-lock
-            xref
-            capf
-            hierarchy
-            eglot
-            lsp
-            ;; lsp-bridge
-            ;; lspce
-            flycheck
-            beautify
-            navigation
-            ;; template
-            formatter
-            compilation
-            imenu
-            which-func
-            hideshow
-            typedefs
-            ;; time-stamp
-            block-end-comments
-            ports))
-    :config
-    ;; (setq verilog-ext-hierarchy-backend 'tree-sitter) ;; tree does not seem to work?
-    (verilog-ext-mode-setup)))
-
-
- (use-package verilog-port-copy
-   :after verilog)
+(use-package verilog-port-copy
+  :after verilog)
 
 (use-package verilog-mode
 
@@ -67,40 +36,39 @@
 
   :config
 
-  (setq verilog-align-ifelse t
-        verilog-tab-always-indent nil
-        ;; Regexp that matches user typedefs for declaration alignment.
-        verilog-align-typedef-regexp (concat "\\<" verilog-identifier-re "_\\(t\\)\\>")
-        verilog-auto-delete-trailing-whitespace t
-        verilog-auto-inst-param-value t
-        verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
-        verilog-auto-inst-vector nil
-        verilog-auto-lineup (lambda () nil)
-        verilog-auto-newline nil
-        verilog-auto-save-policy nil
-        verilog-auto-template-warn-unused t
-        verilog-highlight-grouping-keywords t
-        verilog-highlight-modules t
-        verilog-case-indent 2
-        verilog-cexp-indent 2
-        verilog-indent-level 2
-        verilog-indent-level-behavioral 2
-        verilog-indent-level-declaration 2
-        verilog-indent-level-module 2
-        verilog-tab-to-comment nil)
+  (setopt verilog-align-ifelse t
+          verilog-tab-always-indent nil
+          ;; Regexp that matches user typedefs for declaration alignment.
+          verilog-align-typedef-regexp (concat "\\<" verilog-identifier-re "_\\(t\\)\\>")
+          verilog-auto-delete-trailing-whitespace t
+          verilog-auto-inst-param-value t
+          verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
+          verilog-auto-inst-vector nil
+          verilog-auto-lineup (lambda () nil)
+          verilog-auto-newline nil
+          verilog-auto-save-policy nil
+          verilog-auto-template-warn-unused t
+          verilog-highlight-grouping-keywords t
+          verilog-highlight-modules t
+          verilog-case-indent 2
+          verilog-cexp-indent 2
+          verilog-indent-level 2
+          verilog-indent-level-behavioral 2
+          verilog-indent-level-declaration 2
+          verilog-indent-level-module 2
+          verilog-tab-to-comment nil)
 
-   (defun advise/indent-for-tab-command (orig-fun &rest args)
-     "More sane wrapper around verilog indent."
-     (if (eq 'verilog-mode major-mode)
-         (let ((pt (point)))
-           (beginning-of-line)
-           (apply orig-fun args)
-           (when (<= pt (progn (end-of-line) (point)))
-             (goto-char pt)))
+  (defun advice/restore-verilog-position (orig &rest args)
+      "This saves the column before indenting, and if the cursor was at or
+  past the indentation (i.e., in the actual content, not in the leading
+  whitespace), it restores the column after."
+    (let ((col (current-column))
+          (boi (save-excursion (back-to-indentation) (current-column))))
+      (apply orig args)
+      (when (>= col boi)
+        (move-to-column col))))
 
-       (apply orig-fun args))
-
-     (advice-add 'indent-for-tab-command :around #'advise/indent-for-tab-command))
+   (advice-add 'verilog-indent-line-relative :around #'advice/restore-verilog-position)
 
    ;; copy in an old version of verilog-pretty-expr before things got broken
    (defun verilog-pretty-expr (&optional quiet)
@@ -246,20 +214,3 @@ If QUIET is non-nil, do not print messages showing the progress of line-up."
                    (verilog-align-comments startpos endpos))
                  (unless quiet
                    (message ""))))))))))
-
-;;------------------------------------------------------------------------------
-;; VHDL Mode
-;;------------------------------------------------------------------------------
-
-(use-package! vhdl-mode
-
-  :config
-
-  ;; vhdl mode will wrap comments after some # of characters
-  (setq vhdl-end-comment-column 200
-        vhdl-standard '(08)
-        vhdl-platform-spec nil
-        vhdl-prompt-for-comments nil)
-
-  (after! flycheck
-    (setq flycheck-ghdl-language-standard "08")))
