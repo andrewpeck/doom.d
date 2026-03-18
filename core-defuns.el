@@ -82,6 +82,7 @@ This version is modified to sort by recent files"
   (interactive)
   (require 'consult)
   (require 'recentf)
+  (recentf-load-list)
   (find-file
    (consult--read
     (or (mapcar #'abbreviate-file-name recentf-list)
