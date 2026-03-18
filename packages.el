@@ -39,6 +39,7 @@
 (package! hog                     :pin "0e3fcab8fa7c2725aac2c7cf02ab6343a02d6e68" :recipe (:host github :repo "andrewpeck/hog.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-excalidraw          :pin "0e5365ce2237fd684b20a8b95a4967d850e20333" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
+(package! python-string-toggle.el :pin "4bedf8f4f9444e9177a204691778a2a2a89659f0" :recipe (:host github :repo "andrewpeck/python-string-toggle.el"))
 (package! resume                  :pin "062dc93dcc5200bf92fcf49507666845b80dc09c" :recipe (:host github :repo "andrewpeck/resume.el"))
 (package! system-install          :pin "399c5025c11fdd9b952340e4acd27fd3a2ed4be5" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! timesheet               :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))

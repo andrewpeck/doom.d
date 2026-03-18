@@ -110,9 +110,8 @@ or for a single package (uv-install \"mypy\")
     (interactive)
     (apheleia-format-buffer 'ruff))
 
-  (map! :map python-ts-mode-map :localleader "bf" #'ruff-fmt)
-
-  (map! :map python-ts-mode-map "C-c C-e" nil)
+  (map! :map python-base-mode-map :localleader "ts" #'python-string-toggle)
+  (map! :map python-base-mode-map :localleader "bf" #'ruff-fmt)
 
   (map! :localleader :map (python-mode-map python-ts-mode-map)
         (:prefix ("t" . "test")
