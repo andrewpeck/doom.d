@@ -26,6 +26,7 @@
        :desc "Magit Pull" "u" #'magit-pull-from-pushremote
        :desc "Magit Push Current" "P" #'magit-push-current-to-pushremote
        :desc "Instant Fixup" "cF" #'magit-commit-instant-fixup
+
        (:prefix ("z" . "Stash")
         :desc "Stash Apply" "a" #'magit-stash-apply
         :desc "Stash Pop" "p" #'magit-stash-pop
@@ -57,21 +58,77 @@ Useful for working on NAS where permissions don't make sense."
 
   :config
 
+  (setq-default magit-buffer-log-args
+                '("-n256" "--follow" "--graph" "--decorate"))
+
+  (setopt magit-list-refs-sortby "-creatordate"
+
+          ;; improve branches view
+          magit-refs-pad-commit-counts t
+          magit-refs-primary-column-width '(16 . 48)
+
+          magit-prefer-remote-upstream t
+          magit-branch-adjust-remote-upstream-alist
+          '(("origin/master" . ".*"))
+
+          magit-diff-visit-prefer-worktree t
+
+          ;; copy short hashes only
+          magit-copy-revision-abbreviated t
+
+          magit-status-sections-hook
+          (list
+           #'magit-insert-status-headers
+           #'magit-insert-merge-log
+           #'magit-insert-rebase-sequence
+           #'magit-insert-am-sequence
+           #'magit-insert-sequencer-sequence
+           #'magit-insert-bisect-output
+           #'magit-insert-bisect-rest
+           #'magit-insert-bisect-log
+           #'magit-insert-untracked-files
+           #'magit-insert-unstaged-changes
+           #'magit-insert-staged-changes
+           #'magit-insert-unpushed-to-pushremote
+           #'magit-insert-unpushed-to-upstream-or-recent
+           #'magit-insert-unpulled-from-pushremote
+           #'magit-insert-unpulled-from-upstream
+           #'forge-insert-issues
+           #'forge-insert-pullreqs
+           #'magit-insert-stashes
+           #'magit-insert-local-branches)
+
+          magit-section-initial-visibility-alist '((stashes . hide)
+                                                   (unpushed . hide))
+
+          magit-log-margin '(t "%Y/%m/%d" magit-log-margin-width t 18)
+
+          ;; List of directories that are or contain Git repositories. ;
+          magit-repository-directories '(("~/work" . 1))
+
+          ;; we've seen the warnings about long lines,
+          ;; don't need to keep showing them
+          magit-show-long-lines-warning nil
+
+          ;; Whether to show word-granularity differences within diff hunks.
+          magit-diff-refine-hunk 'all)
+
+  ;; When you initiate a commit, then Magit by default automatically shows a diff
+  ;; of the changes you are about to commit. For large commits this can take a
+  ;; long time, which is especially distracting when you are committing large
+  ;; amounts of generated data which you don’t actually intend to inspect before
+  ;; committing. This behavior can be turned off using:
+
+  (remove-hook 'server-switch-hook 'magit-commit-diff)
+  (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
+
   (defun magit-log-buffer-file-and-follow (&optional beg end)
     (interactive (cons current-prefix-arg (magit-file-region-line-numbers)))
     (require 'magit)
     (magit-log-buffer-file t beg end))
 
-  (setq-default magit-buffer-log-args
-                '("-n256" "--follow" "--graph" "--decorate"))
-
-  (setq magit-diff-visit-prefer-worktree t)
-
   ;; I don't use projectile anymore
   (remove-hook 'magit-refresh-buffer-hook '+magit-invalidate-projectile-cache-h)
-
-  ;; copy short hashes only
-  (setq magit-copy-revision-abbreviated t)
 
   ;; https://gist.github.com/danielmartin/34bc36dafd8f900de483394087230f48
   (defun my/magit-change-commit-author (arg)
@@ -85,52 +142,6 @@ on the current line, if any."
       (git-rebase-set-noncommit-action
        "exec"
        (lambda (_) (if author (format "git commit --amend --author='%s'" author) "")) arg)))
-
-  (setq magit-list-refs-sortby "-creatordate")
-
-  (setq magit-prefer-remote-upstream t)
-  ;; (setq magit-branch-prefer-remote-upstream nil)
-  (setq magit-branch-adjust-remote-upstream-alist
-        '(("origin/master" . ".*")))
-
-  ;; (add-to-list 'magit-status-sections-hook
-  ;;              #'magit-insert-local-branches)
-  (setq magit-status-sections-hook
-        (list
-         #'magit-insert-status-headers
-         #'magit-insert-merge-log
-         #'magit-insert-rebase-sequence
-         #'magit-insert-am-sequence
-         #'magit-insert-sequencer-sequence
-         #'magit-insert-bisect-output
-         #'magit-insert-bisect-rest
-         #'magit-insert-bisect-log
-         #'magit-insert-untracked-files
-         #'magit-insert-unstaged-changes
-         #'magit-insert-staged-changes
-         #'magit-insert-unpushed-to-pushremote
-         #'magit-insert-unpushed-to-upstream-or-recent
-         #'magit-insert-unpulled-from-pushremote
-         #'magit-insert-unpulled-from-upstream
-         #'forge-insert-issues
-         #'forge-insert-pullreqs
-         #'magit-insert-stashes
-         #'magit-insert-local-branches
-         ))
-
-  ;; magit-describe-section-briefly
-  (setq magit-section-initial-visibility-alist '((stashes . hide)
-                                                 (unpushed . hide)
-                                                 (local . hide)))
-
-  ;; When you initiate a commit, then Magit by default automatically shows a diff
-  ;; of the changes you are about to commit. For large commits this can take a
-  ;; long time, which is especially distracting when you are committing large
-  ;; amounts of generated data which you don’t actually intend to inspect before
-  ;; committing. This behavior can be turned off using:
-
-  (remove-hook 'server-switch-hook 'magit-commit-diff)
-  (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
 
   (defun remove-and-sum-files (files confirm)
     (when (or (not confirm)
@@ -158,18 +169,6 @@ on the current line, if any."
       (if files-to-rm (remove-and-sum-files files-to-rm t)
         (message "No files to remove."))))
 
-  (setq magit-log-margin '(t "%Y/%m/%d" magit-log-margin-width t 18)
-
-        ;; List of directories that are or contain Git repositories. ;
-        magit-repository-directories '(("~/work" . 1))
-
-        ;; we've seen the warnings about long lines,
-        ;; don't need to keep showing them
-        magit-show-long-lines-warning nil
-
-        ;; Whether to show word-granularity differences within diff hunks.
-        magit-diff-refine-hunk 'all)
-
   (setq-default magit-mode-hook nil)
   (add-hook! 'magit-diff-mode-hook
     (setq-local truncate-lines nil))
@@ -188,11 +187,19 @@ on the current line, if any."
     (transient-append-suffix 'magit-submodule '(2 -1) ;; add as last entry in the 3rd section
       '("U" magit-submodule-update-all))))
 
+;;------------------------------------------------------------------------------
+;; Browse at Remote
+;;------------------------------------------------------------------------------
+
 (use-package! browse-at-remote
   :config
-  (setq browse-at-remote-prefer-symbolic t)
+  (setopt browse-at-remote-prefer-symbolic t)
   (add-to-list 'browse-at-remote-remote-type-regexps
                '(:host "^gitlab\\.cern.ch$" :type "gitlab")))
+
+;;------------------------------------------------------------------------------
+;; Forge
+;;------------------------------------------------------------------------------
 
 (use-package! forge
 
@@ -204,10 +211,10 @@ on the current line, if any."
 
   (add-to-list 'forge-alist '("gitlab.cern.ch" "gitlab.cern.ch/api/v4" "gitlab.cern.ch" forge-gitlab-repository))
 
-  (setq forge-topic-list-limit '(60 . 0)
-        forge-owned-accounts '(("andrewpeck")
-                               ("andrewpeck1")
-                               ("apeck"))))
+  (setopt forge-topic-list-limit '(60 . 0)
+          forge-owned-accounts '(("andrewpeck")
+                                 ("andrewpeck1")
+                                 ("apeck"))))
 
 ;;------------------------------------------------------------------------------
 ;; Git Gutter
@@ -222,8 +229,8 @@ on the current line, if any."
 
   :config
 
-  (setq diff-hl-disable-on-remote t
-        diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode))
+  (setopt diff-hl-disable-on-remote t
+          diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode))
 
   (advice-add 'diff-hl-update-once :before-until
               (lambda () (remote-host? default-directory))))
