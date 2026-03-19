@@ -122,6 +122,26 @@ Useful for working on NAS where permissions don't make sense."
   (remove-hook 'server-switch-hook 'magit-commit-diff)
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
 
+  (defun my/magit-default-starting-point ()
+    "Change default magit branch strating point.
+
+If your cursor is on a remote branch in the Magit buffer, that's
+used (handy when intentional)
+
+Otherwise, defaults to origin/main or origin/master — whichever exists —
+using magit-main-branch which checks init.defaultBranch and the standard
+names in order
+
+Falls back to the current branch only if no remote main branch is found."
+    (or (magit-remote-branch-at-point)
+        (when-let ((main (magit-main-branch)))
+          (let ((remote-main (concat "origin/" main)))
+            (when (magit-rev-verify remote-main)
+              remote-main)))
+        (magit-get-current-branch)))
+
+  (advice-add 'magit--default-starting-point :override #'my/magit-default-starting-point)
+
   (defun magit-log-buffer-file-and-follow (&optional beg end)
     (interactive (cons current-prefix-arg (magit-file-region-line-numbers)))
     (require 'magit)
