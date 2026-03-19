@@ -24,7 +24,8 @@
           (dirvish-fd dir pat)
         (find-name-dired dir pat))))
 
-  (setq backup-each-save-mirror-location
-        (expand-file-name "~/emacs-backups"))
+  (setopt backup-each-save-mirror-location
+          (expand-file-name "~/emacs-backups"))
+
   (when (not (file-directory-p backup-each-save-mirror-location))
     (make-directory backup-each-save-mirror-location)))
