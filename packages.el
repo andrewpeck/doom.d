@@ -79,6 +79,7 @@
 (package! gptel                   :pin "bbfbd711fae64b079f7057d71772805edeb00a3d")
 (package! gptel-quick             :pin "018ff2be8f860a1e8fe3966eec418ad635620c38" :recipe (:host github :repo "karthink/gptel-quick"))
 (package! graphviz-dot-mode       :pin "516c151b845a3eb2da73eb4ee648ad99172087ac")
+(package! gruber-darker-theme     :pin "2e9f99c41fe8ef0557e9ea0f3b94ef50c68b5557" :recipe (:host github :repo "rexim/gruber-darker-theme"))
 (package! hydra                   :pin "59a2a45a35027948476d1d7751b0f0215b1e61aa")
 (package! jinx                    :pin "61bed3f77d37ae02100e8a2ec1cfb849d649fa5d" :recipe (:host github :repo "minad/jinx"))
 (package! logview                 :pin "50cac3f726abd4e7872b8fa36ede72550ce66a64")
