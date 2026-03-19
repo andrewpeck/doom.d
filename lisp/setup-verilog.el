@@ -6,7 +6,7 @@
       "<TAB>" nil
       :i "<return>" #'electric-verilog-terminate-and-indent
       ;; unbind verilog electric backspace
-      :nm "<backspace>" nil)
+      :nm "<backspace>" #'buffer-flip)
 
 (use-package verilog-port-copy
   :after verilog)
