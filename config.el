@@ -181,7 +181,7 @@
 (load-idle "lisp/regulator")
 (load-idle "lisp/tracking")
 (load-idle "passwords")
-(require 'psi-emacs)
+(load-idle "psi-emacs")
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)
