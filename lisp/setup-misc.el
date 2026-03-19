@@ -84,11 +84,11 @@
 (use-package visual-fill-column
   :init
 
-  (map! :leader :prefix "t" :desc "Toggle Visual Wrap"   "w"  #'my/toggle-wrap)
-  (map! :localleader :desc "Olivetti Mode" "o" 'my/toggle-wrap-and-center) 
-
   ;; wrap in magit status mode
-  (add-hook 'magit-status-mode-hook #'my/wrap))
+  ;; (add-hook 'magit-status-mode-hook #'my/wrap)
+
+  (map! :leader :prefix "t" :desc "Toggle Visual Wrap"   "w"  #'my/toggle-wrap)
+  (map! :localleader :desc "Olivetti Mode" "o" 'my/toggle-wrap-and-center))
 
 ;;------------------------------------------------------------------------------
 ;; Casual
