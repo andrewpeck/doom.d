@@ -73,6 +73,7 @@
 (package! elfeed                  :pin "bbb3cac27b0412d80b327b5cfaab83683c96a2a1" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-colorpicker       :pin "3acee0fc0e35e130fb049ab69f99544a1ca9d11f" :recipe (:host github :repo "syohex/emacs-colorpicker"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
+(package! emacs-tramp-rpc         :pin "e60a356c1f7180121c49c8bd18a08370ccfbe49d" :recipe (:host github :repo "ArthurHeymans/emacs-tramp-rpc"))
 (package! expand-region           :pin "351279272330cae6cecea941b0033a8dd8bcc4e8" :recipe (:host github :repo "magnars/expand-region.el"))
 (package! flycheck-clj-kondo      :pin "e38c67ba9db1ea1cbe1b61ab39b506c05efdcdbf" :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
 (package! gptel                   :pin "9682e8f5f96a72c858fb3420003642194793b32f")
@@ -85,6 +86,7 @@
 (package! lte.el                  :pin "011c86d9fb72d00105293efabef4756274d851b4" :recipe (:host github :repo "fredericgiquel/lte.el"))
 (package! magit-todos             :pin "7294a95580bddf7232f2d205efae312dc24c5f61")
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
+(package! msgpack.el              :pin "90e3086f259549b1667a3c5b9aa2d70aaeaa4d3d" :recipe (:host github :repo "xuchunyang/msgpack.el")) ; required by
 (package! nerd-icons.el           :pin "9a7f44db9a53567f04603bc88d05402cad49c64c" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
 (package! nix-mode                :pin "719feb7868fb567ecfe5578f6119892c771ac5e5" :recipe (:host github :repo "NixOS/nix-mode"))
 (package! nyan-mode               :pin "09904af23adb839c6a9c1175349a1fb67f5b4370" :recipe (:host github :repo "TeMPOraL/nyan-mode") )
