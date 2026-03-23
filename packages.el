@@ -30,7 +30,7 @@
 (package! yasnippet-capf :recipe (:host github :repo "elken/yasnippet-capf"))
 
 ;; start:sort
-(package! backup-each-save        :pin "6303fb4c2796e7816e707898a84515145f621e4a" :recipe (:host github :repo "andrewpeck/backup-each-save"))
+(package! backup-each-save        :pin "3d5f080d6ca24b30de868816d486693140b00426" :recipe (:host github :repo "andrewpeck/backup-each-save"))
 (package! bookmark-url.el         :pin "c5081e35c3d1f746ef8754ff8378dc27052fa907" :recipe (:host github :repo "andrewpeck/bookmark-url.el"))
 (package! buffer-flip.el          :pin "ace8d64583896fd3c4c97de7a20e4428b6966f2c" :recipe (:host github :repo "andrewpeck/buffer-flip.el"))
 (package! cloc.el                 :pin "6eaf53efb1dac2ba2773ec3acb74eeaf2fec0a67" :recipe (:host github :repo "andrewpeck/cloc.el"))
