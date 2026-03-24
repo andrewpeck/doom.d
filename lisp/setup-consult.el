@@ -17,4 +17,9 @@ This version is modified from the original source to not record directories."
   :init
 
   (map! :leader :desc "Find file in project" "SPC" #'consult-project-find-file)
-  (map! :leader :desc "Search open buffers" "," #'consult-open-buffers))
+  (map! :leader :desc "Search open buffers" "," #'consult-open-buffers)
+
+  :config
+  (setopt consult-preview-excluded-files
+          (append consult-preview-excluded-files
+                  '("\\.drawio\\'" "\\.jar\\'" "\\.zip\\'"))))
