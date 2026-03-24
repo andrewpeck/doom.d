@@ -58,13 +58,12 @@ new Chat.org file and activate gptel-mode."
   :config
 
   (setopt gptel-org-branching-context t
-          gptel-backend 'ChatGPT
+          gptel-backend '(gptel-openai "OpenAI" :stream t)
           gptel-track-media t
           gptel-use-tools nil
-          gptel-log-level 1
+          gptel-log-level 'info
           gptel-model 'gpt-5o-mini
           gptel-default-mode 'markdown-mode)
-
 
   (add-hook! 'gptel-mode-hook #'gptel-highlight-mode)
 
