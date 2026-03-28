@@ -38,24 +38,24 @@ Insert/overwrite the docstring for the current defun." t)
 
 ;;; Generated autoloads from my-autoloads/my-defuns.el
 
-(autoload 'my/replace-buffer-with-clipboard "my-autoloads/my-defuns" "\
-Replace the entire contents of the current buffer with the system clipboard." t)
-(autoload 'emacs-lsp-booster-install "my-autoloads/my-defuns" "\
-Install LSP booster with cargo." t)
+(autoload 'my/replace-buffer-with-clipboard "my-autoloads/my-defuns"
+"Replace the entire contents of the current buffer with the system clipboard." t)
+(autoload 'emacs-lsp-booster-install "my-autoloads/my-defuns"
+"Install LSP booster with cargo." t)
 (autoload 'my/toggle-c-verilog-comment-style "my-autoloads/my-defuns" nil t)
-(autoload 'file-exists "my-autoloads/my-defuns" "\
-Not predicated version of file-exists-p.
+(autoload 'file-exists "my-autoloads/my-defuns"
+"Not predicated version of file-exists-p.
 
 (fn FILE)")
-(autoload 'my/describe-char-at-mouse-click "my-autoloads/my-defuns" "\
-`describe-char' at CLICK-EVENT's position.
+(autoload 'my/describe-char-at-mouse-click "my-autoloads/my-defuns"
+"`describe-char' at CLICK-EVENT's position.
 CLICK-EVENT should be a mouse-click event.
 
 From https://emacs.stackexchange.com/questions/303/describe-face-character-not-under-unreachable-by-the-cursor
 
 (fn CLICK-EVENT)" t)
-(autoload 'verilog-name-to-port-inst "my-autoloads/my-defuns" "\
-Convert symbol at point into a verilog port instantiation.
+(autoload 'verilog-name-to-port-inst "my-autoloads/my-defuns"
+"Convert symbol at point into a verilog port instantiation.
 
 e.g. if you place the point at `outcome_cycle_idx_0' in the
 following line and execute this function:
@@ -69,119 +69,121 @@ it will be transformed into:
 
 This makes for easy conversion of some port list or wire list
 into Verilog ports." t)
-(autoload 'vhdl-unsigned->slv "my-autoloads/my-defuns" "\
-Convert a VHDL unsigned to standard logic vector." t)
-(autoload 'vhdl-int->slv "my-autoloads/my-defuns" "\
-Convert a VHDL integer to standard logic vector." t)
-(autoload 'vhdl-slv->int "my-autoloads/my-defuns" "\
-Convert a VHDL standard logic vector to integer." t)
-(autoload 'vhdl-slv->unsigned "my-autoloads/my-defuns" "\
-Convert a VHDL standard logic vector to unsigned." t)
-(autoload 'yosys-make-schematic "my-autoloads/my-defuns" "\
-Make a yosys schematic from the module at point. " t)
-(autoload 'rainbow-delimiters--apply-color-range "my-autoloads/my-defuns" "\
-Highlight a single delimiter at LOC according to DEPTH.
+(autoload 'vhdl-unsigned->slv "my-autoloads/my-defuns"
+"Convert a VHDL unsigned to standard logic vector." t)
+(autoload 'vhdl-int->slv "my-autoloads/my-defuns"
+"Convert a VHDL integer to standard logic vector." t)
+(autoload 'vhdl-slv->int "my-autoloads/my-defuns"
+"Convert a VHDL standard logic vector to integer." t)
+(autoload 'vhdl-slv->unsigned "my-autoloads/my-defuns"
+"Convert a VHDL standard logic vector to unsigned." t)
+(autoload 'yosys-make-schematic "my-autoloads/my-defuns"
+"Make a yosys schematic from the module at point. " t)
+(autoload 'rainbow-delimiters--apply-color-range "my-autoloads/my-defuns"
+"Highlight a single delimiter at LOC according to DEPTH.
 
 LOC is the location of the character to add text properties to.
 DEPTH is the nested depth at LOC, which determines the face to use.
 MATCH is nil iff it's a mismatched closing delimiter.
 
 (fn START END DEPTH MATCH)")
-(autoload 'rainbow-delimiters--propertize-verilog "my-autoloads/my-defuns" "\
-Highlight delimiters in region between point and END.
+(autoload 'rainbow-delimiters--propertize-verilog "my-autoloads/my-defuns"
+"Highlight delimiters in region between point and END.
 
 Used by font-lock for dynamic highlighting.
 
 (fn _)" t)
-(autoload 'set-font-interactive "my-autoloads/my-defuns" "\
-Interactively choose and set a font." t)
+(autoload 'set-font-interactive "my-autoloads/my-defuns"
+"Interactively choose and set a font." t)
 (autoload 'synchronize-theme "my-autoloads/my-defuns" nil t)
-(autoload 'set-dark-mode "my-autoloads/my-defuns" "\
-Set the color scheme to be dark." t)
-(autoload 'set-light-mode "my-autoloads/my-defuns" "\
-Set the color scheme to be light." t)
-(autoload 'set-auto-dark-mode "my-autoloads/my-defuns" "\
-Set the color scheme to follow the day cycle (roughly)." t)
-(autoload 'toggle-dark-mode "my-autoloads/my-defuns" "\
-Toggle dark mode." t)
-(autoload 'home-manager-switch "my-autoloads/my-defuns" "\
-Reload home manager configuration." t)
-(autoload 'home-manager-update "my-autoloads/my-defuns" "\
-Reload home manager configuration." t)
-(autoload 'sudo-shell-command "my-autoloads/my-defuns" "\
-
+(autoload 'set-dark-mode "my-autoloads/my-defuns"
+"Set the color scheme to be dark." t)
+(autoload 'set-light-mode "my-autoloads/my-defuns"
+"Set the color scheme to be light." t)
+(autoload 'set-auto-dark-mode "my-autoloads/my-defuns"
+"Set the color scheme to follow the day cycle (roughly)." t)
+(autoload 'toggle-dark-mode "my-autoloads/my-defuns"
+"Toggle dark mode." t)
+(autoload 'home-manager-switch "my-autoloads/my-defuns"
+"Reload home manager configuration." t)
+(autoload 'home-manager-update "my-autoloads/my-defuns"
+"Reload home manager configuration." t)
+(autoload 'sudo-shell-command "my-autoloads/my-defuns"
+"
 
 (fn COMMAND)")
-(autoload 'xclip "my-autoloads/my-defuns" "\
-" t)
-(autoload 'copy-file-name-to-kill "my-autoloads/my-defuns" "\
-Copy the current buffer file name to the clipboard." t)
-(autoload 'make-declare "my-autoloads/my-defuns" "\
-Make a function declaration from the symbol at point." t)
-(autoload 'scratch-new "my-autoloads/my-defuns" "\
-Create a new empty scratch buffer." t)
+(autoload 'xclip "my-autoloads/my-defuns"
+"" t)
+(autoload 'copy-file-name-to-kill "my-autoloads/my-defuns"
+"Copy the current buffer file name to the clipboard." t)
+(autoload 'make-declare "my-autoloads/my-defuns"
+"Make a function declaration from the symbol at point." t)
+(autoload 'scratch-new "my-autoloads/my-defuns"
+"Create a new empty scratch buffer." t)
 (autoload 'byte-compile-config "my-autoloads/my-defuns" nil t)
-(autoload 'open-link-or "my-autoloads/my-defuns" "\
-
+(autoload 'open-link-or "my-autoloads/my-defuns"
+"
 
 (fn FN)")
 (autoload 're-indent-buffer "my-autoloads/my-defuns" nil t)
 (autoload 'ap/tab-fallthrough "my-autoloads/my-defuns" nil t)
-(defvar preferred-terminal 'wezterm "\
-Default terminal used by `open-pwd-in-terminal'")
-(autoload 'open-pwd-in-terminal "my-autoloads/my-defuns" "\
-Opens the present working directory in external terminal." t)
-(autoload 'run-in-terminal "my-autoloads/my-defuns" "\
-
+(defvar preferred-terminal 'wezterm
+"Default terminal used by `open-pwd-in-terminal'")
+(autoload 'xfce4-settings-manager "my-autoloads/my-defuns"
+"Run xfce4-settings-manager" t)
+(autoload 'open-pwd-in-terminal "my-autoloads/my-defuns"
+"Opens the present working directory in external terminal." t)
+(autoload 'run-in-terminal "my-autoloads/my-defuns"
+"
 
 (fn CMD)")
-(autoload 'open-buffer-in-vim "my-autoloads/my-defuns" "\
-Opens the current buffer in gvim." t)
-(autoload 'vscode "my-autoloads/my-defuns" "\
-Opens the current buffer in vscode." t)
-(autoload 'org-update-all-src-blocks "my-autoloads/my-defuns" "\
-Update all org histograms blocks.")
-(autoload 'org-make-tables-pretty "my-autoloads/my-defuns" "\
-Makes org mode tables pretty in the current buffer." t)
-(autoload 'xdg-do "my-autoloads/my-defuns" "\
-
+(autoload 'open-buffer-in-vim "my-autoloads/my-defuns"
+"Opens the current buffer in gvim." t)
+(autoload 'vscode "my-autoloads/my-defuns"
+"Opens the current buffer in vscode." t)
+(autoload 'org-update-all-src-blocks "my-autoloads/my-defuns"
+"Update all org histograms blocks.")
+(autoload 'org-make-tables-pretty "my-autoloads/my-defuns"
+"Makes org mode tables pretty in the current buffer." t)
+(autoload 'xdg-do "my-autoloads/my-defuns"
+"
 
 (fn X)")
-(autoload 'xdg-browse-directory "my-autoloads/my-defuns" "\
-Open the current file's directory however the OS would." t)
-(autoload 'xdg-open-file "my-autoloads/my-defuns" "\
-Open the current file however the OS would." t)
-(autoload 'file-clipboard-copy "my-autoloads/my-defuns" "\
-Copy currently opened file to clipboard." t)
-(autoload 'py-black "my-autoloads/my-defuns" "\
-Format python file with black." t)
-(autoload 'autopep "my-autoloads/my-defuns" "\
-Format python file with autopep." t)
-(autoload 'verible-format "my-autoloads/my-defuns" "\
-Format verilog file with verible." t)
-(autoload 'pyment "my-autoloads/my-defuns" "\
-Format python file with pyment" t)
-(autoload 'switch-to-previous-buffer "my-autoloads/my-defuns" "\
-Switch to previously open buffer. Repeated invocations toggle
+(autoload 'xdg-browse-directory "my-autoloads/my-defuns"
+"Open the current file's directory however the OS would." t)
+(autoload 'xdg-open-file "my-autoloads/my-defuns"
+"Open the current file however the OS would." t)
+(autoload 'file-clipboard-copy "my-autoloads/my-defuns"
+"Copy currently opened file to clipboard." t)
+(autoload 'py-black "my-autoloads/my-defuns"
+"Format python file with black." t)
+(autoload 'autopep "my-autoloads/my-defuns"
+"Format python file with autopep." t)
+(autoload 'verible-format "my-autoloads/my-defuns"
+"Format verilog file with verible." t)
+(autoload 'pyment "my-autoloads/my-defuns"
+"Format python file with pyment" t)
+(autoload 'switch-to-previous-buffer "my-autoloads/my-defuns"
+"Switch to previously open buffer. Repeated invocations toggle
 between the two most recently open buffers." t)
-(autoload 'open-todo "my-autoloads/my-defuns" "\
-Open my todo file" t)
-(autoload 'org-agenda-and-todo "my-autoloads/my-defuns" "\
-Open the full org agenda + todo" t)
-(autoload 'open-timesheet "my-autoloads/my-defuns" "\
-Open my EDF timesheet" t)
-(autoload 'crontab-e "my-autoloads/my-defuns" "\
-Run `crontab -e' in a emacs buffer." t)
-(autoload 'advice-unadvice "my-autoloads/my-defuns" "\
-Remove all advices from symbol SYM.
+(autoload 'open-todo "my-autoloads/my-defuns"
+"Open my todo file" t)
+(autoload 'org-agenda-and-todo "my-autoloads/my-defuns"
+"Open the full org agenda + todo" t)
+(autoload 'open-timesheet "my-autoloads/my-defuns"
+"Open my EDF timesheet" t)
+(autoload 'crontab-e "my-autoloads/my-defuns"
+"Run `crontab -e' in a emacs buffer." t)
+(autoload 'advice-unadvice "my-autoloads/my-defuns"
+"Remove all advices from symbol SYM.
 
 (fn SYM)" t)
-(autoload 'mult-by "my-autoloads/my-defuns" "\
-
+(autoload 'mult-by "my-autoloads/my-defuns"
+"
 
 (fn BY)")
-(autoload 'mult-in-rectangle "my-autoloads/my-defuns" "\
-Multiplies all numbers in region by some coefficient.
+(autoload 'mult-in-rectangle "my-autoloads/my-defuns"
+"Multiplies all numbers in region by some coefficient.
 
 FIXME: should support non-rectangular regions
 
@@ -195,135 +197,135 @@ lines, e.g.
 
 (fn START END)" t)
 (autoload 'copy-html-to-ohm "my-autoloads/my-defuns")
-(autoload 'my-delete-word "my-autoloads/my-defuns" "\
-Delete characters forward until encountering the end of a word.
+(autoload 'my-delete-word "my-autoloads/my-defuns"
+"Delete characters forward until encountering the end of a word.
   With argument, do this that many times.
   This command does not push text to `kill-ring'.
 
 (fn ARG)" t)
-(autoload 'my-backward-delete-word "my-autoloads/my-defuns" "\
-Delete characters backward until encountering the beginning of a word.
+(autoload 'my-backward-delete-word "my-autoloads/my-defuns"
+"Delete characters backward until encountering the beginning of a word.
   With argument, do this that many times.
   This command does not push text to `kill-ring'.
 
 (fn ARG)" t)
-(autoload 'suspend "my-autoloads/my-defuns" "\
-Suspend the system using systemctl syspend" t)
-(autoload 'reload-this-buffer "my-autoloads/my-defuns" "\
-Kill and re-open the current buffer" t)
+(autoload 'suspend "my-autoloads/my-defuns"
+"Suspend the system using systemctl syspend" t)
+(autoload 'reload-this-buffer "my-autoloads/my-defuns"
+"Kill and re-open the current buffer" t)
 (autoload 'fix-evil "my-autoloads/my-defuns" nil t)
-(autoload 'arrayify "my-autoloads/my-defuns" "\
-Turn selection into a QUOTEd, separated one-liner.
+(autoload 'arrayify "my-autoloads/my-defuns"
+"Turn selection into a QUOTEd, separated one-liner.
 
 (fn START END QUOTE SEPARATOR)" t)
-(autoload 'buffer-mode-histogram "my-autoloads/my-defuns" "\
-Display a histogram of Emacs buffer modes." t)
-(autoload 'reindent-buffer-with-vim "my-autoloads/my-defuns" "\
-Reindent buffer file with vim." t)
-(autoload 'sort-code-block "my-autoloads/my-defuns" "\
-Alphabetically sorts code blocks in a file, starting with #
+(autoload 'buffer-mode-histogram "my-autoloads/my-defuns"
+"Display a histogram of Emacs buffer modes." t)
+(autoload 'reindent-buffer-with-vim "my-autoloads/my-defuns"
+"Reindent buffer file with vim." t)
+(autoload 'sort-code-block "my-autoloads/my-defuns"
+"Alphabetically sorts code blocks in a file, starting with #
 start:sort and ending with # end:sort, where # is the comment
 char of the language you are editing
 
 (fn COMMENT-CHAR)")
-(autoload 'sort-elisp-block "my-autoloads/my-defuns" "\
-Alphabetically sort a block of elisp code.
+(autoload 'sort-elisp-block "my-autoloads/my-defuns"
+"Alphabetically sort a block of elisp code.
 
 The block should be encased by
 ;; start:sort
 ;; end:sort" t)
-(autoload 'query-replace-symbol "my-autoloads/my-defuns" "\
-Do query-replace current word with" t)
+(autoload 'query-replace-symbol "my-autoloads/my-defuns"
+"Do query-replace current word with" t)
 (autoload 'github-package "my-autoloads/my-defuns")
-(autoload 'hdl-self-op "my-autoloads/my-defuns" "\
-
+(autoload 'hdl-self-op "my-autoloads/my-defuns"
+"
 
 (fn OP)")
-(autoload 'hdl-i++ "my-autoloads/my-defuns" "\
-Insert a hdl i++ for either the current selection or symbol at point." t)
-(autoload 'hdl-i-- "my-autoloads/my-defuns" "\
-Insert a hdl i-- for either the current selection or symbol at point." t)
+(autoload 'hdl-i++ "my-autoloads/my-defuns"
+"Insert a hdl i++ for either the current selection or symbol at point." t)
+(autoload 'hdl-i-- "my-autoloads/my-defuns"
+"Insert a hdl i-- for either the current selection or symbol at point." t)
 (autoload 'normalize-comment-strings "my-autoloads/my-defuns" nil t)
-(defvar current-date-format "%Y-%m-%d" "\
-Format of date to insert with `insert-current-time' func.
+(defvar current-date-format "%Y-%m-%d"
+"Format of date to insert with `insert-current-time' func.
 Note the weekly scope of the command's precision.")
-(autoload 'insert-current-date "my-autoloads/my-defuns" "\
-insert the current date into the buffer.
+(autoload 'insert-current-date "my-autoloads/my-defuns"
+"insert the current date into the buffer.
 The date will follow the format in `current-date-format'" t)
-(autoload 'fix-latex-pasted-text "my-autoloads/my-defuns" "\
-Fix text pasted from Latex PDFs.
+(autoload 'fix-latex-pasted-text "my-autoloads/my-defuns"
+"Fix text pasted from Latex PDFs.
 
 Text copy pasted from Latex likes to hyphen- ate inappropriately.
 
 This function tries to de hyphenate them." t)
-(autoload 'calc-popup "my-autoloads/my-defuns" "\
-Popup a full frame calc buffer." t)
-(defvar my/xdg-data-dirs (progn (require 'xdg) (mapcar (lambda (dir) (expand-file-name "applications" dir)) (cons (xdg-data-home) (xdg-data-dirs)))) "\
-Directories in which to search for applications (.desktop files).")
-(autoload 'my/list-desktop-files "my-autoloads/my-defuns" "\
-Return an alist of all Linux applications.
+(autoload 'calc-popup "my-autoloads/my-defuns"
+"Popup a full frame calc buffer." t)
+(defvar my/xdg-data-dirs (progn (require 'xdg) (mapcar (lambda (dir) (expand-file-name "applications" dir)) (cons (xdg-data-home) (xdg-data-dirs))))
+"Directories in which to search for applications (.desktop files).")
+(autoload 'my/list-desktop-files "my-autoloads/my-defuns"
+"Return an alist of all Linux applications.
 Each list entry is a pair of (desktop-name . desktop-file).
 This function always returns its elements in a stable order.")
 (autoload 'my/mime-get-buffer-mime-type "my-autoloads/my-defuns")
-(autoload 'my/mime-set-mime-type "my-autoloads/my-defuns" "\
-
+(autoload 'my/mime-set-mime-type "my-autoloads/my-defuns"
+"
 
 (fn MIME-TYPE HANDLER)")
-(autoload 'my/update-mime-type "my-autoloads/my-defuns" "\
-Update the mime association of the current file." t)
-(autoload 'register-new-mime-type "my-autoloads/my-defuns" "\
-
+(autoload 'my/update-mime-type "my-autoloads/my-defuns"
+"Update the mime association of the current file." t)
+(autoload 'register-new-mime-type "my-autoloads/my-defuns"
+"
 
 (fn HANDLER EXTENSION &optional EXECUTABLE LOGO COMMENT)")
-(autoload 'my/register-mime-types "my-autoloads/my-defuns" "\
-Register a few mimetypes that are useful for me.
+(autoload 'my/register-mime-types "my-autoloads/my-defuns"
+"Register a few mimetypes that are useful for me.
 
 Make sure perl-file-mimeinfo is installed." t)
-(autoload 'my/resize-org-latex-overlays "my-autoloads/my-defuns" "\
-Helper function for latex text scaling.
+(autoload 'my/resize-org-latex-overlays "my-autoloads/my-defuns"
+"Helper function for latex text scaling.
 
 From https://www.reddit.com/r/orgmode/comments/165zeuu/delighted_by_org_svg_preview/")
-(autoload 'org-archive-done "my-autoloads/my-defuns" "\
-Interactive wrapper for org-archive-all-done" t)
-(autoload 'org-link-get "my-autoloads/my-defuns" "\
-Extract URL from org-mode link and add return it")
-(autoload 'org-edit-drawio "my-autoloads/my-defuns" "\
-Open Drawio on the image at point." t)
-(autoload 'org-edit-inkscape "my-autoloads/my-defuns" "\
-Open Inkscape on the image at point." t)
-(autoload 'my/edit-image-helper "my-autoloads/my-defuns" "\
-
+(autoload 'org-archive-done "my-autoloads/my-defuns"
+"Interactive wrapper for org-archive-all-done" t)
+(autoload 'org-link-get "my-autoloads/my-defuns"
+"Extract URL from org-mode link and add return it")
+(autoload 'org-edit-drawio "my-autoloads/my-defuns"
+"Open Drawio on the image at point." t)
+(autoload 'org-edit-inkscape "my-autoloads/my-defuns"
+"Open Inkscape on the image at point." t)
+(autoload 'my/edit-image-helper "my-autoloads/my-defuns"
+"
 
 (fn HELPER)")
-(autoload 'my/edit-gimp "my-autoloads/my-defuns" "\
-Open GIMP on the image at point." t)
-(autoload 'my/edit-pinta "my-autoloads/my-defuns" "\
-Open Pinta on the image at point." t)
-(autoload 'my/org-sort-all-org-entries "my-autoloads/my-defuns" "\
-" t)
-(autoload '+org-sort-entries-recursive "my-autoloads/my-defuns" "\
-Call `org-sort-entries' recursively on tree at point.
+(autoload 'my/edit-gimp "my-autoloads/my-defuns"
+"Open GIMP on the image at point." t)
+(autoload 'my/edit-pinta "my-autoloads/my-defuns"
+"Open Pinta on the image at point." t)
+(autoload 'my/org-sort-all-org-entries "my-autoloads/my-defuns"
+"" t)
+(autoload '+org-sort-entries-recursive "my-autoloads/my-defuns"
+"Call `org-sort-entries' recursively on tree at point.
 If KEY, use it; otherwise read key interactively.
 
 (fn &optional KEY)" t)
-(autoload '+org-sort-entries-recursive-multi "my-autoloads/my-defuns" "\
-Call `+org-sort-entries-recursive'.
+(autoload '+org-sort-entries-recursive-multi "my-autoloads/my-defuns"
+"Call `+org-sort-entries-recursive'.
 If KEYS, call it for each of them; otherwise call interactively
 until \\[keyboard-quit] is pressed.
 
 (fn &optional KEYS)" t)
-(autoload 'ap/inline-org-inbox-link "my-autoloads/my-defuns" "\
-Should probably remove this." t)
-(defvar unpackaged/org-export-html-with-useful-ids-mode nil "\
-Non-nil if Unpackaged/Org-Export-Html-With-Useful-Ids mode is enabled.
+(autoload 'ap/inline-org-inbox-link "my-autoloads/my-defuns"
+"Should probably remove this." t)
+(defvar unpackaged/org-export-html-with-useful-ids-mode nil
+"Non-nil if Unpackaged/Org-Export-Html-With-Useful-Ids mode is enabled.
 See the `unpackaged/org-export-html-with-useful-ids-mode' command
 for a description of this minor mode.
 Setting this variable directly does not take effect;
 either customize it (see the info node `Easy Customization')
 or call the function `unpackaged/org-export-html-with-useful-ids-mode'.")
 (custom-autoload 'unpackaged/org-export-html-with-useful-ids-mode "my-autoloads/my-defuns" nil)
-(autoload 'unpackaged/org-export-html-with-useful-ids-mode "my-autoloads/my-defuns" "\
-Attempt to export Org as HTML with useful link IDs.
+(autoload 'unpackaged/org-export-html-with-useful-ids-mode "my-autoloads/my-defuns"
+"Attempt to export Org as HTML with useful link IDs.
 
 Instead of random IDs like \"#orga1b2c3\", use heading titles,
 made unique when necessary.
@@ -345,38 +347,38 @@ The mode's hook is called both when the mode is enabled and when it is
 disabled.
 
 (fn &optional ARG)" t)
-(autoload 'unpackaged/org-export-get-reference "my-autoloads/my-defuns" "\
-Like `org-export-get-reference',
+(autoload 'unpackaged/org-export-get-reference "my-autoloads/my-defuns"
+"Like `org-export-get-reference',
 except uses heading titles instead of random numbers.
 
 (fn DATUM INFO)")
-(autoload 'unpackaged/org-export-new-title-reference "my-autoloads/my-defuns" "\
-Return new reference for DATUM that is unique in CACHE.
+(autoload 'unpackaged/org-export-new-title-reference "my-autoloads/my-defuns"
+"Return new reference for DATUM that is unique in CACHE.
 
 (fn DATUM CACHE)")
-(autoload 'org-get-linked-files "my-autoloads/my-defuns" "\
-Get all of the `file' type links in a buffer.
+(autoload 'org-get-linked-files "my-autoloads/my-defuns"
+"Get all of the `file' type links in a buffer.
 Current buffer is assumed unless specified by BUFFER
 
 (fn &optional BUFFER)")
-(autoload 'org-get-links "my-autoloads/my-defuns" "\
-Get all of the `file' type links in a buffer.
+(autoload 'org-get-links "my-autoloads/my-defuns"
+"Get all of the `file' type links in a buffer.
 Current buffer is assumed unless specified by BUFFER
 
 (fn &optional BUFFER)")
-(autoload 'org-global-props "my-autoloads/my-defuns" "\
-Get the plists of global org properties of current buffer.
+(autoload 'org-global-props "my-autoloads/my-defuns"
+"Get the plists of global org properties of current buffer.
 
 (fn &optional PROPERTY BUFFER)")
-(autoload 'org-global-prop-value "my-autoloads/my-defuns" "\
-Get global org property KEY of current buffer.
+(autoload 'org-global-prop-value "my-autoloads/my-defuns"
+"Get global org property KEY of current buffer.
 
 (fn KEY)")
-(defvar org-default-publish-dest "nfs:/home/public" "\
-Default org publishing destination for `org-publish-this-file'.
+(defvar org-default-publish-dest "nfs:/home/public"
+"Default org publishing destination for `org-publish-this-file'.
 It will be pushed with rsync.")
-(autoload 'org-publish-this-file "my-autoloads/my-defuns" "\
-Publish this Org mode file.
+(autoload 'org-publish-this-file "my-autoloads/my-defuns"
+"Publish this Org mode file.
 
 If a DEST property is specified in the org file it will by used
 as the destination. e.g. the following will set the copy
@@ -388,101 +390,101 @@ destination of the file.
 Copying is done with rsync, which must be installed on both the
 local and remote servers." t)
 (autoload 'org-rename-file-at-point "my-autoloads/my-defuns" nil t)
-(autoload 'org-move-linked-file "my-autoloads/my-defuns" "\
-
+(autoload 'org-move-linked-file "my-autoloads/my-defuns"
+"
 
 (fn ROOTPATH OLD NEW)")
-(autoload 'org-report-dead-links "my-autoloads/my-defuns" "\
-Create a report of dead files in my org mode notes directory." t)
-(autoload 'org-table-export-all "my-autoloads/my-defuns" "\
-Export to CSV all named tables in current org mode file" t)
+(autoload 'org-report-dead-links "my-autoloads/my-defuns"
+"Create a report of dead files in my org mode notes directory." t)
+(autoload 'org-table-export-all "my-autoloads/my-defuns"
+"Export to CSV all named tables in current org mode file" t)
 (autoload 'org-latex-preview-all "my-autoloads/my-defuns" nil t)
 (autoload 'org-latex-preview-clear "my-autoloads/my-defuns" nil t)
-(autoload 'scimax/org-return "my-autoloads/my-defuns" "\
-Add new list item, heading or table row with RET.
+(autoload 'scimax/org-return "my-autoloads/my-defuns"
+"Add new list item, heading or table row with RET.
    A double return on an empty element deletes it.
    Use a prefix arg to get regular RET. 
 
 (fn &optional IGNORE)" t)
-(autoload 'org-toggle-checkbox-presence "my-autoloads/my-defuns" "\
-Toggle the presence of org list checkboxes." t)
-(autoload 'org-procrastinate-all "my-autoloads/my-defuns" "\
-Carry forward uncompleted tasks.
+(autoload 'org-toggle-checkbox-presence "my-autoloads/my-defuns"
+"Toggle the presence of org list checkboxes." t)
+(autoload 'org-procrastinate-all "my-autoloads/my-defuns"
+"Carry forward uncompleted tasks.
 Updates overdue tasks to be due today." t)
 (autoload 'org-procrastinate "my-autoloads/my-defuns" nil t)
-(autoload 'org-carry-forward-uncompleted-tasks "my-autoloads/my-defuns" "\
-Carry forward uncompleted tasks.
+(autoload 'org-carry-forward-uncompleted-tasks "my-autoloads/my-defuns"
+"Carry forward uncompleted tasks.
 
 Updates overdue tasks to be due today.
 
 (fn &optional PROCRASTINATE)" t)
-(autoload 'ap/org-log-weight "my-autoloads/my-defuns" "\
-Log today's weight in my notes file." t)
+(autoload 'ap/org-log-weight "my-autoloads/my-defuns"
+"Log today's weight in my notes file." t)
 (autoload '+org-shrink-this-image "my-autoloads/my-defuns" nil t)
 (autoload '+org-shrink-and-replace-this-image "my-autoloads/my-defuns" nil t)
 (autoload 'pandoc-buffer-to-org "my-autoloads/my-defuns" nil t)
-(autoload 'org-shorten-url-by-title "my-autoloads/my-defuns" "\
-Use title of URL at point as link name." t)
+(autoload 'org-shorten-url-by-title "my-autoloads/my-defuns"
+"Use title of URL at point as link name." t)
 (autoload 'md-shorten-url-by-title "my-autoloads/my-defuns" nil t)
-(autoload 'org-capture-url-from-clipboard "my-autoloads/my-defuns" "\
-Capture a URL from clipboard and paste it as an org link
+(autoload 'org-capture-url-from-clipboard "my-autoloads/my-defuns"
+"Capture a URL from clipboard and paste it as an org link
 
 (fn _)" t)
-(autoload 'my/url->org "my-autoloads/my-defuns" "\
-Convert the URL at point into an Org mode formatted link. The
+(autoload 'my/url->org "my-autoloads/my-defuns"
+"Convert the URL at point into an Org mode formatted link. The
   title of the page is retrieved from the web page" t)
-(autoload 'my/url->md "my-autoloads/my-defuns" "\
-Convert the URL at point into an md mode formatted link. The
+(autoload 'my/url->md "my-autoloads/my-defuns"
+"Convert the URL at point into an md mode formatted link. The
   title of the page is retrieved from the web page" t)
-(autoload 'org-shorten-indico-url "my-autoloads/my-defuns" "\
-Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
+(autoload 'org-shorten-indico-url "my-autoloads/my-defuns"
+"Takes an indico (or some other url) of the form xxxxx...xxx/some_file.pdf
 and shortens it into an org mode link consisting of just `some file`" t)
 (autoload 'md-shorten-indico-url "my-autoloads/my-defuns" nil t)
-(autoload 'org-link->markdown "my-autoloads/my-defuns" "\
-Convert Org mode link at point to markdown." t)
-(autoload 'markdown-link->org "my-autoloads/my-defuns" "\
-Convert Markdown link at point to Org." t)
-(autoload 'org-link-copy "my-autoloads/my-defuns" "\
-Extract URL from \"org-mode\" link at point and add it to kill ring." t)
-(autoload 'org-remove-link-and-trash-linked-file "my-autoloads/my-defuns" "\
-Remove `org-mode' link at point and trash linked file." t)
-(autoload 'org-copy-as-markdown "my-autoloads/my-defuns" "\
-Copy the (in Org) to the system clipboard as Markdown." t)
-(autoload 'org-copy-as-ascii "my-autoloads/my-defuns" "\
-Copy the (in Org) to the system clipboard as Plain text." t)
-(autoload 'org-web-tools--get-url "my-autoloads/my-defuns" "\
-Return content for URL as string.
+(autoload 'org-link->markdown "my-autoloads/my-defuns"
+"Convert Org mode link at point to markdown." t)
+(autoload 'markdown-link->org "my-autoloads/my-defuns"
+"Convert Markdown link at point to Org." t)
+(autoload 'org-link-copy "my-autoloads/my-defuns"
+"Extract URL from \"org-mode\" link at point and add it to kill ring." t)
+(autoload 'org-remove-link-and-trash-linked-file "my-autoloads/my-defuns"
+"Remove `org-mode' link at point and trash linked file." t)
+(autoload 'org-copy-as-markdown "my-autoloads/my-defuns"
+"Copy the (in Org) to the system clipboard as Markdown." t)
+(autoload 'org-copy-as-ascii "my-autoloads/my-defuns"
+"Copy the (in Org) to the system clipboard as Plain text." t)
+(autoload 'org-web-tools--get-url "my-autoloads/my-defuns"
+"Return content for URL as string.
 This uses `url-retrieve-synchronously' to make a request with the
 URL, then returns the response body.  Since that function returns
 the entire response, including headers, we must remove the
 headers ourselves.
 
 (fn URL)")
-(autoload 'org-web-tools--html-title "my-autoloads/my-defuns" "\
-Return title of HTML page, or nil if it has none.
+(autoload 'org-web-tools--html-title "my-autoloads/my-defuns"
+"Return title of HTML page, or nil if it has none.
 Uses the `dom' library.
 
 (fn HTML)")
-(autoload 'www-get-page-title "my-autoloads/my-defuns" "\
-Gets the title of a webpage at URL
+(autoload 'www-get-page-title "my-autoloads/my-defuns"
+"Gets the title of a webpage at URL
 
 (fn URL)")
-(autoload 'org-capture-url "my-autoloads/my-defuns" "\
-
+(autoload 'org-capture-url "my-autoloads/my-defuns"
+"
 
 (fn URL)")
-(autoload 'org-link-parse "my-autoloads/my-defuns" "\
-
+(autoload 'org-link-parse "my-autoloads/my-defuns"
+"
 
 (fn LINK)")
-(autoload '+vterm/toggle-here "my-autoloads/my-defuns" "\
-Toggle a terminal popup window at project root. Return the vterm buffer.
+(autoload '+vterm/toggle-here "my-autoloads/my-defuns"
+"Toggle a terminal popup window at project root. Return the vterm buffer.
 
 Modified from +vterm/toggle in doom Emacs, which has the (for me)
 undesirable property of opening a terminal at the root of the repo. I
 usually want to open a terminal at the `default-directory`." t)
-(autoload 'my/toggle-wrap "my-autoloads/my-defuns" "\
-
+(autoload 'my/toggle-wrap "my-autoloads/my-defuns"
+"
 
 (fn &optional FORCE-STATE CENTER)" t)
 (autoload 'my/wrap "my-autoloads/my-defuns" nil t)

@@ -377,6 +377,12 @@ Used by font-lock for dynamic highlighting."
   "Default terminal used by `open-pwd-in-terminal'")
 
 ;;;###autoload
+(defun xfce4-settings-manager ()
+  "Run xfce4-settings-manager"
+  (interactive)
+  (call-process "xfce4-settings-manager" nil 0 nil))
+
+;;;###autoload
 (defun open-pwd-in-terminal ()
   "Opens the present working directory in external terminal."
   (interactive)
