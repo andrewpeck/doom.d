@@ -89,7 +89,7 @@ nil."
                           (propertize " " 'help-echo (abbreviate-file-name buffer-env-active) ))
                      (and (or (eq major-mode 'python-ts-mode)
                               (eq major-mode 'python-mode))
-                          (propertize  "No python venv. " 'face 'error))))
+                          (propertize  "No venv " 'face 'error))))
 
                 ;; lsp
                 (:eval (and (fboundp #'eglot-managed-p)
