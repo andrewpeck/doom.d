@@ -41,7 +41,8 @@
         :desc "Move Image" "m" #'org-download-rename-at-point)
 
   (map! :map org-mode-map
-        "C-c x" #'org-toggle-checkbox-presence)
+        "C-c x" #'org-toggle-checkbox-presence
+        :i "C-h"   #'describe-key)
 
   ;;------------------------------------------------------------------------------
   ;; config
