@@ -32,8 +32,13 @@
 
 (defun +lsp-startup ()
   (interactive)
-  (eglot-ensure)
-  (+lsp--wait-for-server 10 0.2))
+  (require 'buffer-env)
+  (if (and (buffer-env-update)
+           buffer-env-active)
+      (progn
+        (eglot-ensure)
+        (+lsp--wait-for-server 10 0.2))
+      (message "No virtual environment found. Not starting LSP.")))
 
 (defun +lsp-restart ()
   (interactive)
