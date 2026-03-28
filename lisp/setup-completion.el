@@ -4,11 +4,11 @@
 ;; Completion Preview
 ;;------------------------------------------------------------------------------
 
-(use-package completion-preview-mode
+(use-package completion-preview
   :init
   (add-hook! '(prog-mode-hook text-mode-hook) #'global-completion-preview-mode)
   :config
-  (unbind-key (kbd "TAB") completion-preview-active-mode-map)
+  (unbind-key "TAB" completion-preview-active-mode-map)
   ;; Org mode has a custom `self-insert-command'
   (push 'org-self-insert-command completion-preview-commands))
 
