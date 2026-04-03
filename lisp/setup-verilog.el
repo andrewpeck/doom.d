@@ -36,6 +36,10 @@
 
   :config
 
+  (require 'verilog-ts-mode)
+  (add-hook 'verilog-mode-hook (lambda () (when (eq major-mode 'verilog-mode)
+                                            (verilog-ts-mode))))
+
   (setopt verilog-align-ifelse t
           verilog-tab-always-indent nil
           ;; Regexp that matches user typedefs for declaration alignment.

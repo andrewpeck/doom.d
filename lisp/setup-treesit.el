@@ -4,14 +4,8 @@
 
   :config
 
-  (add-to-list 'treesit-language-source-alist '(verilog "https://github.com/gmlarumbe/tree-sitter-systemverilog" nil nil nil nil))
-  (add-to-list 'treesit-language-source-alist '(systemverilog "https://github.com/gmlarumbe/tree-sitter-systemverilog" nil nil nil nil))
 
   (add-hook 'markdown-mode-hook #'markdown-ts-mode)
-
-  (set-tree-sitter! 'verilog-mode 'verilog-ts-mode
-    '((verilog :url "https://github.com/tree-sitter/tree-sitter-verilog"
-       :commit "227d277b6a1a5e2bf818d6206935722a7503de08")))
 
   (setopt treesit-font-lock-level 4)
 
@@ -23,12 +17,6 @@
     ;; this should happen automatically, something is wrong, buffer local hooks or something?
     ;; some other hook overwriting it?
     (treesit--explorer-post-command)))
-
-(define-derived-mode verilog-ts-mode verilog-mode "Verilog"
-  "A mode for Verilog."
-  (when (treesit-ready-p 'verilog)
-    (treesit-parser-create 'verilog)
-    (treesit-major-mode-setup)))
 
 (define-derived-mode vhdl-ts-mode vhdl-mode "Vhdl"
   "A mode for Vhdl."

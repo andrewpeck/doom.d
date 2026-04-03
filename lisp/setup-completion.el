@@ -135,13 +135,15 @@
   ;;------------------------------------------------------------------------------
 
   (defun hook/add-verilog-keywords ()
+    (require 'cape-keyword)
     (add-to-list 'cape-keyword-list
                  (append '(verilog-mode) verilog-keywords)))
 
   (defun hook/set-verilog-capf ()
     (setq-local completion-at-point-functions
                 (list (cape-capf-super
-                       #'cape-dabbrev
+                       #'verilog-ts-capf
+                       ;; #'cape-dabbrev
                        #'cape-keyword
                        #'yasnippet-capf))))
 
