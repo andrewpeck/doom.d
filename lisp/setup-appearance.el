@@ -36,7 +36,7 @@
     (pcase (downcase (system-name))
       ("pepper"       'doom-one-light)
       ("strange"      'summerfruit)
-      (_              'standard-light))))
+      (_              'ef-cyprus))))
 
 (defvar dark-mode 'dark)
 
