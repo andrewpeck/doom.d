@@ -498,38 +498,32 @@ usually want to open a terminal at the `default-directory`." t)
 
 (autoload 'texify-quotation-marks "my-autoloads/my-tex" nil t)
 (defvar default-tex-master nil)
-(autoload 'my/set-default-tex-master "my-autoloads/my-tex" "\
-Set the master tex file for the current project." t)
+(autoload 'my/set-default-tex-master "my-autoloads/my-tex"
+"Set the master tex file for the current project." t)
 (autoload 'TeX-toggle-folding "my-autoloads/my-tex" nil t)
-(autoload 'tex-link-insert "my-autoloads/my-tex" "\
-Insert TeX href link" t)
+(autoload 'tex-link-insert "my-autoloads/my-tex"
+"Insert TeX href link" t)
 (autoload 'reftex-toc-set-max-level "my-autoloads/my-tex" nil t)
-(defvar line-fill-paragraph-non-separators (append (list "n.b." "i.e." "e.g." "c.f." "viz." "eg." "ie.") (mapcar (lambda (x) (concat (upcase (char-to-string x)) ".")) (number-sequence 97 122))))
-(autoload 'ap/line-fill-paragraph "my-autoloads/my-tex" "\
-When called with prefix argument call `fill-paragraph'.
-   Otherwise split the current paragraph into one sentence per line.
-
-(fn &optional P)" t)
-(autoload 'tex-expand-and-insert "my-autoloads/my-tex" "\
-
+(autoload 'tex-expand-and-insert "my-autoloads/my-tex"
+"
 
 (fn MACRO)" t)
-(autoload 'tex-underline "my-autoloads/my-tex" "\
-Make the current TeX selection bold." t)
-(autoload 'tex-bold "my-autoloads/my-tex" "\
-Make the current TeX selection bold." t)
-(autoload 'tex-italic "my-autoloads/my-tex" "\
-Make the current TeX selection italic." t)
-(autoload 'tex-tt "my-autoloads/my-tex" "\
-Make the current TeX selection typewriter." t)
-(autoload 'tex-glossarify "my-autoloads/my-tex" "\
-Make the current TeX selection a glossary entry." t)
-(autoload 'tex-Glossarify "my-autoloads/my-tex" "\
-Make the current TeX selection a Glossary entry." t)
-(autoload 'hook/modify-latex-hyphen-syntax "my-autoloads/my-tex" "\
-Treat hyphenated words as one.")
-(autoload 'electric-space "my-autoloads/my-tex" "\
-Trying to get Emacs to do semantic linefeeds." t)
+(autoload 'tex-underline "my-autoloads/my-tex"
+"Make the current TeX selection bold." t)
+(autoload 'tex-bold "my-autoloads/my-tex"
+"Make the current TeX selection bold." t)
+(autoload 'tex-italic "my-autoloads/my-tex"
+"Make the current TeX selection italic." t)
+(autoload 'tex-tt "my-autoloads/my-tex"
+"Make the current TeX selection typewriter." t)
+(autoload 'tex-glossarify "my-autoloads/my-tex"
+"Make the current TeX selection a glossary entry." t)
+(autoload 'tex-Glossarify "my-autoloads/my-tex"
+"Make the current TeX selection a Glossary entry." t)
+(autoload 'hook/modify-latex-hyphen-syntax "my-autoloads/my-tex"
+"Treat hyphenated words as one.")
+(autoload 'electric-space "my-autoloads/my-tex"
+"Trying to get Emacs to do semantic linefeeds." t)
 (autoload 'toggle-electric-space "my-autoloads/my-tex" nil t)
 (register-definition-prefixes "my-autoloads/my-tex" '("electric-space-on-p"))
 

@@ -122,7 +122,7 @@
      (t (LaTeX-insert-item))))
 
   (map! (:map LaTeX-mode-map
-              "M-q" 'ap/line-fill-paragraph
+              "M-q" 'line-fill-paragraph
               "C-c C-l" 'tex-link-insert
               "M-<right>" 'outline-demote
               "M-<left>" 'outline-promote
