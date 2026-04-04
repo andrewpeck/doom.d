@@ -37,7 +37,7 @@
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! hdldep                  :pin "dba34acc7bc9661dbf081d639a37076507fcb434" :recipe (:host github :repo "andrewpeck/hdldep.el"))
 (package! hog                     :pin "7ab0148a2e9dfdaf60cc834ee261d7d04248176c" :recipe (:host github :repo "andrewpeck/hog.el"))
-(package! line-fill-paragraph.el  :pin "0e1342a52d71e5723023814c43f6059a2ffd3da9" :recipe (:host github :repo "andrewpeck/line-fill-paragraph.el"))
+(package! line-fill.el            :pin "bfe265680727964377dec5f013e04a3fb1d87925" :recipe (:host github :repo "andrewpeck/line-fill.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-excalidraw          :pin "0e5365ce2237fd684b20a8b95a4967d850e20333" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
 (package! python-string-toggle.el :pin "4bedf8f4f9444e9177a204691778a2a2a89659f0" :recipe (:host github :repo "andrewpeck/python-string-toggle.el"))
