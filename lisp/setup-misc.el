@@ -77,6 +77,11 @@
   (add-to-list 'recentf-exclude "^~/Downloads")
   (setopt recentf-auto-cleanup 120))
 
+
+(use-package rst-mode
+  :config
+  (map! :map rst-mode-map "M-q" 'line-fill-paragraph))
+
 ;;------------------------------------------------------------------------------
 ;; Visual Fill Column
 ;;------------------------------------------------------------------------------
