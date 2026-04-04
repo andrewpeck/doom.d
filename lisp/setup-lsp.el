@@ -106,6 +106,9 @@
           eglot-events-buffer-config '(:size 0 :format full)
           ;; eglot-events-buffer-config '(:size 2000000 :format full)
           eglot-sync-connect 0
+          ;; don't tell server of changes before Emacs's been idle for this many seconds:
+          ;; increase from 0.5 s to reduce chatter
+          eglot-send-changes-idle-time 1
           eglot-prefer-plaintext nil
           eglot-autoshutdown t)
 
