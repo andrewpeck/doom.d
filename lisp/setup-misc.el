@@ -515,20 +515,18 @@ _h_ decrease width    _l_ increase width
 
   (defun my/yas-setup ()
     (interactive)
-      (require 'yasnippet)
-      (setopt yas-snippet-dirs '("~/.doom.d/snippets"))
-      (yas-reload-all)
-      (yas-minor-mode))
+    (require 'yasnippet)
+    (setopt yas-snippet-dirs '("~/.doom.d/snippets"))
+    (yas-minor-mode)
+    (run-with-timer 1 nil #'yas-reload-all t))
 
-  (add-hook! '(prog-mode-hook text-mode-hook) #'my/yas-setup)
-
-  :custom
-
-  (yas-also-auto-indent-first-line t)
+  (add-hook! '(prog-mode-hook org-mode-hook LaTeX-mode-hook)
+             #'my/yas-setup)
 
   :config
 
-  (setopt yas-verbosity 0)
+  (setopt yas-verbosity 0
+          yas-also-auto-indent-first-line t)
 
   ;; HACK: for some unknown reason yasnippet has started producing duplicate
   ;; templates managed to remove them just by applying this advice but it really
