@@ -528,7 +528,7 @@ _h_ decrease width    _l_ increase width
 
   :config
 
-  (setopt yas-verbosity 1)
+  (setopt yas-verbosity 0)
 
   ;; HACK: for some unknown reason yasnippet has started producing duplicate
   ;; templates managed to remove them just by applying this advice but it really
