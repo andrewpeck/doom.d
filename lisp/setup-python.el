@@ -109,6 +109,9 @@ or for a single package (uv-install \"mypy\")
     (interactive)
     (apheleia-format-buffer 'ruff))
 
+  (map! :map inferior-python-mode-map :localleader "r" #'python-shell-restart)
+  (map! :map python-base-mode-map :localleader "r" #'python-shell-restart)
+
   (map! :map python-base-mode-map :localleader "ts" #'python-string-toggle)
   (map! :map python-base-mode-map :localleader "bf" #'ruff-fmt)
 
