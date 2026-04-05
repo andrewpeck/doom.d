@@ -307,7 +307,7 @@ into Verilog ports."
 ;;;###autoload
 (defun re-indent-buffer ()
   (interactive)
-  (evil-indent (point-min) (point-max)))
+  (indent-region (point-min) (point-max)))
 
 ;;;###autoload
 (defun ap/tab-fallthrough ()
