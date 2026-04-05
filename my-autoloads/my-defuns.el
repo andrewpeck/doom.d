@@ -648,8 +648,6 @@ lines, e.g.
     (kill-buffer (buffer-name))
     (find-file tmp-buffer-file)))
 
-(map! :leader :desc "Reload buffer" "b r" #'reload-this-buffer)
-
 ;;;###autoload
 (defun fix-evil ()
   (interactive)

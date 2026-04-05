@@ -14,6 +14,8 @@
 
 (after! doom-keybinds
 
+  (map! :leader :desc "Reload buffer" "b r" #'reload-this-buffer)
+
   (map! :leader :desc "Copy file or marked files to clipboard." "fc" #'file-clipboard-copy)
 
   (map! :leader  :desc "Open timesheet" "bt" 'open-timesheet)
