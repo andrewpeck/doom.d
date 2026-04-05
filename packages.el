@@ -46,7 +46,7 @@
 (package! system-install.el       :pin "399c5025c11fdd9b952340e4acd27fd3a2ed4be5" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! timesheet.el            :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
 (package! verilog-port-copy       :pin "7f539be86461ae382d71099a99a2b7691d4d2b3a" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
-(package! verilog-rainbow-mode.el :pin "26651fe1e6ba4543c13929d413bf197f60d97743" :recipe (:host github :repo "andrewpeck/verilog-rainbow-mode.el"))
+(package! verilog-rainbow-mode.el :pin "3ff79e6c2a56996c3c327afba1996034ff43f6a8" :recipe (:host github :repo "andrewpeck/verilog-rainbow-mode.el"))
 (package! verilog-ts-mode         :pin "73a62f3d3e4fc819e11039d3ccdd3b1f3efad263" :recipe (:host github :repo "andrewpeck/verilog-ts-mode"))
 (package! vivado_mode             :pin "83b636936107da4cbe1783f2b850ba91c2d1af36" :recipe (:host github :repo "andrewpeck/vivado_mode"))
 ;; end:sort
