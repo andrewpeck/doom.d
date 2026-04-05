@@ -35,7 +35,7 @@
 (package! buffer-flip.el          :pin "ace8d64583896fd3c4c97de7a20e4428b6966f2c" :recipe (:host github :repo "andrewpeck/buffer-flip.el"))
 (package! cloc.el                 :pin "6eaf53efb1dac2ba2773ec3acb74eeaf2fec0a67" :recipe (:host github :repo "andrewpeck/cloc.el"))
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
-(package! file-clipboard-copy.el  :pin "b92f2e15140b091ff515bbc8b0591834c8fb67ef" :recipe (:host github :repo "andrewpeck/file-clipboard-copy.el"))
+(package! file-clipboard-copy.el  :pin "ccf56ec3116dc467004173ac863b9938025527c8" :recipe (:host github :repo "andrewpeck/file-clipboard-copy.el"))
 (package! hdldep.el               :pin "dba34acc7bc9661dbf081d639a37076507fcb434" :recipe (:host github :repo "andrewpeck/hdldep.el"))
 (package! hog.el                  :pin "7ab0148a2e9dfdaf60cc834ee261d7d04248176c" :recipe (:host github :repo "andrewpeck/hog.el"))
 (package! line-fill.el            :pin "cb8172b7093a3746f31f9f7836238618a68c6b33" :recipe (:host github :repo "andrewpeck/line-fill.el"))
