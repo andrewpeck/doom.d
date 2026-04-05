@@ -79,20 +79,6 @@ into Verilog ports." t)
 "Convert a VHDL standard logic vector to unsigned." t)
 (autoload 'yosys-make-schematic "my-autoloads/my-defuns"
 "Make a yosys schematic from the module at point. " t)
-(autoload 'rainbow-delimiters--apply-color-range "my-autoloads/my-defuns"
-"Highlight a single delimiter at LOC according to DEPTH.
-
-LOC is the location of the character to add text properties to.
-DEPTH is the nested depth at LOC, which determines the face to use.
-MATCH is nil iff it's a mismatched closing delimiter.
-
-(fn START END DEPTH MATCH)")
-(autoload 'rainbow-delimiters--propertize-verilog "my-autoloads/my-defuns"
-"Highlight delimiters in region between point and END.
-
-Used by font-lock for dynamic highlighting.
-
-(fn _)" t)
 (autoload 'set-font-interactive "my-autoloads/my-defuns"
 "Interactively choose and set a font." t)
 (autoload 'synchronize-theme "my-autoloads/my-defuns" nil t)
