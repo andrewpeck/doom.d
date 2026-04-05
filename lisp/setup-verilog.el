@@ -11,7 +11,7 @@
 (use-package verilog-port-copy
   :after verilog)
 
-(use-package verilog-mode
+(use-package verilog-ts-mode
 
   :mode ("\\.v\\'" "\\.sv\\'" "\\.svh\\'")
 
@@ -19,7 +19,7 @@
   
   (add-hook 'verilog-ts-mode-hook #'verilog-rainbow-mode)
 
-  (add-hook 'verilog-mode-hook
+  (add-hook 'verilog-ts-mode-hook
             (defun hook/verilog-beautify-symbols-hook ()
               "Beautify Verilog Symbols"
               (setq prettify-symbols-alist
@@ -30,7 +30,8 @@
 
   :config
 
-  (require 'verilog-ts-mode)
+  (require 'verilog-mode)
+  (require 'rainbow-delimiters)
   (add-hook 'verilog-mode-hook (lambda () (when (eq major-mode 'verilog-mode)
                                             (verilog-ts-mode))))
 
