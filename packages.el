@@ -35,10 +35,10 @@
 (package! buffer-flip.el          :pin "ace8d64583896fd3c4c97de7a20e4428b6966f2c" :recipe (:host github :repo "andrewpeck/buffer-flip.el"))
 (package! cloc.el                 :pin "6eaf53efb1dac2ba2773ec3acb74eeaf2fec0a67" :recipe (:host github :repo "andrewpeck/cloc.el"))
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
-(package! file-clipboard-copy.el  :pin "fe4a3628bfa848d0fb085303b0a69250a0f6eeaf" :recipe (:host github :repo "andrewpeck/file-clipboard-copy.el"))
+(package! file-clipboard-copy.el  :pin "b92f2e15140b091ff515bbc8b0591834c8fb67ef" :recipe (:host github :repo "andrewpeck/file-clipboard-copy.el"))
 (package! hdldep.el               :pin "dba34acc7bc9661dbf081d639a37076507fcb434" :recipe (:host github :repo "andrewpeck/hdldep.el"))
 (package! hog.el                  :pin "7ab0148a2e9dfdaf60cc834ee261d7d04248176c" :recipe (:host github :repo "andrewpeck/hog.el"))
-(package! line-fill.el            :pin "bfe265680727964377dec5f013e04a3fb1d87925" :recipe (:host github :repo "andrewpeck/line-fill.el"))
+(package! line-fill.el            :pin "cb8172b7093a3746f31f9f7836238618a68c6b33" :recipe (:host github :repo "andrewpeck/line-fill.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-excalidraw          :pin "0e5365ce2237fd684b20a8b95a4967d850e20333" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
 (package! python-string-toggle.el :pin "4bedf8f4f9444e9177a204691778a2a2a89659f0" :recipe (:host github :repo "andrewpeck/python-string-toggle.el"))
@@ -46,8 +46,8 @@
 (package! system-install.el       :pin "399c5025c11fdd9b952340e4acd27fd3a2ed4be5" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! timesheet.el            :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
 (package! verilog-port-copy       :pin "7f539be86461ae382d71099a99a2b7691d4d2b3a" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
-(package! verilog-rainbow-mode.el :pin "3ff79e6c2a56996c3c327afba1996034ff43f6a8" :recipe (:host github :repo "andrewpeck/verilog-rainbow-mode.el"))
-(package! verilog-ts-mode         :pin "73a62f3d3e4fc819e11039d3ccdd3b1f3efad263" :recipe (:host github :repo "andrewpeck/verilog-ts-mode"))
+(package! verilog-rainbow-mode.el :pin "6a032d3dcccc819b1733a589fd0ae5d8bbb3734c" :recipe (:host github :repo "andrewpeck/verilog-rainbow-mode.el"))
+(package! verilog-ts-mode         :pin "92bbc69372bdf1751f100a8bc0381ca96ccbd326" :recipe (:host github :repo "andrewpeck/verilog-ts-mode"))
 (package! vivado_mode             :pin "83b636936107da4cbe1783f2b850ba91c2d1af36" :recipe (:host github :repo "andrewpeck/vivado_mode"))
 ;; end:sort
 
