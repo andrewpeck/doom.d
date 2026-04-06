@@ -32,13 +32,25 @@
 
 (defun +lsp-startup ()
   (interactive)
-  (require 'buffer-env)
-  (if (and (buffer-env-update)
-           buffer-env-active)
+  (when (+lsp-should-start-p) (eglot-ensure)))
+
+(defun +lsp-should-start-p (&rest _)
+  (let ((should-start
+         (or (not (derived-mode-p 'python-ts-mode 'python-ts-mode))
+             (and (require 'buffer-env)
+                  (buffer-env-update)
+                  buffer-env-active))))
+
+    (if should-start
+        (progn
+          (message "Starting lsp")
+          (+lsp--wait-for-server 10 0.2)
+          t)
+      ;; (
       (progn
-        (eglot-ensure)
-        (+lsp--wait-for-server 10 0.2))
-      (message "No virtual environment found. Not starting LSP.")))
+        ;; block lsp
+        (message "No virtual environment found. Not starting LSP.")
+        nil))))
 
 (defun +lsp-restart ()
   (interactive)
@@ -81,6 +93,10 @@
   :if (modulep! :tools lsp +eglot)
 
   :config
+
+  ;; Don't auto-start eglot for Python without a venv. Doom's lsp! hook calls
+  ;; eglot-ensure automatically; this intercepts it before the server spawns.
+  (advice-add 'eglot-ensure :before-while #'+lsp-should-start-p)
 
   (advice-add 'eglot--message :override
               (lambda (format &rest args)

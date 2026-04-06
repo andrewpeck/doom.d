@@ -26,9 +26,6 @@
   ;;; invoke python ts mode
   (add-hook 'python-mode-hook #'python-ts-mode)
 
-  ;;; python + eglot
-  (add-hook 'python-base-mode-hook '+lsp-startup)
-
   (add-hook 'python-base-mode-hook
             (defun hook/disable-eldoc-mode () (eldoc-mode nil)))
 
