@@ -126,7 +126,9 @@
           ;; increase from 0.5 s to reduce chatter
           eglot-send-changes-idle-time 1
           eglot-prefer-plaintext nil
-          eglot-autoshutdown t)
+          eglot-autoshutdown t
+          ;; If non-nil, allow watching files outside project root.
+          eglot-watch-files-outside-project-root nil)
 
   (add-hook 'eglot-managed-mode-hook 'eglot-inlay-hints-mode t)
 
