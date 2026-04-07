@@ -38,7 +38,7 @@
 (package! file-clipboard-copy.el  :pin "ccf56ec3116dc467004173ac863b9938025527c8" :recipe (:host github :repo "andrewpeck/file-clipboard-copy.el"))
 (package! hdldep.el               :pin "dba34acc7bc9661dbf081d639a37076507fcb434" :recipe (:host github :repo "andrewpeck/hdldep.el"))
 (package! hog.el                  :pin "7ab0148a2e9dfdaf60cc834ee261d7d04248176c" :recipe (:host github :repo "andrewpeck/hog.el"))
-(package! line-fill.el            :pin "cb8172b7093a3746f31f9f7836238618a68c6b33" :recipe (:host github :repo "andrewpeck/line-fill.el"))
+(package! line-fill.el            :pin "c30fdbbeecdfd4f95cc67027980a3b79df779983" :recipe (:host github :repo "andrewpeck/line-fill.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-excalidraw          :pin "0e5365ce2237fd684b20a8b95a4967d850e20333" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
 (package! python-string-toggle.el :pin "4bedf8f4f9444e9177a204691778a2a2a89659f0" :recipe (:host github :repo "andrewpeck/python-string-toggle.el"))
