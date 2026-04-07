@@ -110,6 +110,7 @@
 
  :lang
 
+ rst
  common-lisp
  (cc +lsp +tree-sitter)              ; C/C++/Obj-C madness
  (clojure +lsp +tree-sitter)         ; java with a lisp
