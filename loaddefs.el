@@ -139,8 +139,6 @@ into Verilog ports." t)
 "Open the current file's directory however the OS would." t)
 (autoload 'xdg-open-file "my-autoloads/my-defuns"
 "Open the current file however the OS would." t)
-(autoload 'file-clipboard-copy "my-autoloads/my-defuns"
-"Copy currently opened file to clipboard." t)
 (autoload 'py-black "my-autoloads/my-defuns"
 "Format python file with black." t)
 (autoload 'autopep "my-autoloads/my-defuns"

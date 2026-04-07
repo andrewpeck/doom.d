@@ -36,7 +36,15 @@ Use as e.g. (advice-inhibit-messages \='recentf-cleanup)"
                 (let ((inhibit-message t))
                   (apply orig-fun args)))))
 
-(defun load!! (path) (load! path doom-user-dir t))
+(defun my/load-file (file dir)
+  "Load FILE, re-signaling any errors with the filename included."
+  (condition-case err
+      (load (file-name-concat dir file) nil 'nomessage)
+    (error
+     (signal 'error (list (format "Error in %s: %s" file
+                                  (error-message-string err)))))))
+
+(defun load!! (path) (my/load-file path doom-user-dir))
 
 (defun load-timer (pkg &optional timer)
   "Load package on a timer."

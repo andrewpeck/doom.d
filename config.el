@@ -177,11 +177,12 @@
 (dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
   (load-idle (file-name-sans-extension file)))
 
-(load-idle "lisp/plotting")
-(load-idle "lisp/regulator")
-(load-idle "lisp/tracking")
 (load-idle "passwords")
-(load-idle "psi-emacs")
+
+;; avoid slow org startup when its really needed, e.g. for capture
+;; just require it during idle time
+(run-with-idle-timer 3 nil (lambda () (require 'org)))
+(run-with-idle-timer 3 nil (lambda () (require 'psi-emacs)))
 
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)
