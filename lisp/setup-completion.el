@@ -186,6 +186,25 @@
     (lambda () (call-interactively 'makefile-pickup-everything)))
 
   ;;------------------------------------------------------------------------------
+  ;; RST
+  ;;------------------------------------------------------------------------------
+
+  (defun hook/setup-rst-with-corfu ()
+
+    (require 'corfu)
+    (require 'cape)
+
+    (setq-local cape-file-directory (locate-dominating-file (directory-file-name (buffer-file-name)) ".git"))
+    (setq-local completion-at-point-functions
+                (list #'cape-file
+                      #'cape-dabbrev
+                      #'yasnippet-capf
+                      #'cape-dict
+                      #'yasnippet-capf)))
+
+  (add-hook 'rst-mode-hook 'hook/setup-rst-with-corfu)
+
+  ;;------------------------------------------------------------------------------
   ;; Tex
   ;;------------------------------------------------------------------------------
 
