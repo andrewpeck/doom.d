@@ -16,41 +16,20 @@
         (message "Shut down `%s' language server"
                  (nth 1 (eglot--server-info current-server)))))))
 
-(defun +lsp--wait-for-server (timeout interval)
-  (let ((server (eglot-current-server)))
-    (cond
-     (server
-      (message "Started `%s' language server"
-               (nth 1 (eglot--server-info server))))
-     ((< timeout 0)
-      (message "LSP server timed out"))
-     (t
-      (run-with-timer interval nil
-                      #'+lsp--wait-for-server
-                      (- timeout interval)
-                      interval)))))
-
 (defun +lsp-startup ()
   (interactive)
-  (when (+lsp-should-start-p) (eglot-ensure)))
+  (when (+lsp-should-start-p)
+    (run-with-idle-timer 1 nil #'eglot-ensure)))
 
 (defun +lsp-should-start-p (&rest _)
   (let ((should-start
-         (or (not (derived-mode-p 'python-ts-mode 'python-ts-mode))
-             (and (require 'buffer-env)
-                  (buffer-env-update)
-                  buffer-env-active))))
-
-    (if should-start
-        (progn
-          (message "Starting lsp")
-          (+lsp--wait-for-server 10 0.2)
-          t)
-      ;; (
-      (progn
-        ;; block lsp
-        (message "No virtual environment found. Not starting LSP.")
-        nil))))
+         (and (eglot--lookup-mode major-mode)
+              (or (not (derived-mode-p 'python-ts-mode 'python-ts-mode))
+                  (and (require 'buffer-env)
+                       (buffer-env-update)
+                       buffer-env-active)))))
+    (unless should-start
+      (message "No virtual environment found. Not starting LSP.")) should-start))
 
 (defun +lsp-restart ()
   (interactive)
@@ -92,11 +71,15 @@
 
   :if (modulep! :tools lsp +eglot)
 
-  :config
-
   ;; Don't auto-start eglot for Python without a venv. Doom's lsp! hook calls
   ;; eglot-ensure automatically; this intercepts it before the server spawns.
-  (advice-add 'eglot-ensure :before-while #'+lsp-should-start-p)
+  (advice-add #'!lsp :override '+lsp-startup)
+
+  :config
+
+  ;; supress annoying warning of Reached ‘eglot-max-file-watches’ limit of 20,
+  ;; not watching some directories. Have to set max-file-watches very low to avoid lag
+  (advise-inhibit-messages #'eglot--watch-globs)
 
   (advice-add 'eglot--message :override
               (lambda (format &rest args)
@@ -121,7 +104,8 @@
   (setopt eglot-managed-mode-hook (list (lambda () (eldoc-mode -1)))
           eglot-events-buffer-config '(:size 0 :format full)
           ;; eglot-events-buffer-config '(:size 2000000 :format full)
-          eglot-sync-connect 0
+          eglot-sync-connect nil
+          eglot-max-file-watches 20
           ;; don't tell server of changes before Emacs's been idle for this many seconds:
           ;; increase from 0.5 s to reduce chatter
           eglot-send-changes-idle-time 1
