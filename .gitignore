@@ -1,3 +1,6 @@
+recentf
+*-projects-raw.json
+*-projects.json
 .cache
 *.elc
 .undo-fu/*
