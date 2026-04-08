@@ -26,7 +26,7 @@
         use-package-always-defer t
         use-package-compute-statistics t)
 
-(setopt browse-url-browser-function 'browse-url-firefox)
+(setq debug-on-message nil)
 
 (load! "core-defuns.el" doom-user-dir t)
 
@@ -135,6 +135,8 @@
           auto-save-default t      ; Nobody likes to loose work, I certainly don't
           truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
           x-stretch-cursor t           ; Stretch cursor to the glyph width
+
+          browse-url-browser-function 'browse-url-firefox
 
           abbrev-file-name (concat doom-user-dir "abbrev_defs")
 
