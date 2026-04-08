@@ -127,6 +127,7 @@
 
   (setopt mouse-wheel-scroll-amount-horizontal 32
           mouse-wheel-tilt-scroll t
+          save-interprogram-paste-before-kill t
           enable-local-variables t        ;
           help-at-pt-display-when-idle 'never ; this prevents a pretty annoying help display that pops up in the minibuffer, esp in dired
           scroll-margin 30                    ; add a margin while scrolling
