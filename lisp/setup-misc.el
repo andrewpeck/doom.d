@@ -69,14 +69,22 @@
           ;; highlight-indent-guides-auto-enabled nil
           highlight-indent-guides-method 'bitmap))
 
+;;------------------------------------------------------------------------------
+;; Recentf
+;;------------------------------------------------------------------------------
+
 ;; clean the recent file list on idle
 (use-package recentf
-  :defer t
   :config
   (add-to-list 'recentf-exclude "^/mnt/Media/")
+  (add-to-list 'recentf-exclude "^/mnt/NAS/Sync/Documents/private/")
   (add-to-list 'recentf-exclude "^~/Downloads")
-  (setopt recentf-auto-cleanup 120))
+  (setopt recentf-autosave-interval 60
+          recentf-auto-cleanup 120))
 
+;;------------------------------------------------------------------------------
+;; Restructured Text
+;;------------------------------------------------------------------------------
 
 (use-package rst
   :config
