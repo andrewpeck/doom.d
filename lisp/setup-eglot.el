@@ -16,6 +16,7 @@
 (defun +lsp-startup ()
   (interactive)
   (when (+lsp-should-start-p)
+    (require 'eglot)
     (run-with-idle-timer 1 nil #'eglot-ensure)))
 
 (defun +lsp-should-start-p (&rest _)
@@ -53,16 +54,13 @@
 
   :config
 
-  ;; supress annoying warning of Reached ‘eglot-max-file-watches’ limit of 20,
-  ;; not watching some directories. Have to set max-file-watches very low to avoid lag
-  (advise-inhibit-messages #'eglot--watch-globs)
-
   (advice-add 'eglot--message :override
               (lambda (format &rest args)
                 (let ((msg (apply #'eglot--format format args)))
                   (message
                    (cond
-                    ((string-match-p (regexp-quote "connected") msg) "Connected to LSP.")
+                    ((string-match-p "not watching some directories" msg) nil)
+                    ((string-match-p (regexp-quote "Reached 'e") msg) "Connected to LSP.")
                     (t msg))))))
 
   (advice-add 'jsonrpc--message :override
