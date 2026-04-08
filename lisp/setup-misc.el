@@ -79,7 +79,8 @@
   (add-to-list 'recentf-exclude "^/mnt/Media/")
   (add-to-list 'recentf-exclude "^/mnt/NAS/Sync/Documents/private/")
   (add-to-list 'recentf-exclude "^~/Downloads")
-  (setopt recentf-autosave-interval 60
+  (setopt recentf-save-file (concat doom-private-dir "recentf")
+          recentf-autosave-interval 60
           recentf-auto-cleanup 120))
 
 ;;------------------------------------------------------------------------------
