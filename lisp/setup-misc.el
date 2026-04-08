@@ -78,9 +78,10 @@
   (setopt recentf-auto-cleanup 120))
 
 
-(use-package rst-mode
+(use-package rst
   :config
-  (map! :map rst-mode-map "M-q" 'line-fill-paragraph))
+  (require 'line-fill)
+  (map! :map rst-mode-map "M-q" #'line-fill-paragraph))
 
 ;;------------------------------------------------------------------------------
 ;; Visual Fill Column
