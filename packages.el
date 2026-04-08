@@ -25,8 +25,8 @@
 (package! swiper       :disable t)
 (package! string-inflection :disable t)
 
-(package! corfu :recipe (:host github :repo "minad/corfu"))
-(package! cape :recipe (:host github :repo "minad/cape"))
+(package! corfu :recipe (:host github :repo "minad/corfu") :pin "20009d4fcc31770200b63a1440f15320ee009def")
+(package! cape :recipe (:host github :repo "minad/cape") :pin "7a6a752bc694e81853d915281a73a9c3acc69757")
 (package! yasnippet-capf :recipe (:host github :repo "elken/yasnippet-capf"))
 
 ;; start:sort
