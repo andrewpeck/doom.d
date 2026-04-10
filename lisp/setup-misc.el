@@ -75,10 +75,12 @@
 
 ;; clean the recent file list on idle
 (use-package recentf
+  :commands (recentf-save-list)
   :config
   (add-to-list 'recentf-exclude "^/mnt/Media/")
   (add-to-list 'recentf-exclude "^/mnt/NAS/Sync/Documents/private/")
   (add-to-list 'recentf-exclude "^~/Downloads")
+  (advise-inhibit-messages #'recentf-save-list)
   (setopt recentf-save-file (concat doom-private-dir "recentf")
           recentf-autosave-interval 60
           recentf-auto-cleanup 120))
