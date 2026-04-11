@@ -9,30 +9,30 @@
 
 ;;; Generated autoloads from my-autoloads/gpt.el
 
-(autoload 'gpt-prompt "my-autoloads/gpt" "\
-Dear AI, I want to do something on the selected text." t)
-(autoload 'gpt-inline "my-autoloads/gpt" "\
-Dear AI, do something and be concise." t)
-(autoload 'gpt-debug "my-autoloads/gpt" "\
-Dear AI, help me debug please!!" t)
-(autoload 'gpt-writing "my-autoloads/gpt" "\
-Dear AI, improve my writing please!!" t)
-(autoload 'gpt-grammar "my-autoloads/gpt" "\
-Dear AI, correct my grammar please!!" t)
-(autoload 'gpt-doc "my-autoloads/gpt" "\
-Dear AI, write some documentation please!!" t)
-(autoload 'gpt-docstring "my-autoloads/gpt" "\
-Dear AI, write a docstring please!!" t)
-(autoload 'gpt-suggest "my-autoloads/gpt" "\
-Dear AI, make suggestions please!!" t)
-(autoload 'gpt-improve "my-autoloads/gpt" "\
-Dear AI, improve please!!" t)
-(autoload 'gpt-help "my-autoloads/gpt" "\
-Dear AI, help please!!" t)
-(autoload 'gpt-refactor "my-autoloads/gpt" "\
-Dear AI, refactor please!!" t)
-(autoload 'gpt-get-docstring "my-autoloads/gpt" "\
-Insert/overwrite the docstring for the current defun." t)
+(autoload 'gpt-prompt "my-autoloads/gpt"
+"Dear AI, I want to do something on the selected text." t)
+(autoload 'gpt-inline "my-autoloads/gpt"
+"Dear AI, do something and be concise." t)
+(autoload 'gpt-debug "my-autoloads/gpt"
+"Dear AI, help me debug please!!" t)
+(autoload 'gpt-writing "my-autoloads/gpt"
+"Dear AI, improve my writing please!!" t)
+(autoload 'gpt-grammar "my-autoloads/gpt"
+"Dear AI, correct my grammar please!!" t)
+(autoload 'gpt-doc "my-autoloads/gpt"
+"Dear AI, write some documentation please!!" t)
+(autoload 'gpt-docstring "my-autoloads/gpt"
+"Dear AI, write a docstring please!!" t)
+(autoload 'gpt-suggest "my-autoloads/gpt"
+"Dear AI, make suggestions please!!" t)
+(autoload 'gpt-improve "my-autoloads/gpt"
+"Dear AI, improve please!!" t)
+(autoload 'gpt-help "my-autoloads/gpt"
+"Dear AI, help please!!" t)
+(autoload 'gpt-refactor "my-autoloads/gpt"
+"Dear AI, refactor please!!" t)
+(autoload 'gpt-get-docstring "my-autoloads/gpt"
+"Insert/overwrite the docstring for the current defun." t)
 (register-definition-prefixes "my-autoloads/gpt" '("gpt--" "openai"))
 
 
