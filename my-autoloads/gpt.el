@@ -145,7 +145,12 @@ Output will go to BUFFER-NAME."
   "Insert/overwrite the docstring for the current defun."
   (interactive)
   (save-excursion
-    (if-let* ((bounds (bounds-of-thing-at-point 'defun))
+    (if-let* ((bounds (cond ((derived-mode-p 'verilog-mode 'verilog-ts-mode)
+                             (save-excursion
+                               (let ((start (progn (verilog-beg-of-defun) (point)))
+                                     (end   (progn (verilog-end-of-defun) (point))))
+                                 (cons start end))))
+                            (t_ (bounds-of-thing-at-point 'defun))))
               (beg (car bounds)) (end (cdr bounds))
               (form-str (buffer-substring-no-properties beg end))
               (prompt (string-join
