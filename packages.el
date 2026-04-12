@@ -74,7 +74,7 @@
 (package! dired-preview           :pin "b0cba0825d2eea2ac6d9a8ef65a73b6186e6d294" :recipe (:host github :repo "protesilaos/dired-preview"))
 (package! drag-stuff              :pin "6d06d846cd37c052d79acd0f372c13006aa7e7c8")
 (package! dwim-shell-command      :pin "eb86e3fbd2c775345fdc018ece27138a779730f5" :recipe (:host github :repo "xenodium/dwim-shell-command"))
-(package! ef-themes               :pin "877554112c7fc8afb35f1d1c59827e5f3cba7c5e" :recipe (:host github :repo "protesilaos/ef-themes"))
+(package! ef-themes               :pin "da4229a61522365c30f38d689b480797cb1de018" :recipe (:host github :repo "protesilaos/ef-themes"))
 (package! elfeed                  :pin "bbb3cac27b0412d80b327b5cfaab83683c96a2a1" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-colorpicker       :pin "3acee0fc0e35e130fb049ab69f99544a1ca9d11f" :recipe (:host github :repo "syohex/emacs-colorpicker"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
