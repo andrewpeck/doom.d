@@ -105,7 +105,7 @@
 (package! poporg                  :pin "2c58d68c81ecca4140bf179f19ed153ec804b65a" :recipe (:host github :repo "QBobWatson/poporg"))
 (package! rainbow-delimiters      :pin "f40ece58df8b2f0fb6c8576b527755a552a5e763")
 (package! rainbow-mode            :pin "2e6b18609c2fdd1a2dc513937a64d276fd6cf24c")
-(package! scad-mode               :pin "546d1507cd131f55ca930de7ae1518884e8221f4")
+(package! scad-mode               :pin "44481331536516e34940315f67fa58f99f62a589")
 (package! screenshot              :pin "2770c0cfefe1cc09d55585f4f2f336a1b26e610e" :recipe (:host github :repo "tecosaur/screenshot"))
 (package! standard-themes         :pin "8c24caa42b369077ccb7b2c0111084fb2153d5a4" :recipe (:host github :repo "protesilaos/standard-themes"))
 (package! string-edit-at-point    :pin "87936d816ae24184dd83688136531b6b6f1943fe" :recipe (:host github :repo "emacsmirror/string-edit-at-point"))
