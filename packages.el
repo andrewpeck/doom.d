@@ -41,7 +41,7 @@
 (package! line-fill.el            :pin "0e5c98890f5656b93f3efee95cef4714e9dc4d93" :recipe (:host github :repo "andrewpeck/line-fill.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
 (package! org-excalidraw          :pin "0e5365ce2237fd684b20a8b95a4967d850e20333" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
-(package! python-string-toggle.el :pin "c6140fa94491eb3be8b8755fd560575a6d856d67" :recipe (:host github :repo "andrewpeck/python-string-toggle.el"))
+(package! python-string-toggle.el :pin "3c0790a24b1b84487a7f320929175ee34757748c" :recipe (:host github :repo "andrewpeck/python-string-toggle.el"))
 (package! resume.el               :pin "062dc93dcc5200bf92fcf49507666845b80dc09c" :recipe (:host github :repo "andrewpeck/resume.el"))
 (package! system-install.el       :pin "399c5025c11fdd9b952340e4acd27fd3a2ed4be5" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! timesheet.el            :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
