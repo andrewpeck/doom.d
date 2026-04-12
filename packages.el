@@ -93,7 +93,7 @@
 (package! magit-todos             :pin "7294a95580bddf7232f2d205efae312dc24c5f61")
 (package! markdown-preview-mode   :pin "68242b3907dc065aa35412bfd928b43d8052d321" :recipe (:host github :repo "ancane/markdown-preview-mode"))
 (package! msgpack.el              :pin "90e3086f259549b1667a3c5b9aa2d70aaeaa4d3d" :recipe (:host github :repo "xuchunyang/msgpack.el")) ; required by
-(package! nerd-icons.el           :pin "9a7f44db9a53567f04603bc88d05402cad49c64c" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
+(package! nerd-icons.el           :pin "1db0b0b9203cf293b38ac278273efcfc3581a05f" :recipe (:host github :repo "rainstormstudio/nerd-icons.el"))
 (package! nix-mode                :pin "719feb7868fb567ecfe5578f6119892c771ac5e5" :recipe (:host github :repo "NixOS/nix-mode"))
 (package! nyan-mode               :pin "09904af23adb839c6a9c1175349a1fb67f5b4370" :recipe (:host github :repo "TeMPOraL/nyan-mode") )
 (package! ob-mermaid              :pin "4f814ad5e1b96764af52d53799288ff3acc94b47" :recipe (:host github :repo "arnm/ob-mermaid"))
