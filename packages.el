@@ -71,7 +71,7 @@
 (package! devdocs.el              :pin "25c746024ddf73570195bf42b841f761a2fee10c" :recipe (:host github :repo "astoff/devdocs.el"))
 (package! dired-filter            :pin "de9336f4b47ef901799fe95315fa080fa6d77b48" :recipe (:host github :repo "Fuco1/dired-hacks"))
 (package! dired-git-info          :pin "1bfcdf139181afc9034a40dd0640e53d95b12f5f" :recipe (:host github :repo "tuh8888/dired-git-info"))
-(package! dired-preview           :pin "b0cba0825d2eea2ac6d9a8ef65a73b6186e6d294" :recipe (:host github :repo "protesilaos/dired-preview"))
+(package! dired-preview           :pin "ad2e4380cb83c11e1bbcb84579c72ef3de0c53f7" :recipe (:host github :repo "protesilaos/dired-preview"))
 (package! drag-stuff              :pin "6d06d846cd37c052d79acd0f372c13006aa7e7c8")
 (package! dwim-shell-command      :pin "eb86e3fbd2c775345fdc018ece27138a779730f5" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! ef-themes               :pin "da4229a61522365c30f38d689b480797cb1de018" :recipe (:host github :repo "protesilaos/ef-themes"))
