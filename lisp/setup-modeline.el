@@ -102,7 +102,8 @@ nil."
                                            ("ty" " ")
                                            ("rustanalyzer" " ")
                                            ("rass" " ")
-                                           (_ "  "))))
+                                           ("ty+pyrefly-lsp" " ")
+                                           (_ " "))))
                               (propertize icon 'help-echo (format "%s" lsp-server-info)))))
 
                 ;; flycheck
