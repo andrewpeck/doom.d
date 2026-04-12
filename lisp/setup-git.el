@@ -243,14 +243,17 @@ on the current line, if any."
 (use-package! diff-hl
 
   :init
-  (remove-hook! 'find-file-hook #'diff-hl-mode)
-  (remove-hook! 'find-file-hook #'diff-hl-update-once)
-  (add-hook! 'prog-mode-hook #'diff-hl-mode)
+
+  (remove-hook!
+    'dired-mode-hook
+    #'diff-hl-dired-mode-unless-remote
+    #'+vc-gutter-enable-maybe-h)
 
   :config
 
   (setopt diff-hl-disable-on-remote t
-          diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode))
+          diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode tar-mode))
 
+  ;; don't update diff-hl if on remote-host
   (advice-add 'diff-hl-update-once :before-until
               (lambda () (remote-host? default-directory))))
