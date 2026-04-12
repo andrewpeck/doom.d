@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: package
+# key: package
+# --
+;;; ${`(file-name-nondirectory (buffer-file-name))`} --- ${2:description} -*- lexical-binding: t; -*-
+
+;; Author: Andrew Peck
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "27.1"))
+;; Keywords:
+;; URL: https://github.com/andrewpeck/${`(file-name-nondirectory (buffer-file-name))`}
+
+;;; Commentary:
+
+;;; Code:
+
+(provide '${`(file-name-base (buffer-file-name))`})
+;;; ${`(file-name-nondirectory (buffer-file-name))`} ends here
+;; LocalWords:
