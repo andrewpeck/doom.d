@@ -28,6 +28,10 @@
 
   (advice-add #'buffer-env--authorize :before-until #'buffer-env-is-trusted-dir))
 
+;;------------------------------------------------------------------------------
+;; Buffer Flip
+;;------------------------------------------------------------------------------
+
 (use-package buffer-flip
 
   :init
