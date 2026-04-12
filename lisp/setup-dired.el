@@ -51,9 +51,9 @@
   :after dired
   :config
 
-  (add-hook 'dired-mode-hook #'dired-omit-mode)
-  (setopt dired-omit-extensions (remove ".bin" dired-omit-extensions))
-  (setopt dired-omit-extensions (remove ".bit" dired-omit-extensions)))
+  (setopt dired-omit-extensions '())
+
+  (add-hook 'dired-mode-hook #'dired-omit-mode))
 
 (use-package! dired
 
