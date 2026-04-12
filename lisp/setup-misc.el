@@ -6,6 +6,7 @@
 
 (use-package marginalia
   :config
+  ;; fixes some off-by-one alignment issues in marginalia when using nerd icons
   (setopt marginalia-align-offset 4))
 
 ;;------------------------------------------------------------------------------
@@ -286,7 +287,9 @@ _h_ decrease width    _l_ increase width
         (copyright-fix-years))))
 
   (defun copyright-update-year (replace noquery)
-    "Modified version of copyright-update year which always uses ranges instead of comma separated years."
+    "Modified version of copyright-update year.
+
+Always uses ranges instead of comma separated years."
     ;; This uses the match-data from copyright-find-copyright/end.
     (goto-char (match-end 1))
     (copyright-find-end)
