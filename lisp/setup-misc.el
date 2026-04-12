@@ -1,5 +1,17 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
+;;------------------------------------------------------------------------------
+;; Marginalia
+;;------------------------------------------------------------------------------
+
+(use-package marginalia
+  :config
+  (setopt marginalia-align-offset 4))
+
+;;------------------------------------------------------------------------------
+;; Buffer Env
+;;------------------------------------------------------------------------------
+
 (use-package buffer-env
   :custom
   (buffer-env-script-name '(".venv/bin/activate" ".env" ".envrc"))
