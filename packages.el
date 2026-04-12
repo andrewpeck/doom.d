@@ -53,8 +53,8 @@
 
 ;; Misc packages
 ;; start:sort
-(package! affe                    :pin "295e2fb26a2de66e13c0f8414d1ada5b090a1011")
 (package! adaptive-wrap           :pin "6b9ffc18cdb1d3d18e2b9c3568bfb651f0ad517f")
+(package! affe                    :pin "6e06b8efcd5b57160ba267e42cbf3b982a4b89a1")
 (package! almost-mono-themes      :pin "6826f1b880bd91170dded26bb420dd4ef164f127" :recipe (:host github :repo "cryon/almost-mono-themes"))
 (package! apheleia                :pin "e6e5d5523d229735ab5f8ec83e10beefcfd00d76")
 (package! ascii-art-to-unicode    :pin "fa3d82ddb531855ad7b8ef871871907861327c9f")
