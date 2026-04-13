@@ -17,6 +17,21 @@
   ;; apparently tries to create tramp connections? UHG
   (setopt vc-ignore-dir-regexp "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'")
 
+  (defun doom-project-find-file (_)
+    "Jump to a file in DIR (searched recursively).
+
+If DIR is not a project, it will be indexed (but not cached)."
+
+  (let* ((pr (project-current t doom-private-dir))
+         (root (project-root pr))
+         (dirs (list root))
+         (project-files-relative-names t))
+    (project-find-file-in
+     (delq nil (list (and buffer-file-name (project--find-default-from
+                                            buffer-file-name pr))
+                     (thing-at-point 'filename)))
+     dirs pr t)))
+
   (defun my/project-discover-all ()
     "Search the work dir and reregister all directories."
     (interactive)
