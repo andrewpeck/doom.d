@@ -32,12 +32,15 @@ If DIR is not a project, it will be indexed (but not cached)."
                        (thing-at-point 'filename)))
        dirs pr t)))
 
+  (defun project-remember-project-under-if-exists (dir)
+    (when (file-directory-p dir)
+      (project-remember-projects-under dir)))
 
   (defun my/project-discover-all ()
     "Search the work dir and reregister all directories."
     (interactive)
     (project-forget-zombie-projects)
-    (project-remember-projects-under "~/work"))
+    (project-remember-projects-under-if-exists "~/work")
 
   ;; periodically rescan for projects
   (run-with-timer 10 3600 'my/project-discover-all)
