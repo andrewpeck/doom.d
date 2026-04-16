@@ -108,8 +108,39 @@
 
 (use-package rst
   :config
+
+  (defun rst/mark-rst-symbol ()
+    "Mark a reStructuredText symbol (including underscores)."
+    (interactive)
+    (let ((symbol-chars "[:alnum:]_"))
+      (skip-chars-backward symbol-chars)
+      (set-mark (point))
+      (skip-chars-forward symbol-chars)))
+
+  (defun rst/surround-region (str)
+    "Surround the active region with STR on both sides."
+    (interactive "sSurround with: ")
+    (when (use-region-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (save-excursion
+          (goto-char end)
+          (insert str)
+          (goto-char beg)
+          (insert str)))))
+
+  (defun rst-tt ()
+    "Make the current TeX selection bold."
+    (interactive)
+    (unless (region-active-p)
+      (rst/mark-rst-symbol))
+    (rst/surround-region "``"))
+
   (require 'line-fill)
-  (map! :map rst-mode-map "M-q" #'line-fill-paragraph))
+  (map! :map rst-mode-map
+        "M-q" #'line-fill-paragraph
+        :localleader (
+                      :desc "Code"  "tt" #'rst-tt)))
 
 ;;------------------------------------------------------------------------------
 ;; Visual Fill Column
