@@ -32,7 +32,7 @@ If DIR is not a project, it will be indexed (but not cached)."
                        (thing-at-point 'filename)))
        dirs pr t)))
 
-  (defun project-remember-project-under-if-exists (dir)
+  (defun project-remember-projects-under-if-exists (dir)
     (when (file-directory-p dir)
       (project-remember-projects-under dir)))
 
