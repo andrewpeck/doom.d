@@ -113,14 +113,9 @@ Useful for working on NAS where permissions don't make sense."
           ;; Whether to show word-granularity differences within diff hunks.
           magit-diff-refine-hunk 'all)
 
-  ;; When you initiate a commit, then Magit by default automatically shows a diff
-  ;; of the changes you are about to commit. For large commits this can take a
-  ;; long time, which is especially distracting when you are committing large
-  ;; amounts of generated data which you don’t actually intend to inspect before
-  ;; committing. This behavior can be turned off using:
-
-  (remove-hook 'server-switch-hook 'magit-commit-diff)
-  (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff)
+  ;; don't syntax highlight in git commit views;
+  ;; saves A LOT of time on big commits
+  (remove-hook 'git-commit-setup-hook 'git-commit-propertize-diff)
 
   (defun my/magit-default-starting-point ()
     "Change default magit branch strating point.
