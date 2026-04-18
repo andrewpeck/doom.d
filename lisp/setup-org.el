@@ -268,7 +268,7 @@
   (setq-default org-download-image-dir "./images/screenshots")
 
   (setopt org-download-method            'directory
-          org-download-screenshot-method "import %s"
+          org-download-screenshot-method 'xclip
           org-download-heading-lvl       0
 
           ;; annotate the width of the image with the actual width of the screenshot
