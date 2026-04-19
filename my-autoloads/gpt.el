@@ -150,7 +150,7 @@ Output will go to BUFFER-NAME."
                                (let ((start (progn (verilog-beg-of-defun) (point)))
                                      (end   (progn (verilog-end-of-defun) (point))))
                                  (cons start end))))
-                            (t_ (bounds-of-thing-at-point 'defun))))
+                            (t (bounds-of-thing-at-point 'defun))))
               (beg (car bounds)) (end (cdr bounds))
               (form-str (buffer-substring-no-properties beg end))
               (prompt (string-join
