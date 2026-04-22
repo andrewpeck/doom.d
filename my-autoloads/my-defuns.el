@@ -2126,6 +2126,116 @@ usually want to open a terminal at the `default-directory`."
   (interactive)
   (my/toggle-wrap nil t))
 
+(defvar highlight-non-ascii-highlighted nil)
+
+;;;###autoload
+(defun highlight-non-ascii ()
+  "Highlight non-ASCII characters in the current buffer."
+  (interactive)
+  (setq highlight-non-ascii-highlighted
+        (not highlight-non-ascii-highlighted))
+  (if highlight-non-ascii-highlighted
+      (highlight-regexp "[^\x00-\x7F]" 'hi-yellow)
+    (unhighlight-regexp "[^\x00-\x7F]")))
+
+;;;###autoload
+(defun unicode-to-ascii ()
+  "Replace common Unicode characters with their ASCII equivalents.
+Handles dashes, quotes, spaces, ellipsis, bullets, and other
+typographic characters that have reasonable ASCII representations.
+Unicode with no ASCII equivalent is left unchanged."
+  (interactive)
+  (let ((replacements
+         '(;; Dashes
+           ("\u2014" . "---")   ; em dash  —
+           ("\u2013" . "--")    ; en dash  –
+           ("\u2012" . "--")    ; figure dash  ‒
+           ("\u2015" . "---")   ; horizontal bar  ―
+           ("\u2212" . "-")     ; minus sign  −
+           ("\uFE58" . "-")     ; small em dash  ﹘
+           ("\uFE63" . "-")     ; small hyphen-minus  ﹣
+           ("\uFF0D" . "-")     ; fullwidth hyphen-minus  －
+
+           ;; Quotation marks
+           ("\u2018" . "'")     ; left single quotation mark  '
+           ("\u2019" . "'")     ; right single quotation mark / apostrophe  '
+           ("\u201A" . "'")     ; single low-9 quotation mark  ‚
+           ("\u201B" . "'")     ; single high-reversed-9 quotation mark  ‛
+           ("\u2032" . "'")     ; prime  ′
+           ("\u2035" . "'")     ; reversed prime  ‵
+           ("\u201C" . "\"")    ; left double quotation mark  "
+           ("\u201D" . "\"")    ; right double quotation mark  "
+           ("\u201E" . "\"")    ; double low-9 quotation mark  „
+           ("\u201F" . "\"")    ; double high-reversed-9 quotation mark  ‟
+           ("\u2033" . "\"")    ; double prime  ″
+           ("\u2036" . "\"")    ; reversed double prime  ‶
+           ("\u00AB" . "\"")    ; left-pointing double angle quotation mark  «
+           ("\u00BB" . "\"")    ; right-pointing double angle quotation mark  »
+           ("\u2039" . "'")     ; single left-pointing angle quotation mark  ‹
+           ("\u203A" . "'")     ; single right-pointing angle quotation mark  ›
+           ("\uFF02" . "\"")    ; fullwidth quotation mark  ＂
+           ("\uFF07" . "'")     ; fullwidth apostrophe  ＇
+
+           ;; Ellipsis
+           ("\u2026" . "...")   ; horizontal ellipsis  …
+           ("\u22EF" . "...")   ; midline horizontal ellipsis  ⋯
+
+           ;; Spaces and non-breaking / special whitespace
+           ("\u00A0" . " ")     ; no-break space
+           ("\u00AD" . "")      ; soft hyphen (remove entirely)
+           ("\u1680" . " ")     ; ogham space mark
+           ("\u2000" . " ")     ; en quad
+           ("\u2001" . " ")     ; em quad
+           ("\u2002" . " ")     ; en space
+           ("\u2003" . " ")     ; em space
+           ("\u2004" . " ")     ; three-per-em space
+           ("\u2005" . " ")     ; four-per-em space
+           ("\u2006" . " ")     ; six-per-em space
+           ("\u2007" . " ")     ; figure space
+           ("\u2008" . " ")     ; punctuation space
+           ("\u2009" . " ")     ; thin space
+           ("\u200A" . " ")     ; hair space
+           ("\u200B" . "")      ; zero width space (remove)
+           ("\u200C" . "")      ; zero width non-joiner (remove)
+           ("\u200D" . "")      ; zero width joiner (remove)
+           ("\u202F" . " ")     ; narrow no-break space
+           ("\u205F" . " ")     ; medium mathematical space
+           ("\u3000" . " ")     ; ideographic space
+           ("\uFEFF" . "")      ; zero width no-break space / BOM (remove)
+
+           ;; Fullwidth ASCII variants
+           ("\uFF10" . "0")  ("\uFF11" . "1")  ("\uFF12" . "2")
+           ("\uFF13" . "3")  ("\uFF14" . "4")  ("\uFF15" . "5")
+           ("\uFF16" . "6")  ("\uFF17" . "7")  ("\uFF18" . "8")
+           ("\uFF19" . "9")
+           ("\uFF21" . "A")  ("\uFF22" . "B")  ("\uFF23" . "C")
+           ("\uFF24" . "D")  ("\uFF25" . "E")  ("\uFF26" . "F")
+           ("\uFF27" . "G")  ("\uFF28" . "H")  ("\uFF29" . "I")
+           ("\uFF2A" . "J")  ("\uFF2B" . "K")  ("\uFF2C" . "L")
+           ("\uFF2D" . "M")  ("\uFF2E" . "N")  ("\uFF2F" . "O")
+           ("\uFF30" . "P")  ("\uFF31" . "Q")  ("\uFF32" . "R")
+           ("\uFF33" . "S")  ("\uFF34" . "T")  ("\uFF35" . "U")
+           ("\uFF36" . "V")  ("\uFF37" . "W")  ("\uFF38" . "X")
+           ("\uFF39" . "Y")  ("\uFF3A" . "Z")
+           ("\uFF41" . "a")  ("\uFF42" . "b")  ("\uFF43" . "c")
+           ("\uFF44" . "d")  ("\uFF45" . "e")  ("\uFF46" . "f")
+           ("\uFF47" . "g")  ("\uFF48" . "h")  ("\uFF49" . "i")
+           ("\uFF4A" . "j")  ("\uFF4B" . "k")  ("\uFF4C" . "l")
+           ("\uFF4D" . "m")  ("\uFF4E" . "n")  ("\uFF4F" . "o")
+           ("\uFF50" . "p")  ("\uFF51" . "q")  ("\uFF52" . "r")
+           ("\uFF53" . "s")  ("\uFF54" . "t")  ("\uFF55" . "u")
+           ("\uFF56" . "v")  ("\uFF57" . "w")  ("\uFF58" . "x")
+           ("\uFF59" . "y")  ("\uFF5A" . "z"))))
+
+    (save-excursion
+      (save-restriction
+        (when (region-active-p)
+          (narrow-to-region (region-beginning) (region-end)))
+        (dolist (pair replacements)
+          (goto-char (point-min))
+          (while (search-forward (car pair) nil t)
+            (replace-match (cdr pair) t t)))))))
+
 ;;------------------------------------------------------------------------------
 ;; Fini
 ;;------------------------------------------------------------------------------
