@@ -65,7 +65,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package vterm
-  :config
+  :init
   (map! :leader (:prefix "o"
                  :desc "Vterm Toggle"         "t"  #'+vterm/toggle-here
                  :desc "Vterm Toggle Root"    "T"  #'+vterm/toggle)))

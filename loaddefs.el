@@ -461,6 +461,14 @@ Uses the `dom' library.
 "
 
 (fn LINK)")
+(autoload '+vterm--configure-project-root-and-display "my-autoloads/my-defuns"
+"Sets the environment variable PROOT and displays a terminal using `display-fn`.
+
+If prefix ARG is non-nil, cd into `default-directory' instead of project root.
+
+Returns the vterm buffer.
+
+(fn ARG DISPLAY-FN)")
 (autoload '+vterm/toggle-here "my-autoloads/my-defuns"
 "Toggle a terminal popup window at project root. Return the vterm buffer.
 
@@ -475,7 +483,14 @@ usually want to open a terminal at the `default-directory`." t)
 (autoload 'my/no-wrap "my-autoloads/my-defuns" nil t)
 (autoload 'my/wrap-and-center "my-autoloads/my-defuns" nil t)
 (autoload 'my/toggle-wrap-and-center "my-autoloads/my-defuns" nil t)
-(register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "my/" "normalize-comment-strings-length" "org-"))
+(autoload 'highlight-non-ascii "my-autoloads/my-defuns"
+"Highlight non-ASCII characters in the current buffer." t)
+(autoload 'unicode-to-ascii "my-autoloads/my-defuns"
+"Replace common Unicode characters with their ASCII equivalents.
+Handles dashes, quotes, spaces, ellipsis, bullets, and other
+typographic characters that have reasonable ASCII representations.
+Unicode with no ASCII equivalent is left unchanged." t)
+(register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "highlight-non-ascii-highlighted" "my/" "normalize-comment-strings-length" "org-"))
 
 
 ;;; Generated autoloads from my-autoloads/my-tex.el

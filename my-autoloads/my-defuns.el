@@ -2020,6 +2020,23 @@ Uses the `dom' library."
 ;;------------------------------------------------------------------------------
 
 ;;;###autoload
+(defun +vterm--configure-project-root-and-display (arg display-fn)
+  "Sets the environment variable PROOT and displays a terminal using `display-fn`.
+
+If prefix ARG is non-nil, cd into `default-directory' instead of project root.
+
+Returns the vterm buffer."
+  (unless (fboundp 'module-load)
+    (user-error "Your build of Emacs lacks dynamic modules support and cannot load vterm"))
+  (let* ((project-root (or (doom-project-root) default-directory))
+         (default-directory
+          (if arg
+              default-directory
+            project-root)))
+    (setenv "PROOT" project-root)
+    (funcall display-fn)))
+
+;;;###autoload
 (defun +vterm/toggle-here ()
   "Toggle a terminal popup window at project root. Return the vterm buffer.
 
@@ -2028,6 +2045,7 @@ undesirable property of opening a terminal at the root of the repo. I
 usually want to open a terminal at the `default-directory`."
 
   (interactive)
+  (require 'vterm)
   (+vterm--configure-project-root-and-display
    t
    (lambda ()
