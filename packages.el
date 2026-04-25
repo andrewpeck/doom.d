@@ -37,7 +37,7 @@
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! file-clipboard-copy.el  :pin "ccf56ec3116dc467004173ac863b9938025527c8" :recipe (:host github :repo "andrewpeck/file-clipboard-copy.el"))
 (package! hdldep.el               :pin "dba34acc7bc9661dbf081d639a37076507fcb434" :recipe (:host github :repo "andrewpeck/hdldep.el"))
-(package! hog.el                  :pin "7ab0148a2e9dfdaf60cc834ee261d7d04248176c" :recipe (:host github :repo "andrewpeck/hog.el"))
+(package! hog.el                  :pin "773ab8c5ee9cdf9ed74c9072620c147742ec96bf" :recipe (:host github :repo "andrewpeck/hog.el"))
 (package! line-fill.el            :pin "0e5c98890f5656b93f3efee95cef4714e9dc4d93" :recipe (:host github :repo "andrewpeck/line-fill.el"))
 (package! mp3-tag.el              :pin "387891e541dc4421ac56f79b32e00ef41bd18443" :recipe (:host github :repo "andrewpeck/mp3-tag.el"))
 (package! ob-wavedrom             :pin "85b12dba1a5ba2496e6bc377c25ce365fa221fbf" :recipe (:host github :repo "andrewpeck/ob-wavedrom"))
