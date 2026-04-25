@@ -86,7 +86,6 @@
 (add-to-list 'auto-mode-alist '("\\.qel\\'"          . tcl-mode))     ; cadence script
 (add-to-list 'auto-mode-alist '("\\.sdc\\'"          . tcl-mode))     ; synopsys sdc
 (add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; arduino
-(add-to-list 'auto-mode-alist '("\\.src\\'"          . hog-src-mode)) ; hog
 (add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; cheby
 (add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
 

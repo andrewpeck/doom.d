@@ -198,6 +198,10 @@
 
 (use-package! hog
 
+  :mode (("\\.src\\'"  . hog-src-mode)
+         ("\\.list\\'" . hog-src-mode)
+         ("\\.con\\'"  . hog-src-mode))
+
   :config
 
   (setq hog-vivado-path
