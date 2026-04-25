@@ -8,7 +8,8 @@
   :init
   (add-hook! '(prog-mode-hook text-mode-hook) #'global-completion-preview-mode)
   :config
-  (unbind-key "TAB" completion-preview-active-mode-map)
+  ;; (bind-key "TAB" completion-preview-active-mode-map)
+  ;; (map! :after corfu (:map completion-preview-active-mode-map "TAB" #'completion-preview-insert))
   ;; Org mode has a custom `self-insert-command'
   (push 'org-self-insert-command completion-preview-commands))
 
@@ -27,6 +28,23 @@
 
   :config
 
+  (defun my/completion-preview-suppress-if-corfu (fun &rest args)
+    "Suppress `completion-preview' when Corfu popup is active."
+    (unless (and (bound-and-true-p corfu--active))
+      (apply fun args)))
+
+  (advice-add 'completion-preview--update
+              :around #'my/completion-preview-suppress-if-corfu)
+
+  (defun my/completion-preview-hide-when-corfu ()
+    "Hide inline completion preview whenever Corfu popup is active."
+    (when (and (boundp 'corfu--frame) corfu--frame)
+      (completion-preview-hide)
+      t))
+
+  (add-hook 'completion-preview-inhibit-functions
+            #'my/completion-preview-hide-when-corfu)
+
   (after! eglot
     (defun corfu-debug-eglot ()
       (interactive)
@@ -37,7 +55,8 @@
         (:map corfu-map "SPC" #'corfu-insert-separator)
         (:map corfu-map "C-SPC" #'corfu-insert-separator)
         (:map corfu-mode-map "C-c f" #'cape-file)
-        (:map corfu-mode-map "C-<SPC>" #'completion-at-point))
+        (:map corfu-mode-map "C-<SPC>" #'completion-at-point)
+        (:map corfu-mode-map "TAB" nil))
 
   (setq-default
    corfu-preselect 'first
@@ -47,9 +66,9 @@
    ;; +corfu-want-tab-prefer-expand-snippets nil
    ;; +corfu-want-ret-to-confirm t
 
-   corfu-auto-delay 0.3
+   corfu-auto-delay 2.0
    corfu-auto-prefix 3
-   corfu-auto t
+   corfu-auto nil
    corfu-preview-current t)) ; No preview vs Non-inserting preview
 
 (use-package orderless
