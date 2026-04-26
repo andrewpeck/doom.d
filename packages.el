@@ -82,7 +82,7 @@
 (package! emacs-tramp-rpc         :pin "fab479d0f29b20045f372a5534a99da56b6c0e07" :recipe (:host github :repo "ArthurHeymans/emacs-tramp-rpc"))
 (package! expand-region           :pin "351279272330cae6cecea941b0033a8dd8bcc4e8" :recipe (:host github :repo "magnars/expand-region.el"))
 (package! flycheck-clj-kondo      :pin "e38c67ba9db1ea1cbe1b61ab39b506c05efdcdbf" :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
-(package! gptel                   :pin "bbfbd711fae64b079f7057d71772805edeb00a3d")
+(package! gptel                   :pin "8d6411b5f89d796c817ff79324973b8910e164fe")
 (package! gptel-quick             :pin "018ff2be8f860a1e8fe3966eec418ad635620c38" :recipe (:host github :repo "karthink/gptel-quick"))
 (package! graphviz-dot-mode       :pin "516c151b845a3eb2da73eb4ee648ad99172087ac")
 (package! gruber-darker-theme     :pin "2e9f99c41fe8ef0557e9ea0f3b94ef50c68b5557" :recipe (:host github :repo "rexim/gruber-darker-theme"))
