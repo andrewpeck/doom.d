@@ -1600,3 +1600,35 @@ lines are selected, or the NxM dimensions of a block selection.")
    :config
    ;; (setq verilog-ext-hierarchy-backend 'tree-sitter) ;; tree does not seem to work?
    (verilog-ext-mode-setup)))
+
+(defun +lsp--wait-for-server (timeout interval)
+  "Wait for the LSP server to start.
+
+Checking periodically until the specified timeout.
+
+TIMEOUT specifies the maximum wait time, and INTERVAL defines how often
+to check for the server."
+  (let ((server (eglot-current-server)))
+    (cond
+     (server
+      (message "Started `%s' language server"
+               (nth 1 (eglot--server-info server))))
+     ((< timeout 0)
+      (message "LSP server timed out"))
+     (t
+      (run-with-timer interval nil
+                      #'+lsp--wait-for-server
+                      (- timeout interval)
+                      interval)))))
+
+
+;; (if should-start
+;;         (progn
+;;           (message "Starting lsp")
+;;           (+lsp--wait-for-server 10 0.2)
+;;           t)
+;;       ;; (
+;;       (progn
+;;         ;; block lsp
+;;         (message "No virtual environment found. Not starting LSP.")
+;;         nil))
