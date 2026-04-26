@@ -23,3 +23,7 @@
                          'face '+dashboard-loaded)))))
 
 (setopt doom-scratch-dir doom-user-dir)
+
+;; +eval/buffer has gotten annoying (popup everytime)
+;; regular eval-buffer seems to do the job just fine...
+(advice-add #'+eval/buffer :override #'eval-buffer)
