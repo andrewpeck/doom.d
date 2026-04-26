@@ -205,7 +205,9 @@
   :config
 
   (setq hog-vivado-path
-        (or (file-exists "/opt/Xilinx/Vivado/2022.2")
+        (or (file-exists "/opt/Xilinx/2025.2/Vivado")
+            (file-exists "/opt/Xilinx/Vivado/2024.1")
+            (file-exists "/opt/Xilinx/Vivado/2022.2")
             (file-exists "/storage/Xilinx/Vivado/2022.2")
             (file-exists "/opt/Xilinx/Vivado/2021.1")
             (file-exists "/storage/Xilinx/Vivado/2021.1")))
