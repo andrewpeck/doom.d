@@ -27,5 +27,8 @@
   (setopt backup-each-save-mirror-location
           (expand-file-name "~/emacs-backups"))
 
+  (setopt backup-each-save-ignored-regexps
+          '(".*/private/.*"))
+
   (when (not (file-directory-p backup-each-save-mirror-location))
     (make-directory backup-each-save-mirror-location)))
