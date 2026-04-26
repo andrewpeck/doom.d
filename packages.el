@@ -116,13 +116,13 @@
 (package! typst-ts-mode           :pin "cf4d5282988068841efd51dc83f99091b41b91dd" :recipe (:host codeberg :repo "meow_king/typst-ts-mode"))
 (package! uniline                 :pin "14a0949539679e89f706601a501ae8a8d090c71f" :recipe (:host github :repo "tbanel/uniline"))
 (package! verilog-mode            :pin "54a0c9b5025aa73f585fc18560d724a60ca2e86c" :recipe (:host github :repo "veripool/verilog-mode"))
-(package! vim-tab-bar.el          :pin "3ab286ffc3ce5e4215d9d7f502a6982111e49207" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
 (package! vimrc-mode              :pin "f594392a0834193a1fe1522d007e1c8ce5b68e43")
 (package! visual-fill-column      :pin "e1be9a1545157d24454d950c0ac79553c540edb7" :recipe (:host codeberg :repo "joostkremers/visual-fill-column"))
 (package! wavedrom-mode           :pin "43e4fb89b35e5c899d08b01efa310ddf482e6f4e" :recipe (:host github :repo "gmlarumbe/wavedrom-mode"))
 (package! xr                      :pin "07369f3ceeda919b06d2356d66bfbcbf8975d09d")                           ; xr is rx in reverse
 ;; end:sort
 
+;; (package! vim-tab-bar.el          :pin "3ab286ffc3ce5e4215d9d7f502a6982111e49207" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
 ;; (package! tramp-hlo               :pin "b726b4042e96ac5cead396c8d12c01e6bad2bd78" :recipe (:host github :repo "jsadusk/tramp-hlo"))
 ;; (package! eglot                   :pin "ad7e201bb6d892895b07048f809fe336f6935109" :recipe (:host github :repo "joaotavora/eglot"))
 ;; (package! eglot-booster           :pin "cab7803c4f0adc7fff9da6680f90110674bb7a22" :recipe (:host github :repo "jdtsmith/eglot-booster"))
