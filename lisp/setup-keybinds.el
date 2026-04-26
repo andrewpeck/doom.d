@@ -124,9 +124,6 @@
   (map! :after org :map org-mode-map "M-q" #'org-fill-paragraph-t)
   (map! :after latex :map latex-mode-map "M-q" #'ap/line-fill-paragraph)
 
-  ;; Tab in normal mode shouldn't indent
-  (map! :nmv "TAB" 'nil)
-
   ;; Backspace to jump to previous buffer
   ;; (map! :nm "DEL" 'evil-switch-to-windows-last-buffer)
 

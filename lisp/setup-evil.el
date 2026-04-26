@@ -5,6 +5,8 @@
 
 (after! evil
 
+  (map! :map evil-motion-state-map "TAB" nil)
+
   (setopt evil-indent-convert-tabs nil
 
           ;; Whether C-i jumps forward in the jump list (like Vim).
