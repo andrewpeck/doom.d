@@ -2,6 +2,8 @@
 
 (map! :map verilog-mode-map
       :after verilog-mode
+      :n "o" #'verilog-open-new-line-below
+      :n "O" #'verilog-open-new-line-above
       ;; unbind electric tab insertion
       "<TAB>" nil
       :i "<return>" #'electric-verilog-terminate-and-indent
@@ -28,7 +30,37 @@
                       ("function" . "󰡱")))
               (prettify-symbols-mode)))
 
+  (add-hook 'verilog-mode-hook (lambda ()
+                                 ;; (flycheck-eglot-mode)
+                                 (require 'eglot)
+                                 (+lsp-startup)))
+
   :config
+
+  (require 'eglot)
+  (require 'flycheck)
+
+  (defun verilog-open-new-line-above ()
+    (interactive)
+    (beginning-of-line)
+    (open-line 1)
+    (verilog-indent-line)
+    (evil-insert-state))
+
+  (defun verilog-open-new-line-below ()
+    (interactive)
+    (end-of-line)
+    (electric-verilog-terminate-and-indent)
+    (evil-insert-state))
+
+  (add-to-list 'eglot-server-programs
+               '(verilog-mode . ("slang-server")))
+
+  (add-hook 'flycheck-eglot-mode-hook
+            (lambda ()
+              (when (derived-mode-p 'verilog-mode 'verilog-ts-mode)
+                (flycheck-add-next-checker 'verilog-verilator 'eglot-check)
+                (flycheck-select-checker 'verilog-verilator))))
 
   (require 'verilog-mode)
   (require 'rainbow-delimiters)
