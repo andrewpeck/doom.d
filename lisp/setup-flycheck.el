@@ -229,8 +229,11 @@ See URL `http://nagelfar.sourceforge.net/'."
   (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
 
   (defun hook/configure-python-checkers ()
-    (setq flycheck-enabled-checkers '(eglot-check))
+    (setq-local flycheck-enabled-checkers '(eglot-check python-ruff))
     (setq-local flycheck-disabled-checkers '(python-pylint python-mypy python-flake8))
+    (setq-local flycheck-eglot-exclusive nil)
+    (flycheck-add-next-checker 'eglot-check 'python-ruff)
+
     (with-eval-after-load 'flycheck (flycheck-eglot-mode 1)))
 
   (add-hook! '(python-mode-hook python-ts-mode-hook) 'hook/configure-python-checkers)
