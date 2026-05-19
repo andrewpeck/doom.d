@@ -4,27 +4,32 @@
   "Query the OpenAI API with PROMPT, returning the response as a string.
 
 Optionally select a MODEL"
-  (with-environment-variables (("OPENAI_API_KEY" openai-api-key))
-    (let* ((model (or model "gpt-4o-mini"))
-           (script (format "import sys
+  (let* ((model (or model "gpt-5.4-nano"))
+         (key (or openai-api-key
+                  (getenv "OPENAI_API_KEY")
+                  (user-error "No API key specified!!")))
+         (script (format "import sys
 from openai import OpenAI
-client = OpenAI()
+client = OpenAI(api_key=%S)
 resp = client.responses.create(model=%S, input=sys.stdin.read())
-print(resp.output_text)" model))
-           (out-buf (generate-new-buffer " *openai-output*"))
-           (output (unwind-protect
-                       (progn
-                         (with-temp-buffer
-                           (insert prompt)
-                           (call-process-region (point-min) (point-max)
-                                                "/usr/bin/python3" nil out-buf nil
-                                                "-c" script))
-                         (with-current-buffer out-buf (buffer-string)))
-                     (kill-buffer out-buf)))
-           (output (string-trim-right output "\n")))
-      (when (or (not output) (string-empty-p output))
-        (user-error "No response from OpenAI API"))
-      output)))
+print(resp.output_text)" key model))
+         (process-environment (cons (format "OPENAI_API_KEY=%s" key)
+                                    process-environment))
+         (out-buf (generate-new-buffer " *openai-output*"))
+         (output (unwind-protect
+                     (progn
+                       (with-temp-buffer
+                         (insert prompt)
+                         (call-process-region (point-min) (point-max)
+                                              "/usr/bin/python3" nil out-buf nil
+                                              "-c" script))
+                       (with-current-buffer out-buf (buffer-string)))
+                   (kill-buffer out-buf)))
+         (output (string-trim-right output "\n")))
+    (message "%S" process-environment)
+    (when (or (not output)
+              (string-empty-p output))
+      (user-error "No response from OpenAI API")) output))
 
 (defun gpt--process-response (response &optional buffer-name buffer-point)
   "Process the RESPONSE from the GPT API and display it.
