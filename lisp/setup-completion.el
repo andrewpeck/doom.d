@@ -8,6 +8,7 @@
   :init
   (add-hook! '(prog-mode-hook text-mode-hook) #'global-completion-preview-mode)
   :config
+  (setq completion-preview-idle-delay 0.1)
   ;; (bind-key "TAB" completion-preview-active-mode-map)
   ;; (map! :after corfu (:map completion-preview-active-mode-map "TAB" #'completion-preview-insert))
   ;; Org mode has a custom `self-insert-command'
