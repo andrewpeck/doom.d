@@ -103,6 +103,7 @@ nil."
                                            ("rustanalyzer" " ")
                                            ("rass" " ")
                                            ("ty+pyrefly-lsp" " ")
+                                           ("slang-server" " ")
                                            (_ " "))))
                               (propertize icon 'help-echo (format "%s" lsp-server-info)))))
 
