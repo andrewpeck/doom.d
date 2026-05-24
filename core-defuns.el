@@ -4,6 +4,10 @@
 ;; with things i want at startup that have minimal package depdencies. keep
 ;; heavier weight functions in my-defuns.el
 
+(defun set-local (variable value)
+  "Make VARIABLE buffer local and set it to VALUE."
+  (set (make-local-variable variable) value))
+
 (defun project-root-dir (&rest _)
   "Return root directory of current project."
   (when-let ((proj (project-current)))
