@@ -792,13 +792,44 @@ help instead of keeping it open."
   (drag-stuff-define-keys))
 
 ;;------------------------------------------------------------------------------
+;; Tab-bar
+;;------------------------------------------------------------------------------
+
+(use-package tab-bar
+  :config
+
+  (defun my/compress-path (path)
+    "Compress PATH like ~/work/src/proj/foo.py → ~/w/s/p/foo.py."
+    (let* ((abbreviated (abbreviate-file-name path))
+           (parts (split-string abbreviated "/"))
+           (filename (car (last parts)))
+           (dirs (butlast parts)))
+      (mapconcat #'identity
+                 (append
+                  (mapcar (lambda (d)
+                            (if (string-match "^[~.]" d)
+                                d          ; keep ~ and . as-is
+                              (substring d 0 (min 1 (length d)))))
+                          dirs)
+                  (list filename))
+                 "/")))
+
+  (defun my/tab-bar-name ()
+    "Tab name with compressed file path, or buffer name."
+    (if buffer-file-name
+        (my/compress-path buffer-file-name)
+      (buffer-name)))
+
+  (setq tab-bar-tab-name-function #'my/tab-bar-name))
+
+;;------------------------------------------------------------------------------
 ;; Vim Tab Bar
 ;;------------------------------------------------------------------------------
 
-(use-package vim-tab-bar
-  :commands vim-tab-bar-mode
-  :init
-  (vim-tab-bar-mode))
+;; (use-package vim-tab-bar
+;;   :commands vim-tab-bar-mode
+;;   :init
+;;   (vim-tab-bar-mode))
 
 ;;------------------------------------------------------------------------------
 ;; Locals
