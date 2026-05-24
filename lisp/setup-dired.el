@@ -53,7 +53,8 @@
 
   (setopt dired-omit-extensions '())
 
-  (add-hook 'dired-mode-hook #'dired-omit-mode))
+  ;; replace the dired-mode-hook dired-omit-mode additions
+  (add-hook 'dired-initial-position-hook #'dired-omit-mode))
 
 (use-package! dired
 
