@@ -490,7 +490,7 @@ usually want to open a terminal at the `default-directory`." t)
 Handles dashes, quotes, spaces, ellipsis, bullets, and other
 typographic characters that have reasonable ASCII representations.
 Unicode with no ASCII equivalent is left unchanged." t)
-(register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "highlight-non-ascii-highlighted" "my/" "normalize-comment-strings-length" "org-"))
+(register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "highlight-non-ascii-highlighted" "my/" "normalize-comment-strings-length" "org-" "unique-lines-region"))
 
 
 ;;; Generated autoloads from my-autoloads/my-tex.el

@@ -2254,6 +2254,15 @@ Unicode with no ASCII equivalent is left unchanged."
           (while (search-forward (car pair) nil t)
             (replace-match (cdr pair) t t)))))))
 
+(defun unique-lines-region (start end)
+  "Make lines in the region from START to END unique."
+  (interactive "r")
+  (let* ((text (buffer-substring-no-properties start end))
+         (lines (split-string text "\n"))
+         (unique-lines (delete-dups lines)))
+    (delete-region start end)
+    (insert (mapconcat #'identity unique-lines "\n"))))
+
 ;;------------------------------------------------------------------------------
 ;; Fini
 ;;------------------------------------------------------------------------------
