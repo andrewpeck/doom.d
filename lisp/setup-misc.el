@@ -1,6 +1,18 @@
 ;; config-packages.el -*- lexical-binding: t; -*-
 
 ;;------------------------------------------------------------------------------
+;; Tabular
+;;------------------------------------------------------------------------------
+
+(use-package tabular
+  :config
+  (tabular-add-pattern "first-equals" "^[^=]*\\zs=" "l1")
+  (tabular-add-pattern "before-open-paren" "^[^(]*\\zs (" "l0")
+  (tabular-add-pattern "cpp-comment" "\\(^\\s-*\\)\\@<!//" "l1")
+  (tabular-add-pattern "space-or-bar" " \\|" "l1")
+  (tabular-add-pattern "before-open-bracket" " \\[" "l0"))
+
+;;------------------------------------------------------------------------------
 ;; Marginalia
 ;;------------------------------------------------------------------------------
 
