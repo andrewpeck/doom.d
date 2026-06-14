@@ -113,3 +113,16 @@
   (cl-remprop 'buffer-local-value 'byte-obsolete-generalized-variable)
   :config
   (eglot-booster-mode))
+
+;;------------------------------------------------------------------------------
+;; Eldoc-Box
+;;------------------------------------------------------------------------------
+
+(use-package eldoc-box
+  :config
+  (setopt eldoc-box-mouse-mode-idle-delay 0.6)
+  :init
+  (add-hook 'eglot-managed-mode-hook
+            (defun hook/setup-eldoc-box ()
+              (require 'eldoc-box)
+              (eldoc-box-mouse-mode))))
