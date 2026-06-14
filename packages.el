@@ -49,7 +49,7 @@
 (package! timesheet.el            :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
 (package! verilog-port-copy       :pin "f6fe6e07b40fc3f76b55952ece6f099eb47907a7" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! verilog-rainbow-mode.el :pin "d95b04c1e22977c935c5e33f40f8b24eba67ab6b" :recipe (:host github :repo "andrewpeck/verilog-rainbow-mode.el"))
-(package! verilog-ts-mode         :pin "92bbc69372bdf1751f100a8bc0381ca96ccbd326" :recipe (:host github :repo "andrewpeck/verilog-ts-mode"))
+(package! verilog-ts-mode         :pin "ccc3cadc3d9d00f526fc7cd0578dd15714ccfa7a" :recipe (:host github :repo "andrewpeck/verilog-ts-mode"))
 (package! vivado_mode             :pin "83b636936107da4cbe1783f2b850ba91c2d1af36" :recipe (:host github :repo "andrewpeck/vivado_mode"))
 ;; end:sort
 
