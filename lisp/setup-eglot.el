@@ -15,9 +15,11 @@
 
 (defun +lsp-startup ()
   (interactive)
+  (require 'eglot)
   (when (+lsp-should-start-p)
     (require 'eglot)
-    (run-with-idle-timer 1 nil #'eglot-ensure)))
+    (run-with-idle-timer 1 nil #'eglot-ensure)
+    (run-with-idle-timer 2.0 nil #'flycheck-eglot-mode)))
 
 (defun +lsp-should-start-p (&rest _)
   (let ((should-start
@@ -75,8 +77,9 @@
     (interactive)
     (message (format "%s" (eglot--server-info (eglot-current-server)))))
 
-  (setopt eglot-managed-mode-hook (list (lambda () (eldoc-mode -1)))
-          eglot-events-buffer-config '(:size 0 :format full)
+  (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
+
+  (setopt eglot-events-buffer-config '(:size 0 :format full)
           ;; eglot-events-buffer-config '(:size 2000000 :format full)
           eglot-sync-connect nil
           eglot-max-file-watches 20
@@ -118,11 +121,39 @@
 ;; Eldoc-Box
 ;;------------------------------------------------------------------------------
 
+(after! eglot
+  (add-hook 'eglot-managed-mode-hook
+            (defun hook/setup-eldoc-box ()
+              (require 'eldoc-box)) t))
+
+(defun my/eldoc-box-help-at-mouse (event)
+  "Move point to mouse EVENT and show fresh eldoc-box docs there."
+  (interactive "e")
+  (let* ((posn (event-start event))
+         (win  (posn-window posn))
+         (pos  (posn-point posn)))
+    (when (and (window-live-p win)
+               (integer-or-marker-p pos))
+      (select-window win)
+      (with-current-buffer (window-buffer win)
+        (goto-char pos)
+        ;; Clear stale ElDoc state and ask providers again.
+        (when (fboundp 'eldoc)
+          (eldoc))
+        ;; Give async providers/Eglot/LSP a moment to update the doc buffer.
+        (run-at-time
+         0.05 nil
+         (lambda (buf win pos)
+           (when (and (buffer-live-p buf)
+                      (window-live-p win))
+             (select-window win)
+             (with-current-buffer buf
+               (goto-char pos)
+               (eldoc-box-help-at-point))))
+         (current-buffer) win pos)))))
+
 (use-package eldoc-box
   :config
   (setopt eldoc-box-mouse-mode-idle-delay 0.6)
-  :init
-  (add-hook 'eglot-managed-mode-hook
-            (defun hook/setup-eldoc-box ()
-              (require 'eldoc-box)
-              (eldoc-box-mouse-mode))))
+  :bind
+  ("C-<down-mouse-1>" . my/eldoc-box-help-at-mouse))
