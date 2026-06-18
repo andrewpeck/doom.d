@@ -93,8 +93,6 @@
 
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode-unless-remote)
 
-  (add-hook 'dired-mode-hook #'dired-omit-mode)
-
   (add-hook! 'dired-mode-hook
     (defun hook/dired-hide-details ()
       "Hide details by default in dired to reduce line noise."
