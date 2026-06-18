@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: match
+# key: match
+# --
+match point:
+    case 0:
+        return 0
+    case _:
+        raise ValueError("Not a point")
