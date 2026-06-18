@@ -97,11 +97,11 @@ nil."
                             (let* ((lsp-server-info (eglot--server-info (eglot-current-server)))
                                    (lsp-server-name (nth 1 lsp-server-info))
                                    (icon (pcase lsp-server-name
-                                           ("pyrefly-lsp" " " )
                                            ("basedpyright" "󱔎 " )
                                            ("ty" " ")
                                            ("rustanalyzer" " ")
                                            ("rass" " ")
+                                           ("pyrefly-lsp" "🦋 ")
                                            ("ty+pyrefly-lsp" " ")
                                            ("slang-server" " ")
                                            (_ " "))))
