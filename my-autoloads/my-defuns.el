@@ -619,10 +619,12 @@ lines, e.g.
 (defun reload-this-buffer ()
   "Kill and re-open the current buffer"
   (interactive)
-  (revert-buffer)
-  (let ((tmp-buffer-file (buffer-file-name)))
-    (kill-buffer (buffer-name))
-    (find-file tmp-buffer-file)))
+  (let ((position (point)))
+    (revert-buffer)
+    (let ((tmp-buffer-file (buffer-file-name)))
+      (kill-buffer (buffer-name))
+      (find-file tmp-buffer-file))
+    (goto-char position)))
 
 ;;;###autoload
 (defun fix-evil ()
