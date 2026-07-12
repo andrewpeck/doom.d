@@ -42,6 +42,10 @@
 "Replace the entire contents of the current buffer with the system clipboard." t)
 (autoload 'emacs-lsp-booster-install "my-autoloads/my-defuns"
 "Install LSP booster with cargo." t)
+(autoload 'rustup-install "my-autoloads/my-defuns"
+"Install rustup." t)
+(autoload 'uv-install "my-autoloads/my-defuns"
+"Install uv." t)
 (autoload 'my/toggle-c-verilog-comment-style "my-autoloads/my-defuns" nil t)
 (autoload 'file-exists "my-autoloads/my-defuns"
 "Not predicated version of file-exists-p.

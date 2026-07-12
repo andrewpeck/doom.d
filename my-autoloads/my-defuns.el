@@ -29,6 +29,18 @@
   (compile "cargo install --git https://github.com/blahgeek/emacs-lsp-booster"))
 
 ;;;###autoload
+(defun rustup-install ()
+  "Install rustup."
+  (interactive)
+  (compile "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"))
+
+;;;###autoload
+(defun uv-install ()
+  "Install uv."
+  (interactive)
+  (compile "curl -LsSf https://astral.sh/uv/install.sh | sh"))
+
+;;;###autoload
 (defun my/toggle-c-verilog-comment-style ()
   (interactive)
   (save-excursion
