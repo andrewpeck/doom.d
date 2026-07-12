@@ -34,16 +34,20 @@ If DIR is not a project, it will be indexed (but not cached)."
 
   (defun project-remember-projects-under-if-exists (dir)
     (when (file-directory-p dir)
+
       (project-remember-projects-under dir)))
 
   (defun my/project-discover-all ()
     "Search the work dir and reregister all directories."
     (interactive)
-    (project-forget-zombie-projects)
-    (project-remember-projects-under-if-exists "~/work"))
+    (let ((inhibit-message t))
+      (project-forget-zombie-projects)
+      (project-remember-projects-under-if-exists "~/work")
+      (project-remember-projects-under-if-exists "/mnt/NAS/Sync/work")
+      (project-remember-projects-under-if-exists "/mnt/NAS/Sync/work/emacs")))
 
   ;; periodically rescan for projects
-  (run-with-timer 10 3600 'my/project-discover-all)
+  (run-with-timer 1 100 'my/project-discover-all)
 
   (defun projectile-locate-dominating-file (&rest _)
     (locate-dominating-file "." ".git"))
