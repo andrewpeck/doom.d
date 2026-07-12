@@ -908,24 +908,28 @@ This function tries to de hyphenate them."
 (defun calc-popup ()
   "Popup a full frame calc buffer."
   (interactive)
+  (require 'calc)
 
-  ;; maybe create poup buffer
-  ;; switch to it
+  ;; maybe create popup buffer, switch to it
   (let ((popup-name "Calc Popup"))
     (unless (get-buffer popup-name)
       (generate-new-buffer popup-name))
     (switch-to-buffer popup-name))
-
-  ;; adjust frame size
-  (set-frame-width (selected-frame) 75)
-  (set-frame-height (selected-frame) 30)
 
   ;; setup calc + display trail
   (calc-mode)
   (calc-big-language)
   (with-current-buffer (calc-trail-buffer)
     (and calc-display-trail
-         (calc-trail-display nil t))))
+         (calc-trail-display nil t)))
+
+  ;; adjust frame size once the frame has settled
+  (let ((frame (selected-frame)))
+    (run-at-time
+     0.10 nil
+     (lambda ()
+       (when (frame-live-p frame)
+         (set-frame-size frame 75 30))))))
 
 ;;;###autoload
 (defvar my/xdg-data-dirs
