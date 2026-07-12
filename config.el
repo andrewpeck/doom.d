@@ -88,6 +88,7 @@
 (add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; arduino
 (add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; cheby
 (add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
+(add-to-list 'auto-mode-alist '("\\uv.lock\\'"       . toml-ts-mode))
 
 ;; Sibling File Rules
 (add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.c\\'" "\\1.h")) ;; c to h
