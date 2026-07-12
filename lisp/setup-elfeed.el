@@ -34,7 +34,7 @@
           ;; "https://hackaday.com/blog/feed/"
           "https://www.eetimes.com/feed-reader/"
           "http://yummymelon.com/devnull/feeds/all.atom.xml"
-          "https://simonwillison.net/atom/everything/"
+          ;; "https://simonwillison.net/atom/everything/"
           "https://krebsonsecurity.com/feed/"
           "https://ciechanow.ski/atom.xml"
           "https://danluu.com/atom.xml"
