@@ -105,7 +105,7 @@
 (package! org-download            :pin "c8be2611786d1d8d666b7b4f73582de1093f25ac" :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-web-tools           :pin "7a6498f442fc7f29504745649948635c7165d847")
 (package! p-search                :pin "c382c80947a95825e258332d6f89bd6be496d914" :recipe (:host github :repo "zkry/p-search"))
-(package! plz                     :pin "981a4d09521ef59439713624702efcad996840a0")
+(package! plz                     :pin "8f5e5ffbde6da93920035be1489a1f1a9986b879")
 (package! poporg                  :pin "2c58d68c81ecca4140bf179f19ed153ec804b65a" :recipe (:host github :repo "QBobWatson/poporg"))
 (package! rainbow-delimiters      :pin "f40ece58df8b2f0fb6c8576b527755a552a5e763")
 (package! rainbow-mode            :pin "2e6b18609c2fdd1a2dc513937a64d276fd6cf24c")
