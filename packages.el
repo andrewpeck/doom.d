@@ -58,7 +58,7 @@
 (package! adaptive-wrap           :pin "6b9ffc18cdb1d3d18e2b9c3568bfb651f0ad517f")
 (package! affe                    :pin "6e06b8efcd5b57160ba267e42cbf3b982a4b89a1")
 (package! almost-mono-themes      :pin "6826f1b880bd91170dded26bb420dd4ef164f127" :recipe (:host github :repo "cryon/almost-mono-themes"))
-(package! apheleia                :pin "e6e5d5523d229735ab5f8ec83e10beefcfd00d76")
+(package! apheleia                :pin "14a0bb4454fb2cc3b5b377619288b742ce117da5")
 (package! ascii-art-to-unicode    :pin "fa3d82ddb531855ad7b8ef871871907861327c9f")
 (package! benchmark-init          :pin "54b9703389f25012e4cc20fe4a0d4ea253ce4820")
 (package! browse-at-remote        :pin "38e5ffd77493c17c821fd88f938dbf42705a5158" :recipe (:host github :repo "rmuslimov/browse-at-remote"))
