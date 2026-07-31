@@ -82,7 +82,7 @@
 (package! elfeed                  :pin "bbb3cac27b0412d80b327b5cfaab83683c96a2a1" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-colorpicker       :pin "3acee0fc0e35e130fb049ab69f99544a1ca9d11f" :recipe (:host github :repo "syohex/emacs-colorpicker"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
-(package! emacs-tramp-rpc         :pin "fab479d0f29b20045f372a5534a99da56b6c0e07" :recipe (:host github :repo "ArthurHeymans/emacs-tramp-rpc"))
+(package! emacs-tramp-rpc         :pin "5f395746a6d5c229465e7a5af8ed9564b90986c2" :recipe (:host github :repo "ArthurHeymans/emacs-tramp-rpc"))
 (package! expand-region           :pin "351279272330cae6cecea941b0033a8dd8bcc4e8" :recipe (:host github :repo "magnars/expand-region.el"))
 (package! flycheck-clj-kondo      :pin "e38c67ba9db1ea1cbe1b61ab39b506c05efdcdbf" :recipe (:host github :repo "borkdude/flycheck-clj-kondo"))
 (package! gptel                   :pin "8d6411b5f89d796c817ff79324973b8910e164fe")
