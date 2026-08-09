@@ -165,7 +165,7 @@
 
   ;; add font locking to the headers
   (font-lock-add-keywords
-   'latex-mode
+   'LaTeX-mode
    '(("^%\\(chapter\\|\\(sub\\|subsub\\)?section\\|paragraph\\)"
       0 'font-lock-keyword-face t)
      ("^%chapter{\\(.*\\)}"       1 'font-latex-sectioning-1-face t)
