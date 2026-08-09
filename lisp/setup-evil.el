@@ -7,10 +7,10 @@
 
   (map! :map evil-motion-state-map "TAB" nil)
 
-  (setopt evil-indent-convert-tabs nil
+  ;; NOTE: `evil-want-C-i-jump' must be set *before* evil loads; it lives in
+  ;; config.el for that reason.
 
-          ;; Whether C-i jumps forward in the jump list (like Vim).
-          evil-want-C-i-jump t
+  (setopt evil-indent-convert-tabs nil
 
           ;; only substitute the 1st match by default (reverse vim behavior)
           evil-ex-substitute-global t
