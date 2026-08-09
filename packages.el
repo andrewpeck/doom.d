@@ -101,7 +101,7 @@
 (package! nix-mode                :pin "719feb7868fb567ecfe5578f6119892c771ac5e5" :recipe (:host github :repo "NixOS/nix-mode"))
 (package! nyan-mode               :pin "09904af23adb839c6a9c1175349a1fb67f5b4370" :recipe (:host github :repo "TeMPOraL/nyan-mode") )
 (package! ob-mermaid              :pin "30c2da02e3d24dbec0d004d3c6dfe7b381500b05" :recipe (:host github :repo "arnm/ob-mermaid"))
-(package! org-appear              :pin "32ee50f8fdfa449bbc235617549c1bccb503cb09" :recipe (:host github :repo "awth13/org-appear"))
+(package! org-appear              :pin "77d23efec5f5c25fc0798364d2b51a3ce3d8d518" :recipe (:host github :repo "awth13/org-appear"))
 (package! org-download            :pin "c8be2611786d1d8d666b7b4f73582de1093f25ac" :recipe (:host github :repo "abo-abo/org-download"))
 (package! org-web-tools           :pin "7a6498f442fc7f29504745649948635c7165d847")
 (package! p-search                :pin "c382c80947a95825e258332d6f89bd6be496d914" :recipe (:host github :repo "zkry/p-search"))
