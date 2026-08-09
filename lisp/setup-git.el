@@ -138,7 +138,8 @@ Falls back to the current branch only if no remote main branch is found."
 
   (advice-add 'magit--default-starting-point :override #'my/magit-default-starting-point)
 
-  (defun magit-log-buffer-file-and-follow (&optional beg end)
+  (defun magit-log-buffer-file-and-follow (&optional _prefix beg end)
+    "Like `magit-log-buffer-file', but always follow renames."
     (interactive (cons current-prefix-arg (magit-file-region-line-numbers)))
     (require 'magit)
     (magit-log-buffer-file t beg end))
