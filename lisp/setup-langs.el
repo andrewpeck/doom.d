@@ -91,7 +91,7 @@
 ;; C mode
 ;;------------------------------------------------------------------------------
 
-(use-package! c
+(use-package! cc-mode
 
   :init
   ;; double slashes // instead of slash-stars /* ... */
