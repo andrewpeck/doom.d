@@ -25,7 +25,7 @@
 
           (when ubuntu (princ (format "%ssudo apt install --yes %s\n" pad ubuntu)))
           (when dnf    (princ (format "%ssudo dnf install -y %s\n" pad dnf)))
-          (when pacman (princ (format "%ssudo pacman -Syu %s\n" pad dnf)))
+          (when pacman (princ (format "%ssudo pacman -Syu %s\n" pad pacman)))
           (when cmd    (princ (format "%s%s\n" pad cmd)))
 
           (princ (concat pad "#+end_src\n")))))))
@@ -228,7 +228,7 @@
   ;; symlinks
   (princ "** Creating symlinks\n")
 
-  (shell-command "cd ~/Sync/dotfiles/scripts && find ~+ -exec ln -sf {} ~/.local/bin/ \;")
+  (shell-command "cd ~/Sync/dotfiles/scripts && find ~+ -exec ln -sf {} ~/.local/bin/ \\;")
 
   (setup--make-dotfile-symlink "bin" "~/bin")
 
