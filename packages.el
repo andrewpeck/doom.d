@@ -69,7 +69,7 @@
 (package! code-cells.el           :pin "b99013b81712edbb94fdb57cce083d32ad06fbb8" :recipe (:host github :repo "astoff/code-cells.el"))
 (package! comint-scroll-to-bottom :pin "1cd1471cfca72ac62d330630afe2f2fad44abcf5" :recipe (:host github :repo "jorgenschaefer/comint-scroll-to-bottom"))
 (package! crontab-mode            :pin "7412f3df0958812bfcacd5875a409fa795fa8ecc")
-(package! csv-mode                :pin "1695ee17521d55dbe94caacaef5a94dfa933cd9f")
+(package! csv-mode                :pin "b7eca7304ef7757700be5c2bc23ef6204c60eb75")
 (package! delight                 :pin "15acb0f0ba400c470e378f9984b315f9e02c1122")
 (package! devdocs.el              :pin "25c746024ddf73570195bf42b841f761a2fee10c" :recipe (:host github :repo "astoff/devdocs.el"))
 (package! dired-filter            :pin "de9336f4b47ef901799fe95315fa080fa6d77b48" :recipe (:host github :repo "Fuco1/dired-hacks"))
