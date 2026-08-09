@@ -120,7 +120,6 @@
 ;; Fill Paragraph
 (map! :map text-mode-map "M-q" #'fill-paragraph)
 (map! :after org :map org-mode-map "M-q" #'org-fill-paragraph-t)
-(map! :after latex :map latex-mode-map "M-q" #'ap/line-fill-paragraph)
 
 ;; Backspace to jump to previous buffer
 ;; (map! :nm "DEL" 'evil-switch-to-windows-last-buffer)
