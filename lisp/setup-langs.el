@@ -69,7 +69,7 @@
 ;; Markdown
 ;;------------------------------------------------------------------------------
 
-(use-package! markdown
+(use-package! markdown-mode
 
   :config
 
