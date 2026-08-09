@@ -17,7 +17,7 @@
 
  :completion
 
- (corfu +icons +orderless +dbbrev)
+ (corfu +icons +orderless +dabbrev)
  (vertico +icons)     ; the search engine of the future
 
  :ui
