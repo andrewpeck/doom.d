@@ -86,8 +86,8 @@
 ;; Rainbow
 ;;------------------------------------------------------------------------------
 
-(use-package rainbow-delimiters-mode
-  :config
+(use-package rainbow-delimiters
+  :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 (use-package highlight-indent-guides
