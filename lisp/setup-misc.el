@@ -390,6 +390,9 @@ Always uses ranges instead of comma separated years."
 
                   is-conflict)))
 
+  (add-to-list 'apheleia-formatters '(docstrfmt "docstrfmt"))
+  (add-to-list 'apheleia-mode-alist '(rst-mode . docstrfmt))
+
   (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
   (add-to-list 'apheleia-formatters '(python-mode isort "isort"  "-ca" "--stdout" "-"))
 
