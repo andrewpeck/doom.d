@@ -22,12 +22,16 @@
   (project-root-dir))
 
 (defun remote-host? (path)
-  "Return t if path is a remote host."
+  "Return the remote host of PATH as a string, or nil if PATH is local.
+Always returns a string (never a match position), since callers such as
+the mode line propertize the result."
   ;; this is just tramp-remote-file-name-spec-regexp
   ;; have a copy here so we don't need
   (let ((remote-name-regexp "\\(-\\|[[:alnum:]]\\{2,\\}\\)\\(?::\\)\\(?:\\([^/:|[:blank:]]+\\)\\(?:@\\)\\)?\\(\\(?:[%._[:alnum:]-]+\\|\\(?:\\[\\)\\(?:\\(?:[[:alnum:]]*:\\)+[.[:alnum:]]*\\)?\\(?:]\\)\\)\\(?:\\(?:#\\)\\(?:[[:digit:]]+\\)\\)?\\)?"))
-    (or (string-match-p remote-name-regexp path)
-        (file-remote-p path 'host))))
+    (or (file-remote-p path 'host)
+        (and (string-match remote-name-regexp path)
+             (or (match-string 3 path)
+                 (match-string 0 path))))))
 
 (defun advise-inhibit-messages (fn)
   "Pass in a function name, that function will be advised to supress its output.
