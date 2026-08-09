@@ -85,7 +85,7 @@
 (add-to-list 'auto-mode-alist '("\\.ltx\\'"          . json-mode))    ; vivado ltx
 (add-to-list 'auto-mode-alist '("\\.qel\\'"          . tcl-mode))     ; cadence script
 (add-to-list 'auto-mode-alist '("\\.sdc\\'"          . tcl-mode))     ; synopsys sdc
-(add-to-list 'auto-mode-alist '("\\.ino\\'"          . cpp-mode))     ; arduino
+(add-to-list 'auto-mode-alist '("\\.ino\\'"          . c++-mode))     ; arduino
 (add-to-list 'auto-mode-alist '("\\.cheby\\'"        . yaml-mode))    ; cheby
 (add-to-list 'auto-mode-alist '("\\.bb\\'"           . clojure-mode)) ; babashka
 (add-to-list 'auto-mode-alist '("\\uv.lock\\'"       . toml-ts-mode))
