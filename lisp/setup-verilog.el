@@ -11,7 +11,7 @@
       :nm "<backspace>" #'buffer-flip)
 
 (use-package verilog-port-copy
-  :after verilog)
+  :after verilog-mode)
 
 (use-package verilog-ts-mode
 
