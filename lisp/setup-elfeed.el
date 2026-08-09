@@ -11,12 +11,12 @@
   (run-at-time nil (* 8 60 60) #'elfeed-update)
 
   (map! (:after elfeed-search
-         :map 'elfeed-search-mode-map
+         :map elfeed-search-mode-map
          :n "r" #'elfeed-search-update--force
          :n "M-RET" #'elfeed-search-browse-url)
 
         (:after elfeed-lib
-         :map 'elfeed-search-mode-map
+         :map elfeed-search-mode-map
          :n "q" #'elfeed-kill-buffer)
 
         (:map elfeed-show-mode-map
