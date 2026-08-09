@@ -79,7 +79,7 @@
 (package! dwim-shell-command      :pin "eb86e3fbd2c775345fdc018ece27138a779730f5" :recipe (:host github :repo "xenodium/dwim-shell-command"))
 (package! ef-themes               :pin "da4229a61522365c30f38d689b480797cb1de018" :recipe (:host github :repo "protesilaos/ef-themes"))
 (package! eldoc-box)
-(package! elfeed                  :pin "bbb3cac27b0412d80b327b5cfaab83683c96a2a1" :recipe (:host github :repo "skeeto/elfeed"))
+(package! elfeed                  :pin "520c52b622de477da60e0d55788d3a20d1f8ab0f" :recipe (:host github :repo "skeeto/elfeed"))
 (package! emacs-colorpicker       :pin "3acee0fc0e35e130fb049ab69f99544a1ca9d11f" :recipe (:host github :repo "syohex/emacs-colorpicker"))
 (package! emacs-memoize           :pin "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd" :recipe (:host github :repo "skeeto/emacs-memoize"))
 (package! emacs-tramp-rpc         :pin "5f395746a6d5c229465e7a5af8ed9564b90986c2" :recipe (:host github :repo "ArthurHeymans/emacs-tramp-rpc"))
