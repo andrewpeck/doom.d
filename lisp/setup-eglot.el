@@ -73,6 +73,20 @@
                     ((string-match-p (regexp-quote "Server exited with status") msg) "Disconnected from LSP.")
                     (t msg))))))
 
+  ;; Eglot only offers the symbol at point as the minibuffer *default* (M-n);
+  ;; pre-fill it as the initial input instead so it can just be edited.
+  (defun my/eglot-rename-prefill-symbol (fn &rest args)
+    "Around advice for FN to seed `eglot-rename' with the symbol at point."
+    (cl-letf* ((read-from-minibuffer (symbol-function 'read-from-minibuffer))
+               ((symbol-function 'read-from-minibuffer)
+                (lambda (prompt &optional initial keymap read hist default &rest rest)
+                  (apply read-from-minibuffer prompt
+                         (or initial (if (consp default) (car default) default))
+                         keymap read hist default rest))))
+      (apply fn args)))
+
+  (advice-add 'eglot--rename-interactive :around #'my/eglot-rename-prefill-symbol)
+
   (defun eglot-describe-session ()
     (interactive)
     (message (format "%s" (eglot--server-info (eglot-current-server)))))
