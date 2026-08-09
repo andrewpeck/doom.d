@@ -216,8 +216,8 @@
 
 (use-package citar
   :hook
-  (LaTeX-mode . citar-capf-setup)
-  (org-mode . citar-capf-setup))
+  (LaTeX-mode-hook . citar-capf-setup)
+  (org-mode-hook . citar-capf-setup))
 
 ;;------------------------------------------------------------------------------
 ;; Hydra
