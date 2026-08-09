@@ -61,7 +61,7 @@
       :n "zs" #'org-toggle-link-display)
 
 ;; Hog
-(map! :mode hog-src-mode-map
+(map! :mode hog-src-mode
       :nm "M-RET" #'hog-follow-link-at-point)
 
 ;; Ctrl + Alt + equal to re-indent buffer
