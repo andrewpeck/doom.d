@@ -203,7 +203,7 @@
   ;;------------------------------------------------------------------------------
 
   (add-hook! 'makefile-mode-hook
-    (lambda () (call-interactively 'makefile-pickup-everything)))
+    (call-interactively 'makefile-pickup-everything))
 
   ;;------------------------------------------------------------------------------
   ;; RST
