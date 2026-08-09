@@ -1952,11 +1952,21 @@ TRANSFORM, if non-nil, is called on the exported text before it is copied."
     (kill-new converted-text)
     (gui-set-selection 'CLIPBOARD converted-text)))
 
+(defun org-repad-markdown-indentation (md-text)
+  "Double the leading indentation of every line in MD-TEXT."
+  (with-temp-buffer
+    (insert md-text)
+    (goto-char (point-min))
+    (while (re-search-forward "^\\( +\\)" nil t)
+      (replace-match
+       (make-string (* 2 (length (match-string 1))) ?\s)))
+    (buffer-string)))
+
 ;;;###autoload
 (defun org-copy-as-markdown ()
   "Copy the (in Org) to the system clipboard as Markdown."
   (interactive)
-  (org-copy-as 'md))
+  (org-copy-as 'md #'org-repad-markdown-indentation))
 
 ;;;###autoload
 (defun org-copy-as-ascii ()
