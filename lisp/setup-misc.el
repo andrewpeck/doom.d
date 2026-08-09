@@ -336,9 +336,8 @@ Always uses ranges instead of comma separated years."
 (use-package colorpicker
   :config
   (setopt colorpicker--script
-          (find-file
-           (concat (file-name-directory (straight--repos-dir "emacs-colorpicker"))
-                   "script/colorpicker.py"))))
+          (concat (file-name-directory (straight--repos-dir "emacs-colorpicker"))
+                  "script/colorpicker.py")))
 
 ;;------------------------------------------------------------------------------
 ;; Large Table Edition
