@@ -148,7 +148,7 @@
                       'yasnippet-capf
                       'cape-dabbrev)))
 
-  (add-hook! '(python-mode python-ts-mode-hook) 'hook/set-python-base-capf)
+  (add-hook! '(python-mode-hook python-ts-mode-hook) 'hook/set-python-base-capf)
 
   ;;------------------------------------------------------------------------------
   ;; Verilog
