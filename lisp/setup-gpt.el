@@ -4,7 +4,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package gptel-magit
-  :hook (magit-mode . gptel-magit-install)
+  :hook (magit-mode-hook . gptel-magit-install)
   :commands (gptel-magit-commit-generate))
 
 (defun ChatGPT ()
