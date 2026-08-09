@@ -161,11 +161,14 @@
 
   (defun hook/set-verilog-capf ()
     (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       #'verilog-ts-capf
-                       ;; #'cape-dabbrev
-                       #'cape-keyword
-                       #'yasnippet-capf))))
+                (list #'eglot-completion-at-point
+                 ;; (cape-capf-super
+                 ;;  #'eglot-comletion-at-point
+                 ;;  #'verilog-ts-capf
+                 ;;  ;; #'cape-dabbrev
+                 ;;  #'cape-keyword
+                 ;;  #'yasnippet-capf)
+                 )))
 
   (add-hook! '(verilog-mode-hook verilog-ts-mode-hook)
              'hook/add-verilog-keywords
