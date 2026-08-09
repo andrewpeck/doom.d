@@ -736,7 +736,7 @@ help instead of keeping it open."
 ;;------------------------------------------------------------------------------
 
 (use-package svg-tag-mode
-  :after org-mode
+  :after org
   ;; https://github.com/rougier/svg-tag-mode
 
   :init
