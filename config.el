@@ -28,6 +28,10 @@
 
 (setq debug-on-message nil)
 
+;; Whether C-i jumps forward in the jump list (like Vim).
+;; Must be set before evil is loaded, so it can't live in setup-evil.el.
+(setq evil-want-C-i-jump t)
+
 (load! "core-defuns.el" doom-user-dir t)
 
 ;;------------------------------------------------------------------------------
