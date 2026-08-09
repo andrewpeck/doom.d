@@ -62,7 +62,7 @@ Use as e.g. (advice-inhibit-messages \='recentf-cleanup)"
 
 (defmacro run-when-idle (seconds &rest body)
   "Execute BODY after SECONDS of idle."
-  (run-with-idle-timer seconds nil (lambda (_) (progn body)) nil))
+  `(run-with-idle-timer ,seconds nil (lambda () ,@body)))
 
 (defun user-load-idle (path) (load-idle (concat doom-user-dir path)))
 (defun user-load-timer (path) (load-timer (concat doom-user-dir path)))
