@@ -51,7 +51,7 @@ new Chat.org file and activate gptel-mode."
   (map! :map org-mode-map      "C-c RET" #'gptel-send-org-subtree
         :map markdown-mode-map "C-c RET" #'gptel-send)
 
-  (after! org-mode
+  (after! org
     (require 'gptel)
     (require 'gptel-org))
 
