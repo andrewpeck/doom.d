@@ -1938,13 +1938,17 @@ and shortens it into an org mode link consisting of just `some file`"
 ;;------------------------------------------------------------------------------
 
 ;; http://mbork.pl/2021-05-02_Org-mode_to_Markdown_via_the_clipboard
-(defun org-copy-as (target)
-  "Copy the (in Org) to the system clipboard as Markdown."
+(defun org-copy-as (target &optional transform)
+  "Copy the (in Org) to the system clipboard as TARGET.
+TRANSFORM, if non-nil, is called on the exported text before it is copied."
   (let* ((start (if (use-region-p) (region-beginning) (point-min)))
          (end (if (use-region-p) (region-end) (point-max)))
          (org-text (buffer-substring-no-properties start end))
          (converted-text
-          (org-export-string-as org-text target t '(:with-toc nil))))
+          (org-export-string-as org-text target t '(:with-toc nil)))
+         (converted-text (if transform
+                             (funcall transform converted-text)
+                           converted-text)))
     (kill-new converted-text)
     (gui-set-selection 'CLIPBOARD converted-text)))
 
