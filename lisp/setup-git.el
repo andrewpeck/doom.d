@@ -25,7 +25,8 @@
        :desc "Magit Push" "p" #'magit-push
        :desc "Magit Pull" "u" #'magit-pull-from-pushremote
        :desc "Magit Push Current" "P" #'magit-push-current-to-pushremote
-       :desc "Instant Fixup" "cF" #'magit-commit-instant-fixup
+       :desc "Magit Instant Fixup" "cF" #'magit-commit-instant-fixup
+       :desc "Magit WorkTree" "%" #'magit-worktree
 
        (:prefix ("z" . "Stash")
         :desc "Stash Apply" "a" #'magit-stash-apply
