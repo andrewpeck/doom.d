@@ -134,7 +134,7 @@
       :m "RET" (lambda () (interactive) (open-link-or #'cider-eval-defun-at-point))
       :m "M-RET" #'cider-eval-buffer)
 
-(map! :map python-mode-map
+(map! :map python-base-mode-map
       :m "RET" (lambda () (interactive) (open-link-or #'python-shell-send-defun))
       :m "M-RET" #'python-shell-send-buffer)
 
@@ -142,7 +142,7 @@
 (map! :after archive-mode :map archive-mode-map "-" #'popup/quit-window)
 
 (map! :localleader
-      :map python-mode-map
+      :map python-base-mode-map
       :after python
       (:prefix ("e" . "eval")
                "R" #'run-python
