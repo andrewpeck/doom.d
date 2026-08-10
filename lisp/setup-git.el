@@ -62,6 +62,8 @@ Useful for working on NAS where permissions don't make sense."
   (setq-default magit-buffer-log-args
                 '("-n256" "--follow" "--graph" "--decorate"))
 
+  (require 'magit-extras)
+
   (setopt magit-list-refs-sortby "-creatordate"
 
           ;; improve branches view
@@ -78,26 +80,28 @@ Useful for working on NAS where permissions don't make sense."
           magit-copy-revision-abbreviated t
 
           magit-status-sections-hook
-          (list
-           #'magit-insert-status-headers
-           #'magit-insert-merge-log
-           #'magit-insert-rebase-sequence
-           #'magit-insert-am-sequence
-           #'magit-insert-sequencer-sequence
-           #'magit-insert-bisect-output
-           #'magit-insert-bisect-rest
-           #'magit-insert-bisect-log
-           #'magit-insert-untracked-files
-           #'magit-insert-unstaged-changes
-           #'magit-insert-staged-changes
-           #'magit-insert-unpushed-to-pushremote
-           #'magit-insert-unpushed-to-upstream-or-recent
-           #'magit-insert-unpulled-from-pushremote
-           #'magit-insert-unpulled-from-upstream
-           #'forge-insert-issues
-           #'forge-insert-pullreqs
-           #'magit-insert-stashes
-           #'magit-insert-local-branches)
+          (delq
+           nil
+           (list
+            #'magit-insert-status-headers
+            #'magit-insert-merge-log
+            #'magit-insert-rebase-sequence
+            #'magit-insert-am-sequence
+            #'magit-insert-sequencer-sequence
+            #'magit-insert-bisect-output
+            #'magit-insert-bisect-rest
+            #'magit-insert-bisect-log
+            #'magit-insert-untracked-files
+            #'magit-insert-unstaged-changes
+            #'magit-insert-staged-changes
+            #'magit-insert-unpushed-to-pushremote
+            #'magit-insert-unpushed-to-upstream-or-recent
+            #'magit-insert-unpulled-from-pushremote
+            #'magit-insert-unpulled-from-upstream
+            (and (locate-library "forge") #'forge-insert-issues)
+            (and (locate-library "forge") #'forge-insert-pullreqs)
+            #'magit-insert-stashes
+            #'magit-insert-local-branches))
 
           magit-section-initial-visibility-alist '((stashes . hide)
                                                    (unpushed . hide))
@@ -238,13 +242,6 @@ on the current line, if any."
 ;;------------------------------------------------------------------------------
 
 (use-package! diff-hl
-
-  :init
-
-  (remove-hook!
-    'dired-mode-hook
-    #'diff-hl-dired-mode-unless-remote
-    #'+vc-gutter-enable-maybe-h)
 
   :config
 

@@ -89,9 +89,10 @@
 
   :init
 
+  ;; drop the unconditional variant; diff-hl in dired is enabled by doom's
+  ;; `+vc-gutter-enable-maybe-h', which skips remote directories (see
+  ;; setup-git.el)
   (remove-hook! 'dired-mode-hook #'diff-hl-dired-mode)
-
-  (add-hook 'dired-mode-hook #'diff-hl-dired-mode-unless-remote)
 
   (add-hook! 'dired-mode-hook
     (defun hook/dired-hide-details ()
