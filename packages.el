@@ -44,7 +44,7 @@
 (package! org-excalidraw          :pin "0e5365ce2237fd684b20a8b95a4967d850e20333" :recipe (:host github :repo "andrewpeck/org-excalidraw") )
 (package! python-string-toggle.el :pin "3f96286ce15d8d5dc9ea4b13e07a9cb5094637ce" :recipe (:host github :repo "andrewpeck/python-string-toggle.el"))
 (package! resume.el               :pin "e89af4f8d13cbeb8ed06a6f59a655f76c89bee07" :recipe (:host github :repo "andrewpeck/resume.el"))
-(package! system-install.el       :pin "399c5025c11fdd9b952340e4acd27fd3a2ed4be5" :recipe (:host github :repo "andrewpeck/system-install.el"))
+(package! system-install.el       :pin "3dc95e661f9623ad316022c89c89e2a12f49d35d" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! tabular.el              :pin "b6d9271b39129472098f3df4580b9dfe80acb84b" :recipe (:host github :repo "andrewpeck/tabular.el"))
 (package! timesheet.el            :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
 (package! verilog-port-copy       :pin "fbd9a1fbdbc4ff177d79c8c576bdce18860a17c2" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
