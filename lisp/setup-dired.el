@@ -120,21 +120,28 @@
   (setopt dired-clean-confirm-killing-deleted-buffers nil)
 
   (defun my/dired-convert-marked-image-files-to-pdf ()
+    "Combine the marked image files into a single PDF."
     (interactive)
-    (let* ((ofile (read-string "Output File: ")))
+    (unless (executable-find "convert")
+      (user-error "ImageMagick's `convert' not found"))
+    (let ((ofile (read-string "Output File: ")))
 
       (when (string-empty-p ofile)
-        (error "No output file specified!"))
+        (user-error "No output file specified!"))
 
       ;; stick on pdf extension if it isn't there
       (when (not (string= "pdf" (file-name-extension ofile)))
         (setq ofile (concat ofile ".pdf")))
 
-      (let ((args (append '("convert" nil t nil)
+      ;; NOTE: DESTINATION must not be t here -- that means "the current
+      ;; buffer", which would splice convert's output into the dired listing.
+      (let ((args (append (list "convert" nil (get-buffer-create "*convert*") nil)
                           (dired-get-marked-files)
                           (list ofile))))
 
-        (apply #'call-process args)))))
+        (if (zerop (apply #'call-process args))
+            (progn (revert-buffer) (message "Wrote %s" ofile))
+          (pop-to-buffer "*convert*"))))))
 
 ;;------------------------------------------------------------------------------
 ;; DWIM Shell
