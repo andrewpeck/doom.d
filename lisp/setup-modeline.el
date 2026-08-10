@@ -68,6 +68,53 @@ nil."
   ;; https://emacs.stackexchange.com/questions/10955/customize-vc-mode-appearance-in-mode-line
   (advice-add #'vc-git-mode-line-string :filter-return #'advice/vc-mode-line-transform))
 
+;;------------------------------------------------------------------------------
+;; Keeping the branch fresh
+;;------------------------------------------------------------------------------
+
+;; `vc-mode' -- the branch shown above -- is only recomputed by
+;; `vc-refresh-state', which normally runs on `find-file-hook' and on revert.
+;; Switching branches without changing a file's contents therefore leaves the
+;; mode line stale until the buffer is re-visited.
+;;
+;; `auto-revert-check-vc-info' would fix that by refreshing on every poll, but
+;; it does so for *every* file buffer on every tick (~7ms of git each). Refresh
+;; just the buffer being looked at instead, debounced so that cycling through
+;; buffers (e.g. `buffer-flip') doesn't spawn a git process per buffer.
+
+(defvar my/vc-refresh-timer nil
+  "Idle timer used to debounce `my/vc-refresh-state-soon'.")
+
+(defun my/vc-refresh-state-soon (&rest _)
+  "Refresh `vc-mode' for the current buffer once Emacs goes idle."
+  (when (timerp my/vc-refresh-timer)
+    (cancel-timer my/vc-refresh-timer))
+  (setq my/vc-refresh-timer
+        (run-with-idle-timer
+         0.3 nil
+         (lambda (buf)
+           (when (buffer-live-p buf)
+             (with-current-buffer buf
+               ;; the advice in setup-tramp.el keeps this off remote buffers
+               (when buffer-file-name
+                 (vc-refresh-state)))))
+         (current-buffer))))
+
+(add-hook 'doom-switch-buffer-hook #'my/vc-refresh-state-soon)
+(add-hook 'doom-switch-window-hook #'my/vc-refresh-state-soon)
+
+(defun my/vc-refresh-visible-buffers (&rest _)
+  "Refresh `vc-mode' in every visible file buffer.
+Used after magit operations, which can change the branch without changing
+any file on disk."
+  (dolist (win (window-list))
+    (with-current-buffer (window-buffer win)
+      (when buffer-file-name
+        (vc-refresh-state)))))
+
+(after! magit
+  (add-hook 'magit-post-refresh-hook #'my/vc-refresh-visible-buffers))
+
 (setq-default mode-line-format
               '(
                 ;;LEFT
