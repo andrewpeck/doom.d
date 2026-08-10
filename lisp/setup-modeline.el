@@ -99,7 +99,7 @@ nil."
                                                      'mouse-face 'mode-line-highlight)
                                      "]")))
 
-                (:eval (and nyan-mode
+                (:eval (and (bound-and-true-p nyan-mode)
                             (concat " " (nyan-create))))
                 
                 (:eval (and (or defining-kbd-macro executing-kbd-macro)
@@ -112,7 +112,7 @@ nil."
 
                 ;; venv
                 (:eval
-                 (or (and buffer-env-active
+                 (or (and (bound-and-true-p buffer-env-active)
                           (propertize " " 'help-echo (abbreviate-file-name buffer-env-active) ))
                      (and (or (eq major-mode 'python-ts-mode)
                               (eq major-mode 'python-mode))
@@ -132,12 +132,17 @@ nil."
                                            ("ty+pyrefly-lsp" " ")
                                            ("slang-server" " ")
                                            (_ " "))))
-                              (propertize icon 'help-echo (format "%s" lsp-server-info)))))
+                              ;; PERF: defer formatting the (large) server-info
+                              ;; plist until the tooltip is actually shown
+                              (propertize icon 'help-echo
+                                          (lambda (&rest _)
+                                            (format "%s" (eglot--server-info
+                                                          (eglot-current-server))))))))
 
                 ;; flycheck
-                (:eval (and flycheck-mode flycheck-enabled-checkers
-                            (let ((status (my-flycheck-mode-line-status-text)))
-
+                (:eval (and (bound-and-true-p flycheck-mode)
+                            (bound-and-true-p flycheck-enabled-checkers)
+                            (let ((status modeline--flycheck-status))
                               (if modeline-show-flycheck-names
                                   (let ((checkers (string-join (mapcar 'symbol-name flycheck-enabled-checkers) " ")))
                                     (format "(%s) %s " checkers status))
