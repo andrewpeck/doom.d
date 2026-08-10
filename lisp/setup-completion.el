@@ -4,9 +4,8 @@
 ;; Completion Preview
 ;;------------------------------------------------------------------------------
 
-(use-package completion-preview
-  :init
-  (add-hook! '(prog-mode-hook text-mode-hook) #'global-completion-preview-mode)
+(use-package! completion-preview
+  :hook (doom-first-input . global-completion-preview-mode)
   :config
   (setq completion-preview-idle-delay 0.1)
   ;; (bind-key "TAB" completion-preview-active-mode-map)
@@ -14,34 +13,23 @@
   ;; Org mode has a custom `self-insert-command'
   (push 'org-self-insert-command completion-preview-commands))
 
-(use-package corfu
+(use-package! corfu
 
-  :commands (corfu-insert-separator)
 
-  :init
-
-  (add-hook! '(prog-mode-hook text-mode-hook)
-    (global-corfu-mode)
-    (corfu-history-mode)
-    (corfu-popupinfo-mode))
-
-  :commands (corfu-complete)
+  :commands (corfu-insert-separator corfu-complete)
 
   :config
 
-  (defun my/completion-preview-suppress-if-corfu (fun &rest args)
-    "Suppress `completion-preview' when Corfu popup is active."
-    (unless (and (bound-and-true-p corfu--active))
-      (apply fun args)))
-
-  (advice-add 'completion-preview--update
-              :around #'my/completion-preview-suppress-if-corfu)
-
   (defun my/completion-preview-hide-when-corfu ()
-    "Hide inline completion preview whenever Corfu popup is active."
-    (when (and (boundp 'corfu--frame) corfu--frame)
-      (completion-preview-hide)
-      t))
+    "Inhibit the inline completion preview while the Corfu popup is up.
+For `completion-preview-inhibit-functions', which only needs a boolean --
+`completion-preview--update' hides the preview itself when this wins."
+    ;; NOTE: must test visibility, not just the variable: corfu creates
+    ;; `corfu--frame' once and only ever makes it invisible, so a bare
+    ;; `corfu--frame' check stays true forever after the first popup and kills
+    ;; the preview for the rest of the session.
+    (and (frame-live-p corfu--frame)
+         (frame-visible-p corfu--frame)))
 
   (add-hook 'completion-preview-inhibit-functions
             #'my/completion-preview-hide-when-corfu)
@@ -52,34 +40,31 @@
       (setq-local completion-at-point-functions
                   (list (cape-capf-buster (cape-capf-debug #'eglot-completion-at-point))))))
 
-  (map! :after corfu
-        (:map corfu-map "SPC" #'corfu-insert-separator)
+  (map! (:map corfu-map "SPC" #'corfu-insert-separator)
         (:map corfu-map "C-SPC" #'corfu-insert-separator)
         (:map corfu-mode-map "C-c f" #'cape-file)
-        (:map corfu-mode-map "C-<SPC>" #'completion-at-point)
-        (:map corfu-mode-map "TAB" nil))
+        (:map corfu-mode-map "C-SPC" #'completion-at-point))
 
-  (setq-default
-   corfu-preselect 'first
+  ;; +corfu-want-minibuffer-completion nil
+  ;; +corfu-want-tab-prefer-navigating-org-tables t
+  ;; +corfu-want-tab-prefer-expand-snippets nil
+  ;; +corfu-want-ret-to-confirm t
+  (setopt corfu-preselect 'first
+          ;; `corfu-auto-delay'/`corfu-auto-prefix' are deliberately left at
+          ;; Doom's values -- they do nothing while `corfu-auto' is nil.
+          corfu-auto nil
+          corfu-preview-current t)) ; No preview vs Non-inserting preview
 
-   ;; +corfu-want-minibuffer-completion nil
-   ;; +corfu-want-tab-prefer-navigating-org-tables t
-   ;; +corfu-want-tab-prefer-expand-snippets nil
-   ;; +corfu-want-ret-to-confirm t
-
-   corfu-auto-delay 2.0
-   corfu-auto-prefix 3
-   corfu-auto nil
-   corfu-preview-current t)) ; No preview vs Non-inserting preview
-
-(use-package orderless
-  :custom
-  ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
-  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
-  (completion-styles '(basic orderless))
-  (completion-category-overrides '((file (styles partial-completion))))
-  (completion-category-defaults nil) ;; Disable defaults, use our settings
-  (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
+(after! orderless
+  ;; (setopt orderless-style-dispatchers '(orderless-affix-dispatch))
+  ;; (setopt orderless-component-separator #'orderless-escapable-split-on-space)
+  (setopt completion-styles '(basic orderless)
+          completion-category-defaults nil ;; Disable defaults, use our settings
+          completion-pcm-leading-wildcard t) ;; Emacs 31: partial-completion behaves like substring
+  ;; Amend rather than replace: Doom's corfu module adds an `lsp-capf' entry
+  ;; here that a wholesale setq would drop.
+  (setf (alist-get 'file completion-category-overrides)
+        '((styles partial-completion))))
 
 ;; A few more useful configurations...
 
@@ -143,12 +128,11 @@
   (defun hook/set-python-base-capf ()
     (setq-local cape-file-prefix '("\"" "'"))
     (setq-local completion-at-point-functions
-                (list 'eglot-completion-at-point
-                      'python-completion-at-point
-                      'yasnippet-capf
-                      'cape-dabbrev)))
+                (list #'python-completion-at-point
+                      #'yasnippet-capf
+                      #'cape-dabbrev)))
 
-  (add-hook! '(python-mode-hook python-ts-mode-hook) 'hook/set-python-base-capf)
+  (add-hook! '(python-mode-hook python-ts-mode-hook) #'hook/set-python-base-capf)
 
   ;;------------------------------------------------------------------------------
   ;; Verilog
@@ -156,19 +140,16 @@
 
   (defun hook/add-verilog-keywords ()
     (require 'cape-keyword)
-    (add-to-list 'cape-keyword-list
-                 (append '(verilog-mode) verilog-keywords)))
+    (require 'verilog-mode)
+    (dolist (mode '(verilog-mode verilog-ts-mode))
+      (add-to-list 'cape-keyword-list
+                   (append (list mode) verilog-keywords))))
 
   (defun hook/set-verilog-capf ()
     (setq-local completion-at-point-functions
-                (list #'eglot-completion-at-point
-                 ;; (cape-capf-super
-                 ;;  #'eglot-comletion-at-point
-                 ;;  #'verilog-ts-capf
-                 ;;  ;; #'cape-dabbrev
-                 ;;  #'cape-keyword
-                 ;;  #'yasnippet-capf)
-                 )))
+                (list #'yasnippet-capf
+                      #'cape-keyword
+                      #'cape-dabbrev)))
 
   (add-hook! '(verilog-mode-hook verilog-ts-mode-hook)
              'hook/add-verilog-keywords
@@ -206,24 +187,29 @@
   ;;------------------------------------------------------------------------------
 
   (add-hook! 'makefile-mode-hook
-    (call-interactively 'makefile-pickup-everything))
+    (defun hook/makefile-pickup-everything ()
+      (makefile-pickup-everything nil)))
 
   ;;------------------------------------------------------------------------------
   ;; RST
   ;;------------------------------------------------------------------------------
+
+  (defun my/project-root-of-buffer ()
+    "Nearest ancestor of the current buffer's file containing .git, if any."
+    (when-let* ((file (buffer-file-name)))
+      (locate-dominating-file (directory-file-name file) ".git")))
 
   (defun hook/setup-rst-with-corfu ()
 
     (require 'corfu)
     (require 'cape)
 
-    (setq-local cape-file-directory (locate-dominating-file (directory-file-name (buffer-file-name)) ".git"))
+    (setq-local cape-file-directory (my/project-root-of-buffer))
     (setq-local completion-at-point-functions
                 (list #'cape-file
                       #'cape-dabbrev
                       #'yasnippet-capf
-                      #'cape-dict
-                      #'yasnippet-capf)))
+                      #'cape-dict)))
 
   (add-hook 'rst-mode-hook 'hook/setup-rst-with-corfu)
 
@@ -241,7 +227,7 @@
                   "\\input{"
                   "\\includegraphics{"))
 
-    (setq-local cape-file-directory (locate-dominating-file (directory-file-name (buffer-file-name)) ".git"))
+    (setq-local cape-file-directory (my/project-root-of-buffer))
     (setq-local completion-at-point-functions
                 (list
                  ;; 'TeX--completion-at-point
@@ -251,10 +237,15 @@
                  #'yasnippet-capf
                  #'cape-tex
                  #'cape-dict
-                 #'citar-capf
-                 #'yasnippet-capf)))
+                 #'citar-capf)))
 
-  (add-hook 'LaTeX-mode-hook 'hook/setup-tex-with-corfu)
+  (add-hook 'LaTeX-mode-hook #'hook/setup-tex-with-corfu)
+
+  (add-hook 'LaTeX-mode-local-vars-hook
+            (defun hook/tex-restore-cape-file-prefix ()
+              (setq-local cape-file-prefix
+                          '("{" "\\input{" "\\includegraphics{")))
+            90)
 
   ;; HACK: eglot screws with completion-at-point-functions... usually might not
   ;; care but with latex the eglot completion at point errors so NONE of the
@@ -263,10 +254,12 @@
   ;; This seemingly can't be in the LaTeX mode hook since eglot mode hook is run
   ;; *after* latex mode, so anything in the latex mode hook just get overwritten
   ;; by what happens in eglot setup
+  ;;
   (add-hook 'eglot-managed-mode-hook
             (defun hook/remove-tex-eglot-completion ()
-              (when (eq major-mode 'LaTeX-mode)
-                (remove-hook 'completion-at-point-functions 'eglot-completion-at-point t)
+              (when (and (eglot-managed-p)
+                         (eq major-mode 'LaTeX-mode))
+                (remove-hook 'completion-at-point-functions #'eglot-completion-at-point t)
                 (hook/setup-tex-with-corfu))))
 
   ;;------------------------------------------------------------------------------
