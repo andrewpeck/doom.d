@@ -8,19 +8,19 @@
 
 (after! align
 
-  (eval-after-load "align"
-    '(add-to-list 'align-rules-list
-      '(verilog-assignment
-        (regexp . "\\(\\s-*\\)<=")
-        (mode   . '(verilog-mode))
-        (repeat . nil))))
+  ;; NOTE: the key is `modes' (plural); `mode' is ignored by align.el, which
+  ;; made these rules apply in every major mode
+  (add-to-list 'align-rules-list
+               '(verilog-assignment-arrow
+                 (regexp . "\\(\\s-*\\)<=")
+                 (modes  . '(verilog-mode verilog-ts-mode))
+                 (repeat . nil)))
 
-  (eval-after-load "align"
-    '(add-to-list 'align-rules-list
-      '(verilog-assignment
-        (regexp . "\\(\\s-*\\)=")
-        (mode   . '(verilog-mode))
-        (repeat . nil))))
+  (add-to-list 'align-rules-list
+               '(verilog-assignment
+                 (regexp . "\\(\\s-*\\)=")
+                 (modes  . '(verilog-mode verilog-ts-mode))
+                 (repeat . nil)))
 
   (defun align-colon (begin end)
     "Align region to colon (:) signs"
