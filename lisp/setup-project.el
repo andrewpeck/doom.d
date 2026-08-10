@@ -34,6 +34,12 @@ If DIR is not a project, it will be indexed (but not cached)."
 
       (project-remember-projects-under dir)))
 
+  (defvar my/project-discover-last-run nil
+    "Time `my/project-discover-all' last completed, or nil.")
+
+  (defvar my/project-discover-interval (* 15 60)
+    "Minimum seconds between automatic `my/project-discover-all' rescans.")
+
   (defun my/project-discover-all ()
     "Search the work dir and reregister all directories."
     (interactive)
@@ -41,18 +47,30 @@ If DIR is not a project, it will be indexed (but not cached)."
       (project-forget-zombie-projects)
       (project-remember-projects-under-if-exists "~/work")
       (project-remember-projects-under-if-exists "/mnt/NAS/Sync/work")
-      (project-remember-projects-under-if-exists "/mnt/NAS/Sync/work/emacs")))
+      (project-remember-projects-under-if-exists "/mnt/NAS/Sync/work/emacs"))
+    (setq my/project-discover-last-run (current-time)))
 
-  ;; periodically rescan for projects
+  (defun my/project-discover-maybe ()
+    "Rescan for projects unless we already did so recently."
+    (when (or (null my/project-discover-last-run)
+              (> (float-time (time-since my/project-discover-last-run))
+                 my/project-discover-interval))
+      (my/project-discover-all)))
+
+  ;; rescan for projects, but only while idle -- the scan stats every candidate
+  ;; directory under ~/work and the NAS mounts, so it must never land in the
+  ;; middle of a keystroke.
   ;;
-  ;; NOTE: keep a handle and cancel first -- this `:config' block re-runs on
-  ;; every `doom/reload', and bare `run-with-timer' would stack another scanner
-  ;; each time.
+  ;; NOTE: a repeating idle timer fires once per *idle period*, not once every
+  ;; SECS, so without `my/project-discover-interval' every 60s pause would kick
+  ;; off another full scan.  Keep a handle and cancel first -- this `:config'
+  ;; block re-runs on every `doom/reload', and a bare `run-with-idle-timer'
+  ;; would stack another scanner each time.
   (defvar my/project-discover-timer nil)
   (when (timerp my/project-discover-timer)
     (cancel-timer my/project-discover-timer))
   (setq my/project-discover-timer
-        (run-with-timer 1 100 #'my/project-discover-all))
+        (run-with-idle-timer 60 t #'my/project-discover-maybe))
 
   (defun projectile-locate-dominating-file (&rest _)
     (locate-dominating-file "." ".git"))
