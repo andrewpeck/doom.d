@@ -2,43 +2,56 @@
 
 (defun +lsp-shutdown ()
   (interactive)
+  (require 'eglot)
   (let ((inhibit-message t))
-    (flycheck-eglot-mode -1)
-    (eglot-inlay-hints-mode -1)
-    (when-let* ((timer eglot--outstanding-inlay-regions-timer))
+    (when (bound-and-true-p flycheck-eglot-mode)
+      (flycheck-eglot-mode -1))
+    (when (bound-and-true-p eglot-inlay-hints-mode)
+      (eglot-inlay-hints-mode -1))
+    (when-let* ((timer (bound-and-true-p eglot--outstanding-inlay-regions-timer)))
       (cancel-timer timer))
     (when-let* ((current-server (eglot-current-server)))
       (ignore-errors (eglot-shutdown current-server))
       (let ((inhibit-message nil))
         (message "Shut down `%s' language server"
-                 (nth 1 (eglot--server-info current-server)))))))
+                 (plist-get (eglot--server-info current-server) :name))))))
 
 (defun +lsp-startup ()
   (interactive)
   (require 'eglot)
   (when (+lsp-should-start-p)
-    (require 'eglot)
-    (run-with-idle-timer 1 nil #'eglot-ensure)
-    (run-with-idle-timer 2.0 nil #'flycheck-eglot-mode)))
+    ;; NOTE: `eglot-ensure' captures `current-buffer' when it is *called*, and
+    ;; idle timers fire in whatever buffer happens to be current then, so the
+    ;; buffer has to be closed over explicitly.
+    (let ((buffer (current-buffer)))
+      (run-with-idle-timer
+       1 nil
+       (lambda ()
+         (when (buffer-live-p buffer)
+           (with-current-buffer buffer
+             (eglot-ensure))))))))
 
 (defun +lsp-should-start-p (&rest _)
-  (let ((should-start
-         (and (eglot--lookup-mode major-mode)
-              (or (not (derived-mode-p 'python-ts-mode 'python-ts-mode))
-                  (and (require 'buffer-env)
-                       (buffer-env-update)
-                       buffer-env-active)))))
-    (unless should-start
-      (message "No virtual environment found. Not starting LSP.")) should-start))
+  "Non-nil if eglot should be started in the current buffer.
+Python buffers additionally require an active virtualenv, which
+`buffer-env' is asked to locate."
+  (and (eglot--lookup-mode major-mode)
+       (or (not (derived-mode-p 'python-mode 'python-ts-mode))
+           (and (require 'buffer-env nil t)
+                (progn (buffer-env-update)
+                       (bound-and-true-p buffer-env-active)))
+           ;; Only complain about the venv; a mode with no registered server
+           ;; just isn't an LSP mode and shouldn't produce a message.
+           (ignore (message "No virtual environment found. Not starting LSP.")))))
 
 (defun +lsp-restart ()
   (interactive)
   (+lsp-shutdown)
   (+lsp-startup))
 
+;; NOTE: deliberately not `:after eglot' -- `+lsp-startup' is how eglot gets
+;; loaded in the first place, so the binding has to exist beforehand.
 (map! :leader
-      :after eglot
-      :desc "LSP"
       (:prefix ("l" . "LSP")
                "l" #'+lsp-startup
                "r" #'+lsp-restart
@@ -50,28 +63,30 @@
 
   :init
 
-  ;; Don't auto-start eglot for Python without a venv. Doom's lsp! hook calls
+  ;; Don't auto-start eglot for Python without a venv. Doom's `lsp!' hook calls
   ;; eglot-ensure automatically; this intercepts it before the server spawns.
-  (advice-add #'!lsp :override '+lsp-startup)
+  (advice-add #'lsp! :override #'+lsp-startup)
 
   :config
 
-  (advice-add 'eglot--message :override
-              (lambda (format &rest args)
-                (let ((msg (apply #'eglot--format format args)))
-                  (message
-                   (cond
-                    ((string-match-p "not watching some directories" msg) nil)
-                    ((string-match-p (regexp-quote "Reached 'e") msg) "Connected to LSP.")
-                    (t msg))))))
+  (defun +eglot--message-a (format &rest args)
+    "Override for `eglot--message' that drops the prefix and known noise."
+    (let ((msg (apply #'eglot--format format args)))
+      ;; `eglot-max-file-watches' is capped below, so big projects legitimately
+      ;; hit the limit; don't nag about it.
+      (unless (string-match-p "not watching some directories" msg)
+        (message "%s" msg))))
 
-  (advice-add 'jsonrpc--message :override
-              (lambda (format &rest args)
-                (let ((msg (apply #'format format args)))
-                  (message
-                   (cond
-                    ((string-match-p (regexp-quote "Server exited with status") msg) "Disconnected from LSP.")
-                    (t msg))))))
+  (advice-add 'eglot--message :override #'+eglot--message-a)
+
+  (defun +jsonrpc--message-a (format &rest args)
+    "Override for `jsonrpc--message' that drops the prefix and shortens exits."
+    (let ((msg (apply #'format format args)))
+      (message "%s" (if (string-match-p "Server exited with status" msg)
+                        "Disconnected from LSP."
+                      msg))))
+
+  (advice-add 'jsonrpc--message :override #'+jsonrpc--message-a)
 
   ;; Eglot only offers the symbol at point as the minibuffer *default* (M-n);
   ;; pre-fill it as the initial input instead so it can just be edited.
@@ -89,56 +104,47 @@
 
   (defun eglot-describe-session ()
     (interactive)
-    (message (format "%s" (eglot--server-info (eglot-current-server)))))
+    (message "%s" (eglot--server-info (eglot-current-server))))
 
-  (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
+  ;; NOTE: `eglot-managed-mode-hook' runs when eglot *stops* managing a buffer
+  ;; too, so everything on it has to check `eglot-managed-p' first.
 
-  (setopt eglot-events-buffer-config '(:size 0 :format full)
-          ;; eglot-events-buffer-config '(:size 2000000 :format full)
-          eglot-sync-connect nil
-          eglot-max-file-watches 20
-          ;; don't tell server of changes before Emacs's been idle for this many seconds:
-          ;; increase from 0.5 s to reduce chatter
+  (defun hook/eglot-disable-eldoc ()
+    "Silence eldoc under eglot; `eldoc-box' is summoned on demand instead."
+    (when (eglot-managed-p)
+      (eldoc-mode -1)))
+
+  (add-hook 'eglot-managed-mode-hook #'hook/eglot-disable-eldoc)
+
+  (defun hook/eglot-inlay-hints ()
+    (when (eglot-managed-p)
+      (eglot-inlay-hints-mode 1)))
+
+  (add-hook 'eglot-managed-mode-hook #'hook/eglot-inlay-hints t)
+
+  ;; NOTE: `eglot-autoshutdown' and `eglot-events-buffer-config' are already set
+  ;; by Doom's :tools lsp module; the latter must not be overwritten wholesale
+  ;; or `set-debug-var!' loses its handle on it.
+  (setopt eglot-sync-connect nil
+          ;; The 10000 default costs real time on large repos. 1000 still covers
+          ;; ordinary projects; when it is exceeded eglot registers no watches
+          ;; at all and warns (suppressed in `+eglot--message-a' above).
+          eglot-max-file-watches 1000
+          ;; don't tell server of changes before Emacs's been idle for this many
+          ;; seconds: increase from 0.5 s to reduce chatter
           eglot-send-changes-idle-time 1
-          eglot-prefer-plaintext nil
-          eglot-autoshutdown t
           ;; If non-nil, allow watching files outside project root.
           eglot-watch-files-outside-project-root nil)
 
-  (add-hook 'eglot-managed-mode-hook 'eglot-inlay-hints-mode t)
-
   (add-to-list 'eglot-server-programs
-               '((python-mode python-ts-mode)
-                 "rass" "python"))
-
-  (unless (executable-find "emacs-lsp-booster")
-    (warn "emacs-lsp booster not found! install with emacs-lsp-booster-install"))
+               '((python-mode python-ts-mode) . ("rass" "python")))
 
   (add-to-list 'eglot-server-programs
                '(vhdl-mode . ("ghdl-ls"))))
 
 ;;------------------------------------------------------------------------------
-;; Eglot Booster
-;;------------------------------------------------------------------------------
-
-(use-package! eglot-booster
-  :after eglot
-  :custom
-  (eglot-booster-no-remote-boost t)
-  (eglot-booster-io-only t)
-  :init
-  (cl-remprop 'buffer-local-value 'byte-obsolete-generalized-variable)
-  :config
-  (eglot-booster-mode))
-
-;;------------------------------------------------------------------------------
 ;; Eldoc-Box
 ;;------------------------------------------------------------------------------
-
-(after! eglot
-  (add-hook 'eglot-managed-mode-hook
-            (defun hook/setup-eldoc-box ()
-              (require 'eldoc-box)) t))
 
 (defun my/eldoc-box-help-at-mouse (event)
   "Move point to mouse EVENT and show fresh eldoc-box docs there."
@@ -166,8 +172,9 @@
                (eldoc-box-help-at-point))))
          (current-buffer) win pos)))))
 
-(use-package eldoc-box
-  :config
-  (setopt eldoc-box-mouse-mode-idle-delay 0.6)
+;; NOTE: no `eldoc-box-*-mode' is enabled on purpose -- eldoc is off under eglot
+;; (see `hook/eglot-disable-eldoc'), and `eldoc-box-help-at-point' works without
+;; it, so docs are strictly on demand via the binding below.
+(use-package! eldoc-box
   :bind
   ("C-<down-mouse-1>" . my/eldoc-box-help-at-mouse))

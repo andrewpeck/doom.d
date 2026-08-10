@@ -27,7 +27,7 @@
   (add-hook 'python-mode-hook #'python-ts-mode)
 
   (add-hook 'python-base-mode-hook
-            (defun hook/disable-eldoc-mode () (eldoc-mode nil)))
+            (defun hook/disable-eldoc-mode () (eldoc-mode -1)))
 
   (add-hook 'python-base-mode-hook
             (defun hook/disable-flycheck-for-ipynb ()

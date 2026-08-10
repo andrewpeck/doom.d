@@ -226,17 +226,21 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 
 (after! python
-  (global-flycheck-eglot-mode 1)
   (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
 
+  ;; NOTE: `flycheck-eglot-mode' is already on `eglot-managed-mode-hook' via
+  ;; Doom's :tools lsp module, so it must not be enabled again here -- doing so
+  ;; only fights `+lsp-shutdown'.
   (defun hook/configure-python-checkers ()
-    (setq-local flycheck-enabled-checkers '(eglot-check python-ruff))
     (setq-local flycheck-disabled-checkers '(python-pylint python-mypy python-flake8))
-    (setq-local flycheck-eglot-exclusive nil)
-    (flycheck-add-next-checker 'eglot-check 'python-ruff)
-
-    (with-eval-after-load 'flycheck (flycheck-eglot-mode 1)))
+    (setq-local flycheck-eglot-exclusive nil))
 
   (add-hook! '(python-mode-hook python-ts-mode-hook) 'hook/configure-python-checkers)
+
+  ;; `flycheck-add-next-checker' mutates a global property of `eglot-check' and
+  ;; errors if that checker isn't defined yet, so chain it once on load rather
+  ;; than from a mode hook.
+  (after! flycheck-eglot
+    (flycheck-add-next-checker 'eglot-check 'python-ruff))
 
   (setq-default flycheck-python-ruff-config "~/.ruff-toml"))

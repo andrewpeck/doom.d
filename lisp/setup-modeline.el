@@ -169,7 +169,7 @@ any file on disk."
                 (:eval (and (fboundp #'eglot-managed-p)
                             (eglot-managed-p)
                             (let* ((lsp-server-info (eglot--server-info (eglot-current-server)))
-                                   (lsp-server-name (nth 1 lsp-server-info))
+                                   (lsp-server-name (plist-get lsp-server-info :name))
                                    (icon (pcase lsp-server-name
                                            ("basedpyright" "󱔎 " )
                                            ("ty" " ")
