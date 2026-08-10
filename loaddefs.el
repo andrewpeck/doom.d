@@ -142,7 +142,10 @@ into Verilog ports." t)
 (autoload 'xdg-browse-directory "my-autoloads/my-defuns"
 "Open the current file's directory however the OS would." t)
 (autoload 'xdg-open-file "my-autoloads/my-defuns"
-"Open the current file however the OS would." t)
+"Open the current file however the OS would.
+In `dired-mode' this opens the marked files, or the file at point if
+nothing is marked -- not the containing directory, which is what
+`xdg-browse-directory' is for." t)
 (autoload 'py-black "my-autoloads/my-defuns"
 "Format python file with black." t)
 (autoload 'autopep "my-autoloads/my-defuns"
