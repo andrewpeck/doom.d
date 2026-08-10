@@ -32,7 +32,8 @@
           (_             'doom-gruvbox))))
 
 (setq ap/light-theme
-  (if (not (display-graphic-p)) 'summerfruit
+      (if (and (not (daemonp))
+               (not (display-graphic-p))) 'summerfruit
     (pcase (downcase (system-name))
       ("pepper"       'doom-one-light)
       ("strange"      'summerfruit)
