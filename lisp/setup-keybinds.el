@@ -174,7 +174,7 @@
 
 (map! :leader :prefix "s" :desc "SVG Tag Mode"         "vg" #'svg-tag-mode)
 
-(map! :localleader :map dired-mode-map :prefix "m" :desc "Dired Filter Mode"    "f"  #'dired-filter-mode :map dired-mode-map)
+(map! :localleader :map dired-mode-map :prefix "m" :desc "Dired Filter Mode"    "f"  #'dired-filter-mode)
 
 (map! :leader :prefix "i" :desc "Insert Date"          "d"  #'insert-current-date)
 
