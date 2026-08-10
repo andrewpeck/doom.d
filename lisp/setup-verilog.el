@@ -13,6 +13,16 @@
 (use-package verilog-port-copy
   :after verilog-mode)
 
+;; NOTE: consumed only by `verilog-read-decls', i.e. the AUTO subsystem
+;; (AUTOINST/AUTOWIRE/AUTOREG/...); it has no effect on indent, alignment or
+;; font-lock (see `verilog-align-typedef-regexp' below for those).
+;;
+;; Set at top level rather than in verilog-ts-mode's :config: verilog-mode's
+;; per-buffer declaration cache (`verilog-modi-cache-list') is keyed on the
+;; buffer's modification tick, not on this variable, so any file parsed before
+;; this is set keeps its stale (typedef-less) parse for the rest of the session.
+(setopt verilog-typedef-regexp "_t$")
+
 (use-package verilog-ts-mode
 
   :mode ("\\.v\\'" "\\.sv\\'" "\\.svh\\'")
@@ -69,8 +79,16 @@
 
   (setopt verilog-align-ifelse t
           verilog-tab-always-indent nil
-          ;; Regexp that matches user typedefs for declaration alignment.
-          verilog-align-typedef-regexp (concat "\\<" verilog-identifier-re "_\\(t\\)\\>")
+          ;; Regexp that matches user typedefs for declaration alignment, so
+          ;; `foo_t sig;' lines up like `logic sig;'. Also allows a package
+          ;; scope, e.g. `axi_pkg::req_t'.
+          ;;
+          ;; NOTE: `verilog-pretty-declarations' aligns a *contiguous* run of
+          ;; declarations, so a type form this misses doesn't just fail to
+          ;; align itself -- it ends the block and leaves everything below it
+          ;; unaligned too.
+          verilog-align-typedef-regexp
+          (concat "\\<\\(?:" verilog-identifier-re "::\\)?" verilog-identifier-re "_t\\>")
           verilog-auto-delete-trailing-whitespace t
           verilog-auto-inst-param-value t
           verilog-indent-lists nil ;; Fix the dumb indentation inside of port lists
