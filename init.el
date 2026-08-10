@@ -91,7 +91,7 @@
  (docker +lsp +tree-sitter)
  (eval +overlay)                        ; run code, run (also, repls)
  (lookup +dictionary +docsets +offline) ; helps you navigate your code and documentation
- (lsp +eglot +booster)
+ (lsp +eglot)
  (magit)                                ; a git porcelain for Emacs
  make                                   ; run make tasks from Emacs
  pdf                                    ; pdf enhancements
@@ -120,7 +120,7 @@
  ;; data                             ; A dumping ground for data formats (csv, xml)
  emacs-lisp                          ; drown in parentheses
  (php +tree-sitter +lsp)             ; perl's insecure younger brother
- (python +pyright +lsp +tree-sitter) ; beautiful is better than ugly
+ (python +lsp +tree-sitter)          ; beautiful is better than ugly
  (rust +lsp +tree-sitter)            ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
  (sh +fish +tree-sitter)             ; she sells {ba,z,fi}sh shells on the C xor
  (web +tree-sitter)                  ; the tubes
