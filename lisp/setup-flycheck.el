@@ -25,6 +25,21 @@
         flycheck-relevant-error-other-file-show nil)
 
   ;;------------------------------------------------------------------------------
+  ;; Eglot bridge
+  ;;
+  ;; Flycheck 38 has this built in (`eglot-check' + `flycheck-eglot-mode'), so
+  ;; the third-party flycheck-eglot package is disabled in packages.el -- the
+  ;; two define the same mode names and would clash.
+  ;;------------------------------------------------------------------------------
+
+  ;; NOTE: unlike the old package, this is *global* state -- it is stored in
+  ;; `eglot-check's chain rather than per buffer. nil so a command checker can
+  ;; run behind the server.
+  (setopt flycheck-eglot-exclusive nil)
+
+  (global-flycheck-eglot-mode 1)
+
+  ;;------------------------------------------------------------------------------
   ;; Keybindings
   ;;------------------------------------------------------------------------------
 
@@ -228,19 +243,22 @@ See URL `http://nagelfar.sourceforge.net/'."
 (after! python
   (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
 
-  ;; NOTE: `flycheck-eglot-mode' is already on `eglot-managed-mode-hook' via
-  ;; Doom's :tools lsp module, so it must not be enabled again here -- doing so
-  ;; only fights `+lsp-shutdown'.
+  ;; NOTE: `flycheck-eglot-mode' is enabled globally in the flycheck block
+  ;; above; don't turn it on again per buffer.
   (defun hook/configure-python-checkers ()
-    (setq-local flycheck-disabled-checkers '(python-pylint python-mypy python-flake8))
-    (setq-local flycheck-eglot-exclusive nil))
+    (setq-local flycheck-disabled-checkers '(python-pylint python-mypy python-flake8)))
 
   (add-hook! '(python-mode-hook python-ts-mode-hook) 'hook/configure-python-checkers)
 
-  ;; `flycheck-add-next-checker' mutates a global property of `eglot-check' and
-  ;; errors if that checker isn't defined yet, so chain it once on load rather
-  ;; than from a mode hook.
-  (after! flycheck-eglot
-    (flycheck-add-next-checker 'eglot-check 'python-ruff))
+  ;; With `flycheck-eglot-exclusive' nil, flycheck chains `eglot-check' to the
+  ;; first checker in `flycheck-checkers' that claims the mode -- for python
+  ;; that is `python-flake8', which is disabled here, and a disabled link ends
+  ;; the chain. So name ruff explicitly, after `flycheck-eglot--enable' has
+  ;; built the chain.
+  (add-hook 'flycheck-eglot-mode-hook
+            (defun hook/python-chain-ruff ()
+              (when (and (bound-and-true-p flycheck-eglot-mode)
+                         (derived-mode-p 'python-base-mode))
+                (flycheck-add-next-checker 'eglot-check 'python-ruff))))
 
   (setq-default flycheck-python-ruff-config "~/.ruff-toml"))

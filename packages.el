@@ -36,6 +36,8 @@
 (package! cloc.el                 :pin "6eaf53efb1dac2ba2773ec3acb74eeaf2fec0a67" :recipe (:host github :repo "andrewpeck/cloc.el"))
 (package! emacs-ucf-mode          :pin "6345afdbd373e6738e9c9d93694d4a5fb39e4a13" :recipe (:host github :repo "andrewpeck/emacs-ucf-mode"))
 (package! file-clipboard-copy.el  :pin "ccf56ec3116dc467004173ac863b9938025527c8" :recipe (:host github :repo "andrewpeck/file-clipboard-copy.el"))
+(package! flycheck                :pin "4414c198f1efe1015c7523119c7c29f152f7243d") ; v38.3
+(package! flycheck-eglot          :disable t)                                ; support for eglot is now built into flycheck
 (package! hdldep.el               :pin "0dd708f865fefb1536d91c1feec49ebbd226e084" :recipe (:host github :repo "andrewpeck/hdldep.el"))
 (package! hog.el                  :pin "773ab8c5ee9cdf9ed74c9072620c147742ec96bf" :recipe (:host github :repo "andrewpeck/hog.el"))
 (package! line-fill.el            :pin "711adaaf528e8470bd6737971b4dcc3477b423cb" :recipe (:host github :repo "andrewpeck/line-fill.el"))
