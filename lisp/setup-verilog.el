@@ -40,10 +40,10 @@
                       ("function" . "󰡱")))
               (prettify-symbols-mode)))
 
-  (add-hook 'verilog-mode-hook (lambda ()
-                                 ;; (flycheck-eglot-mode)
-                                 (require 'eglot)
-                                 (+lsp-startup)))
+  (add-hook 'verilog-mode-hook
+            (defun hook/verilog-start-lsp ()
+              (require 'eglot)
+              (+lsp-startup)))
 
   :config
 
@@ -66,16 +66,22 @@
   (add-to-list 'eglot-server-programs
                '(verilog-mode . ("slang-server")))
 
+  ;; NOTE: mode hooks also run on *deactivation*, so this has to check that
+  ;; flycheck-eglot is actually on -- otherwise `+lsp-shutdown' re-selects
+  ;; verilator on the way out.
   (add-hook 'flycheck-eglot-mode-hook
-            (lambda ()
-              (when (derived-mode-p 'verilog-mode 'verilog-ts-mode)
+            (defun hook/verilog-chain-verilator ()
+              (when (and (bound-and-true-p flycheck-eglot-mode)
+                         (derived-mode-p 'verilog-mode 'verilog-ts-mode))
                 (flycheck-add-next-checker 'verilog-verilator 'eglot-check)
                 (flycheck-select-checker 'verilog-verilator))))
 
   (require 'verilog-mode)
   (require 'rainbow-delimiters)
-  (add-hook 'verilog-mode-hook (lambda () (when (eq major-mode 'verilog-mode)
-                                            (verilog-ts-mode))))
+  (add-hook 'verilog-mode-hook
+            (defun hook/verilog-prefer-ts-mode ()
+              (when (eq major-mode 'verilog-mode)
+                (verilog-ts-mode))))
 
   (setopt verilog-align-ifelse t
           verilog-tab-always-indent nil
