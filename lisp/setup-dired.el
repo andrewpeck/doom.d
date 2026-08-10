@@ -14,15 +14,17 @@
 
 (use-package dired-preview
   :after dired
-  ;; :init
-  ;; (dired-preview-global-mode nil)
   :custom
-  (dired-preview-delay 0.01)
+  ;; upstream default; anything much lower previews on every line you cursor
+  ;; past (the package treats 0 as 0.1 internally for that reason)
+  (dired-preview-delay 0.7)
   (dired-preview-ignored-extensions-regexp
    (concat "\\."
            "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a\\|flac\\|wav"
            "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
-           "\\|iso\\|epub\\|pdf\\)\\'")))
+           "\\|iso\\|epub\\|pdf\\)\\'"))
+  :config
+  (dired-preview-global-mode 1))
 
 ;;------------------------------------------------------------------------------
 ;; Dired
