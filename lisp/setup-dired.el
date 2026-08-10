@@ -24,6 +24,15 @@
            "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
            "\\|iso\\|epub\\|pdf\\)\\'"))
   :config
+
+  ;; Don't preview over tramp: building a preview reads the file's contents
+  ;; (up to `dired-preview-max-size') across the connection. Guards only the
+  ;; automatic path -- `M-x dired-preview-mode' still works if you want it.
+  ;; Named rather than a lambda so re-loading this file doesn't stack advice.
+  (advice-add 'dired-preview--on :before-while
+              (defun dired-preview-local-only-p ()
+                (not (file-remote-p default-directory))))
+
   (dired-preview-global-mode 1))
 
 ;;------------------------------------------------------------------------------
