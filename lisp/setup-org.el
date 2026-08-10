@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
-(use-package org
+(use-package! org
   :init
 
   (setopt org-fold-core-style 'overlays)
@@ -10,7 +10,6 @@
   (add-hook 'org-mode-hook (defun hook/org-disable-diff-hl-mode () (diff-hl-mode -1))) ;; diff-hl just makes line noise for org mode
   (add-hook 'org-mode-hook (defun hook/org-set-scroll-margin () (setq-local scroll-margin 1)))
   ;; (add-hook 'org-mode-hook (defun hook/org-auto-fill-mode () (auto-fill-mode t)))
-  (add-hook 'org-mode-hook (defun hook/org-enable-evil-org-mode () (evil-org-mode)))
   ;; (add-hook 'org-mode-hook (defun hook/org-enable-auto-format () (+org-enable-auto-reformat-tables-h)))
   (add-hook 'org-mode-hook (defun hook/org-latex-text-scale-mode () (add-hook 'text-scale-mode-hook #'my/resize-org-latex-overlays nil t)))
   (add-hook 'org-mode-hook (defun hook/org-crypt-before-save-magic () (add-hook 'before-save-hook #'org-encrypt-entries nil t)))
@@ -67,12 +66,6 @@
                 (setq my/org-excalidraw-initialized t)
                 (with-demoted-errors "org-excalidraw: %S"
                   (org-excalidraw-initialize)))))
-
-  ;; org should open html with a browser
-  ;; don't know why this isn't the default
-  (add-to-list 'org-file-apps '("\\.x?html?\\'" . "xdg-open %s"))
-
-  (require 'evil-org)
 
   (setopt org-tags-exclude-from-inheritance (list "crypt")
           org-startup-numerated nil
@@ -159,8 +152,12 @@
              (file+headline +org-capture-todo-file "Shopping") "- [ ] %?" :prepend t)))
 
   ;; Applications for opening file:path items in a document
-  (add-to-list 'org-file-apps '("\\.pdf\\'" . emacs))
-  (add-to-list 'org-file-apps '("\\.odt\\'" . "xdg-open %s"))
+  (dolist (app '(("\\.pdf\\'"       . emacs)
+                 ("\\.odt\\'"       . "xdg-open %s")
+                 ;; org should open html with a browser; don't know why this
+                 ;; isn't the default
+                 ("\\.x?html?\\'"   . "xdg-open %s")))
+    (add-to-list 'org-file-apps app))
 
   ;; HACK: patch issue with eldoc help
   ;; sometimes what gets passed into this function has nil values, e.g.
@@ -230,7 +227,7 @@
 ;; Poporg
 ;;------------------------------------------------------------------------------
 
-(use-package poporg
+(use-package! poporg
   :config
   (map! :leader :prefix "e" :desc "Poporg Edit Comment"  "c"  #'poporg-dwim))
 
@@ -238,7 +235,7 @@
 ;; Org Appear
 ;;------------------------------------------------------------------------------
 
-(use-package org-appear
+(use-package! org-appear
   :after org
   :config
   (setopt org-appear-autoemphasis t
@@ -251,7 +248,7 @@
 ;;------------------------------------------------------------------------------
 
 (comment
- (use-package org-modern-mode
+ (use-package! org-modern
    :after org
    :config
 
@@ -265,7 +262,7 @@
 ;; Org Download
 ;;------------------------------------------------------------------------------
 
-(use-package org-download
+(use-package! org-download
   :after org
   :config
 
@@ -308,7 +305,7 @@
 ;;------------------------------------------------------------------------------
 
 ;; Latex Export Class
-(use-package ox-latex
+(use-package! ox-latex ; built-in
   :after org
   :config
   (setopt org-latex-article-header
@@ -357,7 +354,7 @@
 ;; Image preview
 ;;------------------------------------------------------------------------------
 
-(use-package ol
+(use-package! ol ; built-in
 
   :config
 
@@ -368,17 +365,17 @@
       (if (and result (string-prefix-p "LINK: data:" result))
           "Base64 encoded image" result))))
 
-(use-package ob-mermaid
+(use-package! ob-mermaid
   :after org
   :config
   (setopt ob-mermaid-cli-path "aa-exec --profile=chrome mmdc"))
 
-(use-package ob-ditaa
+(use-package! ob-ditaa ; built-in
   :after org
   :config
   (setopt org-ditaa-jar-path "~/.doom.d/ditaa.jar"))
 
-(use-package org-crypt
+(use-package! org-crypt ; built-in
   :after org
   :config
   (setopt org-crypt-disable-auto-save t
