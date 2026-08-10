@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name:CLOG2_SAFE
+# key: CLOG2
+# --
+`define CLOG2_SAFE(N) (((N) <= 1) ? 1 : $clog2(N))
