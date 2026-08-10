@@ -87,7 +87,17 @@ nil."
                          (concat " (" (string-trim m) ")")))
 
 
-                " " which-func-format
+                ;; PERF: read which-func's own cache (refreshed on an idle timer
+                ;; by `which-func-update') rather than calling `which-function'
+                ;; -- i.e. imenu -- on every redisplay.
+                " " (:eval (and-let* (((bound-and-true-p which-func-mode))
+                                      (fn (gethash (selected-window) which-func-table)))
+                             ;; escape % so it isn't read as a mode line spec
+                             (concat "[" (propertize (string-replace "%" "%%" fn)
+                                                     'face 'which-func
+                                                     'local-map which-func-keymap
+                                                     'mouse-face 'mode-line-highlight)
+                                     "]")))
 
                 (:eval (and nyan-mode
                             (concat " " (nyan-create))))
