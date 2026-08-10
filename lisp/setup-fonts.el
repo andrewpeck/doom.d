@@ -45,24 +45,24 @@
 
 (defun ap/update-font-list ()
 
-  (let* ((font (cl-find-if (lambda (x) (font-exists? (car x))) my/preferred-fonts))
-         (name (car font))
-         (size (if (hd?) (nth 1 font) (nth 2 font))))
+  (when-let* ((font (cl-find-if (lambda (x) (font-exists? (car x))) my/preferred-fonts))
+              (name (car font))
+              (size (if (hd?) (nth 1 font) (nth 2 font))))
 
-    (when font
-      (setopt doom-font (font-spec :family name :size size :weight 'regular)
-              doom-big-font (font-spec :family name :size (+ 4 size))
-              doom-serif-font (font-spec :family name :weight 'light))))
 
-  (let* ((font (cl-find-if (lambda (x) (font-exists? (car x))) my/preferred-variable-pitch-font))
-         (name (car font))
-         (size (if (hd?) (nth 1 font) (nth 2 font))))
-    (when font
-      (setopt doom-variable-pitch-font (font-spec :family name :size size))))
+    (setopt doom-font (font-spec :family name :size size :weight 'regular)
+            doom-big-font (font-spec :family name :size (+ 4 size))
+            doom-serif-font (font-spec :family name :weight 'light))
 
-  (if (string= (font-get doom-font :family) "Comic Code")
-      (setq-default line-spacing 0.2)
-    (setq-default line-spacing 0)))
+    (when-let* ((font (cl-find-if (lambda (x) (font-exists? (car x))) my/preferred-variable-pitch-font))
+                (name (car font))
+                (size (if (hd?) (nth 1 font) (nth 2 font))))
+      (setopt doom-variable-pitch-font (font-spec :family name :size size)))
+
+    (when-let* ((doom-font-family (font-get doom-font :family)))
+      (if (string= doom-font-family "Comic Code")
+          (setq-default line-spacing 0.2)
+        (setq-default line-spacing 0)))))
 
 (advice-add #'doom/reload-font :before #'ap/update-font-list)
 (ap/update-font-list)
