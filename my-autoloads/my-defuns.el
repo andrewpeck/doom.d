@@ -406,12 +406,15 @@ into Verilog ports."
 
 ;;;###autoload
 (defun xdg-open-file ()
-  "Open the current file however the OS would."
+  "Open the current file however the OS would.
+In `dired-mode' this opens the marked files, or the file at point if
+nothing is marked -- not the containing directory, which is what
+`xdg-browse-directory' is for."
   (interactive)
-  (when (buffer-file-name)
-    (xdg-do (buffer-file-name)))
-  (when (eq major-mode 'dired-mode)
-    (xdg-do default-directory)))
+  (cond ((derived-mode-p 'dired-mode)
+         (mapc #'xdg-do (dired-get-marked-files)))
+        ((buffer-file-name)
+         (xdg-do (buffer-file-name)))))
 
 ;;;###autoload
 (defun py-black ()
