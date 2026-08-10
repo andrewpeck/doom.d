@@ -12,6 +12,11 @@
 
 (defvar modeline-show-flycheck-names nil)
 
+(defvar-local modeline--flycheck-status ""
+  "Cached mode line string describing the current flycheck state.
+Recomputed by `modeline-flycheck-update-status', never in the mode line
+itself.")
+
 (after! flycheck
   (defsubst modeline-flycheck-state ()
     ""
@@ -33,7 +38,19 @@ nil."
       ('errored     "")
       ('interrupted "")
       ('suspicious  "")
-      ('finished     (modeline-flycheck-state)))))
+      ('finished     (modeline-flycheck-state))))
+
+  ;; PERF: `flycheck-count-errors' walks the whole error list. Calling it from
+  ;; the mode line's :eval re-counted every error on every redisplay, for every
+  ;; window (up to `flycheck-checker-error-threshold' = 1000 errors). Compute it
+  ;; only when flycheck reports a change.
+  (defun modeline-flycheck-update-status (&rest _)
+    "Refresh `modeline--flycheck-status' for the current buffer."
+    (setq modeline--flycheck-status (my-flycheck-mode-line-status-text))
+    (force-mode-line-update))
+
+  (add-hook 'flycheck-status-changed-functions #'modeline-flycheck-update-status)
+  (add-hook 'flycheck-after-syntax-check-hook #'modeline-flycheck-update-status))
 
 (after! vc-git
   (defsubst advice/vc-mode-line-transform (tstr)
