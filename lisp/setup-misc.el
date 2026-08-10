@@ -208,7 +208,12 @@
   (auto-revert-avoid-polling nil)
   (auto-revert-interval 1)
   (auto-revert-use-notify nil)
-  (auto-revert-check-vc-info t))
+  ;; PERF: leave this off. With `global-auto-revert-mode' *every* file buffer is
+  ;; polled, and this makes each poll run `vc-refresh-state' -- ~7ms of git
+  ;; subprocesses per buffer, every `auto-revert-interval' (1s). The mode line
+  ;; branch is instead refreshed for the buffer you're actually looking at; see
+  ;; `my/vc-refresh-state-soon' in setup-modeline.el.
+  (auto-revert-check-vc-info nil))
 
 ;;------------------------------------------------------------------------------
 ;; Citar
