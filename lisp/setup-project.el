@@ -4,25 +4,22 @@
 
   :init
 
-  (map! :leader (:prefix "g" :desc "Browse Projectile Homepage" "oH" 'project-vc-browse-at-remote))
+  (map! :leader (:prefix "g" :desc "Browse Projectile Homepage" "oH" #'project-vc-browse-at-remote))
   (map! :leader (:prefix "p" :desc "Open Project" "p" #'project-switch-project))
   (map! :leader :desc "Project Find File" "SPC" #'project-find-file)
 
   :config
 
-  ;; doom overwrites this to ignore tramp uhg damnit
+  ;; doom overwrites this to ignore tramp
   ;; restore the original value
-  ;;
-  ;; but when it is restored the bookmarks don't work because the bookmark tool
-  ;; apparently tries to create tramp connections? UHG
-  (setopt vc-ignore-dir-regexp "\\`\\(?:[\\/][\\/][^\\/]+[\\/]\\|/\\(?:net\\|afs\\|\\.\\.\\.\\)/\\)\\'")
+  (setopt vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)
 
   (defun doom/find-file-in-private-config ()
     "Jump to a file in DIR (searched recursively).
 
 If DIR is not a project, it will be indexed (but not cached)."
     (interactive)
-    (let* ((pr (project-current t doom-private-dir))
+    (let* ((pr (project-current t doom-user-dir))
            (root (project-root pr))
            (dirs (list root))
            (project-files-relative-names t))
@@ -47,7 +44,15 @@ If DIR is not a project, it will be indexed (but not cached)."
       (project-remember-projects-under-if-exists "/mnt/NAS/Sync/work/emacs")))
 
   ;; periodically rescan for projects
-  (run-with-timer 1 100 'my/project-discover-all)
+  ;;
+  ;; NOTE: keep a handle and cancel first -- this `:config' block re-runs on
+  ;; every `doom/reload', and bare `run-with-timer' would stack another scanner
+  ;; each time.
+  (defvar my/project-discover-timer nil)
+  (when (timerp my/project-discover-timer)
+    (cancel-timer my/project-discover-timer))
+  (setq my/project-discover-timer
+        (run-with-timer 1 100 #'my/project-discover-all))
 
   (defun projectile-locate-dominating-file (&rest _)
     (locate-dominating-file "." ".git"))
@@ -62,7 +67,7 @@ If DIR is not a project, it will be indexed (but not cached)."
     (interactive "P")
     (let ((projects (project-known-project-roots)))
       (if projects
-          (when-let
+          (when-let*
               ((project (completing-read "Open Project Git remote: " projects)))
 
             (find-file project)
