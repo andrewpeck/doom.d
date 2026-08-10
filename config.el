@@ -123,8 +123,6 @@
 
   ;; something is overriding these
   (setopt compilation-scroll-output t
-          auto-revert-mode t              ;
-          auto-revert-remote-files t      ;
           undo-limit 80000000)            ; Raise undo-limit to 80Mb
 
   (scroll-bar-mode)
