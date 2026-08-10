@@ -37,6 +37,13 @@
   ;; run behind the server.
   (setopt flycheck-eglot-exclusive nil)
 
+  ;; `flycheck-lsp--register-checker' chains `eglot-check' to the first entry of
+  ;; `flycheck-checkers' that claims the mode, and it does not consult
+  ;; `flycheck-disabled-checkers'. Remove the unwanted python checkers outright
+  ;; so `python-ruff' is what it finds.
+  (setq flycheck-checkers
+        (seq-difference flycheck-checkers '(python-flake8 python-pylint python-mypy)))
+
   (global-flycheck-eglot-mode 1)
 
   ;;------------------------------------------------------------------------------
@@ -244,21 +251,7 @@ See URL `http://nagelfar.sourceforge.net/'."
   (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
 
   ;; NOTE: `flycheck-eglot-mode' is enabled globally in the flycheck block
-  ;; above; don't turn it on again per buffer.
-  (defun hook/configure-python-checkers ()
-    (setq-local flycheck-disabled-checkers '(python-pylint python-mypy python-flake8)))
-
-  (add-hook! '(python-mode-hook python-ts-mode-hook) 'hook/configure-python-checkers)
-
-  ;; With `flycheck-eglot-exclusive' nil, flycheck chains `eglot-check' to the
-  ;; first checker in `flycheck-checkers' that claims the mode -- for python
-  ;; that is `python-flake8', which is disabled here, and a disabled link ends
-  ;; the chain. So name ruff explicitly, after `flycheck-eglot--enable' has
-  ;; built the chain.
-  (add-hook 'flycheck-eglot-mode-hook
-            (defun hook/python-chain-ruff ()
-              (when (and (bound-and-true-p flycheck-eglot-mode)
-                         (derived-mode-p 'python-base-mode))
-                (flycheck-add-next-checker 'eglot-check 'python-ruff))))
+  ;; above, and that block also prunes `flycheck-checkers' so `eglot-check'
+  ;; chains to `python-ruff' on its own -- nothing to set up per buffer.
 
   (setq-default flycheck-python-ruff-config "~/.ruff-toml"))

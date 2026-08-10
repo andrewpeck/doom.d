@@ -66,15 +66,11 @@
   (add-to-list 'eglot-server-programs
                '(verilog-mode . ("slang-server")))
 
-  ;; NOTE: mode hooks also run on *deactivation*, so this has to check that
-  ;; flycheck-eglot is actually on -- otherwise `+lsp-shutdown' re-selects
-  ;; verilator on the way out.
-  (add-hook 'flycheck-eglot-mode-hook
-            (defun hook/verilog-chain-verilator ()
-              (when (and (bound-and-true-p flycheck-eglot-mode)
-                         (derived-mode-p 'verilog-mode 'verilog-ts-mode))
-                (flycheck-add-next-checker 'verilog-verilator 'eglot-check)
-                (flycheck-select-checker 'verilog-verilator))))
+  ;; NOTE: don't chain `verilog-verilator' -> `eglot-check' here. With
+  ;; `flycheck-eglot-exclusive' nil, `flycheck-lsp--register-checker' already
+  ;; builds `eglot-check' -> `verilog-verilator'; adding the reverse edge makes
+  ;; the two checkers chain into each other forever (flycheck has no cycle
+  ;; detection), respawning verilator every round.
 
   (require 'verilog-mode)
   (require 'rainbow-delimiters)
