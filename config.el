@@ -178,6 +178,17 @@
 (load!! "lisp/setup-doom.el")
 (load!! "lisp/setup-fonts.el")
 
+;; gptel exposes renamed variables as obsolete aliases (gptel--system-message ->
+;; gptel-system-prompt).  If a file-local variable localizes such a symbol before gptel
+;; loads, the symbol becomes permanently buffer-local and gptel's `defvaralias' errors
+;; for the rest of the session.  Load gptel first when a file carries gptel locals.
+(add-hook 'before-hack-local-variables-hook
+          (defun +gptel-preload-for-file-locals-h ()
+            (when (seq-find (lambda (cell)
+                              (string-prefix-p "gptel" (symbol-name (car cell))))
+                            file-local-variables-alist)
+              (require 'gptel nil t))))
+
 ;; Load setup files
 (dolist (file (file-expand-wildcards (concat doom-user-dir "lisp/setup*.el")))
   (load-idle (file-name-sans-extension file)))

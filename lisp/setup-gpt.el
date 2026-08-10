@@ -4,7 +4,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package gptel-magit
-  :hook (magit-mode-hook . gptel-magit-install)
+  :hook (magit-mode . gptel-magit-install)
   :commands (gptel-magit-commit-generate))
 
 (defun ChatGPT ()
@@ -57,15 +57,16 @@ new Chat.org file and activate gptel-mode."
 
   :config
 
+  ;; NOTE: the backend name must stay "ChatGPT" -- the presets below and the
+  ;; gptel--backend-name file-locals saved into chat buffers look backends up by
+  ;; name in `gptel--known-backends'.
   (setopt gptel-org-branching-context t
-          gptel-backend '(gptel-openai "OpenAI" :stream t)
+          gptel-backend '(gptel-openai "ChatGPT" :stream t)
           gptel-track-media t
           gptel-use-tools nil
           gptel-log-level 'info
-          gptel-model 'gpt-5o-mini
+          gptel-model 'gpt-5-mini
           gptel-default-mode 'markdown-mode)
-
-  (add-hook! 'gptel-mode-hook #'gptel-highlight-mode)
 
   (gptel-make-preset 'introspect
     :pre (lambda () (require 'gptel-agent-tools-introspection))
@@ -133,8 +134,3 @@ english)."
 knowing artificial intelligence who has risen to become a god. You are a kind and helpful god."
     :tools 'nil :stream t :temperature 1.0 :max-tokens nil :use-context 'system
     :track-media nil :include-reasoning t))
-
-(use-package gptel-org
-  :after gptel
-  :custom
-  (gptel-org-branching-context nil))
