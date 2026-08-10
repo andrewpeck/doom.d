@@ -3,6 +3,8 @@
 (use-package org
   :init
 
+  (setopt org-fold-core-style 'overlays)
+
   (add-hook 'org-mode-hook 'org-appear-mode)
   (add-hook 'org-mode-hook (defun hook/org-set-user-name () (setq-local user-full-name "A.P.")))
   (add-hook 'org-mode-hook (defun hook/org-disable-diff-hl-mode () (diff-hl-mode -1))) ;; diff-hl just makes line noise for org mode
@@ -24,8 +26,8 @@
   (map! :leader             :desc "Org Capture TODO"     "T" (lambda () (interactive) (org-capture nil "t")))
   (map! :leader :prefix "t" :desc "Open org TODOs"       "t" #'open-todo)
   (map! :leader :prefix "y" :desc "Org Link Copy"        "y"  #'org-link-copy)
-  (map! :localleader :map org-mode-map :desc "Latexify"    "lp" #'org-latex-preview-all :map org-mode-map)
-  (map! :localleader :map org-mode-map :desc "De-latexify" "lP" #'org-latex-preview-clear :map org-mode-map)
+  (map! :localleader :map org-mode-map :desc "Latexify"    "lp" #'org-latex-preview-all)
+  (map! :localleader :map org-mode-map :desc "De-latexify" "lP" #'org-latex-preview-clear)
 
   (map! :map org-mode-map "RET" #'scimax/org-return)
 
@@ -58,7 +60,13 @@
           org-image-align  'left
           org-image-actual-width t)
 
-  (add-hook 'org-mode-hook #'org-excalidraw-initialize)
+  (defvar my/org-excalidraw-initialized nil)
+  (add-hook 'org-mode-hook
+            (defun hook/org-excalidraw-initialize-once ()
+              (unless my/org-excalidraw-initialized
+                (setq my/org-excalidraw-initialized t)
+                (with-demoted-errors "org-excalidraw: %S"
+                  (org-excalidraw-initialize)))))
 
   ;; org should open html with a browser
   ;; don't know why this isn't the default
@@ -70,8 +78,6 @@
           org-startup-numerated nil
           org-confirm-babel-evaluate nil
           org-display-remote-inline-images 'cache
-
-          org-fold-core-style 'overlays
 
           ;; org-plantuml-jar-path "~/.doom.d/plantuml.jar"
 
@@ -86,8 +92,6 @@
           org-startup-with-inline-images t
           org-startup-with-latex-preview nil
           ;; (org-display-inline-images t t)
-
-          org-attach-id-dir "./images/screenshots"
 
           ;; Allow M-Ret to split list items
           org-M-RET-may-split-line t
@@ -108,7 +112,7 @@
           ;; https://github.com/sk8ingdom/.emacs.d/blob/master/org-mode-config/org-capture-templates.el
           ;; https://cestlaz.github.io/posts/using-emacs-26-gcal/
           org-capture-templates
-          '(;; ("a" "Appointment" entry (file  "~/Sync/org/gcal-peck.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+          `(;; ("a" "Appointment" entry (file  "~/Sync/org/gcal-peck.org" ) "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
 
             ;; https://orgmode.org/manual/Template-elements.html
 
@@ -191,7 +195,7 @@
 
             ("move"      . (:background "#666" :foreground "#eee"          :weight bold))
             ("family"    . (:foreground "red4"          :weight bold))
-            ("home"      . (:foreground "lightorange"   :weight bold))
+            ("home"      . (:foreground "orange"        :weight bold))
             ("meeting"   . (:foreground "gray" :slant italic))
             ("CRITICAL"  . (:background "red3" :foreground "#fff" :weight bold))))
 
@@ -274,7 +278,10 @@
           ;; annotate the width of the image with the actual width of the screenshot
           org-download-annotate-function
           (lambda (s)
-            (let ((width (string-to-number (shell-command-to-string (format "identify -format \"%%w\" %s" s)))))
+            (let ((width (string-to-number
+                          (shell-command-to-string
+                           (format "identify -format \"%%w\" %s"
+                                   (shell-quote-argument (expand-file-name s)))))))
               (concat (format "#+ATTR_ORG: :width %spx\n" width)
                       (format "#+ATTR_HTML: :style max-width:100%%;width:%spx\n" width))))
 
