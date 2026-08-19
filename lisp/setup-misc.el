@@ -787,21 +787,35 @@ help instead of keeping it open."
 (use-package tab-bar
   :config
 
+  ;; PERF: `tab-bar-make-keymap' re-derives every tab's name on each redisplay,
+  ;; so this ran `abbreviate-file-name' plus a `mapcar' over an *interpreted*
+  ;; lambda -- which `eval' rebuilds via `cconv-make-interpreted-closure' and
+  ;; `macroexpand-all' every single time. Hoisting the lambda to a named
+  ;; function fixes the closure churn; memoizing fixes the rest, since the input
+  ;; only changes when you switch buffers.
+
+  (defun my/compress-path--segment (d)
+    "Shorten one directory component D to its first character."
+    (if (string-match "^[~.]" d)
+        d                               ; keep ~ and . as-is
+      (substring d 0 (min 1 (length d)))))
+
+  (defvar my/compress-path--cache (make-hash-table :test 'equal)
+    "Memoization table for `my/compress-path'.")
+
   (defun my/compress-path (path)
     "Compress PATH like ~/work/src/proj/foo.py → ~/w/s/p/foo.py."
-    (let* ((abbreviated (abbreviate-file-name path))
-           (parts (split-string abbreviated "/"))
-           (filename (car (last parts)))
-           (dirs (butlast parts)))
-      (mapconcat #'identity
-                 (append
-                  (mapcar (lambda (d)
-                            (if (string-match "^[~.]" d)
-                                d          ; keep ~ and . as-is
-                              (substring d 0 (min 1 (length d)))))
-                          dirs)
-                  (list filename))
-                 "/")))
+    (or (gethash path my/compress-path--cache)
+        (puthash path
+                 (let* ((abbreviated (abbreviate-file-name path))
+                        (parts (split-string abbreviated "/"))
+                        (filename (car (last parts)))
+                        (dirs (butlast parts)))
+                   (mapconcat #'identity
+                              (append (mapcar #'my/compress-path--segment dirs)
+                                      (list filename))
+                              "/"))
+                 my/compress-path--cache)))
 
   (defun my/tab-bar-name ()
     "Tab name with compressed file path, or buffer name."
