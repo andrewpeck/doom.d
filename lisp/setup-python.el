@@ -68,7 +68,7 @@ or for a single package (uv-install \"mypy\")
 
     (unless (getenv "VIRTUAL_ENV")
       (when (yes-or-no-p "Virtual environment not active. Do you want to create at venv project root?")
-        (when (shell-command (concat "uv venv --python 3.12 " (doom-project-root) ".venv"))
+        (when (compile (concat "uv venv --python 3.12 --clear" (doom-project-root) ".venv"))
 
           (let* ((file (concat (doom-project-root) ".venv/bin/activate"))
                  (hash (with-temp-buffer
