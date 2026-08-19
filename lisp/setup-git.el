@@ -246,7 +246,15 @@ on the current line, if any."
   :config
 
   (setopt diff-hl-disable-on-remote t
-          diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode tar-mode))
+          diff-hl-global-modes '(not image-mode org-mode markdown-mode pdf-view-mode tar-mode)
+
+          ;; PERF: `diff-hl-flydiff-mode' (on via `(vc-gutter +pretty)') re-diffs
+          ;; the buffer against the index after every change. Each pass spawns
+          ;; three git subprocesses -- `diff-hl-git-index-object-name',
+          ;; `diff-hl-diff-against-reference' and `vc-git-state' -- and builds a
+          ;; full `diff-mode' buffer whose `track-changes' hook then runs too. At
+          ;; the default 0.3s that fires on essentially every typing pause.
+          diff-hl-flydiff-delay 1.5)
 
   ;; don't update diff-hl if on remote-host
   (advice-add 'diff-hl-update-once :before-until
