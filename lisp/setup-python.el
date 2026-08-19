@@ -20,9 +20,6 @@
   (python-flymake-command '("flake8" "-"))
   :init
 
-  ;;; turn on apheleia
-  (add-hook 'python-base-mode-hook #'apheleia-mode)
-
   ;;; invoke python ts mode
   (add-hook 'python-mode-hook #'python-ts-mode)
 

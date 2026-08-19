@@ -372,40 +372,7 @@ Always uses ranges instead of comma separated years."
 
 (use-package ob-wavedrom
   :config
-  (setopt ob-wavedrom-cli-path "wavedrom"))
-
-;;------------------------------------------------------------------------------ 
-;; Apheleia
-;;------------------------------------------------------------------------------
-
-(use-package apheleia
-  :config
-
-  ;; don't want to apply autoformatter for files with conflict markers in them
-  ;; just add some simple advice to look for conflict markers and skip the
-  ;; formatter, issuing a message along the way.
-  (advice-add #'apheleia-format-buffer :before-until
-              (defun file-has-conflict-markers (&rest _)
-                (let ((is-conflict (save-excursion
-                                     (goto-char (point-min))
-                                     (re-search-forward "^<<<<<<< [A-z]+$" nil t))))
-                  (if is-conflict
-                      (message "File has conflict markers; not formatting.")
-                    (message "Formatting buffer..."))
-
-                  is-conflict)))
-
-  (add-to-list 'apheleia-formatters '(docstrfmt "docstrfmt"))
-  (add-to-list 'apheleia-mode-alist '(rst-mode . docstrfmt))
-
-  (add-to-list 'apheleia-formatters '(autopep8 "autopep8" "-"))
-  (add-to-list 'apheleia-formatters '(python-mode isort "isort"  "-ca" "--stdout" "-"))
-
-  (add-to-list 'apheleia-mode-alist '(python-mode . ruff))
-  (add-to-list 'apheleia-mode-alist '(python-ts-mode . ruff))
-
-  (add-to-list 'apheleia-mode-alist '(python-mode . autopep8))
-  (add-to-list 'apheleia-mode-alist '(python-ts-mode . autopep8)))
+  (setopt ob-wavedrom-cli-path "~/.npm-global/bin/wavedrom-cli"))
 
 ;;------------------------------------------------------------------------------
 ;; PDF View + Image Mode
