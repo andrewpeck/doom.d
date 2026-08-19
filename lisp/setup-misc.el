@@ -206,7 +206,10 @@
   (run-when-idle 1 (global-auto-revert-mode t))
   :custom
   (auto-revert-avoid-polling nil)
-  (auto-revert-interval 1)
+  ;; PERF: with `global-auto-revert-mode' and polling forced on (below), this is
+  ;; a stat of *every* file buffer, plus the `my/verify-visited-file-modtime'
+  ;; advice, once per tick. 1s was needlessly hot; 5 is the upstream default.
+  (auto-revert-interval 5)
   (auto-revert-use-notify nil)
   ;; PERF: leave this off. With `global-auto-revert-mode' *every* file buffer is
   ;; polled, and this makes each poll run `vc-refresh-state' -- ~7ms of git
