@@ -28,10 +28,19 @@
   (defun drawio-to-png (file data-p)
     (if data-p
         (error "Can't decode non-files")
-      (let ((ofile (concat file ".drawio.png")))
-        (call-process "drawio" nil nil nil "-x" file "-f" "png" "-o" ofile "2>/dev/null")
-        (call-process "cat" nil t nil ofile)
-        (delete-file ofile))))
+      (let ((ofile (make-temp-file "drawio-" nil ".png")))
+        (unwind-protect
+            (progn
+              ;; NB: every argument here is passed straight to drawio; a shell
+              ;; redirection like "2>/dev/null" is taken as an input file and
+              ;; makes the export fail.
+              (unless (zerop (call-process "drawio" nil nil nil
+                                           "-x" "-f" "png" "-o" ofile file))
+                (error "drawio failed to export %s" file))
+              (when (zerop (file-attribute-size (file-attributes ofile)))
+                (error "drawio produced no output for %s" file))
+              (insert-file-contents-literally ofile))
+          (delete-file ofile)))))
 
   (defun excalidraw-to-png (file data-p)
     (if data-p
