@@ -111,7 +111,7 @@
   (add-to-list 'recentf-exclude "^~/Downloads")
   (advise-inhibit-messages #'recentf-save-list)
   (setopt recentf-save-file (concat doom-private-dir "recentf")
-          recentf-autosave-interval 60
+          recentf-autosave-interval 300
           recentf-auto-cleanup 120))
 
 ;;------------------------------------------------------------------------------
