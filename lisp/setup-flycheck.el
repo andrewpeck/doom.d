@@ -19,7 +19,7 @@
 
   :config
 
-  (setq flycheck-checker-error-threshold 1000
+  (setq flycheck-checker-error-threshold 200
         flycheck-temp-prefix ".flycheck"
         flycheck-check-syntax-automatically '(save idle-buffer-switch mode-enabled)
         flycheck-relevant-error-other-file-show nil)
