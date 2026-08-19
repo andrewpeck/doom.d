@@ -829,6 +829,21 @@ help instead of keeping it open."
   ;; `tab-bar-make-keymap' otherwise does on every redisplay.
   (setq tab-bar-auto-width nil))
 
+;;------------------------------------------------------------------------------
+;; Typst
+;;------------------------------------------------------------------------------
+
+(with-eval-after-load 'eglot
+  (with-eval-after-load 'typst-ts-mode
+    (add-to-list 'eglot-server-programs
+                 `((typst-ts-mode) .
+                   ,(eglot-alternatives `(,typst-ts-lsp-download-path
+                                          "tinymist"
+                                          "typst-lsp"))))))
+
+;; NOTE: typst isn't a Doom lang module, so nothing adds `lsp!' to its hook;
+;; `+lsp-startup' also pulls in eglot, which is what registers the server above.
+(add-hook 'typst-ts-mode-hook #'+lsp-startup)
 
 ;;------------------------------------------------------------------------------
 ;; Vim Tab Bar
