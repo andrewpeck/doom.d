@@ -115,6 +115,147 @@ any file on disk."
 (after! magit
   (add-hook 'magit-post-refresh-hook #'my/vc-refresh-visible-buffers))
 
+;;------------------------------------------------------------------------------
+;; Segments
+;;------------------------------------------------------------------------------
+
+;; PERF: every `(:eval FORM)' in `mode-line-format' is handed to `eval', so FORM
+;; is *macroexpanded from scratch* on every redisplay, for every window. A CPU
+;; profile showed `cconv-make-interpreted-closure', `macroexpand-all' and
+;; `internal--build-bindings' (from `and-let*') running under
+;; `redisplay_internal' for exactly this reason. Keeping each `:eval' down to a
+;; single funcall moves all of that to load time.
+;;
+;; Corollary: never put a literal `(lambda ...)' inside an `:eval' form -- it is
+;; rebuilt and re-macroexpanded every redisplay. Use a named function instead.
+
+(defvar-local modeline--remote-host-cache nil
+  "Cons of (DIRECTORY . HOST) caching `remote-host?' for the mode line.")
+
+(defun modeline-remote-host ()
+  "Return `remote-host?' of `default-directory', cached per buffer.
+`file-remote-p' consults every entry of `file-name-handler-alist', which is too
+much work to repeat for each window on each redisplay."
+  (let ((dir default-directory))
+    (unless (equal (car modeline--remote-host-cache) dir)
+      (setq modeline--remote-host-cache (cons dir (remote-host? dir))))
+    (cdr modeline--remote-host-cache)))
+
+(defun modeline-remote ()
+  (when-let* ((host (modeline-remote-host)))
+    (concat (propertize host 'face '(:inherit warning)) ":")))
+
+(defvar modeline-buffer-id (propertized-buffer-identification "%b")
+  "Pre-propertized buffer name.
+The properties never change, so cons the string once rather than per redisplay.")
+
+(defun modeline-vc ()
+  (and (not (modeline-remote-host))
+       vc-mode
+       (concat " (" (string-trim vc-mode) ")")))
+
+;; PERF: read which-func's own cache (refreshed on an idle timer by
+;; `which-func-update') rather than calling `which-function' -- i.e. imenu -- on
+;; every redisplay.
+(defun modeline-which-func ()
+  (and (bound-and-true-p which-func-mode)
+       (let ((fn (gethash (selected-window) which-func-table)))
+         (and fn
+              ;; escape % so it isn't read as a mode line spec
+              (concat "[" (propertize (string-replace "%" "%%" fn)
+                                      'face 'which-func
+                                      'local-map which-func-keymap
+                                      'mouse-face 'mode-line-highlight)
+                      "]")))))
+
+(defun modeline-nyan ()
+  (and (bound-and-true-p nyan-mode)
+       (concat " " (nyan-create))))
+
+(defun modeline-macro ()
+  (and (or defining-kbd-macro executing-kbd-macro)
+       (concat " (MACRO " (char-to-string evil-this-macro) ")")))
+
+;;------------------------------------------------------------------------------
+;; venv
+;;------------------------------------------------------------------------------
+
+(defun modeline-venv-help-echo (window _object _pos)
+  "Resolve the venv tooltip on hover, keeping `abbreviate-file-name' off the
+redisplay path."
+  (with-current-buffer (window-buffer window)
+    (if (bound-and-true-p buffer-env-active)
+        (abbreviate-file-name buffer-env-active)
+      "")))
+
+(defvar modeline--venv-indicator
+  (propertize " " 'help-echo #'modeline-venv-help-echo))
+
+(defvar modeline--no-venv-indicator
+  (propertize "No venv " 'face 'error))
+
+(defun modeline-venv ()
+  (cond ((bound-and-true-p buffer-env-active) modeline--venv-indicator)
+        ((memq major-mode '(python-ts-mode python-mode)) modeline--no-venv-indicator)))
+
+;;------------------------------------------------------------------------------
+;; lsp
+;;------------------------------------------------------------------------------
+
+(defun modeline-lsp-help-echo (window _object _pos)
+  "Format the (large) server-info plist only when the tooltip is shown."
+  (with-current-buffer (window-buffer window)
+    (format "%s" (eglot--server-info (eglot-current-server)))))
+
+(defvar-local modeline--lsp-segment nil
+  "Cached mode line LSP indicator.
+Recomputed by `modeline-lsp-update-segment' when eglot attaches or detaches,
+never in the mode line itself -- `eglot--server-info' walks an eieio object.")
+
+(defun modeline-lsp-update-segment ()
+  "Refresh `modeline--lsp-segment' for the current buffer."
+  (setq modeline--lsp-segment
+        (and (fboundp #'eglot-managed-p)
+             (eglot-managed-p)
+             (let* ((lsp-server-info (eglot--server-info (eglot-current-server)))
+                    (lsp-server-name (plist-get lsp-server-info :name))
+                    (icon (pcase lsp-server-name
+                            ("basedpyright" "󱔎 " )
+                            ("ty" " ")
+                            ("rustanalyzer" " ")
+                            ("rass" " ")
+                            ("pyrefly-lsp" "🦋 ")
+                            ("ty+pyrefly-lsp" " ")
+                            ("slang-server" " ")
+                            (_ " "))))
+               (propertize icon 'help-echo #'modeline-lsp-help-echo))))
+  (force-mode-line-update))
+
+(add-hook 'eglot-managed-mode-hook #'modeline-lsp-update-segment)
+
+;;------------------------------------------------------------------------------
+;; flycheck / position
+;;------------------------------------------------------------------------------
+
+(defun modeline-flycheck ()
+  (and (bound-and-true-p flycheck-mode)
+       (bound-and-true-p flycheck-enabled-checkers)
+       (if modeline-show-flycheck-names
+           (format "(%s) %s "
+                   (string-join (mapcar #'symbol-name flycheck-enabled-checkers) " ")
+                   modeline--flycheck-status)
+         (concat modeline--flycheck-status " "))))
+
+(defun modeline-position ()
+  (if (eq major-mode 'pdf-view-mode)
+      (format "%s / %s " (pdf-view-current-page) (pdf-cache-number-of-pages))
+    ;; constant string -- redisplay expands the %-constructs itself
+    "(L%l C%c %p) "))
+
+;;------------------------------------------------------------------------------
+;; Format
+;;------------------------------------------------------------------------------
+
 (setq-default mode-line-format
               '(
                 ;;LEFT
@@ -124,33 +265,18 @@ any file on disk."
                 mode-line-mule-info
                 "%* "
 
-                (:eval (and-let* ((host (remote-host? default-directory)))
-                         (concat (propertize host 'face '(:inherit warning)) ":")))
+                (:eval (modeline-remote))
 
-                (:eval (propertized-buffer-identification "%b"))
+                modeline-buffer-id
 
                 ;; git
-                (:eval (and-let* ((m (and (not (remote-host? default-directory)) vc-mode)))
-                         (concat " (" (string-trim m) ")")))
+                (:eval (modeline-vc))
 
+                " " (:eval (modeline-which-func))
 
-                ;; PERF: read which-func's own cache (refreshed on an idle timer
-                ;; by `which-func-update') rather than calling `which-function'
-                ;; -- i.e. imenu -- on every redisplay.
-                " " (:eval (and-let* (((bound-and-true-p which-func-mode))
-                                      (fn (gethash (selected-window) which-func-table)))
-                             ;; escape % so it isn't read as a mode line spec
-                             (concat "[" (propertize (string-replace "%" "%%" fn)
-                                                     'face 'which-func
-                                                     'local-map which-func-keymap
-                                                     'mouse-face 'mode-line-highlight)
-                                     "]")))
+                (:eval (modeline-nyan))
 
-                (:eval (and (bound-and-true-p nyan-mode)
-                            (concat " " (nyan-create))))
-                
-                (:eval (and (or defining-kbd-macro executing-kbd-macro)
-                            (concat " (MACRO " (char-to-string evil-this-macro) ")")))
+                (:eval (modeline-macro))
 
                 ;; RIGHT PAD
                 mode-line-format-right-align
@@ -158,47 +284,15 @@ any file on disk."
                 ;; RIGHT
 
                 ;; venv
-                (:eval
-                 (or (and (bound-and-true-p buffer-env-active)
-                          (propertize " " 'help-echo (abbreviate-file-name buffer-env-active) ))
-                     (and (or (eq major-mode 'python-ts-mode)
-                              (eq major-mode 'python-mode))
-                          (propertize  "No venv " 'face 'error))))
+                (:eval (modeline-venv))
 
                 ;; lsp
-                (:eval (and (fboundp #'eglot-managed-p)
-                            (eglot-managed-p)
-                            (let* ((lsp-server-info (eglot--server-info (eglot-current-server)))
-                                   (lsp-server-name (plist-get lsp-server-info :name))
-                                   (icon (pcase lsp-server-name
-                                           ("basedpyright" "󱔎 " )
-                                           ("ty" " ")
-                                           ("rustanalyzer" " ")
-                                           ("rass" " ")
-                                           ("pyrefly-lsp" "🦋 ")
-                                           ("ty+pyrefly-lsp" " ")
-                                           ("slang-server" " ")
-                                           (_ " "))))
-                              ;; PERF: defer formatting the (large) server-info
-                              ;; plist until the tooltip is actually shown
-                              (propertize icon 'help-echo
-                                          (lambda (&rest _)
-                                            (format "%s" (eglot--server-info
-                                                          (eglot-current-server))))))))
+                modeline--lsp-segment
 
                 ;; flycheck
-                (:eval (and (bound-and-true-p flycheck-mode)
-                            (bound-and-true-p flycheck-enabled-checkers)
-                            (let ((status modeline--flycheck-status))
-                              (if modeline-show-flycheck-names
-                                  (let ((checkers (string-join (mapcar 'symbol-name flycheck-enabled-checkers) " ")))
-                                    (format "(%s) %s " checkers status))
-                                (concat status " ")))))
+                (:eval (modeline-flycheck))
 
                 ;; position
-                (:eval (let ((page (pcase major-mode
-                                     ('pdf-view-mode (format "%s / %s" (pdf-view-current-page) (pdf-cache-number-of-pages)))
-                                     (_  "(L%l C%c %p)"))))
-                         (concat page " ")))))
+                (:eval (modeline-position))))
 
 (which-function-mode 1)
