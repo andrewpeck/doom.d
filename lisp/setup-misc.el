@@ -823,7 +823,12 @@ help instead of keeping it open."
         (my/compress-path buffer-file-name)
       (buffer-name)))
 
-  (setq tab-bar-tab-name-function #'my/tab-bar-name))
+  (setq tab-bar-tab-name-function #'my/tab-bar-name)
+
+  ;; PERF: skip the `string-pixel-width' + `frame-inner-width' measuring pass
+  ;; `tab-bar-make-keymap' otherwise does on every redisplay.
+  (setq tab-bar-auto-width nil))
+
 
 ;;------------------------------------------------------------------------------
 ;; Vim Tab Bar
