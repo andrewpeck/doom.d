@@ -25,6 +25,25 @@
         flycheck-relevant-error-other-file-show nil)
 
   ;;------------------------------------------------------------------------------
+  ;; Error display
+  ;;
+  ;; PERF: Doom's `:checkers syntax' module puts `+syntax-init-popups-h' on
+  ;; `flycheck-mode-hook', which -- without the `+childframe' flag -- turns on
+  ;; `flycheck-popup-tip-mode'. popup.el renders its tip as one overlay per line,
+  ;; walking the window with `vertical-motion' for each, and pads the buffer with
+  ;; real text to make room. A memory profile showed a single session allocating
+  ;; 790MB (49% of all allocation) under `popup-create', and because it modifies
+  ;; the buffer, every tooltip also fired `eglot--after-change',
+  ;; `flycheck-handle-change' and a full mode-line re-evaluation. With `gcmh' that
+  ;; garbage turns into a long GC exactly when you stop typing.
+  ;;
+  ;; Show errors in the echo area instead: no overlays, no buffer modification, no
+  ;; forced redisplay.
+  (remove-hook 'flycheck-mode-hook #'+syntax-init-popups-h)
+  (setq flycheck-display-errors-function
+        #'flycheck-display-error-messages-unless-error-list)
+
+  ;;------------------------------------------------------------------------------
   ;; Eglot bridge
   ;;
   ;; Flycheck 38 has this built in (`eglot-check' + `flycheck-eglot-mode'), so
