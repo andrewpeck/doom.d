@@ -9,11 +9,6 @@
   :load-path "~/.emacs.d/.local/straight/repos/tramp"
   :config
 
-  ;; memoize the call to file-remote-p, since on remote (TRAMP) buffers it is VERY slow
-  (when (not (get 'file-remote-p :memoize-original-function))
-    (require 'memoize)
-    (memoize 'file-remote-p))
-
   (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto"
         tramp-use-ssh-controlmaster-options t
         remote-file-name-access-timeout 1.0
