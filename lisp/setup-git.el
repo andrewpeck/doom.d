@@ -151,6 +151,15 @@ Falls back to the current branch only if no remote main branch is found."
   ;; I don't use projectile anymore
   (remove-hook 'magit-refresh-buffer-hook '+magit-invalidate-projectile-cache-h)
 
+  ;; PERF: projectile advises `delete-file' with
+  ;; `delete-file-projectile-remove-from-cache', which runs
+  ;; `projectile-project-p' + `projectile-project-root' + `file-truename' +
+  ;; `file-relative-name' on every deletion. Magit churns through temp files
+  ;; (every `magit--git-insert', plus two per hunk from `smerge-refine-regions'),
+  ;; so this showed up as ~18% of a `magit-stage'. Since projectile isn't used
+  ;; here, turn its cache maintenance off so the advice returns immediately.
+  (setq projectile-auto-update-cache nil)
+
   ;; https://gist.github.com/danielmartin/34bc36dafd8f900de483394087230f48
   (defun my/magit-change-commit-author (arg)
     "Change the commit author during an interactive rebase in Magit.
