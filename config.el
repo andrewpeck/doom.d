@@ -200,6 +200,12 @@
 (run-with-idle-timer 3 nil (lambda () (require 'org)))
 (run-with-idle-timer 3 nil (lambda () (require 'psi-emacs)))
 
+;; Exit cleanly on SIGTERM at shutdown rather than blocking on a confirmation
+;; prompt nobody can answer. Save first so nothing is lost.
+(setq confirm-kill-emacs nil       ; Doom defaults this to #'doom-quit-p
+      confirm-kill-processes nil)  ; don't prompt about live subprocesses
+(add-hook 'kill-emacs-hook (lambda () (save-some-buffers t)))
+
 ;; Local Variables:
 ;; eval: (make-variable-buffer-local 'kill-buffer-hook)
 ;; eval: (add-hook 'kill-buffer-hook (lambda () (sort-elisp-block) (save-buffer)) nil t)
