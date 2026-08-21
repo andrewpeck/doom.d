@@ -81,17 +81,7 @@ or for a single package (uv-install \"mypy\")
                        'buffer-env-safe-files
                        (push (cons file hash) buffer-env-safe-files))))
 
-          (buffer-env-update))))
-
-    (when (getenv "VIRTUAL_ENV")
-      (unless (executable-find "mypy")
-        (uv-install '("mypy")))
-      (unless (executable-find "flake8")
-        (uv-install '("flake8")))
-      (unless (executable-find "ty")
-        (uv-install '("ty")))
-      (unless (executable-find "rass")
-        (uv-install '("rassumfrassum")))))
+          (buffer-env-update)))))
 
   :config
 
