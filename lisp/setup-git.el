@@ -268,3 +268,108 @@ on the current line, if any."
   ;; don't update diff-hl if on remote-host
   (advice-add 'diff-hl-update-once :before-until
               (lambda () (remote-host? default-directory))))
+
+;;------------------------------------------------------------------------------
+;; Pre-commit on Save
+;;------------------------------------------------------------------------------
+
+(defvar my/pre-commit-on-save t
+  "Whether to run pre-commit hooks on a file after saving it.")
+
+(defconst my/pre-commit-config-file ".pre-commit-config.yaml")
+
+(defvar-local my/pre-commit-root 'unset
+  "Cached pre-commit root for this buffer.
+
+Either the directory holding the `my/pre-commit-config-file' which
+applies to this buffer, nil if pre-commit is not relevant here, or the
+symbol `unset' if it hasn't been looked up yet.  Looking this up walks
+the directory tree, so it is done once per buffer from `find-file-hook'
+rather than on every save.")
+
+(defvar-local my/pre-commit-process nil
+  "The pre-commit process running for this buffer, if any.")
+
+(defun my/pre-commit-root ()
+  "Return the pre-commit root of the current buffer, looking it up if needed.
+
+Returns nil when pre-commit doesn't apply here."
+  (if (not (eq my/pre-commit-root 'unset)) my/pre-commit-root
+    (setq my/pre-commit-root
+          (and buffer-file-name
+               ;; don't pay for a tree walk (or a pre-commit run) over TRAMP
+               (not (remote-host? buffer-file-name))
+               ;; git internals: COMMIT_EDITMSG, rebase todos, ...
+               (not (string-match-p "/\\.git/" buffer-file-name))
+               (locate-dominating-file buffer-file-name ".git")
+               (executable-find "pre-commit")
+               (locate-dominating-file buffer-file-name my/pre-commit-config-file)))))
+
+(defun my/pre-commit-output-buffer ()
+  "Return the buffer holding pre-commit output for the current buffer."
+  (get-buffer-create (format " *pre-commit: %s*" buffer-file-name)))
+
+(defun my/pre-commit-sentinel (buffer file)
+  "Return a sentinel reverting BUFFER if pre-commit rewrote FILE."
+  (lambda (proc _event)
+    (when (and (memq (process-status proc) '(exit signal))
+               (buffer-live-p buffer))
+      (with-current-buffer buffer
+        (setq my/pre-commit-process nil)
+        (let ((name (file-name-nondirectory file))
+              (failed (not (eq 0 (process-exit-status proc)))))
+          (cond
+           ;; file untouched on disk: nothing to revert, but the hooks may
+           ;; still have complained about something
+           ((verify-visited-file-modtime buffer)
+            (when failed
+              (message "pre-commit failed on %s (see `my/pre-commit-show-output')" name)))
+           ;; don't clobber edits made while pre-commit was running
+           ((buffer-modified-p)
+            (message "pre-commit rewrote %s, but the buffer has unsaved changes; not reverting" name))
+           (t
+            (let ((inhibit-message t))
+              (revert-buffer :ignore-auto :noconfirm :preserve-modes))
+            (message "pre-commit reformatted %s" name))))))))
+
+(defun my/pre-commit-run-on-file ()
+  "Run pre-commit on the file visited by the current buffer, asynchronously.
+
+When the hooks finish, the buffer is reverted if they rewrote the file.
+Does nothing when the buffer isn't in a repo using pre-commit, or when a
+previous run is still going."
+  (interactive)
+  (when-let* ((root (my/pre-commit-root))
+              (file buffer-file-name)
+              ((not (process-live-p my/pre-commit-process))))
+    (let ((default-directory root)
+          (output (my/pre-commit-output-buffer)))
+      (with-current-buffer output (erase-buffer))
+      (setq my/pre-commit-process
+            (make-process
+             :name "pre-commit"
+             :buffer output
+             :noquery t
+             :connection-type 'pipe
+             ;; --files (rather than a bare run) keeps pre-commit from stashing
+             ;; unstaged changes, so the hooks see what we just saved
+             :command (list "pre-commit" "run" "--color=never" "--files" file)
+             :sentinel (my/pre-commit-sentinel (current-buffer) file))))))
+
+(defun my/pre-commit-show-output ()
+  "Show the output of the last pre-commit run on this buffer."
+  (interactive)
+  (if-let* ((buf (get-buffer (format " *pre-commit: %s*" buffer-file-name))))
+      (display-buffer buf)
+    (message "No pre-commit output for this buffer.")))
+
+(add-hook! 'find-file-hook
+  (defun my/pre-commit-cache-root-h ()
+    "Cache whether pre-commit applies here, so saving doesn't have to look."
+    (when my/pre-commit-on-save
+      (my/pre-commit-root))))
+
+(add-hook! 'after-save-hook
+  (defun my/pre-commit-on-save-h ()
+    (when my/pre-commit-on-save
+      (my/pre-commit-run-on-file))))
