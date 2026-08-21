@@ -25,8 +25,6 @@
 (package! swiper       :disable t)
 (package! string-inflection :disable t)
 
-;; (package! corfu :recipe (:host github :repo "minad/corfu") :pin "20009d4fcc31770200b63a1440f15320ee009def")
-;; (package! cape :recipe (:host github :repo "minad/cape") :pin "7a6a752bc694e81853d915281a73a9c3acc69757")
 (package! yasnippet-capf :recipe (:host github :repo "elken/yasnippet-capf"))
 
 ;; start:sort
@@ -127,6 +125,8 @@
 (package! xr                      :pin "07369f3ceeda919b06d2356d66bfbcbf8975d09d")                           ; xr is rx in reverse
 ;; end:sort
 
+;; (package! corfu :recipe (:host github :repo "minad/corfu") :pin "20009d4fcc31770200b63a1440f15320ee009def")
+;; (package! cape :recipe (:host github :repo "minad/cape") :pin "7a6a752bc694e81853d915281a73a9c3acc69757")
 ;; (package! vim-tab-bar.el          :pin "3ab286ffc3ce5e4215d9d7f502a6982111e49207" :recipe (:host github :repo "jamescherti/vim-tab-bar.el"))
 ;; (package! tramp-hlo               :pin "b726b4042e96ac5cead396c8d12c01e6bad2bd78" :recipe (:host github :repo "jsadusk/tramp-hlo"))
 ;; (package! eglot                   :pin "ad7e201bb6d892895b07048f809fe336f6935109" :recipe (:host github :repo "joaotavora/eglot"))
