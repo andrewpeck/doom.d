@@ -28,6 +28,9 @@
   (add-to-list 'apheleia-formatters '(sysarch-sv-format "sysarch-sv-format" "--stdout" "-"))
   (add-to-list 'apheleia-mode-alist '(verilog-ts-mode . sysarch-sv-format))
 
+  (add-to-list 'apheleia-formatters '(yamlfmt "yamlfmt" "-"))
+  (add-to-list 'apheleia-mode-alist '(yaml-ts-mode . yamlfmt))
+
   (add-to-list 'apheleia-formatters '(docstrfmt "docstrfmt"))
   (add-to-list 'apheleia-mode-alist '(rst-mode . docstrfmt))
 
