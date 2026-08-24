@@ -39,9 +39,61 @@
       ("strange"      'summerfruit)
       (_              'ef-cyprus))))
 
-(defvar dark-mode 'dark)
+;;------------------------------------------------------------------------------
+;; Follow the session color scheme
+;;------------------------------------------------------------------------------
 
-(setq doom-theme ap/dark-theme)
+;; ~/dotfiles/scripts/color-scheme owns the light/dark switch for the whole
+;; session -- the i3 bar button, the GTK theme, the XDG portal preference that
+;; firefox and the electron apps read -- and mirrors whichever one it settled
+;; on into the file below.  Watching that file rather than the portal itself is
+;; what makes this work in a terminal emacs and in the daemon, neither of which
+;; is a D-Bus client; the cost is one inotify watch.
+
+(defvar ap/color-scheme-file (expand-file-name "~/.local/state/color-scheme")
+  "File in which the session publishes its current color scheme.")
+
+(defvar ap/color-scheme-watch nil
+  "The `file-notify' descriptor watching `ap/color-scheme-file'.")
+
+(defun ap/color-scheme ()
+  "Return the session color scheme as `dark' or `light', or nil if unknown."
+  (when (file-readable-p ap/color-scheme-file)
+    (with-temp-buffer
+      (insert-file-contents ap/color-scheme-file)
+      (pcase (string-trim (buffer-string))
+        ("dark" 'dark)
+        ("light" 'light)))))
+
+(defun ap/sync-color-scheme ()
+  "Match the theme to the session color scheme.
+Does nothing when the scheme cannot be read, so an emacs on a machine
+without the script keeps the theme it started with."
+  (interactive)
+  (pcase (ap/color-scheme)
+    ('dark (set-dark-mode))
+    ('light (set-light-mode))))
+
+(defun ap/watch-color-scheme ()
+  "Reload the theme whenever the session color scheme changes."
+  (interactive)
+  (require 'filenotify)
+  (when (file-notify-valid-p ap/color-scheme-watch)
+    (file-notify-rm-watch ap/color-scheme-watch))
+  (setq ap/color-scheme-watch
+        (when (file-exists-p ap/color-scheme-file)
+          (file-notify-add-watch
+           ap/color-scheme-file '(change)
+           (lambda (event)
+             ;; the script rewrites the file in place rather than renaming over
+             ;; it -- precisely so this watch survives the switch -- so
+             ;; `changed' is the only action that ever arrives here
+             (when (eq (nth 1 event) 'changed)
+               (ap/sync-color-scheme)))))))
+
+(defvar dark-mode (or (ap/color-scheme) 'dark))
+
+(setq doom-theme (if (eq dark-mode 'light) ap/light-theme ap/dark-theme))
 
 ;;------------------------------------------------------------------------------
 ;; Theme Customization
@@ -153,3 +205,14 @@
 
 (add-hook 'after-make-frame-functions
           #'reload-frame-theme)
+
+(ap/watch-color-scheme)
+
+;; A daemon that came up before the state file existed has no watch at all.  A
+;; new frame is the moment that matters and a good one to notice, so re-arm
+;; there and take the scheme that was missed.
+(add-hook 'after-make-frame-functions
+          (lambda (_frame)
+            (unless (file-notify-valid-p ap/color-scheme-watch)
+              (ap/watch-color-scheme)
+              (ap/sync-color-scheme))))
