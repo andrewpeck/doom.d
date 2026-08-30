@@ -774,18 +774,80 @@ The block should be encased by
                      (if active? (region-end) (point-max))))))
 
 ;;;###autoload
+(defun package-latest-sha (repo &optional host branch)
+  "Return the latest commit sha of BRANCH (default HEAD) for REPO on HOST.
+REPO is an \"owner/name\" string, HOST is a symbol or string understood by
+straight (defaults to github). Returns nil if the sha can't be fetched."
+  (let* ((host (or host "github"))
+         (url (straight-vc-git--encode-url repo (if (stringp host) (intern host) host)))
+         ;; never let git block on a credential prompt inside emacs
+         (process-environment (append '("GIT_TERMINAL_PROMPT=0"
+                                        "GIT_SSH_COMMAND=ssh -oBatchMode=yes")
+                                      process-environment))
+         (result (doom-call-process "git" "ls-remote" url (or branch "HEAD")))
+         ;; stderr is folded into the output, so a failed call would otherwise
+         ;; hand back "fatal:" as if it were a sha
+         (out (and (zerop (car result)) (cdr result)))
+         (sha (car (split-string (or out "") "[ \t\n]" t))))
+    (when (and sha (string-match-p "\\`[0-9a-f]\\{40\\}\\'" sha))
+      sha)))
+
+;;;###autoload
 (defun github-package ()
   (let ((clip (current-kill 0))
         (repo "")
         (pkg  "")
+        (pin  "0000000000000000000000000000000000000000")
         (host "github"))
+
+    (require 'doom-lib '(packages))
+    (require 'straight)
 
     (when (string-match ".*github.com/\\([^/]*\\)/\\(.*\\)" clip)
       (setq repo (concat (match-string 1 clip) "/" (match-string 2 clip)))
       (setq pkg  (match-string 2 clip))
       (setq host "github"))
 
-    (format "(package! %s :recipe (:host %s :repo \"%s\"))" pkg host repo)))
+    (when (and (not (string-empty-p repo))
+               (string-match-p "\\`0+\\'" pin))
+      (setq pin (or (package-latest-sha repo host) pin)))
+
+    ;; the snippet inserts our return value, so defer the alignment until after
+    ;; this command (and the insertion) has finished
+    (run-at-time 0 nil #'align-package-pins)
+
+    (format "(package! %s :pin \"%s\" :recipe (:host %s :repo \"%s\"))" pkg pin host repo)))
+
+;;;###autoload
+(defun align-package-pins (&optional beg end)
+  "Align `package!' forms on their :pin keyword.
+Operates on the active region, or on the contiguous block of
+`package!' lines surrounding point."
+  (interactive (when (region-active-p)
+                 (list (region-beginning) (region-end))))
+  (save-excursion
+    (unless (and beg end)
+      (let ((package-line-p
+             (lambda ()
+               (save-excursion
+                 (beginning-of-line)
+                 (looking-at-p "[ \t]*(package!")))))
+        (when (funcall package-line-p)
+          (while (and (not (bobp))
+                      (zerop (forward-line -1))
+                      (funcall package-line-p)))
+          (unless (funcall package-line-p) (forward-line 1))
+          (setq beg (line-beginning-position))
+          (while (and (funcall package-line-p)
+                      (zerop (forward-line 1))))
+          ;; guard against a final line with no trailing newline
+          (setq end (if (funcall package-line-p)
+                        (point-max)
+                      (line-beginning-position))))))
+    (when (and beg end)
+      ;; pad with spaces, never tabs
+      (let ((indent-tabs-mode nil))
+        (align-regexp beg end "\\(\\s-*\\):pin" 1 1 nil)))))
 
 ;;---------------------------------------------------------------------------------
 ;; HDL Helpers
