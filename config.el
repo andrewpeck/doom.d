@@ -138,7 +138,7 @@
           truncate-string-ellipsis "…" ; Unicode ellispis are nicer than "...", and also save /precious/ space
           x-stretch-cursor t           ; Stretch cursor to the glyph width
 
-          browse-url-browser-function 'browse-url-firefox
+          browse-url-browser-function 'browse-url-default-browser
 
           abbrev-file-name (concat doom-user-dir "abbrev_defs")
 
