@@ -80,7 +80,13 @@
   :init
   (map! :leader (:prefix "o"
                  :desc "Vterm Toggle"         "t"  #'+vterm/toggle-here
-                 :desc "Vterm Toggle Root"    "T"  #'+vterm/toggle)))
+                 :desc "Vterm In New Tab"     "T"  #'my/vterm-new-tab
+                 :desc "Vterm Toggle Root"    "v"  #'+vterm/toggle))
+  :config
+  ;; Name vterm buffers after the title the shell reports (fish sets it from
+  ;; the running command + pwd), so the frame title reads like a dedicated
+  ;; terminal's instead of a bare "*vterm*".
+  (setopt vterm-buffer-name-string "*vterm - %s*"))
 
 ;;------------------------------------------------------------------------------
 ;; Rainbow

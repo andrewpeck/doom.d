@@ -2146,22 +2146,43 @@ usually want to open a terminal at the `default-directory`."
   (+vterm--configure-project-root-and-display
    t
    (lambda ()
-     (let ((buffer-name (format "*doom:vterm-popup:%s*" "main")))
+     ;; `vterm-buffer-name-string' renames these buffers to whatever title the
+     ;; shell reports, so track the popup by its `+vterm--id', never by name.
+     (let* ((buffer-name (format "*doom:vterm-popup:%s*" "main"))
+            (buffer (or (cl-loop for buf in (doom-buffers-in-mode 'vterm-mode)
+                                 if (equal (buffer-local-value '+vterm--id buf)
+                                           buffer-name)
+                                 return buf)
+                        (get-buffer-create buffer-name))))
 
-       (if-let* ((win (get-buffer-window buffer-name)))
+       (if-let* ((win (get-buffer-window buffer)))
            (delete-window win)
 
-         (let ((buffer (or (cl-loop for buf in (doom-buffers-in-mode 'vterm-mode)
-                                    if (equal (buffer-local-value '+vterm--id buf)
-                                              buffer-name)
-                                    return buf)
-                           (get-buffer-create buffer-name))))
-           (with-current-buffer buffer
-             (unless (eq major-mode 'vterm-mode)
-               (vterm-mode))
-             (setq-local +vterm--id buffer-name))
-           (pop-to-buffer buffer))
-         (get-buffer buffer-name))))))
+         (with-current-buffer buffer
+           (unless (eq major-mode 'vterm-mode)
+             (vterm-mode))
+           (setq-local +vterm--id buffer-name))
+         (pop-to-buffer buffer))
+
+       buffer))))
+
+;;;###autoload
+(defun my/vterm-new-tab ()
+  "Open a full-frame vterm in a new tab, at `default-directory'.
+
+Unlike `+vterm/toggle-here', which shares a single popup window, this
+spawns a fresh terminal every time, so several can live side by side in
+their own tabs."
+  (interactive)
+  (require 'vterm)
+  (+vterm--configure-project-root-and-display
+   t
+   (lambda ()
+     (tab-bar-new-tab)
+     (delete-other-windows)
+     ;; Doom popup-ifies anything matching "^\\*vterm"; we want the whole pane.
+     (let (display-buffer-alist)
+       (vterm t)))))
 
 ;;------------------------------------------------------------------------------
 ;; Wrapping
