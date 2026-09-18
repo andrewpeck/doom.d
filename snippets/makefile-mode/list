@@ -5,5 +5,5 @@
 # --
 help:  ## show this message
 	@awk 'BEGIN {FS = ":.*##"; print "usage: make <target> [ARGS=...]\n"} \
-	     /^[a-z][a-z-]*:.*##/ {t[++n] = $$1; d[n] = $$2; if (length($$1) > w) w = length($$1)} \
+	     /^[^:#[:space:]]+:.*##/ {t[++n] = \$\$1; d[n] = \$\$2; if (length(\$\$1) > w) w = length(\$\$1)} \
 	     END {for (i = 1; i <= n; i++) printf "  %-*s %s\n", w, t[i], d[i]}' $(MAKEFILE_LIST)
