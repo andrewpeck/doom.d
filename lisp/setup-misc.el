@@ -222,7 +222,51 @@
   ;; subprocesses per buffer, every `auto-revert-interval' (1s). The mode line
   ;; branch is instead refreshed for the buffer you're actually looking at; see
   ;; `my/vc-refresh-state-soon' in setup-modeline.el.
-  (auto-revert-check-vc-info nil))
+  (auto-revert-check-vc-info nil)
+
+  :config
+
+  ;; PERF: `auto-revert-buffers' polls every tracked buffer once per
+  ;; `auto-revert-interval', which means a blocking stat() per buffer. Buffers
+  ;; on network/FUSE mounts can make that stat() hang for seconds if the NAS is
+  ;; slow or unresponsive, freezing all of Emacs since it's single-threaded.
+  ;; Exclude such buffers from Global Auto-Revert entirely, rather than just
+  ;; polling them less often.
+
+  (defvar my/auto-revert-network-fs-types
+    '("nfs" "nfs4" "cifs" "smb3" "smbfs" "fuse.sshfs" "fuse.bindfs" "afs")
+    "Filesystem types excluded from Global Auto-Revert Mode.
+See `my/auto-revert-network-fs-p'.")
+
+  (defun my/file-system-type (file)
+    "Return the /proc/mounts filesystem type FILE lives on, or nil."
+    (when (file-readable-p "/proc/mounts")
+      (let ((file (expand-file-name file))
+            (best-len -1)
+            best-type)
+        (with-temp-buffer
+          (insert-file-contents "/proc/mounts")
+          (goto-char (point-min))
+          (while (re-search-forward "^\\S-+ \\(\\S-+\\) \\(\\S-+\\) " nil t)
+            (let ((mount-point (match-string 1)))
+              ;; `>=', not `>': stacked mounts (e.g. autofs, then the real
+              ;; mount triggered under it) share a mount point, and later
+              ;; entries in /proc/mounts are the ones currently in effect.
+              (when (and (string-prefix-p mount-point file)
+                         (>= (length mount-point) best-len))
+                (setq best-len (length mount-point)
+                      best-type (match-string 2))))))
+        best-type)))
+
+  (defun my/auto-revert-network-fs-p (buffer)
+    "Non-nil if BUFFER visits a file on a network/FUSE filesystem.
+Used as `global-auto-revert-ignore-buffer', so such buffers are never
+polled (or watched) by Global Auto-Revert Mode."
+    (when-let* ((file (buffer-file-name buffer))
+                (type (my/file-system-type file)))
+      (member type my/auto-revert-network-fs-types)))
+
+  (setq-default global-auto-revert-ignore-buffer #'my/auto-revert-network-fs-p))
 
 ;;------------------------------------------------------------------------------
 ;; Citar
@@ -784,7 +828,9 @@ help instead of keeping it open."
   :after (:any text-mode prog-mode)
   :commands (drag-stuff-define-keys)
   :init
-  (drag-stuff-define-keys))
+  (drag-stuff-define-keys)
+  :config
+  (drag-stuff-global-mode +1))
 
 ;;------------------------------------------------------------------------------
 ;; Tab-bar
