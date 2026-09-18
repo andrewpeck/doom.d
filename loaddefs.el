@@ -515,6 +515,17 @@ Replace common Unicode characters with their ASCII equivalents.
 Handles dashes, quotes, spaces, ellipsis, bullets, and other
 typographic characters that have reasonable ASCII representations.
 Unicode with no ASCII equivalent is left unchanged." t)
+(autoload 'my/qbittorrent-upload "my-autoloads/my-defuns" "\
+Add FILES to the seedbox qBittorrent with the qbt-add script.
+Interactively these are the marked files in `dired-mode', or the
+.torrent file the current buffer is visiting.
+
+(fn &optional FILES)" t)
+(autoload 'my/seedbox-download "my-autoloads/my-defuns" "\
+Download a file from the seedbox, chosen with completion.
+Listing the seedbox takes a few seconds, so it runs asynchronously and
+the prompt appears once it arrives; the transfer then runs in its own
+buffer.  Both land in the `default-directory' of the calling buffer." t)
 (register-definition-prefixes "my-autoloads/my-defuns" '("doom--line-number-style" "gvim" "highlight-non-ascii-highlighted" "my/" "normalize-comment-strings-length" "org-" "unique-lines-region"))
 
 
@@ -563,6 +574,16 @@ Unicode with no ASCII equivalent is left unchanged." t)
 Find resistors for a voltage regulator." t)
 (register-definition-prefixes "my-autoloads/regulator" '("e192" "e24" "e48" "e96" "regulator-format-resistor"))
 
+
+
+;;; Generated autoloads from my-autoloads/test.el
+
+(autoload 'torrent-mode "my-autoloads/test" "\
+Major mode for torrent files.
+
+(fn)" t)
+(add-to-list 'auto-mode-alist '("\\.torrent\\'" . torrent-mode))
+(register-definition-prefixes "my-autoloads/test" '("torrent-mode-"))
 
 ;;; End of scraped data
 

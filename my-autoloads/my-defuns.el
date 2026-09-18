@@ -2382,6 +2382,87 @@ Unicode with no ASCII equivalent is left unchanged."
     (insert (mapconcat #'identity unique-lines "\n"))))
 
 ;;------------------------------------------------------------------------------
+;; qbittorrent
+;;------------------------------------------------------------------------------
+
+(defun my/qbittorrent--torrent-files ()
+  "Return the .torrent files implied by the current buffer.
+In `dired-mode' these are the marked files, or the file at point if
+none are marked; elsewhere it is the file the buffer is visiting."
+  (let ((files (if (derived-mode-p 'dired-mode)
+                   (dired-get-marked-files)
+                 (when (buffer-file-name)
+                   (list (buffer-file-name))))))
+    (or (seq-filter (lambda (file) (string-match-p "\\.torrent\\'" file)) files)
+        (user-error "No .torrent files to upload"))))
+
+;;;###autoload
+(defun my/qbittorrent-upload (&optional files)
+  "Add FILES to the seedbox qBittorrent with the qbt-add script.
+Interactively these are the marked files in `dired-mode', or the
+.torrent file the current buffer is visiting."
+  (interactive)
+  (let ((files (or files (my/qbittorrent--torrent-files))))
+    (unless (executable-find "qbt-add")
+      (user-error "No qbt-add in PATH (see ~/dotfiles/scripts/qbt-add)"))
+    (with-temp-buffer
+      (unless (eq 0 (apply #'call-process "qbt-add" nil t nil
+                           (mapcar #'expand-file-name files)))
+        (user-error "%s" (string-trim (buffer-string))))
+      (message "%s" (string-trim (buffer-string))))))
+
+(defun my/seedbox-download-file (file)
+  "Download FILE from the seedbox into `default-directory'.
+The transfer runs asynchronously in its own buffer."
+  (async-shell-command
+   (format "sftp-seedit4me --download %s" (shell-quote-argument file))
+   (format "*seedit4me: %s*" file)))
+
+;;;###autoload
+(defun my/seedbox-download ()
+  "Download a file from the seedbox, chosen with completion.
+Listing the seedbox takes a few seconds, so it runs asynchronously and
+the prompt appears once it arrives; the transfer then runs in its own
+buffer.  Both land in the `default-directory' of the calling buffer."
+  (interactive)
+  (unless (executable-find "sftp-seedit4me")
+    (user-error "No sftp-seedit4me in PATH (see ~/dotfiles/scripts/sftp-seedit4me)"))
+  (let ((dir default-directory)
+        (out (generate-new-buffer " *seedit4me-list*"))
+        (err (generate-new-buffer " *seedit4me-list-stderr*")))
+    (make-process
+     :name "seedit4me-list"
+     :buffer out
+     ;; Keep stderr out of the completion candidates.
+     :stderr (make-pipe-process :name "seedit4me-list-stderr"
+                                :buffer err
+                                :sentinel #'ignore
+                                :noquery t)
+     :command '("sftp-seedit4me" "--print-only")
+     :noquery t
+     :sentinel
+     (lambda (proc _event)
+       (when (memq (process-status proc) '(exit signal))
+         (let ((status (process-exit-status proc))
+               (files (with-current-buffer out
+                        (split-string (buffer-string) "\n" t)))
+               (stderr (string-trim (with-current-buffer err (buffer-string)))))
+           (kill-buffer out)
+           (kill-buffer err)
+           ;; `completing-read' must not run inside a process sentinel, which
+           ;; can fire while another minibuffer is already active.
+           (run-at-time
+            0 nil
+            (lambda ()
+              (unless (and (eq status 0) files)
+                (user-error "Seedbox listing failed: %s"
+                            (if (string-empty-p stderr) "no files" stderr)))
+              (let ((default-directory dir))
+                (my/seedbox-download-file
+                 (completing-read "Download: " files nil t)))))))))
+    (message "Listing seedbox...")))
+
+;;------------------------------------------------------------------------------
 ;; Fini
 ;;------------------------------------------------------------------------------
 

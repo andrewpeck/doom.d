@@ -46,6 +46,7 @@
 (package! system-install.el       :pin "3dc95e661f9623ad316022c89c89e2a12f49d35d" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! tabular.el              :pin "b6d9271b39129472098f3df4580b9dfe80acb84b" :recipe (:host github :repo "andrewpeck/tabular.el"))
 (package! timesheet.el            :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
+(package! torrent-mode.el         :pin "ae9cfccef5c7b837eab9b5e7de83501144f80003" :recipe (:host github :repo "andrewpeck/torrent-mode.el"))
 (package! verilog-port-copy       :pin "fbd9a1fbdbc4ff177d79c8c576bdce18860a17c2" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
 (package! verilog-rainbow-mode.el :pin "d95b04c1e22977c935c5e33f40f8b24eba67ab6b" :recipe (:host github :repo "andrewpeck/verilog-rainbow-mode.el"))
 (package! verilog-ts-mode         :pin "ccc3cadc3d9d00f526fc7cd0578dd15714ccfa7a" :recipe (:host github :repo "andrewpeck/verilog-ts-mode"))
