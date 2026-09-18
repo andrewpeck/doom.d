@@ -12,32 +12,27 @@
 (map! :map +popup-buffer-mode-map
       :m "C-<up>" #'+popup/raise)
 
+(set-popup-rule! "^\\*scratch" :ignore t)
 (set-popup-rule! ".*eww.*" :ignore t)
 (set-popup-rule! ".*poporg.*" :ignore t)
 (set-popup-rule! ".*notmuch.*" :ignore t)
 
-(set-popup-rule! "*devdocs*"
+(set-popup-rule! "^\\*devdocs\\*$"
   :side 'right
   :size 0.5
   :select t
   :quit nil)
 
-(set-popup-rule! "*tree-sitter explorer for*"
+(set-popup-rule! "^\\*tree-sitter explorer for .*\\*$"
   :side 'right
   :size 0.5
   :select t
   :quit nil)
 
-(set-popup-rule! ".*HN.*"
-  :side 'right
-  :size 0.5
-  :select t
-  :quit nil)
-
-(set-popup-rule! "*Diff*"
+(set-popup-rule! "^\\*Diff\\*$"
   :ignore t)
 
-(set-popup-rule! "*info*"
+(set-popup-rule! "^\\*info\\*$"
   :modeline t
   :side 'right
   :quit nil
@@ -50,7 +45,6 @@
   :side 'right
   :quit nil
   :size 0.5
-  ;; :vslot -4
   :select nil
   :ttl 0)
 
@@ -62,15 +56,6 @@
   :slot -4
   :select t
   :ttl 0)
-
-;; (set-popup-rule! ".*toc.*"
-;;   :modeline nil
-;;   :side 'left
-;;   :quit nil
-;;   :size 0.6
-;;   :slot -4
-;;   :select t
-;;   :ttl 0)
 
 (set-popup-rule! ".*mu4e-headers.*"
   :modeline t
@@ -89,19 +74,10 @@
   :select nil
   :ttl 0)
 
-(set-popup-rule! "*Backtrace*"
+(set-popup-rule! "^\\*Backtrace\\*$"
   :modeline nil
   :side 'bottom
   :quit nil
   :size 0.3
   :select t
   :ttl nil)
-
-;; ;; synctex view
-;; (set-popup-rule! ".*\.tex"
-;;   :quit nil
-;;   :actions nil
-;;   :side 'right
-;;   :slot -10
-;;   :select t
-;;   :ttl 0)
