@@ -25,7 +25,7 @@
 
                   is-conflict)))
 
-  (add-to-list 'apheleia-formatters '(sysarch-sv-format "sysarch-sv-format" "--stdout" "-"))
+  (add-to-list 'apheleia-formatters '(sysarch-sv-format "svfmt" "--stdout" "-"))
   (add-to-list 'apheleia-mode-alist '(verilog-ts-mode . sysarch-sv-format))
 
   (add-to-list 'apheleia-formatters '(yamlfmt "yamlfmt" "-"))
