@@ -140,6 +140,8 @@
 (declare-function popup/quit-window "+hacks" (args))
 (map! :after archive-mode :map archive-mode-map "-" #'popup/quit-window)
 
+(map! :leader :prefix "o" "s" #'scratch-buffer)
+
 (map! :localleader
       :map python-base-mode-map
       :after python
