@@ -49,11 +49,17 @@ Useful for working on NAS where permissions don't make sense."
   (interactive)
   (shell-command "git config core.fileMode false"))
 
-(defun my/setup-git-author-peckandrew ()
+;; (defun my/setup-git-author-peckandrew ()
+;;   "Setup git author in this pwd."
+;;   (interactive)
+;;   (shell-command "git config user.name \"Andrew Peck\"")
+;;   (shell-command "git config user.email peckandrew@gmail.com"))
+
+(defun my/setup-git-author-andrewpeck ()
   "Setup git author in this pwd."
   (interactive)
   (shell-command "git config user.name \"Andrew Peck\"")
-  (shell-command "git config user.email peckandrew@gmail.com"))
+  (shell-command "git config user.email me@andrewpeck.xyz"))
 
 (use-package! magit
 
