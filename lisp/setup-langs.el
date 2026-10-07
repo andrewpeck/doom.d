@@ -46,6 +46,8 @@
 ;; Tcl
 ;;------------------------------------------------------------------------------
 
+(use-package tcl-ts-mode :defer t)
+
 (use-package! tcl
 
   :config

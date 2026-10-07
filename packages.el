@@ -45,6 +45,7 @@
 (package! resume.el               :pin "e89af4f8d13cbeb8ed06a6f59a655f76c89bee07" :recipe (:host github :repo "andrewpeck/resume.el"))
 (package! system-install.el       :pin "3dc95e661f9623ad316022c89c89e2a12f49d35d" :recipe (:host github :repo "andrewpeck/system-install.el"))
 (package! tabular.el              :pin "b6d9271b39129472098f3df4580b9dfe80acb84b" :recipe (:host github :repo "andrewpeck/tabular.el"))
+(package! tcl-ts-mode             :pin "aeefad206d26bbc8ccbf6fa1cce9925ed6b3ad0f" :recipe (:host github :repo "andrewpeck/tcl-ts-mode.el"))
 (package! timesheet.el            :pin "211adb46f139333294640cb53661c8d92925c257" :recipe (:host github :repo "andrewpeck/timesheet.el"))
 (package! torrent-mode.el         :pin "ae9cfccef5c7b837eab9b5e7de83501144f80003" :recipe (:host github :repo "andrewpeck/torrent-mode.el"))
 (package! verilog-port-copy       :pin "fbd9a1fbdbc4ff177d79c8c576bdce18860a17c2" :recipe (:host github :repo "andrewpeck/verilog-port-copy"))
