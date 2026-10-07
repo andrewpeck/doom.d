@@ -61,7 +61,7 @@
   ;; `flycheck-disabled-checkers'. Remove the unwanted python checkers outright
   ;; so `python-ruff' is what it finds.
   (setq flycheck-checkers
-        (seq-difference flycheck-checkers '(python-flake8 python-pylint python-mypy)))
+        (seq-difference flycheck-checkers '(python-pylint python-mypy)))
 
   (global-flycheck-eglot-mode 1)
 
@@ -267,10 +267,14 @@ See URL `http://nagelfar.sourceforge.net/'."
 ;;------------------------------------------------------------------------------
 
 (after! python
-  (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint python-flake8))
+  (setq-default flycheck-disabled-checkers '(proselint python-mypy python-pylint))
+
+  ;; Ruff handles the normal lint rules; flake8 runs only flake8-hangover rules.
+  (setq-default flycheck-flake8-args '("--select=FHG"))
+  (flycheck-add-next-checker 'python-ruff 'python-flake8)
 
   ;; NOTE: `flycheck-eglot-mode' is enabled globally in the flycheck block
   ;; above, and that block also prunes `flycheck-checkers' so `eglot-check'
-  ;; chains to `python-ruff' on its own -- nothing to set up per buffer.
+  ;; chains to `python-ruff', which then runs flake8 for FHG diagnostics.
 
   (setq-default flycheck-python-ruff-config "~/.ruff-toml"))
