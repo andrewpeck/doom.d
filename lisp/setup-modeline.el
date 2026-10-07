@@ -149,8 +149,71 @@ much work to repeat for each window on each redisplay."
   "Pre-propertized buffer name.
 The properties never change, so cons the string once rather than per redisplay.")
 
+(defvar modeline-file-name-max-width 0.4
+  "Shorten the file name once it is wider than this fraction of the window.")
+
+(defvar-local modeline--file-name-cache nil
+  "List of (FILE (LENGTH . NAME)...) caching the mode line file names,
+longest first.")
+
+(defun modeline-shorten-path (path)
+  "Cut every directory of PATH but the first and last to its first character.
+e.g. ~/work/foo/bar/baz/file.py -> ~/work/f/bar/baz/file.py"
+  (let ((n (length (split-string path "/"))))
+    (string-join
+     (seq-map-indexed (lambda (part i)
+                        (if (or (< i 2) (>= i (- n 2)) (string-empty-p part))
+                            part
+                          (substring part 0 1)))
+                      (split-string path "/"))
+     "/")))
+
+(defun modeline-elide-path (path)
+  "Replace every directory of PATH but the first and last with \"...\".
+e.g. ~/work/foo/bar/baz/file.py -> ~/work/.../baz/file.py"
+  (let ((parts (split-string path "/")))
+    (if (<= (length parts) 5)
+        path
+      (string-join (append (seq-take parts 2) '("...") (last parts 2)) "/"))))
+
+(defun modeline-project-file-name (path)
+  "PROJECT::FILENAME when PATH is in a project, else PATH with its middle elided."
+  (if-let* ((pr (project-current)))
+      (concat (project-name pr) "::" (file-name-nondirectory path))
+    (modeline-elide-path path)))
+
+(defun modeline--file-name-variant (name)
+  (cons (length name)
+        (propertized-buffer-identification (string-replace "%" "%%" name))))
+
+(defun modeline-file-name ()
+  "The visited file's path, shortened when it is too wide for the window.
+Every form is computed once per file; only the width check runs on redisplay."
+  (if-let* ((file buffer-file-name))
+      (progn
+        (unless (equal (car modeline--file-name-cache) file)
+          (let ((name (abbreviate-file-name (file-local-name file))))
+            (setq modeline--file-name-cache
+                  (cons file (mapcar #'modeline--file-name-variant
+                                     (list name
+                                           (modeline-shorten-path name)
+                                           (modeline-project-file-name name)))))))
+        (let ((max (* modeline-file-name-max-width (window-total-width)))
+              (variants (cdr modeline--file-name-cache)))
+          ;; the first that fits, else the shortest
+          (cdr (or (seq-find (lambda (v) (<= (car v) max)) variants)
+                   (car (last variants))))))
+    modeline-buffer-id))
+
+(defvar modeline-narrow-width 100
+  "Hide the git branch, which-func and mode name in windows narrower than this.")
+
+(defun modeline-narrow-p ()
+  (< (window-total-width) modeline-narrow-width))
+
 (defun modeline-vc ()
-  (and (not (modeline-remote-host))
+  (and (not (modeline-narrow-p))
+       (not (modeline-remote-host))
        vc-mode
        (concat " (" (string-trim vc-mode) ")")))
 
@@ -159,6 +222,7 @@ The properties never change, so cons the string once rather than per redisplay."
 ;; every redisplay.
 (defun modeline-which-func ()
   (and (bound-and-true-p which-func-mode)
+       (not (modeline-narrow-p))
        (let ((fn (gethash (selected-window) which-func-table)))
          (and fn
               ;; escape % so it isn't read as a mode line spec
@@ -167,6 +231,10 @@ The properties never change, so cons the string once rather than per redisplay."
                                       'local-map which-func-keymap
                                       'mouse-face 'mode-line-highlight)
                       "]")))))
+
+(defun modeline-mode-name ()
+  (and (not (modeline-narrow-p))
+       (list " " mode-name)))
 
 (defun modeline-nyan ()
   (and (bound-and-true-p nyan-mode)
@@ -256,7 +324,7 @@ never in the mode line itself -- `eglot--server-info' walks an eieio object.")
 ;; Format
 ;;------------------------------------------------------------------------------
 
-(setq-default mode-line-format
+(setq mode-line-format
               '(
                 ;;LEFT
                 ;; mode-line-front-space
@@ -267,12 +335,14 @@ never in the mode line itself -- `eglot--server-info' walks an eieio object.")
 
                 (:eval (modeline-remote))
 
-                modeline-buffer-id
+                (:eval (modeline-file-name))
 
                 ;; git
                 (:eval (modeline-vc))
 
                 " " (:eval (modeline-which-func))
+
+                (:eval (modeline-mode-name))
 
                 (:eval (modeline-nyan))
 
@@ -294,5 +364,7 @@ never in the mode line itself -- `eglot--server-info' walks an eieio object.")
 
                 ;; position
                 (:eval (modeline-position))))
+
+(setq-default mode-line-format mode-line-format)
 
 (which-function-mode 1)
