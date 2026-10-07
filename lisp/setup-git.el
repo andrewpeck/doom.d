@@ -148,6 +148,18 @@ Falls back to the current branch only if no remote main branch is found."
 
   (advice-add 'magit--default-starting-point :override #'my/magit-default-starting-point)
 
+  (defun my/magit-display-buffer-full-when-narrow (fn buffer alist)
+    "Show BUFFER in the current window if it is too narrow to split.
+
+Doom opens e.g. revision buffers (RET on a commit) in a split to the
+right, which is unreadable on a narrow window.  Split only when
+`split-width-threshold' allows it."
+    (if (window-splittable-p (selected-window) t)
+        (funcall fn buffer alist)
+      (display-buffer-same-window buffer alist)))
+
+  (advice-add '+magit--display-buffer-in-direction :around #'my/magit-display-buffer-full-when-narrow)
+
   (defun magit-log-buffer-file-and-follow (&optional _prefix beg end)
     "Like `magit-log-buffer-file', but always follow renames."
     (interactive (cons current-prefix-arg (magit-file-region-line-numbers)))
