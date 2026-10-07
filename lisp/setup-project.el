@@ -10,6 +10,14 @@
 
   :config
 
+  (setq projectile-globally-ignored-directories
+        '("flow-typed" "node_modules" "~/.config/emacs/.local/" ".idea"
+         ".vscode" ".ensime_cache" ".eunit" ".git" ".hg" ...))
+
+  ;;  remove .src from this
+  (setq vc-directory-exclusion-liist
+        '("SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}"))
+
   ;; doom overwrites this to ignore tramp
   ;; restore the original value
   (setopt vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)
@@ -77,6 +85,11 @@ If DIR is not a project, it will be indexed (but not cached)."
 
   ;; doom has project.el calling projectile, just revert to original value
   (setopt project-find-functions (list #'project-try-vc))
+
+  ;; projectile-mode re-adds `project-projectile' when enabled, undo that
+  (defun my/project-remove-projectile-finder ()
+    (remove-hook 'project-find-functions #'project-projectile))
+  (add-hook 'projectile-mode-hook #'my/project-remove-projectile-finder)
 
   (setopt project-switch-commands 'project-find-file)
 
