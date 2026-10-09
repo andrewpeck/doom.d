@@ -54,12 +54,26 @@ Useful for working on NAS where permissions don't make sense."
 ;;   (interactive)
 ;;   (shell-command "git config user.name \"Andrew Peck\"")
 ;;   (shell-command "git config user.email peckandrew@gmail.com"))
+(defun my/magit-set-default-upstream ()
+  "Set the upstream alist buffer-locally from the first existing default branch."
+  (when-let ((upstream (seq-find #'magit-rev-verify
+                                 '("origin/devel" "origin/main" "origin/master"))))
+    (setq-local magit-branch-adjust-remote-upstream-alist
+                `((,upstream . ".*")))))
 
-(defun my/setup-git-author-andrewpeck ()
+(add-hook 'magit-setup-buffer-hook #'my/magit-set-default-upstream)
+
+(defun my/setup-git-author-andrewpeck.xyz ()
   "Setup git author in this pwd."
   (interactive)
   (shell-command "git config user.name \"Andrew Peck\"")
   (shell-command "git config user.email me@andrewpeck.xyz"))
+
+(defun my/setup-git-author-peckandrew ()
+  "Setup git author in this pwd."
+  (interactive)
+  (shell-command "git config user.name \"Andrew Peck\"")
+  (shell-command "git config user.email peckandrew@gmail.com"))
 
 (use-package! magit
 
