@@ -934,6 +934,21 @@ The date will follow the format in `current-date-format'"
   (interactive)
   (insert (format-time-string current-date-format (current-time))))
 
+;;;###autoload
+(defun next-week ()
+  "Insert the Monday-Friday date range of next week, e.g. 2026/10/05 - 2026/10/09."
+  (interactive)
+  (let* ((now (decode-time))
+         (monday (+ (decoded-time-day now)
+                    (1+ (mod (- 7 (decoded-time-weekday now)) 7))))
+         (day (lambda (offset)
+                (format-time-string
+                 "%Y/%m/%d"
+                 (encode-time (list 0 0 12 (+ monday offset)
+                                    (decoded-time-month now)
+                                    (decoded-time-year now)))))))
+    (insert (format "%s - %s" (funcall day 0) (funcall day 4)))))
+
 ;;------------------------------------------------------------------------------
 ;; De-latexify helper
 ;;------------------------------------------------------------------------------
